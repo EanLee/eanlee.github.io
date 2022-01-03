@@ -4,7 +4,7 @@ languageCode = "zh-TW"
 paginate = "10" # Number of posts per page
 theme = "mainroad"
 disqusShortname = "" # Enable Disqus comments by entering your Disqus shortname
-googleAnalytics = "298111704" # Enable Google Analytics by entering your tracking id
+googleAnalytics = "UA-48937862-2" # Enable Google Analytics by entering your tracking id
 
 [Author] # Used in authorbox
   name = "Ean"
