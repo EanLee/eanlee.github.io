@@ -47,7 +47,7 @@ googleAnalytics = "UA-48937862-2" # Enable Google Analytics by entering your tra
 [Params.logo]
   image = "img/placeholder.png" # Logo image. Path relative to "static"
   title = "伊恩的開發狂想" # Logo title, otherwise will use site title
-  subtitle = "知識大海中漂流的小船" # Logo subtitle
+  subtitle = "在知識大海中漂流的小船，不停追尋屬於自己的秘寶" # Logo subtitle
 
 [Params.thumbnail]
   visibility = ["list", "post"] # Control thumbnail visibility
