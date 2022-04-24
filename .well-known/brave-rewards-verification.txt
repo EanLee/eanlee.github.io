@@ -1,0 +1,4 @@
+This is a Brave Rewards publisher verification file.
+
+Domain: eanlee.github.io
+Token: 7b028ab1d69296bf4dd77f9504fbdc4de441441593e13fb19cbfae7e63661f51
