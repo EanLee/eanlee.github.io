@@ -5,7 +5,7 @@ keywords:
   - HTTPS
 categories:
   - 資訊安全
-lastmod: 2022-05-23T21:52:12.196Z
+lastmod: 2022-05-23T23:52:24.237Z
 description: ""
 ---
 
@@ -35,7 +35,7 @@ HTTP 本身單純 Request/Resonse 一來一往的進行通訊。
 
 ## HTTPS 的傳輸方式
 
-網景公司(Netscape)早在 1994 年就想到 HTTP 明文傳輸可能造成的資安問題，他們提出 SSL(Secure Sockets Layer) 的作法。隨後 [IETF](https://www.ietf.org/) 將 SSL 標準化，更新為 TLS(Transport Layer Security)。時至今日，大多的瀏覽器已不支援SSL，改為支援 TLS，最新版本為 TLS 1.3。
+網景公司(Netscape)早在 1994 年就想到 HTTP 明文傳輸可能造成的資安問題，他們提出 SSL(Secure Sockets Layer) 的作法。隨後 [IETF](https://www.ietf.org/) 將 SSL 標準化，更新為 TLS(Transport Layer Security)。時至今日，由於安全性問題，大多的瀏覽器已不支援SSL，改為支援 TLS，但習慣上，還是稱為 SSL。目前 TLS 最新版本為 1.3 版。
 
 SSL/TLS 的活動位置，位於 OSI 的 Seseion Layer，針對傳輸資料內容，進行加密與身份驗證，達到保護個人或機敏性資料的目的。
 
@@ -90,6 +90,8 @@ SSL 憑證透過授權機構簽發正式憑證，SSL 憑證包含下列資訊**�
 簡單說，在建立連線後，伺服器會將 SSL 憑證內的**數位憑證(digital certificate)**與**加密金鑰**發送給客戶端，由客戶端會以非對稱加密方式，進行憑證驗證。
 
 驗證通過，就完成身份的認證，可以接續後面的動作。在連線關閉前，所有傳輸的資料都會在加密的狀態下進行傳輸。
+
+若想要進一步了解數位簽章與認證的機制，這又是個專門的主題，這邊就不多加描，有興趣可參考相關資料。
 
 ### SSL 加密
 
