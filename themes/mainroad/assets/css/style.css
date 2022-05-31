@@ -967,6 +967,8 @@ img {
 	width: auto\9; /* ie8 */
 	max-width: 100%;
 	height: auto;
+	margin: auto;
+	display: block;
 	vertical-align: bottom;
 }
 
