@@ -130,6 +130,7 @@ textarea {
 	color: #fff;
 	white-space: pre-line;
 	background: #2a2a2a;
+	border-radius: calc(36px/2);
 }
 
 .btn:hover {
@@ -431,14 +432,14 @@ select {
 	font-size: .875rem;
 	font-weight: 700;
 	line-height: 1;
-	color: #e22d30;
+	color: dimgray;
 	border-top: 1px solid #ebebeb;
 }
 
 .divider {
-	height: 5px;
+	height: 3px;
 	margin: 0;
-	background: #e22d30;
+	background: burlywood;
 	border: 0;
 }
 
@@ -958,6 +959,8 @@ img {
 	width: auto\9; /* ie8 */
 	max-width: 100%;
 	height: auto;
+	margin: auto;
+	display: block;
 	vertical-align: bottom;
 }
 
@@ -1061,7 +1064,7 @@ textarea {
 	font-size: 16px;
 	font-size: 1rem;
 	text-transform: uppercase;
-	border-bottom: 3px solid #e22d30;
+	border-bottom: 3px solid #82B366;
 }
 
 .widget__item {
