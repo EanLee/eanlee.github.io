@@ -444,9 +444,9 @@ select {
 }
 
 .divider {
-	height: 5px;
+	height: 3px;
 	margin: 0;
-	background: {{ $highlightColor }};
+	background: burlywood;
 	border: 0;
 }
 
