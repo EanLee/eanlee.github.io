@@ -5,7 +5,6 @@ categories:
   - 開發雜談
 keywords: []
 description: 分享排除 API Server 有非預期請求的原因釐清過程
-draft: true
 date: 2022-06-10T04:00:00.000Z
 ---
 
