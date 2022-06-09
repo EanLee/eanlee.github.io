@@ -1,11 +1,10 @@
 ---
 title: "[Fluent Assertions] Object graph comparison"
 tags:
-  - FluentAssertion
-  - Unit Test
+  - 單元測試
 date: 2021-02-11 14:00:22
 categories:
-  - 單元測試
+  - 測試
 keywords:
   - "Fluent Assertion"
 ---
