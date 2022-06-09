@@ -1,11 +1,13 @@
 ---
-title: '[Fluent Assertions] Object graph comparison'
-tags: 
-- 'FluentAssertion'
-- 'Unit Test'
+title: "[Fluent Assertions] Object graph comparison"
+tags:
+  - FluentAssertion
+  - Unit Test
 date: 2021-02-11 14:00:22
-categories: 
-- "單元測試"
+categories:
+  - 單元測試
+keywords:
+  - "Fluent Assertion"
 ---
 日前在撰寫單元測試時，發生測試失敗，使用 `Should().BeEquivalentTo(expected)` 進行物件比對，已確認 `待測物件` 與 `期望物件` 內的資料相同，但卻出現 `be it misses` 造成的測試結果`失敗`。所使用的 FlunentAssertion Nuget 版本為 `4.13.1` 。<!--more-->
 
