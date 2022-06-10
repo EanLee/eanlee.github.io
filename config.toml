@@ -1,6 +1,6 @@
 baseurl = "https://eanlee.github.io/"
 title = "伊恩的開發狂想"
-languageCode = "zh-TW"
+languageCode = "zh-tw"
 paginate = "10" # Number of posts per page
 theme = "mainroad"
 disqusShortname = "eanblog" # Enable Disqus comments by entering your Disqus shortname
@@ -49,7 +49,7 @@ googleAnalytics = "G-4HXSCXTZKZ" # Enable Google Analytics by entering your trac
 [Params.logo]
   image = "img/placeholder.png" # Logo image. Path relative to "static"
   title = "伊恩的開發狂想" # Logo title, otherwise will use site title
-  subtitle = "在知識大海中漂流的小船，不停追尋屬於自己的秘寶" # Logo subtitle
+  subtitle = "在知識大海中漂流的小船，不停追尋屬於自己的秘寶。專注於 .NET、雲端技術、系統架構、開發技巧的道、法、術。" # Logo subtitle
 
 [Params.thumbnail]
   visibility = ["list", "post"] # Control thumbnail visibility
