@@ -702,6 +702,15 @@ button:not(:-moz-focusring):focus > .menu__btn-title {
 	margin: .3125rem 0 1.25rem 1.25rem;
 }
 
+.content h2 {
+    text-shadow: 1px 1px 1px black;
+    color: #EEE;
+    background: none repeat scroll 0% 0% rgb(102, 102, 102);
+    border-radius: 5px 5px 5px 5px;
+    margin: 10px -10px 20px -10px;
+    padding: 3px 0px 3px 5px;
+}
+
 .content ul {
 	list-style: square;
 }
@@ -796,7 +805,7 @@ button:not(:-moz-focusring):focus > .menu__btn-title {
 	-ms-user-select: none;
 	-o-user-select: none;
 	user-select: none;
-	background: #2a2a2a;
+	background: none repeat scroll 0% 0% rgb(102, 102, 102);
 }
 
 .toc__menu ul {
