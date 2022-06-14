@@ -33,8 +33,28 @@ categories:
 
 沒有一個軟體系統，是一開始就可以達到完美設計。而是有了基本功能後，隨著環境的演進，自然的產生不同的需求。隨著克服一個一個的需求，逐漸的進行軟體的迭代，盡可能的朝向完美前進。
 
-接下來會從 Queue 的基本概念作為切入點，隨著需求的不同，持續的改進，從單一的模組，演進為一個函數庫。再從函數庫，成長為分散式的架構的 Message Queue。
+接下來會從 Queue 的基本概念作為切入點，隨著需求的不同，持續的改進，從單一的模組，演進為一個函式庫。再從函式庫，成長為分散式的架構的 Message Queue。
 
 ---
 
-- [佇列 Queue]({{< ref "../Host/Queue/index.md" >}})
+## 文章目次
+
+### 基礎篇
+
+- [佇列 Queue]({{< ref "../Host/Queue/index.md" >}}) 說明 Queue、Circle Queue、Priority Queue、Linked List 的差異
+- 佇列的應用
+  - 生產者與消費者模型 (producer-consumers pattern)
+  - Lock、Semaphore、Mutex、ManualResetEvent、AutoResetEvent、ManualResetEventSlim
+  - 原子性、有序性、可見性
+- Router 路由器
+- 分配機制(調度)
+  - 同質性與異質性分派
+  - 被動式與主動式分派
+  - 優先性分派
+- 持久性
+- 整合 Router 與 Dispatch 的整合
+
+### 進階篇
+
+- 通訊與協定
+- 需求與服務框架規劃
