@@ -138,6 +138,22 @@ textarea {
 	background: #e22d30;
 }
 
+.readmore-btn
+{
+	padding: 5px 10px;
+	font-weight: 700;
+	/* color: #fff; */
+	white-space: pre-line;
+	/* background: #2a2a2a; */
+	border-radius: calc(36px/2);
+}
+
+.readmore-btn:hover {
+	/* color: #fff; */
+	/* background: #e22d30; */
+	color: #e22d30;
+}
+
 /* Animation */
 .menu__item,
 .btn {
