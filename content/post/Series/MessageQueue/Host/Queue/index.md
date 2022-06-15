@@ -229,7 +229,7 @@ public class PriorityQueue
 
 下面的實作，採用單向鍵結的方式，來實作 Queue。
 
-因為 .net core 之中，己經存有 `LinkedList<T>` ，所以取名為 `LinkedListQueue<T>`
+因為 .NET Core 之中，己經存有 `LinkedList<T>` ，所以將範例內的類別名稱取為 `LinkedListQueue<T>`
 
 ```c#
  public class LinkedListQueue<T>

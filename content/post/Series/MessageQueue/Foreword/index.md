@@ -59,4 +59,10 @@ lastmod: 2022-06-14T11:45:29.036Z
 ### 進階篇
 
 - 通訊與協定
+  - Remote Procedure Call, RPC
+  - Advanced Message Queuing Protocol, AMQP
+  - Message Queuing Telemetry Transport, MQTT
 - 需求與服務框架規劃
+  - 監控
+  - 軔性 Resilience
+  - 延伸性 Scale
