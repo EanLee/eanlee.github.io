@@ -46,7 +46,7 @@ lastmod: 2022-06-14T11:45:29.036Z
 - [佇列 Queue]({{< ref "../Host/Queue/index.md" >}}) 說明 Queue、Circle Queue、Priority Queue、Linked List 的差異
 - 佇列的應用
   - 生產者與消費者模型 (producer-consumers pattern)
-  - Lock、Semaphore、Mutex、ManualResetEvent、AutoResetEvent、ManualResetEventSlim
+  - 鎖定機制: Lock、Mutex、Semaphore
   - 原子性、有序性、可見性
 - Router 路由器
 - 分配機制(調度)

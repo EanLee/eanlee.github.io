@@ -1,5 +1,5 @@
 ---
-title: 從零開始土炮 MQ - Queue
+title: 從零開始土炮 MQ(1) - Queue
 date: 2022-06-14T07:46:41.443Z
 description: 回顧 Queue 的概念與用法
 keywords:
