@@ -320,10 +320,10 @@ kbd {
 
 blockquote {
 	display: block;
-	padding: 5px 0 5px 15px;
-	margin: 0 0 20px;
+	padding: 5px 10px 5px 15px;
 	margin: 0 0 1.25rem;
 	line-height: 1.6;
+	border: 1px solid {{ $highlightColor }};
 	border-left: 5px solid {{ $highlightColor }};
 }
 
@@ -725,6 +725,14 @@ button:not(:-moz-focusring):focus > .menu__btn-title {
     border-radius: 5px 5px 5px 5px;
     margin: 10px -10px 20px -10px;
     padding: 3px 0px 3px 5px;
+}
+
+.content h3 {
+    /* text-shadow: 1px 1px 1px gray; */
+    /* content: ""; */
+    /* display: block;
+    width: 100%; */
+    border-bottom: #dadada 2px solid;
 }
 
 .content ul {
