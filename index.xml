@@ -1,4 +1,13 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>伊恩的開發狂想</title><link>https://eanlee.github.io/</link><description>Recent content on 伊恩的開發狂想</description><generator>Hugo -- gohugo.io</generator><language>zh-tw</language><lastBuildDate>Mon, 20 Jun 2022 06:12:48 +0000</lastBuildDate><atom:link href="https://eanlee.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>持續優化程式碼品質</title><link>https://eanlee.github.io/post/series/optimize_code_quality/foreword/</link><pubDate>Mon, 20 Jun 2022 06:12:48 +0000</pubDate><guid>https://eanlee.github.io/post/series/optimize_code_quality/foreword/</guid><description>&lt;blockquote>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>伊恩的開發狂想</title><link>https://eanlee.github.io/</link><description>Recent content on 伊恩的開發狂想</description><generator>Hugo -- gohugo.io</generator><language>zh-tw</language><lastBuildDate>Mon, 20 Jun 2022 06:58:08 +0000</lastBuildDate><atom:link href="https://eanlee.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>從零開始建立自動化發佈的流水線</title><link>https://eanlee.github.io/post/series/build_automated_deploy/foreword/</link><pubDate>Mon, 20 Jun 2022 06:58:08 +0000</pubDate><guid>https://eanlee.github.io/post/series/build_automated_deploy/foreword/</guid><description>&lt;blockquote>
+&lt;p>將 &lt;a href="https://ithelp.ithome.com.tw/users/20107551/ironman/1906">2019 iT 邦幫忙鐵人賽&lt;/a> 的文章搬遷到此，同時有些內部可能已經過時，在搬移的過程中，會重新針對內容加以整理與補充。&lt;/p>
+&lt;/blockquote>
+&lt;p>以故事的方式，隨著故事的發展，逐一建構一條從版控到發佈的自動化作業，會逐一帶出四個階段的主題。&lt;/p>
+&lt;ul>
+&lt;li>程式碼版本控管&lt;/li>
+&lt;li>CI server 的架設&lt;/li>
+&lt;li>自動發佈最新版本的軟體&lt;/li>
+&lt;li>Container&lt;/li>
+&lt;/ul></description></item><item><title>持續優化程式碼品質</title><link>https://eanlee.github.io/post/series/optimize_code_quality/foreword/</link><pubDate>Mon, 20 Jun 2022 06:12:48 +0000</pubDate><guid>https://eanlee.github.io/post/series/optimize_code_quality/foreword/</guid><description>&lt;blockquote>
 &lt;p>當初參與 &lt;a href="https://ithelp.ithome.com.tw/users/20107551/ironman/1430">iTHelp 鐵人賽&lt;/a>，挑戰三十天連續不間斷發文失敗。將當初的文章搬遷到此，同時對文章內容，進行整理與補完欠缺的內容。&lt;/p>
 &lt;/blockquote>
 &lt;p>在持續開發軟體的生涯中，經手或協同開發的過程中。常常發現各種小問題累積，最後導致軟體的維護，變成如同惡夢的地獄，其實只要在開發中間，利用一些技巧，就可以程式碼更容易閱讚與維護。&lt;/p></description></item><item><title>開發雜談 - 對於系統架構的多維度思考能力</title><link>https://eanlee.github.io/post/experiences/multidimensional_thinking/</link><pubDate>Sat, 18 Jun 2022 17:10:57 +0000</pubDate><guid>https://eanlee.github.io/post/experiences/multidimensional_thinking/</guid><description>&lt;p>在研究某個軟體的系統架構，發現一個值得探討的問題。&lt;/p>
