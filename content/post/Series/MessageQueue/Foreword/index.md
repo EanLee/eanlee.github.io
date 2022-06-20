@@ -7,10 +7,10 @@ keywords:
   - Queue
 categories:
   - 系列文章
-lastmod: 2022-06-14T11:45:29.036Z
+lastmod: 2022-06-20T05:55:20.974Z
 ---
 
-將原本參與 iT 幫幫忙三十天鐵人賽的文章，再加以整理與補充。
+將原本參與 iT 幫幫忙三十天鐵人賽的文章，再加以整理與補充。([iThome 鐵人賽文章](https://ithelp.ithome.com.tw/users/20107551/ironman/2172))
 
 近幾年參與開發的軟體之中，大量使用到佇列(Queue)的技術與觀念。從同步與非同步存取 Queue；利用 Queue 與 Dispatch 組合，進行備援處理的機制；大量資料的接收與轉發等等。另一方面，微服務與服務解耦的議題，訊息佇列（Message Queue）的使用頻率也逐年提升。
 
@@ -35,7 +35,7 @@ lastmod: 2022-06-14T11:45:29.036Z
 
 沒有一個軟體系統，是一開始就可以達到完美設計。而是有了基本功能後，隨著環境的演進，自然的產生不同的需求。隨著克服一個一個的需求，逐漸的進行軟體的迭代，盡可能的朝向完美前進。
 
-接下來會從 Queue 的基本概念作為切入點，隨著需求的不同，持續的改進，從單一的模組，演進為一個函式庫。再從函式庫，成長為分散式的架構的 Message Queue。
+從 Queue 的基本概念作為切入點，隨著需求的不同，持續的改進，從單一的模組，演進為一個函式庫。再從函式庫，成長為分散式的架構的 Message Queue。
 
 ---
 
@@ -43,8 +43,8 @@ lastmod: 2022-06-14T11:45:29.036Z
 
 ### 基礎篇
 
-- [佇列 Queue]({{< ref "../Host/Queue/index.md" >}}) 說明 Queue、Circle Queue、Priority Queue、Linked List 的差異
-- 佇列的應用
+- [佇列 Queue]({{< ref "../Host/Queue/index.md" >}})
+  - 說明 Queue、Circle Queue、Priority Queue、Linked List 的差異
   - 生產者與消費者模型 (producer-consumers pattern)
   - 鎖定機制: Lock、Mutex、Semaphore
   - 原子性、有序性、可見性
