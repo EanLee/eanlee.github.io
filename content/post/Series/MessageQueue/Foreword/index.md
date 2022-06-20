@@ -1,5 +1,5 @@
 ---
-title: 從零開始土炮 MQ
+title: 從零開始土炮 MQ (持續搬移中)
 description: 從零開始土炮 Message Queue 序言
 date: 2022-06-14T07:12:18.564Z
 keywords:

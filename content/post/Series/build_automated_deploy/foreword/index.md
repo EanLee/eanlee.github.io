@@ -1,5 +1,5 @@
 ---
-title: 從零開始建立自動化發佈的流水線
+title: 從零開始建立自動化發佈的流水線(持續搬移中)
 description: 隨著故事的推進，逐一建立從版控、CI/CD 的自動化流水線。
 keywords:
   - CI/CD
