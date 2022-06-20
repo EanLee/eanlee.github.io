@@ -3,11 +3,9 @@
 	{{ partial "svg/tag.svg" (dict "class" "tags__badge") }}
 	<ul class="tags__list">
 		{{- range .Params.tags }}
-		<li>
 			<a class="tag" href="{{ "tags/" | relLangURL }}{{ . | urlize }}/" rel="tag">
 				{{- . -}}
 			</a>
-		</li>
 		{{- end }}
 	</ul>
 </div>
