@@ -10,7 +10,7 @@ categories:
 lastmod: 2022-06-20T05:55:20.974Z
 ---
 
-將原本參與 iT 幫幫忙三十天鐵人賽的文章，再加以整理與補充。([iThome 鐵人賽文章](https://ithelp.ithome.com.tw/users/20107551/ironman/2172))
+> 將原本參與 iT 幫幫忙三十天鐵人賽的文章，再加以整理與補充。([iThome 鐵人賽文章](https://ithelp.ithome.com.tw/users/20107551/ironman/2172))
 
 近幾年參與開發的軟體之中，大量使用到佇列(Queue)的技術與觀念。從同步與非同步存取 Queue；利用 Queue 與 Dispatch 組合，進行備援處理的機制；大量資料的接收與轉發等等。另一方面，微服務與服務解耦的議題，訊息佇列（Message Queue）的使用頻率也逐年提升。
 
