@@ -8,10 +8,10 @@
 &lt;li>自動發佈最新版本的軟體&lt;/li>
 &lt;li>Container&lt;/li>
 &lt;/ul></description></item><item><title>持續優化程式碼品質(持續搬移中)</title><link>https://eanlee.github.io/post/series/optimize_code_quality/foreword/</link><pubDate>Mon, 20 Jun 2022 06:12:48 +0000</pubDate><guid>https://eanlee.github.io/post/series/optimize_code_quality/foreword/</guid><description>&lt;blockquote>
-&lt;p>當初參與 &lt;a href="https://ithelp.ithome.com.tw/users/20107551/ironman/1430">iTHelp 鐵人賽&lt;/a>，挑戰三十天連續不間斷發文失敗。將當初的文章搬遷到此，同時對文章內容，進行整理與補完欠缺的內容。&lt;/p>
+&lt;p>當初參與 &lt;a href="https://ithelp.ithome.com.tw/users/20107551/ironman/1430">2018 iT 邦幫忙鐵人賽&lt;/a>，挑戰三十天連續不間斷發文失敗。將當初的文章搬遷到此，同時對文章內容，進行整理與補完欠缺的內容。&lt;/p>
 &lt;/blockquote>
 &lt;p>在持續開發軟體的生涯中，經手或協同開發的過程中。常常發現各種小問題累積，最後導致軟體的維護，變成如同惡夢的地獄，其實只要在開發中間，利用一些技巧，就可以程式碼更容易閱讚與維護。&lt;/p></description></item><item><title>從零開始土炮 MQ (持續搬移中)</title><link>https://eanlee.github.io/post/series/messagequeue/foreword/</link><pubDate>Tue, 14 Jun 2022 07:12:18 +0000</pubDate><guid>https://eanlee.github.io/post/series/messagequeue/foreword/</guid><description>&lt;blockquote>
-&lt;p>將原本參與 iT 幫幫忙三十天鐵人賽的文章，再加以整理與補充。(&lt;a href="https://ithelp.ithome.com.tw/users/20107551/ironman/2172">iThome 鐵人賽文章&lt;/a>)&lt;/p>
+&lt;p>將原本參與 &lt;a href="https://ithelp.ithome.com.tw/users/20107551/ironman/2172">第 11 屆 iThome 鐵人賽&lt;/a> 的文章，再加以整理與補充。&lt;/p>
 &lt;/blockquote>
 &lt;p>近幾年參與開發的軟體之中，大量使用到佇列(Queue)的技術與觀念。從同步與非同步存取 Queue；利用 Queue 與 Dispatch 組合，進行備援處理的機制；大量資料的接收與轉發等等。另一方面，微服務與服務解耦的議題，訊息佇列（Message Queue）的使用頻率也逐年提升。&lt;/p>
 &lt;p>以傻子的精神，土幹一個 Message Queue，利用這個過程，好好的深入了解 Message Queue 的概念。&lt;/p></description></item></channel></rss>
