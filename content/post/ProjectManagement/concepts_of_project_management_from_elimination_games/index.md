@@ -3,6 +3,7 @@ title: 從消除遊戲學到的專案管理二三事
 tags:
   - 自我修練
   - 刻意練習
+  - 思維模式
 categories:
   - 專案管理
 keywords:
