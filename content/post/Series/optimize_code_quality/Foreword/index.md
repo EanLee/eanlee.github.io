@@ -42,4 +42,11 @@ lastmod: 2022-06-21T07:41:51.573Z
 ### 設計模式篇
 
 - 簡單工廠模式 - Simple Factory
-- 談談設計模式
+- 樣板方法模式 - Template Method
+- 觀察者模式 - Observer
+- 建造者模式 - Builder
+- 外觀模式 - Facade
+- 策略模式 - Strategy
+- 中介者模式 - Mediator Pattern
+- 轉接器模式 - Adapter
+- 設計模式回顧
