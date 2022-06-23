@@ -11,6 +11,7 @@ categories:
   - 系列文章
 tags:
   - Refactor
+lastmod: 2022-06-23T03:15:09.324Z
 ---
 
 在開發時，為了快速或是避免麻煩，可能會用簡單的代號，例如 `aa` 這種名稱，來暫時做為變數的名稱。這無可厚非，但是...假若在完成該功能後，未能進行程式的整理。
@@ -366,5 +367,9 @@ public int StatisticCostAmount(...)
 
 ## 延伸閱讀
 
+### 註解
 - [『用註解補足程式碼易讀性？』 -- 論註解的是與非](https://ithelp.ithome.com.tw/articles/10191221)
+- [技術翻譯 - 編寫程式註解的最佳實踐](https://blog.taiwolskit.com/best-practices-for-writing-code-comments)
+
+### Refactor
 - [大話重構](https://www.tenlong.com.tw/products/9789864340460)
