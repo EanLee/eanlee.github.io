@@ -1,5 +1,5 @@
 ---
-title: 從零開始土炮 MQ(1) - Queue
+title: Queue 的概念
 date: 2022-06-14T07:46:41.443Z
 description: 回顧 Queue 的概念與用法
 keywords:
@@ -8,8 +8,8 @@ tags:
   - Queue
 categories:
   - 軟體開發
+lastmod: 2022-06-20T17:22:29.465Z
 ---
-
 
 個人認為佇列(Queue)的本質，就是做為資料載體的暫存與緩衝區，同時，它具備 **先進先出(First In First Out, FIFO)** 的特性。
 
@@ -60,7 +60,7 @@ categories:
 
 對應到 Queue，當 Queue 之中，最前面的資源離開 Queue 後，後面的資源會自己向前遞補，讓資源主動移到 Front 。
 
-```c#
+```C# {linenos=inline}
 public class Queue 
 {
     private const int MaxSize = 20;
@@ -102,7 +102,7 @@ public class Queue
 
 最後，會發現迭代完成的 Queue ，就是 circle 的架構，又被叫作 Circle Queue
 
-```c#
+```C# {linenos=inline}
 public class CircleQueue
 {
     private const int MaxSize = 20;
@@ -161,7 +161,7 @@ public class CircleQueue
 
 雖然實作方式有很多種。但在下面的簡易實作，使用一個 `Priority` 做為參數，以便排序使用。
 
-```C#
+```C# {linenos=inline}
 public class PriorityQueue
 {
     private class QueueBlock
@@ -231,7 +231,7 @@ public class PriorityQueue
 
 因為 .NET Core 之中，己經存有 `LinkedList<T>` ，所以將範例內的類別名稱取為 `LinkedListQueue<T>`
 
-```c#
+```C# {linenos=inline}
  public class LinkedListQueue<T>
  {
      private class LinkedNode<T>

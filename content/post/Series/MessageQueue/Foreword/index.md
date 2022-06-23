@@ -45,6 +45,7 @@ lastmod: 2022-06-20T05:55:20.974Z
 
 - [佇列 Queue]({{< ref "../Host/Queue/index.md" >}})
   - 說明 Queue、Circle Queue、Priority Queue、Linked List 的差異
+- 佇列的應用
   - 生產者與消費者模型 (producer-consumers pattern)
   - 鎖定機制: Lock、Mutex、Semaphore
   - 原子性、有序性、可見性
