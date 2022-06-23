@@ -1,2 +1,5 @@
 
 themes/hugo-theme-cleanwhite/
+.frontmatter
+.vscode
+frontmatter.json
