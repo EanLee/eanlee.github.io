@@ -4,7 +4,7 @@ tags:
   - AWS
   - 系統架構
   - Cloud
-date: 2022-06-11T07:12:31.244Z
+date: 2022-06-24T01:17:18.867Z
 categories:
   - 架構
   - 雲端學習手札
@@ -222,32 +222,50 @@ Amazon Virtual Private Cloud(Amazon VPC)， AWS 虛擬私有網路，對應地�
 
 ##### Policy
 
+建立 Policy 後，可附屬於 `user`、`user group`、`roles` 或 AWS 的資源身上。
 
-https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html
-You manage access in AWS by creating policies and attaching them to IAM identities (users, groups of users, or roles) or AWS resources. A policy is an object in AWS that, when associated with an identity or resource, defines their permissions. AWS evaluates these policies when an IAM principal (user or role) makes a request. Permissions in the policies determine whether the request is allowed or denied. Most policies are stored in AWS as JSON documents. AWS supports six types of policies: identity-based policies, resource-based policies, permissions boundaries, Organizations SCPs, ACLs, and session policies.
+You manage access in AWS by creating policies and attaching them to IAM identities (users, groups of users, or roles) or AWS resources. A policy is an object in AWS that, when associated with an identity or resource, defines their permissions. AWS evaluates these policies when an IAM principal (user or role) makes a request. 
+
+Permissions in the policies determine whether the request is allowed or denied.
+
+
 
 IAM policies define permissions for an action regardless of the method that you use to perform the operation. For example, if a policy allows the GetUser action, then a user with that policy can get user information from the AWS Management Console, the AWS CLI, or the AWS API. When you create an IAM user, you can choose to allow console or programmatic access. If console access is allowed, the IAM user can sign in to the console using a user name and password. Or if programmatic access is allowed, the user can use access keys to work with the CLI or API.
 
 Policy types
 The following policy types, listed in order from most frequently used to less frequently used, are available for use in AWS. For more details, see the sections below for each policy type.
 
-Identity-based policies – Attach managed and inline policies to IAM identities (users, groups to which users belong, or roles). Identity-based policies grant permissions to an identity.
+AWS 支援六個類型的 Policy，使用頻率的從高到低，分別如下。
 
-Resource-based policies – Attach inline policies to resources. The most common examples of resource-based policies are Amazon S3 bucket policies and IAM role trust policies. Resource-based policies grant permissions to the principal that is specified in the policy. Principals can be in the same account as the resource or in other accounts.
+- Identity-based policies
 
-Permissions boundaries – Use a managed policy as the permissions boundary for an IAM entity (user or role). That policy defines the maximum permissions that the identity-based policies can grant to an entity, but does not grant permissions. Permissions boundaries do not define the maximum permissions that a resource-based policy can grant to an entity.
+  Attach managed and inline policies to IAM identities (users, groups to which users belong, or roles). Identity-based policies grant permissions to an identity.
 
-Organizations SCPs – Use an AWS Organizations service control policy (SCP) to define the maximum permissions for account members of an organization or organizational unit (OU). SCPs limit permissions that identity-based policies or resource-based policies grant to entities (users or roles) within the account, but do not grant permissions.
+- Resource-based policies
+  
+  Attach inline policies to resources. The most common examples of resource-based policies are Amazon S3 bucket policies and IAM role trust policies. Resource-based policies grant permissions to the principal that is specified in the policy. Principals can be in the same account as the resource or in other accounts.
 
-Access control lists (ACLs) – Use ACLs to control which principals in other accounts can access the resource to which the ACL is attached. ACLs are similar to resource-based policies, although they are the only policy type that does not use the JSON policy document structure. ACLs are cross-account permissions policies that grant permissions to the specified principal. ACLs cannot grant permissions to entities within the same account.
+- Permissions boundaries
+  
+  Use a managed policy as the permissions boundary for an IAM entity (user or role). That policy defines the maximum permissions that the identity-based policies can grant to an entity, but does not grant permissions. Permissions boundaries do not define the maximum permissions that a resource-based policy can grant to an entity.
 
-Session policies – Pass advanced session policies when you use the AWS CLI or AWS API to assume a role or a federated user. Session policies limit the permissions that the role or user's identity-based policies grant to the session. Session policies limit permissions for a created session, but do not grant permissions. For more information, see Session Policies.
+- Organizations SCPs
+  
+  Use an AWS Organizations service control policy (SCP) to define the maximum permissions for account members of an organization or organizational unit (OU). SCPs limit permissions that identity-based policies or resource-based policies grant to entities (users or roles) within the account, but do not grant permissions.
+
+- Access control lists (ACLs)
+  
+  Use ACLs to control which principals in other accounts can access the resource to which the ACL is attached. ACLs are similar to resource-based policies, although they are the only policy type that does not use the JSON policy document structure. ACLs are cross-account permissions policies that grant permissions to the specified principal. ACLs cannot grant permissions to entities within the same account.
+
+- Session policies
+  
+  Pass advanced session policies when you use the AWS CLI or AWS API to assume a role or a federated user. Session policies limit the permissions that the role or user's identity-based policies grant to the session. Session policies limit permissions for a created session, but do not grant permissions. For more information, see Session Policies.
 
 
 
 Identity-based and resource-based policies
 
-Identity-based policies control what actions the identity can perform, on which resources, and under what conditions. 
+Identity-based policies control what actions the identity can perform, on which resources, and under what conditions.
 
 Resource-based policies control what actions a specified principal can perform on that resource and under what conditions. Resource-based policies are inline policies, and there are no managed resource-based policies. To enable cross-account access, you can specify an entire account or IAM entities in another account as the principal in a resource-based policy.
 
@@ -258,8 +276,6 @@ An IAM role is an IAM identity that you can create in your account that has spec
 You can use roles to delegate access to users, applications, or services that don't normally have access to your AWS resources. For example, you might want to grant users in your AWS account access to resources they don't usually have, or grant users in one AWS account access to resources in another account. Or you might want to allow a mobile app to use AWS resources, but not want to embed AWS keys within the app (where they can be difficult to rotate and where users can potentially extract them). Sometimes you want to give AWS access to users who already have identities defined outside of AWS, such as in your corporate directory. Or, you might want to grant access to your account to third parties so that they can perform an audit on your resources.
 
 For these scenarios, you can delegate access to AWS resources using an IAM role. This section introduces roles and the different ways you can use them, when and how to choose among approaches, and how to create, manage, switch to (or assume), and delete roles.
-
-
 
 ##### User Group
 
@@ -282,8 +298,6 @@ You can organize IAM users into IAM groups and attach a policy to a group. In th
 ![iam-intro-users-and-groups](iam-intro-users-and-groups.diagram.png)
 圖示來源: [AWS](https://docs.aws.amazon.com/vpc/latest/userguide/how-it-works.html)
 
-
-
 Users or groups can have multiple policies attached to them that grant different permissions. In that case, the permissions for the users are calculated based on the combination of policies. But the basic principle still applies: If the user has not been granted an explicit permission for an action and a resource, the user does not have those permissions.
 
 ### Compute
@@ -292,22 +306,7 @@ Users or groups can have multiple policies attached to them that grant different
 
 Amazon EC2 全名 Amazon Elastic Compute Cloud，
 
-可將 EC2 視為一台 Server
-
-// 好處
-
-// 特色
-
-// Instance Store
-
-##### 類型
-
-|               |      一般用途      | 運算最佳化 |  記憶體最佳化   |      加速運算      |   儲存最佳化   |
-| ------------- | :----------------: | :--------: | :-------------: | :----------------: | :------------: |
-| Instance Type | a1, m4, m5, t2, t3 |   c4, c5   | r4, r5, x1, z1  | f1, g3, g4, p2, p3 |   d2, h1, i3   |
-| 用途範例      |        多元        |   高效能   | Memory Database |      機器學習      | 分散式檔案系統 |
-
-##### 花費
+可將 EC2 視為一台 Virtual Machine，依據不同的使用情境，以提供各種最佳化執行個體類型。
 
 |      | On-Demand 隨需 | Save Plan 儲存計劃 | Spot Instances | Reserved Instances | dedicated-hosts |
 | ---- | -------------- | ------------------ | -------------- | ------------------ | --------------- |
@@ -315,14 +314,18 @@ Amazon EC2 全名 Amazon Elastic Compute Cloud，
 |      |                |                    |                |                    |                 |
 | 價格 |                |                    |                |                    |                 |
 
-估算 Amazon EC2 成本
-當您開始估算使用 Amazon EC2 的成本時，請考慮以下事項：
+// 特色
+定價模式：使用隨需執行個體，您可以按小時支付運算容量費用，無最低承諾的要求。
+
+|               |      一般用途      | 運算最佳化 |  記憶體最佳化   |      加速運算      |   儲存最佳化   |
+| ------------- | :----------------: | :--------: | :-------------: | :----------------: | :------------: |
+| Instance Type | a1, m4, m5, t2, t3 |   c4, c5   | r4, r5, x1, z1  | f1, g3, g4, p2, p3 |   d2, h1, i3   |
+| 用途範例      |        多元        |   高效能   | Memory Database |      機器學習      | 分散式檔案系統 |
+
+// Instance Store
+// 好處
 
 伺服器時間的時鐘小時數：資源在執行時會產生費用，例如，從 Amazon EC2 執行個體啟動到終止，或從配置彈性 IP 地址到取消配置時為止。
-
-執行個體類型：Amazon EC2 提供各式各樣的最佳化執行個體類型，以滿足不同的使用案例。執行個體類型由不同的 CPU、記憶體、儲存和聯網容量組合而成，讓您有靈活性可應用程式選擇適當的資源組合。每種執行個體類型都包含至少一個執行個體大小，允許您根據目標工作負載的需求擴展資源。
-
-定價模式：使用隨需執行個體，您可以按小時支付運算容量費用，無最低承諾的要求。
 
 執行個體數：您可以佈建 Amazon EC2 和 Amazon EBS 資源的多個執行個體來處理尖峰負載。
 
@@ -345,11 +348,12 @@ Amazon EC2 Auto Scaling：Amazon EC2 Auto Scaling 會根據您定義的擴展政
 
 Amazon EBS(Amazon Elastic Block Store) 是易於使用、可擴展的高效能區塊儲存服務，專為與 Amazon EC2 搭配使用而設計。
 
-|      | SSD |     |     |     | HDD |     |
-| ---- | --- | --- | --- | --- | --- | --- |
-| IOPS |     |     |     |     |     |     |
-|      |     |     |     |     |     |     |
-| 價格 |     |     |     |     |     |     |
+|          |  SSD  |       |       |       |  HDD  |       |
+| -------- | :---: | :---: | :---: | :---: | :---: | :---: |
+| 載體類型 |  SSD  |  SSD  |  SSD  |  SSD  |  HDD  |  HDD  |
+| 用途     |       |       |       |       |       |       |
+| IOPS     |       |       |       |       |       |       |
+| 價格     |       |       |       |       |       |       |
 
 ## 五、延伸知識與補充資料
 
