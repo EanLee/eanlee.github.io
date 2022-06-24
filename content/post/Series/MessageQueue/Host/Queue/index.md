@@ -199,6 +199,8 @@ public class PriorityQueue
 }
 ```
 
+> .NET 6 之後，提供 `PriorityQueue<TElement,TPriority> Class` 可達到相同的用途。
+
 ## Linked List
 
 先前提到的的作法，都是預先配置記憶體空間後，才開始將資源放入。雖然簡單快速，但在決定預先配置空間尺寸，就變成一個需要進行評估的點。
@@ -287,3 +289,4 @@ public class PriorityQueue
 - [Queue 相關數據結構的原理與實現 (LinkedList, ArrayDeque, PriorityQueue)](https://www.jianshu.com/p/45de5690b424)
 - [Queue: 以Array 實作 Queue](http://alrightchiu.github.io/SecondRound/queue-yi-arrayshi-zuo-queue.html)
 - [Linked List: 新增資料、刪除資料、反轉](http://alrightchiu.github.io/SecondRound/linked-list-xin-zeng-zi-liao-shan-chu-zi-liao-fan-zhuan.html)
+- [MSDN](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.priorityqueue-2?view=net-6.0)
