@@ -11,8 +11,10 @@ categories:
 keywords:
   - 雲端
   - AWS
+  - EC2
+  - EBS
+  - VPC
 description: 本文章藉由同一機器的地端架構對應 AWS 雲端服務，學習與理解雲端可支援的服務項目。
-draft: true
 ---
 
 假設新創的網路服務提供商，隨著業務的發展，提供服務的軟體系統，從最初的簡易架構，依據面臨的挑戰與需求，不停調整擴充系統架構。
@@ -24,7 +26,6 @@ draft: true
 系統架構演進階段
 
 - **內部系統快速驗證**
-- [系統上線]({{< ref "../02_Officially_launched/index.md">}})
 
 ---
 
@@ -89,6 +90,7 @@ IAM 所使用的傳統授權模型為 **角色類型存取控制(Role-Based Acce
 - 指定 Instance 名稱與 Tag
 - 選擇 AMI: 依應用決定所使用的作業系統映像 AMI(Amazon Machine Image)
 - 擇擇 Instance Type: 需要考量機器的實際用途。
+- 設定 User Data: 機器運行後，自動載入的設定或軟體。
 - 設定 Security Group: 指定連線的連出入規則(Inbound/Outbound rules)
 - 指定 ENI (Elastic network interfaces): 指定 EC2 所使用的網路元件
 - 指定 EBS (Elastic Block Store): EC2 本身的 Instance storage 會隨著機器的關閉而消失的特性，為了確保資料的持久性，搭配 EBS 進行使用。
@@ -222,83 +224,53 @@ Amazon Virtual Private Cloud(Amazon VPC)， AWS 虛擬私有網路，對應地�
 
 ##### Policy
 
-建立 Policy 後，可附屬於 `user`、`user group`、`roles` 或 AWS 的資源身上。
-
-You manage access in AWS by creating policies and attaching them to IAM identities (users, groups of users, or roles) or AWS resources. A policy is an object in AWS that, when associated with an identity or resource, defines their permissions. AWS evaluates these policies when an IAM principal (user or role) makes a request. 
-
-Permissions in the policies determine whether the request is allowed or denied.
-
-
-
-IAM policies define permissions for an action regardless of the method that you use to perform the operation. For example, if a policy allows the GetUser action, then a user with that policy can get user information from the AWS Management Console, the AWS CLI, or the AWS API. When you create an IAM user, you can choose to allow console or programmatic access. If console access is allowed, the IAM user can sign in to the console using a user name and password. Or if programmatic access is allowed, the user can use access keys to work with the CLI or API.
-
-Policy types
-The following policy types, listed in order from most frequently used to less frequently used, are available for use in AWS. For more details, see the sections below for each policy type.
+AWS 內的存取管理，是藉由建立 Policy 並附加於 IAM 身份(`user`、`user group`、`roles`) 或 AWS 的資源身上，來定義他們的存取權限。而 Policy 內的權限，會決定請求是被允許或是拒絕。
 
 AWS 支援六個類型的 Policy，使用頻率的從高到低，分別如下。
 
 - Identity-based policies
-
-  Attach managed and inline policies to IAM identities (users, groups to which users belong, or roles). Identity-based policies grant permissions to an identity.
+  
+  將 Policy 附加於 IAM 身份，來授予他們的權限。
 
 - Resource-based policies
   
-  Attach inline policies to resources. The most common examples of resource-based policies are Amazon S3 bucket policies and IAM role trust policies. Resource-based policies grant permissions to the principal that is specified in the policy. Principals can be in the same account as the resource or in other accounts.
+  將 Policy 附加於資源身上，授予資源的存取權限。
 
-- Permissions boundaries
+- 權限邊界(Permissions boundaries)
   
-  Use a managed policy as the permissions boundary for an IAM entity (user or role). That policy defines the maximum permissions that the identity-based policies can grant to an entity, but does not grant permissions. Permissions boundaries do not define the maximum permissions that a resource-based policy can grant to an entity.
+  用於管理 `user`、`role` 的 Policy 的最大權限，但只能用於 Identity-based 的 Policy。
 
 - Organizations SCPs
   
-  Use an AWS Organizations service control policy (SCP) to define the maximum permissions for account members of an organization or organizational unit (OU). SCPs limit permissions that identity-based policies or resource-based policies grant to entities (users or roles) within the account, but do not grant permissions.
-
-- Access control lists (ACLs)
+  全名 Organizations service control policy (SCP) ，用於定義組織內的帳戶成員最大權限。
   
-  Use ACLs to control which principals in other accounts can access the resource to which the ACL is attached. ACLs are similar to resource-based policies, although they are the only policy type that does not use the JSON policy document structure. ACLs are cross-account permissions policies that grant permissions to the specified principal. ACLs cannot grant permissions to entities within the same account.
+  可用於 Identity-based 與 Resource-based 的 Policy，但要注意的是，它只是**限制**可授予的最大權限，並非授予權限。
 
+- 存取控制清單(Access control lists, ACLs)
+  
 - Session policies
   
-  Pass advanced session policies when you use the AWS CLI or AWS API to assume a role or a federated user. Session policies limit the permissions that the role or user's identity-based policies grant to the session. Session policies limit permissions for a created session, but do not grant permissions. For more information, see Session Policies.
-
-
-
-Identity-based and resource-based policies
-
-Identity-based policies control what actions the identity can perform, on which resources, and under what conditions.
-
-Resource-based policies control what actions a specified principal can perform on that resource and under what conditions. Resource-based policies are inline policies, and there are no managed resource-based policies. To enable cross-account access, you can specify an entire account or IAM entities in another account as the principal in a resource-based policy.
-
 ##### Role
 
-An IAM role is an IAM identity that you can create in your account that has specific permissions. An IAM role is similar to an IAM user, in that it is an AWS identity with permission policies that determine what the identity can and cannot do in AWS. However, instead of being uniquely associated with one person, a role is intended to be assumable by anyone who needs it. Also, a role does not have standard long-term credentials such as a password or access keys associated with it. Instead, when you assume a role, it provides you with temporary security credentials for your role session.
+使用 `role` 將訪問權限委派給無法訪問您的 AWS 資源的用戶、應用程序或服務。
 
-You can use roles to delegate access to users, applications, or services that don't normally have access to your AWS resources. For example, you might want to grant users in your AWS account access to resources they don't usually have, or grant users in one AWS account access to resources in another account. Or you might want to allow a mobile app to use AWS resources, but not want to embed AWS keys within the app (where they can be difficult to rotate and where users can potentially extract them). Sometimes you want to give AWS access to users who already have identities defined outside of AWS, such as in your corporate directory. Or, you might want to grant access to your account to third parties so that they can perform an audit on your resources.
+`role` 在存取連線的過程中，只會提供暫時性的安全憑證，不會使使用標準長時效的憑證。
 
-For these scenarios, you can delegate access to AWS resources using an IAM role. This section introduces roles and the different ways you can use them, when and how to choose among approaches, and how to create, manage, switch to (or assume), and delete roles.
+![role](role.png)
 
 ##### User Group
 
-An IAM user group is a collection of IAM users. User groups let you specify permissions for multiple users, which can make it easier to manage the permissions for those users. For example, you could have a user group called Admins and give that user group typical administrator permissions. Any user in that user group automatically has Admins group permissions. If a new user joins your organization and needs administrator privileges you can assign the appropriate permissions by adding the user to the Admins user group. If a person changes jobs in your organization, instead of editing that user's permissions you can remove him or her from the old user groups and add him or her to the appropriate new user groups.
+`User Group` 可以集中管理 `User` 的權限。只要將 Identity-based 的 Policy 附加到 `User Group`，在群組內所有的 `user` 都會使用相同的 Policy。
 
-You can attach an identity-based policy to a user group so that all of the users in the user group receive the policy's permissions. You cannot identify a user group as a Principal in a policy (such as a resource-based policy) because groups relate to permissions, not authentication, and principals are authenticated IAM entities. For more information about policy types, see Identity-based policies and resource-based policies.
+`User Group` 有一些重要的特質。
 
-Here are some important characteristics of user groups:
-
-A user group can contain many users, and a user can belong to multiple user groups.
-
-User groups can't be nested; they can contain only users, not other user groups.
-
-There is no default user group that automatically includes all users in the AWS account. If you want to have a user group like that, you must create it and assign each new user to it.
-
-The number and size of IAM resources in an AWS account, such as the number of groups, and the number of groups that a user can be a member of, are limited. For more information, see IAM and AWS STS quotas, name requirements, and character limits.
-
-You can organize IAM users into IAM groups and attach a policy to a group. In that case, individual users still have their own credentials, but all the users in a group have the permissions that are attached to the group. Use groups for easier permissions management, and to follow our Security best practices in IAM.
+- 一個 `User Group` 包含多個 `User`，而且一個 `User` 也可以隸屬多個 `User Group`。
+- `User Group` 無法包含其他 User
 
 ![iam-intro-users-and-groups](iam-intro-users-and-groups.diagram.png)
 圖示來源: [AWS](https://docs.aws.amazon.com/vpc/latest/userguide/how-it-works.html)
 
-Users or groups can have multiple policies attached to them that grant different permissions. In that case, the permissions for the users are calculated based on the combination of policies. But the basic principle still applies: If the user has not been granted an explicit permission for an action and a resource, the user does not have those permissions.
+`Users` 或 `User Group` 可以附加多組不同權限的 Policy，此次 `User` 的權限由 Policy 組合出來。
 
 ### Compute
 
@@ -308,52 +280,59 @@ Amazon EC2 全名 Amazon Elastic Compute Cloud，
 
 可將 EC2 視為一台 Virtual Machine，依據不同的使用情境，以提供各種最佳化執行個體類型。
 
-|      | On-Demand 隨需 | Save Plan 儲存計劃 | Spot Instances | Reserved Instances | dedicated-hosts |
-| ---- | -------------- | ------------------ | -------------- | ------------------ | --------------- |
-|      |                |                    |                |                    |                 |
-|      |                |                    |                |                    |                 |
-| 價格 |                |                    |                |                    |                 |
-
-// 特色
-定價模式：使用隨需執行個體，您可以按小時支付運算容量費用，無最低承諾的要求。
-
 |               |      一般用途      | 運算最佳化 |  記憶體最佳化   |      加速運算      |   儲存最佳化   |
 | ------------- | :----------------: | :--------: | :-------------: | :----------------: | :------------: |
 | Instance Type | a1, m4, m5, t2, t3 |   c4, c5   | r4, r5, x1, z1  | f1, g3, g4, p2, p3 |   d2, h1, i3   |
 | 用途範例      |        多元        |   高效能   | Memory Database |      機器學習      | 分散式檔案系統 |
 
-// Instance Store
-// 好處
+收費方式與適用場景
 
-伺服器時間的時鐘小時數：資源在執行時會產生費用，例如，從 Amazon EC2 執行個體啟動到終止，或從配置彈性 IP 地址到取消配置時為止。
+- 隨需(On-Demand)
+  - 偏好擁有低成本和 Amazon EC2 提供的靈活性，但不打算支付預付款或簽署長期合約的使用者
+  - 具有短期、難應付或無法預測的工作負載且該工作負載不能被中斷的應用程式
+  - 按小時支付運算容量費用，無最低承諾的要求。
+- 競價(Spot)
+  - 具有彈性的啟動和結束時間的應用程式
+  - 只在非常低的運算價格才適用的應用程式
+- 預留(Reserved)
+  - 預留執行個體是由 AWS 和第三方賣方出售，有時會提供較低的價格和較短的期間。
+  - 需決定執行的執行個體數量和期間長度 (1 或 3 年)。
+- Save Planing
+  - 比預留有更靈活的計費方式
+- 專用主機(dedicated-hosts)
+  - 專供使用的實體 EC2 伺服器，以使用現有繫結伺服器的軟體授權，以協助降低成本與符合規範要求。
+  - 可以用預留的形式購買，最高可享有隨需價格 70% 的折扣。
 
-執行個體數：您可以佈建 Amazon EC2 和 Amazon EBS 資源的多個執行個體來處理尖峰負載。
-
-負載平衡：您可以使用 Elastic Load Balancing 在 Amazon EC2 執行個體之間分散流量。Elastic Load Balancing 執行的小時數及其處理的資料量會導致每月成本。
-
-詳細監控：您可以使用 Amazon CloudWatch 來監控 EC2 執行個體。預設會啟用基本監控。對於固定的每月費率，您可以選擇詳細監控，其中包括每分鐘記錄一次的七個預先選取的指標。部分月份會依每小時按比例收費，按每一執行個體小時費率計算。
-
-Amazon EC2 Auto Scaling：Amazon EC2 Auto Scaling 會根據您定義的擴展政策自動調整您的部署中 Amazon EC2 執行個體的數量。除 Amazon CloudWatch 費用外，此服務不會收取額外費用。
-
-彈性 IP 地址：您可以免費將一個彈性 IP 地址與執行的執行個體相關聯。
-
-授權：若要在 AWS 上執行作業系統和應用程式，您可以以依用量計費的方式從 AWS 取得各種軟體授權，其完全符合要求，且您不需管理複雜的授權條款和條件。但是，如果您與軟體廠商簽訂現有的授權協議，則可以將符合條件的授權帶至雲端，以降低總體擁有成本 (TCO)。AWS 提供 License Manager，可讓您輕鬆跨越 AWS 和內部部署環境管理 Microsoft、SAP、Oracle 和 IBM 等軟體廠商的軟體授權。
+|       | 隨需(On-Demand) |       競價(Spot)       | 預留(Reserved) | Save Planing | 專用主機(dedicated-hosts) |
+| :---: | :-------------: | :--------------------: | :------------: | :----------: | :-----------------------: |
+| 價格  |      最貴       | 最便宜 ( 最多 90% Off) | (最多 72% Off) |  (72% Off)   |         (70% Off)         |
 
 ### Storage
 
 #### Amazon EBS
 
+Amazon Elastic Block Store (Amazon EBS) 是易於使用、可擴展的高效能區塊儲存服務，屬於 block-level Storage，用於 EC2 Instance 的持久性區塊儲存。
+
 ![EBS 運作方式](Product-Page-Diagram_Amazon-Elastic-Block-Store.png)
 圖片來源: [AWS](https://aws.amazon.com/tw/ebs/)
 
-Amazon EBS(Amazon Elastic Block Store) 是易於使用、可擴展的高效能區塊儲存服務，專為與 Amazon EC2 搭配使用而設計。
+依價格由高至低，列出 4 種類型。
 
-|          |  SSD  |       |       |       |  HDD  |       |
-| -------- | :---: | :---: | :---: | :---: | :---: | :---: |
-| 載體類型 |  SSD  |  SSD  |  SSD  |  SSD  |  HDD  |  HDD  |
-| 用途     |       |       |       |       |       |       |
-| IOPS     |       |       |       |       |       |       |
-| 價格     |       |       |       |       |       |       |
+- 一般用途(General Purpose) SSD 磁碟區 (gp2 和 gp3)
+  - 平衡各種交易工作負載的價格與效能。
+  - 適合用於開機磁碟區、中型單一執行個體資料庫，以及開發與測試環境等使用案例。
+
+- 佈建 IOPS SSD 磁碟區(Provisioned IOPS SSD)
+  - 專門為有大量輸入 / 輸出並且對儲存效能和一致性敏感的工作負載而設計。
+  - 可指定的 IOPS 速率，並且保持穩定。
+
+- 輸送量最佳化 HDD (Throughput Optimitzed HDD)
+  - 提供低成本的磁性儲存體，它按照輸送量而非 IOPS 來定義效能。
+  - 適合循序的大型工作負載，例如 Amazon EMR、ETL、資料倉儲和日誌處理。
+
+- 冷 HDD (Cold HDD)
+  - 供低成本的磁性儲存體，它按照輸送量而非 IOPS 來定義效能。
+  - 適合不需要頻繁存取資料。
 
 ## 五、延伸知識與補充資料
 
