@@ -15,6 +15,7 @@ keywords:
   - EBS
   - VPC
 description: 本文章藉由同一機器的地端架構對應 AWS 雲端服務，學習與理解雲端可支援的服務項目。
+lastmod: 2022-06-26T16:45:14.386Z
 ---
 
 假設新創的網路服務提供商，隨著業務的發展，提供服務的軟體系統，從最初的簡易架構，依據面臨的挑戰與需求，不停調整擴充系統架構。
@@ -73,9 +74,9 @@ description: 本文章藉由同一機器的地端架構對應 AWS 雲端服務�
 
 接著，雲端管理員要讓其他人員有限制的使用 AWS 上的資源，必需使用 IAM(Identity and Access Management) 進行存取權限(permission)的設定。IAM 主要由 `User`、`User Group`、`Role`、`Policy` 4 個元素組成，其關係為如下。
 
-- `Policy` 管控 `User Group` 可操作的權限。
-- `User Group` 負責統一控制 `User`。
-- `Role` 讓同時隸屬多個 `User Group` 的 `User` 可以切換當下所屬的群組。
+- `Policy` 定義一到多個可供授予存取的資源權限。
+- `User Group` 集合多許多 `User`，可以藉由直接將 Policy 附加到 User Group 身上，讓群組內所有的 User 都使用相同的 Policy。
+- 當 AWS 內的系統資源之間，互相調用資源時，利用已添加  `Policy` 的 `Role`，暫時授予系統資源間的存取權限。
 
 AWS 已預先定義 AWS managed policies，提供許多常見的使用案例。以 IAM 為例，AWS managed policies 會提供 `User` Readonly 的 `Policy`，此時無法操作任何的雲端資源。若想要近一步設定權限，需要再行撰寫 Policy 進行權限的管理。
 
@@ -83,9 +84,9 @@ IAM 所使用的傳統授權模型為 **角色類型存取控制(Role-Based Acce
 
 接著，為了便宜，先不考慮距離造成的網站延時，Region 選取美國西部的奧勒岡。
 
-在建立 VPC 後，直接選用 AWS 預建的 Public Subnet，並設定 NCAL、Security Group 的安全規則設定，僅允許 80 與 443 Port 的連入。
+在建立 VPC 後，直接選用 AWS 預建的 public subnet，並設定 NCAL、Security Group 的安全規則設定，僅允許 80 與 443 Port 的連入。
 
-選好 Region、AZ、VPC 與 Subnet 後，接著來建立 EC2 (Elastic Compute Cloud)，在建立 EC2 時，會經過幾個步驟。
+選好 Region、AZ、VPC 與 subnet 後，接著來建立 EC2 (Elastic Compute Cloud)，在建立 EC2 時，會經過幾個步驟。
 
 - 指定 Instance 名稱與 Tag
 - 選擇 AMI: 依應用決定所使用的作業系統映像 AMI(Amazon Machine Image)
@@ -95,16 +96,16 @@ IAM 所使用的傳統授權模型為 **角色類型存取控制(Role-Based Acce
 - 指定 ENI (Elastic network interfaces): 指定 EC2 所使用的網路元件
 - 指定 EBS (Elastic Block Store): EC2 本身的 Instance storage 會隨著機器的關閉而消失的特性，為了確保資料的持久性，搭配 EBS 進行使用。
 
-為減少開發與機器的成本，選取 Linux base 的 AMI 與 二手的 Reserved Instances，有機會可以用更低的價格租借到機器。
+為減少開發與機器的成本，選取 Linux base 的 AMI ，以及尋找第三方售出的 Reserved Instances，有機會可以用更低的價格租借到機器。
 
 ### 釐清脈絡
 
 接著釐清脈絡，確認從使用者發出請求，到 EC2 接受請求，途中行經過程。
 
 - 從 `Internet Gateway` 進入 VPC。
-- 接著 `Router` 依據 `Route Tables` ，判斷進入那個 `Subnet`。
-- 在進入 `Subnet` 前，需經過 `Network Access Control List(NACL)` 判斷請求的合法性。
-- 進入 `Subnet`。
+- 接著 `Router` 依據 `Route Tables` ，判斷進入那個 `subnet`。
+- 在進入 `subnet` 前，需經過 `Network Access Control List(NACL)` 判斷請求的合法性。
+- 進入 `subnet`。
 - 經過 `Security Groups` 確認請求是否符合安全規則。
 - 進入 `EC2`。
 
@@ -118,7 +119,7 @@ IAM 所使用的傳統授權模型為 **角色類型存取控制(Role-Based Acce
 
 ## 四、AWS 服務簡介
 
-接著視界從大到小的瀏覽 AWS 的資訊。從 Region -> AZs -> VPC -> IAM -> EC2 逐一探訪。
+接著視界從大到小的瀏覽 AWS 的資訊。從訪問的鏈路逐一探訪 Region -> AZs -> VPC -> EC2。
 
 ### Infrastructure
 
@@ -128,7 +129,7 @@ AWS 於世界各地建立了大型實體機房，這些機房可視為資料中�
 
 這些 AZ 彼此之間相互隔離、物理上分離，並將同一個地理區域內的多個 AZ 組成 Region。以確保可在同一 Region 內，橫跨多個 AZ 部署應用程式，以提升容錯能力和降低延遲的情況。
 
-也就是，每個 Region 內，至少包含兩個以上的 AZ。每個 AZ 內包括一個到多個資料。
+也就是，每個 Region 內，至少包含三個以上的 AZ。每個 AZ 內包括一個到多個資料中心。
 
 至 2022 年 6 月為止，共有 26 個 Region 可以使用。因各地區基礎建設成本差異，導致 Region 的價格也有所不同。
 
@@ -159,16 +160,22 @@ Region 與 Region 間的通訊，使用 AWS 的骨幹網路基礎設施。提供
 
 #### Amzon VPC
 
-Amazon Virtual Private Cloud(Amazon VPC)， AWS 虛擬私有網路，對應地端機房(On-Premises)大概就是內網的概念。
+Amazon Virtual Private Cloud(Amazon VPC)，AWS 虛擬私有網路，類似於資料中心的傳統網路。
 
-- VPC 屬於 Region 級別，可以橫跨不同 AZ。
-- 外部網路可以經由 Internet Gateway 連到 VPC 中的 Instance 的話，該 instance 屬於 Public subnet。
-- 反之，若外部網路無法連到 VPC 內的 instance，該 instance 為 private subnet
-- 在 VPC 建立的同時，AWS 會預設建立一個 Public Subnet。
+一個 VPC 橫跨 Region 內所有的 AZ。
+
+VPC 為是用戶創建網環境的基礎元件，AWS 建議在建構基礎設施時，可以考慮一次部署橫跨多個 AZ 提高可用性。
+
+需注意的是，橫跨不同 AZ 的連線流量，是需要額外收取流量費用的。
 
 ##### Internet Gateways
 
-所有外部流量要進入 VPC 時，都需要經過 Internet Gateways(IGW)
+若外部流量要進入 VPC 時，必需需要經過 Internet Gateways(IGW)。IGW 提供了整個 vpc  內的資源與外部公開網路的通訊。
+
+當 IGW 使用的 route table 與 subnet 有關連，意味著公開網路可以經由 IGW 與 subnet 建立通訊，該 subnet 為 public subnet。反之，若 subnet 與 IGW 的 route table 沒關連，則為 private subnet。
+
+![internet-gateway](internet-gateway-basics.png)
+圖示來源: [AWS](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Internet_Gateway.html)
 
 ##### Route tables
 
@@ -179,11 +186,17 @@ Amazon Virtual Private Cloud(Amazon VPC)， AWS 虛擬私有網路，對應地�
 
 ##### Network Access Control List, NACL
 
-屬於 [OSI Level 4: Transport Layer]({{< ref "../../../Security/talking_https_and_ssl/index.md">}}) 層級的操作，如同防火牆一般，可控制一或多個 Subnet 的傳入和傳出流量。
+屬於 [OSI Level 4: Transport Layer]({{< ref "../../../Security/talking_https_and_ssl/index.md">}}) 層級的操作，如同防火牆一般，可控制一或多個 subnet 的傳入和傳出流量。
 
-##### Subnet
+##### subnet
 
-一個 Subnet 只能存在一個 AZ 之中，VPC 預設會有一個 Public Subnet。
+一個 subnet 只能存在一個 AZ 之中，不能跨區。VPC 預設會有一個 public subnet。
+
+subnet 可分為 public、private 或 VPN-only。
+
+Public subnet: subnet 流量經由 internet gateway 路由到公開網路。
+
+Private subnet: subnet 流量無法經由 internet gateway 到達公開網路，要存取公開網路必需使用 NAT 裝置。
 
 ##### Security Group, SG
 
@@ -265,7 +278,7 @@ AWS 支援六個類型的 Policy，使用頻率的從高到低，分別如下。
 `User Group` 有一些重要的特質。
 
 - 一個 `User Group` 包含多個 `User`，而且一個 `User` 也可以隸屬多個 `User Group`。
-- `User Group` 無法包含其他 User
+- `User Group` 無法包含其他 `User Group`
 
 ![iam-intro-users-and-groups](iam-intro-users-and-groups.diagram.png)
 圖示來源: [AWS](https://docs.aws.amazon.com/vpc/latest/userguide/how-it-works.html)
@@ -340,5 +353,6 @@ Amazon Elastic Block Store (Amazon EBS) 是易於使用、可擴展的高效能�
 - AWS 官方文件
   - [Amazon Virtual Private Cloud](https://docs.aws.amazon.com/vpc/index.html), VPC
   - [Public/Private subnet](https://docs.aws.amazon.com/vpc/latest/userguide/configure-subnets.html)
+  - [VPC Internet gateway](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Internet_Gateway.html)
   - [Amazon Elastic Block Store](https://docs.aws.amazon.com/ebs/), EBS
   - [AWS Identity and Access Management (IAM)](https://docs.aws.amazon.com/iam/index.html)
