@@ -1,14 +1,14 @@
 ---
-title: Queue 的概念
+title: Queue 佇列的概念
 date: 2022-06-14T07:46:41.443Z
 description: 回顧 Queue 的概念與用法
 keywords:
   - Queue
+  - 佇列
 tags:
   - Queue
 categories:
   - 軟體開發
-lastmod: 2022-06-20T17:22:29.465Z
 ---
 
 個人認為佇列(Queue)的本質，就是做為資料載體的暫存與緩衝區，同時，它具備 **先進先出(First In First Out, FIFO)** 的特性。
