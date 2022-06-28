@@ -4,6 +4,9 @@ description: 試著簡單說明單點故障背後的意思
 date: 2022-06-23T03:25:10.317Z
 categories:
   - 聊聊名詞
+tags:
+  - 思維模式
+lastmod: 2022-06-28T08:52:39.741Z
 ---
 
 單點故障(Single point of failure, SPOF)，指的是系統上的某一個物理節點故障，而導致整個系統無法運作的現象。

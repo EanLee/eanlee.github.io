@@ -8,7 +8,7 @@ keywords:
   - 程式碼品質
   - Comment
 categories:
-  - 系列文章
+  - 開發雜談
 tags:
   - Refactor
 lastmod: 2022-06-23T03:15:09.324Z
