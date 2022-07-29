@@ -42,7 +42,6 @@ lastmod: 2022-07-29T02:22:48.306Z
 
 - [程式碼版控 - 觀念與 Git 簡述]({{< ref "../version_control/index.md">}})
 - Git Remote Repository
-- 軟體開發、修正與釋出 - git flow
 
 ### 持續整合
 

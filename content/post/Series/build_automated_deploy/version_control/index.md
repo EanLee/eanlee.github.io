@@ -1,12 +1,13 @@
 ---
 title: 程式碼版控 - 觀念與 Git 簡述
 date: 2022-07-29T10:14:10+08:00
-description: 初步簡單的介紹版控的觀念，並介紹常用的 Git 指令
+description: 初步簡單的介紹版控的觀念，並介紹常用的 Git 指令與 Git Flow
 categories:
   - 軟體開發
 keywords:
   - 版控
   - Git
+  - Git Flow
 tags:
   - 版控
 ---
@@ -260,6 +261,106 @@ Eric:
   好問題，在 Git 官網中，有提供 GUI Client 的軟體清單，提供下載，可以選擇自己喜歡的軟體。
 ```
 
+## Git Flow
+
+```Plan
+吉米在了解 Git 版本控制的觀念後，使用了兩週的時間，發現自己無法很好的管理分支與控制變動。
+在網路上找到 git flow 的介紹，但研究後，還是有部份的疑問。
+因此，吉米打電話跟 Eric 請教 git flow 的問題。
+
+Eric:
+  喂，我是 Eric，那裡找？
+
+吉米:
+  我是吉米，Eric 現在方便講電話嗎？有些事想請教你一下。
+
+Eric:
+ 可以啊，什麼事？
+
+吉米:
+ 我使用 Git 進行版控到現在，發現不知道要怎麼管理分支。後來我在網路上，看到有人推薦 git flow，又看到有人說 git flow 不建議使用。想詢問一下你的看法。
+
+Eric:
+ 原來如此，那我們分析一下 git flow 的特點吧。
+```
+
+gitflow 是 Vincent Driessen 在 2010 年提出來的一種關於 git 工作流程的建議。
+
+![git-model@2x](https://nvie.com/img/git-model@2x.png)
+
+(圖片來源: [A successful Git branching model](https://nvie.com/posts/a-successful-git-branching-model/))
+
+### Branch 規則
+
+在 git flow 中，有兩支最重要的 branch，分別是 **master**、**develop** 。
+
+#### Master
+
+原本的主線，但在 git flow 中，比較接近交付給客戶的產品版本。因此，會變更到 master 的時機點，只有在完成 **release** 與 **hotfix** 後，才會變動。
+
+#### Develop
+
+develop 是基於 master 所分支出的 **開發用主線**。當採用 git flow 作為管理方式時，會自行從 master 開一支名為 develop 的分支。
+
+所有對於需求的新增、修改，或是問題的修正，都會在此作業。直到完成開發後，才會用 **release** ，與 master 進行同步。
+
+#### Feature
+
+所有功能的增加、修改，會不同的需求目標，開一條前綴為 **feature** 的分支。直到完成功能的開發後，就會 merage 回 develop。
+
+而每個 feature 只處理各自需求目標。也就是**一次( feature)只做一件事 (功能)**。
+
+#### Release
+
+當預定的功能都開發完成時，這時就會開一條前綴為 **release** 的分支，此時，只能針對預備釋出的功能，進行 **現有功能的錯誤修正**。
+
+確定所有功能正常無誤，完成 release 後，會先後 merge 到 master 與 develop。
+
+#### HotFix
+
+當交付的軟體回報有問題時，會開前綴為 **hotfix** 的分支。完成修正後，會先後 merge 到 master 與 develop。
+
+### Git Flow 的爭議點
+
+目前 git flow 主要的爭議點，就筆者看到的，大約可分成兩點。
+
+- develop/master 的分割
+- 多人協作時，完成 feature 時的衝突。  
+
+#### develop/master 的分割
+
+這可能是因為 develop 與 master 的功用相近，但在 git flow 的流程下，操作相當變得複雜。尤其在講求 **快速交付** 的現在，執行 DevOps 的人眼中看來，develop 存在的意義不大。
+
+但在某些軟體公司而言，因為客戶性質的關係，交付軟體的週期較長。master/develop 可以確保產品維護的同時，又可以進行開功能的開發。
+
+或是開發過程的異動太大，develop 的異動，不會直接影響到 master，就也就己交付軟體的內容。
+
+#### 多人協作時，完成 feature 時的衝突
+
+會發生這個問題，多數是由於負責功能項目，在程式內的耦合性太高，導致兩個 feature 以上，去變更到同一份文件。
+
+這部份能從幾個部份下手，例如 **開發人員之間的溝通協商**、**增加 push 時的審核機制**，例如  Github 所使用的 pull request 機制。或是**優化軟體架構**，讓它其中的物件低耦合，高內聚。
+
+### Git Flow 使用經驗與建議
+
+1. 針對 Feature，要實作的功能範圍應該可能的小，以確保該功能可以在半個到一個工作日內完成。
+2. 每天工作前，都應該 Fetch 最新版本。下班前，將完成的 feature push 。
+3. 軟體架構內物件，要盡可能的低耦合高內聚，才能減少功能修改時的交互影響。
+
+```Plan
+吉米: Eric，聽完你的說明，感覺 git flow 就可以立即套用。
+
+Eric: 剛好目前你一個人獨立開發，而在這個時機點，git flow 正好適合你用。如果以後多人協同開發的時候，可能就要搭配其他流程，如 Github flow、Gitlab flow 等等，以便管理，
+
+吉米: 嗯嗯，適合的最好，以後如果有用到其他的流程，再跟你請救。
+
+Eric: 哈哈，歡迎歡迎，跟你解釋的同時，我也順便再次理清思慮。沒其他事的話，打電話我就先掛了。
+
+吉米: OK，拜拜。
+
+Eric: 拜拜。
+```
+
 ## 延伸閱讀
 
 ### 版控觀念
@@ -279,3 +380,14 @@ Eric:
 6. [Git 教學](https://legacy.gitbook.com/book/kingofamani/git-teach/details)
 7. [Git 達人教你搞懂 GitHub 基礎觀念](https://www.ithome.com.tw/news/95283)
 8. [為你自己學 Git](https://gitbook.tw/)
+
+### Git Flow
+
+1. [Git Flow 是什麼？為什麼需要這種東西？](https://gitbook.tw/chapters/gitflow/why-need-git-flow.html)
+2. [A successful Git branching model](https://nvie.com/posts/a-successful-git-branching-model/)
+3. [GitLab Flow：介于GitFlow和Github Flow之间！](http://www.brofive.org/?p=2233)
+4. [Follow-up to ‘GitFlow considered harmful’](https://www.endoflineblog.com/follow-up-to-gitflow-considered-harmful)
+5. [git flow 實戰經驗談 part1 - 別再讓 gitflow 拖累團隊的開發速度](https://blog.hellojcc.tw/2017/12/14/the-flaw-of-git-flow/)
+6. [git flow 實戰經驗談 part2 - 可能更好的 gitflow](https://blog.hellojcc.tw/2018/01/11/a-better-git-flow/)
+7. [GitHub Flow 及 Git Flow 流程使用時機](https://blog.wu-boy.com/2017/12/github-flow-vs-git-flow/comment-page-1/)
+8. [Git flow 開發流程](https://ihower.tw/blog/archives/5140)
