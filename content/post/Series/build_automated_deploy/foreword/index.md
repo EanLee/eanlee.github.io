@@ -3,10 +3,12 @@ title: 從零開始建立自動化發佈的流水線(持續搬移中)
 description: 隨著故事的推進，逐一建立從版控、CI/CD 的自動化流水線。
 keywords:
   - CI/CD
+  - version control
+  - 版控
 categories:
   - 系列文章
 date: 2022-06-20T06:58:08.103Z
-lastmod: 2022-06-22T16:11:54.547Z
+lastmod: 2022-07-29T02:22:48.306Z
 ---
 
 > 將 [2019 iT 邦幫忙鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/1906) 的文章搬遷到此，同時有些內部可能已經過時，在搬移的過程中，會重新針對內容加以整理與補充。
@@ -38,8 +40,7 @@ lastmod: 2022-06-22T16:11:54.547Z
 
 ### 版控篇
 
-- 程式碼版控 - 觀念篇
-- 程式碼版控 - Git 簡說
+- [程式碼版控 - 觀念與 Git 簡述]({{< ref "../version_control/index.md">}})
 - Git Remote Repository
 - 軟體開發、修正與釋出 - git flow
 
