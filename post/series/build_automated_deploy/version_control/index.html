@@ -1,0 +1,116 @@
+<!doctype html><html class=no-js lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="IE=edge"><title>程式碼版控 - 觀念與 Git 簡述 - 伊恩的開發狂想</title><script>(function(e,t){e[t]=e[t].replace("no-js","js")})(document.documentElement,"className")</script><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7903108559996033" crossorigin=anonymous></script><meta name=description content="初步簡單的介紹版控的觀念，並介紹常用的 Git 指令"><meta property="og:title" content="程式碼版控 - 觀念與 Git 簡述"><meta property="og:description" content="初步簡單的介紹版控的觀念，並介紹常用的 Git 指令"><meta property="og:type" content="article"><meta property="og:url" content="https://eanlee.github.io/post/series/build_automated_deploy/version_control/"><meta property="article:section" content="post"><meta property="article:published_time" content="2022-07-29T10:14:10+08:00"><meta property="article:modified_time" content="2022-07-29T10:14:10+08:00"><meta itemprop=name content="程式碼版控 - 觀念與 Git 簡述"><meta itemprop=description content="初步簡單的介紹版控的觀念，並介紹常用的 Git 指令"><meta itemprop=datePublished content="2022-07-29T10:14:10+08:00"><meta itemprop=dateModified content="2022-07-29T10:14:10+08:00"><meta itemprop=wordCount content="394"><meta itemprop=keywords content="版控,"><meta name=twitter:card content="summary"><meta name=twitter:title content="程式碼版控 - 觀念與 Git 簡述"><meta name=twitter:description content="初步簡單的介紹版控的觀念，並介紹常用的 Git 指令"><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=dns-prefetch href=//fonts.googleapis.com><link rel=dns-prefetch href=//fonts.gstatic.com><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700"><link rel=stylesheet href=/css/style.css><link rel="shortcut icon" href=/favicon.ico><script async src="https://www.googletagmanager.com/gtag/js?id=G-4HXSCXTZKZ"></script>
+<script>var doNotTrack=!1;if(!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-4HXSCXTZKZ",{anonymize_ip:!1})}</script></head><body class=body><div class="container container--outer"><header class=header><div class="container header__container"><div class="logo logo--mixed"><a class=logo__link href=/ title=伊恩的開發狂想 rel=home><div class="logo__item logo__imagebox"><img class=logo__img src=/img/placeholder.png></div><div class="logo__item logo__text"><div class=logo__title>伊恩的開發狂想</div><div class=logo__tagline>在知識大海中漂流的小船，不停追尋屬於自己的秘寶。專注於 .NET、雲端技術、系統架構、開發技巧的道、法、術。</div></div></a></div><div class=divider></div></div></header><div class="wrapper flex"><div class=primary><main class=main role=main><article class=post><header class=post__header><h1 class=post__title>程式碼版控 - 觀念與 Git 簡述</h1><div class="post__meta meta"><div class="meta__item-author meta__item"><svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2.0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class=meta__text>伊恩</span></div><div class="meta__item-datetime meta__item"><svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class=meta__text datetime=2022-07-29T10:14:10+08:00>2022-07-29</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2 1 2h8v11H0V2z"/></svg><span class=meta__text><a class=meta__link href=/categories/%E8%BB%9F%E9%AB%94%E9%96%8B%E7%99%BC/ rel=category>軟體開發</a></span></div></div></header><div class="post__toc toc"><div class=toc__title>Page content</div><div class=toc__menu><nav id=TableOfContents><ul><li><a href=#版本控制系統-version-control-system-vcs>版本控制系統( Version Control System, VCS)</a><ul><li><a href=#集中式版本控制系統centralized-vcs>集中式版本控制系統(Centralized VCS)</a></li><li><a href=#分散式版本控制系統-distributed-vcs>分散式版本控制系統 (Distributed VCS)</a></li><li><a href=#版本控制的幾點建議>版本控制的幾點建議</a></li></ul></li><li><a href=#git-簡說>Git 簡說</a><ul><li><a href=#git-本地端的使用>Git 本地端的使用</a></li><li><a href=#git-分支>Git 分支</a></li><li><a href=#git-與遠端同步>Git 與遠端同步</a></li></ul></li><li><a href=#延伸閱讀>延伸閱讀</a><ul><li><a href=#版控觀念>版控觀念</a></li><li><a href=#git>Git</a></li></ul></li></ul></nav></div></div><div class="content post__content clearfix"><blockquote><p><a href=https://eanlee.github.io/post/series/build_automated_deploy/foreword/#版控篇>從零開始建立自動化發佈的流水線</a> 版控篇</p></blockquote><p>當軟體持續發展，難免出現客制化需求，或是要求針對特定版本進行功能異動，尤其是團隊協作的情況下，有沒有那種方式可以提供有效的統整現有的程式碼，讓協作開發人員，都可以取得最新的開發版本。也可以快速的調出過往的程式異動版本，以便追查問題或調整。</p><pre tabindex=0><code class=language-plan data-lang=plan>吉米與 Eric 相約在咖啡廳會面後，閒聊一會後，吉米直接將自己遇到的情況詳細說明給 Eric 知道。並詢問是否有其他建議的作法。
+
+Eric:
+  吉米，你目前的原始碼，是使用什麼方式來進行管控？
+
+吉米:
+  大多都是在交付軟體時，才會將程式碼所在的資料夾壓縮成 zip 檔，用這種方式來管理程式碼的版本。
+
+Eric:
+  嗯，聽起來你是使用本地版本管控 的概念，來管理你的程式碼。不過這種備份方式，萬一需要比對程式碼差異時，需要額外花費一番功夫。
+
+吉米:
+  確實，之前有幾次要確認某個功能，是從那一個版本之後才新增的，花了不少時間去進行程式碼的比對。
+
+Eric:
+  你交付軟體的間隔時間大約多久？
+
+吉米:
+  一般來說，大約一個月到兩個月左右，就會交付軟體給客戶。
+
+Eric:
+  除了在交付程式時的備份外，其他時間也會進行備份嗎？針對這些程式碼壓縮檔，有異地備份嗎？
+
+吉米:
+  都是在完成某一項功能後，如果有想到備份，才會備份，但大部份都會忘記。至於備份下來的壓縮檔，都會同步到網路硬碟。
+
+Eric:
+  嗯，大致了解你的情況。吉米，你的程式碼版本管控的方式，風險相當高。例如開發環境突然掛掉、軟體開發到一半，突然發現方向錯誤……，雖然都可以解決，但都需要花費額外的時間去處理。
+
+吉米:
+  嗯嗯，換個角度來說，這就是隱性(時間)成本的耗損吧。
+
+Eric:
+  沒錯！看起來你現在需要的是版本管控系統來協助你管理原始碼，如果沒有使用其他的版控軟體，建議你可以去用許多開發人員使用的版控軟體 Git。
+</code></pre><h2 id=版本控制系統-version-control-system-vcs>版本控制系統( Version Control System, VCS)</h2><p>在版本控制系統中，最重要的，莫過於「<strong>倉庫(Repository)</strong>」，在 Repository 中，會記錄所有的版本資訊、<strong>分支(Branch)</strong>、<strong>合併(Merge)</strong> 等等資料。而版控所有的指令，都是建立於系統對 Repository 的操作行為。</p><p>此外，版本控制系統，也一定存在<strong>同步</strong>、<strong>追溯</strong>與<strong>檔案備份</strong>，這三種特性。</p><ul><li>同步 - 確保每個使用者，最終取回的內容都是相同的。</li><li>追溯 - 可以知道所有版本間的變動項目與原因，也能回復到歷史版本中的任一版本。</li><li>檔案備份 - 因為將所有的變動都同步到 Respository，間接的達到備份的功用。</li></ul><p>目前主流的版本控制系統的架構，大致上，都可以歸屬於<strong>集中式</strong>與<strong>分散式</strong>這兩種類型。在下面的圖中，Subversion 就是集中式版本控制系統，Git 則是分散式版本控制系統。</p><p><img src=centralized-vs-distributed-advantages.png alt="advantages of distributed version control systems">
+(圖片出處: <a href=https://scriptcrunch.com/295/>Scriptcrunch</a>)</p><h3 id=集中式版本控制系統centralized-vcs>集中式版本控制系統(Centralized VCS)</h3><p>集中式的版本控制系統，就是基於……同個團隊之間合作的方式，是共用同一個 Repository。系統必須確保每位使用者都需與 Respository 保持一致。為要維持使用者之間保持同步的狀態，分為 <strong>鎖定模式</strong> 與 <strong>合併模式</strong> 兩種作法。</p><ul><li><p><strong>鎖定模式</strong></p><p>當使用者想要修改某檔案、簽出該檔案後，該檔案便會進入鎖定狀態，其他使用成員便無法加以修改，直到簽出者將該檔簽回為止。</p><p>對於維持同步來說，這當然是一個十分保險的作法，因為永遠不會有兩個或以上的使用者同時修改同一個檔案。</p><p>只是，這種方法造成了使用者對於檔案修改的互斥效應，使得使用效率受到影響。</p></li><li><p><strong>合併模式</strong></p><p>允許多位使用者同時針對同一檔案進行修改，當他們分別將檔案提交回集中的檔案庫時，若發生衝突的情況，便會自動進行合併，而若自動合併失敗，再要求人工進行衝突的調解。</p></li></ul><p>對於 Subversion SVN 版本控管有興趣的話，可以延伸閱讀 DEMO 大的 <a href=https://demo.tc/post/702>Subversion SVN 版本控管</a>，針對 SVN 寫了一系列的教學文章。</p><h4 id=集中式版本控制不足處>集中式版本控制不足處</h4><ul><li><p>無法離線工作</p><p>因為所有使用者共用同一個 Respository ，因此 Respository 幾乎存放在網路可連結的主機。使用者想要對 Respository 進行任何動作，都必須在能夠連網的環境下進行。</p></li><li><p>動一鬆而牽全身</p><p>如果某一個使用者，在檔案修改的過程中，就提交到 Respository ，那麼，便有可能影響到 Respository 內的檔案，處於不穩定或異常的狀態。</p><p>若強制使用者必需修成完成後，才能提交檔案至 Respository。但是，在修改的過程中，使用者無法得到版本控制系統的支援，有效控制各階段的修改內容。</p></li></ul><h3 id=分散式版本控制系統-distributed-vcs>分散式版本控制系統 (Distributed VCS)</h3><p>分散式的版本控制系統允許 Respository 存在一份或多份。每個使用者，都可以在自己電腦中，建立 Respository。</p><p>對於分散式版本控制系統而言，讓每個使用者都可以修改各自的 Respository，享受版本控制系統的支援，而不受其他因素的限制。</p><p>同時，運用 Push、Pull 的動作，使用者之間可分享自己的變更內容，達到同步的結果。因此，為了更有效的同步版本內容，分散式版本控制系統就更重視 Branch、Merge 的支援與功能。</p><p><img src=basic-remote-workflow.png alt="sauvegarder : git flow"></p><p>(圖片出處: <a href=https://www.git-tower.com/learn/git/ebook/en/command-line/remote-repositories/introduction>www.git-tower.com</a>)</p><p>在分散式版本控制系統中，分成本地端與遠端 Repository。</p><p>在本地端，為了確實的管控所有的檔案變更與異常，並讓使用者充分的運用到版本控制系統的支援。分成<strong>工作區(Working Copy/Working Directory)</strong>、<strong>暫存區(Staging area)<strong>以及</strong>本地Repository</strong>。</p><ul><li><p>工作區</p><p>這個部份，是我們進行檔案操作的位置。不管是 <strong>切換 (checkout)</strong>、<strong>複制 (clone)</strong>、<strong>重置 (reset)</strong>、<strong>拉 (pull)</strong>，<strong>複原 (discard)</strong> 等動作結果，都會直接影響這邊。</p></li><li><p>暫存區</p><p>當工作複本內容檔案修改後，會將要上傳變更的內容快照一份放在這邊。在 <strong>提交 (commit)</strong> 時，會將這區域內的資料，上傳到到 Repository。</p></li><li><p>本地 Repository</p><p>保存了所有變更過的檔案，以及各版本的歷史紀錄。</p></li></ul><p>在遠端，也會存在一個<strong>遠端 Repository</strong>，以儲存管理所有使用者，所上傳的最終變更的版本資訊。同時，也是它提供其他使用者同步資訊的共同來源。利用 <strong>推(push)</strong>、<strong>拉 (pull)</strong>、<strong>複制 (clone)</strong>、<strong>拿取(fetch)</strong> 等動作，來達到同步旳結果。</p><h3 id=版本控制的幾點建議>版本控制的幾點建議</h3><ul><li><p>適時的 <strong>提交(Commit)</strong> 變動</p><ol><li><p>每次的 Commit ，盡可能的確實變動內容的單純性與獨主性。例如，這次 Commit 的 Fix Bug 的變動，那在變動的內容，應盡可能避免與 Fix Bug 無關的內容。</p></li><li><p>每次的 Commit，都應確保變更後內容，是可以順利 Build 的。</p></li></ol></li><li><p>良好的 Commit 訊息</p><p>每次的 Commit ，確認描述此次變動的原因與修改內容。利用有效的訊息，提高軟體的維護性。</p></li></ul><h2 id=git-簡說>Git 簡說</h2><pre tabindex=0><code class=language-Plan data-lang=Plan>Eric:
+  簡單說明「集中式版本控制」與「分散式版本控制」兩者之間的差異，其中 Subservion 是很經典的集中式版制系統。不過，因為你之前沒有使用過版控系統，個人建議使用分散式散本控制系統中的 Git。
+
+吉米:
+  為什麼 Eric 你會建議使用 Git 呢？
+
+Eric:
+  目前 Git 被許多開發人員使用。再者，有許多的網路服務商提供免費或付費的服務，這部份想必對你有也會很多的幫助。
+
+吉米:
+  這麼說來，使用這些網路服務的同時，就等於又多一個備份的機制。
+
+Eric:
+  沒錯。
+
+吉米:
+  聽完你的說明後，對分散式版本控制系統的架構與流程，有比較客觀的認識。當我在本地端，將版控系統建立起來後，就可以立即享受版控帶來的支援與好處。
+  等到那天，需要在其他台電腦或與其他人協合開發時，也可以利用遠端 Repository 來同步開發的進度。
+
+Eric:
+   沒錯，接著，我們來了解 Git 本地端的使用方式。
+</code></pre><h3 id=git-本地端的使用>Git 本地端的使用</h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-powershell data-lang=powershell><span style=display:flex><span><span style=color:#75715e># Init</span>
+</span></span><span style=display:flex><span>git init
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 提交 commit</span>
+</span></span><span style=display:flex><span>git commit
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 切換 checkout</span>
+</span></span><span style=display:flex><span>git checkout master
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 重置 reset</span>
+</span></span><span style=display:flex><span>git reset C3
+</span></span></code></pre></div><pre tabindex=0><code class=language-Plan data-lang=Plan>Eric:
+  剛剛提到的 commit、checkout、reset 都是在基本的版本管理與記錄，只會這些是無法支援多變的開發需求的。
+
+吉米:
+  確實，假若遇到部份功能客制化的需求，這些指令好像無法派上用途，難道要再建一個新的 Repository 嗎？
+
+Eric:
+  哈哈，當然不是。所以接下來，要提到  branch、merge 的觀念了。
+</code></pre><h3 id=git-分支>Git 分支</h3><p>當我們使用 Git 時，一定會有一條主線 master，但是在實務上，有時會遇到幾種狀況。(PS: 由於 2020 年的黑人平權運動，已逐漸調整名稱為 main)</p><ul><li>功能己經寫了一半，但客戶突然告知要放棄該功能。</li><li>針對現有的軟體，業務跟你說，某客戶要求增修某個功能，但這功能只是個案。</li><li>……</li></ul><p>像這個時候，為了跟原本軟體版本有所差異，只好分成不同支線來控制版本，以方便管理。但最後，別忘了評估那些功能可以合併回主線，盡可能避免無限開分支的情況。</p><p>別忘了，當要維護的分支越多，對開發人員的負擔就越大。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-powershell data-lang=powershell><span style=display:flex><span><span style=color:#75715e># 分支 branch</span>
+</span></span><span style=display:flex><span>git branch develop
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 合併 merge</span>
+</span></span><span style=display:flex><span>git merge master
+</span></span></code></pre></div><h3 id=git-與遠端同步>Git 與遠端同步</h3><pre tabindex=0><code class=language-Plan data-lang=Plan>Eric:
+  說完 branch、merge 的觀念後，接著來聊聊 遠端 Repository 與 本地端 Repository 的同步。
+
+吉米:
+  嗯嗯，記得先前你有提到 push、pull、clone、fetch  這幾個名詞。
+
+Eric:
+  說到本地端與遠端的同步，不外乎就是 把資料丟上去的 push，以及把資料抓下來的 clone、fetch、pull。接下來，我們來聊一下 clone、fetch、clone 三者的差異。
+</code></pre><p>因為本地端在沒有設定前，它並不知道遠端 Repository 的位置。所以要同步資訊到遠端前，必需先將遠端 Repository 建立起來後，將它跟本地端進行綁定。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-powershell data-lang=powershell><span style=display:flex><span><span style=color:#75715e># 設定 Remote Repository</span>
+</span></span><span style=display:flex><span>git remote add origin http<span style=color:#960050;background-color:#1e0010>:</span>//xxxx.xxx.xx.xx/ironman/git_tech.git
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># push 方法一</span>
+</span></span><span style=display:flex><span>git push origin master
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># push 方法二: 指定遠端的分支名稱</span>
+</span></span><span style=display:flex><span>git push origin master<span style=color:#960050;background-color:#1e0010>:</span>master
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># fetch: 確認本地與遠端的異常，此時並不會真正的下載遠端的資料</span>
+</span></span><span style=display:flex><span>git fetch
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># pull: 確認本地與遠端的異常，並下載遠端資料</span>
+</span></span><span style=display:flex><span>git pull
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># clone: 將遠端資料複制於本地端。</span>
+</span></span><span style=display:flex><span>git clone
+</span></span></code></pre></div><pre tabindex=0><code class=language-Plan data-lang=Plan>Eric:
+  說了這麼多，但還有很有很多指令都還沒有提到，像 request push、rebase 等等，有機會你再去好好了解它們的用法。
+
+吉米:
+  這樣就對有我很大的幫助。不過，對於我這樣的新手，git 沒有提供 GUI 工具呢？
+
+Eric:
+  好問題，在 Git 官網中，有提供 GUI Client 的軟體清單，提供下載，可以選擇自己喜歡的軟體。
+</code></pre><h2 id=延伸閱讀>延伸閱讀</h2><h3 id=版控觀念>版控觀念</h3><ol><li><a href=http://toolsqa.com/git/local-central-and-distributed-version-control-systems/>Local, Central and Distributed Version Control Systems</a></li><li><a href=https://ihower.tw/blog/archives/8076>三個使用版本控制系統的建議</a></li><li><a href=https://blog.github.com/2015-01-21-how-to-write-the-perfect-pull-request/>How to write the perfect pull request</a></li><li><a href=https://www.ithome.com.tw/article/97328>卓越開發者必備的版本控制技巧</a></li></ol><h3 id=git>Git</h3><ol><li><a href=https://git-scm.com/downloads/guis>Git 官網</a></li><li><a href=https://backlog.com/git-tutorial/tw/>連猴子都能懂的 Git 入門指南</a></li><li><a href=https://ithelp.ithome.com.tw/users/20004901/ironman/525>30 天精通 Git 版本控管</a></li><li><a href=https://learngitbranching.js.org/>Learn Git Branching</a></li><li><a href=https://demo.tc/post/702>Subversion SVN 版本控管</a></li><li><a href=https://legacy.gitbook.com/book/kingofamani/git-teach/details>Git 教學</a></li><li><a href=https://www.ithome.com.tw/news/95283>Git 達人教你搞懂 GitHub 基礎觀念</a></li><li><a href=https://gitbook.tw/>為你自己學 Git</a></li></ol></div><footer class=post__footer><div class="post__tags tags clearfix"><svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5.0 11V3C0 1.5.8.8.8.8S1.5.0 3 0h8c1.5.0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 100-6 3 3 0 000 6z"/></svg><ul class=tags__list><a class=tag href=/tags/%E7%89%88%E6%8E%A7/ rel=tag>版控</a></ul></div></footer><div><p>文章內容均為個人學習記錄、心得與認知，若任何謬誤或建議，歡迎直接留言討論，一同成長。</p></div><iframe class=LikeCoin src="https://button.like.co/in/embed/wosilee/button?referrer=https%3a%2f%2feanlee.github.io%2fpost%2fseries%2fbuild_automated_deploy%2fversion_control%2f" height=200 width=100% frameborder=0></iframe></article></main><nav class="pager flex"><div class="pager__item pager__item--prev"><a class=pager__link href=/post/architecture/talking_system_loading_and_limit/ rel=prev><span class=pager__subtitle>«&#8201;Previous</span><p class=pager__title>聊聊架構 - 系統負載、分流與限制理論</p></a></div></nav><section class=comments><div id=disqus_thread></div><script type=application/javascript>window.disqus_config=function(){},function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById("disqus_thread").innerHTML="Disqus comments not available by default when the website is previewed locally.";return}var t=document,e=t.createElement("script");e.async=!0,e.src="//eanblog.disqus.com/embed.js",e.setAttribute("data-timestamp",+new Date),(t.head||t.body).appendChild(e)}()</script><noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></section></div></div><footer class=footer><div class="container footer__container flex"><div class=footer__copyright>&copy; 2022 伊恩軟體技術學習與分享.
+<span class=footer__copyright-credits>Generated with <a href=https://gohugo.io/ rel="nofollow noopener" target=_blank>Hugo</a> and <a href=https://github.com/Vimux/Mainroad/ rel="nofollow noopener" target=_blank>Mainroad</a> theme.</span></div></div></footer></div><script async defer src=/js/menu.js></script></body></html>
