@@ -8,7 +8,6 @@ categories:
 keywords:
   - Container
   - Docker
-draft: true
 date: 2022-08-19T14:15:18.133Z
 description: 從零開始建立自動化發佈的流水線的系列文中，開始進入 Container 的概念討論。
 ---
