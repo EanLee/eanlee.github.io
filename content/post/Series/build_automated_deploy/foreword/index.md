@@ -66,8 +66,8 @@ lastmod: 2022-07-29T02:22:48.306Z
 
 ### Container
 
+- [部署新境界 - 使用 Container 簡化流程]({{< ref "../container_intro/index.md">}}) 介紹 Container 與 VM 的差異，以及 Docker for Windows 的安裝方式。
 - Docker 與 CI/CD
-- 部署新境界 - 使用 Container 簡化流程
 - Docker
 
 ### 額外補充
