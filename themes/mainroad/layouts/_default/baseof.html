@@ -45,6 +45,15 @@
 		{{ template "_internal/google_analytics_async.html" . }}
 		{{- end }}
 	{{- end }}
+
+	{{ if (findRE "<pre" .Content 1) }}
+    	{{ $syntax := resources.Get "css/syntax.css" | minify }}
+    	<link href="{{ $syntax.RelPermalink }}" rel="stylesheet">
+
+    	{{ $copyCss := resources.Get "css/copy-to-clipboard.css" | minify }}
+    	<link href="{{ $copyCss.RelPermalink }}" rel="stylesheet">
+	{{ end }}
+	
 </head>
 <body class="body">
 	<div class="container container--outer">

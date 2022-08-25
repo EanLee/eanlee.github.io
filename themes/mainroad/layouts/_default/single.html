@@ -9,6 +9,8 @@
 			{{ with partial "post_meta.html" . -}}
 			<div class="post__meta meta">{{ . }}</div>
 			{{- end }}
+
+
 		</header>
 		{{ partial "post_thumbnail.html" (dict "class" "post" "page" .) }}
 		{{- partial "post_toc.html" . -}}
@@ -22,6 +24,10 @@
 		{{- end }}
 		{{ partial "declaration.html" . }}
 		{{ partial "likecoin.html" . }}
+		{{ if (findRE "<pre" .Content 1) }}
+			{{ $jsCopy := resources.Get "js/copy-code-Clipboard.js"  }}
+			<script src="{{ $jsCopy.RelPermalink }}"></script>
+		{{ end }}
 	</article>
 </main>
 {{ partial "authorbox.html" . }}
