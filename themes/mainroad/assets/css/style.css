@@ -297,7 +297,7 @@ code {
 pre {
 	display: block;
 	padding: 0;
-	padding: 1.25rem;
+	padding: 10px 1.15rem;
 	margin-bottom: 20px;
 	margin-bottom: 1.25rem;
 	overflow: auto;
