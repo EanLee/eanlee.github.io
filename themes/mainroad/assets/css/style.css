@@ -297,7 +297,7 @@ code {
 pre {
 	display: block;
 	padding: 0;
-	padding: 1.25rem;
+	padding: 10px 1.15rem;
 	margin-bottom: 20px;
 	margin-bottom: 1.25rem;
 	overflow: auto;
@@ -323,8 +323,8 @@ blockquote {
 	padding: 5px 10px 5px 15px;
 	margin: 0 0 1.25rem;
 	line-height: 1.6;
-	border: 1px solid {{ $highlightColor }};
-	border-left: 5px solid {{ $highlightColor }};
+	background-color: #e1f1e7;
+	border-left: 5px solid #B97687;
 }
 
 blockquote p:last-child {

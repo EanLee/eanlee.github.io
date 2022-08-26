@@ -25,15 +25,15 @@ docker --version
 docker version
 ```
 
-![docker_cmd_version](docker_cmd_version.png)
+![Docker version](docker_version.png)  
 
 ### Image
 
-在建立運行服務的 Container 時，一定要指定使用的 Image。Docker 才有辦法建立基於 image(定義) 的 container(程序)。所以說 Image 是 Docker 的核心，也不為過。
+在建立運行服務的 Container 時，一定要指定使用的 Image。Docker 才有辦法建立基於 Image 的 Container。所以說 Image 是 Docker 的核心，也不為過。
 
 可以使用 `docker image --help` 查詢所有與 Image 相關的操作。
 
-![cmd_image](cmd_image.png)
+![docker image --help](docker_image_help.png)  
 
 雖然操作 Image 的指令很多，但最常用的指令有四種。
 
@@ -117,18 +117,27 @@ docker start [CONTAINER ID]
 docker container start [CONTAINER ID]
 ```
 
-假若要執行的 container 己經存在，可以運用 `start` 來啟動己經停止的 container。在 命令中的 CONTAINER，可以輸入 **CONTAINER ID** 或 **Name**。
+假若要執行的 container 己經存在，可以運用 `start` 來啟動己經停止的 container。在下圖可以發現的狀態有所變動。
 
-![cmd_container_start](cmd_container_start.png)
+![docker container start](docker_container_start.png)  
+
+若看到己經執行完成的 container 一直存在清單之中，覺得怪不舒服。可以用 `docker conatiner prune` 將一口氣已停止的 container 刪除。
+
+下這個指令，請**務必、務必、務必確認已停止的 Container 沒有需要保留，不然清除後可是救不回來的。**
 
 ``` docker
+# remove stopped container
+docker conatiner prune
+```
+
+![container prune](docker_container_prune.png)  
+
+相同的，如果要一口氣移除無用的 container、Volume、Network，則可以使用 `docker system prune`。
+
+``` powershell
 # remove unused data
 docker system prune
 ```
-
-若看到己經執行完成的 container 一直存在清單之中，覺得怪不舒服。可以用 `docker system prune` ，將沒有使用的 container 刪除。
-
-![cmd_system_prune](cmd_system_prune.png)
 
 ## 建立 Docker Image
 
@@ -152,7 +161,6 @@ Eric:
 Docker 在建立 image 時，會依據 `dockerfile` 的內容來進行建製的。而 `dockerfile` 就是 YAML 格式撰寫的指令檔。其中記錄使用者在編譯 docker image 時，所有的 **命令列 (Command-Line)**。
 
 筆者個人認為，dockerfile 最重要的 `FORM`、`COPY`、`RUN`、`CMD` 正好對應 docker image 從建立到執行的四階段。
-
 
 #### 初始設定
 
@@ -322,8 +330,6 @@ volumes:
 
 從這個範例中，可以看到 **docker-compose.yml 的內容，是以 YAML 格式撰寫。** 包含 compose file 格式的版本、服務內的 container 設定，以及執行環境的設制。
 
-
-
 關於 compose file 內的指令語法，還有許多未能說明的。真的有需求或興趣，可以直接到 Docker 的文件庫內查看。
 
 ``` Plan
@@ -341,9 +347,8 @@ Eric:
 
 ### Docker Command
 
-1. [Docker Documentatin](https://docs.docker.com/)
-2. [全面易懂的Docker指令大全](https://legacy.gitbook.com/book/joshhu/dockercommands/details)
-3. [Docker —— 从入门到实践](https://legacy.gitbook.com/book/yeasy/docker_practice)
+1. [全面易懂的Docker指令大全](https://legacy.gitbook.com/book/joshhu/dockercommands/details)
+2. [Docker —— 从入门到实践](https://legacy.gitbook.com/book/yeasy/docker_practice)
 
 ### Dockerfile
 
