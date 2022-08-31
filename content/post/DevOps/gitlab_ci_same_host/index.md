@@ -1,5 +1,5 @@
 ---
-title: GitLab CI 實作記錄 - 使用 Docker 在同台主機運行 Gitlab 與 Gitlab-Runner 
+title: GitLab CI 實作記錄 - 使用 Docker 在同台主機運行 GitLab 與 GitLab-Runner
 tags:
   - GitLab
 categories:
@@ -7,10 +7,11 @@ categories:
 keywords:
   - Docker
   - GitLab
-  - Gitlab Runner
+  - GitLab Runner
   - DevOps
 draft: true
-date: 2022-08-13T05:51:03.669Z
+date: 2022-08-31T15:58:45.335Z
+description: 在本機同時使用 Docker 建立 GitLab 與 GitLab-Runner 時，在設定上遇到很多小眉腳。特別記錄下來，減少其他人撞牆的情況。
 ---
 
 最近因為業務需求，必需在私有環境架設版控平台，並需要 CI/CD 的功能。
@@ -20,12 +21,22 @@ date: 2022-08-13T05:51:03.669Z
 為了減少架設的複雜性，所以選擇使用 GitLab 的 Docker Image 來建立服務。此次使用的軟體版本如下
 
 - OS: Windows 11
-- Gitlab Server: GitLab CE Community  15.0.4-ce.0
-- Gitlab Runner ver.1.5.1
+- GitLab Server: GitLab CE Community  15.0.4-ce.0
+- GitLab Runner ver.1.5.1
+
+📣 TL;DR
+
+在同一台機器內，使用 Dokcer 同時架設 GitLab 與 GitLab-Runner 有一些地方要注意。
+
+- 若 GitLab Runner 使用 Docker Executor，需要指定使用的網路。
+- 若 GitLab 使用 `localhost`，註冊 GitLab-Runner 時，需特別指定 `clone_url`。
+- 若 GitLab 若不是使用 80 Port，務必依官方建議作法，可以減少很多麻煩。
+- Docker network 的部份要特別小心。
+
 
 <!--more-->
 
-## 建立 Gitlab Server
+## 建立 GitLab Server
 
 一開始直接參考網路文章內的指令，建立的指令如下
 
@@ -70,7 +81,7 @@ docker run --detach \
   gitlab/gitlab-ee:latest
 ```
 
-在 Gitlab 的 Container 建立時，預設使用 22、80、443 三個 Port。
+在 GitLab 的 Container 建立時，預設使用 22、80、443 三個 Port。
 
 - Port 443 是 HTTPS (TLS) 使用
 - Port 80 是 HTTP 使用
@@ -93,8 +104,8 @@ docker run --detach \
   --name gitlab \
   --restart always \
   --volume gitlab_data:/etc/gitlab \
-  --volume gitlab_opt:/var/log/gitlab \
-  --volume gitlab_log:/var/opt/gitlab \
+  --volume gitlab_log:/var/log/gitlab \
+  --volume gitlab_opt:/var/opt/gitlab \
   --shm-size 256m gitlab/gitlab-ee:latest
 ```
 
@@ -108,7 +119,7 @@ docker run --detach \
 
 針對使用不同的 Port，官方建議的設定作法可見 [非預設-80-port-的建議作法](#非預設-80-port-的建議作法)。
 
-## 註冊 Gitlab-Runner
+## 註冊 GitLab-Runner
 
 首先使用 GitLab-Runner 的 Docker Image，將 Runner 的服務架設起來。
 
@@ -125,14 +136,14 @@ docker run -d \
   gitlab/gitlab-runner:latest
 ```
 
-接著，向 Gitlab Server 註冊 Giblab-Runner，讓 GitLab 知道有那些 Runner 可以使用。
+接著，向 GitLab Server 註冊 Giblab-Runner，讓 GitLab 知道有那些 Runner 可以使用。
 
 ``` powershell
 # 進行 Runner 註冊
 docker exec -it gitlab-runner gitlab-runner register
 ```
 
-在註冊過程中，會有訊息提供，要求依序輸入 `GitLab Url`、`Token`、`Runner 的描述`、`Runner's tags`、`Runner's maintain note`、`Executer` 等資訊。
+在註冊過程中，會有訊息提供，要求依序輸入 `GitLab Url`、`Token`、`Runner 的描述`、`Runner's tags`、`Runner's maintain note`、`Executor` 等資訊。
 
 在 GitLab 的 Runner 可註冊為共用的 `Shared Runner` 或傞供專案本身使用的 `Runner`。
 
@@ -142,7 +153,7 @@ docker exec -it gitlab-runner gitlab-runner register
 
 ⚠️ 在註冊過程中，會發生會發生 `connect refuse` 的問題。
 
-![runner registory fail: connect refuse](WindowsTerminal_20220815_151135_8g5d4.png)
+![runner registory fail: connect refuse](runnerj_register_failed.png)
 
 從上面可以看到 `連線到 127.0.0.1:8080 被拒` 的異常訊息，若對 docker network 概念不熟悉的話，可能會在這邊卡住，無法理解，為何無法連線？
 
@@ -157,13 +168,13 @@ docker exec -it gitlab-runner gitlab-runner register
 🔲 硬幹型作法:
 
 ``` powershell
-# 顯示 Gitlab 的網路設定
+# 顯示 GitLab 的網路設定
 docker inspect -f '{{json .NetworkSettings.Networks}}' gitlab
 ```
 
 ![network setting of gitlab container](gitlab_container_networkSetting.png)  
 
-發現 Gitlab container 在 Bridge 內配的 IP 為 `172.17.0.2`，Gateway 為 `172.17.0.1`，在註冊 Runner 時，`Gitlab Url` 位置的設定方式有兩種
+發現 GitLab container 在 Bridge 內配的 IP 為 `172.17.0.2`，Gateway 為 `172.17.0.1`，在註冊 Runner 時，`GitLab Url` 位置的設定方式有兩種
 
 - 使用 IP: 因為 GitLab 預設使用 80 Port，直接輸入 `http://172.17.0.2`，就可以成功從 GitLab-Runner 連入 GitLab。
 - 使用 Gateway: 輸入 `http://172.17.0.1:8080/`。簡單來說，Bridge 會依據 Container 建立時的設定，傳導至 GitLab Continer。這邊原理比較複雜，再另外說明。
@@ -176,7 +187,7 @@ docker inspect -f '{{json .NetworkSettings.Networks}}' gitlab
 
 ☑ 標準的作法(建議):
 
-若使用預設的 Bridge 網路，Container 若要與另一個 Container 建立遦線，只能使用 IP 的方式。
+若使用預設的 Bridge 網路，Container 若要與另一個 Container 建立連線，只能使用 IP 的方式。
 
 [官方文件](https://docs.docker.com/network/bridge/#use-the-default-bridge-network)中也提到，使用自定義的 Bridge 網路 (User-defined bridge networks) 優於 default bridge，同時有以下幾點好處。
 
@@ -194,7 +205,7 @@ docker network create --driver bridge gitlab-network
 
 若是 Container 還沒建立之前，可在建立 Container 時，加入參數 `--network gitlab-network`。
 
-由於先前已建立 `Gitlab` 與 `Gitlab-Runner` 兩個 Container，所以接下來要變更這兩個 Container 使用的網路設定。
+由於先前已建立 `GitLab` 與 `GitLab-Runner` 兩個 Container，所以接下來要變更這兩個 Container 使用的網路設定。
 
 ``` powershell
 # 停止 Contianer
@@ -209,7 +220,7 @@ docker network disconnect bridge gitlab
 docker network disconnect bridge gitlab-runner
 ```
 
-此次再檢視預設 Bridge 網路的內容，可以發現 Gitlab 與 Gitlab-Runner 兩個 Container 已不在其中。
+此次再檢視預設 Bridge 網路的內容，可以發現 GitLab 與 GitLab-Runner 兩個 Container 已不在其中。
 
 ![default gridge network](default_gridge_network_nouse.png)
 
@@ -217,11 +228,11 @@ docker network disconnect bridge gitlab-runner
 
 ![User-Defined gridge network](user-define-bridge-network.png)  
 
-再次進行 Runner 的註冊時，`Gitlab Url` 就可以使用 DNS 的方式指到 Gitlab Container。
+再次進行 Runner 的註冊時，`GitLab Url` 就可以使用 DNS 的方式指到 GitLab Container。
 
 ![runner registory success](runner_register_success_2.png)
 
-⚠️ 補充：在 Gitlab-Runner 的 Container 內，`/etc/hosts` 內已定義 `localhost`，所以在註冊時使用 localhost 必定會失敗。
+⚠️ 補充：在 GitLab-Runner 的 Container 內，`/etc/hosts` 內已定義 `localhost`，所以在註冊時使用 localhost 必定會失敗。
 
 ## 非預設 80 Port 的建議作法
 
@@ -245,7 +256,7 @@ docker run --detach \
 在啟動 Container 後，接著進入 Container 內，進行 `etc\gitlab\gitlab.rb` 的調整。
 
 ``` bash
-# 執行 Gitlab's Container 內的 bash，並與其互動
+# 執行 GitLab's Container 內的 bash，並與其互動
 docker exec -it gitlab /bin/bash
 ```
 
@@ -266,9 +277,9 @@ gitlab_rails['gitlab_shell_ssh_port'] = 2289
 gitlab-ctl reconfigure
 ```
 
-## 使用 Docker-compose 直接在本機建立 Gitlab Server 與 Runner
+## 使用 Docker-compose 直接在本機建立 GitLab Server 與 Runner
 
-``` dockerfile
+``` yml
 # docker-compose.yml
 version: '3.7'
 services:
@@ -310,14 +321,13 @@ networks:
 docker-compse -d up
 ```
 
+## 進行 GitLab CI 測試
 
-## 進行 Gitlab CI 測試
-
-接著，來撰寫 Gitlab CI 的執行腳本。到 `CI/CD > Editor` 內進行 `.gitlab-ci.yml` 的編輯，我們直接使用預設產生的內容進行測試。
+接著，來撰寫 GitLab CI 的執行腳本。到 `CI/CD > Editor` 內進行 `.gitlab-ci.yml` 的編輯，我們直接使用預設產生的內容進行測試。
 
 ![CD/CD Editor](gitlab_ci_editor.png)  
 
-此時會發現 CI 卡住。一直在 `Pending`，這是因為 `.gitlab-ci.yml` 內未指定 Runner Tag，Gitlab CI 找不到可以用的 Runner。
+⚠️ 此時會發現 CI 卡住。一直在 `Pending`，這是因為 `.gitlab-ci.yml` 內未指定 Runner Tag，GitLab CI 找不到可以用的 Runner。
 
 ![CI Pending](ci_pending.png)
 ![CI Pending 2](ci_pending_2.png)
@@ -327,29 +337,44 @@ docker-compse -d up
 ![runner edit](gitlab_setting_runner_edit.png)  
 ![runner edit](edit_runner_untagged.png)
 
-接著再 Redo 之前的 CI Job，還是發生錯誤。
+接著 Redo 之前的 CI Job，還是發生錯誤。
 
 ![can't pull git](cannot_pull_git.png)  
 
-Runner 拉取 git 的路徑不正確，所以無法成功從 gitlab 拉 code 下來。
+⚠️ Runner 回應 git 的路徑不正確，無法連線。因此，需要額外在 GitLab-runner 的 `etc\gitlab-runner\config.toml` 中，加入參數 `clone-url`。
 
-因此，需要額外在 Gitlab-runner 的 `etc\gitlab-runner\config.toml` 中，加入參數 `clone-url`。
+![add clone url](clone_url.png)  
 
-![add colone url](clone_url.png)  
-
-調整完成後，記得要重置 Gitlab-Runner。
+調整完成後，記得要重置 GitLab-Runner。
 
 ``` bash
 # 重置 gitlab-runner，套用變更的設定
 gitlab-runner restart
 ```
 
+接著 Redo 之前的 CI Job，持續發生錯誤。
 
-## 小結
+![Can't reslove host](gitlab_job_fail_not_resolve_host.png)
 
-### 注意事項
+此時的錯誤是無法 Runner 無法解析 DNS。若是 GitLab-runner 的 Executor 指定 Docker，必須告知 Docker Executor 使用的網路。
 
-1. localhost
+在 `etc\gitlab-runner\config.toml` 的 `runners.docker` 加入 `network_mode` 後，記得要重置 GitLab-Runner。
+
+![add netowrk_mode ](add_docker_runner_network.png)
+
+再 Redo 之前的 CI Job，終於成功了。
+
+![CI success](gitlab_ci_job_success.png)
+
+若不想要進到 config.toml 進行參數的調整，也可以在註冊 Runner 加入參數 `--clone-url` 與 `--docker-network-mode` 的參數。
+
+``` powershell
+# 註冊 GitLab-Runner 時，傳入參數
+docker exec -it gitlab-runner gitlab-runner register \
+  --clone-url [gitlab-host]
+  --executor docker \
+  --docker-network-mode [network-name]
+```
 
 ## 補充資料
 
@@ -364,4 +389,5 @@ gitlab-runner restart
 
 ### 參考資料
 
-- Stackverflow, [This job is stuck, because the project doesn't have any runners online assigned to it. Go to Runners page](https://stackoverflow.com/questions/53370840/sthis-job-is-stuck-because-the-project-doesnt-have-any-runners-online-assigned)
+- Stackoverflow, [This job is stuck, because the project doesn't have any runners online assigned to it. Go to Runners page](https://stackoverflow.com/questions/53370840/sthis-job-is-stuck-because-the-project-doesnt-have-any-runners-online-assigned)
+- Stackoverflow, [GitLab runner docker Could not resolve host](https://stackoverflow.com/questions/50325932/gitlab-runner-docker-could-not-resolve-host)
