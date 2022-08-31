@@ -1,4 +1,19 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>DevOps on 伊恩的開發狂想</title><link>https://eanlee.github.io/categories/devops/</link><description>Recent content in DevOps on 伊恩的開發狂想</description><generator>Hugo -- gohugo.io</generator><language>zh-tw</language><lastBuildDate>Fri, 19 Aug 2022 14:15:18 +0000</lastBuildDate><atom:link href="https://eanlee.github.io/categories/devops/index.xml" rel="self" type="application/rss+xml"/><item><title>部署新境界 - 使用 Container 簡化流程</title><link>https://eanlee.github.io/post/series/build_automated_deploy/container_intro/</link><pubDate>Fri, 19 Aug 2022 14:15:18 +0000</pubDate><guid>https://eanlee.github.io/post/series/build_automated_deploy/container_intro/</guid><description>&lt;blockquote>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>DevOps on 伊恩的開發狂想</title><link>https://eanlee.github.io/categories/devops/</link><description>Recent content in DevOps on 伊恩的開發狂想</description><generator>Hugo -- gohugo.io</generator><language>zh-tw</language><lastBuildDate>Wed, 31 Aug 2022 15:58:45 +0000</lastBuildDate><atom:link href="https://eanlee.github.io/categories/devops/index.xml" rel="self" type="application/rss+xml"/><item><title>GitLab CI 實作記錄 - 使用 Docker 在同台主機運行 GitLab 與 GitLab-Runner</title><link>https://eanlee.github.io/post/devops/gitlab_ci_same_host/</link><pubDate>Wed, 31 Aug 2022 15:58:45 +0000</pubDate><guid>https://eanlee.github.io/post/devops/gitlab_ci_same_host/</guid><description>&lt;p>最近因為業務需求，必需在私有環境架設版控平台，並需要 CI/CD 的功能。&lt;/p>
+&lt;p>在朋友的推薦下，開始初次使用 GitLab。因為對 GitLab 的架設與設定還不熟悉，所以先在本機進行 POC 測試。&lt;/p>
+&lt;p>為了減少架設的複雜性，所以選擇使用 GitLab 的 Docker Image 來建立服務。此次使用的軟體版本如下&lt;/p>
+&lt;ul>
+&lt;li>OS: Windows 11&lt;/li>
+&lt;li>GitLab Server: GitLab CE Community 15.0.4-ce.0&lt;/li>
+&lt;li>GitLab Runner ver.1.5.1&lt;/li>
+&lt;/ul>
+&lt;p>📣 TL;DR&lt;/p>
+&lt;p>在同一台機器內，使用 Dokcer 同時架設 GitLab 與 GitLab-Runner 有一些地方要注意。&lt;/p>
+&lt;ul>
+&lt;li>若 GitLab Runner 使用 Docker Executor，需要指定使用的網路。&lt;/li>
+&lt;li>若 GitLab 使用 &lt;code>localhost&lt;/code>，註冊 GitLab-Runner 時，需特別指定 &lt;code>clone_url&lt;/code>。&lt;/li>
+&lt;li>若 GitLab 若不是使用 80 Port，務必依官方建議作法，可以減少很多麻煩。&lt;/li>
+&lt;li>Docker network 的部份要特別小心。&lt;/li>
+&lt;/ul></description></item><item><title>部署新境界 - 使用 Container 簡化流程</title><link>https://eanlee.github.io/post/series/build_automated_deploy/container_intro/</link><pubDate>Fri, 19 Aug 2022 14:15:18 +0000</pubDate><guid>https://eanlee.github.io/post/series/build_automated_deploy/container_intro/</guid><description>&lt;blockquote>
 &lt;p>&lt;a href="https://eanlee.github.io/post/series/build_automated_deploy/foreword/#Container">從零開始建立自動化發佈的流水線&lt;/a> Container 篇&lt;/p>
 &lt;/blockquote>
 &lt;p>當系統需要重新建置後，會發現建置的過程與步驟煩雜，甚至每次安裝都會發生不同的問題，不管使用虛擬機或是實體機。&lt;/p>
