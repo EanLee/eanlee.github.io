@@ -9,7 +9,6 @@ keywords:
   - GitLab
   - GitLab Runner
   - DevOps
-draft: true
 date: 2022-08-31T15:58:45.335Z
 description: 在本機同時使用 Docker 建立 GitLab 與 GitLab-Runner 時，在設定上遇到很多小眉腳。特別記錄下來，減少其他人撞牆的情況。
 ---
