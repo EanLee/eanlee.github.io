@@ -317,6 +317,7 @@ networks:
 ```
 
 ``` powershell
+# 使用 docker-compose.yml 啟動 Container
 docker-compse -d up
 ```
 
