@@ -11,6 +11,7 @@ keywords:
   - DevOps
 date: 2022-08-31T15:58:45.335Z
 description: 在本機同時使用 Docker 建立 GitLab 與 GitLab-Runner 時，在設定上遇到很多小眉腳。特別記錄下來，減少其他人撞牆的情況。
+lastmod: 2022-09-06T07:19:58.242Z
 ---
 
 最近因為業務需求，必需在私有環境架設版控平台，並需要 CI/CD 的功能。
@@ -32,12 +33,11 @@ description: 在本機同時使用 Docker 建立 GitLab 與 GitLab-Runner 時，
 - 若 GitLab 若不是使用 80 Port，務必依官方建議作法，可以減少很多麻煩。
 - Docker network 的部份要特別小心。
 
-
 <!--more-->
 
 ## 建立 GitLab Server
 
-一開始直接參考網路文章內的指令，建立的指令如下
+一開始，直接採用網路文章的方法，進行 GitLab 的建置，確實很快的完成建置動作。
 
 ``` powershell
 # 不建議直接使用，後續進行 Git Clone 會出現網址的問題
@@ -46,7 +46,7 @@ docker run -d --name gitlab -p 8080:80 --restart always gitlab/gitlab-ce
 
 ![GitLab sign-in](gitlab_sigin_in.png)  
 
-確實很快的建立好 GitLab 服務，此時會遇到第一個問題，就是不知道登入的密碼是什麼？
+此時會遇到第一個問題，就是不知道登入的密碼是什麼？
 
 因為使用 Docker 建立出來的 GitLab，`root` 預設密碼並不是 ~~`5iveL! fe`~~。需要使用下述指令取得 Continer 內，預設的 `root`的密碼。
 
