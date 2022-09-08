@@ -156,11 +156,18 @@ Test-Connection [target-server-ip]
 
 ![Enter-PSSession: Connecting to remote server failed](enter_pssession_connect_failed.png)
 
+![acquiring creds with username only failed An invalid name was supplied SPNEGO cannot find mechanisms to negotiate](enter_pssession_spnego.png)  
+
+### 中斷連線
+
 ## 參考資料
 
-- [How to Create a PowerShell Session on a Remote Computer](https://www.faqforge.com/windows/create-powershell-session-remote-computer/)
-- [Enable and Use Remote Commands in Windows PowerShell](https://docs.microsoft.com/en-us/previous-versions/technet-magazine/ff700227(v=msdn.10)?redirectedfrom=MSDN)
-- [使用 WinRM 的 PowerShell 遠端安全性考量](https://docs.microsoft.com/zh-tw/powershell/scripting/learn/remoting/winrmsecurity?view=powershell-7.2)
-- [Enter-PSSession](https://docs.microsoft.com/zh-tw/powershell/module/microsoft.powershell.core/enter-pssession?view=powershell-7.2)
+- FAQforge, [How to Create a PowerShell Session on a Remote Computer](https://www.faqforge.com/windows/create-powershell-session-remote-computer/)
+- Microsoft, [Enable and Use Remote Commands in Windows PowerShell](https://docs.microsoft.com/en-us/previous-versions/technet-magazine/ff700227(v=msdn.10)?redirectedfrom=MSDN)
+- Microsoft, [使用 WinRM 的 PowerShell 遠端安全性考量](https://docs.microsoft.com/zh-tw/powershell/scripting/learn/remoting/winrmsecurity?view=powershell-7.2)
+- Microsoft, [Enter-PSSession](https://docs.microsoft.com/zh-tw/powershell/module/microsoft.powershell.core/enter-pssession?view=powershell-7.2)
+- TheITBros.com, [How to Run PowerShell Script on Remote Computer?](https://theitbros.com/run-powershell-script-on-remote-computer/)
+- KimConnect.com, [Linux: Enable PowerShell Remoting WinRM Client on Ubuntu 20.04](https://kimconnect.com/linux-enable-powershell-remoting-winrm-client-on-ubuntu-20-04/)
+- [Running PowerShell from Linux to Query SMB Shares in NetApp ONTAP](https://whyistheinternetbroken.wordpress.com/2021/05/06/running-powershell-from-linux-to-query-smb-shares-in-netapp-ontap/)
 
 有時候不是做不到, 而是你的思考模式卡住了。也許轉個角度，轉個方向，就找到解答了。
