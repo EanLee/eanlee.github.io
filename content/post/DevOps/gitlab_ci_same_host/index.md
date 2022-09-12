@@ -371,7 +371,7 @@ gitlab-runner restart
 ``` powershell
 # 註冊 GitLab-Runner 時，傳入參數
 docker exec -it gitlab-runner gitlab-runner register \
-  --clone-url [gitlab-host]
+  --clone-url [gitlab-host] \
   --executor docker \
   --docker-network-mode [network-name]
 ```
@@ -380,11 +380,11 @@ docker exec -it gitlab-runner gitlab-runner register \
 
 ### 延伸閱讀
 
+- 艦長，你有事嗎？, [GitLab CI 之 Runner 的 Executor 該如何選擇？](https://chengweichen.com/2021/03/gitlab-ci-executor.html)
+- datawookie, [Install GitLab Runner with Docker](https://datawookie.dev/blog/2021/03/install-gitlab-runner-with-docker/)
 - SALMON'S BLOG, [註冊 GitLab Runner](https://blog.salmon.tw/2018/05/08/%E8%A8%BB%E5%86%8A%20GitLab%20Runner/)
 - Rick's Blog, [利用 Docker 建置 GitLab + GitLab Runner](https://www.rickjiang.dev/blog/gitlab-and-gitlab-runner-with-docker)
-- 艦長，你有事嗎？, [GitLab CI 之 Runner 的 Executor 該如何選擇？](https://chengweichen.com/2021/03/gitlab-ci-executor.html)
 - Patrycjusz Czerniga, [How to install GitLab using Docker Compose?](https://www.czerniga.it/2021/11/14/how-to-install-gitlab-using-docker-compose/)
-- datawookie, [Install GitLab Runner with Docker](https://datawookie.dev/blog/2021/03/install-gitlab-runner-with-docker/)
 - MIRANTIS, [Exploring Scalable, Portable Docker Swarm Container Networks](https://docs.mirantis.com/containers/v3.0/dockeree-ref-arch/networking/scalable-container-networks.html)
 
 ### 參考資料
