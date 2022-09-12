@@ -9,8 +9,8 @@ keywords:
   - GitLab
   - Gitlab Runner
   - DevOps
-draft: true
-date: 2022-08-13T05:51:03.669Z
+date: 2022-09-12T02:16:34.083Z
+description: 在上一篇文章，已經成功在本機建立好 GitLab CI 的環境了，接下來，改在私用的環境，將 GitLab CI 與 Runner 分別建立，並讓 GitLab CI 順利運行。
 ---
 
 延續上一篇 [GitLab CI 實作記錄 - 使用 Docker 在同台主機運行 GitLab 與 GitLab-Runner]({{< ref "../gitlab_ci_same_host/index.md">}}) 的結果，接著要開始進行 GitLab CI 的環境架設。
@@ -67,20 +67,42 @@ gitlab_log:
 
 GitLab-Runner 的安裝與註冊方式，可參考 [註冊 GitLab-Runner](({{< ref "../gitlab_ci_same_host/index.md##註冊-gitlab-runner">}})) 的操作。
 
-但在這邊，我們需要配合要求，進行一些設定。
+這時，設定好 Runner，並進行 CI/CD 的 Try-run 時，會發生 git clone 失敗的錯誤。
 
-發現無法成功從 gitlab 拉 code 下來。
-所以我們參考官網, 需要額外在 Gitlab-runner 的 etc\gitlab-runner\config.toml 中，加入參數 `clone-url`
+![git clone fail](gitlab_job_fail_not_resolve_host.png)
 
-雖然 GitLab Host 的防火牆，允許特定的外部 IP 與 `172.45.18.0/8` 連入。但 CI Host 的防火牆 Engress Rule 僅允許放行對 GitLab Host Private IP 的連線。
+問題的原因在於網路環境的設定與規劃。
 
-所以在 GitLab Runner 在註冊 Executor 時，需指定使用的 `url` 與 `clone-url` 位置為 GitLab Host 的 Private IP `172.45.20.1`。
+- GitLab Host 的防火牆，允許特定的外部 IP 與 `172.45.18.0/8` 連入。
+- CI Host 的防火牆 Engress Rule 僅允許放行對 GitLab Host Private IP 的連線。
+
+所以 CI Host 是無法直接使用 <https://gitlab.mycode.it> 指向 Gitlab Host 的，所以需要配合環境進行調整。
+
+作法一：Runner 未註冊時，在 GitLab Runner 在註冊 Executor 時，需指定使用的 `url` 與 `clone-url` 位置為 GitLab Host 的 Private IP `172.45.20.1`。
+
+``` bash
+sudo docker exec -it gitlab-runner gitlab-runner register \  
+  --url "http://172.45.20.1" \
+  --clone-url "http://172.45.20.1" 
+```
+
+作法二：若 Runner 已註冊，則到 Gitlab-runner 的 Container 內，在  `etc\gitlab-runner\config.toml` 中，加入參數 `clone-url`
+
+``` toml {hl_lines=[3,6]}
+[[runners]]
+  name = "dotnet-core-3.1"
+  url = "http://172.45.20.1"
+  token = "WxnmFkszXJFiqeQVxy--"
+  executor = "docker"
+  clone_url = "http://172.45.20.1"
+  ...
+```
 
 ### 建立 Runner 的 Executor
 
-我們選擇 Ubuntu 做為 CI 的環境 OS，並在上面架構 Docker
+我們選擇 Ubuntu 做為 CI 的環境 OS，並在上面運行 Docker 版的 Runner 與 Executor。
 
-要特別注意，在 Windwos 的環境下，檔案名稱或路徑的大小寫相同的.
+⚠ 要特別注意，在 Windwos 的環境下，檔案名稱或路徑，無論大小寫，都視為相同。但是在 Linux 環境下，只要任一字元大小寫不同，就會視為不同的東西。
 
 #### 針對 .NET Core 的專案
 
@@ -124,7 +146,7 @@ dev-build-job:       # This job runs in the build stage, which runs first.
 
 但是我們想要統一使用 Docker Executor。
 
-或許，會直覺想到使用 `mcr.microsoft.com/dotnet/framework/sdk:4.8` 作為 Docker of Executor 的 Base Image。
+或許，會直覺想到使用 `mcr.microsoft.com/dotnet/framework/sdk:4.8` 作為 Docker Executor 的 Base Image。
 
 ``` bash
 # 試著在 WSL2 或 Linux Kernal 的環境，執行下述指令
@@ -134,16 +156,18 @@ docker pull mcr.microsoft.com/dotnet/framework/sdk:4.8
 ![no matching manifest for linux/amd64 in the manifest list entries](no_match_manifest.png)  
 
 結果發生 `no matching manifest for linux/amd64 in the manifest list entries` 的錯誤訊息。
-這是因為這個 container 雖然在包好了 `.NET Framework Runtime`、`Visual Studio Build Tools`、`Visual Studio Test Agent`、`NuGet CLI` 等等， 但是它的底層使用的 HOST OS 必需是 windows，所以只要是用使用 WSL2 或是 Linux kernal 的 Docker 均無法使用。
 
-因為我想要使用 Docker  Executor on Linux 的環境，所以這條路不通。
-還好有 mono 的專案，可以提供 .NET Framework 使用於 Linux 之上，所以我們使用 mono 的 docker Image 作為 Executor 的 Base Image。([Docker Hub](https://hub.docker.com/_/mono/tags))
+雖然 `mcr.microsoft.com/dotnet/framework/sdk:4.8` 已經整合好 `.NET Framework Runtime`、`Visual Studio Build Tools`、`Visual Studio Test Agent`、`NuGet CLI` 等等， 但是它的底層使用的 HOST OS 必需是 windows，所以只要是用使用 WSL2 或是 Linux kernal 的 Docker 均無法使用。
+
+因為規劃是使用 Docker Executor on Linux 的環境，所以這條路不通。
+
+還好有 mono 的專案，可以提供 .NET Framework 使用於 Linux 之上，所以改用 mono 的 docker Image 作為 Executor 的 Base Image。([Docker Hub](https://hub.docker.com/_/mono/tags))
 
 ``` powershell
 docker pull mono:latest
 ```
 
-首先，我們先註冊一個 `mono` 的 docker Executor，接著，來撰寫 `.gitlab-ci.yml`
+首先註冊一個使用 `mono` 的 docker Executor。
 
 ``` bash
 sudo docker exec -it gitlab-runner gitlab-runner register \  
@@ -159,7 +183,7 @@ sudo docker exec -it gitlab-runner gitlab-runner register \
   --run-untagged="true"
 ```
 
-再來，就就是撰寫 `.gitlab-ci.yml` 的時候了。
+再來，就是撰寫 `.gitlab-ci.yml` 的時候了。
 
 ``` yml
 # .gitlab-ci.yml
@@ -178,6 +202,30 @@ build-job:       # This job runs in the build stage, which runs first.
 
 ### Executor 使用自建的 Image
 
+若是 Docker Executor 所使用的 Image，想要使用 `自行建立` 或是 `先使用本地已存圶` 的 Image，就必需在 `etc\gitlab-runner\config.toml` 的 [runners.docker] 內，加入 `pull_policy = ["if-not-present"]`。
+
+``` toml {hl_lines=[15]}
+[[runners]]
+  name = "dotnet-core-3.1"
+  url = "http://172.45.20.1"
+  token = "WxnmFkszXJFiqeQVxy--"
+  executor = "docker"
+  clone_url = "http://172.45.20.1"
+  [runners.docker]
+    tls_verify = false
+    image = "mcr.microsoft.com/dotnet/sdk:3.1"
+    privileged = false
+    disable_entrypoint_overwrite = false
+    oom_kill_disable = false
+    disable_cache = false
+    volumes = ["/cache"]
+    pull_policy = ["if-not-present"]
+    shm_size = 0
+```
+
+讓 Docker Executor 知道，若使用的 Image 本地已存在，就直接使用本地的 Image，若不存在，Runner 則會嘗試去拉取 Image。
+
+順帶一提，`pull_policy` 有 `never`, `if-not-present` 與 `always` 三種，若是沒有特別設定，預設用 `always`。
 
 ## 補充資料
 
@@ -186,6 +234,7 @@ build-job:       # This job runs in the build stage, which runs first.
 - iThome, [Mono 搭起 Linux 與.NET 的橋樑](https://www.ithome.com.tw/tech/29006)
 - GitHub, [mono/docker](https://github.com/mono/docker)
 - GitLab, [One-line registration command](https://docs.gitlab.com/runner/register/#one-line-registration-command)
+- GitLab, [The Docker executor](https://docs.gitlab.com/runner/executors/docker.htm)
 
 ### 參考資料
 
