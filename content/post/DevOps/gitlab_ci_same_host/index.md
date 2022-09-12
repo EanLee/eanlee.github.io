@@ -1,5 +1,5 @@
 ---
-title: GitLab CI 實作記錄 - 使用 Docker 在同台主機運行 GitLab 與 GitLab-Runner
+title: GitLab CI 實作記錄(1) - 使用 Docker 在同台主機運行 GitLab 與 GitLab-Runner
 tags:
   - GitLab
 categories:
@@ -11,7 +11,7 @@ keywords:
   - DevOps
 date: 2022-08-31T15:58:45.335Z
 description: 在本機同時使用 Docker 建立 GitLab 與 GitLab-Runner 時，在設定上遇到很多小眉腳。特別記錄下來，減少其他人撞牆的情況。
-lastmod: 2022-09-06T07:19:58.242Z
+lastmod: 2022-09-12T02:20:15.338Z
 ---
 
 最近因為業務需求，必需在私有環境架設版控平台，並需要 CI/CD 的功能。
