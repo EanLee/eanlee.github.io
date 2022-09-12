@@ -1,4 +1,10 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>伊恩的開發狂想</title><link>https://eanlee.github.io/</link><description>Recent content on 伊恩的開發狂想</description><generator>Hugo -- gohugo.io</generator><language>zh-tw</language><lastBuildDate>Wed, 31 Aug 2022 15:58:45 +0000</lastBuildDate><atom:link href="https://eanlee.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>GitLab CI 實作記錄 - 使用 Docker 在同台主機運行 GitLab 與 GitLab-Runner</title><link>https://eanlee.github.io/post/devops/gitlab_ci_same_host/</link><pubDate>Wed, 31 Aug 2022 15:58:45 +0000</pubDate><guid>https://eanlee.github.io/post/devops/gitlab_ci_same_host/</guid><description>&lt;p>最近因為業務需求，必需在私有環境架設版控平台，並需要 CI/CD 的功能。&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>伊恩的開發狂想</title><link>https://eanlee.github.io/</link><description>Recent content on 伊恩的開發狂想</description><generator>Hugo -- gohugo.io</generator><language>zh-tw</language><lastBuildDate>Mon, 12 Sep 2022 02:16:34 +0000</lastBuildDate><atom:link href="https://eanlee.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>GitLab CI 實作記錄(2) - Gitlab CI 的私有環境建置</title><link>https://eanlee.github.io/post/devops/gitlab_ci_network/</link><pubDate>Mon, 12 Sep 2022 02:16:34 +0000</pubDate><guid>https://eanlee.github.io/post/devops/gitlab_ci_network/</guid><description>&lt;p>延續上一篇 &lt;a href="https://eanlee.github.io/post/devops/gitlab_ci_same_host/">GitLab CI 實作記錄 - 使用 Docker 在同台主機運行 GitLab 與 GitLab-Runner&lt;/a> 的結果，接著要開始進行 GitLab CI 的環境架設。&lt;/p>
+&lt;p>架設的環境&lt;/p>
+&lt;ul>
+&lt;li>Gitlab EE&lt;/li>
+&lt;li>Gitlab Runner ver.1.5.1&lt;/li>
+&lt;li>OS: Ubuntu 20.4&lt;/li>
+&lt;/ul></description></item><item><title>GitLab CI 實作記錄(1) - 使用 Docker 在同台主機運行 GitLab 與 GitLab-Runner</title><link>https://eanlee.github.io/post/devops/gitlab_ci_same_host/</link><pubDate>Wed, 31 Aug 2022 15:58:45 +0000</pubDate><guid>https://eanlee.github.io/post/devops/gitlab_ci_same_host/</guid><description>&lt;p>最近因為業務需求，必需在私有環境架設版控平台，並需要 CI/CD 的功能。&lt;/p>
 &lt;p>在朋友的推薦下，開始初次使用 GitLab。因為對 GitLab 的架設與設定還不熟悉，所以先在本機進行 POC 測試。&lt;/p>
 &lt;p>為了減少架設的複雜性，所以選擇使用 GitLab 的 Docker Image 來建立服務。此次使用的軟體版本如下&lt;/p>
 &lt;ul>
