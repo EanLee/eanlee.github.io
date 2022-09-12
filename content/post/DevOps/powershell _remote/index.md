@@ -9,7 +9,7 @@ keywords:
   - DevOps
   - Powershell
 draft: true
-date: 2022-08-24T10:02:05.023Z
+date: 2022-09-12T06:33:42.991Z
 ---
 
 大致動作流程可分為
@@ -169,5 +169,6 @@ Test-Connection [target-server-ip]
 - TheITBros.com, [How to Run PowerShell Script on Remote Computer?](https://theitbros.com/run-powershell-script-on-remote-computer/)
 - KimConnect.com, [Linux: Enable PowerShell Remoting WinRM Client on Ubuntu 20.04](https://kimconnect.com/linux-enable-powershell-remoting-winrm-client-on-ubuntu-20-04/)
 - [Running PowerShell from Linux to Query SMB Shares in NetApp ONTAP](https://whyistheinternetbroken.wordpress.com/2021/05/06/running-powershell-from-linux-to-query-smb-shares-in-netapp-ontap/)
+- TechThoughts, [PowerShell Remoting](https://www.techthoughts.info/powershell-remoting/)
 
 有時候不是做不到, 而是你的思考模式卡住了。也許轉個角度，轉個方向，就找到解答了。
