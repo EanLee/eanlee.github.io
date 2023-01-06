@@ -106,3 +106,4 @@ keywords:
 ## 延伸閱讀
 
 1. [Introduction (k6.io)](https://k6.io/docs/test-types/introduction/)
+2. [亂聊測試報告的內容]({{< ref "../talking_testing_report/index.md" >}})
