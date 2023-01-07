@@ -156,7 +156,7 @@ textarea {
 	color: #fff;
 	white-space: pre-line;
 	background: #2a2a2a;
-	border-radius: 8px;
+	border-radius: 5px;
 }
 
 .btn:hover {
@@ -168,15 +168,10 @@ textarea {
 {
 	padding: 5px 10px;
 	font-weight: 700;
-	/* color: #fff; */
 	white-space: pre-line;
-	/* background: #2a2a2a; */
-	/* border-radius: calc(36…px/2); */
 }
 
 .readmore-btn:hover {
-	/* color: #fff; */
-	/* background: var(--highlight); */
 	color: var(--highlight);
 }
 
@@ -1014,12 +1009,13 @@ button:not(:-moz-focusring):focus > .menu__btn-title {
 
 /* Pagination */
 .pagination {
-	margin-top: 20px;
+	margin-top: 5px;
+	float: right;
 }
 
 .pagination__item {
 	display: inline-block;
-	padding: 10px 15px;
+	padding: 5px 15px;
 	font-weight: 700;
 	color: #000;
 	background: #f5f5f5;
