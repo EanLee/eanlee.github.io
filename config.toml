@@ -34,17 +34,6 @@ googleAnalytics = "G-4HXSCXTZKZ" # Enable Google Analytics by entering your trac
 
   # DEPRECATED PARAMS
   subtitle = "" # Deprecated in favor of .Site.Params.logo.subtitle
-  highlightColor = "" # Deprecated in favor of .Site.Params.style.vars.highlightColor
-  splitLineColor = ""
-
-[Params.style.vars]
-  highlightColor = "#e22d30" # Override highlight color
-  splitLineColor = "#82B366"
-
-  # Override font-family sets. Secondary font-family set responsible for pre, code, kbd, and samp tags font
-  # Take care of different quotes OR escaping symbols in these params if necessary
-  fontFamilyPrimary = "'Open Sans', Helvetica, Arial, sans-serif"
-  fontFamilySecondary = "SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace"
 
 [Params.logo]
   image = "img/placeholder.png" # Logo image. Path relative to "static"
