@@ -704,14 +704,14 @@ button:not(:-moz-focusring):focus > .menu__btn-title {
 .content a,
 .warning a,
 .authorbox__description a {
-	font-weight: 700;
-	color: var(--highlight);
+	font-weight: 550;
+	color: var(--hyper-link);
 }
 
 .content a:hover,
 .warning a:hover,
 .authorbox__description a:hover {
-	color: var(--highlight);
+	color: var(--hyper-link);
 	text-decoration: underline;
 }
 
