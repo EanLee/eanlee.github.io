@@ -6,7 +6,7 @@
 
 :root{
 	--list-frame:    #E0E0E0;
-	--hyper-link:	 #859289;
+	--hyper-link:	 purple;
 	--highlight: 	 #e22d30;
 	--split-line:	 #82B366;
 
@@ -701,14 +701,15 @@ button:not(:-moz-focusring):focus > .menu__btn-title {
 .content a,
 .warning a,
 .authorbox__description a {
-	font-weight: 550;
+	font-weight: bold;
 	color: var(--hyper-link);
+	margin: 0px 3px;
 }
 
 .content a:hover,
 .warning a:hover,
 .authorbox__description a:hover {
-	color: var(--hyper-link);
+	color: var(--highlight);
 	text-decoration: underline;
 }
 
