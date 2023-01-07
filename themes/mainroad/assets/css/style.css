@@ -6,7 +6,7 @@
 
 :root{
 	--list-frame:    #E0E0E0;
-	--hyper-link:	 #859289;
+	--hyper-link:	 purple;
 	--highlight: 	 #e22d30;
 	--split-line:	 #82B366;
 
@@ -340,11 +340,19 @@ kbd {
 
 blockquote {
 	display: block;
-	padding: 5px 10px 5px 15px;
+	padding: .5rem 20px;
 	margin: 0 0 1.25rem;
-	line-height: 1.6;
-	background-color: #e1f1e7;
-	border-left: 5px solid #B97687;
+	
+	/*Borders - (Optional)*/
+	border: 1px solid var(--dim-green);
+	border-left: 7px solid var(--light-green);
+	border-radius: 4px;
+	background-color: #F5FFF5;
+	  
+	/*Box Shadow - (Optional)*/
+	-moz-box-shadow: 2px 2px 5px #ccc;
+	-webkit-box-shadow: 2px 2px 5px #ccc;
+	box-shadow: 2px 2px 5px #ccc;
 }
 
 blockquote p:last-child {
@@ -701,14 +709,15 @@ button:not(:-moz-focusring):focus > .menu__btn-title {
 .content a,
 .warning a,
 .authorbox__description a {
-	font-weight: 550;
+	font-weight: bold;
 	color: var(--hyper-link);
+	margin: 0px 3px;
 }
 
 .content a:hover,
 .warning a:hover,
 .authorbox__description a:hover {
-	color: var(--hyper-link);
+	color: var(--highlight);
 	text-decoration: underline;
 }
 
@@ -1004,7 +1013,7 @@ button:not(:-moz-focusring):focus > .menu__btn-title {
 
 .list__footer-readmore {
 	float: right;
-	margin-top: 10px;
+	padding: 0px 15px;
 }
 
 /* Pagination */
