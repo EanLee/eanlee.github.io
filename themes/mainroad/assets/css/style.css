@@ -435,7 +435,7 @@ select {
 }
 
 .logo {
-	padding: 25px;
+	padding: 10px 25px;
 }
 
 .logo__link {
@@ -489,7 +489,7 @@ select {
 }
 
 .divider {
-	height: 3px;
+	height: 1px;
 	margin: 0;
 	background: burlywood;
 	border: 0;
