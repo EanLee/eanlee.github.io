@@ -1,31 +1,45 @@
 ---
-title: Docker 指令介紹
+title: Docker 操作簡介 - command / dockerfile / docker-compose
 tags:
   - Container
   - Docker
 categories:
   - DevOps
+  - Container
 keywords:
   - Docker
-  - DevOps
-draft: true
-date: 2022-08-19T14:15:18.133Z
+  - dockerfile
+  - docker-compose
+date: 2023-01-09T01:47:58.097Z
+slug: docker-command
+description: 在順利完成 Docker 的安裝後，接下來就是進一步了解如何操作 Docker 的指令了。但是這樣還不夠，我們還想要一鍵同時啟用多個 container，以及自行建立 Docker Image。
 ---
 
 > [從零開始建立自動化發佈的流水線]({{< ref "../foreword/index.md#Container">}}) Container 篇
+
+在上一篇 [部署新境界 - 使用 Container 簡化流程]({{< ref "../container_intro/index.md">}}) 中，初步了解 Virtual Machine 與 Container 的差異、Docker 的歷史背景與安裝方式。
+
+接下來，讓我們來進一步了解 Docker 相關的指令與操作方式。
 
 <!--more-->
 
 ## Docker command
 
-在確認目前機器上運行的 Docker 版本，可以使用以下指令來進行查詢。其中`docker version` 取回的資料較為詳細。
+``` Plan
+Eric:
+  Docker 成功安裝後，我們試著對 docker 的進行一些基本操作。
+```
+
+若需確認機器上運行的 Docker 版本，可以使用以下指令來進行查詢。
 
 ``` docker
 docker --version
+
+# 取回的資料較為詳細
 docker version
 ```
 
-![Docker version](docker_version.png)  
+![Docker version](Images/docker_version.png)  
 
 ### Image
 
@@ -33,7 +47,7 @@ docker version
 
 可以使用 `docker image --help` 查詢所有與 Image 相關的操作。
 
-![docker image --help](docker_image_help.png)  
+![docker image --help](Images/docker_image_help.png)  
 
 雖然操作 Image 的指令很多，但最常用的指令有四種。
 
@@ -56,13 +70,13 @@ docker rmi IMAGE
 
 接著來實際操作指令，進行 Image 的 查詢、下載、移除等動作。
 
-![docker image ls](docker_cmd_image_ls.png)
+![docker image ls](Images/docker_cmd_image_ls.png)
 
-![docker pull](docker_cmd_pull_image.png)
+![docker pull](Images/docker_cmd_pull_image.png)
 
-![docker image ls](docker_cmd_image_ls_2.png)
+![docker image ls](Images/docker_cmd_image_ls_2.png)
 
-![docker remvoe image](docker_cmd_rm_image_success.png)
+![docker remvoe image](Images/docker_cmd_rm_image_success.png)
 
 ``` docker
 # create/build image
@@ -91,7 +105,7 @@ docker container start [CONTAINER ID]
 
 先前，已經從 Docker Hub 取得 busybox 的 image，接著，我們使用 `docker run busybox` 的方式，告知 Docker Engine ，以 busybox Image 啟動 container。
 
-![docker run](docker_cmd_run.png)  
+![docker run](Images/docker_cmd_run.png)  
 
 在啟動 container 後，可以使用下述的指令，進行確認 container 目前的狀態。
 
@@ -107,7 +121,7 @@ docker ps
 
 這是因為 busybox 在完成動作後，就會直接結束。而 `docker ps` 只會列出執行中的 container。所以必需在加上 `-a` 的參數，要求列出所有的 Container。
 
-![docker container ls](docker_cmd_container_ls.png)
+![docker container ls](Images/docker_cmd_container_ls.png)
 
 ``` bash
 # 啟動已停止的 Container
@@ -119,7 +133,7 @@ docker container start [CONTAINER ID]
 
 假若要執行的 container 己經存在，可以運用 `start` 來啟動己經停止的 container。在下圖可以發現的狀態有所變動。
 
-![docker container start](docker_container_start.png)  
+![docker container start](Images/docker_container_start.png)  
 
 若看到己經執行完成的 container 一直存在清單之中，覺得怪不舒服。可以用 `docker conatiner prune` 將一口氣已停止的 container 刪除。
 
@@ -130,7 +144,7 @@ docker container start [CONTAINER ID]
 docker conatiner prune
 ```
 
-![container prune](docker_container_prune.png)  
+![container prune](Images/docker_container_prune.png)  
 
 相同的，如果要一口氣移除無用的 container、Volume、Network，則可以使用 `docker system prune`。
 
@@ -142,18 +156,14 @@ docker system prune
 ## 建立 Docker Image
 
 ``` Plan
-吉米:
-  Docker 現在也成功安裝與執行了，那接下來的重點，就是把公司現在的服務轉成 Docker Image。
-
 Eric:
-  沒錯，不過接下來的工程有點多，先休息一下，下午再繼續如何？
   現在對 docker 的基本操作，有一定的了解了。但這樣還不能滿足我們的需求。
 
 吉米:
-  是的，必需將我們的軟體轉成 docker image ，這樣才能利用 docker 所提供的服務。
+  那接下來的重點，就是把公司現在的服務轉成 Docker Image，這樣才能利用 Docker 所提供的服務。
 
 Eric:
-  沒錯，我接著來聊聊建立 docker image 的方法，以及 dockerfile 的設定。
+  沒錯，接著來聊聊建立 docker image 的方法，以及 dockerfile 的設定。
 ```
 
 ### Dokcerfile 格式
@@ -174,16 +184,20 @@ Docker 在建立 image 時，會依據 `dockerfile` 的內容來進行建製的�
 
 - `LABLE`
 
-  The `LABEL` instruction adds metadata to an image. A `LABEL` is a key-value pair. To include spaces within a `LABEL` value, use quotes and backslashes as you would in command-line parsing.
+  The `LABEL` instruction adds metadata to an image. A `LABEL` is a key-value pair.
+  
+  To include spaces within a `LABEL` value, use quotes and backslashes as you would in command-line parsing.
 
 - `ENV`
 
-  The `ENV` instruction sets the environment variable `<key>` to the value `<value>`. This value will be in the environment for all subsequent instructions in the build stage and can be [replaced inline](https://docs.docker.com/engine/reference/builder/#environment-replacement) in many as well.
+  `ENV` 使用 key-value 的結構，來設定 Container 所使用的環境變數。
+  
+  This value will be in the environment for all subsequent instructions in the build stage and can be [replaced inline](https://docs.docker.com/engine/reference/builder/#environment-replacement) in many as well.
 
 #### 配置
 
 - 程式的配置
-  - COPY` 複制檔案或資料夾到 container 的檔案系統內。**
+  - `COPY` 複制檔案或資料夾到 container 的檔案系統內。
 
     ```dockerfile
     FROM <image> [AS <name>]
@@ -214,32 +228,30 @@ Docker 在建立 image 時，會依據 `dockerfile` 的內容來進行建製的�
 
 - `RUN` builds your application with `make`.
 
-  RUN指令將在當前圖像之上的新圖層中執行任何命令並提交結果。 生成的已提交映像將用於Dockerfile中的下一步。
-
-  分層RUN指令和生成提交符合Docker的核心概念，其中提交很便宜，並且可以從圖像歷史中的任何點創建容器，就像源代碼控制一樣。
+  RUN 指令，將會基於目前的映像檔上，執行命令，並產生新的映像檔，以提供 Dockerfile 中的下一步使用。  
 
   ```dockerfile
-  # 1. shell
+  # 1. shell 型式
   RUN <command> 
   
-  # 2. exec
+  # exec 型式
   RUN ["executable", "param1", "param2"]
   ```
 
 #### 啟動 container
 
-- `CMD` specifies what command to run within the container.**
+- `CMD` specifies what command to run within the container.
 
   ``` dockerfile
-  The CMD instruction has three forms:
+  # CMD 有三種操作的方式
   
-  # 1. exec form, this is the preferred form
+  # exec 型式 (建議優先選取此方式)
   CMD ["executable","param1","param2"] 
   
-  # 2. as default parameters to ENTRYPOINT
+  # 將預設參數傳給 ENTRYPOINT
   CMD ["param1","param2"]
   
-  # 3. shell form
+  # shell 形式
   CMD command param1 param2
   ```
 
@@ -248,9 +260,12 @@ Docker 在建立 image 時，會依據 `dockerfile` 的內容來進行建製的�
   An `ENTRYPOINT` allows you to configure a container that will run as an executable.
 
   ```dockerfile
-  ENTRYPOINT has two forms:
+  # ENTRYPOINT 有兩種方式
   
+  # exec 型式 (建議優先選取此方式)
   ENTRYPOINT ["executable", "param1", "param2"] (exec form, preferred)
+
+  # shell 形式
   ENTRYPOINT command param1 param2 (shell form)
   ```
 
@@ -328,7 +343,7 @@ volumes:
   logvolume01: {}
 ```
 
-從這個範例中，可以看到 **docker-compose.yml 的內容，是以 YAML 格式撰寫。** 包含 compose file 格式的版本、服務內的 container 設定，以及執行環境的設制。
+從這個範例中，可以看到 **docker-compose.yml 的內容，是以 [YAML]({{<ref "../yaml/index.md">}}) 格式撰寫。** 包含 compose file 格式的版本、服務內的 container 設定，以及執行環境的設制。
 
 關於 compose file 內的指令語法，還有許多未能說明的。真的有需求或興趣，可以直接到 Docker 的文件庫內查看。
 
@@ -349,6 +364,7 @@ Eric:
 
 1. [全面易懂的Docker指令大全](https://legacy.gitbook.com/book/joshhu/dockercommands/details)
 2. [Docker —— 从入门到实践](https://legacy.gitbook.com/book/yeasy/docker_practice)
+3. [《Docker —— 從入門到實踐­》正體中文版 (gitbook.io)](https://philipzheng.gitbook.io/docker_practice/)
 
 ### Dockerfile
 
@@ -359,8 +375,7 @@ Eric:
 
 ### Docker Compose
 
-1. Docker Document, [Overview of Docker Compose](https://docs.docker.com/compose/overview/)
-2. Docker Document, [Compose file version 3 reference](https://docs.docker.com/compose/compose-file/)
-3. [Docker —— 从入门到实践](https://legacy.gitbook.com/book/yeasy/docker_practice)
+1. akira.ohio, [5. Using Docker Compose](https://www.penflip.com/akira.ohio/appcatalyst-hands-on-lab-en/blob/master/docker-compose.txt)
+2. Docker Document, [Overview of Docker Compose](https://docs.docker.com/compose/overview/)
+3. Docker Document, [Compose file version 3 reference](https://docs.docker.com/compose/compose-file/)
 4. TechBridge 技術共筆部落格, [Docker Compose 建置 Web service 起步走入門教學](https://blog.techbridge.cc/2018/09/07/docker-compose-tutorial-intro/)
-5. akira.ohio, [5. Using Docker Compose](https://www.penflip.com/akira.ohio/appcatalyst-hands-on-lab-en/blob/master/docker-compose.txt)
