@@ -2,12 +2,11 @@
 title: 淺談 YAML 格式
 date: 2022-07-29T06:12:44.533Z
 description: 談談 YAML 的格式與使用方式
-tags:
-  - devops
 keywords:
   - YAML
 categories:
   - 軟體開發
+  - DevOps
 ---
 
 > [2019 iT 邦幫忙鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/1906)文章補完計劃，[從零開始建立自動化發佈的流水線]({{< ref "../foreword/index.md#額外補充">}}) 額外補充

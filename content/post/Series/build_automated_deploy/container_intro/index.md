@@ -1,10 +1,8 @@
 ---
 title: 部署新境界 - 使用 Container 簡化流程
 tags:
-  - Container
   - Docker
 categories:
-  - DevOps
   - Container
 keywords:
   - Container

@@ -3,10 +3,10 @@ title: 使用 Container 建立 CI 所需要的建置環境
 description: 對於 docker/container 有基本概念後，接著要與 CI/CD 的工具搭配使用，讓 CI Server
   同時支援更多不同的環境的要求。本篇文章會以 Travis CI、Azure DevOps、Jenkins 為例。
 tags:
-  - Container
   - Docker
 categories:
   - DevOps
+  - Container
 keywords:
   - Docker
   - dockerfile
