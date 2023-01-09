@@ -8,8 +8,8 @@ categories:
 keywords:
   - Docker
   - DevOps
-draft: true
-date: 2022-08-19T14:15:18.133Z
+date: 2023-01-09T01:47:58.097Z
+slug: docker-command
 ---
 
 > [從零開始建立自動化發佈的流水線]({{< ref "../foreword/index.md#Container">}}) Container 篇
@@ -25,7 +25,7 @@ docker --version
 docker version
 ```
 
-![Docker version](docker_version.png)  
+![Docker version](Images/docker_version.png)  
 
 ### Image
 
@@ -33,7 +33,7 @@ docker version
 
 可以使用 `docker image --help` 查詢所有與 Image 相關的操作。
 
-![docker image --help](docker_image_help.png)  
+![docker image --help](Images/docker_image_help.png)  
 
 雖然操作 Image 的指令很多，但最常用的指令有四種。
 
@@ -56,13 +56,13 @@ docker rmi IMAGE
 
 接著來實際操作指令，進行 Image 的 查詢、下載、移除等動作。
 
-![docker image ls](docker_cmd_image_ls.png)
+![docker image ls](Images/docker_cmd_image_ls.png)
 
-![docker pull](docker_cmd_pull_image.png)
+![docker pull](Images/docker_cmd_pull_image.png)
 
-![docker image ls](docker_cmd_image_ls_2.png)
+![docker image ls](Images/docker_cmd_image_ls_2.png)
 
-![docker remvoe image](docker_cmd_rm_image_success.png)
+![docker remvoe image](Images/docker_cmd_rm_image_success.png)
 
 ``` docker
 # create/build image
@@ -91,7 +91,7 @@ docker container start [CONTAINER ID]
 
 先前，已經從 Docker Hub 取得 busybox 的 image，接著，我們使用 `docker run busybox` 的方式，告知 Docker Engine ，以 busybox Image 啟動 container。
 
-![docker run](docker_cmd_run.png)  
+![docker run](Images/docker_cmd_run.png)  
 
 在啟動 container 後，可以使用下述的指令，進行確認 container 目前的狀態。
 
@@ -107,7 +107,7 @@ docker ps
 
 這是因為 busybox 在完成動作後，就會直接結束。而 `docker ps` 只會列出執行中的 container。所以必需在加上 `-a` 的參數，要求列出所有的 Container。
 
-![docker container ls](docker_cmd_container_ls.png)
+![docker container ls](Images/docker_cmd_container_ls.png)
 
 ``` bash
 # 啟動已停止的 Container
@@ -119,7 +119,7 @@ docker container start [CONTAINER ID]
 
 假若要執行的 container 己經存在，可以運用 `start` 來啟動己經停止的 container。在下圖可以發現的狀態有所變動。
 
-![docker container start](docker_container_start.png)  
+![docker container start](Images/docker_container_start.png)  
 
 若看到己經執行完成的 container 一直存在清單之中，覺得怪不舒服。可以用 `docker conatiner prune` 將一口氣已停止的 container 刪除。
 
@@ -130,7 +130,7 @@ docker container start [CONTAINER ID]
 docker conatiner prune
 ```
 
-![container prune](docker_container_prune.png)  
+![container prune](Images/docker_container_prune.png)  
 
 相同的，如果要一口氣移除無用的 container、Volume、Network，則可以使用 `docker system prune`。
 
