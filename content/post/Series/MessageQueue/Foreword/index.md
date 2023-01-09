@@ -1,5 +1,5 @@
 ---
-title: 從零開始土炮 MQ (持續搬移中)
+title: 從零開始土炮 MQ (持續更新中)
 description: 從零開始土炮 Message Queue 序言
 date: 2022-06-14T07:12:18.564Z
 keywords:
@@ -50,12 +50,13 @@ lastmod: 2022-06-20T05:55:20.974Z
   - 鎖定機制: Lock、Mutex、Semaphore
   - 原子性、有序性、可見性
 - Router 路由器
-- 分配機制(調度)
+- Dispatcher 分派機制
   - 同質性與異質性分派
   - 被動式與主動式分派
   - 優先性分派
-- 持久性
-- 整合 Router 與 Dispatch 的整合
+- Queue、Router、Dispatcher 整合
+  - 將 Queue、Router、Dispatcher 各功能串通，讓功能可以正常的運行。
+  - 資料的持久性。
 
 ### 進階篇
 

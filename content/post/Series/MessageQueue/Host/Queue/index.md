@@ -11,6 +11,8 @@ categories:
   - 軟體開發
 ---
 
+> [從零開始土炮 MQ]({{< ref "../../foreword/index.md#基礎篇">}}) 基礎篇
+
 個人認為佇列(Queue)的本質，就是做為資料載體的暫存與緩衝區，同時，它具備 **先進先出(First In First Out, FIFO)** 的特性。
 
 在演算法中，有些演算法使用 Queue 做為操作記錄資料的載體，例如針對二元樹的尋訪(Traversal)，廣度優先搜尋(Breadth First Search)，都是活用 Queue FIFO 的特性。
