@@ -8,7 +8,8 @@ keywords:
 categories:
   - 系列文章
 date: 2022-06-20T06:58:08.103Z
-lastmod: 2022-07-29T02:22:48.306Z
+lastmod: 2023-01-09T02:00:26.115Z
+slug: 從零開始建立自動化發佈的流水線
 ---
 
 > 將 [2019 iT 邦幫忙鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/1906) 的文章搬遷到此，同時有些內部可能已經過時，在搬移的過程中，會重新針對內容加以整理與補充。
@@ -16,7 +17,7 @@ lastmod: 2022-07-29T02:22:48.306Z
 以故事的方式，隨著故事的發展，逐一建構一條從版控到發佈的自動化作業，會逐一帶出四個階段的主題。
 
 - 程式碼版本控管
-- CI server 的架設
+- CI/CD Server 的架設
 - 自動發佈最新版本的軟體
 - Container
 
@@ -67,7 +68,7 @@ lastmod: 2022-07-29T02:22:48.306Z
 ### Container
 
 - [部署新境界 - 使用 Container 簡化流程]({{< ref "../container_intro/index.md">}}) 介紹 Container 與 VM 的差異，以及 Docker for Windows 的安裝方式。
-- [Docker 指令介紹]({{< ref "">}}) 介紹 Docker 常用的指令，並簡單介紹 Dockerfile 與 Docker Compose 的用法。
+- [Docker 指令介紹]({{< ref "../docker_command/index.md">}}) 介紹 Docker 常用的指令，並簡單介紹 Dockerfile 與 Docker Compose 的用法。
 - Docker 與 CI/CD
 
 ### 額外補充
