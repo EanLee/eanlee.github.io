@@ -1,6 +1,6 @@
 ---
 title: 簡述程式碼品質與優化方向
-description: 程式碼的品質大多情況下，由開發人員的基礎功來決定
+description: 程式碼的品質大多情況下，由開發人員的基礎功來決定。這些基本功包含了 Comment 的撰寫、程式碼的易讀性、重構的技巧等。
 date: 2022-06-21T15:06:43.144Z
 keywords:
   - Code small
@@ -12,6 +12,7 @@ categories:
 tags:
   - Refactor
 lastmod: 2022-07-29T09:26:17.140Z
+slug: coding-basic-skills
 ---
 
 > [2018 iT 邦幫忙鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/1430)文章補完計劃，[持續優化程式碼品質]({{< ref "../foreword/index.md#基礎篇">}})基礎篇
@@ -369,9 +370,11 @@ public int StatisticCostAmount(...)
 
 ## 延伸閱讀
 
-### 註解
-- [『用註解補足程式碼易讀性？』 -- 論註解的是與非](https://ithelp.ithome.com.tw/articles/10191221)
-- [技術翻譯 - 編寫程式註解的最佳實踐](https://blog.taiwolskit.com/best-practices-for-writing-code-comments)
+▶ 註解
 
-### Refactor
-- [大話重構](https://www.tenlong.com.tw/products/9789864340460)
+1. [『用註解補足程式碼易讀性？』 -- 論註解的是與非](https://ithelp.ithome.com.tw/articles/10191221)
+2. [技術翻譯 - 編寫程式註解的最佳實踐](https://blog.taiwolskit.com/best-practices-for-writing-code-comments)
+
+▶ Refactor
+
+1. [大話重構](https://www.tenlong.com.tw/products/9789864340460)
