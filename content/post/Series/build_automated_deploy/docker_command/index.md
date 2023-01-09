@@ -5,6 +5,7 @@ tags:
   - Docker
 categories:
   - DevOps
+  - Container
 keywords:
   - Docker
   - dockerfile
