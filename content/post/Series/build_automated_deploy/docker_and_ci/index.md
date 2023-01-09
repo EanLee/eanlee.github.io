@@ -18,7 +18,7 @@ slug: container-build-execution-environment-required-ci
 draft: true
 ---
 
-> [2019 iT 邦幫忙鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/1906)文章補完計劃，[從零開始建立自動化發佈的流水線]({{< ref "../foreword/index.md#Container">}}) Container 篇
+> [2019 iT 邦幫忙鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/1906)文章補完計劃，[從零開始建立自動化發佈的流水線]({{< ref "../foreword/index.md#container">}}) Container 篇
 
 在 [Docker 操作簡介]({{< ref "../docker_operate/index.md">}}) 中，初步了解 Docker、dockerfile、docker-compose 的操作方法。
 
@@ -185,7 +185,6 @@ pipeline {
         docker { image 'node:7-alpine' }
     }
     stages {
-        // 
         stage('Test') {
             steps {
                 sh 'node --version'

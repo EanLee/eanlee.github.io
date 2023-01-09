@@ -13,7 +13,7 @@ slug: docker-operate
 description: 在順利完成 Docker 的安裝後，接下來就是進一步了解如何操作 Docker 的指令了。但是這樣還不夠，我們還想要一鍵同時啟用多個 container，以及自行建立 Docker Image。
 ---
 
-> [2019 iT 邦幫忙鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/1906)文章補完計劃，[從零開始建立自動化發佈的流水線]({{< ref "../foreword/index.md#Container">}}) Container 篇
+> [2019 iT 邦幫忙鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/1906)文章補完計劃，[從零開始建立自動化發佈的流水線]({{< ref "../foreword/index.md#ontainer">}}) Container 篇
 
 在上一篇 [部署新境界 - 使用 Container 簡化流程]({{< ref "../container_intro/index.md">}}) 中，初步了解 Virtual Machine 與 Container 的差異、Docker 的歷史背景與安裝方式。
 
