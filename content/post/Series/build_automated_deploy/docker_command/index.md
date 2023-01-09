@@ -360,22 +360,22 @@ Eric:
 
 ## 延伸閱讀
 
-### Docker Command
+▶  Docker Command
 
-1. [全面易懂的Docker指令大全](https://legacy.gitbook.com/book/joshhu/dockercommands/details)
-2. [Docker —— 从入门到实践](https://legacy.gitbook.com/book/yeasy/docker_practice)
-3. [《Docker —— 從入門到實踐­》正體中文版 (gitbook.io)](https://philipzheng.gitbook.io/docker_practice/)
+ 1. [全面易懂的Docker指令大全](https://legacy.gitbook.com/book/joshhu/dockercommands/details)
+ 2. [Docker —— 从入门到实践](https://legacy.gitbook.com/book/yeasy/docker_practice)
+ 3. [《Docker —— 從入門到實踐­》正體中文版 (gitbook.io)](https://philipzheng.gitbook.io/docker_practice/)
 
-### Dockerfile
+▶  Dockerfile
 
-1. [正確撰寫Dockerfile　製作最好用容器映像檔](https://www.netadmin.com.tw/article_content.aspx?sn=1710020002&jump=3)
-2. Docker Document, [Dockerfile reference](https://docs.docker.com/engine/reference/builder/)
-3. Docker Document, [Best practices for writing Dockerfiles](https://docs.docker.com/develop/develop-images/dockerfile_best-practices/)
-4. peihsinsu, [Docker學習筆記](https://legacy.gitbook.com/read/book/peihsinsu/docker-note-book)
+ 1. [正確撰寫Dockerfile　製作最好用容器映像檔](https://www.netadmin.com.tw/article_content.aspx?sn=1710020002&jump=3)
+ 2. Docker Document, [Dockerfile reference](https://docs.docker.com/engine/reference/builder/)
+ 3. Docker Document, [Best practices for writing Dockerfiles](https://docs.docker.com/develop/develop-images/dockerfile_best-practices/)
+ 4. peihsinsu, [Docker學習筆記](https://legacy.gitbook.com/read/book/peihsinsu/docker-note-book)
 
-### Docker Compose
+▶ Docker Compose
 
-1. akira.ohio, [5. Using Docker Compose](https://www.penflip.com/akira.ohio/appcatalyst-hands-on-lab-en/blob/master/docker-compose.txt)
-2. Docker Document, [Overview of Docker Compose](https://docs.docker.com/compose/overview/)
-3. Docker Document, [Compose file version 3 reference](https://docs.docker.com/compose/compose-file/)
-4. TechBridge 技術共筆部落格, [Docker Compose 建置 Web service 起步走入門教學](https://blog.techbridge.cc/2018/09/07/docker-compose-tutorial-intro/)
+ 1. akira.ohio, [5. Using Docker Compose](https://www.penflip.com/akira.ohio/appcatalyst-hands-on-lab-en/blob/master/docker-compose.txt)
+ 2. Docker Document, [Overview of Docker Compose](https://docs.docker.com/compose/overview/)
+ 3. Docker Document, [Compose file version 3 reference](https://docs.docker.com/compose/compose-file/)
+ 4. TechBridge 技術共筆部落格, [Docker Compose 建置 Web service 起步走入門教學](https://blog.techbridge.cc/2018/09/07/docker-compose-tutorial-intro/)
