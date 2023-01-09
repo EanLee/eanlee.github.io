@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>伊恩的開發狂想</title><link>https://eandev.com/</link><description>Recent content on 伊恩的開發狂想</description><generator>Hugo -- gohugo.io</generator><language>zh-tw</language><lastBuildDate>Mon, 09 Jan 2023 01:47:58 +0000</lastBuildDate><atom:link href="https://eandev.com/index.xml" rel="self" type="application/rss+xml"/><item><title>Docker 操作簡介 - command / dockerfile / docker-compose</title><link>https://eandev.com/post/series/build_automated_deploy/docker-command/</link><pubDate>Mon, 09 Jan 2023 01:47:58 +0000</pubDate><guid>https://eandev.com/post/series/build_automated_deploy/docker-command/</guid><description>&lt;blockquote>
-&lt;p>&lt;a href="https://eandev.com/post/series/build_automated_deploy/%E5%BE%9E%E9%9B%B6%E9%96%8B%E5%A7%8B%E5%BB%BA%E7%AB%8B%E8%87%AA%E5%8B%95%E5%8C%96%E7%99%BC%E4%BD%88%E7%9A%84%E6%B5%81%E6%B0%B4%E7%B7%9A/#Container">從零開始建立自動化發佈的流水線&lt;/a> Container 篇&lt;/p>
+&lt;p>&lt;a href="https://ithelp.ithome.com.tw/users/20107551/ironman/1906">2019 iT 邦幫忙鐵人賽&lt;/a>文章補完計劃，&lt;a href="https://eandev.com/post/series/build_automated_deploy/%E5%BE%9E%E9%9B%B6%E9%96%8B%E5%A7%8B%E5%BB%BA%E7%AB%8B%E8%87%AA%E5%8B%95%E5%8C%96%E7%99%BC%E4%BD%88%E7%9A%84%E6%B5%81%E6%B0%B4%E7%B7%9A/#Container">從零開始建立自動化發佈的流水線&lt;/a> Container 篇&lt;/p>
 &lt;/blockquote>
 &lt;p>在上一篇 &lt;a href="https://eandev.com/post/series/build_automated_deploy/container_intro/">部署新境界 - 使用 Container 簡化流程&lt;/a> 中，初步了解 Virtual Machine 與 Container 的差異、Docker 的歷史背景與安裝方式。&lt;/p>
 &lt;p>接下來，讓我們來進一步了解 Docker 相關的指令與操作方式。&lt;/p></description></item><item><title>淺談負載測試/壓力測試/效能測試報告</title><link>https://eandev.com/post/test/talking_testing_report/</link><pubDate>Fri, 06 Jan 2023 05:36:16 +0000</pubDate><guid>https://eandev.com/post/test/talking_testing_report/</guid><description>&lt;p>當我們好不容易完成了系統的壓力測試，這時候，我們可能需要整理測試數據給相關人員查看，或是報告。&lt;/p>
@@ -10,13 +10,13 @@
 &lt;ol>
 &lt;li>使用 Postman 測試 Redirect 時，要注意 &lt;code>Follow original HTTP Method&lt;/code> 的選項是否開啟。&lt;/li>
 &lt;li>要確認被轉導的 Url 允許的 HTTP 方法有那些。否則會被回 &lt;code>405 Method Not Allow&lt;/code>&lt;/li>
-&lt;/ol></description></item><item><title>GitLab CI 實作記錄(2) - Gitlab CI 的私有環境建置</title><link>https://eandev.com/post/devops/gitlab_ci_network/</link><pubDate>Mon, 12 Sep 2022 02:16:34 +0000</pubDate><guid>https://eandev.com/post/devops/gitlab_ci_network/</guid><description>&lt;p>延續上一篇 &lt;a href="https://eandev.com/post/devops/gitlab_ci_same_host/">GitLab CI 實作記錄 - 使用 Docker 在同台主機運行 GitLab 與 GitLab-Runner&lt;/a> 的結果，接著要開始進行 GitLab CI 的環境架設。&lt;/p>
+&lt;/ol></description></item><item><title>GitLab CI 實作記錄(2) - Gitlab CI 的私有環境建置</title><link>https://eandev.com/post/devops/build-gitlab-on-private-envirment/</link><pubDate>Mon, 12 Sep 2022 02:16:34 +0000</pubDate><guid>https://eandev.com/post/devops/build-gitlab-on-private-envirment/</guid><description>&lt;p>延續上一篇 &lt;a href="https://eandev.com/post/devops/gitlab-and-runner-on-same-host-using-docker/">GitLab CI 實作記錄 - 使用 Docker 在同台主機運行 GitLab 與 GitLab-Runner&lt;/a> 的結果，接著要開始進行 GitLab CI 的環境架設。&lt;/p>
 &lt;p>架設的環境&lt;/p>
 &lt;ul>
 &lt;li>Gitlab EE&lt;/li>
 &lt;li>Gitlab Runner ver.1.5.1&lt;/li>
 &lt;li>OS: Ubuntu 20.4&lt;/li>
-&lt;/ul></description></item><item><title>GitLab CI 實作記錄(1) - 使用 Docker 在同台主機運行 GitLab 與 GitLab-Runner</title><link>https://eandev.com/post/devops/gitlab_ci_same_host/</link><pubDate>Wed, 31 Aug 2022 15:58:45 +0000</pubDate><guid>https://eandev.com/post/devops/gitlab_ci_same_host/</guid><description>&lt;p>最近因為業務需求，必需在私有環境架設版控平台，並需要 CI/CD 的功能。&lt;/p>
+&lt;/ul></description></item><item><title>GitLab CI 實作記錄(1) - 使用 Docker 在同台主機運行 GitLab 與 GitLab-Runner</title><link>https://eandev.com/post/devops/gitlab-and-runner-on-same-host-using-docker/</link><pubDate>Wed, 31 Aug 2022 15:58:45 +0000</pubDate><guid>https://eandev.com/post/devops/gitlab-and-runner-on-same-host-using-docker/</guid><description>&lt;p>最近因為業務需求，必需在私有環境架設版控平台，並需要 CI/CD 的功能。&lt;/p>
 &lt;p>在朋友的推薦下，開始初次使用 GitLab。因為對 GitLab 的架設與設定還不熟悉，所以先在本機進行 POC 測試。&lt;/p>
 &lt;p>為了減少架設的複雜性，所以選擇使用 GitLab 的 Docker Image 來建立服務。此次使用的軟體版本如下&lt;/p>
 &lt;ul>
@@ -54,8 +54,8 @@
 &lt;p>當進行系統風險評估時，必需將單點故障造成的影響，列入評估的範圍。依單點故障發生，會造成服務中止或系統全面性故障，&lt;a href="https://eandev.com/post/nouns/%E8%81%8A%E8%81%8A%E5%90%8D%E8%A9%9E-%E5%86%97%E9%A4%98-redundancy/">冗餘機制&lt;/a>的設定就必定列入考量。&lt;/p></description></item><item><title>踏入 CI/CD 的世界 - 觀念篇</title><link>https://eandev.com/post/series/build_automated_deploy/cicd_concept/</link><pubDate>Wed, 22 Jun 2022 16:00:19 +0000</pubDate><guid>https://eandev.com/post/series/build_automated_deploy/cicd_concept/</guid><description>&lt;blockquote>
 &lt;p>&lt;a href="https://eandev.com/post/series/build_automated_deploy/%E5%BE%9E%E9%9B%B6%E9%96%8B%E5%A7%8B%E5%BB%BA%E7%AB%8B%E8%87%AA%E5%8B%95%E5%8C%96%E7%99%BC%E4%BD%88%E7%9A%84%E6%B5%81%E6%B0%B4%E7%B7%9A/#持續整合">從零開始建立自動化發佈的流水線&lt;/a> 持續整合篇&lt;/p>
 &lt;/blockquote>
-&lt;p>當程式碼已經進入版控系統後，就會想要有個服務可以自動去建置、驗證 source code 的完整性與安全性，最好還可以自行部屬。而 CI/CD 就是為了滿足這個希望，而誕生出來的機制。&lt;/p></description></item><item><title>簡述程式碼品質與優化方向</title><link>https://eandev.com/post/series/optimize_code_quality/coding_suggest/</link><pubDate>Tue, 21 Jun 2022 15:06:43 +0000</pubDate><guid>https://eandev.com/post/series/optimize_code_quality/coding_suggest/</guid><description>&lt;blockquote>
-&lt;p>&lt;a href="https://eandev.com/post/series/optimize_code_quality/foreword/#基礎篇">持續優化程式碼品質&lt;/a> 基礎篇&lt;/p>
+&lt;p>當程式碼已經進入版控系統後，就會想要有個服務可以自動去建置、驗證 source code 的完整性與安全性，最好還可以自行部屬。而 CI/CD 就是為了滿足這個希望，而誕生出來的機制。&lt;/p></description></item><item><title>簡述程式碼品質與優化方向</title><link>https://eandev.com/post/series/optimize_code_quality/coding-basic-skills/</link><pubDate>Tue, 21 Jun 2022 15:06:43 +0000</pubDate><guid>https://eandev.com/post/series/optimize_code_quality/coding-basic-skills/</guid><description>&lt;blockquote>
+&lt;p>&lt;a href="https://ithelp.ithome.com.tw/users/20107551/ironman/1430">2018 iT 邦幫忙鐵人賽&lt;/a>文章補完計劃，&lt;a href="https://eandev.com/post/series/optimize_code_quality/foreword/#基礎篇">持續優化程式碼品質&lt;/a>基礎篇&lt;/p>
 &lt;/blockquote>
 &lt;p>在開發時，為了快速或是避免麻煩，可能會用簡單的代號，例如 &lt;code>aa&lt;/code> 這種名稱，來暫時做為變數的名稱。這無可厚非，但是&amp;hellip;假若在完成該功能後，未能進行程式的整理。&lt;/p>
 &lt;p>也許在三個月後的某一天，程式有需求變動，不管是要修改自己開發的程式，還是要維護前人遺留下來的軟體。在一番苦戰，好不容易找到要修改變動的程式區塊。&lt;/p>
