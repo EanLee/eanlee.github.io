@@ -9,7 +9,7 @@ categories:
   - 系列文章
 date: 2022-06-20T06:58:08.103Z
 lastmod: 2023-01-09T02:00:26.115Z
-slug: 從零開始建立自動化發佈的流水線
+slug: build-ci-cd-from-scratch
 ---
 
 > 將 [2019 iT 邦幫忙鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/1906) 的文章搬遷到此，同時有些內部可能已經過時，在搬移的過程中，會重新針對內容加以整理與補充。

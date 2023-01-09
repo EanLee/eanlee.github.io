@@ -11,7 +11,7 @@ keywords:
   - DevOps
 date: 2022-09-12T02:16:34.083Z
 description: 在上一篇文章，已經成功在本機建立好 GitLab CI 的環境了，接下來，改在私用的環境，將 GitLab CI 與 Runner 分別建立，並讓 GitLab CI 順利運行。
-slug: build-gitlab-on-private-envirment
+slug: build-gitlab-on-private-environment
 ---
 
 延續上一篇 [GitLab CI 實作記錄 - 使用 Docker 在同台主機運行 GitLab 與 GitLab-Runner]({{< ref "../gitlab_ci_same_host/index.md">}}) 的結果，接著要開始進行 GitLab CI 的環境架設。
@@ -26,7 +26,7 @@ slug: build-gitlab-on-private-envirment
 
 ## 網路架設與規劃
 
-在開始架設之前，有幾個要求點
+在開始架設之前，有幾個要求(限制)。
 
 - CI/CD 的主機不可以暴露於公開環境
 - CI 主機對外連線需要控管。
