@@ -5,10 +5,10 @@
 &lt;li>使用 Postman 測試 Redirect 時，要注意 &lt;code>Follow original HTTP Method&lt;/code> 的選項是否開啟。&lt;/li>
 &lt;li>要確認被轉導的 Url 允許的 HTTP 方法有那些。否則會被回 &lt;code>405 Method Not Allow&lt;/code>&lt;/li>
 &lt;/ol></description></item><item><title>淺談 YAML 格式</title><link>https://eandev.com/post/series/build_automated_deploy/yaml/</link><pubDate>Fri, 29 Jul 2022 06:12:44 +0000</pubDate><guid>https://eandev.com/post/series/build_automated_deploy/yaml/</guid><description>&lt;blockquote>
-&lt;p>&lt;a href="https://eandev.com/post/series/build_automated_deploy/foreword/#額外補充">從零開始建立自動化發佈的流水線&lt;/a> 額外補充&lt;/p>
+&lt;p>&lt;a href="https://eandev.com/post/series/build_automated_deploy/%E5%BE%9E%E9%9B%B6%E9%96%8B%E5%A7%8B%E5%BB%BA%E7%AB%8B%E8%87%AA%E5%8B%95%E5%8C%96%E7%99%BC%E4%BD%88%E7%9A%84%E6%B5%81%E6%B0%B4%E7%B7%9A/#額外補充">從零開始建立自動化發佈的流水線&lt;/a> 額外補充&lt;/p>
 &lt;/blockquote>
 &lt;p>當在進行 CI/CD 工具的 pipelines 或軟體組態設定時，可能都有機會看到 YAML 格式撰寫的設定檔。下面簡單的聊聊 YAML 撰寫規則。&lt;/p></description></item><item><title>程式碼版控 - 觀念與 Git 簡述</title><link>https://eandev.com/post/series/build_automated_deploy/version_control/</link><pubDate>Fri, 29 Jul 2022 10:14:10 +0800</pubDate><guid>https://eandev.com/post/series/build_automated_deploy/version_control/</guid><description>&lt;blockquote>
-&lt;p>&lt;a href="https://eandev.com/post/series/build_automated_deploy/foreword/#版控篇">從零開始建立自動化發佈的流水線&lt;/a> 版控篇&lt;/p>
+&lt;p>&lt;a href="https://eandev.com/post/series/build_automated_deploy/%E5%BE%9E%E9%9B%B6%E9%96%8B%E5%A7%8B%E5%BB%BA%E7%AB%8B%E8%87%AA%E5%8B%95%E5%8C%96%E7%99%BC%E4%BD%88%E7%9A%84%E6%B5%81%E6%B0%B4%E7%B7%9A/#版控篇">從零開始建立自動化發佈的流水線&lt;/a> 版控篇&lt;/p>
 &lt;/blockquote>
 &lt;p>當軟體持續發展，難免出現客制化需求，或是要求針對特定版本進行功能異動，尤其是團隊協作的情況下，有沒有那種方式可以提供有效的統整現有的程式碼，讓協作開發人員，都可以取得最新的開發版本。也可以快速的調出過往的程式異動版本，以便追查問題或調整。&lt;/p></description></item><item><title>Queue 佇列的概念</title><link>https://eandev.com/post/series/messagequeue/host/queue/</link><pubDate>Tue, 14 Jun 2022 07:46:41 +0000</pubDate><guid>https://eandev.com/post/series/messagequeue/host/queue/</guid><description>&lt;p>個人認為佇列(Queue)的本質，就是做為資料載體的暫存與緩衝區，同時，它具備 &lt;strong>先進先出(First In First Out, FIFO)&lt;/strong> 的特性。&lt;/p>
 &lt;p>在演算法中，有些演算法使用 Queue 做為操作記錄資料的載體，例如針對二元樹的尋訪(Traversal)，廣度優先搜尋(Breadth First Search)，都是活用 Queue FIFO 的特性。&lt;/p>
