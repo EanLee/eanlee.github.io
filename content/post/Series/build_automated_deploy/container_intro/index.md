@@ -11,6 +11,7 @@ keywords:
   - Docker
 date: 2022-08-19T14:15:18.133Z
 description: 從零開始建立自動化發佈的流水線的系列文中，開始進入 Container 的概念討論。
+slug: container-intro
 ---
 
 > [2019 iT 邦幫忙鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/1906)文章補完計劃，[從零開始建立自動化發佈的流水線]({{< ref "../foreword/index.md#Container">}}) Container 篇
