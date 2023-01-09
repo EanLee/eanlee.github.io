@@ -1,10 +1,8 @@
 ---
 title: Docker 操作簡介 - command / dockerfile / docker-compose
 tags:
-  - Container
   - Docker
 categories:
-  - DevOps
   - Container
 keywords:
   - Docker
