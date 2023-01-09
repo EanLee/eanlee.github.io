@@ -11,7 +11,7 @@ keywords:
   - dockerfile
   - docker-compose
 date: 2023-01-09T01:47:58.097Z
-slug: docker-command
+slug: docker-operate
 description: 在順利完成 Docker 的安裝後，接下來就是進一步了解如何操作 Docker 的指令了。但是這樣還不夠，我們還想要一鍵同時啟用多個 container，以及自行建立 Docker Image。
 ---
 
