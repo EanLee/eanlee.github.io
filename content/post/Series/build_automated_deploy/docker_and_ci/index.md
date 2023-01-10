@@ -28,18 +28,18 @@ draft: true
 
 ## Travis CI
 
-在 Travis CI [官方文件](https://docs.travis-ci.com/user/docker/)中，提到 5 種 docker 的建置方式，但筆者只針對 `dockerfile` 與 `docker-compose` 的部份介紹。若對其他方式有興趣，可以直接上 Travis CI 官網觀看。
+在 [Travis CI 官方文件](https://docs.travis-ci.com/user/docker/)中，提到使用  `docker` 與 `docker-compose` 兩種建置方式，若想更進一步查看詳細資訊，建議直接進入 Travis CI 官網文件 [Using Docker in Builds](https://docs.travis-ci.com/user/docker/)觀看。
 
-不管是那邊方式，都必須先設定啟用 docker 的服務。所以增加以下的片段到 `.travis.yml` 。
+在 Travis CI 的服務，所有與 CI 相關的設定，預設都寫在 `.travis.yml` 之中，所以若要使用 Docker 進行建置，必須在 `.travis.yml` 加入以下設定。
 
 ```yaml
-# .travis.yml
-
 services:
   - docker
 ```
 
-### dockerfile
+### 使用 docker command 
+
+在官方提供的 `travis.yml` 範例中，在 `before_install` 區塊，設定與建立執行 ruby 用的 container。
 
 ```yaml
 # .travis.yml
@@ -61,10 +61,27 @@ script:
   - bundle exec rake test
 ```
 
-### docker-compose
+### 使用 docker-compose
+
+Travis CI 預設已經安裝完成 `docker-compose`，所以可以使用。
 
 ```yaml
-# .trvis.yml
+services:
+  - docker
+ 
+script:
+  - docker-compose build
+  - docker-compose run test
+
+```
+
+若是想要指定替換特定版本的 `docker-compose`，也可以參考官方提供的 `travis.yml` 範例。
+
+在 `before_install` 區塊，進行 `docker-compose` 的下載與替換。
+
+```yaml
+services:
+  - docker
 
 env:
   - DOCKER_COMPOSE_VERSION=1.4.2
@@ -74,6 +91,10 @@ before_install:
   - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
+
+script:
+  - docker-compose build
+  - docker-compose run test
 ```
 
 ## Azure DevOps
