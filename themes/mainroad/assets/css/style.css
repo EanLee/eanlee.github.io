@@ -1282,6 +1282,7 @@ textarea {
 	font-weight: 700;
 	color:var(--highlight);
 	border-color: var(--highlight);
+	border-style: solid;
 }
 
 /* Languages Widget */
