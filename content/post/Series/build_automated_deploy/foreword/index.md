@@ -70,7 +70,7 @@ toc: false
 
 - [部署新境界 - 使用 Container 簡化流程]({{< ref "../container_intro/index.md">}}) 介紹 Container 與 VM 的差異，以及 Docker for Windows 的安裝方式。
 - [Docker 操作簡介 - command / dockerfile / docker-compose]({{< ref "../docker_operate/index.md">}}) 介紹 Docker 常用的指令，並簡單介紹 Dockerfile 與 Docker Compose 的用法。
-- [使用 Container 建立 CI 所需要的建置環境]({{< ref "../docker_and_ci/index.md" >}}) 介紹 Travis CI、Azure DevOps、Jenkins 如何配合 docker 的概念，建置執行 CI 所需的環境。
+- [使用 Container 建立 CI 所需要的建置環境]({{< ref "../docker_and_ci/index.md" >}}) 介紹 Travis CI、Azure DevOps、Jenkins 如何配合 docker 的概念，使用 container 進行 CI 動作。
 
 ### 額外補充
 
