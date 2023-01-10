@@ -10,6 +10,7 @@ categories:
 date: 2022-06-20T06:58:08.103Z
 lastmod: 2023-01-09T02:00:26.115Z
 slug: build-ci-cd-from-scratch
+toc: false
 ---
 
 > 將 [2019 iT 邦幫忙鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/1906) 的文章搬遷到此，同時有些內部可能已經過時，在搬移的過程中，會重新針對內容加以整理與補充。
@@ -69,7 +70,7 @@ slug: build-ci-cd-from-scratch
 
 - [部署新境界 - 使用 Container 簡化流程]({{< ref "../container_intro/index.md">}}) 介紹 Container 與 VM 的差異，以及 Docker for Windows 的安裝方式。
 - [Docker 操作簡介 - command / dockerfile / docker-compose]({{< ref "../docker_operate/index.md">}}) 介紹 Docker 常用的指令，並簡單介紹 Dockerfile 與 Docker Compose 的用法。
-- Docker 與 CI/CD
+- [使用 Container 建立 CI 所需要的建置環境]({{< ref "../docker_and_ci/index.md" >}}) 介紹 Travis CI、Azure DevOps、Jenkins 如何配合 docker 的概念，使用 container 進行 CI 動作。
 
 ### 額外補充
 
