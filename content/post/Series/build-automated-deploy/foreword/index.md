@@ -51,6 +51,7 @@ toc: false
 
 - [踏入 CI/CD 的世界 - 觀念篇]({{< ref "../cicd_concept/index.md">}})
 - 持續性整合
+- [使用 CI 進行自動化測試]({{< ref "../ci-automated-unit-test/index.md">}})
 
 ### 訊息通知
 
@@ -58,12 +59,7 @@ toc: false
 - CI 訊息通知 - Line
 - CI 訊息通知 - Microsoft Teams
 
-### 自動化測試
-
-- 自動化測試 - 觀念篇
-- 自動化測試 - 實作篇
-
-### 持續部署
+### 持續發佈
 
 - 持續發佈 - 安裝檔
 - 持續發佈 - Web
