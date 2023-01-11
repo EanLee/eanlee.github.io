@@ -1,6 +1,7 @@
 ---
-title: 使用 CI 建置 Docker Image
-description: 
+title: 使用 Azure Pipelines / Jenkins 建置 Docker image
+description: 在 Azure PipeLines, Jenkins 中，除了可以直接指定使用現有的 Docker image 做為執行 CI 所需的運行環境。也可以讓
+  Azure Pipelines, Jenkins，運用 dockerfile 或 cmd 的方式，直接把程式封裝為 Docker Image
 tags:
   - Docker
 categories:
@@ -8,110 +9,56 @@ categories:
   - Container
 keywords:
   - dockerfile
-  - docker-compose
-  - Azure DevOps
+  - Azure Pipelines
   - jenkins
-date: 2023-01-11T02:26:09.009Z
+date: 2023-01-11T07:01:17.100Z
 slug: build-docker-image
-draft: true
 ---
 
 > [2019 iT 邦幫忙鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/1906)文章補完計劃，[從零開始建立自動化發佈的流水線]({{< ref "../foreword/index.md#container">}}) Container 篇
 
 在上一篇  [使用 Container 建立 CI 所需要的建置環境]({{< ref "../docker_and_ci/index.md">}}) 中，初步了解如何在 Travis CI、Azure DevOps、Jenkins 中，使用 Docker 來建立 CI 運行 Build、Test 所需的環境。
 
-接著，試用運用 Azure DevOps、Jenkins 來建立 Docker image 的 Artifact。
+接著，試著運用 Azure DevOps、Jenkins 來建立 Docker image 的 Artifact。
 
 <!--more-->
 
 ## Azure DevOps
 
-若希望 Azure Pipelines 可以程式建置為 docker 可使用的物式件，需對 `azure-pipelines.yml` 進行對應的變動。
+⚠️ 提醒：Azure Pipelines 的設定方式，與[原本文章](https://ithelp.ithome.com.tw/articles/10209866)禸容提到的設定方式，已有所差異。⚠️
 
-### 使用 dockerfile
-
-You can build a Docker image by running the `docker build` command in a script or by using the [**Docker task**](https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks/build/docker?view=vsts).
+▶ 在 `azure-pipelines.yml` 內，`steps` 的 task 採用 `Docker@2`
 
 ```yaml
-- script: docker build -t $(dockerId)/$(imageName) .  # add options to this command to meet your needs
+trigger:
+ - main
+
+ pool:
+   vmImage: 'ubuntu-latest' 
+
+ variables:
+   imageName: 'pipelines-javascript-docker'
+
+ steps:
+ - task: Docker@2
+   displayName: Build an image
+   inputs:
+     repository: $(imageName)
+     command: build
+     Dockerfile: app/Dockerfile
 ```
 
-Often you'll want to build and test your app before creating  the Docker image. You can orchestrate this process either in your build  pipeline or in your *Dockerfile*.
+▶ 使用 Auzre Pipeline 工具建立
 
-### Build and test in your build pipeline
+直接到 Azure Pipeline 中，選擇 `New Pipeline`，並選擇 `Docker`與設定後，Azure pipeline 就會自動產生 `azure-pipelines.yml` 。後續再依需求自行調整即可。
 
-In this approach, you use the build pipeline to orchestrate building  your code, running your tests, and creating an image. This approach is  useful if you want to:
+![New pipeline](Images/azure_pipeline_new_pipeline.png)
 
-- Leverage tasks (either built-in tasks or those you get from the  Marketplace) to define the pipeline used to build and test your app.
-- Run tasks that require authentication via service connections (for example: authenticated NuGet or npm feeds).
-- Publish test results.
+![set pipeline configure](Images/azure_pipeline_new_pipeline_select_docker.png)
 
-To create an image, you run a `docker build` command at the end of your build pipeline. Your *Dockerfile* contains the instructions to copy the results of your build into the container.
+![select docker on pipeline](Images/azure_pipeline_dockerfile.png)
 
-The instructions in the [above example](https://docs.microsoft.com/en-us/azure/devops/pipelines/languages/docker?view=vsts&tabs=yaml#example) demonstrate this approach. The test results published in the example, can be viewed under [Tests Tab](https://docs.microsoft.com/en-us/azure/devops/pipelines/test/review-continuous-test-results-after-build?view=vsts) in build.
-
-### Build and test in your Dockerfile
-
-In this approach, you use your *Dockerfile* to build your code and run tests. The build pipeline has a single step to run `docker build`. The rest of the steps are orchestrated by the Docker build process. It's common to use a [multi-stage Docker build](https://docs.docker.com/develop/develop-images/multistage-build/) in this approach. The advantage of this approach is that your build process is entirely configured in your *Dockerfile*.  This means your build process is portable from the development machine  to any build system. One disadvantage is that you can't leverage Azure  Pipelines and TFS features such as tasks, jobs, or test reporting.
-
-For an example on using this approach, follow these steps:
-
-1. The sample repos that you used in the [example](https://docs.microsoft.com/en-us/azure/devops/pipelines/languages/docker?view=vsts&tabs=yaml#example) above also include a **Dockerfile.multistage** for this approach:
-
-   - [Dockerfile.multistage in .NET Core sample](https://github.com/MicrosoftDocs/pipelines-dotnet-core/blob/master/docs/Dockerfile.multistage)
-
-     ```yaml
-     # First stage of multi-stage build
-     FROM microsoft/aspnetcore-build:2.0 AS build-env
-     WORKDIR /app
-     
-     # copy the contents of agent working directory on host to workdir in container
-     COPY . ./
-     
-     # dotnet commands to build, test, and publish
-     RUN dotnet restore
-     RUN dotnet build -c Release
-     RUN dotnet test dotnetcore-tests/dotnetcore-tests.csproj -c Release --logger "trx;LogFileName=testresults.trx"
-     RUN dotnet publish -c Release -o out
-     
-     # Second stage - Build runtime image
-     FROM microsoft/aspnetcore:2.0
-     WORKDIR /app
-     COPY --from=build-env /app/dotnetcore-sample/out .
-     ENTRYPOINT ["dotnet", "dotnetcore-sample.dll"]
-     ```
-
-   Replace the content in the `Dockerfile` at the root of your repository with the content from `Dockerfile.multistage`.
-
-1. Then, define your build pipeline:
-
-```yaml
-pool:
-  vmImage: 'ubuntu-16.04'
-
-steps:
-  - script: docker build -t $(dockerId)/$(dockerImage) . # include other options to meet your needs
-```
-
-### 使用 docker-compose
-
-Docker Compose enables you to bring up multiple containers and run tests. For example, you can use a *docker-compose.yml* file to define  two containers that need to work together to test your application: a  web service that contains your application and a test driver. You can build new container images every time you push a change to your  code. You can wait for the test driver to finish running tests before bringing  down the two containers.
-
-If you use Microsoft-hosted agents, you don't have to run any additional steps to install and use docker-compose.
-
-To extend the [above example](https://docs.microsoft.com/en-us/azure/devops/pipelines/languages/docker?view=vsts&tabs=yaml#example) to use docker-compose:
-
-1. Your sample repo already includes a `docker-compose.yml` file in the `docs` folder.
-2. Add a **Bash** step to your build pipeline:
-
-```yaml
-- script: |
-    docker-compose -f docs/docker-compose.yml --project-directory . -p docs up -d
-    docker wait docs_sut_1
-    docker-compose -f docs/docker-compose.yml --project-directory . down
-```
-
-If you can't upgrade, another way to solve this problem is to explicitly create another test driver as a container within the composition, as we did in the example above. Another solution is to use `docker-compose exec` and target a specific container in the composition from your script.
+![auto generate pipeline](Images/azure_pipeline_review.png)
 
 ## Jenkins
 
@@ -218,15 +165,11 @@ Eric: 一起加油吧。
 
 ## 延伸閱讀
 
-▶ Travis CI
-
-- Travis CI Document, [Using Docker in Builds](https://docs.travis-ci.com/user/docker/)
-
 ▶ Azure Devops
 
-- Microsoft Document, [Docker 應用程式的外部迴圈 DevOps 工作流程中的步驟](https://docs.microsoft.com/zh-tw/dotnet/standard/containerized-lifecycle-architecture/docker-devops-workflow/docker-application-outer-loop-devops-workflow)
-- Microsoft Document, [Build Docker apps with Azure Pipelines or Team Foundation Server](https://docs.microsoft.com/en-us/azure/devops/pipelines/languages/docker?view=vsts&tabs=yaml)
-- Micorsoft Document, [Docker task](https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks/build/docker?view=vsts)
+- [Docker 應用程式之外部迴圈 DevOps 工作流程中的步驟 | Microsoft Learn](https://docs.microsoft.com/zh-tw/dotnet/standard/containerized-lifecycle-architecture/docker-devops-workflow/docker-application-outer-loop-devops-workflow)
+- [Build container images to deploy apps - Azure Pipelines | Microsoft Learn](https://docs.microsoft.com/en-us/azure/devops/pipelines/languages/docker?view=vsts&tabs=yaml)
+- [Docker@2 - Docker v2 task | Microsoft Learn](https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks/build/docker?view=vsts)
 
 ▶ Jenkins
 

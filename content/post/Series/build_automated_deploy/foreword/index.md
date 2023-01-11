@@ -82,9 +82,9 @@ toc: false
   
   介紹 Travis CI、Azure DevOps、Jenkins 如何配合 docker 的概念，使用 container 進行 CI 動作。
 
-- [使用 CI 來建立 Docker Image]({{< ref "../ci_build_image/index.md" >}})
+- [使用 Azure Pipelines / Jenkins 來建立 Docker image]({{< ref "../ci_build_image/index.md" >}})
   
-  簡介使用 Azure Devops、Jenkins 去建立 Docker Image 的作法。
+  簡介使用 Azure Devops、Jenkins 去建立 Docker image 的作法。
 
 ### 額外補充
 
