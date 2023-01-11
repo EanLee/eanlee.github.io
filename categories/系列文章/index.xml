@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>系列文章 on 伊恩的開發狂想</title><link>https://eandev.com/categories/%E7%B3%BB%E5%88%97%E6%96%87%E7%AB%A0/</link><description>Recent content in 系列文章 on 伊恩的開發狂想</description><generator>Hugo -- gohugo.io</generator><language>zh-tw</language><lastBuildDate>Mon, 20 Jun 2022 06:58:08 +0000</lastBuildDate><atom:link href="https://eandev.com/categories/%E7%B3%BB%E5%88%97%E6%96%87%E7%AB%A0/index.xml" rel="self" type="application/rss+xml"/><item><title>從零開始建立自動化發佈的流水線(持續搬移中)</title><link>https://eandev.com/post/series/build_automated_deploy/build-ci-cd-from-scratch/</link><pubDate>Mon, 20 Jun 2022 06:58:08 +0000</pubDate><guid>https://eandev.com/post/series/build_automated_deploy/build-ci-cd-from-scratch/</guid><description>&lt;blockquote>
-&lt;p>將 &lt;a href="https://ithelp.ithome.com.tw/users/20107551/ironman/1906">2019 iT 邦幫忙鐵人賽&lt;/a> 的文章搬遷到此，同時有些內部可能已經過時，在搬移的過程中，會重新針對內容加以整理與補充。&lt;/p>
+&lt;p>將 &lt;a href="https://ithelp.ithome.com.tw/users/20107551/ironman/1906">2019 iT 邦幫忙鐵人賽&lt;/a> 的文章搬遷到此，同時有些內部可能已經過時，在搬移的過程中，會重新針對內容加以整併與補充。&lt;/p>
 &lt;/blockquote>
-&lt;p>以故事的方式，隨著故事的發展，逐一建構一條從版控到發佈的自動化作業，會逐一帶出四個階段的主題。&lt;/p>
+&lt;p>以一位 SOHO 族從無到有、一步一步建立自己的 CI/CD 的故事。伴隨著故事的發展，逐一建構一條從版控到發佈的自動化作業，會逐一帶出四個階段的主題。&lt;/p>
 &lt;ul>
 &lt;li>程式碼版本控管&lt;/li>
 &lt;li>CI/CD Server 的架設&lt;/li>

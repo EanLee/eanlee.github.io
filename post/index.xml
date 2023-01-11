@@ -1,4 +1,8 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on 伊恩的開發狂想</title><link>https://eandev.com/post/</link><description>Recent content in Posts on 伊恩的開發狂想</description><generator>Hugo -- gohugo.io</generator><language>zh-tw</language><lastBuildDate>Tue, 10 Jan 2023 16:15:41 +0000</lastBuildDate><atom:link href="https://eandev.com/post/index.xml" rel="self" type="application/rss+xml"/><item><title>使用 Container 建立 CI 所需要的建置環境</title><link>https://eandev.com/post/series/build_automated_deploy/container-build-execution-environment-required-ci/</link><pubDate>Tue, 10 Jan 2023 16:15:41 +0000</pubDate><guid>https://eandev.com/post/series/build_automated_deploy/container-build-execution-environment-required-ci/</guid><description>&lt;blockquote>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on 伊恩的開發狂想</title><link>https://eandev.com/post/</link><description>Recent content in Posts on 伊恩的開發狂想</description><generator>Hugo -- gohugo.io</generator><language>zh-tw</language><lastBuildDate>Wed, 11 Jan 2023 07:01:17 +0000</lastBuildDate><atom:link href="https://eandev.com/post/index.xml" rel="self" type="application/rss+xml"/><item><title>使用 Azure Pipelines / Jenkins 建置 Docker image</title><link>https://eandev.com/post/series/build_automated_deploy/build-docker-image/</link><pubDate>Wed, 11 Jan 2023 07:01:17 +0000</pubDate><guid>https://eandev.com/post/series/build_automated_deploy/build-docker-image/</guid><description>&lt;blockquote>
+&lt;p>&lt;a href="https://ithelp.ithome.com.tw/users/20107551/ironman/1906">2019 iT 邦幫忙鐵人賽&lt;/a>文章補完計劃，&lt;a href="https://eandev.com/post/series/build_automated_deploy/build-ci-cd-from-scratch/#container">從零開始建立自動化發佈的流水線&lt;/a> Container 篇&lt;/p>
+&lt;/blockquote>
+&lt;p>在上一篇 &lt;a href="https://eandev.com/post/series/build_automated_deploy/container-build-execution-environment-required-ci/">使用 Container 建立 CI 所需要的建置環境&lt;/a> 中，初步了解如何在 Travis CI、Azure DevOps、Jenkins 中，使用 Docker 來建立 CI 運行 Build、Test 所需的環境。&lt;/p>
+&lt;p>接著，試著運用 Azure DevOps、Jenkins 來建立 Docker image 的 Artifact。&lt;/p></description></item><item><title>使用 Container 建立 CI 所需要的建置環境</title><link>https://eandev.com/post/series/build_automated_deploy/container-build-execution-environment-required-ci/</link><pubDate>Tue, 10 Jan 2023 16:15:41 +0000</pubDate><guid>https://eandev.com/post/series/build_automated_deploy/container-build-execution-environment-required-ci/</guid><description>&lt;blockquote>
 &lt;p>&lt;a href="https://ithelp.ithome.com.tw/users/20107551/ironman/1906">2019 iT 邦幫忙鐵人賽&lt;/a>文章補完計劃，&lt;a href="https://eandev.com/post/series/build_automated_deploy/build-ci-cd-from-scratch/#container">從零開始建立自動化發佈的流水線&lt;/a> Container 篇&lt;/p>
 &lt;/blockquote>
 &lt;p>在 &lt;a href="https://eandev.com/post/series/build_automated_deploy/docker-operate/">Docker 操作簡介&lt;/a> 中，初步了解 Docker、dockerfile、docker-compose 的操作方法。&lt;/p>
@@ -64,9 +68,9 @@
 &lt;p>在開發時，為了快速或是避免麻煩，可能會用簡單的代號，例如 &lt;code>aa&lt;/code> 這種名稱，來暫時做為變數的名稱。這無可厚非，但是&amp;hellip;假若在完成該功能後，未能進行程式的整理。&lt;/p>
 &lt;p>也許在三個月後的某一天，程式有需求變動，不管是要修改自己開發的程式，還是要維護前人遺留下來的軟體。在一番苦戰，好不容易找到要修改變動的程式區塊。&lt;/p>
 &lt;p>看著各種無意義的命名、複雜且混亂的程式邏輯，只能苦苦的思考，為什麼當初會這樣寫？這個變數是什麼意義？動作背後的用意？邊改寫程式，邊幹譙當初寫下這段程式的人。&lt;/p></description></item><item><title>從零開始建立自動化發佈的流水線(持續搬移中)</title><link>https://eandev.com/post/series/build_automated_deploy/build-ci-cd-from-scratch/</link><pubDate>Mon, 20 Jun 2022 06:58:08 +0000</pubDate><guid>https://eandev.com/post/series/build_automated_deploy/build-ci-cd-from-scratch/</guid><description>&lt;blockquote>
-&lt;p>將 &lt;a href="https://ithelp.ithome.com.tw/users/20107551/ironman/1906">2019 iT 邦幫忙鐵人賽&lt;/a> 的文章搬遷到此，同時有些內部可能已經過時，在搬移的過程中，會重新針對內容加以整理與補充。&lt;/p>
+&lt;p>將 &lt;a href="https://ithelp.ithome.com.tw/users/20107551/ironman/1906">2019 iT 邦幫忙鐵人賽&lt;/a> 的文章搬遷到此，同時有些內部可能已經過時，在搬移的過程中，會重新針對內容加以整併與補充。&lt;/p>
 &lt;/blockquote>
-&lt;p>以故事的方式，隨著故事的發展，逐一建構一條從版控到發佈的自動化作業，會逐一帶出四個階段的主題。&lt;/p>
+&lt;p>以一位 SOHO 族從無到有、一步一步建立自己的 CI/CD 的故事。伴隨著故事的發展，逐一建構一條從版控到發佈的自動化作業，會逐一帶出四個階段的主題。&lt;/p>
 &lt;ul>
 &lt;li>程式碼版本控管&lt;/li>
 &lt;li>CI/CD Server 的架設&lt;/li>
