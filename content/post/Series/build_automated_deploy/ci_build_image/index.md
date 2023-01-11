@@ -7,26 +7,26 @@ categories:
   - DevOps
   - Container
 keywords:
-  - Docker
   - dockerfile
   - docker-compose
+  - Azure DevOps
   - jenkins
-date: 2023-01-09T08:53:41.393Z
+date: 2023-01-11T02:26:09.009Z
 slug: build-docker-image
 draft: true
 ---
 
 > [2019 iT 邦幫忙鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/1906)文章補完計劃，[從零開始建立自動化發佈的流水線]({{< ref "../foreword/index.md#container">}}) Container 篇
 
-在 [Docker 操作簡介]({{< ref "../docker_operate/index.md">}}) 中，初步了解 Docker、dockerfile、docker-compose 的操作方法。
+在上一篇  [使用 Container 建立 CI 所需要的建置環境]({{< ref "../docker_and_ci/index.md">}}) 中，初步了解如何在 Travis CI、Azure DevOps、Jenkins 中，使用 Docker 來建立 CI 運行 Build、Test 所需的環境。
 
-接下來，要與 CI Server 搭配使用，讓 CI Server 可以依據設定檔，使用 docker 的方式，建置出執行 CI 所需要的環境。
+接著，試用運用 Azure DevOps、Jenkins 來建立 Docker image 的 Artifact。
 
 <!--more-->
 
 ## Azure DevOps
 
-若希望  Azure Pipelines 可以程式建置為 docker 可使用的物式件，需對 `azure-pipelines.yml` 進行對應的變動。
+若希望 Azure Pipelines 可以程式建置為 docker 可使用的物式件，需對 `azure-pipelines.yml` 進行對應的變動。
 
 ### 使用 dockerfile
 
@@ -115,33 +115,19 @@ If you can't upgrade, another way to solve this problem is to explicitly create 
 
 ## Jenkins
 
-如果曾經使用 Jenkins 進行發佈，或許對 pipeline 並不陌生。
+在 Jenkins Pipeline 中，Jenkins 會依據 `jenkinsfile` 內容的指示執行各種動作。運用 Groovy 的格式來撰寫 `jenkinsfile` 讓使用者可以客制化建置的流程與環境。
 
-在 Pipeline 中，Jenkins 會依據 `jenkinsfile` 內容的指示執行各種動作。運用 Groovy 的格式來撰寫 `jenkinsfile` 讓使用者可以客制化建置的流程與環境。
+▶ 作法一、直接使用 `dockerfile`
 
-![Jenkins pipeline 設定](Images/jenkins_pipeline.png)
-
-經由 `jenkinsfile` 與 docker 的配合，我們可以自行訂定各 **階段 (stages)** ，使用不同 Docker Image 建置環境，執行不同的動作。而無需手動配置環境。
-
-Pipeline 支援運用 `dockerfile`，進行 docker image 的建立與執行。
-
-當我們將 `jenkinsfile` 中，**使用 `agent { dockerfile true }` ，Pipeline 就會使用 Repository 根目錄下的 `dockerfile` ，進行 docker image 的建立與執行。**
+Jenkins Pipeline 支援運用 `dockerfile`。當在 `jenkinsfile` 中，宣告使用 `agent { dockerfile true }` ，Pipeline 就會使用 Repository 根目錄下的 `dockerfile` ，進行 Docker image 的建立與執行。
 
 ```groovy
-pipeline {
-    agent { dockerfile true }
-    stages {
-        stage('Test') {
-            steps {
-                sh 'node --version'
-                sh 'svn --version'
-            }
-        }
-    }
+agent {
+    dockerfile true
 }
 ```
 
-此外，也可以在 `agent` 內直接下 docker 指令。
+▶ 作法二、在 `agent` 內直接下 docker 指令
 
 ```groovy
 agent {
@@ -154,7 +140,7 @@ agent {
 }
 ```
 
-或是在 `agent` 內寫 `dockerfile` 的內容。
+▶ 作法三、在 `agent` 內寫 `dockerfile` 的內容
 
 ```groovy
 agent {
@@ -170,6 +156,8 @@ agent {
 ```
 
 關於 Pipeline 中，`agent` 部份的其他語法，如果有興趣，可以參考[官方文件](https://jenkins.io/doc/book/pipeline/syntax#agent)。
+
+---
 
 雖然 Jenkins 的官方文件中，沒有特別說明到 `docker-compose` 的部份。但筆者很幸運找到 Symfony 在 Jenkins 運用 docker-compose 的文章 ( [A continuous integration pipeline with Jenkins in Docker](https://www.nielsvandermolen.com/continuous-integration-jenkins-docker/) )。
 
@@ -193,7 +181,10 @@ pipeline {
                 sh 'echo $GIT_BRANCH'
                 sh 'echo $GIT_COMMIT'
                 echo 'Install non-dev composer packages and test a symfony cache clear'
+
+                // 使用 docker-compsoe
                 sh 'docker-compose -f build.yml up --exit-code-from fpm_build --remove-orphans fpm_build'
+
                 echo 'Building the docker images with the current git commit'
                 sh 'docker build -f Dockerfile-php-production -t registry.example.com/symfony_project_fpm:$GIT_COMMIT .'
                 sh 'docker build -f Dockerfile-nginx -t registry.example.com/symfony_project_nginx:$GIT_COMMIT .'
@@ -204,35 +195,21 @@ pipeline {
 }
 ```
 
-從範例中，可以看到 `docker-compose` 的使用點，是 **位於 `steps` 內，以 命令列 的方式執行**。不像 `dockerfile` ，Jenkins 有直接的支援。
+從範例中，可以看到 `docker-compose` 的使用點，位於 `steps` 內，以**命令**的方式執行。不像 `dockerfile` ，Jenkins 有直接的支援。
 
-筆者將其再次精減，可以很清楚的看到 `docker-compose` 的使用方式。
-
-```groovy
-pipeline {
-    agent { label 'docker' }
-    stages {
-        steps {
-            sh 'docker-compose -f build.yml up --exit-code-from fpm_build --remove-orphans fpm_build'
-        }
-    }
-}
-```
-
-最後，該篇文章也分享它們執行 `jenkinsfile` 的畫面。
-
-從圖中，真的可以發現 Symfony 活用 Jenkins Pipeline 功能，建立起 建置、測試、發佈 一連串自動化 CI/CD 流程。
+最後，該篇文章也分享它們執行 `jenkinsfile` 的畫面。從圖中可以發現 Symfony 活用 Jenkins Pipeline 功能，將建置、測試、發佈等動作串連起來。
 
 ![Jenkins pipeline](https://www.nielsvandermolen.com/wp-content/uploads/2018/06/jenkins_result-1024x404.png)
 
 (圖片來源:  [A continuous integration pipeline with Jenkins in Docker](https://www.nielsvandermolen.com/continuous-integration-jenkins-docker/))
 
 ```plan
-吉米: 哇，每個 CI Server 的設定方式，設定的方式都不太相同。
+
+吉米: 不同工具的設定方式，都不太相同。
 
 Eric: 是啊。不過，再怎麼變化，都是離不開 cmd、dockerfile、yml 設定檔這三個部份。
 
-吉米: 嗯嗯，還要多試幾次，才能把 docker 摸的比較了解。
+吉米: 嗯嗯，還要多嘗試，才能調整為自己想要的流程。
 
 Eric: 一起加油吧。
 
