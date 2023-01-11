@@ -4,6 +4,17 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	
+	{{ if eq .RelPermalink "/categories/" }}
+		<meta name="robots" content="noindex, nofollow">
+	{{end}}
+	{{ if eq .RelPermalink "/tags/" }}
+	<meta name="robots" content="noindex, nofollow">
+	{{end}}
+	{{ if eq .RelPermalink "/post/" }}
+	<meta name="robots" content="noindex, nofollow">
+	{{end}}
+
 	<title>{{ block "title" . }}{{ if not .IsHome }}{{ .Title }} - {{ end }}{{ .Site.Title }}{{ end }}</title>
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7903108559996033"
