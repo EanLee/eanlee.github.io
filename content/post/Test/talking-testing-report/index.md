@@ -116,6 +116,6 @@ keywords:
 
 ## 延伸閱讀
 
-1. [亂聊壓力測試/負載測試到底要做什麼?]({{< ref "../talking_stress_test/index.md" >}})
+1. [亂聊壓力測試/負載測試到底要做什麼?]({{< ref "../talking-load-testing/index.md" >}})
 2. [Introduction (k6.io)](https://k6.io/docs/test-types/introduction/)
 3. [Performance Testing vs. Load Testing vs. Stress Testing | Blazemeter by Perforce](https://www.blazemeter.com/blog/performance-testing-vs-load-testing-vs-stress-testing)

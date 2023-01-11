@@ -27,7 +27,7 @@
 	<link rel="stylesheet" {{ printf `href="%s"` $googleFontsLink | safeHTMLAttr }}>
 	{{- end }}
 
-	{{ $style := resources.Get "css/style.css" | resources.ExecuteAsTemplate "css/style.css" . -}}
+	{{ $style := resources.Get "css/style.css" | minify}}
 	<link rel="stylesheet" href="{{ $style.RelPermalink }}">
 	{{ range .Site.Params.customCSS -}}
 	<link rel="stylesheet" href="{{ . | relURL }}">

@@ -11,6 +11,7 @@ description: 許多人都會想到使用負載測試/壓力測試來驗證系統
 keywords:
   - 壓力測試
   - 負載測試
+slug: what-does-load-testing-do
 ---
 
 多數的時候，我們可能會將 `負載測試(LOAD TESTING)` 與 `壓力測試 (STRESS TESTING)` 混在一起討論。
@@ -106,4 +107,4 @@ keywords:
 ## 延伸閱讀
 
 1. [Introduction (k6.io)](https://k6.io/docs/test-types/introduction/)
-2. [淺談負載測試/壓力測試/效能測試報告]({{< ref "../talking_testing_report/index.md" >}})
+2. [淺談負載測試/壓力測試/效能測試報告]({{< ref "../talking-testing-report/index.md" >}})
