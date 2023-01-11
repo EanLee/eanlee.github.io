@@ -25,7 +25,7 @@
 		{{ partial "declaration.html" . }}
 		{{ partial "likecoin.html" . }}
 		{{ if (findRE "<pre" .Content 1) }}
-			{{ $jsCopy := resources.Get "js/copy-code-clipboard.js"  }}
+			{{ $jsCopy := resources.Get "js/copy-code-clipboard.js" | minify }}
 			<script src="{{ $jsCopy.RelPermalink }}"></script>
 		{{ end }}
 	</article>
