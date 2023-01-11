@@ -6,11 +6,18 @@ date: 2021-02-11 14:00:22
 categories:
   - 測試
 keywords:
-  - "Fluent Assertion"
+  - Fluent Assertion
+slug: fluent-assertions-object-graph-comparison
+lastmod: 2023-01-11T08:52:19.233Z
 ---
-日前在撰寫單元測試時，發生測試失敗，使用 `Should().BeEquivalentTo(expected)` 進行物件比對，已確認 `待測物件` 與 `期望物件` 內的資料相同，但卻出現 `be it misses` 造成的測試結果`失敗`。所使用的 FlunentAssertion Nuget 版本為 `4.13.1` 。<!--more-->
 
-## 1. 問題描述
+日前在撰寫單元測試時，發生測試失敗，使用 `Should().BeEquivalentTo(expected)` 進行物件比對，已確認 `待測物件` 與 `期望物件` 內的資料相同，但卻出現 `be it misses` 造成的測試結果`失敗`。
+
+所使用的 FlunentAssertion Nuget 版本為 `4.13.1` 。
+
+<!--more-->
+
+## 問題描述
 
 為簡化問題的本身，在測試案例中，新增 `待測物件` 與 `期望物件` 兩個物件，且資料相同。以下是測試案列與錯誤訊息。
 
@@ -86,7 +93,7 @@ TestProject1.Account
    at FluentAssertions.Collections.CollectionAssertions`2.BeEquivalentTo[T](IEnumerable`1 expected, String because, Object[] becauseArgs)
 ```
 
-## 2. 問題排除
+## 問題排除
 
 查詢 `Should().BeEquivalentTo`，發現 `Fluentassertions` 已經有人反應這個 [issue](https://github.com/fluentassertions/fluentassertions/issues/771) 了。
 
@@ -122,7 +129,7 @@ public void Test()
 
 筆者實際升級到 5.0 之後，確實也能順利通過測試。
 
-## 3. 函數小筆記
+## 函數小筆記
 
 ### `.Should().BeEquivalentTo()`
 
@@ -137,7 +144,7 @@ public void Test()
 
 - 在 5.0 之後，該方法已經被拔除。
 
-### 4. 小結
+### 小結
 
 |                                  | version 5.0 before | version 5.0 later |
 | -------------------------------: | :----------------: | :---------------: |
@@ -145,12 +152,9 @@ public void Test()
 |          .ShouldBeEquivalentTo() |         V          |                   |
 |      .ShouldAllBeEquivalentTo () |         V          |                   |
 
-## 5. 參考資訊
+## 參考資訊
 
 - [Fluent Assertions](https://fluentassertions.com/)
-
 - [Object graph comparison](https://fluentassertions.com/objectgraphs/)
-
 - [Fluent Assertions 5.0: The best unit test assertion library in the .NET realm just got better](https://www.continuousimprover.com/2018/02/fluent-assertions-50-best-unit-test.html)
-
 - [FluentAssertions: ShouldBeEquivalentTo vs Should().Be() vs Should](https://stackoverflow.com/questions/25925568/fluentassertions-shouldbeequivalentto-vs-should-be-vs-should-beequivalent)
