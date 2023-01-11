@@ -1,21 +1,23 @@
 ---
 title: 從零開始建立自動化發佈的流水線(持續搬移中)
-description: 隨著故事的推進，逐一建立從版控、CI/CD 的自動化流水線。
+description: 這是一位 SOHO 族從無到有、一步一步建立自己的 CI/CD 的故事。隨著故事的推進，將逐一提及版控、測試、訊息通知、CI/CD、Container
+  等概念，最終將其串接為一條自動化發佈的流水線。
 keywords:
   - CI/CD
   - version control
+  - Docker
   - 版控
 categories:
   - 系列文章
 date: 2022-06-20T06:58:08.103Z
-lastmod: 2023-01-09T02:00:26.115Z
+lastmod: 2023-01-11T04:41:26.549Z
 slug: build-ci-cd-from-scratch
 toc: false
 ---
 
-> 將 [2019 iT 邦幫忙鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/1906) 的文章搬遷到此，同時有些內部可能已經過時，在搬移的過程中，會重新針對內容加以整理與補充。
+> 將 [2019 iT 邦幫忙鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/1906) 的文章搬遷到此，同時有些內部可能已經過時，在搬移的過程中，會重新針對內容加以整併與補充。
 
-以故事的方式，隨著故事的發展，逐一建構一條從版控到發佈的自動化作業，會逐一帶出四個階段的主題。
+以一位 SOHO 族從無到有、一步一步建立自己的 CI/CD 的故事。伴隨著故事的發展，逐一建構一條從版控到發佈的自動化作業，會逐一帶出四個階段的主題。
 
 - 程式碼版本控管
 - CI/CD Server 的架設
@@ -68,9 +70,21 @@ toc: false
 
 ### Container
 
-- [部署新境界 - 使用 Container 簡化流程]({{< ref "../container_intro/index.md">}}) 介紹 Container 與 VM 的差異，以及 Docker for Windows 的安裝方式。
-- [Docker 操作簡介 - command / dockerfile / docker-compose]({{< ref "../docker_operate/index.md">}}) 介紹 Docker 常用的指令，並簡單介紹 Dockerfile 與 Docker Compose 的用法。
-- [使用 Container 建立 CI 所需要的建置環境]({{< ref "../docker_and_ci/index.md" >}}) 介紹 Travis CI、Azure DevOps、Jenkins 如何配合 docker 的概念，使用 container 進行 CI 動作。
+- [部署新境界 - 使用 Container 簡化流程]({{< ref "../container_intro/index.md">}})
+  
+  介紹 Container 與 VM 的差異，以及 Docker for Windows 的安裝方式。
+  
+- [Docker 操作簡介 - command / dockerfile / docker-compose]({{< ref "../docker_operate/index.md">}})
+  
+  介紹 Docker 常用的指令，並簡單介紹 Dockerfile 與 Docker Compose 的用法。
+
+- [使用 Container 建立 CI 所需要的建置環境]({{< ref "../docker_and_ci/index.md" >}})
+  
+  介紹 Travis CI、Azure DevOps、Jenkins 如何配合 docker 的概念，使用 container 進行 CI 動作。
+
+- [使用 Azure Pipelines / Jenkins 來建立 Docker image]({{< ref "../ci_build_image/index.md" >}})
+  
+  簡介使用 Azure Devops、Jenkins 去建立 Docker image 的作法。
 
 ### 額外補充
 
