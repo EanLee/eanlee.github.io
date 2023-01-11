@@ -11,6 +11,7 @@ keywords:
 description: 當思考的維度不同時，會評估與參考資訊的側重點均有不同，影響最後作出的決策。
 date: 2022-06-18T17:10:57.563Z
 lastmod: 2022-06-20T01:41:53.193Z
+slug: multi-dimensional-thinking-for-system-architecture
 ---
 
 在研究某個軟體的系統架構，發現一個值得探討的問題。

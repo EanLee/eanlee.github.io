@@ -7,6 +7,7 @@ keywords: []
 description: 分享排除 API Server 有非預期請求的原因釐清過程
 date: 2022-06-10T04:00:00.000Z
 lastmod: 2022-06-18T17:10:26.662Z
+slug: unexpected-request
 ---
 
 某天 Infra 人員發現還沒對外正式開放的環境，API Server 內的硬碟空間，在短短半個月內，被 IIS Log 吃掉近 20GB 的空間，協同開發人員一同釐清這現象的原因。
