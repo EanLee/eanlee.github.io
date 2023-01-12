@@ -9,7 +9,10 @@ categories:
 keywords:
   - 版控
   - Git
-slug: git-remote-repositories
+  - BitBucket
+  - GitHub
+  - Azure DevOps
+slug: git-gui-tools-and-remote-repositories
 ---
 
 > [2019 iT 邦幫忙鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/1906)文章補完計劃，[從零開始建立自動化發佈的流水線]({{< ref "../foreword/index.md#持續整合">}}) 持續整合篇
@@ -21,25 +24,40 @@ slug: git-remote-repositories
 ### GitHub
 
 ```chat
-Eric: 通常，我們習慣將提供 Remote Repository 服務的平台，稱為程式碼托管平台。而提到托管平台，就不得不提到 GitHub。GitHub 是目前最大的 open source 的集散地。就連 Microsoft 都將部份產品的程式碼儲存在這。提供給社群內的人們有參與專案的機會。
-吉米: GitHub 有聽過，但沒有真正的去了解它。
-Eric: 一進到 GitHub 的首頁，它就明白的說明，GitHub 是提供給開發人員的用的平台。不管是要用於 Open Source 或是商業用途，都可以好好的運用它。
-吉米: 真是大氣的宣言啊。
-Eric: 我們直接進到 GitHub 的首頁，就會看到它的宣言了。
+Eric:
+  通常，我們習慣將提供 Remote Repository 服務的平台，稱為程式碼托管平台。而提到托管平台，就不得不提到 GitHub。
+  GitHub 是目前最大的 open source 的集散地。就連 Microsoft 都將部份產品的程式碼儲存在這。提供給社群內的人們有參與專案的機會。
+
+吉米:
+  GitHub 有聽過，但沒有真正的去了解它。
+
+Eric:
+  一進到 GitHub 的首頁，它就明白的說明，GitHub 是提供給開發人員的用的平台。不管是要用於 Open Source 或是商業用途，都可以好好的運用它。
+
+吉米:
+  真是大氣的宣言啊。
+
+Eric:
+  我們直接進到 GitHub 的首頁，就會看到它的宣言了。
 ```
 
 > 📝 資訊補充 📝
 >
 > 2023 年的 [GitHub](https://github.com/) 首頁的宣言已更換，GitHub 將自己定位為安全的協作平台。
 
-![GitHub Index for 2018](images/github-index-2018.png)
+![GitHub Index in 2018](images/github-index-2018.png)
 
-![GitHub Index for 2023](images/github-index-2023.png)
+![GitHub Index in 2023](images/github-index-2023.png)
 
 ```chat
-Eric: 因為 GitHub 的申請相當容易，這部份就不過於著墨。
-吉米: 好噢。
-Eric: 那就直接切入主題，如何建立所需要的 Remote Repository 。
+Eric:
+  因為 GitHub 的申請相當容易，這部份就不過於著墨。
+
+吉米:
+  好噢。
+
+Eric:
+  那就直接切入主題，如何建立所需要的 Remote Repository 。
 ```
 
 登入帳號後，直接到右上角選取 `New repository` ，就會進入建立 repository 的設定頁面了。
@@ -67,28 +85,44 @@ Eric: 那就直接切入主題，如何建立所需要的 Remote Repository 。
 ### BitBucket
 
 ```chat
-Eric: 前面我們提到了 GitHub，接下來再來聊聊另一個程式碼托管平台 BitBucket。
-吉米: BitBucket 與 GitHub 的差異在那？
+Eric:
+  前面我們提到了 GitHub，接下來再來聊聊另一個程式碼托管平台 BitBucket。
 ```
 
-![bitbucket_index](images/bitbucket-index.png)
+> 📝 資訊補充 📝
+>
+> 雖然 2023 年的 [BitBucket](https://bitbucket.org/) 首頁的宣言已更換，本質上沒有太大的改變，只是更加強調 BitBucket 是 Atlassian's Open DevOps 解決方案的一員。
+
+![BitBucket index in 2019](images/bitbucket-index-in-2019.png)
+
+![BitBucket Index in 2023](images/bitbucket-index-in-2023.png)
 
 ```chat
-Eric: 先前有提到 GitHub 如果要使用 private repository，就必需付費升級帳戶。雖然 BitBucket  與 GitHub 相同，也有免費與付費的兩種方案。不過，**免費帳戶開放 private repository 提供使用，但限制 Repository 最多可支援到 5 名用戶**。
-吉米: 這可真是佛心！
-Eric: 此外，BitBucket 的公司 Atlassian ，有許多好用的產品，例如**追蹤應用程式問題的 JIRA**、**Git Client 的 SourceTree**、**團隊協作的 Confluence**，BitBucket 都可以整合使用。
-吉米: 原來如此，以後有機會，也可以來研究一下 JIRA 與 Conflunence。
+Eric:
+  先前有提到 GitHub 如果要使用 private repository，就必需付費升級帳戶。
+  雖然 BitBucket 與 GitHub 相同，也有免費與付費的兩種方案。不過，免費帳戶開放 private repository 提供使用，但限制 Repository 最多可支援到 5 名用戶。
+
+吉米:
+  這可真是佛心！
+
+Eric:
+  此外，BitBucket 的公司 Atlassian，有許多好用的產品，例如追蹤應用程式問題的 JIRA、Git Client 的 SourceTree、團隊協作的 Confluence，BitBucket 都可以整合使用。
+
+吉米:
+  原來如此，以後有機會，也可以來研究一下 JIRA 與 Conflunence。
 ```
 
 略過註冊的部份，直接來看看 repository 的設定畫面。
 
 ![create_option](images/bitbucket-create-option.png)
 
-當按下 **Create** ，並選取 **Respository** 後，會看到設定 repository 的設定畫面。
+當按下 `Create` ，並選取 `Respository` 後，會看到設定 repository 的設定畫面。
 
 ![create_repository](images/bitbucket-create-repository.png)
 
-跟 GitHub 相同，只要輸入 **Repository name** 就可以創立一個新的 repository 。預設 repository 的存取層級就是私有的，如果要公開的話，記得將 **Access level** 的勾選取消。
+跟 GitHub 相同，只要輸入 **`Repository name`** 就可以創立一個新的 repository。
+
+與 GitHub 不同，BitBucket 預設 repository 的存取層級就是私有的。如果要公開的話，記得將 **`Access level`** 的勾選取消。
 
 此外，BitBucket 同時兩種分散式版本控制系統 Git 與 Mercurial，如果沒有需求，直接使用預設值 Git 即可。
 
@@ -96,18 +130,30 @@ Eric: 此外，BitBucket 的公司 Atlassian ，有許多好用的產品，例�
 
 建立 repository 完成後，BitBucket 一樣會貼心的提示您，如何將本地端的 repository 與 BitBucket repository 建立起關連。
 
-左側的功能列上，也可以選擇看 **Commits**、**Branches** 的相關記錄。**Pipelines**、**Deployments** 這兩個功能與 CI/CD 相關。若需要調整 repository 的設定，都可以從 **Setting** 進行設定的變更。
+左側的功能列上，也可以選擇看 **Commits**、**Branches** 的相關記錄。**Pipelines**、**Deployments** 這兩個功能與 CI/CD 相關。
+
+若需要調整 repository 的設定，都可以從 **Setting** 進行設定的變更。
 
 ![repository_setting](images/bitbucket-repository-setting.jpeg)
 
 ### Azure Repositories of Azure DevOps
 
 ```chat
-Eric: 說完了 GitHub、BitBucket ，最後，來了解一下 Microsoft 所推出的 Azure DevOps。
-吉米: Azure DevOps？
-Eric: Azure DevOps 的前身是 Visual Studio Team Services (VSTS)，為了因應 DevOps 的的趨勢，Microsoft 將原本單一的 VSTS 服務，依功能種類，打散成一系列的服務。
-吉米: 那 Azure DevOps 現在有那些功能呢？
-Eric: 像是工作管理的 Azure Boards 、私有 Git 儲存庫 Azure Repos、CI/CD 相關的 Azure Pipelines 等等。
+Eric:
+  說完了 GitHub、BitBucket ，最後，來了解一下 Microsoft 所推出的 Azure DevOps。
+
+吉米:
+  Azure DevOps？
+
+Eric:
+  Azure DevOps 的前身是 Visual Studio Team Services (VSTS)，為了因應 DevOps 的的趨勢，Microsoft 將原本單一的 VSTS 服務，依功能種類，打散成一系列的服務。
+
+吉米:
+  那 Azure DevOps 現在有那些功能呢？
+
+Eric:
+  像是工作管理的 Azure Boards 、私有 Git 儲存庫 Azure Repos、CI/CD 相關的 Azure Pipelines 等等。
+
 ```
 
 > 📝 資訊補充 📝
