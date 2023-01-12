@@ -1079,7 +1079,8 @@ button:not(:-moz-focusring):focus > .menu__btn-title {
 /* Images / Video */
 img {
 	width: auto\9; /* ie8 */
-	max-width: 100%;
+	width: 80%;
+	max-width: 80%;
 	height: auto;
 	margin: auto;
 	display: block;
