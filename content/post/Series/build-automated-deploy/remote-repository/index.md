@@ -1,5 +1,5 @@
 ---
-title: Git Remote Repository - GitHub/BitBucket/Azure DevOps
+title: 程式碼托管平台 - GitHub/BitBucket/Azure DevOps
 description: null
 date: 2023-01-12T02:10:37.666Z
 tags:
@@ -12,7 +12,7 @@ keywords:
   - BitBucket
   - GitHub
   - Azure DevOps
-slug: git-gui-tools-and-remote-repositories
+slug: git-remote-repositories
 ---
 
 > [2019 iT 邦幫忙鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/1906)文章補完計劃，[從零開始建立自動化發佈的流水線]({{< ref "../foreword/index.md#持續整合">}}) 持續整合篇
@@ -158,29 +158,70 @@ Eric:
 
 > 📝 資訊補充 📝
 >
-> [Azure DevOps](https://azure.microsoft.com/en-us/services/devops/) 的 2023 年的收費方式與 2019 年撰寫文章時，已經完全不同。
+> [Azure DevOps](https://azure.microsoft.com/en-us/services/devops/) 的 2023 年的收費方式與 2019 年撰寫文章時，已經完全不同。(友善度也不同)
+>
+> 順便吐嘈一下 Microsoft，現在使用 Azure DevOps 的入口變的超不友善，每次都要花上不少時間，才能進入 Azure DevOps。
 
 ![2019 Azure DevOps 定價](images/azure-devops-charge-2019.png)
 
 ![2023 Azure DevOps 定價](images/azure-devops-charge-2023.jpeg)
 
 ```chat
-Eric: Azure DevOps 也提供免費與付費的服務，若是使用免費帳戶配合 private repository 時，跟 BitBucket 相同，有著使用者人數的限制。
-吉米: 就 Azure DevOps 服務的項目，小型小組的方案最適合我的需求。
-Eric: 我們這次來聊聊 Azure Repos 。
+Eric:
+  Azure DevOps 也提供免費與付費的服務，若是使用免費帳戶配合 private repository 時，跟 BitBucket 相同，有著使用者人數的限制。
+
+吉米:
+  就 Azure DevOps 服務的項目，小型小組的方案最適合我的需求。
+
+Eric:
+  我們這次來聊聊 Azure DevOps 與 Azure Repos 。
 ```
 
-![create_project](images/azure-devops-create-project.png)
+> 📝 資訊補充 📝
+>
+> 因為 Azure DevOps 與 Azure 整合改版後，初次進入的方式變的複雜，若是沒有特別記下進入的網址，可能要找半天才能順利進入，所以特別補上操作方式。
+>
+> 若已經使用過 Azure DevOps，進入方式有三種
+>
+> - [Azure Partal](https://portal.azure.com/)
+> - [Azure DevOps Services | 登入](https://aex.dev.azure.com/me?mkt=zh-TW)
+> - <https://dev.azure.com/組織名稱>
+
+當在 Google 搜尋 `Azure DevOps` 時，會出現 `Azure DevOps Service` 的頁面，點選後，會進入 Azure DevOps 的宣傳頁面。
+
+![Azure DevOps Ad](images/azure-devops-ad.png)
+
+在這邊要使用 Azure 的帳號登入。若是沒有 Azure 帳號的，它要要求先註冊 Azure 帳號。
+
+登入後，會直接跳到 Azure Dashboard 的頁面。此時，畫面上是找不到 `Azure DevOps` 的項目，請在上面搜尋欄輸入 `DevOps` 並選擇搜尋結果 `Auzre DevOps organizations`。
+
+![Azure Dashboard](images/azure-dashboard.png)
+
+![Azure DevOps organizations](images/azure-devops-organizations.png)
+
+接著點選 `My Azure Devops Organization` 後，網頁會跳 [Azure DevOps Services | 登入](https://aex.dev.azure.com/me?mkt=zh-TW) 書面。
+
+此時，就可以看到目前帳號所屬的 DevOps 組織列表。
+
+![Azure Devops Organization list](images/azure-devops-organization-list.png)
+
+若是沒有任何所屬組織，會要求用戶新增一個組織並建立新專案。
+
+![create organization](images/azure-devops-organization-create.png)
 
 Azure DevOps 與 GitHub、BitBucket 建立比較不同的地方，在於後兩者是直接建立 Repository，而;在 Azure DevOps 則是先建立專案項目。
 
 在建立專案時，需要指定該專案是屬於 `公開` 或 `私有` ，這個決定 Azure DevOps 對專案的支援項目。
 
-![project_index](images/azure-devops-project-index.png)
+![create_project](images/azure-devops-create-project.png)
+
+![Azure DevOps create project in 2023](images/azure-devops-create-project-2023.png)
 
 專案建立後，會在左側功能看到 Azure DevOps 提供的服務，像 **Boards**、**Repos**、**Pipeline**、**Test Plan**。
 
-點開 **Repos** 後，會發現系統己經自行建立一個與專案名稱相同的 Repository。也一樣會貼心的提示您，如何將本地端的 repository 與 BitBucket repository 建立起關連。
+![project_index](images/azure-devops-project-index.png)
+
+點開 `Repos` 後，會發現系統己經自行建立一個與專案名稱相同的 Repository。也一樣會貼心的提示您，如何將本地端的 repository 與 BitBucket repository 建立起關連。
 
 ![Created](images/azure-devops-created.png)
 
@@ -190,45 +231,19 @@ Azure DevOps 與 GitHub、BitBucket 建立比較不同的地方，在於後兩�
 
 到這邊，接下來的 Git 設定方式，跟前面提到的方法是一樣的，不管是 **Git 指令** 或是 **Git Client GUI**。
 
-## Git GUI 工具
-
 ```chat
-吉米: Repository 的建立，真的簡單易懂。不過中間有看到 Pipelines、deployments 這兩個選項，是做什麼用的呢？
+Eric:
+  吉米，除了前面介紹到的 GitHub、BitBucket、Azure DevOps 外，還有許多代管平台可以選擇，例如後起直追的 GitLab 等。
+  但不管是使用現有的程式碼托管平台或是自架版控伺服器，還是要考量本身的需求，來選擇最佳的方案。
 
-Eric: 這兩個選項是與 **持續整合**、**持續發佈** 相關的設定，以後有機會再來聊聊。還記得前面 GitHub 時，我們直接用 Git 指令來進行操作。
+吉米:
+  自架 server 這個選項，就成本與實務上的考量，暫時是不可能的。我先分別試用這三個平台一陣子後，再決定要用那一個。 
 
-吉米: 記得啊，不過總覺得要一直打指令，有點麻煩。
+Eric:
+  嗯嗯，這次跟你分享的這些資訊，你回去後，再好好的研究。如果還有什麼疑惑，也歡迎討論。
 
-Eric: 確實，有些經常性，又繁瑣的事情，其實可以用 Git client GUI 來協助版管。 但是使用這些 Git Client GUI 之前，一定要 **確實了解 Git 的指令，並清楚指令的意思與使用時機**。剛好提到 Atlassian 的 BitBucket ，那就用 Atlassian 的 SourceTree 這套 Git Client GUI 工具吧。
-```
-
-### Fork
-
-### SourceTree
-
-在某一次 SourceTree 的更版後，它在安裝過程中，會要求註冊帳戶。因為沒有自行設定 BitBucket Server ，所以選擇 **Atlassian account** 這個選項。
-
-當註冊 BitBucket 的帳戶後，就等同己經建立 Atlassian 帳戶，所以直接輸入 BitBucket 帳戶即可。
-
-![Image 001](images/sourcetree-register.png)
-
-另外，SourceTree 在安裝過程中，會自行詢問是否下載安裝 Git，這讓我們少了手動安裝 Git 的工夫。
-
-![Image 009](images/sourcetree-auto-install-vcs.png)
-
-本地端 repository
-
-![Image 006](images/sourcetree-local-create-repo.png)
-
-Remote repository 的指定
-
-![clone](images/sourcetree-clone.png)
-
-```chat
-Eric: 吉米，除了前面介紹到的 GitHub、BitBucket、Azure DevOps 外，還有許多代管平台可以選擇。但不管是 **使用現有的程式碼托管平台** 或是 **自行架設版本控制系統伺服器**，還是要考量本身的需求，來選擇最佳的方案。
-吉米: 自架 server 這個選項，就成本與實務上的考量，暫時是不可能的。我先分別試用這三個平台一陣子後，再決定要用那一個。 
-Eric: 嗯嗯，這次跟你分享的這些資訊，你回去後，再好好的研究。如果還有什麼疑惑，也歡迎討論。
-吉米: OK，今天真的是太謝謝你了。
+吉米:
+  OK，今天真的是太謝謝你了。
 ```
 
 ## 參考資料
