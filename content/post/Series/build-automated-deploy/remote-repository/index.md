@@ -80,7 +80,6 @@ Eric: 此外，BitBucket 的公司 Atlassian ，有許多好用的產品，例�
 吉米: 原來如此，以後有機會，也可以來研究一下 JIRA 與 Conflunence。
 ```
 
-
 略過註冊的部份，直接來看看 repository 的設定畫面。
 
 ![create_option](images/bitbucket-create-option.png)

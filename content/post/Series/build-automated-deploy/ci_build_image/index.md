@@ -13,6 +13,7 @@ keywords:
   - jenkins
 date: 2023-01-11T07:01:17.100Z
 slug: build-docker-image
+lastmod: 2023-01-12T07:25:42.274Z
 ---
 
 > [2019 iT 邦幫忙鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/1906)文章補完計劃，[從零開始建立自動化發佈的流水線]({{< ref "../foreword/index.md#container">}}) Container 篇
@@ -150,17 +151,18 @@ pipeline {
 
 (圖片來源:  [A continuous integration pipeline with Jenkins in Docker](https://www.nielsvandermolen.com/continuous-integration-jenkins-docker/))
 
-```plan
+```chat
+吉米:
+  不同工具的設定方式，都不太相同。
 
-吉米: 不同工具的設定方式，都不太相同。
+Eric:
+  是啊。不過，再怎麼變化，都是離不開 cmd、dockerfile、yml 設定檔這三個部份。
 
-Eric: 是啊。不過，再怎麼變化，都是離不開 cmd、dockerfile、yml 設定檔這三個部份。
+吉米:
+  嗯嗯，還要多嘗試，才能調整為自己想要的流程。
 
-吉米: 嗯嗯，還要多嘗試，才能調整為自己想要的流程。
-
-Eric: 一起加油吧。
-
-<< 完 >>
+Eric:
+  一起加油吧。
 ```
 
 ## 延伸閱讀

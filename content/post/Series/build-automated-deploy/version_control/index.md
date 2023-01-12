@@ -10,6 +10,7 @@ keywords:
   - Git Flow
 tags:
   - 版控
+lastmod: 2023-01-12T07:14:12.252Z
 ---
 
 > [2019 iT 邦幫忙鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/1906)文章補完計劃，[從零開始建立自動化發佈的流水線]({{< ref "../foreword/index.md#版控篇">}}) 版控篇
@@ -18,7 +19,7 @@ tags:
 
 <!--more-->
 
-```plan
+```chat
 吉米與 Eric 相約在咖啡廳會面後，閒聊一會後，吉米直接將自己遇到的情況詳細說明給 Eric 知道。並詢問是否有其他建議的作法。
 
 Eric:
@@ -144,9 +145,10 @@ Eric:
 
 ## Git 簡說
 
-```Plan
+```chat
 Eric:
-  簡單說明「集中式版本控制」與「分散式版本控制」兩者之間的差異，其中 Subservion 是很經典的集中式版制系統。不過，因為你之前沒有使用過版控系統，個人建議使用分散式散本控制系統中的 Git。
+  簡單說明「集中式版本控制」與「分散式版本控制」兩者之間的差異，其中 Subservion 是很經典的集中式版制系統。
+  不過，因為你之前沒有使用過版控系統，個人建議使用分散式散本控制系統中的 Git。
 
 吉米:
   為什麼 Eric 你會建議使用 Git 呢？
@@ -184,7 +186,7 @@ git checkout master
 git reset C3
 ```
 
-```Plan
+```chat
 Eric:
   剛剛提到的 commit、checkout、reset 都是在基本的版本管理與記錄，只會這些是無法支援多變的開發需求的。
 
@@ -217,7 +219,7 @@ git merge master
 
 ### Git 與遠端同步
 
-```Plan
+```chat
 Eric:
   說完 branch、merge 的觀念後，接著來聊聊 遠端 Repository 與 本地端 Repository 的同步。
 
@@ -250,7 +252,7 @@ git pull
 git clone
 ```
 
-```Plan
+```chat
 Eric:
   說了這麼多，但還有很有很多指令都還沒有提到，像 request push、rebase 等等，有機會你再去好好了解它們的用法。
 
@@ -263,7 +265,7 @@ Eric:
 
 ## Git Flow
 
-```Plan
+```chat
 吉米在了解 Git 版本控制的觀念後，使用了兩週的時間，發現自己無法很好的管理分支與控制變動。
 在網路上找到 git flow 的介紹，但研究後，還是有部份的疑問。
 因此，吉米打電話跟 Eric 請教 git flow 的問題。
@@ -347,30 +349,36 @@ develop 是基於 master 所分支出的 **開發用主線**。當採用 git flo
 2. 每天工作前，都應該 Fetch 最新版本。下班前，將完成的 feature push 。
 3. 軟體架構內物件，要盡可能的低耦合高內聚，才能減少功能修改時的交互影響。
 
-```Plan
-吉米: Eric，聽完你的說明，感覺 git flow 就可以立即套用。
+```chat
+吉米:
+  Eric，聽完你的說明，感覺 git flow 就可以立即套用。
 
-Eric: 剛好目前你一個人獨立開發，而在這個時機點，git flow 正好適合你用。如果以後多人協同開發的時候，可能就要搭配其他流程，如 Github flow、Gitlab flow 等等，以便管理，
+Eric:
+  剛好目前你一個人獨立開發，而在這個時機點，git flow 正好適合你用。如果以後多人協同開發的時候，可能就要搭配其他流程，如 Github flow、Gitlab flow 等等，以便管理，
 
-吉米: 嗯嗯，適合的最好，以後如果有用到其他的流程，再跟你請救。
+吉米:
+  嗯嗯，適合的最好，以後如果有用到其他的流程，再跟你請救。
 
-Eric: 哈哈，歡迎歡迎，跟你解釋的同時，我也順便再次理清思慮。沒其他事的話，打電話我就先掛了。
+Eric:
+  哈哈，歡迎歡迎，跟你解釋的同時，我也順便再次理清思慮。沒其他事的話，打電話我就先掛了。
 
-吉米: OK，拜拜。
+吉米:
+  OK，拜拜。
 
-Eric: 拜拜。
+Eric:
+  拜拜。
 ```
 
 ## 延伸閱讀
 
-### 版控觀念
+▶ 版控觀念
 
 1. [Local, Central and Distributed Version Control Systems](http://toolsqa.com/git/local-central-and-distributed-version-control-systems/)
 2. [三個使用版本控制系統的建議](https://ihower.tw/blog/archives/8076)
 3. [How to write the perfect pull request](https://blog.github.com/2015-01-21-how-to-write-the-perfect-pull-request/)
 4. [卓越開發者必備的版本控制技巧](https://www.ithome.com.tw/article/97328)
 
-### Git
+▶ Git
 
 1. [Git 官網](https://git-scm.com/downloads/guis)
 2. [連猴子都能懂的 Git 入門指南](https://backlog.com/git-tutorial/tw/)
@@ -381,7 +389,7 @@ Eric: 拜拜。
 7. [Git 達人教你搞懂 GitHub 基礎觀念](https://www.ithome.com.tw/news/95283)
 8. [為你自己學 Git](https://gitbook.tw/)
 
-### Git Flow
+▶ Git Flow
 
 1. [Git Flow 是什麼？為什麼需要這種東西？](https://gitbook.tw/chapters/gitflow/why-need-git-flow.html)
 2. [A successful Git branching model](https://nvie.com/posts/a-successful-git-branching-model/)

@@ -21,7 +21,7 @@ slug: container-intro
 <!--more-->
 ## Containers vs Virtual Machine
 
-``` plan
+```chat
 從建立起 CI/CD 環境後，幫吉米的工作分擔了許多麻煩事。讓吉米有更多的時間去爭取新的專案的情況下。
 吉米成立了自己的小公司，並邀請 Eric 作為技術上的顧問。
 就這樣過了一兩年，這天，吉米與 Eric 吃飯時，討論起到到客戶那邊更新服務時，種種的情況與問題。
@@ -79,7 +79,7 @@ Container 技術最早是被發佈與運用在 Linux 之中，經過 Docker 的�
 
 在 2020 年 9 月 Microsoft 調整 WSL 的架構，推出 WSL2，讓完整的 Linux 核心跑在 Hyper-V 的虛擬機器，提供更貼近原生 Linux 的使用體驗。
 
-``` plan
+```chat
 吉米:
   聽起來，Container 的導入，確實有一定的幫助。但要怎麼做呢？
 
