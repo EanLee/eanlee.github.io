@@ -45,7 +45,7 @@ toc: false
 ### 版控篇
 
 - [程式碼版控 - 觀念與 Git 簡述]({{< ref "../version_control/index.md">}})
-- Git Remote Repository
+- [程式碼托管平台 - GitHub/BitBucket/Azure DevOps]({{< ref "../remote-repository/index.md">}})
 
 ### 持續整合
 

@@ -1,6 +1,6 @@
 ---
 title: 程式碼托管平台 - GitHub/BitBucket/Azure DevOps
-description: null
+description: 介紹了版控的概念與 Git 的操作方式後，接著要找 Remote Repositories 來進行程式碼的托管，達到異地備份的效果。將針對 `GitHub`、`BitBucket`、`Azure DevOps` 內的 `Azure Repos` 三個托管平台進行介紹。
 date: 2023-01-12T02:10:37.666Z
 tags:
   - 版控
@@ -15,7 +15,11 @@ keywords:
 slug: git-remote-repositories
 ---
 
-> [2019 iT 邦幫忙鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/1906)文章補完計劃，[從零開始建立自動化發佈的流水線]({{< ref "../foreword/index.md#持續整合">}}) 持續整合篇
+> [2019 iT 邦幫忙鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/1906)文章補完計劃，[從零開始建立自動化發佈的流水線]({{< ref "../foreword/index.md#版控篇">}}) 版控篇
+
+在[程式碼版控 - 觀念與 Git 簡述]({{< ref "../version_control/index.md">}})介紹了版控的概念與 Git 的操作方式。接著，就必須找一個 Remote Repositories 來進行程式碼的托管，達到異地備份的效果。
+
+本篇文章的內容，會針對 `GitHub`、`BitBucket`、`Azure DevOps` 內的 `Azure Repos` 三個托管平台進行介紹。
 
 <!--more-->
 
