@@ -1,6 +1,7 @@
 ---
 title: 程式碼托管平台 - GitHub/BitBucket/Azure DevOps
-description: 介紹了版控的概念與 Git 的操作方式後，接著要找 Remote Repositories 來進行程式碼的托管，達到異地備份的效果。將針對 `GitHub`、`BitBucket`、`Azure DevOps` 內的 `Azure Repos` 三個托管平台進行介紹。
+description: 介紹了版控的概念與 Git 的操作方式後，接著要找 Remote Repositories 來進行程式碼的托管，達到異地備份的效果。將針對
+  GitHub、BitBucket、Azure DevOps 內的 Azure Repos 三個托管平台進行介紹。
 date: 2023-01-12T02:10:37.666Z
 tags:
   - 版控
@@ -12,7 +13,9 @@ keywords:
   - BitBucket
   - GitHub
   - Azure DevOps
+  - Azure Repos
 slug: git-remote-repositories
+lastmod: 2023-01-13T01:20:43.020Z
 ---
 
 > [2019 iT 邦幫忙鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/1906)文章補完計劃，[從零開始建立自動化發佈的流水線]({{< ref "../foreword/index.md#版控篇">}}) 版控篇
@@ -80,9 +83,9 @@ Eric:
 >
 > 在 2019 年，GitHub 宣佈提供 private repositories 給免費用戶，但 private repositoryes 仍有共用限制，毎個 private repository 最多三位共同開發者使用。
 
-~~但要特別提到一點就是，雖然 GitHub 提供免費的 Repository 空間，但是必需將該專案設為**公開(public)**。~~
+~~但要特別提到一點就是，雖然 GitHub 提供免費的 Repository 空間，但是必需將該專案設為 `公開(public)`。~~
 
-~~假若希望將專案設為 **私有(private)** ，避免被不相關的人檢視內容。在網頁中，也清楚的說明，每個月支付 7 美元，提升帳戶的級層，就可以無限制的使用 **private repositories**。~~
+~~假若希望將專案設為 `私有(private)` ，避免被不相關的人檢視內容。在網頁中，也清楚的說明，每個月支付 7 美元，提升帳戶的級層，就可以無限制的使用 `private repositories`。~~
 
 ![create_repository_after](images/github-empty-repository.png)
 
@@ -124,7 +127,7 @@ Eric:
 
 ![create_repository](images/bitbucket-create-repository.png)
 
-跟 GitHub 相同，只要輸入 **`Repository name`** 就可以創立一個新的 repository。
+跟 GitHub 相同，只要輸入 `Repository name` 就可以創立一個新的 repository。
 
 與 GitHub 不同，BitBucket 預設 repository 的存取層級就是私有的。如果要公開的話，記得將 **`Access level`** 的勾選取消。
 
@@ -134,9 +137,9 @@ Eric:
 
 建立 repository 完成後，BitBucket 一樣會貼心的提示您，如何將本地端的 repository 與 BitBucket repository 建立起關連。
 
-左側的功能列上，也可以選擇看 **Commits**、**Branches** 的相關記錄。**Pipelines**、**Deployments** 這兩個功能與 CI/CD 相關。
+左側的功能列上，也可以選擇看 `Commits`、`Branches` 的相關記錄。而 `Pipelines`、`Deployments` 這兩個功能與 CI/CD 相關。
 
-若需要調整 repository 的設定，都可以從 **Setting** 進行設定的變更。
+若需要調整 repository 的設定，都可以從 `Setting` 進行設定的變更。
 
 ![repository_setting](images/bitbucket-repository-setting.jpeg)
 
@@ -221,7 +224,7 @@ Azure DevOps 與 GitHub、BitBucket 建立比較不同的地方，在於後兩�
 
 ![Azure DevOps create project in 2023](images/azure-devops-create-project-2023.png)
 
-專案建立後，會在左側功能看到 Azure DevOps 提供的服務，像 **Boards**、**Repos**、**Pipeline**、**Test Plan**。
+專案建立後，會在左側功能看到 Azure DevOps 提供的服務，像 `Boards`、`Repos`、`Pipeline`、`Test Plan`。
 
 ![project_index](images/azure-devops-project-index.png)
 
@@ -233,7 +236,7 @@ Azure DevOps 與 GitHub、BitBucket 建立比較不同的地方，在於後兩�
 
 ![repos_manage](images/azure-devops-repos-manage.png)
 
-到這邊，接下來的 Git 設定方式，跟前面提到的方法是一樣的，不管是 **Git 指令** 或是 **Git Client GUI**。
+到這邊，接下來的 Git 設定方式，不管是選擇使用 `Git 指令` 或是 `Git Client GUI` 那一種，跟前面提到的設定方法相同，。
 
 ```chat
 Eric:
