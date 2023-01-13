@@ -95,16 +95,23 @@ Azure 發展致今，服務內容己經横跨 **運算**、**資料服務**、**
 
 ## Jenkins on Azure
 
-為了在將 Jenkins 掛在 Azure 上，因此，採用 Azure 的 Linux **虛擬機器** 。
+![2019 年 Jenkins 首頁](images/jenkins_index.png)
 
-![jenkins_index](images/jenkins_index.png)
+![2023 年 Jenkins 首頁](images/jenkins-index-2023.png)
 
-Jenkins 是目前擁有眾多使用者的 CI/CD 軟體。同時，它也是一個 Java 的開源專案，因此，擁有許多套件可搭配使用，以支援不同的需求。
+> 📝 資訊補充 📝
+>
+> 在 2023 年[Jenkins](https://www.jenkins.io/) 的首頁中，可以看到 Jenkins 手舉停戰的 Logo。這是因為烏克蘭戰爭仍在持續中，
+
+[Jenkins](https://www.jenkins.io/)，俗稱老爺爺，是目前擁有眾多使用者的 CI/CD 軟體之一。擁有許多套件可搭配使用，以支援不同的需求，自行搭配組合。
+
+同時，它也是一個使用 Java 撰寫的開源專案，
 
 ### 架設 Jenkins
 
 #### Azure VM 機器建立
 
+為了在將 Jenkins 掛在 Azure 上，因此，採用 Azure 的 Linux **虛擬機器** 。
 ![index_1](images/index_1.png)
 
 在進入 Azure 的畫面後，直接到 Marketplace 中，找到 Jenkins 進行安裝。
@@ -353,19 +360,17 @@ Eric: 接下來，我們來聊聊 YAML 這個標註語言。
 
 ▶ Azure
 
-- Mircosoft Azure, [Azure 上的 Jenkins](https://docs.microsoft.com/zh-tw/azure/jenkins/)
+- [Jenkins on Azure 文件 - Jenkins | Microsoft Learn](https://docs.microsoft.com/zh-tw/azure/jenkins/)
 - hungys, [認識 Microsoft Azure](https://ithelp.ithome.com.tw/articles/10157344)
-- [Azure DevOps Features Timeline](https://docs.microsoft.com/en-us/azure/devops/release-notes/index)
-- [YAML schema reference](https://docs.microsoft.com/en-us/azure/devops/pipelines/yaml-schema?view=vsts&tabs=schema)
+- [Azure DevOps Roadmap | Microsoft Learn](https://docs.microsoft.com/en-us/azure/devops/release-notes/index)
+- [YAML schema reference | Microsoft Learn](https://docs.microsoft.com/en-us/azure/devops/pipelines/yaml-schema?view=vsts&tabs=schema)
 
 ▶ Jenkins
 
-- [GitHub Integration: Webhooks](https://support.cloudbees.com/hc/en-us/articles/224543927-GitHub-Integration-Webhooks)
-- [Git Plugin](https://wiki.jenkins.io/display/JENKINS/Git+Plugin)
+- [GitHub Integration: Webhooks – CloudBees Support](https://support.cloudbees.com/hc/en-us/articles/224543927-GitHub-Integration-Webhooks)
 - [Configure Jenkins to Run Build Automatically on Code Push (youtube)](https://www.youtube.com/watch?v=ke3f3rcRSc8)
-- [Configuring Jenkins to Run a Build Automatically on Code Push (document)](https://blogs.sap.com/2015/12/15/configuring-jenkins-to-run-a-build-automatically-on-code-push/)
-- [【Jenkins】外掛套件：MSBuild](https://dotblogs.com.tw/echo/2018/03/30/jenkins_plugin_msbuild)
-- alexellis, [3 Steps to MSBuild with Docker](https://blog.alexellis.io/3-steps-to-msbuild-with-docker/)
-- [GitHub Integration: Webhooks](https://support.cloudbees.com/hc/en-us/articles/224543927-GitHub-Integration-Webhooks)
-- [Bitbucket Plugin](https://wiki.jenkins.io/display/JENKINS/Bitbucket+Plugin)
-- [GitHub Plugin](https://wiki.jenkins.io/display/JENKINS/GitHub+Plugin)
+- [【Jenkins】外掛套件：MSBuild | 暴走的程式碼…](https://dotblogs.com.tw/echo/2018/03/30/jenkins_plugin_msbuild)
+- [3 Steps to MSBuild with Docker](https://blog.alexellis.io/3-steps-to-msbuild-with-docker/)
+- [Git | Jenkins plugin](https://wiki.jenkins.io/display/JENKINS/Git+Plugin)
+- [Jenkins : Bitbucket Plugin](https://wiki.jenkins.io/display/JENKINS/Bitbucket+Plugin)
+- [Jenkins : GitHub Plugin](https://wiki.jenkins.io/display/JENKINS/GitHub+Plugin)
