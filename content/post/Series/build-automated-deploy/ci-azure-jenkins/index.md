@@ -13,6 +13,7 @@ keywords:
   - Azure DevOps
 lastmod: 2023-01-13T01:51:57.592Z
 slug: ci-azure
+draft: true
 ---
 
 > [2019 iT 邦幫忙鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/1906)文章補完計劃，[從零開始建立自動化發佈的流水線]({{< ref "../foreword/index.md#持續整合">}}) 持續整合篇
@@ -66,35 +67,43 @@ Eric: 放心，這點我有想到。所以在說 Jenkins 之前，先跟你介�
 
 ### 三種服務
 
-- 基礎架構即服務 (IaaS)
-- 平台即服務 (PaaS)
-- 軟體即服務 (SaaS
+- 基礎架構即服務 (Infrastructure as a Service, IaaS)
+- 平台即服務 (Platform as a Service, PaaS)
+- 軟體即服務 (Software as a Service, SaaS)
+
+![IaaS v.s. PaaS v.s. SaaS](images/cloud-models-iaas-paas-saas.jpg)
+圖示來源: [IaaS vs. PaaS vs. SaaS - DEV Community 👩‍💻👨‍💻](https://dev.to/cloudtech/iaas-vs-paas-vs-saas-41d2)
 
 ## Azure 簡介
 
 Azure 是 Microsoft 近年來，大力推行的公有雲端服務平台。它提供了多種服務，讓用使用者自行選擇、組合與運用。
 
 ![Azure](images/Azure.png)
-
 ( 圖片來源: [Azure 官網](https://azure.microsoft.com/zh-tw/resources/infographics/azure/))
 
 Azure 發展致今，服務內容己經横跨 **運算**、**資料服務**、**應用程式服務**、**儲存**、**網路** 等類型。
 
-為了在將 JenKins 掛在 Azure 上，因此，採用 Azure 的 Linux **虛擬機器** 。
-
-![index](images/Index.png)
-
 目前 Azure 為了讓更多人使用與體驗，提供 免費帳戶 讓大家有機會嘗試 Azure 豐富的服務內容。
+
+![Azure on 2018](images/microsoft-azure-index-2018.png)
+2019 年 Azure 首頁畫面
+
+![Azure on 2023](images/msedge_20230113_124645_5rpCK%201.png)
+2023年 [Azure 首頁](https://azure.microsoft.com/zh-tw)畫面
 
 為了確保帳戶的有效性，在申請免費帳戶時，必需經過信用卡驗證的關卡。
 
 ## Jenkins on Azure
 
+為了在將 Jenkins 掛在 Azure 上，因此，採用 Azure 的 Linux **虛擬機器** 。
+
 ![jenkins_index](images/jenkins_index.png)
 
 Jenkins 是目前擁有眾多使用者的 CI/CD 軟體。同時，它也是一個 Java 的開源專案，因此，擁有許多套件可搭配使用，以支援不同的需求。
 
-### Jenkins install in Azure
+### 架設 Jenkins
+
+#### Azure VM 機器建立
 
 ![index_1](images/index_1.png)
 
@@ -131,7 +140,7 @@ cat xxxxxxx.pub
 
 ![vm](images/vm.png)
 
-### Jenkins 設定
+#### Jenkins 設定
 
 我們可以從虛擬機器中的 DNS 名稱，看到 Jenkins 所在的網站。
 
@@ -192,17 +201,17 @@ Eric:
   基本上，越多人便用的平台，Jenkins 通常會出現針對那平台或功能的插件。
 ```
 
-### Step.1 建立 CI 專案
+### 建立 CI 專案
 
-由於 GitHub、BitBucket、Azure DevOps 均是使用 Git 的做為版控的方式。
+由於 GitHub、BitBucket、均是使用 Git 的做為版控的方式。
 
 以 串接 BitBucket 為例，說明 Git Repository 要如何進行設定。
-
-![add projec](Picture/JenkinsOnAzure/add projec.png)
 
 首先，按下建立新的 CI 專案後，會出現專案的設定畫面。選擇 `Free-Style 軟體專案`。
 
 直接移到原始碼管理，將 Repository 的位置填入，然後在 **Credentials 中，選擇或新增 所使用 Repository 的帳密**。以便 Jenkins 可以成功進入 private repository ，並取回資料。
+
+![add projec](images/Add-project.png)
 
 ![bitbucket_create](images/jenkins-bitbucket-create.png)
 
@@ -210,26 +219,25 @@ Repository 的設定只要出錯，建置的結果必定失敗。若去看建置
 
 ![BitBucket_result](images/jenkins-bitbucket-result.png)
 
-設定到這邊，Jenkins 只能主動去跟 Repository 取回資料。但是無法得知 Repository 是不有任何變更。
+設定到這邊，Jenkins 已經可以主動跟 Repository 取回資料，進行 CI 的行為。但無法在 Repository 異動的第一時間，得知 Repository 是任何變更，需要重新執行 CI 動作。
 
-所以，一定要到 Repository 的平台上，設定 `webhook`，以便發生版本變更的同時，立即通知 Jenkins 進行 CI。
+因此，一定要到 Repository 的平台上，設定 `webhook`，以便發生版本變更的同時，立即通知 Jenkins 進行 CI。
 
 ```chat
 Eric:
   前面只是單純針對 Git 版控的 Repository 進行通用設定，但是 GitHub、BitBucket 這些被常用的平台，有好心人士公開專用的插件。
 ```
 
-### 02. Repository 變更時，主動通知 Jenkins
+### 使用 Webhook 主動通知 Jenkins
 
 所以要到 Repository 的平台上，設定 `webhook`，讓 Repository 知道，當發生版本變更時，通知 Jenkins 進行 CI。
 
-- ### Software Configuration Management, SCM
+- Software Configuration Management, SCM
 
-- ### GIt plug
+- GIt plug
 
-### 被動
 
-### 1. GitHub plug-in
+#### GitHub plug-in
 
 在最新版本的 Jenkins，己經預設安裝 `Github Plugin` 這個插件。所以在專案的 `組態` 中，看到 `GitHub projects`、`GitHub hook trigger for GITScm polling` 這兩個項目。
 
@@ -247,21 +255,20 @@ Eric:
 {jenkins網址}\github-webhook
 ```
 
-### 02. BitBucket plug-in
+#### BitBucket plug-in
 
-### 03. 使用 Jenkins 監控 Azure DevOps
 
-## Azure Pipelines of Azure DevOps
+## Azure Pipelines on Azure Devops
 
 ```chat
 Eric:
-  前面花了很長的時間，說明 Jenkins 設定與支援 GitHub、BitBucket、Azure DevOps 等 Git Repository。接下來，來聊聊 Azure DevOps 當中的 PipeLines。
+  前面花了很長的時間，說明 Jenkins 設定與支援 GitHub、BitBucket 等 Git Repository。接下來，來聊聊 Azure DevOps 當中的 PipeLines。
 
 吉米:
   Pipelines？
 
 Eric:
-  Microsoft 將，原本 VSTS 當中，所有與 CI/CD 相關功能，統整於 Azure Pipelines。
+  Microsoft 將原本 VSTS 當中，所有與 CI/CD 相關功能，統整於 Azure Pipelines。
 
 吉米:
   了解。
@@ -270,7 +277,7 @@ Eric:
   我們先來聊聊 Azure Pipelines 對自家產品 Azure Repositories 的支援與設定。
 ```
 
-### 1. Azure PipeLines 的建立
+### Azure PipeLines 的建立
 
 ![Index](images/azure-devops-project-index.png)
 
@@ -286,7 +293,7 @@ Eric:
 
 ![圖片20181028_225151](images/azure-pipeline-yaml.png)
 
-### 2. azure-pipelines.yml
+### azure-pipelines.yml
 
 我們來看一下，Azure pipelines 自動建立出來的 yml 內容。
 
@@ -326,7 +333,7 @@ steps:
 
 Azure pipeline 動作時， 會依序執行 task，只要其中一個 task 失敗，就會直接中斷動作。並回報結果為失敗。
 
-### 3. Azure pipeline 執行畫面
+### Azure pipeline 執行畫面
 
 當 Repository 的程式碼有異動時，Azure Pipeline 就會依剛剛 `azure-pipelines.yml` 的指示，進行動作。
 
@@ -335,11 +342,10 @@ Azure pipeline 動作時， 會依序執行 task，只要其中一個 task 失�
 ![Azure_pipelines_result](images/azure-pipelines-exec-result.png)
 
 ```chat
-
 Eric: 接下來，我們來聊聊 YAML 這個標註語言。
 ```
 
-### 延伸閱讀
+## 延伸閱讀
 
 ▶ Cloud
 
