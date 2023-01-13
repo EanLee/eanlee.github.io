@@ -11,7 +11,6 @@ keywords:
   - Jenkins
   - Azure
   - Azure DevOps
-lastmod: 2023-01-13T01:51:57.592Z
 slug: ci-azure
 draft: true
 ---
