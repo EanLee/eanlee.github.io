@@ -2,15 +2,13 @@
 <main class="main" role="main">
 	<article class="post">
 		<header class="post__header">
-			<h1 class="post__title">{{ .Title }}</h1>
+			<h1 class="post__title">{{if .Draft}}(草稿) {{end}}{{ .Title }}</h1>
 			{{- with .Params.lead }}
 			<p class="post__lead">{{ . }}</p>
 			{{- end }}
 			{{ with partial "post_meta.html" . -}}
 			<div class="post__meta meta">{{ . }}</div>
 			{{- end }}
-
-
 		</header>
 		{{ partial "post_thumbnail.html" (dict "class" "post" "page" .) }}
 		{{- partial "post_toc.html" . -}}
@@ -22,6 +20,7 @@
 			{{ partial "post_tags.html" . }}
 		</footer>
 		{{- end }}
+		<hr/>
 		{{ partial "declaration.html" . }}
 		{{ partial "likecoin.html" . }}
 		{{ if (findRE "<pre" .Content 1) }}
