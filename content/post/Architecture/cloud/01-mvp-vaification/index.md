@@ -16,6 +16,7 @@ keywords:
   - VPC
 description: 本文章藉由同一機器的地端架構對應 AWS 雲端服務，學習與理解雲端可支援的服務項目。
 lastmod: 2022-06-26T16:45:14.386Z
+slug: mvp-vaification
 ---
 
 假設新創的網路服務提供商，隨著業務的發展，提供服務的軟體系統，從最初的簡易架構，依據面臨的挑戰與需求，不停調整擴充系統架構。
@@ -53,7 +54,7 @@ lastmod: 2022-06-26T16:45:14.386Z
 
 此架構下，就可以滿足基本的站台服務，提供開發人員與相關人員進行測試。
 
-![單台機器架構](single_machine_v3.png)
+![單台機器架構](images/single_machine_v3.png)
 
 | 優點                   | 缺點                               |
 | ---------------------- | ---------------------------------- |
@@ -66,7 +67,7 @@ lastmod: 2022-06-26T16:45:14.386Z
 
 接著，將地端的架構遷移至雲端，依 AWS 提供的服務，建立出來的雲端架構如下。
 
-![單台機器的雲端架構](single_machine_aws_archtiecture_v2.png)
+![單台機器的雲端架構](images/single_machine_aws_archtiecture_v2.png)
 
 ### 基礎架構設定
 
@@ -144,12 +145,12 @@ Region 與 Region 間的通訊，使用 AWS 的骨幹網路基礎設施。提供
 
 #### Availability Zones, AZs
 
-![AZ](AZ_datacenter.png)
+![AZ](images/az-datacenter.png)
 圖片來源: [Youtube: AWS Global Cloud Infrastructure](https://www.youtube.com/watch?v=RPis5mbM8c8)
 
 每個 AZ 內，包含一個以上的資料中心組成。並透過高頻寬、低延遲網路與完全冗餘的專用都會光纖，達到 AZ 之間提供高輸送量、低延遲的網路品質。便於輕鬆地建構能在 AZ 之間自動容錯移轉的應用程式，而不會發生中斷。
 
-![AZ](az.png)
+![AZ](images/az.png)
 圖片來源: [Youtube: AWS Global Cloud Infrastructure](https://www.youtube.com/watch?v=RPis5mbM8c8)
 
 同時，每個 AZ 內的資料中心，都具有獨立的電源、散熱和物理安全性，並透過冗餘電源與冗餘的超低延遲與高頻寬的網路連接，確實可以持續提供服務。
@@ -174,14 +175,14 @@ VPC 為是用戶創建網環境的基礎元件，AWS 建議在建構基礎設施
 
 當 IGW 使用的 route table 與 subnet 有關連，意味著公開網路可以經由 IGW 與 subnet 建立通訊，該 subnet 為 public subnet。反之，若 subnet 與 IGW 的 route table 沒關連，則為 private subnet。
 
-![internet-gateway](internet-gateway-basics.png)
+![internet-gateway](images/internet-gateway-basics.png)
 圖示來源: [AWS](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Internet_Gateway.html)
 
 ##### Route tables
 
 用於決定 VPC 的網路流量(Network traffic)會流向何處，Route Table 內的每條 Rule 均指定網段，以及傳送流量 (目標) 的閘道、網路界面或連線。
 
-![route](route_table.png)
+![route](images/route-table.png)
 圖示來源: [AWS](https://docs.aws.amazon.com/vpc/latest/userguide/how-it-works.html)
 
 ##### Network Access Control List, NACL
@@ -218,7 +219,7 @@ Private subnet: subnet 流量無法經由 internet gateway 到達公開網路，
 | 在決定是否允許流量前，先評估所有規則                                                             | 在決定是否允許流量時，依序處理規則，從編號最低的規則開始                                          |
 | 若某人於啟動執行個體時指定安全群組，或在啟動後將安全群組與執行個體建立關聯，才會套用至執行個體。 | 自動套用至子網路與其相關聯的所有執行個體 (因此，如果安全群組規則太過寬鬆，則它會提供額外一層防禦) |
 
-![sg_vs_nacl](security-diagram_updated.png)
+![sg_vs_nacl](images/security-diagram_updated.png)
 圖示來源: [AWS](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Security.html)
 
 ##### Elastic network interfaces, ENI
@@ -269,7 +270,7 @@ AWS 支援六個類型的 Policy，使用頻率的從高到低，分別如下。
 
 `role` 在存取連線的過程中，只會提供暫時性的安全憑證，不會使使用標準長時效的憑證。
 
-![role](role.png)
+![role](images/role.png)
 
 ##### User Group
 
@@ -280,7 +281,7 @@ AWS 支援六個類型的 Policy，使用頻率的從高到低，分別如下。
 - 一個 `User Group` 包含多個 `User`，而且一個 `User` 也可以隸屬多個 `User Group`。
 - `User Group` 無法包含其他 `User Group`
 
-![iam-intro-users-and-groups](iam-intro-users-and-groups.diagram.png)
+![iam-intro-users-and-groups](images/iam-intro-users-and-groups.diagram.png)
 圖示來源: [AWS](https://docs.aws.amazon.com/vpc/latest/userguide/how-it-works.html)
 
 `Users` 或 `User Group` 可以附加多組不同權限的 Policy，此次 `User` 的權限由 Policy 組合出來。
@@ -326,7 +327,7 @@ Amazon EC2 全名 Amazon Elastic Compute Cloud，
 
 Amazon Elastic Block Store (Amazon EBS) 是易於使用、可擴展的高效能區塊儲存服務，屬於 block-level Storage，用於 EC2 Instance 的持久性區塊儲存。
 
-![EBS 運作方式](Product-Page-Diagram_Amazon-Elastic-Block-Store.png)
+![EBS 運作方式](images/Product-Page-Diagram_Amazon-Elastic-Block-Store.png)
 圖片來源: [AWS](https://aws.amazon.com/tw/ebs/)
 
 依價格由高至低，列出 4 種類型。
