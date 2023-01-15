@@ -1,32 +1,33 @@
 ---
 title: 使用 Jenkins/Azure Pipeline 進行持續整合
-date: 2023-01-13T01:51:50.474Z
-description: 簡述 CI/CD 的觀念
+date: 2023-01-15T16:08:36.674Z
+description: 在介紹完 CI/CD 的觀念後，接著介紹如何使用 Azure Pipelines、如何在 Azure VM 架構 Jenkins，以及 Jenkins 與 repository 的串接方式，以便持續整合(Continuous
+  integration, CI)
 categories:
   - DevOps
 keywords:
   - CI
   - Continuous integration
-  - Travis CI
   - Jenkins
   - Azure
   - Azure DevOps
-slug: ci-azure
-draft: true
+slug: ci-azure-pipeline-and-jenkins
 ---
 
 > [2019 iT 邦幫忙鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/1906)文章補完計劃，[從零開始建立自動化發佈的流水線]({{< ref "../foreword/index.md#持續整合">}}) 持續整合篇
 
-當程式碼已經進入版控系統後，就會想要有個服務可以自動去建置、驗證 source code 的完整性與安全性，最好還可以自行部屬。而 CI/CD 就是為了滿足這個希望，而誕生出來的機制。
+上一篇[使用 Travis CI/GitHub Action 進行持續整合]({{< ref "../ci-github-action-travis-ci/index.md" >}})已經介紹 Travis CI 與 GitHub Actions。
+
+接著，來介紹 Azure Pipelines，以及如何把 Jenkins 架設在 Azure 的虛構機器上。
 
 <!--more-->
 
 ```chat
-Eric: 前面介紹完 Travis CI，雖然容易上手，可惜只支援 GitHub。接下來，我們來聊聊最多人使用的 Jenkins。
+Eric: 前面介紹完 Travis CI/GitHub Actions。接下來，我們來聊聊最多人使用的 Jenkins。
 
 吉米: Jenkins 有聽其他人提起過，不過一直沒有放在心上。但我記得 Jenkins 的設定有點復雜。而且，我是不是要再另外準備一台電腦，提供 Jenkins 使用？
 
-Eric: 放心，這點我有想到。所以在說 Jenkins 之前，先跟你介紹一下 Azure 雲端服務平台。
+Eric: 放心，這點我有想到，我們可以使用雲端服務來解決這個問題。因此，在 Jenkins 之前，先跟介紹一下 Azure 雲端服務平台。
 ```
 
 ## 雲端運算簡介
@@ -77,7 +78,7 @@ Eric: 放心，這點我有想到。所以在說 Jenkins 之前，先跟你介�
 
 Azure 是 Microsoft 近年來，大力推行的公有雲端服務平台。它提供了多種服務，讓用使用者自行選擇、組合與運用。
 
-![Azure](images/Azure.png)
+![Windows Azure 介紹](images/Azure.png)
 ( 圖片來源: [Azure 官網](https://azure.microsoft.com/zh-tw/resources/infographics/azure/))
 
 Azure 發展致今，服務內容己經横跨 **運算**、**資料服務**、**應用程式服務**、**儲存**、**網路** 等類型。
@@ -87,24 +88,24 @@ Azure 發展致今，服務內容己經横跨 **運算**、**資料服務**、**
 ![Azure on 2018](images/microsoft-azure-index-2018.png)
 2019 年 Azure 首頁畫面
 
-![Azure on 2023](images/msedge_20230113_124645_5rpCK%201.png)
+![Azure on 2023](images/azure-index-2023.png)
 2023年 [Azure 首頁](https://azure.microsoft.com/zh-tw)畫面
 
 為了確保帳戶的有效性，在申請免費帳戶時，必需經過信用卡驗證的關卡。
 
-## Jenkins on Azure
-
-![2019 年 Jenkins 首頁](images/jenkins_index.png)
-
-![2023 年 Jenkins 首頁](images/jenkins-index-2023.png)
+## Jenkins
 
 > 📝 資訊補充 📝
 >
-> 在 2023 年[Jenkins](https://www.jenkins.io/) 的首頁中，可以看到 Jenkins 手舉停戰的 Logo。這是因為烏克蘭戰爭仍在持續中，
+> 在 2023 年[Jenkins](https://www.jenkins.io/) 的首頁中，可以看到 Jenkins 手舉停戰的 Logo。這是因為烏克蘭戰爭仍在持續中。
 
 [Jenkins](https://www.jenkins.io/)，俗稱老爺爺，是目前擁有眾多使用者的 CI/CD 軟體之一。擁有許多套件可搭配使用，以支援不同的需求，自行搭配組合。
 
 同時，它也是一個使用 Java 撰寫的開源專案，
+
+![2019 年 Jenkins 首頁](images/jenkins_index.png)
+
+![2023 年 Jenkins 首頁](images/jenkins-index-2023.png)
 
 ### 架設 Jenkins
 
@@ -238,11 +239,6 @@ Eric:
 
 所以要到 Repository 的平台上，設定 `webhook`，讓 Repository 知道，當發生版本變更時，通知 Jenkins 進行 CI。
 
-- Software Configuration Management, SCM
-
-- GIt plug
-
-
 #### GitHub plug-in
 
 在最新版本的 Jenkins，己經預設安裝 `Github Plugin` 這個插件。所以在專案的 `組態` 中，看到 `GitHub projects`、`GitHub hook trigger for GITScm polling` 這兩個項目。
@@ -261,43 +257,35 @@ Eric:
 {jenkins網址}\github-webhook
 ```
 
-#### BitBucket plug-in
-
-
 ## Azure Pipelines on Azure Devops
 
 ```chat
-Eric:
-  前面花了很長的時間，說明 Jenkins 設定與支援 GitHub、BitBucket 等 Git Repository。接下來，來聊聊 Azure DevOps 當中的 PipeLines。
+Eric: 前面花了很長的時間，說明 Jenkins 設定與支援 GitHub、BitBucket 等 Git Repository。接下來，來聊聊 Azure DevOps 當中的 PipeLines。
 
-吉米:
-  Pipelines？
+吉米: Pipelines？
 
-Eric:
-  Microsoft 將原本 VSTS 當中，所有與 CI/CD 相關功能，統整於 Azure Pipelines。
+Eric: Microsoft 將原本 VSTS 當中，所有與 CI/CD 相關功能，統整於 Azure Pipelines。
 
-吉米:
-  了解。
+吉米: 了解。
 
-Eric:
-  我們先來聊聊 Azure Pipelines 對自家產品 Azure Repositories 的支援與設定。
+Eric: 我們先來聊聊 Azure Pipelines 對自家產品 Azure Repositories 的支援與設定。
 ```
 
 ### Azure PipeLines 的建立
 
-![Index](images/azure-devops-project-index.png)
+![Azure Pipeline 的建置頁面](images/azure-devops-project-index.png)
 
 選取 Pipelines 的 Builds 後，會看到工作清單。但因為目前沒有任何資料，所以直接進入`建立 pipeline` 的容量。
 
-![Build_list](images/azure-pipeline-repo-source.png)
+![選擇 Code 的來源](images/azure-pipeline-repo-source.png)
 
 選擇 Azure Repository 後，如果該 Repository 內有資料，會列出 Repository 清單。
 
-![Azure pipeline select](images/azure-pipeline-select-repos.png)
+![選擇 Azure Pipeline 使用的 Repository](images/azure-pipeline-select-repos.png)
 
 如果選取的 Repository 內己經有資料，Azure Pipeline 會自動分析，並建立 yml 檔。
 
-![圖片20181028_225151](images/azure-pipeline-yaml.png)
+![Azure Pipeline 使用的 YAML 檔](images/azure-pipeline-yaml.png)
 
 ### azure-pipelines.yml
 
@@ -350,6 +338,10 @@ Azure pipeline 動作時， 會依序執行 task，只要其中一個 task 失�
 ```chat
 Eric: 接下來，我們來聊聊 YAML 這個標註語言。
 ```
+
+> 📝 資訊補充 📝
+>
+> YAML 標註語言的說明，請見 [延伸補充 - YAML]({{< ref "../yaml/index.md">}})
 
 ## 延伸閱讀
 
