@@ -55,7 +55,7 @@ toc: false
 
   介紹使用 Travis CI 與 GitHub 內建的 GitHub Action 的設定方式。
 
-- [使用 Jenkins/Azure Pipeline 進行持續整合]({{< ref "../ci-azure-jenkins/index.md" >}})
+- 使用 Jenkins/Azure Pipeline 進行持續整合
 
   介紹使用 Azure DevOps 內的 Azure Pipeline，以及使用 Azure VM 去建立 Jenkins。在 Azure VM 的部份，會簡單介紹雲端運算的概念(Cloud Compute)。
 

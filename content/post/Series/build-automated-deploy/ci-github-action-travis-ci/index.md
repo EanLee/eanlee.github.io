@@ -1,7 +1,7 @@
 ---
 title: 使用 Travis CI/GitHub Action 進行持續整合
 date: 2023-01-13T01:51:50.474Z
-description: 簡述 CI/CD 的觀念
+description: 在介紹完 CI/CD 的觀念後，接著來介紹如何使用 Travis CI 與 GitHub Actions 進行持續整合(Continuous integration, CI)
 categories:
   - DevOps
 keywords:
@@ -16,7 +16,7 @@ draft: true
 
 > [2019 iT 邦幫忙鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/1906)文章補完計劃，[從零開始建立自動化發佈的流水線]({{< ref "../foreword/index.md#持續整合">}}) 持續整合篇
 
-當程式碼已經進入版控系統後，就會想要有個服務可以自動去建置、驗證 source code 的完整性與安全性，最好還可以自行部屬。而 CI/CD 就是為了滿足這個希望，而誕生出來的機制。
+在上一篇 [踏入 CI/CD 的世界 - 觀念篇]({{< ref "../cicd_concept/index.md">}}) 介紹 CI/CD 的觀念後，接著來介紹如何使用 Travis CI 與 GitHub Actions 進行持續整合(Continuous integration, CI)。
 
 <!--more-->
 
@@ -73,7 +73,7 @@ Travis CI 對 GitHub 有著高度的整合，讓使用者可以快速與 GitHub 
 
 登入 Travis CI 後，在 Travis CI 的 Dashboard 內可以看到託管平台上所有的 Reposiotries。
 
-![index](images/travisci-index2.png)
+![index](images/travisci-dashboard.png)
 
 若要對特定 repository 進行 CI，只要將 repository 後方的整合功能開啟，Travis CI 就會自動到 GitHub repository 的 webhook 的設定。完全不需要自行手動設定 webhook。  
 
@@ -83,29 +83,43 @@ Travis CI 對 GitHub 有著高度的整合，讓使用者可以快速與 GitHub 
 
 在 Travis CI 與 GitHub 完成串接後，Travis CI 並不會進行任何的建置或測試。 Travis CI 所有的動作，都是由 GitHub 發生版本變更時，經過 webhook 跟 Travis CI 通知。有版本異動，麻煩執行一下 CI。
 
+實際測試串接 Travis CI 的結果，在串接前，已先提交了一份 .net core 程式。並在完成 Travis CI 串接後，直接在 GitHub 中，增加了 `README.md` 的檔案。Travis CI 執行結果如下。
+
 ![Travis CI 內，Repository 的 建置請求清單](images/travisci-request.png)
 
-在串接起 Travis CI 之前，筆者就先提交了一份 **.net core 主控台程式**。
+失敗的原因在於 GitHub repository 中，缺少 `.travis.yml` 這個檔案，導致 Travis CI 無法進行任何動作。對 Travis CI 而言，`.travis.yml` 中，註明專案的使用的語言、使用的框架、執行的動作等資訊。若是不清楚 `travis.yml` 要如何設定，也可以參照 Travis CI Document 的的寫法。
 
-為了測試 CI 是否正常工作，在 直接在 GitHub 中，增加了 README.md 的檔案，結果如上圖。
+![Travis CI Document 中 .NET core 設定方式](images/travisci-document-net-core-setting.png)
 
-失敗的原因在於 repository 中，缺少 **.travis.yml** 這個檔案，導致 Travis CI 無法進行任何動作。
+```yaml
+language: csharp
+solution: IronmanDemo.sln
+mono: none
 
-對 Travis CI 而言，.travis.yml 中，註明專案的使用的語言、使用的框架、執行的動作等資訊。
+dotnet: 2.1.300
 
-因為一開始的 .travis.yml 的設定有誤，造成 Travis CI 建置失敗。
+script:
+- dotnet restore IronmanDemo
+- dotnet build IronmanDemo
 
-![.net core yml](images/travisci-document-net-core-setting.png)
+webhooks:
+on_success: always # default: always
+urls:
+  - https://maker.ifttt.com/trigger/CI_Build_result/with/key/den2SL6fXRgg4MJUsAj27w
 
-後來參照 Travis CI Document 中，關於 .net Core 的設定寫法，這才順利通過建置。同時，在 Build History 中，可以很清楚的看到建置的結果與耗時。
+on_failure: always # default: always
+on_start: change # default: never
+on_cancel: always # default: always
+on_error: always # default: always
+```
 
-![history](images/travisci-build-history.png)
+同時，在 Build History 中，可以很清楚的看到建置的結果與耗時。
 
-接著，開一支 develop 的分支，然後在 develop 中，進行變動的提交。
+![總建置歷史結果](images/travisci-build-history.png)
 
-![branches](images/travisci-branches.png)
+而在 Travis CI 中的 Branches 中，也可以看到各分支的最近五次的整合情況。
 
-在 Travis CI 中的 Branches 中，也可以看到各分支的最近五次的整合情況。
+![各 Branches 最近五次的建置結果](images/travisci-branches.png)
 
 ```chat
 吉米: Travis CI 的設定真的很簡單，又快速上手。前後不到幾分鐘，就完成設定了。
@@ -119,7 +133,36 @@ Eric: 接下來，我們來聊聊 GitHub 自家的 CI/CD 工具，GitHub Action�
 
 ## GitHub Actions
 
-GitHub 在 2019/11/13 正式推出 GitHub Actions
+GitHub 在 2019/11/13 正式推出 GitHub Actions，讓開發者可以不用離開 GitHub 平台，就可以直接享受 CI/CD 的便利性。
+
+在 Repository 的頁面，就可以看到 `Actions` 的頁籤，可以從此進入到 GitHub Actions 設定的頁面。
+
+![GitHub Repository 頁面](images/github-repo-code-page.png)
+因為目前 Repository 還沒有進行任何 GitHub Actions 的設定，所以這一頁是空白的。
+
+可以按下 `set up a workflow yourself`，從無到有，一切自己設定。可以參考 [GitHub Actions Docs](https://docs.github.com/en/actions/learn-github-actions) 文件。
+
+不過，這樣工程有些浩大，建議使用 GitHub 會自動偵測 Repository 內容後給予的推薦設定樣版，或是撰擇現有的設定樣版。只要按下 `Configure`，就可以使用對應的預設樣版設定。
+
+![GitHub Actions 設定頁面](images/github-repo-actions.png)
+
+當按下 `configure` 後，GitHub 會自行在 `.github/workflows/` 的位置，建立 YAML 檔案。
+
+![GitHub Actions YAML 設定](images/github-action-yaml.png)
+
+若是預設內容無法滿足需求，也可以檢視右端的 `Marketplace` 與 `Document` 來調整 YAML 的設定。
+
+![GitHub Actions 設定中，右側可以直接查尋相關的設定說明](images/github-actions-marketplace-document.png)
+
+當完成設定後，再進入 GitHub Actions 後，就可以查看建置的動作了。
+
+![](images/github-actions-workflow.png)
+
+```chat
+吉米: 可以直接在 GitHub 直接進行 CI/CD 設定，真的方便了不少。
+
+Eric: 除了 Travis CI 與 GitHub Actions 之外，還有很多好用的 CI/CD 工具。
+```
 
 ## 延伸閱讀
 
