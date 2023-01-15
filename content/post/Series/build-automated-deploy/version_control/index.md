@@ -288,7 +288,7 @@ Eric:
 
 gitflow 是 Vincent Driessen 在 2010 年提出來的一種關於 git 工作流程的建議。
 
-![git-model@2x](https://nvie.com/img/git-model@2x.png)
+![git-flow](https://nvie.com/img/git-model@2x.png)
 
 (圖片來源: [A successful Git branching model](https://nvie.com/posts/a-successful-git-branching-model/))
 

@@ -50,7 +50,15 @@ toc: false
 ### 持續整合
 
 - [踏入 CI/CD 的世界 - 觀念篇]({{< ref "../cicd_concept/index.md">}})
-- 持續性整合
+
+- [使用 Travis CI/GitHub Action 進行持續整合]({{< ref "../ci-github-action-travis-ci/index.md" >}})
+
+  介紹使用 Travis CI 與 GitHub 內建的 GitHub Action 的設定方式。
+
+- 使用 Jenkins/Azure Pipeline 進行持續整合
+
+  介紹使用 Azure DevOps 內的 Azure Pipeline，以及使用 Azure VM 去建立 Jenkins。在 Azure VM 的部份，會簡單介紹雲端運算的概念(Cloud Compute)。
+
 - [使用 CI 進行自動化測試]({{< ref "../ci-automated-unit-test/index.md">}})
 
 ### 訊息通知

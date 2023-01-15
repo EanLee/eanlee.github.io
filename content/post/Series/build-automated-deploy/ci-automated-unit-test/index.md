@@ -178,7 +178,7 @@ script:
 
 從 Travis CI 的 log 中，就可以看到 Travis CI 真的有執行測試動作。
 
-![travis ci result](images/travisCI_result.png)
+![Travis CI 執行結果](images/travisCI_result.png)
 
 ▶ 假若使用 NUnit 或 xUnit 等測試框架，就需要額外設定，讓 Travis CI 知道有使用外部套件。
 
@@ -205,7 +205,7 @@ script:
 
 除了單元測試以外，還想加入其他的測試計劃，可以選擇 `Test Plans`。這部份就不多加著墨，有興趣可以自行摸索。
 
-![azure pipelie test plan](images/TestPlan.jpeg)
+![Azure Test Plan](images/TestPlan.jpeg)
 
 ```chat
 吉米:
