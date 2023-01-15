@@ -41,7 +41,7 @@ Eric: 沒關係，這次就分享幾個 CI/CD 環境給你知道。既然提到 
 
 Travis CI 對 GitHub 有著高度的整合，讓使用者可以快速與 GitHub 帳戶內的 Repository 串接完成，享受 CI/CD 的服務。
 
-比較可惜的是，依 Travis CI 提供的文件說明，目前只支援 GitHub。
+~~比較可惜的是，依 Travis CI 提供的文件說明，目前只支援 GitHub。~~
 
 ![23018 年 Travis CI 首頁](images/travisci-index.png)
 
@@ -55,7 +55,7 @@ Travis CI 對 GitHub 有著高度的整合，讓使用者可以快速與 GitHub 
 
 ![2023 年 Travis CI 首頁](images/travis-ci-index-2023.jpeg)
 
-在第一次登入時，Travis CI 會跟使用者確認 GitHub 的存取項目與行為。
+初次登入時，Travis CI 會跟使用者確認 GitHub 的存取項目與行為。
 
 同意授權後， Travis CI 會花費一些時間，與 GitHub 內的內容同步。最終會把 GitHub 內所有的 Repository 列出來。
 
@@ -75,7 +75,6 @@ Travis CI 對 GitHub 有著高度的整合，讓使用者可以快速與 GitHub 
 
 ![index](images/travisci-index2.png)
 
-![2023 年畫面](images/msedge_20230113_175059_pn3oH.png)
 若要對特定 repository 進行 CI，只要將 repository 後方的整合功能開啟，Travis CI 就會自動到 GitHub repository 的 webhook 的設定。完全不需要自行手動設定 webhook。  
 
 ![github_webhook](images/travisci-github_webhook.png)
@@ -84,7 +83,7 @@ Travis CI 對 GitHub 有著高度的整合，讓使用者可以快速與 GitHub 
 
 在 Travis CI 與 GitHub 完成串接後，Travis CI 並不會進行任何的建置或測試。 Travis CI 所有的動作，都是由 GitHub 發生版本變更時，經過 webhook 跟 Travis CI 通知。有版本異動，麻煩執行一下 CI。
 
-![圖片20181024_143641](images/travisci-圖片20181024_143641.png)
+![Travis CI 內，Repository 的 建置請求清單](images/travisci-request.png)
 
 在串接起 Travis CI 之前，筆者就先提交了一份 **.net core 主控台程式**。
 
@@ -96,11 +95,11 @@ Travis CI 對 GitHub 有著高度的整合，讓使用者可以快速與 GitHub 
 
 因為一開始的 .travis.yml 的設定有誤，造成 Travis CI 建置失敗。
 
-![.net core yml](images/travisci-圖片20181024_153451.png)
+![.net core yml](images/travisci-document-net-core-setting.png)
 
 後來參照 Travis CI Document 中，關於 .net Core 的設定寫法，這才順利通過建置。同時，在 Build History 中，可以很清楚的看到建置的結果與耗時。
 
-![history](images/travisci-Build_history.png)
+![history](images/travisci-build-history.png)
 
 接著，開一支 develop 的分支，然後在 develop 中，進行變動的提交。
 
