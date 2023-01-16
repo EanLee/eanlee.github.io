@@ -4,7 +4,7 @@ description: 試著簡單說明接觸過的名詞，再次加深自己的印象�
 date: 2022-06-09T09:15:15.154Z
 categories:
   - 聊聊名詞
-slug: 聊聊名詞-冗餘-redundancy
+slug: redundancy
 keywords:
   - 冗餘
   - Redundancy

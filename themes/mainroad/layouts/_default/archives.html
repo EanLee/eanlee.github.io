@@ -17,7 +17,7 @@
       <ul class="archive-list">
         {{ range (where .Pages "Type" "post") }}
         <li>
-          {{ .PublishDate.Format "2006-01-02" }} <a href="{{ .RelPermalink }}" target="_blank">{{ .Title }}</a>
+          {{ .PublishDate.Format "2006-01-02" }} <a href="{{ .RelPermalink }}" target="_blank">{{if .Draft}}(草稿) {{end}}{{ .Title }}</a>
         </li>
         {{ end }}
       </ul>
@@ -28,5 +28,7 @@
     {{- end }}
   </article>
 </main>
-{{ partial "authorbox.html" . }} {{ partial "pager.html" . }} {{ partial
-"comments.html" . }} {{ end }}
+{{ partial "authorbox.html" . }}
+{{ partial "pager.html" . }}
+{{ partial "comments.html" . }}
+{{ end }}

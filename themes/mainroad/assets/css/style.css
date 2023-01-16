@@ -332,6 +332,12 @@ pre code {
 	border: 0;
 }
 
+/* 匹配 pre code 且屬性 data-lang="chat" 的組件 */
+pre code[data-lang="chat"]{
+	color:#899c40;
+	white-space: pre-line;	
+}
+
 kbd {
 	padding: 2px 3px;
 	color: #fff;
@@ -1079,7 +1085,7 @@ button:not(:-moz-focusring):focus > .menu__btn-title {
 /* Images / Video */
 img {
 	width: auto\9; /* ie8 */
-	max-width: 100%;
+	max-width: 80%;
 	height: auto;
 	margin: auto;
 	display: block;
@@ -1262,11 +1268,27 @@ textarea {
 }
 
 /* Tags Widget */
-.widget-taglist__link {
+.widget-tag__link {
 	display: inline-block;
-	margin: 0 4px 8px 0;
-	font-size: 12px;
 	text-transform: uppercase;
+	white-space: pre-line;
+	
+	margin: 0 2px 4px 0;
+	padding: 2px 6px;
+	
+	font-size: 10px;
+	font-weight: 700;
+	
+	color: gray;
+	border-radius: 5px;
+	border: 1px dashed lightgrey;
+}
+
+.widget-tag__link:hover {
+	font-weight: 700;
+	color:var(--highlight);
+	border-color: var(--highlight);
+	border-style: solid;
 }
 
 /* Languages Widget */
