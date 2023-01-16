@@ -10,7 +10,7 @@ categories:
 lastmod: 2023-01-09T03:37:10.009Z
 ---
 
-> 將原本參與 [第 11 屆 iThome 鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/2172) 的文章，再加以整理與補充。
+> 將原本參與 [第 11 屆(2020) iThome 鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/2172) 的文章，再加以整理與補充。
 
 近幾年參與開發的軟體之中，大量使用到佇列(Queue)的技術與觀念。從同步與非同步存取 Queue；利用 Queue 與 Dispatch 組合，進行備援處理的機制；大量資料的接收與轉發等等。另一方面，微服務與服務解耦的議題，訊息佇列（Message Queue）的使用頻率也逐年提升。
 
@@ -45,16 +45,16 @@ lastmod: 2023-01-09T03:37:10.009Z
 
 - [佇列 Queue]({{< ref "../Host/Queue/index.md" >}})
   - 說明 Queue、Circle Queue、Priority Queue、Linked List 的差異
-- [佇列的應用]({{< ref "../Host/QueuedApplications/index.md" >}})
+- 佇列的應用
   - 生產者與消費者模型 (producer-consumers pattern)
   - 鎖定機制: Lock、Mutex、Semaphore
   - 原子性、有序性、可見性
-- [Router 路由器]({{< ref "../Host/Router/index.md" >}})
-- [Dispatcher 分派機制]({{< ref "../Host/Dispatcher/index.md" >}})
+- Router 路由器
+- Dispatcher 分派機制
   - 同質性與異質性分派
   - 被動式與主動式分派
   - 優先性分派
-- [Queue、Router、Dispatcher 整合]({{< ref "../Host/Intergration/index.md" >}})
+- Queue、Router、Dispatcher 整合
   - 將 Queue、Router、Dispatcher 各功能串通，讓功能可以正常的運行。
   - 資料的持久性。
 
