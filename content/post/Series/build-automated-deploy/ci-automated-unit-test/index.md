@@ -12,7 +12,7 @@ keywords:
   - unit test
   - 單元測試
 slug: integration-ci-and-unit-test
-lastmod: 2023-01-12T07:24:53.732Z
+lastmod: 2023-01-16T05:52:11.039Z
 ---
 
 > [2019 iT 邦幫忙鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/1906)文章補完計劃，[從零開始建立自動化發佈的流水線]({{< ref "../foreword/index.md#持續整合">}}) 持續整合篇
@@ -222,6 +222,10 @@ Eric:
 ```
 
 ## 延伸閱讀
+
+▶ 站內文章
+
+- [物件導向設計原則]({{< ref "../../coding-skill/oop-practice/index.md" >}})
 
 ▶ 單元測試
 

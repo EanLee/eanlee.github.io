@@ -6,7 +6,7 @@ keywords:
   - 程式碼品質
 categories:
   - 系列文章
-lastmod: 2022-06-21T07:41:51.573Z
+lastmod: 2023-01-16T05:52:18.639Z
 ---
 
 > 當初參與 [2018 iT 邦幫忙鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/1430)，挑戰三十天連續不間斷發文失敗。將當初的文章搬遷到此，同時對文章內容，進行整理與補完欠缺的內容。
