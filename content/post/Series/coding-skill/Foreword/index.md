@@ -21,7 +21,7 @@ lastmod: 2022-06-21T07:41:51.573Z
 
 ### 物件導向設計篇 (Object-oriented)
 
-- [物件導向的特性 — 封裝、繼承、多型、抽象]({{< ref "../oop-future/index.md" >}})
+- 物件導向的特性 — 封裝、繼承、多型、抽象
 - [物件導向設計原則 — SOLID]({{< ref "../oop-practice/index.md" >}})
   - SOLID 五原則
   - 從被動變主動 — 依賴反轉
