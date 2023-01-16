@@ -45,12 +45,21 @@ toc: false
 ### 版控篇
 
 - [程式碼版控 - 觀念與 Git 簡述]({{< ref "../version_control/index.md">}})
-- Git Remote Repository
+- [程式碼托管平台 - GitHub/BitBucket/Azure DevOps]({{< ref "../remote-repository/index.md">}})
 
 ### 持續整合
 
 - [踏入 CI/CD 的世界 - 觀念篇]({{< ref "../cicd_concept/index.md">}})
-- 持續性整合
+
+- [使用 Travis CI/GitHub Action 進行持續整合]({{< ref "../ci-github-action-travis-ci/index.md" >}})
+
+  介紹使用 Travis CI 與 GitHub 內建的 GitHub Action 的設定方式。
+
+- [使用 Jenkins/Azure Pipeline 進行持續整合]({{< ref "../ci-azure-jenkins/index.md" >}})
+
+  介紹使用 Azure DevOps 內的 Azure Pipeline，以及使用 Azure VM 去建立 Jenkins。在 Azure VM 的部份，會簡單介紹雲端運算的概念(Cloud Compute)。
+
+- [使用 CI 進行自動化測試]({{< ref "../ci-automated-unit-test/index.md">}})
 
 ### 訊息通知
 
@@ -58,12 +67,7 @@ toc: false
 - CI 訊息通知 - Line
 - CI 訊息通知 - Microsoft Teams
 
-### 自動化測試
-
-- 自動化測試 - 觀念篇
-- 自動化測試 - 實作篇
-
-### 持續部署
+### 持續發佈
 
 - 持續發佈 - 安裝檔
 - 持續發佈 - Web
@@ -88,4 +92,4 @@ toc: false
 
 ### 額外補充
 
-- [延伸補充 - YAML]({{< ref "../yaml/index.md">}})
+- [淺談 YAML 格式]({{< ref "../yaml/index.md">}})

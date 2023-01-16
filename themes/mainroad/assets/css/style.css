@@ -332,6 +332,12 @@ pre code {
 	border: 0;
 }
 
+/* 匹配 pre code 且屬性 data-lang="chat" 的組件 */
+pre code[data-lang="chat"]{
+	color:#899c40;
+	white-space: pre-line;	
+}
+
 kbd {
 	padding: 2px 3px;
 	color: #fff;
@@ -1079,7 +1085,7 @@ button:not(:-moz-focusring):focus > .menu__btn-title {
 /* Images / Video */
 img {
 	width: auto\9; /* ie8 */
-	max-width: 100%;
+	max-width: 80%;
 	height: auto;
 	margin: auto;
 	display: block;

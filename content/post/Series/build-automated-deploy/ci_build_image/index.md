@@ -13,6 +13,7 @@ keywords:
   - jenkins
 date: 2023-01-11T07:01:17.100Z
 slug: build-docker-image
+lastmod: 2023-01-12T07:25:42.274Z
 ---
 
 > [2019 iT 邦幫忙鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/1906)文章補完計劃，[從零開始建立自動化發佈的流水線]({{< ref "../foreword/index.md#container">}}) Container 篇
@@ -52,13 +53,13 @@ trigger:
 
 直接到 Azure Pipeline 中，選擇 `New Pipeline`，並選擇 `Docker`與設定後，Azure pipeline 就會自動產生 `azure-pipelines.yml` 。後續再依需求自行調整即可。
 
-![New pipeline](Images/azure_pipeline_new_pipeline.png)
+![建立新的 Pipeline](Images/azure_pipeline_new_pipeline.png)
 
-![set pipeline configure](Images/azure_pipeline_new_pipeline_select_docker.png)
+![設定 Azure Pipleline 組態](Images/azure_pipeline_new_pipeline_select_docker.png)
 
-![select docker on pipeline](Images/azure_pipeline_dockerfile.png)
+![選擇使用 Docker](Images/azure_pipeline_dockerfile.png)
 
-![auto generate pipeline](Images/azure_pipeline_review.png)
+![自動產出的 azure-pipeline.yml 檔](Images/azure_pipeline_review.png)
 
 ## Jenkins
 
@@ -150,17 +151,18 @@ pipeline {
 
 (圖片來源:  [A continuous integration pipeline with Jenkins in Docker](https://www.nielsvandermolen.com/continuous-integration-jenkins-docker/))
 
-```plan
+```chat
+吉米:
+  不同工具的設定方式，都不太相同。
 
-吉米: 不同工具的設定方式，都不太相同。
+Eric:
+  是啊。不過，再怎麼變化，都是離不開 cmd、dockerfile、yml 設定檔這三個部份。
 
-Eric: 是啊。不過，再怎麼變化，都是離不開 cmd、dockerfile、yml 設定檔這三個部份。
+吉米:
+  嗯嗯，還要多嘗試，才能調整為自己想要的流程。
 
-吉米: 嗯嗯，還要多嘗試，才能調整為自己想要的流程。
-
-Eric: 一起加油吧。
-
-<< 完 >>
+Eric:
+  一起加油吧。
 ```
 
 ## 延伸閱讀

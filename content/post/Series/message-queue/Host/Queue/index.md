@@ -9,6 +9,7 @@ tags:
   - Queue
 categories:
   - 軟體開發
+lastmod: 2023-01-09T03:33:49.791Z
 ---
 
 > [從零開始土炮 MQ]({{< ref "../../foreword/index.md#基礎篇">}}) 基礎篇

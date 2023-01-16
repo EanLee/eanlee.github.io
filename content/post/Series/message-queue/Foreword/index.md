@@ -7,10 +7,10 @@ keywords:
   - Queue
 categories:
   - 系列文章
-lastmod: 2022-06-20T05:55:20.974Z
+lastmod: 2023-01-09T03:37:10.009Z
 ---
 
-> 將原本參與 [第 11 屆 iThome 鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/2172) 的文章，再加以整理與補充。
+> 將原本參與 [第 11 屆(2020) iThome 鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/2172) 的文章，再加以整理與補充。
 
 近幾年參與開發的軟體之中，大量使用到佇列(Queue)的技術與觀念。從同步與非同步存取 Queue；利用 Queue 與 Dispatch 組合，進行備援處理的機制；大量資料的接收與轉發等等。另一方面，微服務與服務解耦的議題，訊息佇列（Message Queue）的使用頻率也逐年提升。
 

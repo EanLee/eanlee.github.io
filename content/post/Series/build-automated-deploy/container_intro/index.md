@@ -21,7 +21,7 @@ slug: container-intro
 <!--more-->
 ## Containers vs Virtual Machine
 
-``` plan
+```chat
 從建立起 CI/CD 環境後，幫吉米的工作分擔了許多麻煩事。讓吉米有更多的時間去爭取新的專案的情況下。
 吉米成立了自己的小公司，並邀請 Eric 作為技術上的顧問。
 就這樣過了一兩年，這天，吉米與 Eric 吃飯時，討論起到到客戶那邊更新服務時，種種的情況與問題。
@@ -79,7 +79,7 @@ Container 技術最早是被發佈與運用在 Linux 之中，經過 Docker 的�
 
 在 2020 年 9 月 Microsoft 調整 WSL 的架構，推出 WSL2，讓完整的 Linux 核心跑在 Hyper-V 的虛擬機器，提供更貼近原生 Linux 的使用體驗。
 
-``` plan
+```chat
 吉米:
   聽起來，Container 的導入，確實有一定的幫助。但要怎麼做呢？
 
@@ -106,7 +106,7 @@ Docker 是 dotCloud 公司於 2013 年推出的開源專案。同年，dotCloud 
 
 在 LinuxKit 的支援下，達成 Docker Engine 的統一化。這讓 Docker 走出 Linux 環境的限制，讓 Docker 可以在更多平台上活躍。
 
-![docker-layers](docker-layers.png)
+![docker layers](images/docker-layers.png)
 (圖片來源: [Operating System Containers vs. Application Containers](https://blog.risingstack.com/operating-system-containers-vs-application-containers/))
 
 ➽ Docker Image
@@ -156,19 +156,19 @@ Eric:
 
 Docker Store 必需登入帳戶，才能進行下載動作。如果沒有帳戶，記得申請帳戶。
 
-![docker_office_web](docker_office_web.jpeg)
+![Docker 官網](images/docker_office_web.jpeg)
 
 安裝時，不用額外設定，只要順著指示步驟進行安裝，就能完成設定。
 
 要注意的是，如果準備安裝 Docker for Windows 的作業系統，不是 **Windows 10 Pro** 、 **Enterprise** 、**Windows Server 2016**，會出現以下的畫面，然後就停止安裝動作。
 
-![docker_cannot_install](docker_cannot_install.png)
+![無法安裝 Docker for windows](images/docker_cannot_install.png)
 
 但是，要補充一點，在 Docker 完裝完成後，假若機器是第一次安裝 Docker，會出現 `close and log out` 的按鈕：反之，只會出現 `close` 的按鈕。
 
 當啟用 Docker for Windows 時，Docker 會自行確認所需的技術或功能是否有開啟支援。若未開啟相關功能，Docker 會詢問是否要開啟。同意的話，會自動重新開機。反之，則直接告知無法啟動 Docker。
 
-![startup hybird-V](startup_hybird-V.png)
+![啟用 Hyper-V](images/startup-hyper-V.png)
 
 ~~在啟動後，Docker 會要求使用者登入。~~
 
@@ -176,7 +176,7 @@ Docker Store 必需登入帳戶，才能進行下載動作。如果沒有帳戶�
 
 實際上，登入與否的差異，只差在能否存取 Docker Hub 的 Repositories。本機 Docker 還是可以正常操作。
 
-![docker dashboard](docker_desktop_20.png)
+![Docker Dashboard](images/docker_desktop_20.png)
 
 ## 延伸閱讀
 
