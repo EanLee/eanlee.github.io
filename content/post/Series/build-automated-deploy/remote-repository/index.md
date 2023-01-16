@@ -6,7 +6,7 @@ date: 2023-01-12T02:10:37.666Z
 tags:
   - 版控
 categories:
-  - 軟體開發
+  - DevOps
 keywords:
   - 版控
   - Git
