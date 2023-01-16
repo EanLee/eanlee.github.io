@@ -1,10 +1,11 @@
 ---
 title: 系統架構演進與 AWS 雲端服務結合(2) - 系統上線
+draft: true
 ---
 
 系統架構演進階段
 
-- [內部系統快速驗證]({{< ref "../01_MVP_Vaification/index.md" >}})
+- [內部系統快速驗證]({{< ref "../01-mvp-vaification/index.md" >}})
 - **系統上線**
 
 <!--more-->
