@@ -92,4 +92,4 @@ toc: false
 
 ### 額外補充
 
-- [延伸補充 - YAML]({{< ref "../yaml/index.md">}})
+- [淺談 YAML 格式]({{< ref "../yaml/index.md">}})

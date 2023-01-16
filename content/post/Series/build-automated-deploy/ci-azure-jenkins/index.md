@@ -341,7 +341,7 @@ Eric: 接下來，我們來聊聊 YAML 這個標註語言。
 
 > 📝 資訊補充 📝
 >
-> YAML 標註語言的說明，請見 [延伸補充 - YAML]({{< ref "../yaml/index.md">}})
+> YAML 標註語言的說明，請見 [淺談 YAML 格式]({{< ref "../yaml/index.md">}})
 
 ## 延伸閱讀
 
