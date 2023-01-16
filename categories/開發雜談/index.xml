@@ -1,4 +1,15 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>開發雜談 on 伊恩的開發狂想</title><link>https://eandev.com/categories/%E9%96%8B%E7%99%BC%E9%9B%9C%E8%AB%87/</link><description>Recent content in 開發雜談 on 伊恩的開發狂想</description><generator>Hugo -- gohugo.io</generator><language>zh-tw</language><lastBuildDate>Fri, 06 Jan 2023 05:36:16 +0000</lastBuildDate><atom:link href="https://eandev.com/categories/%E9%96%8B%E7%99%BC%E9%9B%9C%E8%AB%87/index.xml" rel="self" type="application/rss+xml"/><item><title>淺談負載測試/壓力測試/效能測試報告</title><link>https://eandev.com/post/test/talking-testing-report/</link><pubDate>Fri, 06 Jan 2023 05:36:16 +0000</pubDate><guid>https://eandev.com/post/test/talking-testing-report/</guid><description>&lt;p>當我們好不容易完成了系統的壓力測試，這時候，我們可能需要整理測試數據給相關人員查看，或是報告。&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>開發雜談 on 伊恩的開發狂想</title><link>https://eandev.com/categories/%E9%96%8B%E7%99%BC%E9%9B%9C%E8%AB%87/</link><description>Recent content in 開發雜談 on 伊恩的開發狂想</description><generator>Hugo -- gohugo.io</generator><language>zh-tw</language><lastBuildDate>Mon, 16 Jan 2023 04:05:34 +0000</lastBuildDate><atom:link href="https://eandev.com/categories/%E9%96%8B%E7%99%BC%E9%9B%9C%E8%AB%87/index.xml" rel="self" type="application/rss+xml"/><item><title>物件導向設計原則</title><link>https://eandev.com/post/series/coding-skill/oop-practice/</link><pubDate>Mon, 16 Jan 2023 04:05:34 +0000</pubDate><guid>https://eandev.com/post/series/coding-skill/oop-practice/</guid><description>&lt;blockquote>
+&lt;p>&lt;a href="https://ithelp.ithome.com.tw/users/20107551/ironman/1430">2018 iT 邦幫忙鐵人賽&lt;/a>文章補完計劃，&lt;a href="https://eandev.com/post/series/coding-skill/foreword/#物件導向設計篇-object-oriented">持續優化程式碼品質&lt;/a>物件導向設計篇&lt;/p>
+&lt;/blockquote>
+&lt;p>知道物件導向的特性，就可以寫出具備&lt;strong>閱讀性&lt;/strong>、&lt;strong>維謢性&lt;/strong>、&lt;strong>擴充性&lt;/strong>的程式碼？&lt;/p>
+&lt;p>夢想很豐滿、現實很骨感。就算已經熟悉物件導向的特性，但在實務上還是很難寫寫出具備閱讀性、維謢性、擴充性的程式碼。常見的因素有…&lt;/p>
+&lt;ul>
+&lt;li>為了方便，類別函數全部設為 Public。(未有效使用&lt;strong>封裝&lt;/strong>的特性。)&lt;/li>
+&lt;li>單一類別中，混雜了許多功能，導至要修改特定功能時，相關程式碼的變動量過大。(高耦合、不符合&lt;strong>單一職責&lt;/strong>)&lt;/li>
+&lt;li>資料與商業邏輯混雜在一起。(高耦合)&lt;/li>
+&lt;li>當出現特定需求變更時，直接變更原本程式碼。除了可能改壞原本程式功能外，也會增加維護上的麻煩。&lt;/li>
+&lt;/ul>
+&lt;p>當然還有許多因素，是筆者沒有想到或是沒有列出來的。&lt;/p></description></item><item><title>淺談負載測試/壓力測試/效能測試報告</title><link>https://eandev.com/post/test/talking-testing-report/</link><pubDate>Fri, 06 Jan 2023 05:36:16 +0000</pubDate><guid>https://eandev.com/post/test/talking-testing-report/</guid><description>&lt;p>當我們好不容易完成了系統的壓力測試，這時候，我們可能需要整理測試數據給相關人員查看，或是報告。&lt;/p>
 &lt;p>那在這份報告中，需要要揭露那些資訊呢? 或者說, 受眾會想要看到什麼？這份報告會因為不同的測試目的，呈現的內容與重點也會有所不同。&lt;/p>
 &lt;p>接著，我們來聊聊撰寫壓力測試報告的時候，在這份報告裡面會具備哪一些要素。&lt;/p></description></item><item><title>淺談單元測試的撰寫</title><link>https://eandev.com/post/test/%E6%B7%BA%E8%AB%87%E5%96%AE%E5%85%83%E6%B8%AC%E8%A9%A6%E7%9A%84%E6%92%B0%E5%AF%AB/</link><pubDate>Thu, 04 Aug 2022 06:22:43 +0000</pubDate><guid>https://eandev.com/post/test/%E6%B7%BA%E8%AB%87%E5%96%AE%E5%85%83%E6%B8%AC%E8%A9%A6%E7%9A%84%E6%92%B0%E5%AF%AB/</guid><description>&lt;p>近年來，在業界各位前輩的推展下，越來越多人知道單元測試，並且開始撰寫單元測試。&lt;/p>
 &lt;p>但有些撰寫單元測試過程中，遇到有些經常被人詢問議題，或是自己撰寫過程所遇到困惑點，在這分享個人的觀點。&lt;/p>
