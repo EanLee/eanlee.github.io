@@ -1,14 +1,13 @@
 ---
 title: 開發雜談 - 淺談 LOG 的設計與問題排查的重要性
+description: null
 tags:
   - 系統架構
 categories:
   - 開發雜談
-  - 軟體開發
 keywords:
   - log
-description: null
-date: 2022-11-08T02:31:48.074Z
+date: 2023-01-16T07:43:34.840Z
 draft: true
 ---
 

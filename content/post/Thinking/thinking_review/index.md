@@ -1,7 +1,7 @@
 ---
 title: 淺聊復盤思維
 description: ""
-date: 2022-08-02T02:33:36.251Z
+date: 2023-01-16T07:45:58.148Z
 keywords:
   - 復盤
   - Retro
