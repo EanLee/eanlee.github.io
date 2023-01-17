@@ -12,12 +12,13 @@ slug: notify-email-teams
 draft: true
 ---
 
-> [2019 iT 邦幫忙鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/1906)文章補完計劃，[從零開始建立自動化發佈的流水線]({{< ref "../foreword/index.md#持續發佈">}}) 持續發佈篇
+> [2019 iT 邦幫忙鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/1906)文章補完計劃，[從零開始建立自動化發佈的流水線]({{< ref "../foreword/index.md#訊息通知">}}) 訊息通知篇
 
 <!--more-->
 
 ## E-mail
 
+```chat
 Eric:  前面我們己經將 CI server 建立起來了，也成功將 Repository 與 CI Server 流程整合，但還有最重要的一件事沒還沒有做。
 
 吉米: CI Server 回饋的訊息通知嗎？因為好像只有架構 Travis CI 時，會把整合的訊息寄到信箱，而 Jenkins、Azure Pipeline 好像都沒有回饋訊息。
@@ -27,10 +28,9 @@ Eric: 沒錯，**持續而即時的訊息回饋，才是 CI 最重要的地方**
 吉米: 確實，如果可以在提交後，快速的得知整合結果，萬一出問題了，也能立即修正。
 
 Eric: 所以接下來，來聊聊 CI Server 的訊息通知。
+```
 
----
-
-### 01. Travis CI
+### Travis CI
 
 Travis CI 在設定 E-mail 通知的步驟非常容易，只要到 Repository 中的 `.travis.yml` 內，增加以下的內容。
 
@@ -50,7 +50,7 @@ notifications:
     on_failure: always # default: always
 ```
 
-### 02. Azure DevOps
+### Azure DevOps
 
 Azure DevOps 的通知設定，比 Travis CI 複雜一點，但也是很容易。
 
@@ -70,32 +70,21 @@ Azure DevOps 的通知設定，比 Travis CI 複雜一點，但也是很容易�
 
 如果樣版不能足夠需求，也可以再進一步，增加修改的設定內容。
 
-### 03. Jenkins
-
-Jenkins 的設定，跟 Travis CI 、Azure DevOps 相比，設定流程就更複雜。
-
----
-
+```chat
 吉米: Email 的通知方式是不錯。不過，以我而言，不會一直注意 Email，有更方便的通知方式嗎？例如 LINE 之類的。
 
 Eric: OK，那接下來，我們就來聊用 LINE 來進行通知。
+```
 
-<<待續>>
+## Microsoft Teams
 
----
-
-
-# 19. CI 訊息通知 - Microsoft Teams
-
+```chat
 吉米: Line 的設定真的有點麻煩。
 
 Eric: 剛好前一陣子，Microsoft 推出的免費版的 Teams ，我們也可以試試看。
+```
 
----
-
-## 01. Microsoft Teams
-
-Teams是 Mircosfot 所推出的的團隊合作平台，讓使用者以線上溝通的方式，進行相互之間的溝通與協作。從 2018 年 7 月後，提供免費版本讓大眾使用。
+Microsoft Teams是 Mircosfot 所推出的的團隊合作平台，讓使用者以線上溝通的方式，進行相互之間的溝通與協作。從 2018 年 7 月後，提供免費版本讓大眾使用。
 
 免費版本最多可讓300人以下規模團隊使用，並且不限制交談內容搜尋功能。但要使用會議錄制、網頁版 Office 等進階功能，則需付費。
 
@@ -109,7 +98,7 @@ Connector 讓現有的網路服務可以方便快速的串接起來，如 Trello
 
 ![Teams](images/Teams.png)
 
-## 02. TravisCI
+### TravisCI
 
 ![圖片20181103_232645](images/Teams_connect_i.png)
 
@@ -125,7 +114,7 @@ Connector 讓現有的網路服務可以方便快速的串接起來，如 Trello
 
 接著只要依指示，就可以取回一組 `Webhook` url ，接著到 GitHub repository 的 .travis.yml 中，加入 teams 給的 webhook ，就完成串接的動作。
 
-## 03. Azure DevOps
+### Azure DevOps
 
 關於 Azure DevOps，Microsoft 向來對自家產品的有著高度的整合。
 
