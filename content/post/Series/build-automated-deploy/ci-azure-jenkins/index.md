@@ -1,8 +1,8 @@
 ---
 title: 使用 Jenkins/Azure Pipeline 進行持續整合
 date: 2023-01-15T16:08:36.674Z
-description: 在介紹完 CI/CD 的觀念後，接著介紹如何使用 Azure Pipelines、如何在 Azure VM 架構 Jenkins，以及 Jenkins 與 repository 的串接方式，以便持續整合(Continuous
-  integration, CI)
+description: 在介紹完 CI/CD 的觀念後，接著介紹如何使用 Azure Pipelines、如何在 Azure VM 架構 Jenkins，以及 Jenkins 與
+  repository 的串接方式，以便持續整合(Continuous integration, CI)
 categories:
   - DevOps
 keywords:
@@ -11,6 +11,8 @@ keywords:
   - Jenkins
   - Azure
   - Azure DevOps
+tags:
+  - Azure
 slug: ci-azure-pipeline-and-jenkins
 ---
 
