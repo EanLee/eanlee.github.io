@@ -63,8 +63,8 @@ toc: false
 
 ### 訊息通知
 
-- CI 訊息通知 - Line
 - 訊息通知 - E-mail/Microsoft Teams
+- 訊息通知 - Line
 
 ### 持續發佈
 
