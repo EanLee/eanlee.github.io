@@ -69,8 +69,9 @@ toc: false
 
 ### 持續發佈
 
-- 持續發佈 - 安裝檔
-- 持續發佈 - Web
+- [持續發佈軟體到 Dropbox 與 Azure App Service]({{< ref "../cd-dropbox-and-azure/index.md">}})
+
+  嘗試把軟體打包上傳到 Dropbox 以及 Azure App Service
 
 ### Container
 
