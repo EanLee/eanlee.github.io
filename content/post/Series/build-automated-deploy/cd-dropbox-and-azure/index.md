@@ -37,13 +37,21 @@ Eric: 好啊。
 
 檔案上傳到 Dropbox 時，筆者運用 andreafabrizi 在 GitHub ，所分享的 [Dropbox-Uploader](https://github.com/andreafabrizi/Dropbox-Uploader) ，以簡化介接 Dropbox API 的工作量。
 
-首先，先到 [Dorpbox Developers](https://www.dropbox.com/developers/apps) ，會看到以下的畫面，
+![Dropbox-Uploader by andreafabrizi GitHub](images/dropbox-uploader-github.png)
 
-![Dropbox_developer_Myapp](images/Dropbox_developer_Myapp.png)
+首先，先到 [Dorpbox Developers](https://www.dropbox.com/developers)，會看到以下的畫面
+
+![2023 年 Dropbox Developer 首頁](images/Pasted%20image%2020230117180016.png)
+
+![Dropbox_developer_Myapp](images/dropbox-developer-app-console-2018.png)
+
+![2023 年應用程式控制台](images/dropbox-developer-app-console-2023.png)
 
 按下 `Create app` 後，創立一個提供 CI Server 使用的 API。
 
-![Dropbox_Myapp_create](images/Dropbox_Myapp_create.jpeg)
+![建立 Dropbox app (2018年畫面)](images/dropbox-developer-create-app-2018.jpeg)
+
+![建立 Dropbox app (2023 年畫面)](images/dropbox-developer-create-app-2023.png)
 
 完成建立後，直接到 `OAuth 2` 的區域取得 Token 值，這會用在 `Dropbox_Uploader.sh` 之中。
 
@@ -144,7 +152,7 @@ Eric: 自動發佈 Web ，是很常用遇到的情境。那下面就來聊聊如
 Eric: 對啊，所以接下來就那支 Web API 做為範例。
 ```
 
-## 01. Travis CI
+## Travis CI
 
 發佈的網站位置是在 Azure Web App 之中，直接採用 Traivs CI 現成的 Deploy 方式。
 
@@ -185,7 +193,7 @@ deploy:
   provider: azure_web_apps
 ```
 
-## 02. Azure DevOps
+## Azure DevOps
 
 如果點開 Build 的 log 出來看，會發現下方的 `Deployments` 沒有有任何設定。
 
@@ -232,7 +240,7 @@ Eric: 以後有遇到這情況，就有設定的機會。
 3. MR. 沙先生, [Dropbox API 用 bash 也可以上傳下載 Dropbox](https://shazi.info/dropbox-api-%E7%94%A8-bash-%E4%B9%9F%E5%8F%AF%E4%BB%A5%E4%B8%8A%E5%82%B3%E4%B8%8B%E8%BC%89-dropbox/)
 4. Microsoft Document, [Shell Script task](https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks/utility/shell-script?view=vsts)
 
-▶ Jenkins
+▶ Azure Web App
 
 1. Travis Document, [Script deployment](https://docs.travis-ci.com/user/deployment/script/#stq=&stp=0)
 2. Travis Document, [Azure Web App Deployment](https://docs.travis-ci.com/user/deployment/azure-web-apps/)
@@ -245,4 +253,3 @@ Eric: 以後有遇到這情況，就有設定的機會。
 9. [Deployment of  website using Visual studio, FTP Tool, Dropbox etc. in Microsoft Azure.](https://rojalinsahoo.wordpress.com/2015/05/05/5/)
 10. [Using Managed Service Identity (MSI) with an Azure App Service or an Azure Function](https://blogs.msdn.microsoft.com/benjaminperkins/2018/06/13/using-managed-service-identity-msi-with-and-azure-app-service-or-an-azure-function/)
 11. Microsoft Document, [Set up continuous integration and deployment to Azure App Service with Jenkins](https://docs.microsoft.com/en-us/azure/jenkins/java-deploy-webapp-tutorial)
-12. Micorsoft Document, [使用 Jenkins 外掛程式來部署到 Azure App Service](https://docs.microsoft.com/zh-tw/azure/jenkins/deploy-jenkins-app-service-plugin)
