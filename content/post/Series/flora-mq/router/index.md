@@ -9,7 +9,8 @@ draft: true
 slug: router-與-queue
 date: 2023-01-18T08:20:14.286Z
 ---
-> [從零開始土炮 MQ]({{< ref "../foreword/index.md#基礎篇">}}) 基礎篇
+
+> [第 11 屆(2020) iThome 鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/2172)文章補完計劃，[從零開始土炮 MQ]({{< ref "../foreword/index.md#基礎篇">}}) 基礎篇
 
 <!--more-->
 
@@ -37,7 +38,7 @@ public class QueueRouter
 }
 ```
 
-但是接下來，建立 ConcurrentQueue<string> 時，就會發現，很多問題浮出水面，`AddQueue` 與 `Enqueue` 都會發生類別轉換錯誤的問題。
+但是接下來，建立 `ConcurrentQueue<string>` 時，就會發現，很多問題浮出水面，`AddQueue` 與 `Enqueue` 都會發生類別轉換錯誤的問題。
 
 當然，也可以用硬幹，俗稱暴力破解法來滿足下面的需求。
 

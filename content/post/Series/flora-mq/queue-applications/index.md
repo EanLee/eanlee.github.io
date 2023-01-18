@@ -14,7 +14,7 @@ draft: true
 date: 2023-01-18T08:20:20.532Z
 ---
 
-> [從零開始土炮 MQ]({{< ref "../foreword/index.md#基礎篇">}}) 基礎篇
+> [第 11 屆(2020) iThome 鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/2172)文章補完計劃，[從零開始土炮 MQ]({{< ref "../foreword/index.md#基礎篇">}}) 基礎篇
 
 佇列常見用於生產者與消費者模型之中，作為兩者之間的緩沖區。將雙方的直接關係進行解耦，並減少雙方效率不均的問題。
 
