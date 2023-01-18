@@ -6,8 +6,10 @@ keywords:
 categories:
   - 軟體開發
 draft: true
+slug: router-與-queue
+date: 2023-01-18T08:20:14.286Z
 ---
-> [從零開始土炮 MQ]({{< ref "../../foreword/index.md#基礎篇">}}) 基礎篇
+> [從零開始土炮 MQ]({{< ref "../foreword/index.md#基礎篇">}}) 基礎篇
 
 <!--more-->
 

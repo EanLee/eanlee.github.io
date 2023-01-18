@@ -11,9 +11,10 @@ tags:
 categories:
   - 軟體開發
 draft: true
+date: 2023-01-18T08:20:20.532Z
 ---
 
-> [從零開始土炮 MQ]({{< ref "../../foreword/index.md#基礎篇">}}) 基礎篇
+> [從零開始土炮 MQ]({{< ref "../foreword/index.md#基礎篇">}}) 基礎篇
 
 佇列常見用於生產者與消費者模型之中，作為兩者之間的緩沖區。將雙方的直接關係進行解耦，並減少雙方效率不均的問題。
 
@@ -42,7 +43,7 @@ A 公司只能將緊急中止新代工廠的訂單，待原本代工廠完成原
 * 集貨倉庫：商品的存放區。
 * 消費者：銷售後的購買行為。
 
-![producer-customer pattern](producer-customer%20pattern.png)
+![producer-customer pattern](images/producer-customer%20pattern.png)
 
 其中，代工廠作為**生產者**，負責產生資源(商品)。集貨倉庫可視為 Queue，負責資源的暫存緩衝與資源調派。消費者，就負責把資源取走、使用。
 
@@ -120,7 +121,7 @@ A 公司只能將緊急中止新代工廠的訂單，待原本代工廠完成原
 
 首先上場的是 .NET  `Lock` 機制，利用**指定指定物件的互斥鎖定，以確保鎖定期間，鎖定範圍內的陳述式不受其他執行緒影響，正常的完成任務，直到離開鎖定範圍**。
 
-![Lock](Lock.png)
+![Lock](images/Lock.png)
 
 在上面的示意圖中，兩名生產者與一名消費者，先後存取 Queue，在 Lock 機制的保護下，Queue 會依據請求時間的先後，依序完成 `producer 1`、`Customer 1`、 `Producer 2` 的存取動作。
 
@@ -384,7 +385,7 @@ lock(obj)
 
 這時，再把前面的圖回顧一下。
 
-![Lock](Lock.png)
+![Lock](images/Lock.png)
 
 Producer 1、Producer 2、Customer 1 三者前後請求對 Queue 的操作，而實際的操作順序，也是與請求順序相同。這就是有序性。
 

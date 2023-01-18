@@ -1,9 +1,11 @@
 ---
 title: 打通 Queue、Router、Dispatcher
 draft: true
+slug: 打通-queue、router、dispatcher
+date: 2023-01-18T08:19:45.429Z
 ---
 
-> [從零開始土炮 MQ]({{< ref "../../foreword/index.md#基礎篇">}}) 基礎篇
+> [從零開始土炮 MQ]({{< ref "../foreword/index.md#基礎篇">}}) 基礎篇
 
 當了解了 Queue、Router、Dispatcher 各部份的功用後，接著就要試著將其串通，讓它真正的為我們服務。
 
