@@ -13,7 +13,7 @@
     partial "post_toc.html" . -}}
     <div class="content post__content clearfix">
       {{ range (.Site.RegularPages.GroupByDate "2006") }}
-      <h3>{{ .Key }}</h3>
+      <h3>{{ .Key }} (Articles: {{ len (where .Pages "Type" "post") }})</h3>
       <ul class="archive-list">
         {{ range (where .Pages "Type" "post") }}
         <li>
@@ -23,12 +23,6 @@
       </ul>
       {{ end }}
     </div>
-    {{- if .Params.tags }}
-    <footer class="post__footer">{{ partial "post_tags.html" . }}</footer>
-    {{- end }}
   </article>
 </main>
-{{ partial "authorbox.html" . }}
-{{ partial "pager.html" . }}
-{{ partial "comments.html" . }}
 {{ end }}
