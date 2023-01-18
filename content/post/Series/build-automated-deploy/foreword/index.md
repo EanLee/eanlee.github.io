@@ -68,9 +68,13 @@ toc: false
 
 ### 持續發佈
 
-- [持續發佈軟體到 Dropbox 與 Azure App Service]({{< ref "../cd-dropbox-and-azure/index.md">}})
+- [持續發佈軟體到 Dropbox 與 Azure App Service]({{< ref "../cd-dropbox/index.md">}})
 
-  嘗試把軟體打包上傳到 Dropbox 以及 Azure App Service
+  在 Dropbox 開啟存取權限，並使用 Travis CI 與 Azure PipeLine 將軟體打包上傳到 Dropbox。
+
+- 發佈 WebAPI 到 Azure App Service
+
+  使用 Travis CI 與 Azure PipeLine 將 WebAPI 上傳到 Azrue App Service。
 
 ### Container
 
