@@ -13,6 +13,8 @@ date: 2022-08-31T15:58:45.335Z
 description: 在本機同時使用 Docker 建立 GitLab 與 GitLab Runner 時，在設定上遇到很多小眉腳。特別記錄下來，減少其他人撞牆的情況。
 lastmod: 2023-01-05T03:26:05.313Z
 slug: gitlab-and-runner-on-same-host-using-docker
+aliases:
+  - /post/devops/gitlab_ci_same_host/
 ---
 
 最近因為業務需求，必需在私有環境架設版控平台，並需要 CI/CD 的功能。
