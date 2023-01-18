@@ -1,23 +1,26 @@
 ---
 title: 使用 Travis CI / Azure PipeLines 發佈 WebAPI 到 Azure App Service
-date: 2023-01-17T07:36:29.276Z
-description: null
+date: 2023-01-18T06:56:38.594Z
+description: 順利使用 Travis CI / Azure Pipeline 完成 WebAPI 專案的持續整合，下一步，就是把 WebAPI 建置出來的
+  Artifact 發佈到 Azure App Service。
 categories:
   - DevOps
 keywords:
-  - Azure
-  - Dropbox
+  - Azure PipeLine
+  - Travis CI
+  - Azure App Service
 tags:
   - Azure
 slug: cd-azure-app-service
-draft: true
 ---
 
 > [2019 iT 邦幫忙鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/1906)文章補完計劃，[從零開始建立自動化發佈的流水線]({{< ref "../foreword/index.md#持續發佈">}}) 持續發佈篇
 
-<!--more-->
+在前面 [持續整合(Continuous Integration, CI)]({{< ref "../foreword/index.md#持續整合">}}) 的文章，初步介紹概念與 Travis CI / Azure Pipeline 的設定方式後，接著要來嘗試`持續部署 (Continuous Deployment, CD)`/`持續交付 (Continuous Delivery, CD)` 的實作。
 
-## 將 WebAPI 發佈到 Azure App Service
+在這一篇，將試著透過 Travis CI 與 Azure Pipeline 兩種工具，將程式進行自動化測試、建置、並直接將 WebAPI 發佈到 Azure App Service。
+
+<!--more-->
 
 ```chat
 吉米: 前面，我們將程式檔案發佈到 DropBox 之中，那結果要發佈 Web 之類的，又要怎麼做？
@@ -28,6 +31,8 @@ Eric: 自動發佈 Web ，是很常用遇到的情境。那下面就來聊聊如
 
 Eric: 對啊，所以接下來就那支 Web API 做為範例。
 ```
+
+## 將 WebAPI 發佈到 Azure App Service
 
 ### 使用 Travis CI 發佈
 
@@ -97,24 +102,25 @@ deploy:
 
 如果點開 Build 的 log 出來看，會發現下方的 `Deployments` 沒有有任何設定。
 
-![Azure_devops_Origin](images/azure-devops-origin.jpeg)
+![Azure Pipeline 建置檢視](images/azure-devops-origin.jpeg)
 
 在 `Azure Pipelines` 的 `Deployments` 必需從 是由 Releases 中進行設定的。
+
 在建立 Release 的第一步，就是選擇 deploy 的目標。因為要 deploy web 到 Azure App Service 之中，所以指定 `Azure App Service deployment` 。
 
-![Azure_Devops_release_1](images/azure-pipeline-deployment-template.jpeg)
+![Azure Pipeline 的部署樣版](images/azure-pipeline-deployment-template.jpeg)
 
 建立完成 stage 後，記得到 `Tasks` 中進一步設定。
 
-![Azure_Devops_release_3](images/azure-pipelines-task.jpeg)
+![設定 Azure Pipeline Task 內的 Stage](images/azure-pipelines-task.jpeg)
 
 完成所有設定後，再到 Build 之中，按下 `Queue` 進行建置。完成後，再觀查一下 log 就可以看最下方的 `Deployments` 己經存在剛剛設定的 Release 了。
 
-![Azure_devops_release_4](images/azure-devops-release-deployments.jpeg)
+![設定 Deployments 後的 Azure Pipeline 建置檢視](images/azure-devops-release-deployments.jpeg)
 
 可惜的是，筆者實作到這邊，未能在順利的處理無法順序發佈的問題。若解決，會再補上。
 
-![Azure Pipeline 發佈失敗](images/azure-devops-release-question.png)
+![Azure Pipeline 發佈失敗 (2018)](images/azure-devops-release-question.png)
 
 ```chat
 Eric: 因為是將 Web 發佈到 Azure 上，而主流的 CI Server 大多己經有現成的支援，這讓 Web 的發佈簡易很多。
@@ -125,17 +131,14 @@ Eric: 這時候，可能就要利用 Shell，以 command line 的方式，進行
 
 吉米: 嗯嗯，了解。
 
-Eric: 以後有遇到這情況，就有設定的機會。
+Eric: 以後有遇到這情況，有得是設定的機會。
 
-吉米: 哈哈哈，有備無患啊。
+吉米: 哈哈哈。
 ```
 
 ## 參考資料
 
-1. Travis Document, [Script deployment](https://docs.travis-ci.com/user/deployment/script/#stq=&stp=0)
-2. Travis Document, [Azure Web App Deployment](https://docs.travis-ci.com/user/deployment/azure-web-apps/)
-3. FELIX RIESEBERG , [Using Travis to Deploy Apps to Azure](https://felixrieseberg.com/using-travis-to-deploy-apps-to-azure/)
-4. [ASP.NET Web Deployment using Visual Studio: Command Line Deployment](https://docs.microsoft.com/en-us/aspnet/web-forms/overview/deployment/visual-studio-web-deployment/command-line-deployments)
-5. Microsoft Document, [Azure Web App deployment](https://docs.microsoft.com/en-us/azure/devops/pipelines/targets/webapp?toc=%2Fazure%2Fdevops%2Fdeploy-azure%2Ftoc.json&%3Bbc=%2Fazure%2Fdevops%2Fdeploy-azure%2Fbreadcrumb%2Ftoc.json&view=vsts&tabs=yaml)
-6. Microsfot Document, [Use the visual designer](https://docs.microsoft.com/zh-tw/azure/devops/pipelines/get-started-designer?view=vsts&tabs=new-nav#deploy-a-release)
-7. [Using Managed Service Identity (MSI) with an Azure App Service or an Azure Function](https://blogs.msdn.microsoft.com/benjaminperkins/2018/06/13/using-managed-service-identity-msi-with-and-azure-app-service-or-an-azure-function/)
+- Travis Document, [Azure Web App Deployment](https://docs.travis-ci.com/user/deployment/azure-web-apps/)
+- FELIX RIESEBERG , [Using Travis to Deploy Apps to Azure](https://felixrieseberg.com/using-travis-to-deploy-apps-to-azure/)
+- [Configure CI/CD with Azure Pipelines - Azure App Service | Microsoft Learn](https://docs.microsoft.com/en-us/azure/devops/pipelines/targets/webapp?toc=%2Fazure%2Fdevops%2Fdeploy-azure%2Ftoc.json&%3Bbc=%2Fazure%2Fdevops%2Fdeploy-azure%2Fbreadcrumb%2Ftoc.json&view=vsts&tabs=yaml)
+- [建立您的第一個管線 - Azure Pipelines | Microsoft Learn](https://docs.microsoft.com/zh-tw/azure/devops/pipelines/get-started-designer?view=vsts&tabs=new-nav#deploy-a-release)
