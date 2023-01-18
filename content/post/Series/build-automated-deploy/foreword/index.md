@@ -68,7 +68,7 @@ toc: false
 
 ### 持續發佈
 
-- [持續發佈軟體到 Dropbox 與 Azure App Service]({{< ref "../cd-dropbox/index.md">}})
+- [使用 Travis CI / Azure PipeLines 發佈 Artifact 到 Dropbox]({{< ref "../cd-dropbox/index.md">}})
 
   在 Dropbox 開啟存取權限，並使用 Travis CI 與 Azure PipeLine 將軟體打包上傳到 Dropbox。
 

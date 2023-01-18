@@ -1,19 +1,23 @@
 ---
-title: 持續發佈檔案到 Dropbox
-date: 2023-01-17T07:36:29.276Z
-description: null
+title: 使用 Travis CI / Azure PipeLines 發佈 Artifact 到 Dropbox
+date: 2023-01-18T06:16:37.292Z
+description: 當使用 Travis CI / Azure Pipeline 持續整合後，接著需要把建置出來的 Artifact 存放到固定的位置。接著在 CI/CD 工具中，結合 dropbox-loader.sh，將 Artifact 存放到 Dropbox 之中。
 categories:
   - DevOps
 keywords:
-  - Azure
+  - Travis CI
+  - Azure PipeLine
   - Dropbox
 tags:
   - Azure
 slug: cd-dropbox
-draft: true
 ---
 
 > [2019 iT 邦幫忙鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/1906)文章補完計劃，[從零開始建立自動化發佈的流水線]({{< ref "../foreword/index.md#持續發佈">}}) 持續發佈篇
+
+在前面 [持續整合(Continuous Integration, CI)]({{< ref "../foreword/index.md#持續整合">}}) 的文章，初步介紹概念與 Travis CI / Azure Pipeline 的設定方式後，接著要來嘗試持續交付 (Continuous Delivery, CD) 的實作。
+
+在這一篇，將試著透過 Travis CI 與 Azure Pipeline 兩種工具，將程式進行自動化測試、建置、並將其建置出來 Artifact 放置於 Dropbx。
 
 <!--more-->
 
@@ -65,7 +69,7 @@ Eric: 好啊。
 
 ![Dropbox app 的組態設定畫面 (2018)](images/dropbox-app-config.jpeg)
 
-要注意的是，`dropbox_uploader.sh` 中，是將 先前取得的 Dropbox OAuth2 的 Token 另存檔案。但這情況不適合用在 CI Server ，所以對 `dropbox_uploader.sh` 進行部份修改。
+要注意的是，`dropbox_uploader.sh` 中，是將先前取得的 Dropbox OAuth2 的 Token 另存檔案。但這情況不適合用在 CI Server ，所以對 `dropbox_uploader.sh` 進行部份修改。
 
 ```shell
 # step 1
@@ -129,7 +133,7 @@ script:
 
 再到 `azure-pipeline.yml` 中，加入 `dropbox-uploader.sh` 的調用。執行 `dropbox-uploader.sh` 上傳所需的參數，放到 `args` 的位置。
 
-說個題外話，筆者在實作時，沒有注意到參數要使用 `args` ，試了很多次，才發現這個錯誤。
+說個題外話，當初實作時，沒有注意到參數要使用 `args`，試了很多次，才發現這個錯誤。
 
 ```yaml
 - task: ShellScript@2
