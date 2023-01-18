@@ -41,21 +41,27 @@ Eric: 好啊。
 
 首先，先到 [Dorpbox Developers](https://www.dropbox.com/developers)，會看到以下的畫面
 
-![2023 年 Dropbox Developer 首頁](images/Pasted%20image%2020230117180016.png)
+![2023 年 Dropbox Developer 首頁](images/dropbox-developer-index.png)
 
-![Dropbox_developer_Myapp](images/dropbox-developer-app-console-2018.png)
+在成功註冊/登入後，首先，我們必須在 `Dropbox` 建立 app 專案，讓 Dropbx 開放權限，允許應用程式呼叫 Dropbox API。
 
-![2023 年應用程式控制台](images/dropbox-developer-app-console-2023.png)
+![應用程式控制台 (2018)](images/dropbox-developer-app-console-2018.png)
 
-按下 `Create app` 後，創立一個提供 CI Server 使用的 API。
+![應用程式控制台 (2023)](images/dropbox-developer-app-console-2023.png)
 
-![建立 Dropbox app (2018年畫面)](images/dropbox-developer-create-app-2018.jpeg)
+> 📝 資訊補充 📝
+>
+> 在 `Choose an API` 的部份，Dropbox 在 2020 年調整 OAuth2 的授權類型，讓授權的方式更加的多樣化與自由。相關資料請見：[Now Available: Scoped apps and enhanced permissions](https://dropbox.tech/developers/now-available--scoped-apps-and-enhanced-permissions)、[Migrating App Permissions and Access Tokens](https://dropbox.tech/developers/migrating-app-permissions-and-access-tokens)
 
-![建立 Dropbox app (2023 年畫面)](images/dropbox-developer-create-app-2023.png)
+按下 `Create app` 後，創立一個提供 CI Server 使用的 API 存取權限。
+
+![建立 Dropbox app (2018)](images/dropbox-developer-create-app-2018.jpeg)
+
+![建立 Dropbox app (2023)](images/dropbox-developer-create-app-2023.png)
 
 完成建立後，直接到 `OAuth 2` 的區域取得 Token 值，這會用在 `Dropbox_Uploader.sh` 之中。
 
-![Dropbox__MyApp_config](images/Dropbox_MyApp_config.jpeg)
+![Dropbox__MyApp_config](images/dropbox-app-config.jpeg)
 
 要注意的是，`dropbox_uploader.sh` 中，是將 先前取得的 Dropbox OAuth2 的 Token 另存檔案。但這情況不適合用在 CI Server ，所以對 `dropbox_uploader.sh` 進行部份修改。
 
@@ -103,7 +109,7 @@ script:
 
 ![Dropbx_List_travis](images/Dropbx_List_travis.jpeg)
 
-## Azure DevOps deploy
+### Azure DevOps deploy
 
 在 Azure Pipeline 的部份，筆者參考官方文件的說明。
 
@@ -152,7 +158,11 @@ Eric: 自動發佈 Web ，是很常用遇到的情境。那下面就來聊聊如
 Eric: 對啊，所以接下來就那支 Web API 做為範例。
 ```
 
-## Travis CI
+### 使用 Travis CI 發佈
+
+> 📝 資訊補充 📝
+>
+> 文章內使用的 Travis CI 設定方式是基於 Deployment(v1) 版本，2023/01 的當下，[Deployment(v2)](https://docs.travis-ci.com/user/deployment-v2) 仍在 Beta 階段。
 
 發佈的網站位置是在 Azure Web App 之中，直接採用 Traivs CI 現成的 Deploy 方式。
 
@@ -167,13 +177,26 @@ deploy:
   slot: azure_deployment_slotname       # (optional) If AZURE_WA_SLOT isn't set
 ```
 
-但是，**直接將 Azure 的帳密打在 .yml 是很危險的一件事**，Travis CI 建議使用 `Environment Variables` 的方式。
+但是直接將 Azure 的帳密打在 `.travis.yml` 是很危險的一件事，通常會將這些機敏性資料設定在`環境變數`之中。在 Travis CI 中提供了兩種作法。
 
-就筆者看到的實作方式，一種是使用 Travis 的 `Encryption keys`、另一種則是使用 Environment Variables。第一種方式，筆者沒有實驗過，有興趣的朋友可以參考延伸閱讀 5。筆者採用 Environment Variables 的方式。
+- 使用 CLI 操作的 [`Encryption keys`](https://docs.travis-ci.com/user/encryption-keys/)
+- 直接使用 Web 設定的 [`Environment Variables`](https://docs.travis-ci.com/user/environment-variables/)
 
-![TravisCISetting](images/Travis_Setting.png)
+`Encryption keys` 的方式，沒有實際操作過。有興趣的朋友，可以參考 Stack overflow 上, [Travis CI - Using repository environment variables in .travis.yml](https://stackoverflow.com/questions/33735992/travis-ci-using-repository-environment-variables-in-travis-yml) 這篇的討論。
 
-這時，.travis.yml 的內容如下。
+`Environment Variables` 的設定簡單，下面的操作採用 Environment Variables 的方式。
+
+首先到 Travis CI 專案的 `Setting` 頁面，可以找到 `Environment Variables` 的設定區域，在設定時，可以選用兩種設定方式。
+
+![Travis CI 中，專案的組態設定 (2018 年畫面)](images/travis-etting-2018.png)
+
+#### 自定義的 Environment Variables
+
+在 Travis CI 的 Environment Variables 中，分別建立 `azure_id` 與 `azure_pwd` 兩組變數。
+
+![自定義的 Environment Variables (2018 年畫面)](images/travis-setting-env-custom.png)
+
+配合環境變數的設定，調整 `.travis.yml` 的內容，將 `azure_id` 與 `azure_pwd` 加入。
 
 ```yaml
 deploy:
@@ -183,9 +206,15 @@ deploy:
   site: azure_deployment_sitename       # If AZURE_WA_SITE isn't set
 ```
 
-或是在 `Environment Variables` 中，直接宣告 `AZURE_WA_USERNAME`、`AZURE_WA_PASSWORD`、`AZURE_WA_SITE`，這樣的話 .travis.yml 的內容就省略 username、password、site 。
+#### Travis CI 定義的 Environment Variables
 
-這時，.travis.yml 中，deploy 部份的內容如下。
+在 Travis CI 的 Environment Variables 中，直接使用 `AZURE_WA_USERNAME`、`AZURE_WA_PASSWORD`、`AZURE_WA_SITE` 的變數名稱。
+
+![使用官方定義的 Environment Variables Key (2023 年畫面)](images/travis-setting-env-2023.png)
+
+當 `.travis.yml` 的 deploy 指定的 provider 為 azure_web_apps 時，預設會去抓取 `AZURE_WA_USERNAME`、`AZURE_WA_PASSWORD`、`AZURE_WA_SITE` 的環境變數。
+
+在 `.travis.yml` 之中，直接省略 username、password、site 的設定。
 
 ```yaml
 # .travis.yml
@@ -193,29 +222,28 @@ deploy:
   provider: azure_web_apps
 ```
 
-## Azure DevOps
+### 使用 Azure DevOps 內建的 Azure Pipelines 發佈
 
 如果點開 Build 的 log 出來看，會發現下方的 `Deployments` 沒有有任何設定。
 
-在 Azure Pipelines 的 Deployments 是由 Releases 中進行設定的。
+![Azure_devops_Origin](images/azure-devops-origin.jpeg)
 
-![Azure_devops_Origin](images/Azure_devops_Origin.jpeg)
-
+在 `Azure Pipelines` 的 `Deployments` 必需從 是由 Releases 中進行設定的。
 在建立 Release 的第一步，就是選擇 deploy 的目標。因為要 deploy web 到 Azure App Service 之中，所以指定 `Azure App Service deployment` 。
 
-![Azure_Devops_release_1](images/Azure_Devops_release_1.jpeg)
+![Azure_Devops_release_1](images/azure-pipeline-deployment-template.jpeg)
 
 建立完成 stage 後，記得到 `Tasks` 中進一步設定。
 
-![Azure_Devops_release_3](images/Azure_Devops_release_3.jpeg)
+![Azure_Devops_release_3](images/azure-pipelines-task.jpeg)
 
 完成所有設定後，再到 Build 之中，按下 `Queue` 進行建置。完成後，再觀查一下 log 就可以看最下方的 `Deployments` 己經存在剛剛設定的 Release 了。
 
-![Azure_devops_release_4](images/Azure_devops_release_4.jpeg)
+![Azure_devops_release_4](images/azure-devops-release-deployments.jpeg)
 
 可惜的是，筆者實作到這邊，未能在順利的處理無法順序發佈的問題。若解決，會再補上。
 
-![1541600936547](images/Azure_devops_release_question.png)
+![Azure Pipeline 發佈失敗](images/azure-devops-release-question.png)
 
 ```chat
 Eric: 因為是將 Web 發佈到 Azure 上，而主流的 CI Server 大多己經有現成的支援，這讓 Web 的發佈簡易很多。
@@ -239,17 +267,15 @@ Eric: 以後有遇到這情況，就有設定的機會。
 2. [Dropbox Uploader](https://www.andreafabrizi.it/2016/01/01/Dropbox-Uploader/)
 3. MR. 沙先生, [Dropbox API 用 bash 也可以上傳下載 Dropbox](https://shazi.info/dropbox-api-%E7%94%A8-bash-%E4%B9%9F%E5%8F%AF%E4%BB%A5%E4%B8%8A%E5%82%B3%E4%B8%8B%E8%BC%89-dropbox/)
 4. Microsoft Document, [Shell Script task](https://docs.microsoft.com/en-us/azure/devops/pipelines/tasks/utility/shell-script?view=vsts)
+5. [Deployment of  website using Visual studio, FTP Tool, Dropbox etc. in Microsoft Azure.](https://rojalinsahoo.wordpress.com/2015/05/05/5/)
+6. <https://developers.dropbox.com/zh-tw/oauth-guide>
 
 ▶ Azure Web App
 
 1. Travis Document, [Script deployment](https://docs.travis-ci.com/user/deployment/script/#stq=&stp=0)
 2. Travis Document, [Azure Web App Deployment](https://docs.travis-ci.com/user/deployment/azure-web-apps/)
-3. Travis Document, [Environment Variables](https://docs.travis-ci.com/user/environment-variables/#default-environment-variables)
-4. FELIX RIESEBERG , [Using Travis to Deploy Apps to Azure](https://felixrieseberg.com/using-travis-to-deploy-apps-to-azure/)
-5. Stack overflow, [Travis CI - Using repository environment variables in .travis.yml](https://stackoverflow.com/questions/33735992/travis-ci-using-repository-environment-variables-in-travis-yml)
-6. [ASP.NET Web Deployment using Visual Studio: Command Line Deployment](https://docs.microsoft.com/en-us/aspnet/web-forms/overview/deployment/visual-studio-web-deployment/command-line-deployments)
-7. Microsoft Document, [Azure Web App deployment](https://docs.microsoft.com/en-us/azure/devops/pipelines/targets/webapp?toc=%2Fazure%2Fdevops%2Fdeploy-azure%2Ftoc.json&%3Bbc=%2Fazure%2Fdevops%2Fdeploy-azure%2Fbreadcrumb%2Ftoc.json&view=vsts&tabs=yaml)
-8. Microsfot Document, [Use the visual designer](https://docs.microsoft.com/zh-tw/azure/devops/pipelines/get-started-designer?view=vsts&tabs=new-nav#deploy-a-release)
-9. [Deployment of  website using Visual studio, FTP Tool, Dropbox etc. in Microsoft Azure.](https://rojalinsahoo.wordpress.com/2015/05/05/5/)
-10. [Using Managed Service Identity (MSI) with an Azure App Service or an Azure Function](https://blogs.msdn.microsoft.com/benjaminperkins/2018/06/13/using-managed-service-identity-msi-with-and-azure-app-service-or-an-azure-function/)
-11. Microsoft Document, [Set up continuous integration and deployment to Azure App Service with Jenkins](https://docs.microsoft.com/en-us/azure/jenkins/java-deploy-webapp-tutorial)
+3. FELIX RIESEBERG , [Using Travis to Deploy Apps to Azure](https://felixrieseberg.com/using-travis-to-deploy-apps-to-azure/)
+4. [ASP.NET Web Deployment using Visual Studio: Command Line Deployment](https://docs.microsoft.com/en-us/aspnet/web-forms/overview/deployment/visual-studio-web-deployment/command-line-deployments)
+5. Microsoft Document, [Azure Web App deployment](https://docs.microsoft.com/en-us/azure/devops/pipelines/targets/webapp?toc=%2Fazure%2Fdevops%2Fdeploy-azure%2Ftoc.json&%3Bbc=%2Fazure%2Fdevops%2Fdeploy-azure%2Fbreadcrumb%2Ftoc.json&view=vsts&tabs=yaml)
+6. Microsfot Document, [Use the visual designer](https://docs.microsoft.com/zh-tw/azure/devops/pipelines/get-started-designer?view=vsts&tabs=new-nav#deploy-a-release)
+7. [Using Managed Service Identity (MSI) with an Azure App Service or an Azure Function](https://blogs.msdn.microsoft.com/benjaminperkins/2018/06/13/using-managed-service-identity-msi-with-and-azure-app-service-or-an-azure-function/)
