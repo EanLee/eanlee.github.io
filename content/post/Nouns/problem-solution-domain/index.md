@@ -7,11 +7,13 @@ keywords:
   - Solution Domain
   - 問題域
   - 解決方案
-tags: null
+tags:
+  - Domain
+  - DDD
 slug: problem-and-solution-domain
 draft: true
-categories: 
-- 聊聊名詞
+categories:
+  - 聊聊名詞
 ---
 
 

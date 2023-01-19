@@ -2,8 +2,11 @@
 title: 淺談 OSI 模型
 description: 在系統設計與架構中，網路概念是不可或缺的一者，而 Open System Interconnection Model, OSI 可視為網路通訊的通用語言。
 date: 2023-01-19T06:26:54.637Z
-categories: null
-tags: null
+categories:
+  - 網路概念
+tags:
+  - OSI
+  - 網路
 keywords: null
 draft: true
 ---

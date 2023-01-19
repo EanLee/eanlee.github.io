@@ -2,6 +2,7 @@
 title: 淺談 WAF(Web Application Firewall)
 tags:
   - 網路
+  - OSI
 categories:
   - 資訊安全
 keywords:
