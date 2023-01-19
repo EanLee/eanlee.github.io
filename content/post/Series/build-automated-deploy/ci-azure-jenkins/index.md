@@ -146,7 +146,6 @@ cat xxxxxxx.pub
 
 ![building](images/building.png)
 
-
 ![vm](images/vm.png)
 
 #### Jenkins 設定
@@ -255,7 +254,7 @@ Eric:
 
 但是這樣還是收不到，記得到 GitHub 設定 Webhook。
 
-```
+```url
 {jenkins網址}\github-webhook
 ```
 
