@@ -14,7 +14,9 @@ categories:
 tags:
   - 思維模式
   - 系統架構
-slug: 聊聊架構-系統負載、分流與限制理論
+slug: system-loading-limit-reroute
+aliases:
+  - /post/architecture/talking_system_loading_and_limit/
 ---
 
 無論技術決策或解決方案的選擇，經常因為現實環境造成的種種限制條件，導致無法直接使用最優解。需要基於限制條件下，進行相對應的妥協與方案的調整。
