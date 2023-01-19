@@ -11,8 +11,6 @@ draft: true
 
 <!--more-->
 
-## 九、需求與框架規劃
-
 在了解完成通訊協定後，接著，開始對 FloraMQ 提出一些要求。
 
 * 可以記錄 log 資訊，以便觀察、分析使用情況與追逐問題。
@@ -27,7 +25,7 @@ draft: true
 1. 監控：
 
    * 以記錄 log 資訊，以便觀察、分析使用情況與追逐問題。
-   * 可以定期回報系統的資訊，例如：己處理數量、等待中的數量…
+   * 可以定期回報系統的資訊，例如：已處理數量、等待中的數量…
    * 可設定水位，當系統負擔大過特定水位時，主動發出通知。
 
 2. 軔性：
@@ -41,7 +39,7 @@ draft: true
 
 接著，試著改進系統的架構，逐一達成三個類型的需求。
 
-### 9.1 監控
+## 監控
 
 在前面，己經將 Router、Queue、Dispatch 的組合，視為一個個體。為了方便後面的描述，使用 Node 稱呼。
 
@@ -69,7 +67,7 @@ draft: true
 
 ![](images/arch_monitor_4.png)
 
-### 9.2 軔性 Resilience
+## 軔性 Resilience
 
 在前面監控的部份，作為單一系統使用，基本上是可行的。但，若要運用在實際環境，還是有些問題，需要解決。
 
@@ -122,7 +120,7 @@ draft: true
 
 ![arch_reseilience_5](images/arch_reseilience_5.png)
 
-#### Service Discovery
+## Service Discovery
 
 回頭看一下解決需求四與五的做法，不管是 `Manager` 或 `Service Guide`那一種，都必需知道 Node 的連線位置。
 
@@ -139,28 +137,30 @@ Service Discovery 的兩個關鍵功能：
 
 所以我們可以將前面的架構圖整理如下。
 
-延伸閱讀
+## Service Mesh
 
-1. [微服務架構Service Discovery篇]( http://sah.tw/blog/2018/04/21/service-discovery/ )
-2. [微服務基礎建設 - Service Discovery]( https://columns.chicken-house.net/2017/12/31/microservice9-servicediscovery/ )
-
-### 9.3 延伸性 Scale
+## 延伸性 Scale
 
 > 需求六、可手動增加或減少系統的數量。
 
 當請求資訊的數量大到當前服務無法支撐的情況，就勢必要增加服務的處理能力。而增加處理能力不外乎是提高硬體的等級的`垂直擴展`；或是加開新的服務的`水平垂展`。
 
-#### 延伸閱讀
+### 水平垂展
+
+### 垂直擴展
+
+## 延伸閱讀
 
 1.[Scalability – Scale Out/In vs Scale Up/Down (Horizontal Scaling vs Vertical Scaling)]( https://www.nitrix-reloaded.com/2016/10/01/scalability-scale-outin-vs-scale-updown-horizontal-scaling-vs-vertical-scaling/ )
 
----
+
+1. [微服務架構Service Discovery篇]( http://sah.tw/blog/2018/04/21/service-discovery/ )
+2. [微服務基礎建設 - Service Discovery]( https://columns.chicken-house.net/2017/12/31/microservice9-servicediscovery/ )
+
 
 Actor Model
 
 Status Machine
 
 HA, High Availability
-
-
-## 延伸閱讀
+可參考 K8s 的設計架構
