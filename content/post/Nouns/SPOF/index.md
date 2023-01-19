@@ -1,5 +1,5 @@
 ---
-title: 聊聊名詞 | 單點故障 Single point of failure, SPOF
+title: 聊聊名詞 | 單點故障 | Single point of failure, SPOF
 description: 試著簡單說明單點故障背後的意思
 date: 2022-06-23T03:25:10.317Z
 categories:

@@ -1,7 +1,7 @@
 ---
-title: 聊聊名詞 | 問題域(Problem Domain)與解決方案(Solution Domain)
+title: 聊聊名詞 | 問題領域與解決方案領域 | Problem & Solution Domain
 description: null
-date: 2023-01-19T02:28:29.158Z
+date: 2023-01-19T03:31:30.645Z
 keywords:
   - Problem Domain
   - Solution Domain
