@@ -16,3 +16,7 @@ slug: ubiquitous-language
 <!--more-->
 
 ## 延伸閱讀
+
+▶ 站內文章
+
+- [問題域(Problem Domain)與解決方案(Solution Domain)]({{< ref "../problem-solution-domain/index.md">}})

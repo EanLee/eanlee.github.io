@@ -158,14 +158,18 @@ Producer 1、Producer 2、Customer 1 三者前後請求對 Queue 的操作，而
 
 ## 延伸閱讀
 
- ▶ 生產者消費者模式
+▶ 站內文章
+
+- 問題域(Problem Domain)與解決方案(Solution Domain)
+
+▶ 生產者消費者模式
 
 - [生產者/消費者模式(阻塞隊列) 一個經典的並發模型](https://blog.csdn.net/canot/article/details/51541920)
 - [生產者 vs 消費者 - BlockQueue 實作](https://columns.chicken-house.net/2008/10/18/生產者-vs-消費者-blockqueue-實作/)
 - [Asynchronous Producer Consumer Pattern in .NET (C#)](https://www.dotnetcurry.com/dotnetcore/1509/async-dotnetcore-pattern)
 - [BlockingQueue（阻塞隊列）詳解](https://www.cnblogs.com/tjudzj/p/4454490.html)
 
- ▶ 併發程式的三大特性
+▶ 併發程式的三大特性
 
 - [解決原子性問題？腦海中有這個模型就可以了](https://juejin.im/post/5d8814975188253f6c75e179)
 - [分散式系統 - 在分散的世界中保持一致](https://ithelp.ithome.com.tw/users/20121042/ironman/2792)
