@@ -28,6 +28,10 @@ Domain
 
 ![不同維度的領域](Images/difference-level-domain.png)
 
+### 上下文/語境/脈絡 *Context*
+
+Context 是一個非常非常重要的詞彙。
+
 ### 問題領域 *Problem Domain*
 
 ![問題所在的領域](Images/focus-problem-domain.png)
@@ -48,7 +52,6 @@ Domain
 
 解決方案是指對一個問題或需求的解决方法。它是由一系列步驟或策略組成的，用於達到預定的目標。解決方案可能包括使用特定的技術、工具或方法，或者是一組配置或架構。在軟體開發中，解決方案是指應用程式或系統如何解決特定問題領域中的需求。解決方案需要考慮到用戶需求、技術限制、成本限制和時間限制等因素。
 
-Context
 
 ## Space
 
@@ -73,3 +76,7 @@ Context
 ▶ 站內文章
 
 - []
+
+▶ 外部文章
+
+- [区分 DDD 中的 Domain, Subdomain, Bounded Context, Problem/Solution Space - 腾讯云开发者社区 - 腾讯云 (tencent.com)](https://cloud.tencent.com/developer/article/1844134)
