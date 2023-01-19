@@ -20,7 +20,7 @@ date: 2023-01-18T08:19:55.044Z
 
 這時，需要有一個機制，讓 worker 順利取得**正確**而**不重複**的資料內容，讓它可以進行資料處理。
 
-![dispatch](/dispatch.png)
+![dispatch](images/dispatch.png)
 
 ### 5.1 Dispatch 的註冊
 
@@ -61,7 +61,7 @@ public interface Dispatch<T>
 
 當有多個 conumer 同時跟 queue 請求資料時，Dispatch 會依據 consumer 請求的順序，依先進先出的原則，逐一將資料回傳給 consumer。
 
-![](dispatch_1.png)
+![](images/dispatch_1.png)
 
 將前面提到的 `IDispatch<T>` 與 `IConsumer<T>` 進行迭代。
 
@@ -202,7 +202,7 @@ public void ConsumerTest_當2個consumer輸流取值時_取回資料與順序相
 * 同一個 Queue 要如何儲存異質性的資料。
 * `Dispatch` 如何識別異質性資料，並正確分派到對應的 Consumer。
 
-![diff_queue_dispatch](/dispatch_2.png)
+![diff_queue_dispatch](images/dispatch_2.png)
 
 首先，異質性資料如何儲存在一個 Queue 之中，己經在前一章的`通用型的 Router` 提到相關的概念。
 
@@ -268,13 +268,13 @@ static void Main(string[] args)
 
 要特別注意，不管是那一種分派方式，當 Queue 存有異質性資料，而只有其中一種 consumer 來取得資料時，因為 FIFO 的特性，會發生 Queue 卡死的現象。
 
-![Dispatch_3](/Dispatch_3.png)
+![Dispatch_3](images/Dispatch_3.png)
 
 #### 被動式分派
 
 當 **consumer 主動跟 dispatch 請求資料**，Dispatch 依據 consumer 傳入的可接受的資料類型資訊，判斷 Queue 內第一筆的資料是否為回傳。若為可接受類型；直接回傳資料內容；反之，則回傳空值。
 
-![Dispatch_4](/Dispatch_4.png)
+![Dispatch_4](images/Dispatch_4.png)
 
 這種分派方式，多數情境是應用於 consumer 未與 Dispatch 保持長連線狀態。例如取完資料後，就離線處理。直到作業完成後，才再次跟 Dispatch 請求資料。
 
@@ -470,7 +470,7 @@ public class HeterogeneityDispatchTest
 
 在分派實作的部份，採用直接將無用的資料丟棄的作法。並使用`delegate`的方式，讓 Dispatch 可以主動通知 consumer 進行處理。當然，也可以使用 `Action<T>` 或 `Event` 進行實作，如果有更好的作法，也歡迎告知。
 
-![Dispatch_5](/Dispatch_5.png)
+![Dispatch_5](images/Dispatch_5.png)
 
 ```C#
    public class Consumer<T> : IConsumer<T>
@@ -667,7 +667,7 @@ public class HeterogeneityDispatchTest
 
 我們將不同優先度的資料，視為不同 Queue 的資料。當資料進入時，會自動分配到對應的 Queue 中。而 consumer 向 Dispatch 分派資料，會優先將高優先度的 Queue 的資料分派出去。
 
-![Dispatch_6_Priority](/Dispatch_6_Priority.png)
+![Dispatch_6_Priority](images/Dispatch_6_Priority.png)
 
 ```c#
 class PriorityDispatch<T>
