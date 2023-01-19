@@ -320,7 +320,7 @@ Eric:
 
 所以執行 `docker-compose --help` 時，會看到許多指令的說明，都是以 service 稱呼。
 
-![1542047152230](help.png)
+![docker-compose 指令集](Images/help.png)
 
 ### docker-compose.yml 範例
 
