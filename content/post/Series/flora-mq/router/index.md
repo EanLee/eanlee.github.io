@@ -22,11 +22,11 @@ date: 2023-01-18T08:20:14.286Z
 
 我們來解析一下需求，它想要統一管理所使用的 queue ，所以可以畫出以下的概念圖
 
-![https://ithelp.ithome.com.tw/upload/images/20190926/20107551tWt6LNLPqn.png](https://ithelp.ithome.com.tw/upload/images/20190926/20107551tWt6LNLPqn.png)
+![概念圖](images/route.png)
 
 用白話來說，所有建立的  queue , 都要加入 queue router 之中，但資料要如何個自放到對應的 queue 之中?
 
-試著用 TDD 的方式進行開發，在加入第一個 Test case 時，建立一個 ConcurrentQueue<int> 的 queue 還很順利。
+試著用 TDD 的方式進行開發，在加入第一個 Test case 時，建立一個 `ConcurrentQueue<int>` 的 queue 還很順利。
 
 ```c#
 public class QueueRouter
@@ -56,13 +56,13 @@ public class QueueRouter
 }
 ```
 
-但是，如果支援的資料類型越來越多，難道要一直在 QueueRouter 之中加入 ConcurrentQueue<T> property 與 method 嗎? 這不但不符合 Open-Close 原則外，也間接增加維護開發的困難。
+但是，如果支援的資料類型越來越多，難道要一直在 QueueRouter 之中加入 `ConcurrentQueue<T>` property 與 method 嗎? 這不但不符合 Open-Close 原則外，也間接增加維護開發的困難。
 
 ### 資料的封裝
 
 如果將傳入的資料打包，同時有一個標記讓 queue Manager 可以知道新增的資料是屬於那個 queue 的，這種作法的概念圖如下。
 
-![Router_payload](/Router_payload.png)
+![Router_payload](iamges/Router_payload.png)
 
 ```C#
 public class QueueItem
@@ -74,7 +74,7 @@ public class QueueItem
 
 這時，輸入的資料有 `Label` 可以做為判斷資料類型的依據，如示意圖表示。Router 可以依據 Label 內的資訊來進行歸類的動作。
 
-![https://ithelp.ithome.com.tw/upload/images/20190926/20107551A2qdRcsoEP.png](https://ithelp.ithome.com.tw/upload/images/20190926/20107551A2qdRcsoEP.png)
+![依據 Label 內的資訊來進行歸類](images/router2.png)
 
 在這個例子中，我們可以先參考下列的程式實作。
 
