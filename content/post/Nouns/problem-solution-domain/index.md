@@ -93,10 +93,6 @@ Context 是一個非常非常重要的詞彙。
 
 ## 延伸閱讀
 
-▶ 站內文章
-
-- []
-
 ▶ 外部文章
 
-- [区分 DDD 中的 Domain, Subdomain, Bounded Context, Problem/Solution Space - 腾讯云开发者社区 - 腾讯云 (tencent.com)](https://cloud.tencent.com/developer/article/1844134)
+- [區分 DDD 中的 Domain, Subdomain, Bounded Context, Problem/Solution Space - 騰訊雲開發者社區](https://cloud.tencent.com/developer/article/1844134)
