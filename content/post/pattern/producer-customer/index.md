@@ -1,27 +1,22 @@
 ---
 title: 淺談 Pattern | 生產者與消費者模型
-description: 
-date: 2023-01-19T02:13:20.834Z
+description: 佇列常見用於生產者與消費者模型之中，作為兩者之間的緩沖區。將雙方的直接關係進行解耦，並減少雙方效率不均的問題。
+date: 2023-02-02T07:58:59.547Z
 categories:
   - Pattern
-tags: []
+tags:
+  - 系統架構
 keywords:
   - producer-consumers
-draft: true
+  - pattern
 slug: producer-consumers
 ---
-
 
 佇列常見用於生產者與消費者模型之中，作為兩者之間的緩沖區。將雙方的直接關係進行解耦，並減少雙方效率不均的問題。
 
 而在併發的架構下，必須使用鎖定機制與同步機制，確保佇列中的之資源被正確的存取，避免重覆使用或錯誤覆寫的情況。
 
 <!--more-->
-
-## 問題域 Problem domain
-
-## 
-## 生產者與消費者模型
 
 依慣例，在說明**生產者與消費者模型(producer-consumers pattern)** 之前，先用一個現實的情境來舉例。
 
@@ -144,7 +139,7 @@ lock(obj)
 
 ![Lock](images/Lock.png)
 
-Producer 1、Producer 2、Customer 1 三者前後請求對 Queue 的操作，而實際的操作順序，也是與請求順序相同。這就是有序性。
+Producer 1、Producer 2、Customer 1 三者前後請求對 Queue 的操作，而 Queue 處理與回應的順序，也是與請求順序相同。這就是有序性。
 
 ### 可見性 *Visibility*
 
@@ -157,10 +152,6 @@ Producer 1、Producer 2、Customer 1 三者前後請求對 Queue 的操作，而
 這種情況，就是為了效能而犧牲了部份的可見性。
 
 ## 延伸閱讀
-
-▶ 站內文章
-
-- 問題域(Problem Domain)與解決方案(Solution Domain)
 
 ▶ 生產者消費者模式
 
