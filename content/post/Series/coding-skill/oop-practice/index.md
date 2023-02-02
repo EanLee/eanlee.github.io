@@ -13,7 +13,7 @@ keywords:
   - DIP
   - Coupling
 categories:
-  - 開發雜談
+  - 軟體開發
 tags:
   - OOP
 slug: oop-practice

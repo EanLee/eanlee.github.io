@@ -77,7 +77,7 @@ Eric:
 * **自動化測試** 確保功能正常與軟體品質。
 * **程式碼分析**: 檢查 code style 或程式的穩健度。
 
-### 第二階段、持續部署(Continuous Delivery, CD)
+### 第二階段、持續部署(Continuous Deployment, CD)
 
 完成整合的階段後，接下來就是部署的階段。
 
@@ -90,7 +90,7 @@ Eric:
 * 發佈
 * 手動測試
 
-### 第三階段、持續交付(Continuous Deployment, CD)
+### 第三階段、持續交付(Continuous Delivery, CD)
 
 持續交付的目標，就是 **儘快將最新版本的軟體，交付到最終使用者(end-user)手中**。
 

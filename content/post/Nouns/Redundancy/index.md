@@ -1,5 +1,5 @@
 ---
-title: 聊聊名詞 - 冗餘 Redundancy
+title: 聊聊名詞 | 冗餘 | Redundancy
 description: 試著簡單說明接觸過的名詞，再次加深自己的印象，另一方面也作為備查用的資訊。
 date: 2022-06-09T09:15:15.154Z
 categories:

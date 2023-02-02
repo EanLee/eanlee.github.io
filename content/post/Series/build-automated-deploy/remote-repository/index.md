@@ -5,8 +5,9 @@ description: 介紹了版控的概念與 Git 的操作方式後，接著要找 R
 date: 2023-01-12T02:10:37.666Z
 tags:
   - 版控
+  - Azure
 categories:
-  - 軟體開發
+  - DevOps
 keywords:
   - 版控
   - Git

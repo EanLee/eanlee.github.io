@@ -10,7 +10,7 @@ keywords:
 categories:
   - 系列文章
 date: 2022-06-20T06:58:08.103Z
-lastmod: 2023-01-11T04:41:26.549Z
+lastmod: 2023-01-15T16:08:36.674Z
 slug: build-ci-cd-from-scratch
 toc: false
 ---
@@ -63,14 +63,18 @@ toc: false
 
 ### 訊息通知
 
-- CI 訊息通知 - E-mail
-- CI 訊息通知 - Line
-- CI 訊息通知 - Microsoft Teams
+- 訊息通知 - E-mail/Microsoft Teams
+- 訊息通知 - Line
 
 ### 持續發佈
 
-- 持續發佈 - 安裝檔
-- 持續發佈 - Web
+- [使用 Travis CI / Azure PipeLines 發佈 Artifact 到 Dropbox]({{< ref "../cd-dropbox/index.md">}})
+
+  在 Dropbox 開啟存取權限，並使用 Travis CI 與 Azure PipeLine 將軟體打包上傳到 Dropbox。
+
+- 發佈 WebAPI 到 Azure App Service
+
+  使用 Travis CI 與 Azure PipeLine 將 WebAPI 上傳到 Azrue App Service。
 
 ### Container
 
