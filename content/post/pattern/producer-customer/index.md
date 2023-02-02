@@ -18,6 +18,8 @@ slug: producer-consumers
 
 <!--more-->
 
+## 生產者與消費者模型
+
 依慣例，在說明**生產者與消費者模型(producer-consumers pattern)** 之前，先用一個現實的情境來舉例。
 
 ```Plan
@@ -99,13 +101,13 @@ A 公司只能將緊急中止新代工廠的訂單，待原本代工廠完成原
 
 當符合兩點特性的 Queue，稱為阻塞佇列 (BlockQueue) 。
 
-為確保 Queue 內的共用資源的正確性，就必需對存取 Queue 的對象有所管制，避免同時多個對象對同一資源操作。因此需要是互斥鎖、非排他鎖等鎖定機制，
+為確保 Queue 內的共用資源的正確性，就必需對存取 Queue 的對象有所管制，避免同時多個對象對同一資源操作。因此需要是互斥鎖、非排他鎖等鎖定機制。
+
+不管是互斥鎖、Semaphore、Mutex、WaitHandle 的那一種作法，其主要的目的，都是為了確保**多執行緒爭相存取共用資源時，共用資源內容的正確性。**
 
 在 `.NET Core` 之中，己經針對生產者消費者模型，設計 [IProducerConsumerCollection](https://docs.microsoft.com/zh-tw/dotnet/api/system.collections.concurrent.iproducerconsumercollection-1) 介面。而 `BlockCollection`、`ConcurrentQueue` 均基於 `IProducerConsumerCollection` 的實作，提供安全執行緒集合適用的封鎖和界限容量，
 
 ## 併發程式的三大特性: 原子性、有序性、可見性
-
-不管是互斥鎖、Semaphore、Mutex、WaitHandle 的那一種作法，其主要的目的，都是為了確保**多執行緒爭相存取共用資源時，共用資源內容的正確性。**
 
 在設計並發性的系統中，許多前輩與神人，整理出三個原則。分為**原子性**、**有序性**、**可見性**。
 
