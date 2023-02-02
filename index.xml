@@ -7,9 +7,9 @@
 &lt;li>&lt;strong>Domain&lt;/strong>: 特定知識或專業為基礎的範圍。&lt;/li>
 &lt;li>&lt;strong>Context&lt;/strong>: 指特定事物的背景與先決條件。&lt;/li>
 &lt;li>&lt;strong>Problem Domain&lt;/strong>: 以特定知識或專案為前提條件，需要處理或解決的問題。一個問題可能會有多組的解決方案。&lt;/li>
-&lt;li>&lt;strong>Poboblem Space&lt;/strong>: 所有可能的問題集合。&lt;/li>
+&lt;li>&lt;strong>Porblem Space&lt;/strong>: 所有可能的問題集合。&lt;/li>
 &lt;li>&lt;strong>Solution Domain&lt;/strong>: 以問題所屬的領域為主，針對性的解決方案。一個解決方案，也可能應用到多個問題域。&lt;/li>
-&lt;li>&lt;strong>Solutton Space&lt;/strong>: 所有可能解決方案的集合。&lt;/li>
+&lt;li>&lt;strong>Solution Space&lt;/strong>: 所有可能解決方案的集合。&lt;/li>
 &lt;/ul>
 &lt;/blockquote></description></item><item><title>使用 Travis CI / Azure PipeLines 發佈 Artifact 到 Dropbox</title><link>https://eandev.com/post/series/build-automated-deploy/cd-dropbox/</link><pubDate>Wed, 18 Jan 2023 06:16:37 +0000</pubDate><guid>https://eandev.com/post/series/build-automated-deploy/cd-dropbox/</guid><description>&lt;blockquote>
 &lt;p>&lt;a href="https://ithelp.ithome.com.tw/users/20107551/ironman/1906">2019 iT 邦幫忙鐵人賽&lt;/a>文章補完計劃，&lt;a href="https://eandev.com/post/series/build-automated-deploy/build-ci-cd-from-scratch/#持續發佈">從零開始建立自動化發佈的流水線&lt;/a> 持續發佈篇&lt;/p>

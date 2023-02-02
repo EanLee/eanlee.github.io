@@ -6,8 +6,8 @@
 &lt;li>&lt;strong>Domain&lt;/strong>: 特定知識或專業為基礎的範圍。&lt;/li>
 &lt;li>&lt;strong>Context&lt;/strong>: 指特定事物的背景與先決條件。&lt;/li>
 &lt;li>&lt;strong>Problem Domain&lt;/strong>: 以特定知識或專案為前提條件，需要處理或解決的問題。一個問題可能會有多組的解決方案。&lt;/li>
-&lt;li>&lt;strong>Poboblem Space&lt;/strong>: 所有可能的問題集合。&lt;/li>
+&lt;li>&lt;strong>Porblem Space&lt;/strong>: 所有可能的問題集合。&lt;/li>
 &lt;li>&lt;strong>Solution Domain&lt;/strong>: 以問題所屬的領域為主，針對性的解決方案。一個解決方案，也可能應用到多個問題域。&lt;/li>
-&lt;li>&lt;strong>Solutton Space&lt;/strong>: 所有可能解決方案的集合。&lt;/li>
+&lt;li>&lt;strong>Solution Space&lt;/strong>: 所有可能解決方案的集合。&lt;/li>
 &lt;/ul>
 &lt;/blockquote></description></item></channel></rss>
