@@ -1,7 +1,7 @@
 ---
 title: 聊聊名詞 | 問題領域與解決方案領域 | Problem & Solution Domain
 description: 將以特定知識或專案為前提條件，需要處理或解決的問題，將其稱為問題域，而問題域的集合則稱為問題空間。相同的。解決特定問題域的解決方案，被稱為解決方案域，而解決方案的集合被稱為解決方案空間。
-date: 2023-01-19T03:31:30.645Z
+date: 2023-02-02T07:21:30.318Z
 keywords:
   - Problem Domain
   - Solution Domain
