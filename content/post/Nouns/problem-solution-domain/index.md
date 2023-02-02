@@ -24,9 +24,9 @@ categories:
 > - **Domain**: 特定知識或專業為基礎的範圍。
 > - **Context**: 指特定事物的背景與先決條件。
 > - **Problem Domain**: 以特定知識或專案為前提條件，需要處理或解決的問題。一個問題可能會有多組的解決方案。
-> - **Poboblem Space**: 所有可能的問題集合。
+> - **Porblem Space**: 所有可能的問題集合。
 > - **Solution Domain**: 以問題所屬的領域為主，針對性的解決方案。一個解決方案，也可能應用到多個問題域。
-> - **Solutton Space**: 所有可能解決方案的集合。
+> - **Solution Space**: 所有可能解決方案的集合。
 
 <!--more-->
 
