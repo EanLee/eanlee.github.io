@@ -128,3 +128,4 @@ categories:
 
 - [區分 DDD 中的 Domain, Subdomain, Bounded Context, Problem/Solution Space - 騰訊雲開發者社區](https://cloud.tencent.com/developer/article/1844134)
 - [Problem Space and Solution Space – The Solution Space](https://solutionspace.blog/2021/10/29/problem-space-and-solution-space/)
+- [戰略設計：運用 Domain, Subdomain 與 Bounded Context 打造藍圖](https://ithelp.ithome.com.tw/articles/10216798)
