@@ -34,6 +34,10 @@ slug: cache-avalanche-penetration-and-hotspot-invalid
 
 ### 快取穿透 *Hotspot Invalid*
 
+## 延伸議題
+
+### 資料的一致性
+
 ## 延伸閱讀
 
 ▶ 站內文章
