@@ -19,7 +19,7 @@ categories:
 
 而 `Problem Domain` 與 `Soltion Domain` 的概念，用在釐清問題的切入面，現有資訊的評估，都可以帶來許多的幫助。
 
-> 🔖 簡述 🔖
+> 🔖 長話短說 🔖
 >
 > - **Domain**: 特定知識或專業為基礎的範圍。
 > - **Context**: 指特定事物的背景與先決條件。
