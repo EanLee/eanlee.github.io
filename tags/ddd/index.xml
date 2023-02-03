@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>DDD on 伊恩的開發狂想</title><link>https://eandev.com/tags/ddd/</link><description>Recent content in DDD on 伊恩的開發狂想</description><generator>Hugo -- gohugo.io</generator><language>zh-tw</language><lastBuildDate>Thu, 02 Feb 2023 07:21:30 +0000</lastBuildDate><atom:link href="https://eandev.com/tags/ddd/index.xml" rel="self" type="application/rss+xml"/><item><title>聊聊名詞 | 問題領域與解決方案領域 | Problem &amp; Solution Domain</title><link>https://eandev.com/post/nouns/problem-and-solution-domain/</link><pubDate>Thu, 02 Feb 2023 07:21:30 +0000</pubDate><guid>https://eandev.com/post/nouns/problem-and-solution-domain/</guid><description>&lt;p>當開始接解 Domain-Driven Desgin, DDD 時，一定會接觸到 &lt;code>Problem Domain&lt;/code>、&lt;code>Solution Domain&lt;/code> 、&lt;code>Context&lt;/code>、&lt;code>Problem Space&lt;/code> 與 &lt;code>Solution Space&lt;/code> 這些名詞。&lt;/p>
 &lt;p>而 &lt;code>Problem Domain&lt;/code> 與 &lt;code>Soltion Domain&lt;/code> 的概念，用在釐清問題的切入面，現有資訊的評估，都可以帶來許多的幫助。&lt;/p>
 &lt;blockquote>
-&lt;p>🔖 簡述 🔖&lt;/p>
+&lt;p>🔖 長話短說 🔖&lt;/p>
 &lt;ul>
 &lt;li>&lt;strong>Domain&lt;/strong>: 特定知識或專業為基礎的範圍。&lt;/li>
 &lt;li>&lt;strong>Context&lt;/strong>: 指特定事物的背景與先決條件。&lt;/li>
