@@ -39,14 +39,16 @@
 &lt;li>GitLab Server: GitLab CE Community 15.0.4-ce.0&lt;/li>
 &lt;li>GitLab Runner ver.1.5.1&lt;/li>
 &lt;/ul>
-&lt;p>📣 TL;DR&lt;/p>
+&lt;blockquote>
+&lt;p>🔖 長話短說 🔖&lt;/p>
 &lt;p>在同一台機器內，使用 Dokcer 同時架設 GitLab 與 GitLab-Runner 有一些地方要注意。&lt;/p>
 &lt;ul>
 &lt;li>若 GitLab Runner 使用 Docker Executor，需要指定使用的網路。&lt;/li>
-&lt;li>若 GitLab 使用 &lt;code>localhost&lt;/code>，註冊 GitLab-Runner 時，需特別指定 &lt;code>clone_url&lt;/code>。&lt;/li>
+&lt;li>若 GitLab 的 HostName 使用 &lt;code>localhost&lt;/code>，在註冊 GitLab-Runner 時，需特別指定 &lt;code>clone_url&lt;/code>。&lt;/li>
 &lt;li>若 GitLab 若不是使用 80 Port，務必依官方建議作法，可以減少很多麻煩。&lt;/li>
-&lt;li>Docker network 的部份要特別小心。&lt;/li>
-&lt;/ul></description></item><item><title>淺談 YAML 格式</title><link>https://eandev.com/post/series/build-automated-deploy/yaml/</link><pubDate>Fri, 29 Jul 2022 06:12:44 +0000</pubDate><guid>https://eandev.com/post/series/build-automated-deploy/yaml/</guid><description>&lt;blockquote>
+&lt;li>Docker network 的部份要特別小心，不然 GitLab Runner 可能會連不上 GitLab。&lt;/li>
+&lt;/ul>
+&lt;/blockquote></description></item><item><title>淺談 YAML 格式</title><link>https://eandev.com/post/series/build-automated-deploy/yaml/</link><pubDate>Fri, 29 Jul 2022 06:12:44 +0000</pubDate><guid>https://eandev.com/post/series/build-automated-deploy/yaml/</guid><description>&lt;blockquote>
 &lt;p>&lt;a href="https://ithelp.ithome.com.tw/users/20107551/ironman/1906">2019 iT 邦幫忙鐵人賽&lt;/a>文章補完計劃，&lt;a href="https://eandev.com/post/series/build-automated-deploy/build-ci-cd-from-scratch/#額外補充">從零開始建立自動化發佈的流水線&lt;/a> 額外補充&lt;/p>
 &lt;/blockquote>
 &lt;p>當在進行 CI/CD 工具的 pipelines 或軟體組態設定時，可能都有機會看到 YAML 格式撰寫的設定檔。下面簡單的聊聊 YAML 撰寫規則。&lt;/p></description></item><item><title>踏入 CI/CD 的世界 - 觀念篇</title><link>https://eandev.com/post/series/build-automated-deploy/cicd_concept/</link><pubDate>Wed, 22 Jun 2022 16:00:19 +0000</pubDate><guid>https://eandev.com/post/series/build-automated-deploy/cicd_concept/</guid><description>&lt;blockquote>
