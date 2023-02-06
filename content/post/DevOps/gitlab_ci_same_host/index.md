@@ -11,7 +11,7 @@ keywords:
   - DevOps
 date: 2022-08-31T15:58:45.335Z
 description: 在本機同時使用 Docker 建立 GitLab 與 GitLab Runner 時，在設定上遇到很多小眉腳。特別記錄下來，減少其他人撞牆的情況。
-lastmod: 2023-01-05T03:26:05.313Z
+lastmod: 2023-02-06T06:17:10.545Z
 slug: gitlab-and-runner-on-same-host-using-docker
 aliases:
   - /post/devops/gitlab_ci_same_host/
@@ -27,14 +27,14 @@ aliases:
 - GitLab Server: GitLab CE Community  15.0.4-ce.0
 - GitLab Runner ver.1.5.1
 
-📣 TL;DR
-
-在同一台機器內，使用 Dokcer 同時架設 GitLab 與 GitLab-Runner 有一些地方要注意。
-
-- 若 GitLab Runner 使用 Docker Executor，需要指定使用的網路。
-- 若 GitLab 使用 `localhost`，註冊 GitLab-Runner 時，需特別指定 `clone_url`。
-- 若 GitLab 若不是使用 80 Port，務必依官方建議作法，可以減少很多麻煩。
-- Docker network 的部份要特別小心。
+> 🔖 長話短說 🔖
+>
+> 在同一台機器內，使用 Dokcer 同時架設 GitLab 與 GitLab-Runner 有一些地方要注意。
+>
+> - 若 GitLab Runner 使用 Docker Executor，需要指定使用的網路。
+> - 若 GitLab 的 HostName 使用 `localhost`，在註冊 GitLab-Runner 時，需特別指定 `clone_url`。
+> - 若 GitLab 若不是使用 80 Port，務必依官方建議作法，可以減少很多麻煩。
+> - Docker network 的部份要特別小心，不然 GitLab Runner 可能會連不上 GitLab。
 
 <!--more-->
 
