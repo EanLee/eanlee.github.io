@@ -11,6 +11,7 @@ tags:
 keywords:
   - EF Core
   - Postgresql
+  - user-secrets
 draft: false
 slug: dotnet-ef-postgresql-dbcontext
 ---
@@ -125,7 +126,7 @@ dotnet tool install --global dotnet-ef
  dotnet tool update --global dotnet-ef
 ```
 
-### 產生 Dbcontext
+### 產生 DBContext
 
 接著，就要運用 `dotnet ef dbcontext scaffold` 的指令，來協作我們產生對應資料庫的 DBContext 了。
 
@@ -137,7 +138,11 @@ dotnet ef dbcontext scaffold "Host=localhost;Database=postgres;Username=postgres
 ```
 
 ![順利更新 DBContext](images/success-dbcontext-scaffold.png)
-若是連線字串內的`Databas` 名稱與實際資料庫名稱大小寫不同，會發生找不到資料庫的錯誤。要特別注意。
+
+若是連線字串內的 `Database` 名稱與實際資料庫名稱大小寫不同，會發生找不到資料庫的錯誤。要特別注意。
+
+在這邊，刻意將連線字串內的 Database 名稱，由 `postgres` 改為 `Postgres`，會看到下述的錯誤訊息。
+
 ![資料庫名稱大小寫不同，回應資料庫不存在](images/failed-dbcontext-scffold-dbname-differice.png)
 
 若是想要指定產生出來的 `<DBContext.cs>` 放到指定位置，記得額加使用 `-o <Path>` 的指令。否則產生出來的位置與 .csproj 的位置相同。
@@ -183,7 +188,7 @@ dotnet ef dbcontext scaffold Name=ConnectionStrings:lab Npgsql.EntityFrameworkCo
 ![使用 user-secrets 設定連線字串](images/user-secrets-setting-connectionstring.png)
 ![secrets.json 內的資料](images/secrets-json-content.png)
 
-最後使用 `dotnet ef dbcontext scaffold` 使用 `user-secrets` 內的連線字串來產生 DbContext。可以發現連線字串不會被記錄在 Dbcontext 之中。
+最後使用 `dotnet ef dbcontext scaffold` 使用 `user-secrets` 內的連線字串來產生 DBContext。可以發現連線字串不會被記錄在 DBContext 之中。
 
 ![使用 user-secrets 內的連線字串](images/dbcontext-scaffold-user-secrets.png)
 ![使用 user-secrets 產生出來的 PostgresContext](images/postregs-dbcontext-context-user-secrets.png)
