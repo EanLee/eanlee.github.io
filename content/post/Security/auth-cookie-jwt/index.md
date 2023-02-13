@@ -15,9 +15,11 @@ slug: net-core-authenticaiton-cookies-jwt
 
 > 🔖 長話短說 🔖
 >
-> 需要使用 `UseAuthentication()` 插入 Authentication Middleware。
+> 進行身份驗證時，需要使用 `UseAuthentication()` 插入 Authentication Middleware。
 
 Authentication is the process of determining a user's identity. [Authorization](https://learn.microsoft.com/en-us/aspnet/core/security/authorization/introduction?view=aspnetcore-3.1) is the process of determining whether a user has access to a resource.
+
+Authentication，身分驗證又稱「認證」、「鑒權」，是指通過一定的手段，完成對使用者身分的確認。 身分驗證的目的是確認當前所聲稱為某種身分的使用者，確實是所聲稱的使用者。
 
 <!--more-->
 
@@ -93,11 +95,11 @@ builder.Services.AddAuthentication()
 /// 使用者登入  
 /// </summary>  
 [HttpPost("Login")]  
-public async Task<ActionResult> Login(LoginViewModel model)  
+public async Task<ActionResult> Login()  
 {  
     var claims = new List<Claim>  
     {  
-        new Claim(ClaimTypes.Name, model.Account),  
+        new Claim(ClaimTypes.Name, "Lab"),  
         new Claim("UID", "FTSX1854ASF"),  
         new Claim(ClaimTypes.Role, "Guest"),  
     };  
@@ -112,6 +114,14 @@ public async Task<ActionResult> Login(LoginViewModel model)
     return this.Ok();  
 }
 ```
+
+觀察 Login 前後的 Response Header，可以發現使用 cookies authentication 後的 Response Header 多了 `Expires`、`Set-Cookie` 兩個重要的欄位資訊。
+
+![使用 Cookies Authentcation 前，Response Header 內容](images/cookies-login-before-response.png)
+
+![使用 Cookies Authentcation 後，Response Header 內容](images/cookies-login-response.png)
+
+
 
 接著就是到要授權管理的地方加上 `[Authorize]` 屬性
 
