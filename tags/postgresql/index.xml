@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Postgresql on 伊恩的開發狂想</title><link>https://eandev.com/tags/postgresql/</link><description>Recent content in Postgresql on 伊恩的開發狂想</description><generator>Hugo -- gohugo.io</generator><language>zh-tw</language><lastBuildDate>Mon, 13 Feb 2023 04:13:02 +0000</lastBuildDate><atom:link href="https://eandev.com/tags/postgresql/index.xml" rel="self" type="application/rss+xml"/><item><title>使用 dotnet-ef 建立 PostgreSQL 的 DBContext</title><link>https://eandev.com/post/develop/dotnet-ef-postgresql-dbcontext/</link><pubDate>Mon, 13 Feb 2023 04:13:02 +0000</pubDate><guid>https://eandev.com/post/develop/dotnet-ef-postgresql-dbcontext/</guid><description>&lt;blockquote>
+&lt;p>🔖 長話短說 🔖&lt;/p>
+&lt;ul>
+&lt;li>EF Core 要操作 PostgreSQL 的話，可使用 &lt;code>Npgsql.EntityFrameworkCore.PostgreSQL&lt;/code>&lt;/li>
+&lt;li>可使用 &lt;code>dotnet ef dbcontext scffold&lt;/code> 的指令，協助從資料庫已存在的 Schema 產生對應的 dbcontext。&lt;/li>
+&lt;li>若專案內未參考 &lt;code>Microsoft.EntityFrameworkCore.Design&lt;/code> 的話，&lt;code>dotnet ef dbcontext scffold&lt;/code> 無法順利動作。&lt;/li>
+&lt;li>機敏性資料，可使用 &lt;code>user-secrets&lt;/code> 工具。&lt;/li>
+&lt;/ul>
+&lt;/blockquote></description></item></channel></rss>
