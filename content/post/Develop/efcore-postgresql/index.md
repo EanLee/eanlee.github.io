@@ -15,6 +15,10 @@ draft: false
 slug: dotnet-ef-postgresql-dbcontext
 ---
 
+若是有使用過 Entity Framework, EF 的經驗，必然對 `DBContext` 類別有所了解。在 EF 時可以使用 Visual Studo 的 UI 工具，以 Database-First 的方式建立 DBContext。
+
+本篇文章則是記錄 Database-First 的開發方式下，EF Core 如何使用 CLI 來產生 DBContext。
+
 > 🔖 長話短說 🔖
 >
 > - EF Core 要操作 PostgreSQL 的話，可使用 `Npgsql.EntityFrameworkCore.PostgreSQL`
