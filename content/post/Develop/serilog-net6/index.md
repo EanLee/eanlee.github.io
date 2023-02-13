@@ -1,9 +1,11 @@
 ---
-title: 在 .NET 6 進行 Serilog 設定
+title: .NET Core | 在 .NET 6 進行 Serilog 設定
 description: null
 date: 2023-02-09T03:23:47.633Z
-categories: null
-tags: null
+categories:
+  - 軟體開發
+tags:
+  - .NET Core
 keywords: null
 draft: true
 ---
@@ -13,12 +15,14 @@ draft: true
 
 <!--more-->
 
-```
-$ dotnet add package Serilog
-$ dotnet add package Serilog.Sinks.Console
-```
+## 結構化 Log
 
+## Serilog
 
+```shell
+dotnet add package Serilog
+dotnet add package Serilog.Sinks.Console
+```
 
 ## 延伸閱讀
 
