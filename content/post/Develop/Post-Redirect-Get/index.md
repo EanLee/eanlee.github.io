@@ -1,7 +1,7 @@
 ---
-title: "[.NET Core] Web API 的 Post-Redirect-Get 實作與注意事項"
+title: ASP.NET Core | Web API 的 Post-Redirect-Get 實作與注意事項
 tags:
-  - .NET CORE
+  - ASP.NET CORE
 categories:
   - 軟體開發
 keywords:
@@ -17,14 +17,14 @@ description: 在進行 Post-Redirect-Get 實作時，301 redirect 到目標的�
 
 但在使用 Postman 測試的過程，因為 POC 轉導到 google 時，回應  `405 Method Not Allow` 的狀態，所以研究的過程特別記錄下來。
 
-📣 TL;DR
-
-1. 使用 Postman 測試 Redirect 時，要注意 `Follow original HTTP Method` 的選項是否開啟。
-2. 要確認被轉導的 Url 允許的 HTTP 方法有那些。否則會被回 `405 Method Not Allow`
+> 🔖 長話短說 🔖
+>
+> - 使用 Postman 測試 Redirect 時，要注意 `Follow original HTTP Method` 的選項是否開啟。
+> - 要確認被轉導的 Url 允許的 HTTP 方法有那些。否則會被回 `405 Method Not Allow`
 
 <!--more-->
 
-首先，先到 RFC 查找關於 Post redirect Get 的資訊，在 [RFC 7231: Hypertext Transfer Protocol (HTTP/1.1)](https://www.rfc-editor.org/rfc/rfc7231#section-6.4.2)   6.4.2 中提到
+首先，先到 RFC 查找關於 Post redirect Get 的資訊，在 [RFC 7231: Hypertext Transfer Protocol (HTTP/1.1)](https://www.rfc-editor.org/rfc/rfc7231#section-6.4.2) 6.4.2 中提到
 
 > Note: For historical reasons, a user agent MAY change the request method from POST to GET for the subsequent request.  If this behavior is undesired, the 307 (Temporary Redirect) status code can be used instead.
 
