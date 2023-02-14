@@ -175,7 +175,7 @@ Server=localhost;Database=Lab;User Id=sa;Password=!QAZxsw23edc;Trusted_Connectio
 
 當 `Trusted_Connection=Ture` 時，SQL Server 為確保是可信任的連線，會使用 `Windows 驗證` 的方式登入，若找不到對應的帳號，預設使用 `Guest` 帳號。
 
-![Login failed for user '{container_id}/Guest'](images/login-failed-for-user.png)
+![Login failed for user](images/login-failed-for-user.png)
 
 ## 延伸閱讀
 
