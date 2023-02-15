@@ -22,7 +22,7 @@ slug: use-clamsprincipal-on-api-controller
 直接
 
  this.HttpContext.User;
-
+HttpContext.User.Identity.IsAuthenticated
 
 ## 延伸閱讀
 
