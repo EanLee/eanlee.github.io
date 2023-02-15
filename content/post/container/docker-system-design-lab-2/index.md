@@ -14,7 +14,7 @@ keywords:
 draft: true
 ---
 
-在上一篇 [網站的基礎建設]({{< ref "../docker-system-desgin-lab-1/index.md">}}) 中，已經使用 Docker 來建立三層架構的站台。
+在上一篇 [網站的基礎建設]({{< ref "../docker-system-design-lab-1/index.md">}}) 中，已經使用 Docker 來建立三層架構的站台。
 
 接著，針對站台再進行擴充，加入監視的機制。
 
