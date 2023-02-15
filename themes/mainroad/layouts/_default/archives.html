@@ -12,7 +12,7 @@
     {{ partial "post_thumbnail.html" (dict "class" "post" "page" .) }} {{-
     partial "post_toc.html" . -}}
     <div class="content post__content clearfix">
-      <h3>Draft</h3>
+      <h3>Draft (Articles: {{ len (where (where .Site.Pages "Type" "post") "Draft" true)}})</h3>
       <ul class="archive-list">
         {{ range where (where .Site.Pages "Type" "post") "Draft" true}}
         <li>
