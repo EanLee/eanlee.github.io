@@ -12,10 +12,19 @@
     {{ partial "post_thumbnail.html" (dict "class" "post" "page" .) }} {{-
     partial "post_toc.html" . -}}
     <div class="content post__content clearfix">
+      <h3>Draft</h3>
+      <ul class="archive-list">
+        {{ range where (where .Site.Pages "Type" "post") "Draft" true}}
+        <li>
+          {{ .PublishDate.Format "2006-01-02" }} <a href="{{ .RelPermalink }}" target="_blank">(草稿) {{ .Title }}</a>
+        </li>
+        {{ end }}
+      </ul>
+ 
       {{ range (.Site.RegularPages.GroupByDate "2006") }}
       <h3>{{ .Key }} (Articles: {{ len (where .Pages "Type" "post") }})</h3>
       <ul class="archive-list">
-        {{ range (where .Pages "Type" "post") }}
+        {{ range where (where .Pages "Type" "post") "Draft" false  }}
         <li>
           {{ .PublishDate.Format "2006-01-02" }} <a href="{{ .RelPermalink }}" target="_blank">{{if .Draft}}(草稿) {{end}}{{ .Title }}</a>
         </li>
