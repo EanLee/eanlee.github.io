@@ -1,7 +1,7 @@
 ---
 title: ASP.NET Core | Cookies 與 JWT 授權與驗證機制
 description: null
-date: 2023-02-13T08:06:07.753Z
+date: 2023-02-16T05:31:27.325Z
 categories: null
 tags:
   - Authentication
@@ -10,7 +10,7 @@ keywords:
   - cookies
   - authentication
 draft: true
-slug: net-core-authenticaiton-cookies-jwt
+slug: aspnet-core-authenticaiton-cookies-jwt
 ---
 
 > 🔖 長話短說 🔖
@@ -25,7 +25,7 @@ Authentication 通常與 Authorization 搭配使用。
 
 <!--more-->
 
-## 設定使用 Authentication
+## 設定 Authentication
 
 ### 使用 Authentication Middleware
 
@@ -43,65 +43,17 @@ app.UseAuthorization();
 - After [UseRouting](https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.builder.endpointroutingapplicationbuilderextensions.userouting), so that route information is available for authentication decisions.
 - Before [UseEndpoints](https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.builder.endpointroutingapplicationbuilderextensions.useendpoints), so that users are authenticated before accessing the endpoints.
 
-### Authentication 的概念
+在 UseAuthentication 時，會在 Middleware 插入 [AuthenticationMiddleware](https://github.com/dotnet/aspnetcore/blob/main/src/Security/Authentication/Core/src/AuthenticationMiddleware.cs) ，可以看到它會使用 `IAuthenticationService.AuthenticateAsync`
 
-claims
+// 放 Middleware 的圖解
 
-`Claim`, `ClaimsIdentity`, `ClaimsPrincipal`, `Principal`, `Identity`
-Learn how ASP.NET Core handles the Authentication using **Authentication Handlers**, **Authentication Scheme** & **Authentication Middleware**,
-
-##### IAuthenticationService
-
-// 以下6者的關係是?
-- Authenticate
-- Challenge
-- Forbid
-- GetToken
-- SignIn
-- SignOut
-
-### Authenticaton 的規則
+### Authenticaton 規則
 
 運用基本（Basic）驗證的場合
 
-#### 預設支援多種 Authentication 方式
+預設支援多種 Authentication 方式
 
 ![.NET 7 預設 AuthenticationBuilder 的相關方法](images/support-authentication-method.png)
-
-#### 共通的使用方式
-
-##### 身份認證後的核發 Token
-
-```C#
-
-// 核發/登入
-    var claims = new List<Claim>  
-    {  
-        new Claim(ClaimTypes.Name, model.Account),  
-        new Claim("UID", "FTSX1854ASF"),  
-        new Claim(ClaimTypes.Role, "Guest"),  
-    };  
-  
-    var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);  
-  
-    var principal = new ClaimsPrincipal(claimsIdentity);  
-
-    // 重要
-    await this.HttpContext.SignInAsync(principal);
-```
-
-##### 登出
-
-```C#
-// 登出
-await this.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-```
-
-##### 實作概念
-
-進一步查看 GitHub 上的 [AuthenticationHttpContextExtensions.cs](https://github.com/dotnet/aspnetcore/blob/main/src/Http/Authentication.Abstractions/src/AuthenticationHttpContextExtensions.cs) 內，關於 `HttpContext.SignInAsync` 與 `HttpContext.SignOutAsync` 的實作部份，會發現它的使用 `AuthenticationSchema` 的資訊，取出對應的 Authentication Service，再由這些服務進行處理。
-
-
 
 #### 使用 Cookies Authentication
 
@@ -140,15 +92,11 @@ public async Task<ActionResult> Login()
 }
 ```
 
-
-
 觀察 Login 前後的 Response Header，可以發現使用 cookies authentication 後的 Response Header 多了 `Expires`、`Set-Cookie` 兩個重要的欄位資訊。
 
 ![使用 Cookies Authentcation 前，Response Header 內容](images/cookies-login-before-response.png)
 
 ![使用 Cookies Authentcation 後，Response Header 內容](images/cookies-login-response.png)
-
-
 
 接著就是到要授權管理的地方加上 `[Authorize]` 屬性
 
@@ -227,16 +175,12 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 在 `AddAuthentication` 的參數 `JwtBearerDefaults.AuthenticationScheme`，er表示預設使用 J...
 
-## 驗證後的處理方式
 
 ## 延伸閱讀
 
-▶ Authentication 觀念
+▶ 站內文章
 
-- [Overview of ASP.NET Core Authentication | Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/security/authentication/?view=aspnetcore-7.0)
-- [Microsoft.AspNetCore.Authentication 命名空間 | Microsoft Learn](https://learn.microsoft.com/zh-tw/dotnet/api/microsoft.aspnetcore.authentication?view=aspnetcore-7.0)
-- [[.NET Core] ASP .NET Core 3.1 驗證與授權 (一)- 驗證與授權 - 世情如紙 (tigernaxo.com)](https://blogger.tigernaxo.com/post/dotnetcore31/auth/auth_guild_1/)
-- [Introduction to Authentication in ASP.NET Core - TekTutorialsHub](https://www.tektutorialshub.com/asp-net-core/authentication-in-asp-net-core/)
+- [ASP.NET Core | 淺講 Authentication 與 Authorization 機制]({{< ref "../aspnet-core-authentication-and-authorization/index.md" >}})
 
 ▶ Base Authentication
 
