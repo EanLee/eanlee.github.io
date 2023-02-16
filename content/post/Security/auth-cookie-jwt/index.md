@@ -175,6 +175,10 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 在 `AddAuthentication` 的參數 `JwtBearerDefaults.AuthenticationScheme`，er表示預設使用 J...
 
+## 使用 claims principal 的資訊
+
+- this.HttpContext.User;
+- this.HttpContext.User.Identity.IsAuthenticated
 
 ## 延伸閱讀
 
