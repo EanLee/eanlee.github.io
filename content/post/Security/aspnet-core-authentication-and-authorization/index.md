@@ -54,24 +54,50 @@ app.UseAuthorization();
 app.EndPoints();
 ```
 
-接著，單獨把 `Routing`、`Authentication`、`Authorization`、`EndPoints` 四個 Middleware  抽出來看。
+順帶一提，`UseAuthentication()` 會在 Middleware 插入 [AuthenticationMiddleware](https://github.com/dotnet/aspnetcore/blob/main/src/Security/Authentication/Core/src/AuthenticationMiddleware.cs) 。而 `UseAuthorization()` 則是插入 [AuthorizationMiddleware](https://github.com/dotnet/aspnetcore/blob/main/src/Security/Authorization/Policy/src/AuthorizationMiddleware.cs)。
+
+接著把焦點放在 `Routing`、`Authentication`、`Authorization`、`EndPoints` 四個 Middleware  。
+
+`RoutingMiddleware` 
+
+`AuthenticationMiddleware` 與 `AuthorizationMiddleware` 負責身份驗證與授權，詳細行為後續會進一步探討，這邊先略過不提。
+
+`EndPointsMiddleware`
 
 ![Routing/EndPoints 的功用](images/middleware-active-initial.png)
 
-順帶一提，`UseAuthentication()` 會在 Middleware 插入 [AuthenticationMiddleware](https://github.com/dotnet/aspnetcore/blob/main/src/Security/Authentication/Core/src/AuthenticationMiddleware.cs) 。而 `UseAuthorization()` 則是插入 [AuthorizationMiddleware](https://github.com/dotnet/aspnetcore/blob/main/src/Security/Authorization/Policy/src/AuthorizationMiddleware.cs)。
+## Claims-based Authenticaton
 
-而 `HttpContext` 則是整個 Middleware Pipeline 的靈魂人物，在 `認證` 與 `授權` 的過程中，會使用到 `HttpContext.User`，而 HttpContext.User 為 ClaimsPrincipal。
-
-## Clainms-based Authenticaton
+`HttpContext` 則是整個 Middleware Pipeline 的靈魂人物，在 `認證` 與 `授權` 的過程中，會使用到 `HttpContext.User`，而 HttpContext.User 的資料型態為 `ClaimsPrincipal`。
 
 而 Claimsprincipal 又是由 `ClaimsIdentity` 與 `Claims` 組成。
+
 接著, 我們就來聊聊 `Claim`, `ClaimsIdentity`, `ClaimsPrincipal`, `Principal`, `Identity`
+
+![Claims, ClaimsIdentity, ClaimsPrincipal 關係](images/claims-identity-principal-structure.png)
+
+```C#
+// 建立多組 Claims 資料
+var claims = new List<Claim>  
+{  
+    new Claim(ClaimTypes.Name, "Lab"),  
+    new Claim("UID", "FTSX1854ASF"),  
+    new Claim(ClaimTypes.Role, "Guest"),  
+};  
+
+// 建立 ClaimsIdentity 並指定使用的 Authentication Scheme
+var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);  
+
+// 建立 ClaimsPrincipal
+var principal = new ClaimsPrincipal(claimsIdentity);  
+```
 
 ## 身份認證 Authentication
 
 在 AuthenicationMiddleware 中會藉由 `IAuthenticationHandler` 調用 `` 與 `IAuthenticationService`。
 
-// 放 Middleware 的圖解
+![使用者身分，在 AutnenticationMiddle 前後的變化](images/authentication-middleware-action.png)
+
 
 Learn how ASP.NET Core handles the Authentication using **Authentication Handlers**, **Authentication Scheme** & **Authentication Middleware**,
 
@@ -83,11 +109,11 @@ Authentication 的方式很多, 有
 - Token-based authentication
 - 
 
-#### Authentication Handlers
+### Authentication Handlers
 
-#### Authentication Schema
+### Authentication Schema
 
-#### IAuthenticationService
+### IAuthenticationService
 
 在 `IAuthenticationService` 定義 5 種行為：
 
@@ -99,44 +125,26 @@ Authentication 的方式很多, 有
 
 // 關係圖解
 
-### Authenticaton 的規則
 
-運用基本（Basic）驗證的場合
+![](images/authentication-middleware-log-verify.png)
 
-#### 預設支援多種 Authentication 方式
+![](images/authentication-middleware-log-logout2.png)
 
-![.NET 7 預設 AuthenticationBuilder 的相關方法](images/support-authentication-method.png)
+![](images/authentication-middleware-log-logout.png)
 
-#### 共通的使用方式
-
-##### 身份認證後的核發
+![](images/authentication-middleware-log-login.png)
 
 ```C#
-
-// 核發/登入
-    var claims = new List<Claim>  
-    {  
-        new Claim(ClaimTypes.Name, model.Account),  
-        new Claim("UID", "FTSX1854ASF"),  
-        new Claim(ClaimTypes.Role, "Guest"),  
-    };  
-  
-    var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);  
-  
-    var principal = new ClaimsPrincipal(claimsIdentity);  
-
-    // 重要
-    await this.HttpContext.SignInAsync(principal);
+// 重要
+await this.HttpContext.SignInAsync(principal);
 ```
-
-##### 登出
 
 ```C#
 // 登出
 await this.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 ```
 
-##### 實作概念
+#### 實作概念
 
 進一步查看 GitHub 上的 [AuthenticationHttpContextExtensions.cs](https://github.com/dotnet/aspnetcore/blob/main/src/Http/Authentication.Abstractions/src/AuthenticationHttpContextExtensions.cs) 內，關於 `HttpContext.SignInAsync` 與 `HttpContext.SignOutAsync` 的實作部份，會發現它的使用 `AuthenticationSchema` 的資訊，取出對應的 Authentication Service，再由這些服務進行處理。
 
@@ -153,6 +161,10 @@ public class TodoController : ControllerBase
 }
 ```
 
+### Authorization 概念
+
+
+### Policy-based Authorzation
 Policy
 Requirement
 Handler
