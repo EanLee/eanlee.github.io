@@ -70,11 +70,51 @@ app.EndPoints();
 
 `HttpContext` 則是整個 Middleware Pipeline 的靈魂人物，在 `認證` 與 `授權` 的過程中，會使用到 `HttpContext.User`，而 HttpContext.User 的資料型態為 `ClaimsPrincipal`。
 
-而 Claimsprincipal 又是由 `ClaimsIdentity` 與 `Claims` 組成。
-
-接著, 我們就來聊聊 `Claim`, `ClaimsIdentity`, `ClaimsPrincipal`, `Principal`, `Identity`
+ClaimsPrincipal 又是由 `ClaimsIdentity` 與 `Claims` 組成，記錄已驗證的主體(使用者或應用程式)身份。
 
 ![Claims, ClaimsIdentity, ClaimsPrincipal 關係](images/claims-identity-principal-structure.png)
+
+### Claim 宣稱
+
+宣稱關於主體的特徵資訊，以 `Type:Value` 的方式表示主體的某些特性。例如 UserName, Email 等等資訊。
+
+![主體的某些特微資料，例如員工編號](images/claim-sample.svg)
+
+```C#
+// 可使用 .NET 預先定義的 ClaimTypes 或 自行定義 Type
+var claim1 = new Claim(ClaimTypes.Name, "Lab");
+var claim2 = new Claim("UID", "FTSX1854ASF");
+```
+
+### ClaimsIdentity 宣稱身份
+
+ClaimsIdentity 是 Claim 的集合體，代表了主體的其中一種身份資訊。
+
+舉例來說，一個人在不同的場域，就會有著不同的身份特徵。
+
+- 在公司職場，它的身份特徵可能是 `員工編號`、`部門`、`職等`、`職稱` 等等。
+- 在家庭，它的身份特徵就是 `角色`、`聯絡電話` 等等。
+
+![一個人在不同場域，有著不同的身份](images/claims-identity-sample.svg)
+
+```C#
+// 建立多組 Claims 資料
+var claims = new List<Claim>  
+{  
+    new Claim(ClaimTypes.Name, "Lab"),
+    new Claim("UID", "FTSX1854ASF"),
+    new Claim(ClaimTypes.Role, "Guest"),
+};  
+
+// 建立 ClaimsIdentity 並指定使用的 Authentication Scheme
+var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);  
+```
+
+### ClaimsPrincipal 宣稱主體
+
+ClaimsPrincipal 表示了主體的身份資訊，包含了一到多個的 ClaimsIdentity。
+
+![主體包括多個身份識別的資訊](images/claims-principal-sample.svg)
 
 ```C#
 // 建立多組 Claims 資料
@@ -165,6 +205,7 @@ public class TodoController : ControllerBase
 
 
 ### Policy-based Authorzation
+
 Policy
 Requirement
 Handler
