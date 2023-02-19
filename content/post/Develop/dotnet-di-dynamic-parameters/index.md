@@ -18,13 +18,10 @@ slug: di-service-provider-httpcontextaccessor
 
 > 🔖 長話短說 🔖
 >
-> 使用 .NET 內建的 [Microsoft.Extensions.DependencyInjection](https://github.com/aspnet/DependencyInjection) 時，若想要額外設定加初始動作，可使用 `IServiceProvider` 或 `IServiceProviderFactory`
->
-> 若想在 Middleware pipeline 之外的地方取得 `HttpContext`，可使用 `HttpContextAccessor`。
->
-> 可使用 `IServiceProvider.GetService<IHttpContextAccessor>()` 取得 HttpContextAccessor。
->
-> 在 DI 設定物件的生命週期時，運用 Lambda 方法，配合 `IServiceProvider` 參數，來調整建立物件的細部設定。
+> - 使用 .NET 內建的 [Microsoft.Extensions.DependencyInjection](https://github.com/aspnet/DependencyInjection) 時，若想要額外設定加初始動作，可使用 `IServiceProvider` 或 `IServiceProviderFactory`
+> - 若想在 Middleware pipeline 之外的地方取得 `HttpContext`，可使用 `HttpContextAccessor`。
+> - 可使用 `IServiceProvider.GetService<IHttpContextAccessor>()` 取得 HttpContextAccessor。
+> - 在 DI 設定物件的生命週期時，運用 Lambda 方法，配合 `IServiceProvider` 參數，來調整建立物件的細部設定。
 
 <!--more-->
 
