@@ -31,14 +31,14 @@ slug: docker-postgresql-initialization-scripts
 
 <!--more-->
 
+在 [使用 dotnet-ef 建立 PostgreSQL 的 DBContext]({{< ref "../../Develop/efcore-postgresql/index.md">}}) 已經有使用 Docker-compose 建立 PostgreSQL，而本篇文章記錄的重點，在於建立 PostgreSQL  Container 時，自動把 database schema 建立起來。
+
 操作環境:
 
 - Docker version 20.10.22
 - Docker Image: PostgreSQL:15.1
 
 ## 實作
-
-在 [使用 dotnet-ef 建立 PostgreSQL 的 DBContext]({{< ref "../../Develop/efcore-postgresql/index.md">}}) 已經有使用 Docker-compose 建立 PostgreSQL，而本篇文章記錄的重點，在於建立 PostgreSQL  Container 時，自動把 database schema 建立起來。
 
 在 PostgreSQL 的 [Docker Hub](https://hub.docker.com/_/postgres/) 內容中，`Initialization scripts` 有特別說明，若有需在 Container 建立之初，額外執行 script 時，可以把一到多個的  `*.sql`、`*.sql.gz`、 `*.sh`  的 scripts 放到 `/docker-entrypoint-initdb.d` 內。PostgreSQL 在 `initdb` 時，會去執行這些 script。
 
