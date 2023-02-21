@@ -36,8 +36,13 @@ draft: true
 
 ### 系統設計
 
+## container monitor - Portainer
+
 ## 結果
 
 ## 延伸閱讀
 
 ▶ 站內文章
+
+- [Portainer 搭建 Docker 管理界面 | Kailang Blog (buildgoodweb.github.io)](https://buildgoodweb.github.io/blog/portainer-docker-ui/)
+- [Welcome - Portainer Documentation](https://docs.portainer.io/)
