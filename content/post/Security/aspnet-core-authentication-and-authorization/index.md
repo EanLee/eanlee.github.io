@@ -30,7 +30,6 @@ slug: net-core-authenticaiton-authorization
 > - `授權(Authorization)` 決定能作什麼事。*what you're allowed do*
 > - ASP.NET Core 使用大量的 Middleware，在實作 `認證` 與 `授權` 時，需注意 Middleware 的順序。`Routing` ↦ `Authentication` ↦ `Authorization` ↦ `EndPoint`
 > - `HttpContext.User` 是貫通 ASP.NET Core 認證與授權的重要角色。其中記錄了 `ClaimsPrincipal`、`ClaimsIdentity`、`Claim` 的資訊結構。
-> -
 
 <!--more-->
 
@@ -38,9 +37,11 @@ slug: net-core-authenticaiton-authorization
 
 在聊 ASP.NET Core 之前，需要對 Middleware Pipeline 有基本的概念。這可以讓我們了解 Authentication 與 Authorization 應擺放的位置與動作的時機。
 
-![從請求到回應的過程中，經過 N 個 Middleware](images/request-response-middleware-pipeline.png)
+在 Middleware Pipeline 內的 Middleware 的順序，取決於插入的順序。若是依序插入 `Middleware 1`、`Middleware 2`、`Middleware 3` ，其 Request 的順序就會如下圖。
 
-![官方提供的 Middleware Pipeline 的順序](images/middleware-pipeline.svg)
+![從請求到回應的過程中，經過 N 個 Middleware (圖檔來源: Microsfot Learn)](images/request-response-middleware-pipeline.png)
+
+![官方提供的 Middleware Pipeline 的順序 (圖檔來源: Microsoft Learn)](images/middleware-pipeline.svg)
 
 在 ASP.NET Core 專案建立時，預設使用 `UseAuthorization` 。所以 `UseAuthorization` 直接在宣告在 `UseAuthentication` 前面即可。
 
@@ -143,21 +144,25 @@ var principal = new ClaimsPrincipal(claimsIdentity);
 
 首先，簡單描述一下 Authentication 的動作流程。
 
-AuthenticationMiddleware 會在應用程式中的某個階段執行，以確保該請求被完全解析。它會根據應用程式設定中所設置的 Authentication Scheme，選擇合適的驗證提供者來對該請求進行驗證。當驗證成功時，它會將該請求標記為已通過驗證，並將相關的 Claims 保存到 HttpContext.User 中，這樣後續的 middleware 和 controller 就可以使用這些 Claims 來進行授權等操作。
+AuthenticationMiddleware 會在應用程式中的某個階段執行，以確保該請求被完全解析。
+
+它會根據應用程式設定中所設置的 Authentication Scheme，選擇合適的驗證提供者來對該請求進行驗證。當驗證成功時，它會將該請求標記為已通過驗證，並將相關的 Claims 保存到 HttpContext.User 中，這樣後續的 middleware 和 controller 就可以使用這些 Claims 來進行授權等操作。
 
 當 AuthenticationMiddleware 開始執行時，它會從 HTTP 請求中提取驗證相關的資訊，比如 Cookies、Headers 或 Query Strings。然後，它會使用選擇的 Authentication Scheme 來進行驗證。如果驗證成功，它就會將相關的 Claims 保存到 HttpContext.User 中。
 
-在 ASP.NET Core 中，AuthenticationMiddleware 可以使用不同的 Authentication Scheme 來進行驗證。ASP.NET Core 提供了一些內建的 Authentication Scheme，比如 Cookies、JwtBearer、OpenIdConnect 等，我們也可以使用第三方的 Authentication Scheme，比如 Google、Facebook 等，來進行驗證。
+在 ASP.NET Core 中，AuthenticationMiddleware 的底層實現是基於抽象類型 AuthenticationHandler。
 
-在 ASP.NET Core 中，AuthenticationMiddleware 的底層實現是基於抽象類型 AuthenticationHandler。每個 Authentication Scheme 都需要實現一個繼承自 AuthenticationHandler 的自定義 AuthenticationHandler 類型，並實現 HandleAuthenticateAsync () 方法和相關的方法，以實現該 Authentication Scheme 的驗證功能。
+每個 Authentication Scheme 都需要實現一個繼承自 AuthenticationHandler 的自定義 AuthenticationHandler 類型，並實現 HandleAuthenticateAsync () 方法和相關的方法，以實現該 Authentication Scheme 的驗證功能。
 
-簡而言之，AuthenticationMiddleware 是 ASP.NET Core 中的一個 middleware，它用於處理驗證相關的工作。它會根據應用程式設定中所設置的 Authentication Scheme，選擇合適的驗證提供者來對該請求進行驗證，並將相關的 Claims 保存到 HttpContext.User 中。它的底層實現是基於抽象類型 AuthenticationHandler，並且每個 Authentication Scheme 都需要實現一個自定義的 AuthenticationHandler 類型，以實現該 Authentication Scheme 的驗證功能。
+簡而言之，AuthenticationMiddleware 是 ASP.NET Core 中的一個 middleware，它用於處理驗證相關的工作。它會根據應用程式設定中所設置的 Authentication Scheme，選擇合適的驗證提供者來對該請求進行驗證，並將相關的 Claims 保存到 HttpContext.User 中。它的底層實現是基於抽象類型 AuthenticationHandler，
 
-Authentication Scheme 指的是驗證方案的概念，每個驗證方案代表一種身份驗證的方法。例如，ASP.NET Core 中內置了 Cookie、JWT、OAuth 等身份驗證方案。當應用程序需要進行身份驗證時，需要選擇一個驗證方案。
+並且每個 Authentication Scheme 都需要實現一個自定義的 AuthenticationHandler 類型，以實現該 Authentication Scheme 的驗證功能。
 
-AuthenticationHandler 是處理身份驗證方案的具體實現。每個驗證方案都有一個相應的處理程序。例如，Cookie 驗證方案對應的處理程序就是 CookieAuthenticationHandler。當應用程序進行身份驗證時，Authentication Middleware 會根據選擇的驗證方案，調用相應的 AuthenticationHandler 來進行驗證。
+當 Authentication Middleware 接收到請求時，它會根據請求中包含的身份驗證信息選擇對應的 AuthenticationHandler 進行處理。
 
-當 Authentication Middleware 接收到請求時，它會根據請求中包含的身份驗證信息選擇對應的 AuthenticationHandler 進行處理。AuthenticationHandler 會將請求中的身份驗證信息進行驗證，並從中解析出包含在身份驗證信息中的 Claims（聲明）。之後，Authentication Middleware 會將這些 Claims 放入一個 ClaimsIdentity 對象中，然後將這個對象作為 User 設置到 HttpContext 中，以便後續操作可以使用這些身份驗證信息。
+AuthenticationHandler 會將請求中的身份驗證信息進行驗證，並從中解析出包含在身份驗證信息中的 Claims（聲明）。
+
+之後，Authentication Middleware 會將這些 Claims 放入一個 ClaimsIdentity 對象中，然後將這個對象作為 User 設置到 HttpContext 中，以便後續操作可以使用這些身份驗證信息。
 
 當後續操作需要進行身份驗證時，它們可以通過讀取 HttpContext.User 屬性來獲取 ClaimsIdentity 對象，從而獲取相應的身份驗證信息。
 
@@ -175,11 +180,16 @@ Authentication 的方式很多, 有
 
 - Cookie-based authentication
 - Token-based authentication
--
 
 ### Authentication Handlers
 
+AuthenticationHandler 是處理身份驗證方案的具體實現。每個驗證方案都有一個相應的處理程序。例如，Cookie 驗證方案對應的處理程序就是 CookieAuthenticationHandler。當應用程序進行身份驗證時，Authentication Middleware 會根據選擇的驗證方案，調用相應的 AuthenticationHandler 來進行驗證。
+
 ### Authentication Schema
+
+在 ASP.NET Core 中，AuthenticationMiddleware 可以使用不同的 Authentication Scheme 來進行驗證。ASP.NET Core 提供了一些內建的 Authentication Scheme，比如 Cookies、JwtBearer、OpenIdConnect 等，我們也可以使用第三方的 Authentication Scheme，比如 Google、Facebook 等，來進行驗證。
+
+Authentication Scheme 指的是驗證方案的概念，每個驗證方案代表一種身份驗證的方法。例如，ASP.NET Core 中內置了 Cookie、JWT、OAuth 等身份驗證方案。當應用程序需要進行身份驗證時，需要選擇一個驗證方案。
 
 ### IAuthenticationService
 
