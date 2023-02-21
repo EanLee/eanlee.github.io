@@ -46,7 +46,7 @@ draft: true
 
 ### 架構圖
 
-![](images/Pasted%20image%2020230215172150.png)
+![](images/base-arch.png)
 
 ## 網路設定
 
