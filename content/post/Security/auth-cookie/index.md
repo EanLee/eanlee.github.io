@@ -1,5 +1,5 @@
 ---
-title: ASP.NET Core | Cookies 與 JWT 授權與驗證機制
+title: ASP.NET Core | Cookies 授權與驗證機制
 description: null
 date: 2023-02-16T05:31:27.325Z
 categories: null
@@ -10,42 +10,16 @@ keywords:
   - cookies
   - authentication
 draft: true
-slug: aspnet-core-authenticaiton-cookies-jwt
+slug: aspnet-core-authenticaiton-cookies
 ---
 
 > 🔖 長話短說 🔖
 >
 > 進行身份驗證時，需要使用 `UseAuthentication()` 插入 Authentication Middleware。
 
-Authentication is the process of determining a user's identity. [Authorization](https://learn.microsoft.com/en-us/aspnet/core/security/authorization/introduction?view=aspnetcore-3.1) is the process of determining whether a user has access to a resource.
-
-Authentication，身分驗證又稱「認證」、「鑒權」，是指通過一定的手段，完成對使用者身分的確認。 身分驗證的目的是確認當前所聲稱為某種身分的使用者，確實是所聲稱的使用者。
-
-Authentication 通常與 Authorization 搭配使用。
-
 <!--more-->
 
 ## 設定 Authentication
-
-### 使用 Authentication Middleware
-
-在 ASP.NET Core 初始化時，設定使用 Authentication 的 Middleware。
-
-若在 MiniAPI 中，設定位置在 `Program.cs`，否則在 `Startup.cs`
-
-```c#
-app.UseAuthentication();
-app.UseAuthorization();
-```
-
-需要特別注意的是，若是有使用 `UseRouting` 或 `UseEndpoints`，需特別注意 `UseAuthentication` 的位置。
-
-- After [UseRouting](https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.builder.endpointroutingapplicationbuilderextensions.userouting), so that route information is available for authentication decisions.
-- Before [UseEndpoints](https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.builder.endpointroutingapplicationbuilderextensions.useendpoints), so that users are authenticated before accessing the endpoints.
-
-在 UseAuthentication 時，會在 Middleware 插入 [AuthenticationMiddleware](https://github.com/dotnet/aspnetcore/blob/main/src/Security/Authentication/Core/src/AuthenticationMiddleware.cs) ，可以看到它會使用 `IAuthenticationService.AuthenticateAsync`
-
-// 放 Middleware 的圖解
 
 ### Authenticaton 規則
 
@@ -145,35 +119,6 @@ builder.Services.AddAuthentication()
 ```
 
 ###### SameSite
-
-#### 使用 JWT Authentication
-
-若是要使用 `AddJwtBearer` 的方法，需要增加 [Nuget 套件](https://www.nuget.org/packages/Microsoft.AspNetCore.Authentication.JwtBearer) `Microsoft.AspNetCore.Authentication.JwtBearer`。
-
-```shell
-dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer
-```
-
-並加入設定
-
-```C#
-builder.Services.AddAuthentication()
-    .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme,
-        options => builder.Configuration.Bind("JwtSettings", options))
-```
-
-#### 使用多種 Authentication
-
-```c#
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme,
-        options => builder.Configuration.Bind("JwtSettings", options))
-    .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,
-        options => builder.Configuration.Bind("CookieSettings", options));
-
-```
-
-在 `AddAuthentication` 的參數 `JwtBearerDefaults.AuthenticationScheme`，er表示預設使用 J...
 
 ## 使用 claims principal 的資訊
 
