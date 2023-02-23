@@ -31,9 +31,9 @@ draft: true
 使用的技術與開發環境
 
 - Windows 11
-- Docker
-- .NET Core 7
-- Vue.js
+- Docker Engine 20.10
+- .NET 7
+- Vue3
 - PostgreSQL 15.1
 
 ## 系統設計
