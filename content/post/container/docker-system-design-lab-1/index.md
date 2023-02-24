@@ -73,6 +73,56 @@ docker network create --driver bridge --subnet 172.100.0.0/16 api-db-network
 ```yaml
 ```
 
+
+## 
+
+```yaml
+version: '3.6'
+
+services:
+
+  habits-webapi:
+    image: flora/habit-quest-webapi
+    restart: always
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - DB_HOST=habits-db
+      - DB_PORT=5432
+      - DB_NAME=habits_quest
+      - DB_USER=postgres
+      - DB_PASSWORD=psg1234
+    ports:
+      - "5000:80"
+    volumes:
+      - C:/logs:/app/logs
+    depends_on:
+      - habits-db
+    networks:
+      - habits-net
+
+  habits-db:
+    image: flora/habit-quest-db
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=psg1234
+      - POSTGRES_DB=habits_quest
+    ports:
+      - "5432:5432"
+    volumes:
+      - habits-postgres-data:/var/lib/postgresql/data
+    networks:
+      - habits-net
+
+volumes:
+  habits-postgres-data:
+
+networks:
+  habits-net:
+```
+
+
 ## 結果
 
 最後的 docker-compose.yml 如下
@@ -133,8 +183,9 @@ docker ps
 
 ▶ 站內文章
 
--
+- [Docker | 使用 Docker 建置 ASP.NET Webapi 的 Image]({{< ref "../aspnet-webapi-containerized/index.md">}})
+- 
 
 ▶ Docker-Compose
 
-[compose-spec/spec.md at master · compose-spec/compose-spec (github.com)](https://github.com/compose-spec/compose-spec/blob/master/spec.md)
+- [compose-spec/spec.md at master · compose-spec/compose-spec (github.com)](https://github.com/compose-spec/compose-spec/blob/master/spec.md)
