@@ -102,52 +102,175 @@ ENTRYPOINT ["dotnet", "demo.dll"]
 
 ## 機敏資料的處理
 
-```C#
-```
+在專案中，可能會有一些機敏資料，例如資料庫的連線字串、憑證資料等等。
+
+大伙都知道，這些資料，不應該直接放置在程式碼內。相同的，也不應該放置在 Image 內。
 
 ### 資料庫的連線字串
+
+若 ASP.NET Webapi 已經建置為 Docker Image，可以使用`環境變數`、`命令列`、`掛載文件檔` 的方式，來傳遞資料庫的連線資訊。
+
+#### 作法一、自組連線字串
+
+把資料庫相關資訊，如 `Host`、`Port`、`Database`、`User`、`Password` 等，放置在環境變數內，並在程式碼中，使用環境變數的方式，自行組合為連線字串。
+
+首先，調整程式碼，連線字串的取得方式，改為由環境變數自行組合而成。
+
+```C#
+// 以 postgresql 的連線字串 為例
+var connectionString = string.Format(
+    "Host={0};Port={1};Database={2};Username={3};Password={4};Pooling=true;",
+    Environment.GetEnvironmentVariable("DB_HOST"),
+    Environment.GetEnvironmentVariable("DB_PORT"),
+    Environment.GetEnvironmentVariable("DB_NAME"),
+    Environment.GetEnvironmentVariable("DB_USER"),
+    Environment.GetEnvironmentVariable("DB_PASSWORD"));
+
+builder.Services.AddDbContext<LabContext>(options => options.UseNpgsql(connectionString));
+```
+
+接著，調整 Dockerfile ，增加環境變數。
+
+```dockerfile
+FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
+WORKDIR /app
+
+# 設定 DB 相關的環境變數，這邊先給予預設值
+ENV DB_HOST=127.0.0.1
+ENV DB_PORT=5432
+ENV DB_NAME=postgres
+ENV DB_USER=postgres
+ENV DB_PASSWORD=123
+
+EXPOSE 80
+EXPOSE 443
+
+// 略 ...
+```
+
+在完成上述的調整後，就可以使用 `docker run` 的方式，啟動容器。
+
+```bash
+docker run -e DB_HOST=127.0.0.1 -e DB_PORT=5432 -e DB_NAME=postgres -e DB_USER=postgres -e DB_PASSWORD=123 -d -p 5000:80 --name webapi lab/webapi
+```
+
+#### 作法二、以環境變數傳遞加密後的連線字串
+
+將連線字串加密，使用環境變數的方式，傳遞加密後的字串，這樣就可以避免直接將連線字串放置在程式碼內。
+
+要注意的是，加密後的連線字串，無法直接使用，需要在程式碼中，進行解密。至於連線字串的加解密方式，網路上已經有很多範例，這邊就不再贅述。例如：[為EF連線字串加密的簡單範例-黑暗執行緒](https://blog.darkthread.net/blog/encrypt-ef-connstring/)。
+
+基本上，Dockerfile 的調整方式，與作法一相同，只是在環境變數的設定上，改為加密後的連線字串。
+
+```dockerfile
+FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
+WORKDIR /app
+
+# 加入環境變數
+ENV ConnectionStrings
+
+EXPOSE 80
+EXPOSE 443
+
+// 略 ...
+```
+
+在完成上述的調整後，就可以使用 `docker run` 的方式，啟動 Container。
+
+```bash
+docker run -d -p 5000:80 --name webapi -e ConnectionStrings={加密後的連線字串} lab/webapi
+```
+
+#### 作法三、以 Command Argument 傳遞加密後連線字串
+
+```bash
+docker run -d -p 5000:80 --name webapi -e lab/webapi --ConnectionStrings={加密後的連線字串}
+```
+
+#### 作法四、掛載文件檔
+
+使用 Volume 的方式，將連線字串放置在檔案內，並在程式碼中，讀取檔案內的連線字串
 
 ```C#
 ```
 
 ### 憑證資料
 
+接著是 Dockerfile 內的設定，將檔案掛載到容器內的指定位置
+
+```Dockerfile
+FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
+WORKDIR /app
+
+# 存放憑證的 Volume 位置
+VOLUME /app/cert
+
+EXPOSE 80
+EXPOSE 443
+```
+
 ## FAQ
 
-```mermaid
-graph LR;
-  subgraph Prometheus ecosystem
-    Prometheus -- collects --> Metrics[Metric data]
-    Metrics -- queries --> PromQL[Prometheus Query Language]
-    PromQL -- retrieves --> Results[Query results]
-  end
-  subgraph Logging ecosystem
-    Loki -- collects --> Logs[Log data]
-    Logs -- queries --> LogQL[Loki Query Language]
-    LogQL -- retrieves --> Results2[Query results]
-  end
-  subgraph Tracing ecosystem
-    Tempo -- collects --> Traces[Trace data]
-    Traces -- queries --> TraceQL[Tempo Query Language]
-    TraceQL -- retrieves --> Results3[Query results]
-  end
-  subgraph Visualization
-    Grafana -- visualizes --> Results
-    Grafana -- visualizes --> Results2
-    Grafana -- visualizes --> Results3
-  end
+### 為何 Webapi Container 無法連線本機另一個 Container 的資料庫？
 
+原因如同 [GitLab CI 實作記錄(1) - 使用 Docker 在同台主機運行 GitLab 與 GitLab-Runner]({{< ref "..\..\DevOps\gitlab_ci_same_host\index.md" >}}) 中提到的 Docker Network 的觀念問題。
+
+在同一台主機上，啟動 Container 卻不指定 Network 的情況下，會使用名為 `bridge` 的預設 Network。
+
+而加預設 Network 內的 Container ，會被自動分配一個網段為 `172.17.0.0/16` 的 IP 位置，此時要連線到其他 Container，必須要知道對方的 IP 位置。
+
+這是因為預設 Network 不支援 Docker 內的 DNS 功能，因此無法透過 Container 的名稱來連線。
+
+```bash
+docker run -d --name -e host=localhost -e database=demo -e user_id=test -e password=test -p 5001:80 lab/webapi
 ```
+
+上述指令中，指定 Webapi 的 container 的環境變數 `host` 為 `localhost`，但實際上，對於 Webapi 的 container 來說，`localhost` 是指是自己的 IP 位置，而非使用者的主機。更不用說資料庫的 container 了。
+
+當 Webapi 的 container 指定連線的 Host 為 `localhost` 時，實際上是連線到 Webapi container 自己，而非資料庫的 container。
+
+對此，有兩種解決方式：
+
+#### 解法一、使用資料庫的 container 的 IP 位置
+
+- 使用資料庫的 container 的 IP 位置，而非 `localhost`。
+
+```bash
+# 查詢 Webapi 的 container 的 IP 位置
+docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' {db_container_name}
+```
+
+// 加圖
+
+#### 解法二、新增 Network 並使用 Docker 內的 DNS 功能
+
+將 Webapi 的 container 與資料庫的 container 都加入到同一個 Network 內，並指定相同的網段，這樣兩個 Container 就可以互相連線了。
+
+只要手動增加一個類型為 `Bridge` 的 Network，它就會自動支援 Docker 內的 DNS 功能。
+
+然後先把資料庫的 Container 切換到新的 Network 內，再啟動 Webapi 的 Container，就可以使用資料庫的 Container 的名稱來連線了。
+
+```bash
+# 建立 Network
+docker network create --driver bridge {network_name}
+
+# 將資料庫的 Container 切換到新的 Network 內
+docker network connect {network_name} {db_container_name}
+
+# 啟動 Webapi 的 Container
+docker run -d --name -e host={db_container_name} -e database=demo -e user_id=test -e password=test -p 5001:80 lab/webapi --network {network_name}
+```
+
+## 延伸閱讀
 
 ▶ 站內文章
 
 - [Docker 操作簡介 - command / dockerfile / docker-compose]({{< ref "..\..\Series\build-automated-deploy\docker_operate\index.md" >}})
-- [使用 Container 建立 CI 所需要的建置環境]({{< ref "..\..\Series\build-automated-deploy\docker_and_ci\index.md" >}})
-- [部署新境界 - 使用 Container 簡化流程]({{< ref "..\..\Series\build-automated-deploy\container_intro\index.md" >}})
-- [使用 Azure Pipelines / Jenkins 建置 Docker image]({{< ref "..\..\Series\build-automated-deploy\ci_build_image\index.md" >}})
 - [使用 dotnet-ef 建立 PostgreSQL 的 DBContext]({{< ref "..\..\Develop\efcore-postgresql\index.md" >}})
 - [使用 dotnet-ef 建立 SQL Server on Docker 的 DBContext]({{< ref "..\..\Develop\efcore-docker-sqlserver\index.md" >}})
 - [Docker | 建立 PostgreSQL 的 container 時，同時完成資料庫的初始化]({{< ref "..\postgres-docker-initial-script\index.md" >}})
-- [基於 Docker 的系統設計 | Part.2 | 站台的監控與 ELK]({{< ref "..\docker-system-design-lab-2\index.md" >}})
-- [基於 Docker 的系統設計 | Part.1 | 網站的基礎建設]({{< ref "..\docker-system-design-lab-1\index.md" >}})
-- [Docker | 使用 Docker 建置 ASP.NET Webapi 的 Image]({{< ref "index.md" >}})
+
+▶ 站外文章
+
+- [ConnectionStrings.com](https://www.connectionstrings.com/)
+- [為EF連線字串加密的簡單範例-黑暗執行緒](https://blog.darkthread.net/blog/encrypt-ef-connstring/)
