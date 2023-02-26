@@ -1,15 +1,17 @@
 ---
 title: Docker | 使用 Docker 建置 ASP.NET Webapi 的 Image
-description: null
+description: 在使用 Docker 封裝應用程式時，有時需要使用一些機敏性資料，需要額外處理，例如連線字串及憑證資料等。因此，在接下來的內文中，以 ASP.NET Webapi 為例，簡述如何在確保使用容器技術的同時，又能保護機密性資料不被外人所知道。
 tags:
-  - Postgresql
+  - ASP.NET
   - Docker
 categories:
   - container
 keywords:
   - Docker
   - ASP.NET
-  - dockerfile
+  - Dockerfile
+  - Multi-Stage Build
+  - 機敏資料
 date: 2023-02-25T05:07:49.003Z
 slug: aspnet-webapi-containerized
 draft: true
@@ -21,13 +23,19 @@ draft: true
 
 <!--more-->
 
+實作環境
+
+- Windows 10
+- .NET 7.0
+- Docker Engine 20.10.8
+
 ## Dockerfile 簡介
 
 雖然在 [Docker 操作簡介 - command / dockerfile / docker-compose]({{< ref "..\..\Series\build-automated-deploy\docker_operate\index.md" >}}) 已經有提過，不過還是簡單回顧一下。
 
 ### Single-Stage Build
 
-Dockerfile 的設定方式，最基本的就是一個步驟內，完成所有的設定。這種方式，就是 `Single-Stage Build`。
+關於 Docker 建置 Image 時，最簡單的方式就是在 Dockerfile 內一個步驟完成所有的設定，這種方式稱為  `Single-Stage Build`。
 
 ```dockerfile
 FROM mcr.microsoft.com/dotnet/sdk:7.0
@@ -110,21 +118,41 @@ ENTRYPOINT ["dotnet", "demo.dll"]
 
 若 ASP.NET Webapi 已經建置為 Docker Image，可以使用`環境變數`、`命令列`、`掛載文件檔` 的方式，來傳遞資料庫的連線資訊。
 
-#### 作法一、自組連線字串
+提醒一下，`Container` 建立後，是可以用 `docker inspect` 查看 Container 的相關設定，無論是用那種方式，機敏資料最好還是要進行加密。
 
-把資料庫相關資訊，如 `Host`、`Port`、`Database`、`User`、`Password` 等，放置在環境變數內，並在程式碼中，使用環境變數的方式，自行組合為連線字串。
+先把已知的各種做法的差異，整理列表如下
 
-首先，調整程式碼，連線字串的取得方式，改為由環境變數自行組合而成。
+| 作法類型   | 啟動 Container 的動作             | Dockfile 設定 | 程式碼調整             |
+| ---------- | --------------------------------- | ------------- | ---------------------- |
+| 環境變數   | 使用 `-e` 指定資料庫相關資訊      | `ENV`         | 組成連線字串、加解密   |
+| 環境變數   | 使用 `-e` 指定連線字串            | `ENV`         | 加解密                 |
+| 命令列     | 使用 `--` 傳入命令列參數          |               | 取得 Args 資料、加解密 |
+| 掛載文件檔 | 使用 `-v` 掛載資料夾路徑或 volume | `VOLUME`      | 讀取特定位置的檔案     |
+
+#### 作法一、環境變數
+
+##### 自組連線字串
+
+在 Dockerfile 內，建立多組的環境變數，如 `Host`、`Port`、`Database`、`User`、`Password` 等。並在程式碼中，使用環境變數的方式，自行組合為連線字串。
+
+簡單說明一下，實作的方式。在程式碼的部份，連線字串的取得方式，改為由環境變數自行組合而成。
+
+實務上，在 User 與 Password 的部份，建議環境變數的資料，使用加密後的密文，避免明文的方式傳遞。在組合連線字串前再解密，以避免資料外洩。
 
 ```C#
+// 機敏資料的解密。
+// 使用自行實作的 Decrypt 方法來解密
+var user = Decrypt(Environment.GetEnvironmentVariable("DB_USER"));
+var password = Decrypt(Environment.GetEnvironmentVariable("DB_PASSWORD"));
+
 // 以 postgresql 的連線字串 為例
 var connectionString = string.Format(
     "Host={0};Port={1};Database={2};Username={3};Password={4};Pooling=true;",
     Environment.GetEnvironmentVariable("DB_HOST"),
     Environment.GetEnvironmentVariable("DB_PORT"),
     Environment.GetEnvironmentVariable("DB_NAME"),
-    Environment.GetEnvironmentVariable("DB_USER"),
-    Environment.GetEnvironmentVariable("DB_PASSWORD"));
+    user,
+    password);
 
 builder.Services.AddDbContext<LabContext>(options => options.UseNpgsql(connectionString));
 ```
@@ -151,12 +179,21 @@ EXPOSE 443
 在完成上述的調整後，就可以使用 `docker run` 的方式，啟動容器。
 
 ```bash
-docker run -e DB_HOST=127.0.0.1 -e DB_PORT=5432 -e DB_NAME=postgres -e DB_USER=postgres -e DB_PASSWORD=123 -d -p 5000:80 --name webapi lab/webapi
+docker run -e DB_HOST=127.0.0.1 \
+           -e DB_PORT=5432 \
+           -e DB_NAME=postgres \
+           -e DB_USER={加密後的使用者名稱} \
+           -e DB_PASSWORD={加密後的密碼} \
+           -d \
+           -p 5000:80 \
+           --name webapi lab/webapi
 ```
 
-#### 作法二、以環境變數傳遞加密後的連線字串
+##### 加密後的連線字串
 
-將連線字串加密，使用環境變數的方式，傳遞加密後的字串，這樣就可以避免直接將連線字串放置在程式碼內。
+若是覺得傳入多個環境變數過於麻煩，也可以採用直接傳入連線字串的方式。
+
+這邊，我們將連線字串加密，使用環境變數的方式，傳遞加密後的字串，這樣就可以避免直接將連線字串放置在程式碼內。
 
 要注意的是，加密後的連線字串，無法直接使用，需要在程式碼中，進行解密。至於連線字串的加解密方式，網路上已經有很多範例，這邊就不再贅述。例如：[為EF連線字串加密的簡單範例-黑暗執行緒](https://blog.darkthread.net/blog/encrypt-ef-connstring/)。
 
@@ -175,24 +212,120 @@ EXPOSE 443
 // 略 ...
 ```
 
+```C#
+// 連線字串的解密。
+// 使用自行實作的 Decrypt 方法來解密
+var connectionString = Decrypt(Environment.GetEnvironmentVariable("ConnectionStrings"));
+
+builder.Services.AddDbContext<LabContext>(options => options.UseNpgsql(connectionString));
+```
+
 在完成上述的調整後，就可以使用 `docker run` 的方式，啟動 Container。
 
 ```bash
 docker run -d -p 5000:80 --name webapi -e ConnectionStrings={加密後的連線字串} lab/webapi
 ```
 
-#### 作法三、以 Command Argument 傳遞加密後連線字串
+#### 作法二、Command Argument
 
-```bash
-docker run -d -p 5000:80 --name webapi -e lab/webapi --ConnectionStrings={加密後的連線字串}
-```
+除了使用環境變數的方式， 也可以在不調整 dockerfile 的前提下，Command Argument 傳遞加密後連線字串。
 
-#### 作法四、掛載文件檔
-
-使用 Volume 的方式，將連線字串放置在檔案內，並在程式碼中，讀取檔案內的連線字串
+在這作個簡單 Demo 範例，先新增一個 ASP.NET Core Webapi 專案，並在 Program.cs 中，加入以下的程式碼。
 
 ```C#
+var list = args.ToList();
+Log.Information(list.Count > 0 ? string.Join(" ", list) : "No arguments");
 ```
+
+直接使用 Dockerfile 建置 Image，並運行 Container。
+
+```bash
+# 建置 Image
+docker build . -f Dockerfile -t lab/webapi-args:latest
+
+# 運行 Container
+docker run -p 5000:80 --name webapi lab/webapi-args --ConnectionStrings=agnongw8gan99s==
+```
+
+![Multi-Stage 建置 Image 的訊息](images/docker-multi-stage-build.png)
+
+![傳入的 Argument 確實的被程式取得](images/docker-run-args.png)
+
+#### 作法三、掛載文件檔
+
+一般而言，當我們使用 EF Core 來建立資料庫的連線時，通常會將連線資訊存放在 appsettings.json 檔案中。
+
+同樣地，我們可以沿用這種方式，將連線資訊先存放在另一個 JSON 檔案中，並將這個檔案放在指定的主機位置或 Docker Volume 內。
+
+雖然在範例中，直接取得連線字串的明文。但是，正式環境，最好是加密後的連線字串。
+
+```dockerfile
+FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
+WORKDIR /app
+
+# 加入 Volume
+VOLUME /app/data
+
+EXPOSE 80
+EXPOSE 443
+
+// 略 ...
+```
+
+```C#{Program.cs}
+// 宣告存放連線字串的 connect.json 檔案
+var configuration = new ConfigurationBuilder()
+                   .SetBasePath(Directory.GetCurrentDirectory())
+                   .AddJsonFile("appsettings.json")
+                   .AddJsonFile("connect.json", true)
+                   .Build();
+
+// 讀取連線字串
+var connectionString =  builder.Configuration.GetConnectionString("Lab");
+builder.Services.AddDbContext<LabContext>(options => options.UseNpgsql(connectionString));
+```
+
+若是直接把 connect.json 放在實體主機的指定位置，可以使用以下的方式，將檔案掛載到容器內的指定位置。
+
+```bash
+# 假設 connect.json 放在 /home/user/connect.json
+docker run -d -p 5000:80 --name webapi -v /home/user/:/app/data lab/webapi
+```
+
+若是使用 Docker Volume 的方式，將檔案掛載到容器內，可以使用以下的方式。
+
+```bash
+# 建立 Volume
+docker volume create {connect-volume}
+
+# 將 connect.json 放入 Volume
+docker run -d -v {connect-volume}:/data -v {connect.json 所在位置}:/src/ alpine sh -c "cp /src/connect.json /data"
+
+# 運行 Container
+docker run -d -p 5000:80 --name webapi -v {connect-volume}:/app/data lab/webapi
+```
+
+我們使用下方的幾行指令來快速驗證，檔案確實有被放入 `VOLUME` 中。
+
+```bash
+# 進入檔案所的資料夾
+cd c:/Codes/Lab/Demo
+
+# 建立 Volume
+$ docker volume create lab-volume
+
+# 確認 Volume 是否建立成功
+$ docker volume ls --filter "name=lab"
+
+# 將 appsettings.json 放入 Volume
+# %cd% 代表目前所在的資料夾, 若是使用 PowerShell 則是 $pwd
+$ docker run -v lab-volume:/data -v %cd%:/src alpine sh -c "cp /src/appsettings.json /data"
+
+# 啟動 Container 並進入
+$ docker run -it -v lab-volume:/data alpine
+```
+
+![快速驗證檔案加入 Volume 的流程](images/docker-volume-add-file.png)
 
 ### 憑證資料
 
