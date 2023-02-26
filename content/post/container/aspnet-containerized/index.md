@@ -90,29 +90,29 @@ Docker 的 [官方文件](https://docs.docker.com/build/building/multi-stage/)�
 - 最後，將發佈版本的程式，放入運行環境的 Base Image 內。
 
 ```Dockerfile
-# 建立一個執行程式的基礎模板 
-FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base  
-WORKDIR /app  
-EXPOSE 80  
-EXPOSE 443  
+# 建立一個執行程式的基礎模板
+FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
+WORKDIR /app
+EXPOSE 80
+EXPOSE 443
 
-# 使用 .NET SDK 的 Image, 並程式碼複製到容器內，並執行建置 
-FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build  
-WORKDIR /src  
-COPY ["demo/demo.csproj", "demo/"]  
-RUN dotnet restore "demo/demo.csproj"  
-COPY . .  
-WORKDIR "/src/demo"  
-RUN dotnet build "demo.csproj" -c Release -o /app/build  
-  
-# 使用上一步建立的 Image, 進行發佈版本的建置 
-FROM build AS publish  
-RUN dotnet publish "demo.csproj" -c Release -o /app/publish  
+# 使用 .NET SDK 的 Image, 並程式碼複製到容器內，並執行建置
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
+WORKDIR /src
+COPY ["demo/demo.csproj", "demo/"]
+RUN dotnet restore "demo/demo.csproj"
+COPY . .
+WORKDIR "/src/demo"
+RUN dotnet build "demo.csproj" -c Release -o /app/build
+
+# 使用上一步建立的 Image, 進行發佈版本的建置
+FROM build AS publish
+RUN dotnet publish "demo.csproj" -c Release -o /app/publish
 
 # 將最後建置的程式，放置到基礎的 Image 內，並設定執行的指令
-FROM base AS final  
-WORKDIR /app  
-COPY --from=publish /app/publish .  
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "demo.dll"]
 ```
 
@@ -299,7 +299,7 @@ var configuration = new ConfigurationBuilder()
                    .Build();
 
 // 讀取連線字串
-var connectionString =  builder.Configuration.GetConnectionString("Lab");
+var connectionString = builder.Configuration.GetConnectionString("Lab");
 builder.Services.AddDbContext<LabContext>(options => options.UseNpgsql(connectionString));
 ```
 
@@ -375,10 +375,10 @@ docker run -d -e host=localhost -p 5001:80 lab/webapi
 
 ```bash
 # 查詢 Webapi 的 container 的 IP 位置
-docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' {db_container_name}
+docker inspect -f "{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}" {db_container_name}
 ```
 
-// 加圖
+![使用 docker inspect 查詢 container 的 IP address](images/docker-inspect-network-ip.png)
 
 #### 解法二、新增 Network 並使用 Docker 內的 DNS 功能
 
