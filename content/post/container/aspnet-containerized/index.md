@@ -1,6 +1,7 @@
 ---
 title: Docker | 使用 Docker 建置 ASP.NET Webapi 的 Image
-description: 在使用 Docker 封裝應用程式時，有時需要使用一些機敏性資料，需要額外處理，例如連線字串及憑證資料等。因此，在接下來的內文中，以 ASP.NET Webapi 為例，簡述如何在確保使用容器技術的同時，又能保護機密性資料不被外人所知道。
+description: 在使用 Docker 封裝應用程式時，有時因為程式需要使用一些機敏性資料，例如連線字串及憑證資料等，就需要額外處理。在接下來的內文中，以 ASP.NET
+  Webapi 為例，簡述如何在確保使用容器技術的同時，又能保護機密性資料不被外人所知道。
 tags:
   - ASP.NET
   - Docker
@@ -12,14 +13,21 @@ keywords:
   - Dockerfile
   - Multi-Stage Build
   - 機敏資料
-date: 2023-02-25T05:07:49.003Z
+date: 2023-02-26T06:18:53.925Z
 slug: aspnet-webapi-containerized
-draft: true
+draft: false
 ---
 
+想要使用 Docker 技術將 ASP.NET Web API 應用程式打包成 image 時，需要針對機敏性資料進行特別的處理，以確保這些機密性資料不會外流。
+
+在本文中，將簡單介紹 Dockerfile 的建置方式，以及如何提供連線字串給 Container 內的應用程式使用。雖然內文只介紹連線字串的部份，但是憑證的處理方式，也是類似的作法。
 
 > 🔖 長話短說 🔖
 >
+> - 在使用 Docker 封裝應用程式時，有時需要使用一些機敏性資料，需要額外處理，例如連線字串及憑證資料等。
+> - Container 的所有設定，都可以透過 `docker inspect` 指令查看到，所以傳遞機敏性資料，必須要加密或透過其他方式。
+> - 機敏資料的傳遞，可以透過 `環境變數`、`命令列參數`與 `mount/volume` 的方式。
+> - Docker Image 建立後，可以使用 `docker scan` 指令，進行掃描，確認是否有安全性問題。
 
 <!--more-->
 
@@ -108,11 +116,21 @@ COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "demo.dll"]
 ```
 
+若要確認每一個階段的 Image 內容，可以使用 `docker image history` 指令，來查看。
+
+也可以使用 `docker scan` 指令，來進行掃描，確認是否有安全性的問題。
+
 ## 機敏資料的處理
 
-在專案中，可能會有一些機敏資料，例如資料庫的連線字串、憑證資料等等。
+在專案中，可能會有一些機敏資料，例如資料庫的連線字串、憑證資料等等。大伙都知道，這些資料不應該直接放置在程式碼內。相同的，也不應該放置在 Image 內。
 
-大伙都知道，這些資料，不應該直接放置在程式碼內。相同的，也不應該放置在 Image 內。
+此外，在實際的應用中，可能需要使用憑證來進行身份驗證或資料加密。雖然後續文章只介紹連線字串的部份，但是憑證的處理方式，也是類似的作法。
+
+在 Docker 中，可以運用 `mount/volume` 與 `環境變數` 方式，提供憑證、相關檔案、密碼，給 Container 使用。
+
+藉由掛載方式，將憑證檔案掛載到 container 內，讓應用程式可以存取這些檔案，並且進行相關的操作。此外，也可以將憑證密碼以環境變數的形式傳入 Container 中，讓應用程式可以透過這些環境變數來存取憑證資料。
+
+值得注意的是，掛載憑證資料的方式需要額外注意資料的安全性。我們可以使用加密的方式來保護憑證資料的安全性，以防止資料被未經授權的人員存取。
 
 ### 資料庫的連線字串
 
@@ -305,7 +323,9 @@ docker run -d -v {connect-volume}:/data -v {connect.json 所在位置}:/src/ alp
 docker run -d -p 5000:80 --name webapi -v {connect-volume}:/app/data lab/webapi
 ```
 
-我們使用下方的幾行指令來快速驗證，檔案確實有被放入 `VOLUME` 中。
+完成後，的應用程式就可以直接使用 connect.json 檔案內的連線字串，來連線資料庫。
+
+光說不練假把式，我們使用下方的幾行指令來快速驗證，檔案確實有被放入 `VOLUME` 中。
 
 ```bash
 # 進入檔案所的資料夾
@@ -327,21 +347,6 @@ $ docker run -it -v lab-volume:/data alpine
 
 ![快速驗證檔案加入 Volume 的流程](images/docker-volume-add-file.png)
 
-### 憑證資料
-
-接著是 Dockerfile 內的設定，將檔案掛載到容器內的指定位置
-
-```Dockerfile
-FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
-WORKDIR /app
-
-# 存放憑證的 Volume 位置
-VOLUME /app/cert
-
-EXPOSE 80
-EXPOSE 443
-```
-
 ## FAQ
 
 ### 為何 Webapi Container 無法連線本機另一個 Container 的資料庫？
@@ -355,7 +360,7 @@ EXPOSE 443
 這是因為預設 Network 不支援 Docker 內的 DNS 功能，因此無法透過 Container 的名稱來連線。
 
 ```bash
-docker run -d --name -e host=localhost -e database=demo -e user_id=test -e password=test -p 5001:80 lab/webapi
+docker run -d -e host=localhost -p 5001:80 lab/webapi
 ```
 
 上述指令中，指定 Webapi 的 container 的環境變數 `host` 為 `localhost`，但實際上，對於 Webapi 的 container 來說，`localhost` 是指是自己的 IP 位置，而非使用者的主機。更不用說資料庫的 container 了。
