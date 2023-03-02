@@ -98,22 +98,22 @@ private string GenerateToken(string userId)
         new Claim("UID", userId),  
     };  
   
-    var secret = "1456789012"; 
     // 取得 JWT 的 Secret Key 
-       var secret = "12345678901234567890123456789012"; 
-       // 取得 JWT 的 Secret Key    
-       var key = Encoding.ASCII.GetBytes(secret); 
-       // 將 Secret Key 轉換為 byte 陣列  
+    var secret = "1456789012"; 
+
+    // 將 Secret Key 轉換為 byte 陣列
+    var key = Encoding.ASCII.GetBytes(secret); 
 
 var credentials=
- new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature) // 設定簽名  
+ new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature);
 
     // 建立 JWT Security Token Handler  
     var tokenHandler = new JwtSecurityTokenHandler(); 
     var securityToken = tokenHandler.CreateJwtSecurityToken(  
         issuer: "test", // 設定發行者  
         audience: "test", // 設定接收者  
-        subject: new ClaimsIdentity(claims), // 設定 Claim        expires: DateTime.UtcNow.AddMinutes(30), // 設定過期時間  
+        subject: new ClaimsIdentity(claims), // 設定 Claim        
+        expires: DateTime.UtcNow.AddMinutes(30), // 設定過期時間  
         signingCredentials:credentials
     );  
   

@@ -3,6 +3,7 @@ title: 使用 dotnet-ef 建立 PostgreSQL 的 DBContext
 description: 當 .NET Core 要使用 EF Core 去存取 PostgreSQL 時，可以先使用 dotnet-ef 的工具，協助產生對應 PostgreSQL
   schema 的 DBContext
 date: 2023-02-13T04:13:02.975Z
+lastmod: 2023-03-02T02:49:47.963Z
 categories:
   - 軟體開發
 tags:
@@ -23,6 +24,7 @@ slug: dotnet-ef-postgresql-dbcontext
 > 🔖 長話短說 🔖
 >
 > - EF Core 要操作 PostgreSQL 的話，可使用 `Npgsql.EntityFrameworkCore.PostgreSQL`
+> - 可使用 `dotnet tool update --global dotnet-ef` 進行 `dotnet-ef` 版本更新
 > - 可使用 `dotnet ef dbcontext scffold` 的指令，協助從資料庫已存在的 Schema 產生對應的 dbcontext。
 > - 若專案內未參考 `Microsoft.EntityFrameworkCore.Design` 的話，`dotnet ef dbcontext scffold` 無法順利動作。
 > - 機敏性資料，可使用 `user-secrets` 工具。
@@ -139,18 +141,24 @@ dotnet ef dbcontext scaffold "Host=localhost;Database=postgres;Username=postgres
 
 ![順利更新 DBContext](images/success-dbcontext-scaffold.png)
 
-若是連線字串內的 `Database` 名稱與實際資料庫名稱大小寫不同，會發生找不到資料庫的錯誤。要特別注意。
-
-在這邊，刻意將連線字串內的 Database 名稱，由 `postgres` 改為 `Postgres`，會看到下述的錯誤訊息。
-
-![資料庫名稱大小寫不同，回應資料庫不存在](images/failed-dbcontext-scffold-dbname-differice.png)
-
 若是想要指定產生出來的 `<DBContext.cs>` 放到指定位置，記得額加使用 `-o <Path>` 的指令。否則產生出來的位置與 .csproj 的位置相同。
 
 ```shell
 # 指定 DBContext 輸出位置為 Models 資料夾
 dotnet ef dbcontext scaffold <connection_string> Npgsql.EntityFrameworkCore.PostgreSQL -o Models
 ```
+
+### 異常排除
+
+#### 狀況一、資料庫不存在 
+
+若是連線字串內的 `Database` 名稱與實際資料庫名稱大小寫不同，會發生找不到資料庫的錯誤。要特別注意。
+
+在這邊，刻意將連線字串內的 Database 名稱，由 `postgres` 改為 `Postgres`，會看到下述的錯誤訊息。
+
+![資料庫名稱大小寫不同，回應資料庫不存在](images/failed-dbcontext-scffold-dbname-differice.png)
+
+#### 狀況二、已存在檔案
 
 若先前已經有產生過 `<DBContext>` 相關檔案，直接執行指令會出現 `The following file(s) already exist in directory 'c:\Codes\lab\efcore_lab\': PostgresContext.cs,Todo.cs. Use the Force flag to overwrite these files.` 錯誤訊息。
 
