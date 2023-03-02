@@ -3,6 +3,7 @@ title: 使用 dotnet-ef 建立 SQL Server on Docker 的 DBContext
 description: 建立 SQL Server on Docker 時，有一些持久性的議題必須特別注意。同時，使用 EF Core 連接 SQL Server
   時，連線字串設定不當，也會造成連線失敗。
 date: 2023-02-14T10:12:33.814Z
+lastmod: 2023-03-02T02:49:47.963Z
 categories:
   - 軟體開發
 tags:
@@ -144,6 +145,12 @@ dotnet ef dbcontext scaffold "Server=localhost;Database=Lab;User Id=sa;Password=
 - `Server`: 資料庫所在的主機位置
 - `Database`: 資料庫名稱
 - `TrustServerCertificate`: 強制用戶端信任憑證而不進行驗證。
+
+若是只想要 `更新/建立` 特定的表格的 DBContext，可在指令後方加上 `-t` 或 `--table` 的方式。
+
+```shell
+dotnet ef dbcontext scaffold "Server=localhost;Database=Lab;User Id=sa;Password=AZ@xsw2ec;TrustServerCertificate=true;" Microsoft.EntityFrameworkCore.SqlServer -o Models -t table1 -t table2
+```
 
 ### 錯誤排除
 
