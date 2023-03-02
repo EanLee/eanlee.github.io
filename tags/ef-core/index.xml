@@ -12,6 +12,7 @@
 &lt;p>🔖 長話短說 🔖&lt;/p>
 &lt;ul>
 &lt;li>EF Core 要操作 PostgreSQL 的話，可使用 &lt;code>Npgsql.EntityFrameworkCore.PostgreSQL&lt;/code>&lt;/li>
+&lt;li>可使用 &lt;code>dotnet tool update --global dotnet-ef&lt;/code> 進行 &lt;code>dotnet-ef&lt;/code> 版本更新&lt;/li>
 &lt;li>可使用 &lt;code>dotnet ef dbcontext scffold&lt;/code> 的指令，協助從資料庫已存在的 Schema 產生對應的 dbcontext。&lt;/li>
 &lt;li>若專案內未參考 &lt;code>Microsoft.EntityFrameworkCore.Design&lt;/code> 的話，&lt;code>dotnet ef dbcontext scffold&lt;/code> 無法順利動作。&lt;/li>
 &lt;li>機敏性資料，可使用 &lt;code>user-secrets&lt;/code> 工具。&lt;/li>
