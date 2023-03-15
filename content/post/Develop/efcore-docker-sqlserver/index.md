@@ -63,7 +63,7 @@ docker run -e "ACCEPT_EULA=Y" \
 
 為確保資料的持久性，可以從 `Bind Mount` 或 `Volume` 兩種作法擇一採用。
 
-##### Bind Mount: 掛載實體的檔案系統
+#### Bind Mount: 掛載實體的檔案系統
 
 Bind Mount 的參數可使用 `-v` 或 `--mount` ，若使用 `--mount` 需明確指定 type 為 `bind`、`volume` 或 `tmpfs` 其中一種。
 
