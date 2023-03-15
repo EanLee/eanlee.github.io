@@ -183,7 +183,7 @@ docker ps
 
 ▶ 站內文章
 
-- [Docker | 使用 Docker 建置 ASP.NET Webapi 的 Image]({{< ref "../aspnet-webapi-containerized/index.md">}})
+- [Docker | 使用 Docker 建置 ASP.NET Webapi 的 Image]({{< ref "../aspnet-containerized/index.md">}})
 - 
 
 ▶ Docker-Compose
