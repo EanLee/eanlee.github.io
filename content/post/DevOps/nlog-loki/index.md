@@ -125,41 +125,43 @@ builder.Services.AddLogging((loggingBuilder) =>
           "WebApplication1.dll": {}
         }
       },
-      {
+    {
       ... 略 ...
-      },
-      "NLog/5.1.2": {
+    },
+    "NLog/5.1.2": {
+      "runtime": {
+        "lib/netstandard2.0/NLog.dll": {
+          "assemblyVersion": "5.0.0.0",
+          "fileVersion": "5.1.2.1561"
+        }
+      }
+    },
+    // 手動加入 NLog.Targets.Loki
+    "NLog.Targets.Loki/1.4.6": {
+      "dependencies": {
+        "NLog": "5.1.2"  // 與使用的 NLog 版號相同
+        },
         "runtime": {
-          "lib/netstandard2.0/NLog.dll": {
-            "assemblyVersion": "5.0.0.0",
-            "fileVersion": "5.1.2.1561"
+          "lib/net6.0/NLog.Loki.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
           }
         }
-      },
-      // 手動加入 NLog.Targets.Loki
-      "NLog.Targets.Loki/1.4.6": {  
-        "dependencies": {  
-          "NLog": "5.1.2"  // 與使用的 NLog 版號相同
-        },  
-        "runtime": {  
-          "lib/net6.0/NLog.Loki.dll": {  
-            "assemblyVersion": "0.0.0.0",  
-            "fileVersion": "0.0.0.0"  
-          }  
-        }  
-      },
+      }
+    },
+  },
   "libraries": {
     // 手動加入
-    "NLog.Targets.Loki/1.4.6": {  
-    "type": "package",  
-    "serviceable": true,  
-    "sha512": "sha512-AOfVvNR3Pw1hH1Pur0m6XYzL+BPDCbSicI2aBSFvM5wWU+JuvV9DqRZOAT5eExvTQGghdifV8TojYZn8JGcRBg==",  
-    "path": "nlog.targets.loki/1.4.6",  
-    "hashPath": "nlog.targets.loki.1.4.6.nupkg.sha512"  
-    },
-    {
-      ... 略 ...
-    }
+    "NLog.Targets.Loki/1.4.6": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-AOfVvNR3Pw1hH1Pur0m6XYzL+BPDCbSicI2aBSFvM5wWU+JuvV9DqRZOAT5eExvTQGghdifV8TojYZn8JGcRBg==",
+      "path": "nlog.targets.loki/1.4.6",
+      "hashPath": "nlog.targets.loki.1.4.6.nupkg.sha512"
+    },
+    {
+      ... 略 ...
+    }
   }
 }
 ```
