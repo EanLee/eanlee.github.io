@@ -290,7 +290,7 @@ EXPOSE 443
 // 略 ...
 ```
 
-```C#{Program.cs}
+```C#
 // 宣告存放連線字串的 connect.json 檔案
 var configuration = new ConfigurationBuilder()
                    .SetBasePath(Directory.GetCurrentDirectory())
