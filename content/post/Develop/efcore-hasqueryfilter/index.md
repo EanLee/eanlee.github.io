@@ -164,11 +164,10 @@ public partical class LabContext
 若是查詢時，想要排除已經設定在 Gobal Query Filter 的過濾條件，可以在查詢時，加入 `.IgnoreQueryFilters()`，告知不要使用 Query Filter。
 
 ```C#
-```C#
 var context = new LabContext;
 
 // 告知不要使用 Query Filter
-var stories = LabContext.Stories.IgnoreQueryFilters()`.ToList();
+var stories = LabContext.Stories.IgnoreQueryFilters().ToList();
 ```
 
 ## Gobal Query Filter 多條件過濾
