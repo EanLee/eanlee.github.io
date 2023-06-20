@@ -92,7 +92,7 @@ sudo docker exec -it gitlab-runner gitlab-runner register \
 作法二：若 Runner 已註冊，則到 Gitlab-runner 的 Container 內，在  `etc\gitlab-runner\config.toml` 中，加入參數 `clone-url`
 
 ``` toml {hl_lines=[3,6]}
-[runners]({< ref "runners" >})
+[runners]({{< ref "runners" >}})
   name = "dotnet-core-3.1"
   url = "http://172.45.20.1"
   token = "WxnmFkszXJFiqeQVxy--"
@@ -208,7 +208,7 @@ build-job:       # This job runs in the build stage, which runs first.
 若是 Docker Executor 所使用的 Image，想要使用 `自行建立` 或是 `先使用本地已存圶` 的 Image，就必需在 `etc\gitlab-runner\config.toml` 的 [runners.docker] 內，加入 `pull_policy = ["if-not-present"]`。
 
 ``` toml {hl_lines=[15]}
-[runners]({< ref "runners" >})
+[runners]({{< ref "runners" >}})
   name = "dotnet-core-3.1"
   url = "http://172.45.20.1"
   token = "WxnmFkszXJFiqeQVxy--"
