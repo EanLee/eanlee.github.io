@@ -159,7 +159,7 @@
 &lt;p>接著，試著運用 Azure DevOps、Jenkins 來建立 Docker image 的 Artifact。&lt;/p></description></item><item><title>使用 Container 建立 CI 所需要的建置環境</title><link>https://eandev.com/post/series/build-automated-deploy/container-build-execution-environment-required-ci/</link><pubDate>Tue, 10 Jan 2023 16:15:41 +0000</pubDate><guid>https://eandev.com/post/series/build-automated-deploy/container-build-execution-environment-required-ci/</guid><description>&lt;blockquote>
 &lt;p>&lt;a href="https://ithelp.ithome.com.tw/users/20107551/ironman/1906">2019 iT 邦幫忙鐵人賽&lt;/a> 文章補完計劃，&lt;a href="https://eandev.com/post/series/build-automated-deploy/build-ci-cd-from-scratch/#container">從零開始建立自動化發佈的流水線&lt;/a> Container 篇&lt;/p>
 &lt;/blockquote>
-&lt;p>在 [Docker 操作簡介]({&amp;lt; ref &amp;ldquo;Docker 操作簡介&amp;rdquo; &amp;gt;}) 中，初步了解 Docker、dockerfile、docker-compose 的操作方法。&lt;/p>
+&lt;p>在 &lt;a href="https://eandev.com/post/series/build-automated-deploy/docker-operate/">Docker 操作簡介&lt;/a> 中，初步了解 Docker、dockerfile、docker-compose 的操作方法。&lt;/p>
 &lt;p>接下來，要與 CI Server 搭配使用，讓 CI Server 可以依據設定檔，使用 docker 的方式，建置出執行 CI 所需要的環境。&lt;/p></description></item><item><title>Docker 操作簡介 - command / dockerfile / docker-compose</title><link>https://eandev.com/post/series/build-automated-deploy/docker-operate/</link><pubDate>Mon, 09 Jan 2023 01:47:58 +0000</pubDate><guid>https://eandev.com/post/series/build-automated-deploy/docker-operate/</guid><description>&lt;blockquote>
 &lt;p>&lt;a href="https://ithelp.ithome.com.tw/users/20107551/ironman/1906">2019 iT 邦幫忙鐵人賽&lt;/a>文章補完計劃，&lt;a href="https://eandev.com/post/series/build-automated-deploy/build-ci-cd-from-scratch/#ontainer">從零開始建立自動化發佈的流水線&lt;/a> Container 篇&lt;/p>
 &lt;/blockquote>
