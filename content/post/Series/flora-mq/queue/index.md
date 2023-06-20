@@ -9,10 +9,11 @@ tags:
   - Queue
 categories:
   - 軟體開發
-lastmod: 2023-01-09T03:33:49.791Z
+lastmod: 2023-01-19T01:30:36.906Z
+slug: queue
 ---
 
-> [從零開始土炮 MQ]({{< ref "../../foreword/index.md#基礎篇">}}) 基礎篇
+> [第 11 屆(2020) iThome 鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/2172)文章補完計劃，[從零開始土炮 MQ]({{< ref "../foreword/index.md#基礎篇">}}) 基礎篇
 
 個人認為佇列(Queue)的本質，就是做為資料載體的暫存與緩衝區，同時，它具備 **先進先出(First In First Out, FIFO)** 的特性。
 
@@ -51,7 +52,7 @@ lastmod: 2023-01-09T03:33:49.791Z
 
 通常，會把資源放入 Queue 的動作，稱為 ***Push*** 或 ***Enqueue***。反之，從資源離開 Queue 的動作，稱為 ***Pop*** 或 ***Dequeue***。
 
-![Queue](queue.png)
+![Queue](images/queue.png)
 
 ## Queue
 
@@ -93,7 +94,7 @@ public class Queue
 }
 ```
 
-## Circle Queue
+### Circle Queue
 
 後來發現，每次移動資源的成本過於昂貴，若資源量少，可能還看不出差異。但資源數量成千上萬時，所耗費成本，就相當可觀。
 
@@ -135,13 +136,13 @@ public class CircleQueue
 }
 ```
 
-## Priority Queue
+### Priority Queue
 
 有時，在某些情況下，必需打破 FIFO 的原則，需要讓後面進來的**特定的資源**提早被離開 Queue。
 
 我們再來看個例子。
 
-``` Plan
+```Plan
 有 10 個病人到診所，己經掛完號，領了號碼牌，排隊等著叫號看診。
 突然，有一名爸爸，背著高燒不退的孩子，衝到診所掛號看病。
 ```
@@ -158,7 +159,7 @@ public class CircleQueue
 
 先討論第二種情況，當資源加入 Queue 後，離開 Queue 順序會因為權重而有所變更。用白話來說，這就是**插隊機制**。
 
-![Priotity](PriotityQueue.png)
+![Priotity](images/priotity-queue.png)
 
 這種打破 FIFO 特性，卻又保留部份 FIFO 的 Queu，稱為 Priority Queue 。而權重的比對，可以組合 `Compare`  與不同的 `排序演算法`的實作，來決定各資源離開的順序。
 
@@ -202,6 +203,8 @@ public class PriorityQueue
 }
 ```
 
+> 📝 資訊補充 📝
+>
 > .NET 6 之後，提供 `PriorityQueue<TElement,TPriority> Class` 可達到相同的用途。
 
 ## Linked List
@@ -222,19 +225,17 @@ public class PriorityQueue
 
 當放入新的資源時，會將該資源放入節點中，同時將原本 Rear 的節點與新節點鍵結，並移到 Rear 到最後的節點。
 
-![Linked List by push](LinkedList_Push.png)
+![Linked List by push](images/linked-list-push.png)
 
 反之，當資源離開時，Front 會向後移動一個節點，其他節點與 Rear 維持不動。
 
-![Linked List by pop](LinkedList_Pop.png)
+![Linked List by pop](images/linked-list-pop.png)
 
 不管是單向鍵結或雙向鍵結，概念都是相同的。
 
-![Linked List by two-way](LinkedList_Twoway.png)
+![Linked List by two-way](images/linked-list-two-way.png)
 
-下面的實作，採用單向鍵結的方式，來實作 Queue。
-
-因為 .NET Core 之中，己經存有 `LinkedList<T>` ，所以將範例內的類別名稱取為 `LinkedListQueue<T>`
+下面的實作，採用單向鍵結的方式，來實作 Queue。但因為 .NET Core 之中，己經存有 `LinkedList<T>` ，所以將範例內的類別名稱取為 `LinkedListQueue<T>`
 
 ```C# {linenos=inline}
  public class LinkedListQueue<T>
