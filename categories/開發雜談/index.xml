@@ -9,7 +9,7 @@
 &lt;/ul></description></item><item><title>聊聊架構 - 系統負載、分流與限制理論</title><link>https://eandev.com/post/architecture/system-loading-limit-reroute/</link><pubDate>Tue, 26 Jul 2022 09:35:47 +0000</pubDate><guid>https://eandev.com/post/architecture/system-loading-limit-reroute/</guid><description>&lt;p>無論技術決策或解決方案的選擇，經常因為現實環境造成的種種限制條件，導致無法直接使用最優解。需要基於限制條件下，進行相對應的妥協與方案的調整。&lt;/p>
 &lt;p>做為系統開發或維運人員，當系統遇到麻煩或困難或瓶頸時，所提出的解決方案或作法，需將先天的限制列入評估。試著在有限的的資源，想辦法得到最大的效率或收益。為此，需要試著找出造成麻煩的瓶頸，加以分析，最終得出解除瓶頸的方案。&lt;/p>
 &lt;p>若觀察的視角過小或過於局部，所找到的系統瓶頸，從整個系統視角評估，有時會發現，原先認為的瓶頸，並不是真正的瓶頸問題。為此，可以運用限制理論去找出問題環節，配合 80/20 法則找出影響力最大的點，然後處理它。&lt;/p></description></item><item><title>簡述程式碼品質與優化方向</title><link>https://eandev.com/post/series/coding-skill/coding-basic-skills/</link><pubDate>Tue, 21 Jun 2022 15:06:43 +0000</pubDate><guid>https://eandev.com/post/series/coding-skill/coding-basic-skills/</guid><description>&lt;blockquote>
-&lt;p>&lt;a href="https://ithelp.ithome.com.tw/users/20107551/ironman/1430">2018 iT 邦幫忙鐵人賽&lt;/a>文章補完計劃，&lt;a href="https://eandev.com/post/series/coding-skill/foreword/#基礎篇">持續優化程式碼品質&lt;/a>基礎篇&lt;/p>
+&lt;p>&lt;a href="https://ithelp.ithome.com.tw/users/20107551/ironman/1430">2018 iT 邦幫忙鐵人賽&lt;/a>文章補完計劃，&lt;a href="https://eandev.com/post/series/coding-skill/foreword/#基礎篇">持續優化程式碼品質-總覽&lt;/a>基礎篇&lt;/p>
 &lt;/blockquote>
 &lt;p>在開發時，為了快速或是避免麻煩，可能會用簡單的代號，例如 &lt;code>aa&lt;/code> 這種名稱，來暫時做為變數的名稱。這無可厚非，但是&amp;hellip;假若在完成該功能後，未能進行程式的整理。&lt;/p>
 &lt;p>也許在三個月後的某一天，程式有需求變動，不管是要修改自己開發的程式，還是要維護前人遺留下來的軟體。在一番苦戰，好不容易找到要修改變動的程式區塊。&lt;/p>

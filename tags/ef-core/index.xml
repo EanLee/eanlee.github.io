@@ -9,7 +9,7 @@
 &lt;li>EF Core 2.0 之後提供 &lt;code>HasQueryFilter&lt;/code> 的方法，可針對 Entity 的任何查詢，進行套用 Linq 運算式。&lt;/li>
 &lt;li>若要排除 &lt;code>HasQueryFilter&lt;/code> 的影響，可以在 DBContext.Entites 加上 &lt;code>.IgnoreQueryFilters()&lt;/code> 。&lt;/li>
 &lt;/ul>
-&lt;/blockquote></description></item><item><title>使用 dotnet-ef 建立 SQL Server on Docker 的 DBContext</title><link>https://eandev.com/post/develop/dotnet-ef-sqlserver/</link><pubDate>Tue, 14 Feb 2023 10:12:33 +0000</pubDate><guid>https://eandev.com/post/develop/dotnet-ef-sqlserver/</guid><description>&lt;p>在&lt;a href="https://eandev.com/post/develop/dotnet-ef-postgresql-dbcontext/">使用 dotnet-ef 建立 PostgreSQL 的 DBContext&lt;/a> 之後，也嘗試從 SQL Server on Docker 建立 DBContext，就順手把過程中遇到的小問題記錄下來。&lt;/p>
+&lt;/blockquote></description></item><item><title>使用 dotnet-ef 建立 SQL Server on Docker 的 DBContext</title><link>https://eandev.com/post/develop/dotnet-ef-sqlserver/</link><pubDate>Tue, 14 Feb 2023 10:12:33 +0000</pubDate><guid>https://eandev.com/post/develop/dotnet-ef-sqlserver/</guid><description>&lt;p>在 &lt;a href="https://eandev.com/post/develop/dotnet-ef-postgresql-dbcontext/">使用 dotnet-ef 建立 PostgreSQL 的 DBContext&lt;/a> 之後，也嘗試從 SQL Server on Docker 建立 DBContext，就順手把過程中遇到的小問題記錄下來。&lt;/p>
 &lt;blockquote>
 &lt;p>🔖 長話短說 🔖&lt;/p>
 &lt;ul>
