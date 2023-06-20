@@ -72,7 +72,7 @@ toc: false
 
   在 Dropbox 開啟存取權限，並使用 Travis CI 與 Azure PipeLine 將軟體打包上傳到 Dropbox。
 
-- 發佈 WebAPI 到 Azure App Service
+- [使用 Travis CI / Azure PipeLines 發佈 WebAPI 到 Azure App Service]({{< ref "../cd-azue-app/index.md" >}})
 
   使用 Travis CI 與 Azure PipeLine 將 WebAPI 上傳到 Azrue App Service。
 

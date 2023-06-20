@@ -26,25 +26,25 @@ Eric: 很接近。不過，我們這次先用 Line Notify 來進行通知。
 
 ## LINE Notify
 
-![Line_developer_web_index](images/Line_developer_web_index.png)
+![Line 開發者首面(2018)](images/line-developer-index.png)
 
 首先，必需先申請 Line Developer 帳戶。完成申請並登入後，因為是第一次登入，會看到要求建立 Provider。
 
-![Line_developer_nprovider](images/Line_developer_new_provider.png)
+![Line_developer_nprovider](images/line-developer-provider.png)
 
-![Line_developer_create_provioder](images/Line_developer_create_provioder.png)
+![Line_developer_create_provioder](images/line-developer-create-provioder.png)
 
 在完成 Provider 的建立後，接下來要建立 Channel。Channel 中，包含與 Line Server 互動的設定資訊。
 
-![Line_developer_channel_select](images/Line_developer_channel_select.png)
+![Line_developer_channel_select](images/line-developer-create-channel-select.png)
 
-![Line_developer_create](images/Line_developer_create_channel.jpeg)
+![Line_developer_create](images/line-developer-create-channel.jpeg)
 
 建立 Channel 時，有一件事要注意，Plan 的選項，需選擇 `Developer Trial` 這個項目。其他部份，只要依指示進行，就可順利完成建立動作。
 
-![Line_developer_channel](images/Line_developer_channel.png)
+![Line_developer_channel](images/line-developer-channel-setting.png)
 
-## 02. IFTTT
+## IFTTT
 
 ```chat
 Eric: 完成的 Line Developer 與 IFTTTT 的串接後，接著，開始來串接 Travis CI、Azure Pipeline、Jenkins 吧。
@@ -77,7 +77,7 @@ webhooks:
 
 LINE Notify 雖然順利收到資料，但可以發現，重要的資料沒有顯示，均為空白。
 
-![圖片20181101_222612](images/LineNotify1.png)
+![圖片20181101_222612](images/line-notify-travis.png)
 
 ## Azure DevOps
 
@@ -85,19 +85,19 @@ LINE Notify 雖然順利收到資料，但可以發現，重要的資料沒有�
 
 接著選擇 `Create subcription`，建立 webhooks 的串接。
 
-![小樂圖客_✄ 整頁截圖2018-11-1_21.28.33](images/Azure-DevOps.png)
+![小樂圖客_✄ 整頁截圖2018-11-1_21.28.33](images/azure-devops-project-setting.png)
 
 在建立新的 `service hooks` 時，可以看到左側有許多可以串接的服務。可惜 Line 不在其中，所以選擇 `Web Hooks` 這個項目。
 
-![Azure_new_service](images/Azure_new_service.png)
+![Azure_new_service](images/azure-new-service.png)
 
-![Azure_new_service_webhook](images/Azure_new_service_webhook.png)
+![Azure_new_service_webhook](images/azure-new-service-webhook.png)
 
 接下來，將從 ITFFF 取回的 webhook url 填入對應的位置。按下 `Test` 後，Line Notify 會立刻收到通知。
 
 LINE Notify 雖然順利收到資料，但可以發現，重要的資料沒有顯示，均為空白。
 
-![LineNotify2](images/LineNotify2.png)
+![LineNotify2](images/line-notify-azure-pipeline.png)
 
 ```chat
 吉米: Line Notify 收到的訊息，全部都沒有內容耶。
@@ -113,13 +113,13 @@ Eric: 不管是 Azure DevOps、Travis CI 還是 Jenkins ，這些 CI Server 經�
 Eric: 沒錯，讓我們開始動作吧！
 ```
 
-## 01. Web Api
+## Web Api
 
 建立一個 web API 的專案，筆者在這邊是選擇使用 `Asp.Net Core Web 應用程式` 的 `API`。
 
-![vs_create_project](images/vs_create_project.png)
+![vs_create_project](images/vs-create-project.png)
 
-![vs_create_web](images/vs_create_web.png)
+![vs_create_web](images/vs-create-web.png)
 
 因為 IFTTT 接收的格式，只支援 value1、value2、value3 這個欄位名，所以建立一個 IFTTTModel 的類別。
 
@@ -153,17 +153,17 @@ public void Post([FromBody] string value)
 
 要注意的是，上面的程式，只是基本框架，還不能滿足我們的需求。使用 `PostMan` 進行測試，會看到下面的訊息。
 
-![line1](images/line1.png)
+![line1](images/line-notify-postman.png)
 
 ### Azure App service
 
 接著，將剛剛完成的 web api 發佈到 Azure App Service 。在建立發佈的設定時，選擇 Azure App Service。
 
-![publish](images/publish.png)
+![publish](images/publish-azure-app-service.png)
 
-![publish_azure_setting](images/publish_azure_setting.png)
+![publish_azure_setting](images/publish-azure-app-service-setting.png)
 
-![publish_finish](images/publish_finish.png)
+![publish_finish](images/publish-azure-app-service-publish.png)
 
 因為是第一次建立，筆者選擇使用預設值。完成建立後，可以看到`網站 URL` 這個資料，這等等會用到。
 
@@ -212,7 +212,7 @@ webhooks:
 
 接著到 Azure DevOps 的 `project settings` \ `Service hooks` 中，將 `Web Hooks` 中，URL 位置的內容，變成為  `{網站URL}/api/travis` 即可。
 
-![azure_devops_action](images/azure_devops_action.png)
+![azure_devops_action](images/azure-devops-action.png)
 
 按下 `Test` 後，Line Notify 就會收到訊息了。但這時傳送的訊息也無法滿足我們的需求，所以要在 AzurePipeline 的 Post 內，進行資訊解析。才能正確傳送所需的訊息到 Line 。
 
@@ -227,7 +227,7 @@ Eric: 對啊，除了 Line 之後，接下來，我們來串接 Microsoft Teams 
 ## 延伸閱讀
 
 - [IFTTT 發送 LINE 訊息通知](https://www.oxxostudio.tw/articles/201803/ifttt-line.html)
-- [the DevOps journey - 在VSTS CI(Continuous Integration)中發送Line通知](http://studyhost.blogspot.com/2017/03/the-devops-journey-vsts-cicontinuous.html)
-- Microsoft Doc, [Web Hooks](https://docs.microsoft.com/en-us/azure/devops/service-hooks/services/webhooks?view=vsts)
-- [在 Azure 中建立 ASP.NET Core Web 應用程式](https://docs.microsoft.com/zh-tw/azure/app-service/app-service-web-get-started-dotnet)
+- [.NET Walker: the DevOps journey - 在VSTS CI(Continuous Integration)中發送Line通知](http://studyhost.blogspot.com/2017/03/the-devops-journey-vsts-cicontinuous.html)
+- [Webhooks with Azure DevOps - Azure DevOps | Microsoft Learn](https://docs.microsoft.com/en-us/azure/devops/service-hooks/services/webhooks?view=vsts)
+- [快速入門：部署 ASP.NET Web 應用程式 - Azure App Service | Microsoft Learn](https://docs.microsoft.com/zh-tw/azure/app-service/app-service-web-get-started-dotnet)
 - [LINE Notify API Document](https://notify-bot.line.me/doc/en/)

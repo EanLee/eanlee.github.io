@@ -5,7 +5,8 @@ description: null
 categories:
   - DevOps
 keywords:
-  - LINE
+  - E-mail
+  - Teams
 tags:
   - Azure
 slug: notify-email-teams
@@ -16,7 +17,7 @@ draft: true
 
 <!--more-->
 
-## E-mail
+## 使用 E-mail 通知
 
 ```chat
 Eric:  前面我們己經將 CI server 建立起來了，也成功將 Repository 與 CI Server 流程整合，但還有最重要的一件事沒還沒有做。
@@ -54,19 +55,19 @@ notifications:
 
 Azure DevOps 的通知設定，比 Travis CI 複雜一點，但也是很容易。
 
-![Pipeline_setting](images/Pipeline_setting.png)
+![Pipeline_setting](images/azure-devops-notification-setting.png)
 
 首先選擇帳戶選單中的 `Notification Setting`，就可以看到所有通知的設定像是 Build、Code ……。
 
-![pipeline_new_subscription](images/pipeline_new_subscription.png)
+![pipeline_new_subscription](images/azure-devops-notifications-new-subscription.png)
 
 接著，選擇 `New subscription` ，建立通知的事件。
 
-![pipeline_new_subscription_template](images/pipeline_new_subscription_template.png)
+![pipeline_new_subscription_template](images/azure-devops-notifications-new-subscription-template.png)
 
 在 Azure DevOps 的 New subscription 中，己經有一些現成的樣版，提供選擇。
 
-![pipeline_new_subscription_content](images/pipeline_new_subscription_content.png)
+![pipeline_new_subscription_content](images/azure-devops-notifications-new-subscription-content.png)
 
 如果樣版不能足夠需求，也可以再進一步，增加修改的設定內容。
 
@@ -76,7 +77,7 @@ Azure DevOps 的通知設定，比 Travis CI 複雜一點，但也是很容易�
 Eric: OK，那接下來，我們就來聊用 LINE 來進行通知。
 ```
 
-## Microsoft Teams
+## 使用 Microsoft Teams 即時通知
 
 ```chat
 吉米: Line 的設定真的有點麻煩。
@@ -96,21 +97,21 @@ Microsoft Teams是 Mircosfot 所推出的的團隊合作平台，讓使用者以
 
 Connector 讓現有的網路服務可以方便快速的串接起來，如 Trello、Jenkins、JIRA 等服務。當服務與 Teams 串接起來後，可以不用離開 Teams ，第一時間知道其他服務的最新訊息。
 
-![Teams](images/Teams.png)
+![Teams](images/teams.png)
 
-### TravisCI
+### Travis CI 的
 
-![圖片20181103_232645](images/Teams_connect_i.png)
+![圖片20181103_232645](images/teams-connect-setting.png)
 
 首先，從頻道中的後的 `...` 進入 `連接器`。
 
-![Teams_connect](images/Teams_connect_travis.png)
+![Teams_connect](images/teams-connect-travis.png)
 
 可以看到，連接器中，己經提供許多的選項讓我們選取。Microsoft 針對 `Travis CI` ，己經提供現成的項目。
 
-![Teams_connect_travis_1](images/Teams_connect_travis_1.png)
+![Teams_connect_travis_1](images/teams-connect-travis-create.png)
 
-![Teams_connect_travis_2](images/Teams_connect_travis_2.png)
+![Teams_connect_travis_2](images/teams-connect-travis-webhook.png)
 
 接著只要依指示，就可以取回一組 `Webhook` url ，接著到 GitHub repository 的 .travis.yml 中，加入 teams 給的 webhook ，就完成串接的動作。
 
@@ -120,28 +121,27 @@ Connector 讓現有的網路服務可以方便快速的串接起來，如 Trello
 
 直接到 Teams 的 Connector 中，選擇 `Azure Devops` 。
 
-![team_azureDevops_](images/team_azureDevops_.png)
+![team_azureDevops_](images/teams-azure-devops-plugin.png)
 
 接下來， 會要求登入 Microsoft Account。這時，直接使用 Azure DevOps 的帳戶登入。
 
-![team_azureDevops_create](images/team_azureDevops_create.png)
+![team_azureDevops_create](images/teams-azure-devops-create.png)
 
-![team_azureDevops_login](images/team_azureDevops_login.png)
+![team_azureDevops_login](images/teams-azure-devops-verification-login.png)
 
-![team_azureDevops_check](images/team_azureDevops_check.png)
+![team_azureDevops_check](images/teams-azure-devops-verification.png)
 
 完成登入與授權後，就直接在 Teams 內進行 Azure DevOps 內的 通知設定。
 
-![team_azureDevops_setting](images/team_azureDevops_setting.png)
+![team_azureDevops_setting](images/teams-azure-devops-setting.png)
 
 在完成設定後。這時，如果到 Azure DevOps 的 `Project settings`\ `Service hooks` 中，可以看到剛剛經由 Teams 設定的資料。
 
-![AzureDevOps_web_setting](images/AzureDevOps_web_setting.jpeg)
+![AzureDevOps_web_setting](images/azure-devops-project-setting.jpeg)
 
 之後，只要有新的變動提交 Azure Repos 後，Azure DevOps 會將 Azure Pipelines 建置結果，經由 Teams 通知。
 
-![team_azureDevops_notify](images/team_azureDevops_notify.png)
-
+![team_azureDevops_notify](images/teams-azure-devops-notify.png)
 
 ```chat
 吉米: Teams 與 CI Server 的串接，比 Line 輕鬆很多耶。
@@ -153,14 +153,12 @@ Eric: 從 Mircosoft 將自己定位為服務商後，對各家廠商的整合是
 Eric: 接下來，我們往 CI/CD 的下一步走下去。
 ```
 
-
 ## 參考資料
 
-▶ 
+▶
 
 1. [Configuring Build Notifications](https://docs.travis-ci.com/user/notifications)
 2. [Manage notifications for a team](https://docs.microsoft.com/en-us/azure/devops/notifications/howto-manage-team-notifications?view=vsts&viewFallbackFrom=tfs-2015&tabs=new-nav)
-3. 瓶水相逢 - 艾小克, [Jenkins 設定 Email Notification](https://dotblogs.com.tw/chhuang/2013/09/05/116412)
 
 ▶ Teams
 
