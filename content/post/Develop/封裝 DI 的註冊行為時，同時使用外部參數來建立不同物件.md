@@ -279,4 +279,4 @@ public static class DiExtension
 
 ## 延伸閱讀
 
-- [使用 DI 注入時，使用 Request 的參數，建立不同參數的物件]({< ref "使用 DI 注入時，使用 Request 的參數，建立不同參數的物件" >})
+- [使用 DI 注入時，使用 Request 的參數，建立不同參數的物件]({{< ref "使用 DI 注入時，使用 Request 的參數，建立不同參數的物件" >}})

@@ -188,8 +188,8 @@ Server=localhost;Database=Lab;User Id=sa;Password=!QAZxsw23edc;Trusted_Connectio
 
 ▶ 站內文章
 
-- [Docker 操作簡介]({< ref "Docker 操作簡介" >})
-- [使用 dotnet-ef 建立 PostgreSQL 的 DBContext]({< ref "使用 dotnet-ef 建立 PostgreSQL 的 DBContext" >})
+- [Docker 操作簡介]({{< ref "Docker 操作簡介" >}})
+- [使用 dotnet-ef 建立 PostgreSQL 的 DBContext]({{< ref "使用 dotnet-ef 建立 PostgreSQL 的 DBContext" >}})
 
 ▶ 外部文章
 
