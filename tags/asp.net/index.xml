@@ -8,4 +8,14 @@
 &lt;li>機敏資料的傳遞，可以透過 &lt;code>環境變數&lt;/code>、&lt;code>命令列參數&lt;/code>與 &lt;code>mount/volume&lt;/code> 的方式。&lt;/li>
 &lt;li>Docker Image 建立後，可以使用 &lt;code>docker scan&lt;/code> 指令，進行掃描，確認是否有安全性問題。&lt;/li>
 &lt;/ul>
+&lt;/blockquote></description></item><item><title>Docker | 使用 Docker 建置 ASP.NET Webapi 的 Image</title><link>https://eandev.com/post/container/aspnet-webapi-containerized/</link><pubDate>Sun, 26 Feb 2023 06:18:53 +0000</pubDate><guid>https://eandev.com/post/container/aspnet-webapi-containerized/</guid><description>&lt;p>想要使用 Docker 技術將 ASP.NET Web API 應用程式打包成 image 時，需要針對機敏性資料進行特別的處理，以確保這些機密性資料不會外流。&lt;/p>
+&lt;p>在本文中，將簡單介紹 Dockerfile 的建置方式，以及如何提供連線字串給 Container 內的應用程式使用。雖然內文只介紹連線字串的部份，但是憑證的處理方式，也是類似的作法。&lt;/p>
+&lt;blockquote>
+&lt;p>🔖 長話短說 🔖&lt;/p>
+&lt;ul>
+&lt;li>在使用 Docker 封裝應用程式時，有時需要使用一些機敏性資料，需要額外處理，例如連線字串及憑證資料等。&lt;/li>
+&lt;li>Container 的所有設定，都可以透過 &lt;code>docker inspect&lt;/code> 指令查看到，所以傳遞機敏性資料，必須要加密或透過其他方式。&lt;/li>
+&lt;li>機敏資料的傳遞，可以透過 &lt;code>環境變數&lt;/code>、&lt;code>命令列參數&lt;/code>與 &lt;code>mount/volume&lt;/code> 的方式。&lt;/li>
+&lt;li>Docker Image 建立後，可以使用 &lt;code>docker scan&lt;/code> 指令，進行掃描，確認是否有安全性問題。&lt;/li>
+&lt;/ul>
 &lt;/blockquote></description></item></channel></rss>

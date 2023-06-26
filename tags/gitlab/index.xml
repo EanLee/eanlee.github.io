@@ -4,7 +4,30 @@
 &lt;li>Gitlab EE&lt;/li>
 &lt;li>Gitlab Runner ver.1.5.1&lt;/li>
 &lt;li>OS: Ubuntu 20.4&lt;/li>
+&lt;/ul></description></item><item><title>GitLab CI 實作記錄(2) - Gitlab CI 的私有環境建置</title><link>https://eandev.com/post/devops/build-gitlab-on-private-environment/</link><pubDate>Mon, 12 Sep 2022 02:16:34 +0000</pubDate><guid>https://eandev.com/post/devops/build-gitlab-on-private-environment/</guid><description>&lt;p>延續上一篇 &lt;a href="GitLab%20CI%20%E5%AF%A6%E4%BD%9C%E8%A8%98%E9%8C%84(1)%20-%20%E4%BD%BF%E7%94%A8%20Docker%20%E5%9C%A8%E5%90%8C%E5%8F%B0%E4%B8%BB%E6%A9%9F%E9%81%8B%E8%A1%8C%20GitLab%20%E8%88%87%20GitLab-Runner.md">GitLab CI 實作記錄(1) - 使用 Docker 在同台主機運行 GitLab 與 GitLab-Runner&lt;/a> 的結果，接著要開始進行 GitLab CI 的環境架設。&lt;/p>
+&lt;p>架設的環境&lt;/p>
+&lt;ul>
+&lt;li>Gitlab EE&lt;/li>
+&lt;li>Gitlab Runner ver.1.5.1&lt;/li>
+&lt;li>OS: Ubuntu 20.4&lt;/li>
 &lt;/ul></description></item><item><title>GitLab CI 實作記錄(1) - 使用 Docker 在同台主機運行 GitLab 與 GitLab-Runner</title><link>https://eandev.com/post/devops/gitlab-and-runner-on-same-host-using-docker/</link><pubDate>Wed, 31 Aug 2022 15:58:45 +0000</pubDate><guid>https://eandev.com/post/devops/gitlab-and-runner-on-same-host-using-docker/</guid><description>&lt;p>最近因為業務需求，必需在私有環境架設版控平台，並需要 CI/CD 的功能。&lt;/p>
+&lt;p>在朋友的推薦下，開始初次使用 GitLab。因為對 GitLab 的架設與設定還不熟悉，所以先在本機進行 POC 測試。&lt;/p>
+&lt;p>為了減少架設的複雜性，所以選擇使用 GitLab 的 Docker Image 來建立服務。此次使用的軟體版本如下&lt;/p>
+&lt;ul>
+&lt;li>OS: Windows 11&lt;/li>
+&lt;li>GitLab Server: GitLab CE Community 15.0.4-ce.0&lt;/li>
+&lt;li>GitLab Runner ver.1.5.1&lt;/li>
+&lt;/ul>
+&lt;blockquote>
+&lt;p>🔖 長話短說 🔖&lt;/p>
+&lt;p>在同一台機器內，使用 Dokcer 同時架設 GitLab 與 GitLab-Runner 有一些地方要注意。&lt;/p>
+&lt;ul>
+&lt;li>若 GitLab Runner 使用 Docker Executor，需要指定使用的網路。&lt;/li>
+&lt;li>若 GitLab 的 HostName 使用 &lt;code>localhost&lt;/code>，在註冊 GitLab-Runner 時，需特別指定 &lt;code>clone_url&lt;/code>。&lt;/li>
+&lt;li>若 GitLab 若不是使用 80 Port，務必依官方建議作法，可以減少很多麻煩。&lt;/li>
+&lt;li>Docker network 的部份要特別小心，不然 GitLab Runner 可能會連不上 GitLab。&lt;/li>
+&lt;/ul>
+&lt;/blockquote></description></item><item><title>GitLab CI 實作記錄(1) - 使用 Docker 在同台主機運行 GitLab 與 GitLab-Runner</title><link>https://eandev.com/post/devops/gitlab-and-runner-on-same-host-using-docker/</link><pubDate>Wed, 31 Aug 2022 15:58:45 +0000</pubDate><guid>https://eandev.com/post/devops/gitlab-and-runner-on-same-host-using-docker/</guid><description>&lt;p>最近因為業務需求，必需在私有環境架設版控平台，並需要 CI/CD 的功能。&lt;/p>
 &lt;p>在朋友的推薦下，開始初次使用 GitLab。因為對 GitLab 的架設與設定還不熟悉，所以先在本機進行 POC 測試。&lt;/p>
 &lt;p>為了減少架設的複雜性，所以選擇使用 GitLab 的 Docker Image 來建立服務。此次使用的軟體版本如下&lt;/p>
 &lt;ul>
