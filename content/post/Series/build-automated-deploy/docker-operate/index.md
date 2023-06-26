@@ -15,9 +15,9 @@ description: 在順利完成 Docker 的安裝後，接下來就是進一步了�
 lastmod: 2023-01-12T07:22:51.940Z
 ---
 
-> [2019 iT 邦幫忙鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/1906)文章補完計劃，[從零開始建立自動化發佈的流水線]({{< ref "從零開始建立自動化發佈的流水線.md#ontainer" >}}) Container 篇
+> [2019 iT 邦幫忙鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/1906)文章補完計劃，[從零開始建立自動化發佈的流水線]({{< ref "..\build-ci-cd-from-scratch\index.md#ontainer" >}}) Container 篇
 
-在上一篇 [部署新境界 - 使用 Container 簡化流程]({{< ref "Container%20簡介.md" >}}) 中，初步了解 Virtual Machine 與 Container 的差異、Docker 的歷史背景與安裝方式。
+在上一篇 [部署新境界 - 使用 Container 簡化流程]({{< ref "..\container-intro\index.md" >}}) 中，初步了解 Virtual Machine 與 Container 的差異、Docker 的歷史背景與安裝方式。
 
 接下來，讓我們來進一步了解 Docker 相關的指令與操作方式。
 
@@ -343,7 +343,7 @@ volumes:
   logvolume01: {}
 ```
 
-從這個範例中，可以看到 **docker-compose.yml 的內容，是以 [YAML]({{< ref "淺談%20YAML%20格式.md" >}}) 格式撰寫。** 包含 compose file 格式的版本、服務內的 container 設定，以及執行環境的設制。
+從這個範例中，可以看到 **docker-compose.yml 的內容，是以 [YAML]({{< ref "..\yaml\index.md" >}}) 格式撰寫。** 包含 compose file 格式的版本、服務內的 container 設定，以及執行環境的設制。
 
 關於 compose file 內的指令語法，還有許多未能說明的。真的有需求或興趣，可以直接到 Docker 的文件庫內查看。
 

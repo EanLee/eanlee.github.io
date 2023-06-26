@@ -43,19 +43,19 @@ toc: false
 
 ### 版控篇
 
-- [程式碼版控 - 觀念與 Git 簡述]({{< ref "程式碼版控%20-%20觀念與%20Git%20簡述.md" >}})
-- [程式碼托管平台 - GitHub/BitBucket/Azure DevOps]({{< ref "程式碼托管平台.md" >}})
+- [程式碼版控 - 觀念與 Git 簡述]({{< ref "..\version_control\index.md" >}})
+- [程式碼托管平台 - GitHub/BitBucket/Azure DevOps]({{< ref "..\git-remote-repositories\index.md" >}})
 
 ### 持續整合
 
-- [踏入 CI/CD 的世界 - 觀念篇]({{< ref "CICD%20觀念篇.md" >}})
-- [使用 Travis CI/GitHub Action 進行持續整合]({{< ref "進行持續整合%20-%20TravisCI%20&%20GitHub%20Action.md" >}})
+- [踏入 CI/CD 的世界 - 觀念篇]({{< ref "..\cicd_concept\index.md" >}})
+- [使用 Travis CI/GitHub Action 進行持續整合]({{< ref "..\github-action-travis-ci\index.md" >}})
   介紹使用 Travis CI 與 GitHub 內建的 GitHub Action 的設定方式。
   
-- [使用 Jenkins/Azure Pipeline 進行持續整合]({{< ref "進行持續整合%20-%20Jenkins%20&%20Azure%20Pipeline.md" >}})
+- [使用 Jenkins/Azure Pipeline 進行持續整合]({{< ref "..\ci-azure-pipeline-and-jenkins\index.md" >}})
   介紹使用 Azure DevOps 內的 Azure Pipeline，以及使用 Azure VM 去建立 Jenkins。在 Azure VM 的部份，會簡單介紹雲端運算的概念(Cloud Compute)。
   
-- [使用 CI 進行自動化測試]({{< ref "使用%20CI%20進行自動化測試.md" >}})
+- [使用 CI 進行自動化測試]({{< ref "..\integration-ci-and-unit-test\index.md" >}})
 
 ### 訊息通知
 
@@ -64,25 +64,25 @@ toc: false
 
 ### 持續發佈
 
-- [使用 Travis CI / Azure PipeLines 發佈 Artifact 到 Dropbox]({{< ref "使用%20Travis%20CI%20&%20Azure%20PipeLines%20發佈%20Artifact%20到%20Dropbox.md" >}})
+- [使用 Travis CI / Azure PipeLines 發佈 Artifact 到 Dropbox]({{< ref "..\cd-dropbox\index.md" >}})
   在 Dropbox 開啟存取權限，並使用 Travis CI 與 Azure PipeLine 將軟體打包上傳到 Dropbox。
 
 - 使用 Travis CI / Azure PipeLines 發佈 WebAPI 到 Azure App Service
 
 ### Container
 
-- [部署新境界 - 使用 Container 簡化流程]({{< ref "Container%20簡介.md" >}})
+- [部署新境界 - 使用 Container 簡化流程]({{< ref "..\container-intro\index.md" >}})
   介紹 Container 與 VM 的差異，以及 Docker for Windows 的安裝方式。
   
-- [Docker 操作簡介 - command / dockerfile / docker-compose]({{< ref "Docker%20操作簡介.md" >}})
+- [Docker 操作簡介 - command / dockerfile / docker-compose]({{< ref "..\docker-operate\index.md" >}})
   介紹 Docker 常用的指令，並簡單介紹 Dockerfile 與 Docker Compose 的用法。
 
-- [使用 Container 建立 CI 所需要的建置環境]({{< ref "使用%20Container%20建立%20CI%20所需要的建置環境.md" >}})
+- [使用 Container 建立 CI 所需要的建置環境]({{< ref "..\container-build-execution-environment-required-ci\index.md" >}})
   介紹 Travis CI、Azure DevOps、Jenkins 如何配合 docker 的概念，使用 container 進行 CI 動作。
 
-- [使用 Azure Pipelines / Jenkins 來建立 Docker image]({{< ref "使用%20Azure%20Pipelines%20&%20Jenkins%20建置%20Docker%20image.md" >}})
+- [使用 Azure Pipelines / Jenkins 來建立 Docker image]({{< ref "..\build-docker-image\index.md" >}})
   簡介使用 Azure Devops、Jenkins 去建立 Docker image 的作法。
 
 ### 額外補充
 
-- [淺談 YAML 格式]({{< ref "淺談%20YAML%20格式.md" >}})
+- [淺談 YAML 格式]({{< ref "..\yaml\index.md" >}})

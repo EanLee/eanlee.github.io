@@ -39,7 +39,7 @@ draft: false
 
 ## Dockerfile 簡介
 
-雖然在 [Docker 操作簡介]({{< ref "Docker%20操作簡介.md" >}}) 已經有提過，不過還是簡單回顧一下。
+雖然在 [Docker 操作簡介]({{< ref "..\..\Series\build-automated-deploy\docker-operate\index.md" >}}) 已經有提過，不過還是簡單回顧一下。
 
 ### Single-Stage Build
 
@@ -351,7 +351,7 @@ $ docker run -it -v lab-volume:/data alpine
 
 ### 為何 Webapi Container 無法連線本機另一個 Container 的資料庫？
 
-原因如同 [GitLab CI 實作記錄(1) - 使用 Docker 在同台主機運行 GitLab 與 GitLab-Runner]({{< ref "GitLab CI 實作記錄(1) - 使用 Docker 在同台主機運行 GitLab 與 GitLab-Runner" >}}) 中提到的 Docker Network 的觀念問題。
+原因如同 [GitLab CI 實作記錄(1) - 使用 Docker 在同台主機運行 GitLab 與 GitLab-Runner](GitLab CI 實作記錄(1) - 使用 Docker 在同台主機運行 GitLab 與 GitLab-Runner.md) 中提到的 Docker Network 的觀念問題。
 
 在同一台主機上，啟動 Container 卻不指定 Network 的情況下，會使用名為 `bridge` 的預設 Network。
 
@@ -403,10 +403,10 @@ docker run -d --name -e host={db_container_name} -e database=demo -e user_id=tes
 
 ▶ 站內文章
 
-- [Docker 操作簡介]({{< ref "Docker%20操作簡介.md" >}})
-- [使用 dotnet-ef 建立 PostgreSQL 的 DBContext]({{< ref "使用%20dotnet-ef%20建立%20PostgreSQL%20的%20DBContext.md" >}})
-- [使用 dotnet-ef 建立 SQL Server on Docker 的 DBContext]({{< ref "使用%20dotnet-ef%20建立%20SQL%20Server%20on%20Docker%20的%20DBContext.md" >}})
-- [建立 PostgreSQL 的 container 時，同時完成資料庫的初始化]({{< ref "建立%20PostgreSQL%20的%20container%20時，同時完成資料庫的初始化.md" >}})
+- [Docker 操作簡介]({{< ref "..\..\Series\build-automated-deploy\docker-operate\index.md" >}})
+- [使用 dotnet-ef 建立 PostgreSQL 的 DBContext]({{< ref "..\..\Develop\dotnet-ef-postgresql-dbcontext\index.md" >}})
+- [使用 dotnet-ef 建立 SQL Server on Docker 的 DBContext]({{< ref "..\..\Develop\dotnet-ef-sqlserver\index.md" >}})
+- [建立 PostgreSQL 的 container 時，同時完成資料庫的初始化]({{< ref "..\docker-postgresql-initialization-scripts\index.md" >}})
 
 ▶ 站外文章
 

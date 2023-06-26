@@ -171,7 +171,7 @@ public class UserController : ControllerBase
 
 在完成 Webapi 與 Service 的調整後，最重要的地方，就是如何讓 [Microsoft.Extensions.DependencyInjection](https://github.com/aspnet/DependencyInjection) 注入 `userId` 的參數資訊。
 
-在 [使用 DI 注入時，使用 Request 的參數，建立不同參數的物件]({{< ref "使用%20DI%20注入時，使用%20Request%20的參數，建立不同參數的物件.md" >}}) 這篇文章，提到可以使用 `HttpContextAccessor`，但當初是直接在 ASP.NET Core 內的 `Program.cs` 內，直接調用 ServiceProvider 取得 `IHttpContextAccessor`。
+在 [使用 DI 注入時，使用 Request 的參數，建立不同參數的物件]({{< ref "..\di-service-provider-httpcontextaccessor\index.md" >}}) 這篇文章，提到可以使用 `HttpContextAccessor`，但當初是直接在 ASP.NET Core 內的 `Program.cs` 內，直接調用 ServiceProvider 取得 `IHttpContextAccessor`。
 
 不過，這在這邊，我們已經把 Service 的 DI 設定，移到 Business.dll 的 DIExtension 中。那需要如何把所需的 `userId` 傳入呢？
 
@@ -279,4 +279,4 @@ public static class DiExtension
 
 ## 延伸閱讀
 
-- [使用 DI 注入時，使用 Request 的參數，建立不同參數的物件]({{< ref "使用 DI 注入時，使用 Request 的參數，建立不同參數的物件" >}})
+- [使用 DI 注入時，使用 Request 的參數，建立不同參數的物件]({{< ref "..\di-service-provider-httpcontextaccessor\index.md" >}})

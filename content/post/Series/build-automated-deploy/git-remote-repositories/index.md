@@ -19,9 +19,9 @@ slug: git-remote-repositories
 lastmod: 2023-01-13T01:20:43.020Z
 ---
 
-> [2019 iT 邦幫忙鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/1906)文章補完計劃，[從零開始建立自動化發佈的流水線]({{< ref "從零開始建立自動化發佈的流水線.md#版控篇" >}}) 版控篇
+> [2019 iT 邦幫忙鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/1906)文章補完計劃，[從零開始建立自動化發佈的流水線]({{< ref "..\build-ci-cd-from-scratch\index.md#版控篇" >}}) 版控篇
 
-在[程式碼版控 - 觀念與 Git 簡述]({{< ref "程式碼版控%20-%20觀念與%20Git%20簡述.md" >}})介紹了版控的概念與 Git 的操作方式。接著，就必須找一個 Remote Repositories 來進行程式碼的托管，達到異地備份的效果。
+在[程式碼版控 - 觀念與 Git 簡述]({{< ref "..\version_control\index.md" >}})介紹了版控的概念與 Git 的操作方式。接著，就必須找一個 Remote Repositories 來進行程式碼的托管，達到異地備份的效果。
 
 本篇文章的內容，會針對 `GitHub`、`BitBucket`、`Azure DevOps` 內的 `Azure Repos` 三個托管平台進行介紹。
 
