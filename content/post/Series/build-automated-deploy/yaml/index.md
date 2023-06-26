@@ -10,7 +10,7 @@ categories:
 slug: yaml
 ---
 
-> [2019 iT 邦幫忙鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/1906)文章補完計劃，[從零開始建立自動化發佈的流水線]({{< ref "..\build-ci-cd-from-scratch\index.md#額外補充" >}}) 額外補充
+> [2019 iT 邦幫忙鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/1906)文章補完計劃，[從零開始建立自動化發佈的流水線]({{< ref "../build-ci-cd-from-scratch/index.md#額外補充" >}}) 額外補充
 
 當在進行 CI/CD 工具的 pipelines 或軟體組態設定時，可能都有機會看到 YAML 格式撰寫的設定檔。下面簡單的聊聊 YAML 撰寫規則。
 

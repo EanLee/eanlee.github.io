@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>DevOps on 伊恩的開發狂想</title><link>https://eandev.com/categories/devops/</link><description>Recent content in DevOps on 伊恩的開發狂想</description><generator>Hugo -- gohugo.io</generator><language>zh-tw</language><lastBuildDate>Thu, 23 Mar 2023 07:23:19 +0000</lastBuildDate><atom:link href="https://eandev.com/categories/devops/index.xml" rel="self" type="application/rss+xml"/><item><title>NLog | 奇淫怪招 | 在不異動程式本體的前提下，手動讓 NLog post log 到 Loki</title><link>https://eandev.com/post/devops/manual-adjuest-nlog-post-to-loki/</link><pubDate>Thu, 23 Mar 2023 07:23:19 +0000</pubDate><guid>https://eandev.com/post/devops/manual-adjuest-nlog-post-to-loki/</guid><description>&lt;p>想要收集現有的服務 Log 資料到 Grafana Loki 之中。而該服務使用 .NET Core 撰寫，並使用 NLog 套件輸出 Log 資料到檔案之中。&lt;/p>
+&lt;p>基於好奇，研究了一下，在沒有服務的 Source Code, 也未使用 Fluent-Bit / Promtail 的前提下，能否借由調整 &lt;code>NLog.config&lt;/code> 的設定，直接讓 NLog 把 Log 打到 Loki 之中？&lt;/p>
+&lt;p>結論可以。但不能只調整 &lt;code>NLog.config&lt;/code>，還需要一併調整其他的部份。若是可以在專案中使用 &lt;code>NLog.Targets.Loki&lt;/code> 的話，請不要自找麻煩。&lt;/p>
+&lt;blockquote>
+&lt;p>🔖 長話短說 🔖&lt;/p>
+&lt;p>若要手動調整，讓 NLog.config 可以直接 POST Log 到 Loki，步驟如下&lt;/p>
+&lt;ul>
+&lt;li>Copy &lt;code>NLog.Loki.dll&lt;/code> 到目標位置&lt;/li>
+&lt;li>調整 &lt;code>NLog.config&lt;/code>，設定 POST Log 到 Loki 的規則。&lt;/li>
+&lt;li>調整 Application.deps.json，讓 Application 知道依賴套件。&lt;/li>
+&lt;/ul>
+&lt;/blockquote></description></item><item><title>使用 Travis CI / Azure PipeLines 發佈 Artifact 到 Dropbox</title><link>https://eandev.com/post/series/build-automated-deploy/cd-dropbox/</link><pubDate>Wed, 18 Jan 2023 06:16:37 +0000</pubDate><guid>https://eandev.com/post/series/build-automated-deploy/cd-dropbox/</guid><description>&lt;blockquote>
+&lt;p>&lt;a href="https://ithelp.ithome.com.tw/users/20107551/ironman/1906">2019 iT 邦幫忙鐵人賽&lt;/a>文章補完計劃，&lt;a href="https://eandev.com/post/series/build-automated-deploy/build-ci-cd-from-scratch/#持續發佈">從零開始建立自動化發佈的流水線&lt;/a> 持續發佈篇&lt;/p>
+&lt;/blockquote>
+&lt;p>在前面 &lt;a href="https://eandev.com/post/series/build-automated-deploy/build-ci-cd-from-scratch/#持續整合">持續整合(Continuous Integration, CI)&lt;/a> 的文章，初步介紹概念與 Travis CI / Azure Pipeline 的設定方式後，接著要來嘗試&lt;code>持續部署 (Continuous Deployment, CD)&lt;/code>/&lt;code>持續交付 (Continuous Delivery, CD)&lt;/code> 的實作。&lt;/p>
+&lt;p>在這一篇，將試著透過 Travis CI 與 Azure Pipeline 兩種工具，將程式進行自動化測試、建置、並將其建置出來 Artifact 放置於 Dropbx。&lt;/p></description></item><item><title>使用 Jenkins/Azure Pipeline 進行持續整合</title><link>https://eandev.com/post/series/build-automated-deploy/ci-azure-pipeline-and-jenkins/</link><pubDate>Sun, 15 Jan 2023 16:08:36 +0000</pubDate><guid>https://eandev.com/post/series/build-automated-deploy/ci-azure-pipeline-and-jenkins/</guid><description>&lt;blockquote>
+&lt;p>&lt;a href="https://ithelp.ithome.com.tw/users/20107551/ironman/1906">2019 iT 邦幫忙鐵人賽&lt;/a>文章補完計劃，&lt;a href="https://eandev.com/post/series/build-automated-deploy/build-ci-cd-from-scratch/#持續整合">從零開始建立自動化發佈的流水線&lt;/a>合篇&lt;/p>
+&lt;/blockquote>
+&lt;p>上一篇 &lt;a href="https://eandev.com/post/series/build-automated-deploy/github-action-travis-ci/">使用 Travis CI/GitHub Action 進行持續整合&lt;/a> 已經介紹 Travis CI 與 GitHub Actions。&lt;/p>
+&lt;p>接著，來介紹 Azure Pipelines，以及如何把 Jenkins 架設在 Azure 的虛構機器上。&lt;/p></description></item><item><title>使用 Travis CI/GitHub Action 進行持續整合</title><link>https://eandev.com/post/series/build-automated-deploy/github-action-travis-ci/</link><pubDate>Sun, 15 Jan 2023 13:53:33 +0000</pubDate><guid>https://eandev.com/post/series/build-automated-deploy/github-action-travis-ci/</guid><description>&lt;blockquote>
+&lt;p>&lt;a href="https://ithelp.ithome.com.tw/users/20107551/ironman/1906">2019 iT 邦幫忙鐵人賽&lt;/a>文章補完計劃，&lt;a href="https://eandev.com/post/series/build-automated-deploy/build-ci-cd-from-scratch/#持續整合">從零開始建立自動化發佈的流水線&lt;/a>合篇&lt;/p>
+&lt;/blockquote>
+&lt;p>在上一篇 &lt;a href="https://eandev.com/post/series/build-automated-deploy/cicd_concept/">踏入 CI/CD 的世界 - 觀念篇&lt;/a> 介紹 CI/CD 的觀念後，接著來介紹如何使用 Travis CI 與 GitHub Actions 進行持續整合(Continuous integration, CI)。&lt;/p></description></item><item><title>程式碼托管平台 - GitHub/BitBucket/Azure DevOps</title><link>https://eandev.com/post/series/build-automated-deploy/git-remote-repositories/</link><pubDate>Thu, 12 Jan 2023 02:10:37 +0000</pubDate><guid>https://eandev.com/post/series/build-automated-deploy/git-remote-repositories/</guid><description>&lt;blockquote>
+&lt;p>&lt;a href="https://ithelp.ithome.com.tw/users/20107551/ironman/1906">2019 iT 邦幫忙鐵人賽&lt;/a>文章補完計劃，&lt;a href="https://eandev.com/post/series/build-automated-deploy/build-ci-cd-from-scratch/#版控篇">從零開始建立自動化發佈的流水線&lt;/a> 版控篇&lt;/p>
+&lt;/blockquote>
+&lt;p>在&lt;a href="https://eandev.com/post/series/build-automated-deploy/version_control/">程式碼版控 - 觀念與 Git 簡述&lt;/a>介紹了版控的概念與 Git 的操作方式。接著，就必須找一個 Remote Repositories 來進行程式碼的托管，達到異地備份的效果。&lt;/p>
+&lt;p>本篇文章的內容，會針對 &lt;code>GitHub&lt;/code>、&lt;code>BitBucket&lt;/code>、&lt;code>Azure DevOps&lt;/code> 內的 &lt;code>Azure Repos&lt;/code> 三個托管平台進行介紹。&lt;/p></description></item><item><title>使用 CI 進行自動化測試</title><link>https://eandev.com/post/series/build-automated-deploy/integration-ci-and-unit-test/</link><pubDate>Wed, 11 Jan 2023 16:27:42 +0000</pubDate><guid>https://eandev.com/post/series/build-automated-deploy/integration-ci-and-unit-test/</guid><description>&lt;blockquote>
+&lt;p>&lt;a href="https://ithelp.ithome.com.tw/users/20107551/ironman/1906">2019 iT 邦幫忙鐵人賽&lt;/a>文章補完計劃，&lt;a href="https://eandev.com/post/series/build-automated-deploy/build-ci-cd-from-scratch/">從零開始建立自動化發佈的流水線&lt;/a> 持續整合篇&lt;/p>
+&lt;/blockquote>
+&lt;p>想達成持續整合(Continuous Integration, CI)的目標，只有單純進行版本控制與建置，就太可惜了。CI 可視為是自動化管控軟體品質的第一道防線，在這個階段，可以整合自動化測試、程式碼掃描分析、資安掃描等動作。&lt;/p>
+&lt;p>接著，在本篇文章內章，會淺講單元測試的概念，並試著把單元測試與 CI 整合起來。&lt;/p></description></item><item><title>使用 Azure Pipelines / Jenkins 建置 Docker image</title><link>https://eandev.com/post/series/build-automated-deploy/build-docker-image/</link><pubDate>Wed, 11 Jan 2023 07:01:17 +0000</pubDate><guid>https://eandev.com/post/series/build-automated-deploy/build-docker-image/</guid><description>&lt;blockquote>
+&lt;p>&lt;a href="https://ithelp.ithome.com.tw/users/20107551/ironman/1906">2019 iT 邦幫忙鐵人賽&lt;/a>文章補完計劃，&lt;a href="https://eandev.com/post/series/build-automated-deploy/build-ci-cd-from-scratch/#container">從零開始建立自動化發佈的流水線&lt;/a>tainer 篇&lt;/p>
+&lt;/blockquote>
+&lt;p>在上一篇 &lt;a href="https://eandev.com/post/series/build-automated-deploy/container-build-execution-environment-required-ci/">使用 Container 建立 CI 所需要的建置環境&lt;/a> 中，初步了解如何在 Travis CI、Azure DevOps、Jenkins 中，使用 Docker 來建立 CI 運行 Build、Test 所需的環境。&lt;/p>
+&lt;p>接著，試著運用 Azure DevOps、Jenkins 來建立 Docker image 的 Artifact。&lt;/p></description></item><item><title>使用 Container 建立 CI 所需要的建置環境</title><link>https://eandev.com/post/series/build-automated-deploy/container-build-execution-environment-required-ci/</link><pubDate>Tue, 10 Jan 2023 16:15:41 +0000</pubDate><guid>https://eandev.com/post/series/build-automated-deploy/container-build-execution-environment-required-ci/</guid><description>&lt;blockquote>
+&lt;p>&lt;a href="https://ithelp.ithome.com.tw/users/20107551/ironman/1906">2019 iT 邦幫忙鐵人賽&lt;/a> 文章補完計劃，&lt;a href="https://eandev.com/post/series/build-automated-deploy/build-ci-cd-from-scratch/#container">從零開始建立自動化發佈的流水線&lt;/a> Container 篇&lt;/p>
+&lt;/blockquote>
+&lt;p>在 &lt;a href="https://eandev.com/post/series/build-automated-deploy/docker-operate/">Docker 操作簡介&lt;/a> 中，初步了解 Docker、dockerfile、docker-compose 的操作方法。&lt;/p>
+&lt;p>接下來，要與 CI Server 搭配使用，讓 CI Server 可以依據設定檔，使用 docker 的方式，建置出執行 CI 所需要的環境。&lt;/p></description></item><item><title>GitLab CI 實作記錄(2) - Gitlab CI 的私有環境建置</title><link>https://eandev.com/post/devops/build-gitlab-on-private-environment/</link><pubDate>Mon, 12 Sep 2022 02:16:34 +0000</pubDate><guid>https://eandev.com/post/devops/build-gitlab-on-private-environment/</guid><description>&lt;p>延續上一篇 &lt;a href="GitLab%20CI%20%E5%AF%A6%E4%BD%9C%E8%A8%98%E9%8C%84(1)%20-%20%E4%BD%BF%E7%94%A8%20Docker%20%E5%9C%A8%E5%90%8C%E5%8F%B0%E4%B8%BB%E6%A9%9F%E9%81%8B%E8%A1%8C%20GitLab%20%E8%88%87%20GitLab-Runner.md">GitLab CI 實作記錄(1) - 使用 Docker 在同台主機運行 GitLab 與 GitLab-Runner&lt;/a> 的結果，接著要開始進行 GitLab CI 的環境架設。&lt;/p>
+&lt;p>架設的環境&lt;/p>
+&lt;ul>
+&lt;li>Gitlab EE&lt;/li>
+&lt;li>Gitlab Runner ver.1.5.1&lt;/li>
+&lt;li>OS: Ubuntu 20.4&lt;/li>
+&lt;/ul></description></item><item><title>GitLab CI 實作記錄(1) - 使用 Docker 在同台主機運行 GitLab 與 GitLab-Runner</title><link>https://eandev.com/post/devops/gitlab-and-runner-on-same-host-using-docker/</link><pubDate>Wed, 31 Aug 2022 15:58:45 +0000</pubDate><guid>https://eandev.com/post/devops/gitlab-and-runner-on-same-host-using-docker/</guid><description>&lt;p>最近因為業務需求，必需在私有環境架設版控平台，並需要 CI/CD 的功能。&lt;/p>
+&lt;p>在朋友的推薦下，開始初次使用 GitLab。因為對 GitLab 的架設與設定還不熟悉，所以先在本機進行 POC 測試。&lt;/p>
+&lt;p>為了減少架設的複雜性，所以選擇使用 GitLab 的 Docker Image 來建立服務。此次使用的軟體版本如下&lt;/p>
+&lt;ul>
+&lt;li>OS: Windows 11&lt;/li>
+&lt;li>GitLab Server: GitLab CE Community 15.0.4-ce.0&lt;/li>
+&lt;li>GitLab Runner ver.1.5.1&lt;/li>
+&lt;/ul>
+&lt;blockquote>
+&lt;p>🔖 長話短說 🔖&lt;/p>
+&lt;p>在同一台機器內，使用 Dokcer 同時架設 GitLab 與 GitLab-Runner 有一些地方要注意。&lt;/p>
+&lt;ul>
+&lt;li>若 GitLab Runner 使用 Docker Executor，需要指定使用的網路。&lt;/li>
+&lt;li>若 GitLab 的 HostName 使用 &lt;code>localhost&lt;/code>，在註冊 GitLab-Runner 時，需特別指定 &lt;code>clone_url&lt;/code>。&lt;/li>
+&lt;li>若 GitLab 若不是使用 80 Port，務必依官方建議作法，可以減少很多麻煩。&lt;/li>
+&lt;li>Docker network 的部份要特別小心，不然 GitLab Runner 可能會連不上 GitLab。&lt;/li>
+&lt;/ul>
+&lt;/blockquote></description></item><item><title>淺談 YAML 格式</title><link>https://eandev.com/post/series/build-automated-deploy/yaml/</link><pubDate>Fri, 29 Jul 2022 06:12:44 +0000</pubDate><guid>https://eandev.com/post/series/build-automated-deploy/yaml/</guid><description>&lt;blockquote>
+&lt;p>&lt;a href="https://ithelp.ithome.com.tw/users/20107551/ironman/1906">2019 iT 邦幫忙鐵人賽&lt;/a>文章補完計劃，&lt;a href="https://eandev.com/post/series/build-automated-deploy/build-ci-cd-from-scratch/#額外補充">從零開始建立自動化發佈的流水線&lt;/a> 額外補充&lt;/p>
+&lt;/blockquote>
+&lt;p>當在進行 CI/CD 工具的 pipelines 或軟體組態設定時，可能都有機會看到 YAML 格式撰寫的設定檔。下面簡單的聊聊 YAML 撰寫規則。&lt;/p></description></item><item><title>踏入 CI/CD 的世界 - 觀念篇</title><link>https://eandev.com/post/series/build-automated-deploy/cicd_concept/</link><pubDate>Wed, 22 Jun 2022 16:00:19 +0000</pubDate><guid>https://eandev.com/post/series/build-automated-deploy/cicd_concept/</guid><description>&lt;blockquote>
+&lt;p>&lt;a href="https://ithelp.ithome.com.tw/users/20107551/ironman/1906">2019 iT 邦幫忙鐵人賽&lt;/a>文章補完計劃，&lt;a href="https://eandev.com/post/series/build-automated-deploy/build-ci-cd-from-scratch/#持續整合">從零開始建立自動化發佈的流水線&lt;/a>合篇&lt;/p>
+&lt;/blockquote>
+&lt;p>當程式碼已經進入版控系統後，就會想要有個服務可以自動去建置、驗證 source code 的完整性與安全性，最好還可以自行部屬。而 CI/CD 就是為了滿足這個希望，而誕生出來的機制。&lt;/p></description></item></channel></rss>

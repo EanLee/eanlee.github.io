@@ -16,9 +16,9 @@ tags:
 slug: ci-azure-pipeline-and-jenkins
 ---
 
-> [2019 iT 邦幫忙鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/1906)文章補完計劃，[從零開始建立自動化發佈的流水線]({{< ref "..\build-ci-cd-from-scratch\index.md#持續整合" >}})合篇
+> [2019 iT 邦幫忙鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/1906)文章補完計劃，[從零開始建立自動化發佈的流水線]({{< ref "../build-ci-cd-from-scratch/index.md#持續整合" >}})合篇
 
-上一篇 [使用 Travis CI/GitHub Action 進行持續整合]({{< ref "..\github-action-travis-ci\index.md" >}}) 已經介紹 Travis CI 與 GitHub Actions。
+上一篇 [使用 Travis CI/GitHub Action 進行持續整合]({{< ref "../github-action-travis-ci/index.md" >}}) 已經介紹 Travis CI 與 GitHub Actions。
 
 接著，來介紹 Azure Pipelines，以及如何把 Jenkins 架設在 Azure 的虛構機器上。
 
@@ -342,7 +342,7 @@ Eric: 接下來，我們來聊聊 YAML 這個標註語言。
 
 > 📝 資訊補充 📝
 >
-> YAML 標註語言的說明，請見 [淺談 YAML 格式]({{< ref "..\yaml\index.md" >}})
+> YAML 標註語言的說明，請見 [淺談 YAML 格式]({{< ref "../yaml/index.md" >}})
 
 ## 延伸閱讀
 

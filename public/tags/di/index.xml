@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>DI on 伊恩的開發狂想</title><link>https://eandev.com/tags/di/</link><description>Recent content in DI on 伊恩的開發狂想</description><generator>Hugo -- gohugo.io</generator><language>zh-tw</language><lastBuildDate>Wed, 14 Jun 2023 04:56:50 +0000</lastBuildDate><atom:link href="https://eandev.com/tags/di/index.xml" rel="self" type="application/rss+xml"/><item><title>ASP.NET Core | 封裝 DI 的註冊行為時，同時使用外部參數來建立不同物件</title><link>https://eandev.com/post/develop/di-encapsulate-service-and-use-external-parameters/</link><pubDate>Wed, 14 Jun 2023 04:56:50 +0000</pubDate><guid>https://eandev.com/post/develop/di-encapsulate-service-and-use-external-parameters/</guid><description>&lt;p>當發現一個 .NET Core 的類別，其所有方法均需要相同的參數資料，這時，我們就會想到從 DI 下手，在建立物件時，一併把參數傳入。這樣就不需要在調用方式時，還要重複的傳入參數。&lt;/p>
+&lt;p>為了隱藏服務的實現細節，將 DI 的服務註冊行為加以封裝，但又需要 WebApi 的 HttpContext 內的參數，建立對應的物件。&lt;/p>
+&lt;p>在這篇文章紀錄了直接使用 IHttpContextAccessor 和封裝 DI 所需的參數，兩筆不同的作法。筆者個人推薦後者的作法。&lt;/p>
+&lt;blockquote>
+&lt;p>🔖 長話短說 🔖&lt;/p>
+&lt;ul>
+&lt;li>若將 DI 的註冊行為封裝，但又需要傳入外部參數時，可使用 &lt;code>interface&lt;/code> ，在取得參數資料的同時，隔離實作的細節。&lt;/li>
+&lt;li>若 &lt;code>IHttpContextAccessor&lt;/code> 未定義是，需要引用 &lt;code>Microsoft.AspNetCore.Http&lt;/code> Nuget 套件。&lt;/li>
+&lt;/ul>
+&lt;/blockquote></description></item><item><title>ASP.NET Core | 使用 DI 注入時，使用 Request 的參數，建立不同參數的物件</title><link>https://eandev.com/post/develop/di-service-provider-httpcontextaccessor/</link><pubDate>Sun, 19 Feb 2023 03:19:21 +0000</pubDate><guid>https://eandev.com/post/develop/di-service-provider-httpcontextaccessor/</guid><description>&lt;blockquote>
+&lt;p>🔖 長話短說 🔖&lt;/p>
+&lt;ul>
+&lt;li>使用 .NET 內建的 &lt;a href="https://github.com/aspnet/DependencyInjection">Microsoft.Extensions.DependencyInjection&lt;/a> 時，若想要額外設定加初始動作，可使用 &lt;code>IServiceProvider&lt;/code> 或 &lt;code>IServiceProviderFactory&lt;/code>&lt;/li>
+&lt;li>若想在 Middleware pipeline 之外的地方取得 &lt;code>HttpContext&lt;/code>，可使用 &lt;code>HttpContextAccessor&lt;/code>。&lt;/li>
+&lt;li>可使用 &lt;code>IServiceProvider.GetService&amp;lt;IHttpContextAccessor&amp;gt;()&lt;/code> 取得 HttpContextAccessor。&lt;/li>
+&lt;li>在 DI 設定物件的生命週期時，運用 Lambda 方法，配合 &lt;code>IServiceProvider&lt;/code> 參數，來調整建立物件的細部設定。&lt;/li>
+&lt;/ul>
+&lt;/blockquote></description></item></channel></rss>

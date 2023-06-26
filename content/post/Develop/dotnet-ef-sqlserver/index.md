@@ -16,7 +16,7 @@ draft: false
 slug: dotnet-ef-sqlserver
 ---
 
-在 [使用 dotnet-ef 建立 PostgreSQL 的 DBContext]({{< ref "..\dotnet-ef-postgresql-dbcontext\index.md" >}}) 之後，也嘗試從 SQL Server on Docker 建立 DBContext，就順手把過程中遇到的小問題記錄下來。
+在 [使用 dotnet-ef 建立 PostgreSQL 的 DBContext]({{< ref "../dotnet-ef-postgresql-dbcontext/index.md" >}}) 之後，也嘗試從 SQL Server on Docker 建立 DBContext，就順手把過程中遇到的小問題記錄下來。
 
 > 🔖 長話短說 🔖
 >
@@ -188,8 +188,8 @@ Server=localhost;Database=Lab;User Id=sa;Password=!QAZxsw23edc;Trusted_Connectio
 
 ▶ 站內文章
 
-- [Docker 操作簡介]({{< ref "..\..\Series\build-automated-deploy\docker-operate\index.md" >}})
-- [使用 dotnet-ef 建立 PostgreSQL 的 DBContext]({{< ref "..\dotnet-ef-postgresql-dbcontext\index.md" >}})
+- [Docker 操作簡介]({{< ref "../../Series/build-automated-deploy/docker-operate/index.md" >}})
+- [使用 dotnet-ef 建立 PostgreSQL 的 DBContext]({{< ref "../dotnet-ef-postgresql-dbcontext/index.md" >}})
 
 ▶ 外部文章
 

@@ -39,7 +39,7 @@ draft: false
 
 ## Dockerfile 簡介
 
-雖然在 [Docker 操作簡介]({{< ref "..\..\Series\build-automated-deploy\docker-operate\index.md" >}}) 已經有提過，不過還是簡單回顧一下。
+雖然在 [Docker 操作簡介]({{< ref "../../Series/build-automated-deploy/docker-operate/index.md" >}}) 已經有提過，不過還是簡單回顧一下。
 
 ### Single-Stage Build
 
@@ -403,10 +403,10 @@ docker run -d --name -e host={db_container_name} -e database=demo -e user_id=tes
 
 ▶ 站內文章
 
-- [Docker 操作簡介]({{< ref "..\..\Series\build-automated-deploy\docker-operate\index.md" >}})
-- [使用 dotnet-ef 建立 PostgreSQL 的 DBContext]({{< ref "..\..\Develop\dotnet-ef-postgresql-dbcontext\index.md" >}})
-- [使用 dotnet-ef 建立 SQL Server on Docker 的 DBContext]({{< ref "..\..\Develop\dotnet-ef-sqlserver\index.md" >}})
-- [建立 PostgreSQL 的 container 時，同時完成資料庫的初始化]({{< ref "..\docker-postgresql-initialization-scripts\index.md" >}})
+- [Docker 操作簡介]({{< ref "../../Series/build-automated-deploy/docker-operate/index.md" >}})
+- [使用 dotnet-ef 建立 PostgreSQL 的 DBContext]({{< ref "../../Develop/dotnet-ef-postgresql-dbcontext/index.md" >}})
+- [使用 dotnet-ef 建立 SQL Server on Docker 的 DBContext]({{< ref "../../Develop/dotnet-ef-sqlserver/index.md" >}})
+- [建立 PostgreSQL 的 container 時，同時完成資料庫的初始化]({{< ref "../docker-postgresql-initialization-scripts/index.md" >}})
 
 ▶ 站外文章
 

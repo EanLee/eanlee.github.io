@@ -107,4 +107,4 @@ slug: what-does-load-testing-do
 ## 延伸閱讀
 
 1. [Introduction (k6.io)](https://k6.io/docs/test-types/introduction/)
-2. [淺談負載測試/壓力測試/效能測試報告]({{< ref "..\talking-testing-report\index.md" >}})
+2. [淺談負載測試/壓力測試/效能測試報告]({{< ref "../talking-testing-report/index.md" >}})

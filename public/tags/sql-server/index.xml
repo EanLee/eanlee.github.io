@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>SQL Server on 伊恩的開發狂想</title><link>https://eandev.com/tags/sql-server/</link><description>Recent content in SQL Server on 伊恩的開發狂想</description><generator>Hugo -- gohugo.io</generator><language>zh-tw</language><lastBuildDate>Tue, 14 Feb 2023 10:12:33 +0000</lastBuildDate><atom:link href="https://eandev.com/tags/sql-server/index.xml" rel="self" type="application/rss+xml"/><item><title>使用 dotnet-ef 建立 SQL Server on Docker 的 DBContext</title><link>https://eandev.com/post/develop/dotnet-ef-sqlserver/</link><pubDate>Tue, 14 Feb 2023 10:12:33 +0000</pubDate><guid>https://eandev.com/post/develop/dotnet-ef-sqlserver/</guid><description>&lt;p>在 &lt;a href="https://eandev.com/post/develop/dotnet-ef-postgresql-dbcontext/">使用 dotnet-ef 建立 PostgreSQL 的 DBContext&lt;/a> 之後，也嘗試從 SQL Server on Docker 建立 DBContext，就順手把過程中遇到的小問題記錄下來。&lt;/p>
+&lt;blockquote>
+&lt;p>🔖 長話短說 🔖&lt;/p>
+&lt;ul>
+&lt;li>使用 Docker 建立的 SQL Server，若需要進行 bak 的備份與還原時，在執行 Container 時，別忘了 mount 資料夾。&lt;/li>
+&lt;li>使用 &lt;code>dotnet ef dbcontext scaffold&lt;/code> 時，發生 &lt;code>此憑證鏈結是由不受信任的授權單位發出的&lt;/code> 的差異，請在連線字串內加入 &lt;code>TrustServerCertificate=true&lt;/code>。&lt;/li>
+&lt;li>使用 &lt;code>dotnet ef dbcontext scaffold&lt;/code> 時，發生 &lt;code>Login failed for user&lt;/code> 的名稱與連線字串內的 &lt;code>User Id&lt;/code> 不同時，請確認連線字串內的 &lt;code>Trusted_Connection&lt;/code> 。&lt;/li>
+&lt;/ul>
+&lt;/blockquote></description></item></channel></rss>

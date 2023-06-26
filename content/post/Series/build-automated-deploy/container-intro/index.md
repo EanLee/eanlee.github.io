@@ -14,7 +14,7 @@ created: 2023-06-21T11:21:06+08:00
 updated: 2023-06-21T11:21:06+08:00
 ---
 
-> [2019 iT 邦幫忙鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/1906)文章補完計劃，[從零開始建立自動化發佈的流水線]({{< ref "..\build-ci-cd-from-scratch\index.md#container" >}}) Container 篇
+> [2019 iT 邦幫忙鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/1906)文章補完計劃，[從零開始建立自動化發佈的流水線]({{< ref "../build-ci-cd-from-scratch/index.md#container" >}}) Container 篇
 
 當系統需要重新建置後，會發現建置的過程與步驟煩雜，甚至每次安裝都會發生不同的問題，不管使用虛擬機或是實體機。
 

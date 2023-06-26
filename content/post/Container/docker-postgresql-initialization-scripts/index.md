@@ -31,7 +31,7 @@ slug: docker-postgresql-initialization-scripts
 
 <!--more-->
 
-在 [使用 dotnet-ef 建立 PostgreSQL 的 DBContext]({{< ref "..\..\Develop\dotnet-ef-postgresql-dbcontext\index.md" >}}) 已經有使用 Docker-compose 建立 PostgreSQL，而本篇文章記錄的重點，在於建立 PostgreSQL  Container 時，自動把 database schema 建立起來。
+在 [使用 dotnet-ef 建立 PostgreSQL 的 DBContext]({{< ref "../../Develop/dotnet-ef-postgresql-dbcontext/index.md" >}}) 已經有使用 Docker-compose 建立 PostgreSQL，而本篇文章記錄的重點，在於建立 PostgreSQL  Container 時，自動把 database schema 建立起來。
 
 操作環境:
 
@@ -240,8 +240,8 @@ docker run --name lab-postgres-init -e POSTGRES_PASSWORD=mysecretpassword lab/po
 
 ▶ 站內文章
 
-- [使用 dotnet-ef 建立 PostgreSQL 的 DBContext]({{< ref "..\..\Develop\dotnet-ef-postgresql-dbcontext\index.md" >}})
-- [Docker 操作簡介]({{< ref "..\..\Series\build-automated-deploy\docker-operate\index.md" >}})
+- [使用 dotnet-ef 建立 PostgreSQL 的 DBContext]({{< ref "../../Develop/dotnet-ef-postgresql-dbcontext/index.md" >}})
+- [Docker 操作簡介]({{< ref "../../Series/build-automated-deploy/docker-operate/index.md" >}})
 
 ▶ 外部文章
 
