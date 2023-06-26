@@ -17,36 +17,6 @@
 &lt;li>若要讓 PostgreSQL container 建立的同時，完成資料庫 schema 初始化。要在在建立 Docker Image 的同時，把 &lt;code>init.sql&lt;/code> 複制到 &lt;code>/docker-entrypoint-initdb.d/&lt;/code>&lt;/li>
 &lt;li>&lt;code>docker-entrypoint-initdb.d&lt;/code> 可放入多個 .sql 檔，其執行順序依地區設定的檔名順序。預設為 &lt;code>en_US.utf8&lt;/code>&lt;/li>
 &lt;/ul>
-&lt;/blockquote></description></item><item><title>Docker | 建立 PostgreSQL 的 container 時，同時完成資料庫的初始化</title><link>https://eandev.com/post/container/docker-postgresql-initialization-scripts/</link><pubDate>Mon, 20 Feb 2023 16:13:07 +0000</pubDate><guid>https://eandev.com/post/container/docker-postgresql-initialization-scripts/</guid><description>&lt;p>現在都可以使用 Container 的方式來運行資料庫，那麼。是否有辦法在 Image 建立 Container 的當下，就一併完成資料庫 schema 的設定？&lt;/p>
-&lt;p>若是可以，在啟動 PostgreSQL Image 時，就已經完成初始化資料庫的 container ，可以享受一些好處。&lt;/p>
-&lt;ul>
-&lt;li>
-&lt;p>簡化部署流程：在建立 Container 時，自動完成初始化資料庫的過程，可以大幅簡化部署流程。只需要運行一個命令，就可以創建已經包含初始化資料庫的 Container，而不需要再手動初始化資料庫。&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>自動化測試：例如在每次測試運行時，都使用相同的的資料庫，確保測試結果一致性和可靠性。&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>方便協作：不同的開發人員可以使用相同的初始化資料庫 Continaer，確保在開發和測試過程中，使用相同的資料庫，減少開發和測試之間的差異。&lt;/p>
-&lt;/li>
-&lt;/ul>
-&lt;blockquote>
-&lt;p>🔖 長話短說 🔖&lt;/p>
-&lt;ul>
-&lt;li>若要讓 PostgreSQL container 建立的同時，完成資料庫 schema 初始化。要在在建立 Docker Image 的同時，把 &lt;code>init.sql&lt;/code> 複制到 &lt;code>/docker-entrypoint-initdb.d/&lt;/code>&lt;/li>
-&lt;li>&lt;code>docker-entrypoint-initdb.d&lt;/code> 可放入多個 .sql 檔，其執行順序依地區設定的檔名順序。預設為 &lt;code>en_US.utf8&lt;/code>&lt;/li>
-&lt;/ul>
-&lt;/blockquote></description></item><item><title>使用 dotnet-ef 建立 PostgreSQL 的 DBContext</title><link>https://eandev.com/post/develop/dotnet-ef-postgresql-dbcontext/</link><pubDate>Mon, 13 Feb 2023 04:13:02 +0000</pubDate><guid>https://eandev.com/post/develop/dotnet-ef-postgresql-dbcontext/</guid><description>&lt;p>若是有使用過 Entity Framework, EF 的經驗，必然對 &lt;code>DBContext&lt;/code> 類別有所了解。在 EF 時可以使用 Visual Studo 的 UI 工具，以 Database-First 的方式建立 DBContext。&lt;/p>
-&lt;p>本篇文章則是記錄 Database-First 的開發方式下，EF Core 如何使用 CLI 來產生 DBContext。&lt;/p>
-&lt;blockquote>
-&lt;p>🔖 長話短說 🔖&lt;/p>
-&lt;ul>
-&lt;li>EF Core 要操作 PostgreSQL 的話，可使用 &lt;code>Npgsql.EntityFrameworkCore.PostgreSQL&lt;/code>&lt;/li>
-&lt;li>可使用 &lt;code>dotnet tool update --global dotnet-ef&lt;/code> 進行 &lt;code>dotnet-ef&lt;/code> 版本更新&lt;/li>
-&lt;li>可使用 &lt;code>dotnet ef dbcontext scffold&lt;/code> 的指令，協助從資料庫已存在的 Schema 產生對應的 dbcontext。&lt;/li>
-&lt;li>若專案內未參考 &lt;code>Microsoft.EntityFrameworkCore.Design&lt;/code> 的話，&lt;code>dotnet ef dbcontext scffold&lt;/code> 無法順利動作。&lt;/li>
-&lt;li>機敏性資料，可使用 &lt;code>user-secrets&lt;/code> 工具。&lt;/li>
-&lt;/ul>
 &lt;/blockquote></description></item><item><title>使用 dotnet-ef 建立 PostgreSQL 的 DBContext</title><link>https://eandev.com/post/develop/dotnet-ef-postgresql-dbcontext/</link><pubDate>Mon, 13 Feb 2023 04:13:02 +0000</pubDate><guid>https://eandev.com/post/develop/dotnet-ef-postgresql-dbcontext/</guid><description>&lt;p>若是有使用過 Entity Framework, EF 的經驗，必然對 &lt;code>DBContext&lt;/code> 類別有所了解。在 EF 時可以使用 Visual Studo 的 UI 工具，以 Database-First 的方式建立 DBContext。&lt;/p>
 &lt;p>本篇文章則是記錄 Database-First 的開發方式下，EF Core 如何使用 CLI 來產生 DBContext。&lt;/p>
 &lt;blockquote>

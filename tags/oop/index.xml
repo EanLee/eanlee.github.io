@@ -9,15 +9,4 @@
 &lt;li>資料與商業邏輯混雜在一起。(高耦合)&lt;/li>
 &lt;li>當出現特定需求變更時，直接變更原本程式碼。除了可能改壞原本程式功能外，也會增加維護上的麻煩。&lt;/li>
 &lt;/ul>
-&lt;p>當然還有許多因素，是筆者沒有想到或是沒有列出來的。&lt;/p></description></item><item><title>物件導向設計原則</title><link>https://eandev.com/post/series/coding-skill/oop-practice/</link><pubDate>Mon, 16 Jan 2023 04:05:34 +0000</pubDate><guid>https://eandev.com/post/series/coding-skill/oop-practice/</guid><description>&lt;blockquote>
-&lt;p>&lt;a href="https://ithelp.ithome.com.tw/users/20107551/ironman/1430">2018 iT 邦幫忙鐵人賽&lt;/a>文章補完計劃，&lt;a href="https://eandev.com/post/series/coding-skill/foreword/#物件導向設計篇-object-oriented">持續優化程式碼品質-總覽&lt;/a>物件導向設計篇&lt;/p>
-&lt;/blockquote>
-&lt;p>知道物件導向的特性，就可以寫出具備&lt;strong>閱讀性&lt;/strong>、&lt;strong>維謢性&lt;/strong>、&lt;strong>擴充性&lt;/strong>的程式碼？&lt;/p>
-&lt;p>夢想很豐滿、現實很骨感。就算已經熟悉物件導向的特性，但在實務上還是很難寫寫出具備閱讀性、維謢性、擴充性的程式碼。常見的因素有…&lt;/p>
-&lt;ul>
-&lt;li>為了方便，類別函數全部設為 Public。(未有效使用&lt;strong>封裝&lt;/strong>的特性。)&lt;/li>
-&lt;li>單一類別中，混雜了許多功能，導至要修改特定功能時，相關程式碼的變動量過大。(高耦合、不符合&lt;strong>單一職責&lt;/strong>)&lt;/li>
-&lt;li>資料與商業邏輯混雜在一起。(高耦合)&lt;/li>
-&lt;li>當出現特定需求變更時，直接變更原本程式碼。除了可能改壞原本程式功能外，也會增加維護上的麻煩。&lt;/li>
-&lt;/ul>
 &lt;p>當然還有許多因素，是筆者沒有想到或是沒有列出來的。&lt;/p></description></item></channel></rss>
