@@ -2,7 +2,7 @@
 title: 使用 CI 進行自動化測試
 description: 若持續整合(Continuous Integration, CI)只有單純版控與建置，就太可惜了。CI
   可視為是自動化管控軟體品質的第一道防線，在這個階段，可以整合自動化測試、程式碼掃描分析、資安掃描等動作。
-date: 2023-01-11T16:27:42.250Z
+date: 2023-01-12T00:27:42+08:00
 tags:
   - 單元測試
 categories:
@@ -12,7 +12,7 @@ keywords:
   - unit test
   - 單元測試
 slug: integration-ci-and-unit-test
-lastmod: 2023-01-16T05:52:11.039Z
+lastmod: 2023-06-28T10:10:47+08:00
 ---
 
 > [2019 iT 邦幫忙鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/1906)文章補完計劃，[從零開始建立自動化發佈的流水線]({{< ref "../build-ci-cd-from-scratch/index.md" >}}) 持續整合篇

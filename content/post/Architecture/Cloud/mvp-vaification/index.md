@@ -4,7 +4,7 @@ tags:
   - AWS
   - 系統架構
   - Cloud
-date: 2022-06-24T01:17:18.867Z
+date: 2022-06-24T09:17:18+08:00
 categories:
   - 架構
   - 雲端學習手札
@@ -15,7 +15,7 @@ keywords:
   - EBS
   - VPC
 description: 本文章藉由同一機器的地端架構對應 AWS 雲端服務，學習與理解雲端可支援的服務項目。
-lastmod: 2022-06-26T16:45:14.386Z
+lastmod: 2023-06-28T10:10:47+08:00
 slug: mvp-vaification
 ---
 

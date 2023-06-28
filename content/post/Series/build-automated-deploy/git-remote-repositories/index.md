@@ -2,7 +2,7 @@
 title: 程式碼托管平台 - GitHub/BitBucket/Azure DevOps
 description: 介紹了版控的概念與 Git 的操作方式後，接著要找 Remote Repositories 來進行程式碼的托管，達到異地備份的效果。將針對
   GitHub、BitBucket、Azure DevOps 內的 Azure Repos 三個托管平台進行介紹。
-date: 2023-01-12T02:10:37.666Z
+date: 2023-01-12T10:10:37+08:00
 tags:
   - 版控
   - Azure

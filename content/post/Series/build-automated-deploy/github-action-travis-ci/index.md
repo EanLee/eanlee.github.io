@@ -1,6 +1,6 @@
 ﻿---
 title: 使用 Travis CI/GitHub Action 進行持續整合
-date: 2023-01-15T13:53:33.313Z
+date: 2023-01-15T21:53:33+08:00
 description: 在介紹完 CI/CD 的觀念後，接著來介紹如何使用 Travis CI 與 GitHub Actions 進行持續整合(Continuous
   integration, CI)
 categories:

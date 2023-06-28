@@ -10,7 +10,7 @@ keywords:
   - Docker
   - Postgresql
   - dockerfile
-date: 2023-02-20T16:13:07.627Z
+date: 2023-02-21T00:13:07+08:00
 slug: docker-postgresql-initialization-scripts
 ---
 

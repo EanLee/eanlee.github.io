@@ -1,6 +1,6 @@
 ﻿---
 title: 使用 Travis CI / Azure PipeLines 發佈 Artifact 到 Dropbox
-date: 2023-01-18T06:16:37.292Z
+date: 2023-01-18T14:16:37+08:00
 description: 當使用 Travis CI / Azure Pipeline 持續整合後，接著需要把建置出來的 Artifact 存放到固定的位置。接著在 CI/CD 工具中，結合 dropbox-loader.sh，將 Artifact 存放到 Dropbox 之中。
 categories:
   - DevOps

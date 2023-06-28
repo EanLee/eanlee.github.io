@@ -1,6 +1,6 @@
 ﻿---
 title: 踏入 CI/CD 的世界 - 觀念篇
-date: 2022-06-22T16:00:19.590Z
+date: 2022-06-23T00:00:19+08:00
 description: 簡述 CI/CD 的觀念
 categories:
   - DevOps

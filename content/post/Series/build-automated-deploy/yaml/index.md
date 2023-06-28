@@ -1,6 +1,6 @@
 ﻿---
 title: 淺談 YAML 格式
-date: 2022-07-29T06:12:44.533Z
+date: 2022-07-29T14:12:44+08:00
 description: 談談 YAML 的格式與使用方式
 keywords:
   - YAML
