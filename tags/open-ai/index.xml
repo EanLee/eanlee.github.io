@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Open AI on 伊恩的開發狂想</title><link>https://eandev.com/tags/open-ai/</link><description>Recent content in Open AI on 伊恩的開發狂想</description><generator>Hugo -- gohugo.io</generator><language>zh-tw</language><lastBuildDate>Wed, 15 Mar 2023 14:00:03 +0800</lastBuildDate><atom:link href="https://eandev.com/tags/open-ai/index.xml" rel="self" type="application/rss+xml"/><item><title>運用 ChapGpt 以 Pair-programing 輔助程式開發</title><link>https://eandev.com/post/develop/develop-assistant-chatgpt/</link><pubDate>Wed, 15 Mar 2023 14:00:03 +0800</pubDate><guid>https://eandev.com/post/develop/develop-assistant-chatgpt/</guid><description>&lt;p>最近在寫 Side Project 時，使用之前完全沒有接觸過的 Futter 來撰寫 APP，同時配合 ChapGPT 一同 Pair-Programming。&lt;/p>
+&lt;p>順手記錄與分享，在這過程中，學習到如何運用 ChatGPT 協同開發的使用方式。若是使用 ChapGPT 方式沒抓對，造成回答被中斷或答非所問，就會事倍功半。&lt;/p>
+&lt;p>本記錄是針對 &lt;code>GPT-3.5&lt;/code> 的使用經驗，至於 &lt;code>GPT-4&lt;/code> 還沒有交手過，無從得知。&lt;/p>
+&lt;blockquote>
+&lt;p>🔖 長話短說 🔖&lt;/p>
+&lt;ul>
+&lt;li>盡可能的縮減問題的回答範圍，避免無法一次性回答。&lt;/li>
+&lt;li>若無法確定問題的回答範圍，讓 ChapGPT 以條列性回答，並避免回答細節。&lt;/li>
+&lt;li>ChatGPT 有時會自行回答問題以外的內容，若要避免這個問題，要在 &lt;em>prompt&lt;/em> 中加入回答的限制。&lt;/li>
+&lt;li>ChapGPT 的 &lt;em>prompt&lt;/em> 有長度限制，source code 要分段傳入。&lt;/li>
+&lt;/ul>
+&lt;/blockquote></description></item></channel></rss>
