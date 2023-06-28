@@ -1,0 +1,220 @@
+<!doctype html><html class=no-js lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="IE=edge"><title>EF Core | 使用 T4 CodeTemplate 客制化 EFCore Scaffold 產出內容 - 伊恩的開發狂想</title><script>(function(e,t){e[t]=e[t].replace("no-js","js")})(document.documentElement,"className")</script><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7903108559996033" crossorigin=anonymous></script><meta name=description content><meta property="og:title" content="EF Core | 使用 T4 CodeTemplate 客制化 EFCore Scaffold 產出內容"><meta property="og:description" content="接續 DBContext 操作的議題，目前已知現有的資料庫內，所有的表格都有 CreatedAt、UpdatedAt、UpdatedUser、 IsDeleted 四個特定字詞結尾的欄位，額外記錄資料異動記錄。
+在「使用 HasQueryFilter 限定 DBContext 查詢內容」中，提到如何透過 HasQueryFilter 來簡化資料庫查詢的動作。
+接下來，想要再進一步的封裝 EFCore 所使用的 Entity，讓這四個欄位的資訊，不要曝露於 DBContext 的操作中。
+針對客制化 EFCore 的 DBContext 與 Entity Type，將相關的實作內容記錄下來。
+title: 長話短說
+
+- 若是覺得用 `dotnet ef dbcontext scaffold` 的指令來建立 DBContext 不方便，在 Visual Studo 可以安裝 [`EF Core Power Tool`](https://marketplace.visualstudio.com/items?itemName=ErikEJ.EFCorePowerTools) Extension 套件，以 GUI 進階設定 DBContext 的建立內容。
+- 針對 DBContext 的查詢要進行過濾，可在 DBContext 內的 `OnModelCreatingPartial(ModelBuilder modelBuilder)` 進行過濾。
+"><meta property="og:type" content="article"><meta property="og:url" content="https://eandev.com/post/develop/dotnet-ef-core-customized-dbcontext-entity/"><meta property="article:section" content="post"><meta property="article:published_time" content="2023-06-17T11:22:44+08:00"><meta property="article:modified_time" content="2023-06-28T23:00:15+08:00"><meta itemprop=name content="EF Core | 使用 T4 CodeTemplate 客制化 EFCore Scaffold 產出內容"><meta itemprop=description content="接續 DBContext 操作的議題，目前已知現有的資料庫內，所有的表格都有 CreatedAt、UpdatedAt、UpdatedUser、 IsDeleted 四個特定字詞結尾的欄位，額外記錄資料異動記錄。
+在「使用 HasQueryFilter 限定 DBContext 查詢內容」中，提到如何透過 HasQueryFilter 來簡化資料庫查詢的動作。
+接下來，想要再進一步的封裝 EFCore 所使用的 Entity，讓這四個欄位的資訊，不要曝露於 DBContext 的操作中。
+針對客制化 EFCore 的 DBContext 與 Entity Type，將相關的實作內容記錄下來。
+title: 長話短說
+
+- 若是覺得用 `dotnet ef dbcontext scaffold` 的指令來建立 DBContext 不方便，在 Visual Studo 可以安裝 [`EF Core Power Tool`](https://marketplace.visualstudio.com/items?itemName=ErikEJ.EFCorePowerTools) Extension 套件，以 GUI 進階設定 DBContext 的建立內容。
+- 針對 DBContext 的查詢要進行過濾，可在 DBContext 內的 `OnModelCreatingPartial(ModelBuilder modelBuilder)` 進行過濾。
+"><meta itemprop=datePublished content="2023-06-17T11:22:44+08:00"><meta itemprop=dateModified content="2023-06-28T23:00:15+08:00"><meta itemprop=wordCount content="1000"><meta itemprop=keywords content="EF Core,"><meta name=twitter:card content="summary"><meta name=twitter:title content="EF Core | 使用 T4 CodeTemplate 客制化 EFCore Scaffold 產出內容"><meta name=twitter:description content="接續 DBContext 操作的議題，目前已知現有的資料庫內，所有的表格都有 CreatedAt、UpdatedAt、UpdatedUser、 IsDeleted 四個特定字詞結尾的欄位，額外記錄資料異動記錄。
+在「使用 HasQueryFilter 限定 DBContext 查詢內容」中，提到如何透過 HasQueryFilter 來簡化資料庫查詢的動作。
+接下來，想要再進一步的封裝 EFCore 所使用的 Entity，讓這四個欄位的資訊，不要曝露於 DBContext 的操作中。
+針對客制化 EFCore 的 DBContext 與 Entity Type，將相關的實作內容記錄下來。
+title: 長話短說
+
+- 若是覺得用 `dotnet ef dbcontext scaffold` 的指令來建立 DBContext 不方便，在 Visual Studo 可以安裝 [`EF Core Power Tool`](https://marketplace.visualstudio.com/items?itemName=ErikEJ.EFCorePowerTools) Extension 套件，以 GUI 進階設定 DBContext 的建立內容。
+- 針對 DBContext 的查詢要進行過濾，可在 DBContext 內的 `OnModelCreatingPartial(ModelBuilder modelBuilder)` 進行過濾。
+"><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=dns-prefetch href=//fonts.googleapis.com><link rel=dns-prefetch href=//fonts.gstatic.com><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700&display=swap"><link rel=stylesheet href=/css/style.min.css><link rel="shortcut icon" href=/favicon.ico><script async src="https://www.googletagmanager.com/gtag/js?id=G-4HXSCXTZKZ"></script>
+<script>var doNotTrack=!1;if(!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-4HXSCXTZKZ",{anonymize_ip:!1})}</script><link href=/css/syntax.min.css rel=stylesheet><link href=/css/copy-to-clipboard.min.css rel=stylesheet></head><body class=body><div class="container container--outer"><header class=header><div class=container><div class="logo logo--mixed"><a class=logo__link href=/ title=伊恩的開發狂想 rel=home><div class="logo__item logo__imagebox"><img class=logo__img alt=logo src=/img/placeholder.png></div><div class="logo__item logo__text"><div class=logo__title>伊恩的開發狂想</div><div class=logo__tagline>在知識大海中漂流的小船，不停追尋屬於自己的秘寶。專注於 .NET、雲端技術、系統架構、開發技巧的道、法、術。</div></div></a></div></div></header><div class="wrapper flex"><div class=primary><main class=main role=main><article class=post><header class=post__header><h1 class=post__title>EF Core | 使用 T4 CodeTemplate 客制化 EFCore Scaffold 產出內容</h1><div class="post__meta meta"><div class="meta__item-author meta__item"><svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2.0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class=meta__text>伊恩</span></div><div class="meta__item-datetime meta__item"><svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class=meta__text datetime=2023-06-17T11:22:44+08:00>2023-06-17</time>
+<time class=meta__text datetime=2023-06-28T23:00:15+08:00>(Last Modified: 2023-06-28)</time></div><div class="meta__item-categories meta__item"><svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2 1 2h8v11H0V2z"/></svg><span class=meta__text><a class=meta__link href=/categories/%E8%BB%9F%E9%AB%94%E9%96%8B%E7%99%BC/ rel=category>軟體開發</a></span></div></div></header><div class="post__toc toc"><div class=toc__title>Page content</div><div class=toc__menu><nav id=TableOfContents><ul><li><a href=#dbcontext-與-entitytype-的建立>DBContext 與 EntityType 的建立</a></li><li><a href=#使用-codetemplate-自訂產出的-dbcontext-與-entity>使用 CodeTemplate 自訂產出的 DBContext 與 Entity</a></li><li><a href=#實作-lab>實作 Lab</a><ul><li><a href=#更新-dbcontextentity-的存取等級>更新 DbContext/Entity 的存取等級</a></li><li><a href=#隱藏特定欄位並在增修刪時自動更新資料>隱藏特定欄位，並在增/修/刪時，自動更新資料</a></li><li><a href=#更新-enity-的-field-名稱>更新 Enity 的 Field 名稱</a></li></ul></li><li><a href=#小結>小結</a></li><li><a href=#延伸閱讀>延伸閱讀</a></li></ul></nav></div></div><div class="content post__content clearfix"><p>接續 DBContext 操作的議題，目前已知現有的資料庫內，所有的表格都有 <code>CreatedAt</code>、<code>UpdatedAt</code>、<code>UpdatedUser</code>、 <code>IsDeleted</code> 四個特定字詞結尾的欄位，額外記錄資料異動記錄。</p><p>在「<a href=https://eandev.com/post/develop/dfcore-dbcontext-hasqueryfilter/>使用 HasQueryFilter 限定 DBContext 查詢內容</a>」中，提到如何透過 <code>HasQueryFilter</code> 來簡化資料庫查詢的動作。</p><p>接下來，想要再進一步的封裝 EFCore 所使用的 Entity，讓這四個欄位的資訊，不要曝露於 DBContext 的操作中。</p><p>針對客制化 EFCore 的 DBContext 與 Entity Type，將相關的實作內容記錄下來。</p><pre tabindex=0><code class=language-ad-tldr data-lang=ad-tldr>title: 長話短說
+
+- 若是覺得用 `dotnet ef dbcontext scaffold` 的指令來建立 DBContext 不方便，在 Visual Studo 可以安裝 [`EF Core Power Tool`](https://marketplace.visualstudio.com/items?itemName=ErikEJ.EFCorePowerTools) Extension 套件，以 GUI 進階設定 DBContext 的建立內容。
+- 針對 DBContext 的查詢要進行過濾，可在 DBContext 內的 `OnModelCreatingPartial(ModelBuilder modelBuilder)` 進行過濾。
+</code></pre><p>操作環境：</p><ul><li>Windows 11</li><li>.NET Core 6</li><li>EF Core 7</li></ul><h2 id=dbcontext-與-entitytype-的建立>DBContext 與 EntityType 的建立</h2><p><code>EFCore Power Tools</code> 是 Visual Studio 的 Extension，所以在使用前，需要先進行安裝。</p><p>在安裝完成後，我們可以在專案項目，按下滑鼠右鍵的選單中，選擇 <code>EFCore Power Tools > Reverse Enginerring</code>，以 GUI 的方式進行 EFCore Scaffold 產出想要的 DBContext。</p><p>可以在不調整 CodeTemplate 的前提下，配合勾選 GUI 內的選項,就可以達到進階 DbContext 生成設定。若需要調整 CodeTemplate，也可以利用 <code>EFCore Power Tools > Add CodeTemplate</code>，它會自動在專案的目錄下，建立一個名稱 <code>CodeTemplate/EFCore</code> 的資料夾。</p><p>順帶一提，<code>Reverse Enginerring</code> 內，勾選的設定，都會存在 <code>efpt.config.json</code> 之中。</p><h2 id=使用-codetemplate-自訂產出的-dbcontext-與-entity>使用 CodeTemplate 自訂產出的 DBContext 與 Entity</h2><p>也可以使用 CLI 的方式來產生 CodeTemplate 資料夾。首先安裝 的  <code>dotnet new</code> EF Core 範本套件：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell><span style=display:flex><span>dotnet new install Microsoft.EntityFrameworkCore.Templates
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 若上述指令無法執行，可將 install 改為 -i</span>
+</span></span><span style=display:flex><span>dotnet new -i Microsoft.EntityFrameworkCore.Templates
+</span></span></code></pre></div><p>接著到要新增 CodeTemplate 的專案目錄下，執行下述指令。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell><span style=display:flex><span>dotnet new ef-templates
+</span></span></code></pre></div><p>會在專案目錄下，建立 <code>CodeTemplate\EFCore</code> 資料夾，資料夾內有 <code>DbContext.t4</code> 與 <code>EntityType.t4</code> 兩個檔案，分別對應產出的 DBContext 與 Entity Type。</p><p>不管是使用 <code>EFCore Power Tools > Reverse Enginerring</code>，或是使用 CLI <code>dotnet ef dbcontext scaffold</code>，都會套用 CodeTemplate 內的設定。</p><p>可以使用 CodeTemplate 的 T4(<a href=https://en.wikipedia.org/wiki/Text_Template_Transformation_Toolkit>Text Template Transformation Toolkit</a>) 來客制化產出 DBContext 與 Entity Type ，來達成以下的需求。</p><ul><li>要想限制建立出來的類型不公開，為 <code>private</code> 或 <code>internal</code> 的存取層級。。</li><li>變更 Entity Type 內的欄位名稱。</li><li>排除特定的 Entity Type 欄位。</li></ul><p>個人建議，若需要調整 <code>DbContext.t4</code> 或 <code>EntityType.t4</code> 進行客制化，建議使用 CLI 的方式來執行，因為這樣可以更直接查看 <code>.t4</code> 調整後執行階段的錯誤訊息。</p><h2 id=實作-lab>實作 Lab</h2><p>在實作 Lab 之前，來描述一下需求。</p><p>目前有一個遵循三層式架構(Applicaiton/Business/Data Layer)的軟體，並使用 DI/IoC 的方式，避免模組之間的直接的耦合依賴關係。</p><p>這意味著 DbContext 的使用應儘量被限制在 Data Layer 中，避免 DbContext 曝露在外的。確保資料操作在適當的範疇內進行。</p><p>在資料庫的表格內，均有 <code>CreatedAt</code>、<code>chgTime</code>、<code>chgUser</code>、 <code>chgState</code> 四個欄位，額外記錄資料異動記錄。但希望減輕開發者的工作負擔，讓這四個欄位的更新或自動化。避免使用 ORM 時，還要花費心思在更新或維護這四個欄位的資料，或是發生更新失誤的情況。</p><p>同時，資料庫欄位名稱過長或不夠直覺，想要讓 ORM 生成 Entity Field 時，變更為適當的名稱。讓程式碼更加直觀易懂，提高開發效率。</p><p>將上述的需求用工程話語解釋如下</p><ul><li>DBContext 與 Entity 的 Class 存取等級為 Private/internal</li><li>開發人員在使用 Entity 時，無法變更四個欄位的資料。</li><li>自定義 Entity 內的 Field 名稱。</li></ul><p>假設直接使用預設 Template 產生的 DBContext/Entity 內容。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-C# data-lang=C#><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>partial</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>LabDbContext</span> : DbContext
+</span></span><span style=display:flex><span>{
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>public</span> <span style=color:#66d9ef>virtual</span> DbSet&lt;Book&gt; Books { <span style=color:#66d9ef>get</span>; <span style=color:#66d9ef>set</span>; }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>protected</span> <span style=color:#66d9ef>override</span> <span style=color:#66d9ef>void</span> OnModelCreating(ModelBuilder modelBuilder)
+</span></span><span style=display:flex><span>	{
+</span></span><span style=display:flex><span>		...
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>		OnModelCreatingPartial(modelBuilder);
+</span></span><span style=display:flex><span>	}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>partial</span> <span style=color:#66d9ef>void</span> OnModelCreatingPartial(ModelBuilder modelBuilder);
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Book</span>
+</span></span><span style=display:flex><span>{
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>public</span> <span style=color:#66d9ef>int</span> BId { <span style=color:#66d9ef>get</span>; <span style=color:#66d9ef>set</span>; }
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>public</span> <span style=color:#66d9ef>string</span> BName { <span style=color:#66d9ef>get</span>; <span style=color:#66d9ef>set</span>; }
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>public</span> DateTime BCreatedAt { <span style=color:#66d9ef>get</span>; <span style=color:#66d9ef>set</span>; }
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>public</span> DateTime BChgTime { <span style=color:#66d9ef>get</span>; <span style=color:#66d9ef>set</span>; }
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>public</span> <span style=color:#66d9ef>string</span> BChgUsr { <span style=color:#66d9ef>get</span>; <span style=color:#66d9ef>set</span>; }
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>public</span> <span style=color:#66d9ef>short</span> BChgState { <span style=color:#66d9ef>get</span>; <span style=color:#66d9ef>set</span>; }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>期望的 DBContext/Entity 內容</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-C# data-lang=C#><span style=display:flex><span><span style=color:#66d9ef>internal</span> <span style=color:#66d9ef>partial</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>LabDbContext</span> : DbContext
+</span></span><span style=display:flex><span>{
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>public</span> <span style=color:#66d9ef>virtual</span> DbSet&lt;Book&gt; Books { <span style=color:#66d9ef>get</span>; <span style=color:#66d9ef>set</span>; }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>protected</span> <span style=color:#66d9ef>override</span> <span style=color:#66d9ef>void</span> OnModelCreating(ModelBuilder modelBuilder)
+</span></span><span style=display:flex><span>	{
+</span></span><span style=display:flex><span>		...
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>		OnModelCreatingPartial(modelBuilder);
+</span></span><span style=display:flex><span>	}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>partial</span> <span style=color:#66d9ef>void</span> OnModelCreatingPartial(ModelBuilder modelBuilder);
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>internal</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Book</span>
+</span></span><span style=display:flex><span>{
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>public</span> <span style=color:#66d9ef>int</span> Id { <span style=color:#66d9ef>get</span>; <span style=color:#66d9ef>set</span>; }
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>public</span> <span style=color:#66d9ef>string</span> Name { <span style=color:#66d9ef>get</span>; <span style=color:#66d9ef>set</span>; }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><h3 id=更新-dbcontextentity-的存取等級>更新 DbContext/Entity 的存取等級</h3><p>我們從最簡單的開始，把 DbContext/Entity 的存取等級，由 public 更改為 internal。</p><p>分別在 <code>DbContext.t4</code> 與 <code>EnitiyType.t4</code> 找到 <code>public partial class</code> 這一行，改為 <code>internal partical class</code> 。</p><pre tabindex=0><code class=language-t4 data-lang=t4>// DbContext.t4
+internal partial class &lt;#= Options.ContextName #&gt; : DbContext
+
+// EntityType.t4
+internal partial class &lt;#= EntityType.Name #&gt;
+</code></pre><p>再執行 <code>dbcontext scaffold</code> 結果如下。</p><h3 id=隱藏特定欄位並在增修刪時自動更新資料>隱藏特定欄位，並在增/修/刪時，自動更新資料</h3><p>這要同時調整 <code>EntityType.t4</code> 、<code>DbContext.t4</code> ，運用 <a href=https://learn.microsoft.com/zh-tw/ef/core/modeling/shadow-properties#configuring-shadow-properties>Shadow Properties</a> 的特性，讓一般開發者不會直接操作 <code>CreatedAt</code>、<code>UpdatedAt</code>、<code>UpdatedUser</code>、 <code>IsDeleted</code> 四個欄位。</p><p>並 override DbContext 的 <code>SaveChanges/SaveChangesAsync</code>，讓資料的增/修/刪時，可以在背後更新 <code>CreatedAt</code>、<code>UpdatedAt</code>、<code>UpdatedUser</code>、 <code>IsDeleted</code> 對應的資料庫欄位。</p><h4 id=entitytypet4-調整>EntityType.t4 調整</h4><p>在 <code>EntityType.t4</code> 的調整，主要目的是讓開發者不會透過 Entity 去異動到不該動的資料欄位。</p><p>找到 <code>foreach (var property in EntityType.GetProperties().OrderBy(p => p.GetColumnOrder() ?? -1))</code> 這一行，針對特定的欄位名稱進行排除。</p><pre tabindex=0><code class=language-t4 data-lang=t4>var excludeColumns = new List&lt;string&gt; { &#34;CreatedAt&#34;, &#34;UpdatedAt&#34;, &#34;UpdatedUser&#34;, &#34;IsDeleted&#34;};
+
+foreach (var property in EntityType.GetProperties().OrderBy(p =&gt; p.GetColumnOrder() ?? -1))
+{
+	// 加入欄位排除，實務上依實際的欄位名稱進行對應調整。
+	if (excludeColumns.Any(exclude =&gt; property.Name.EndsWith(exclude))
+	{
+		continue;
+	}
+
+	... skip ...
+}
+</code></pre><h4 id=dbcontextt4-調整>DbContext.t4 調整</h4><p>當調整完 EntityType 後，再執行 <code>dotnet ef dbcontext scaffold</code> 後，會發現 LabContext 內的發生以下的錯誤。</p><p><figure><center><img src=images/dbcontext-error-by-entitytype-modify.png alt="DbContext 的 modelBuilder 無法與 Entity 對應"><figcaption>DbContext 的 modelBuilder 無法與 Entity 對應</figcaption></center></figure>所以，接下來我們要進行 DbContext.t4 的調整。可以使用 <code>entity.Property</code> 為 keyword，快速定位要調整的位置。</p><p>接著，針對要原本的 <code>CreatedAt</code>、<code>UpdatedAt</code>、<code>UpdatedUser</code>、 <code>IsDeleted</code> 這四個欄位，改寫 DbContext.t4，使其成為 <a href=https://learn.microsoft.com/zh-tw/ef/core/modeling/shadow-properties#configuring-shadow-properties>Shadow Properties</a>，並預期產出的 DBContext 內容如下。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-C# data-lang=C#><span style=display:flex><span><span style=color:#66d9ef>protected</span> <span style=color:#66d9ef>override</span> <span style=color:#66d9ef>void</span> OnModelCreating(ModelBuilder modelBuilder)  
+</span></span><span style=display:flex><span>{  
+</span></span><span style=display:flex><span>	modelBuilder.Entity&lt;Book&gt;(entity =&gt;  
+</span></span><span style=display:flex><span>	{  
+</span></span><span style=display:flex><span>		... <span style=color:#960050;background-color:#1e0010>略</span> ...
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>		<span style=color:#75715e>// 原本 DbContext 產生的內容</span>
+</span></span><span style=display:flex><span>		<span style=color:#75715e>// entity.Property(e =&gt; e.BUpdatedAt)  </span>
+</span></span><span style=display:flex><span>		<span style=color:#75715e>// 	     .HasDefaultValueSql(&#34;(getdate())&#34;)  </span>
+</span></span><span style=display:flex><span>		<span style=color:#75715e>//  	 .HasColumnName(&#34;B_UpdatedAt&#34;);</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>		<span style=color:#75715e>// Shadow Property</span>
+</span></span><span style=display:flex><span>		entity.Property&lt;DateTime&gt;(<span style=color:#e6db74>&#34;B_UpdatedAt&#34;</span>);  
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>	});  
+</span></span><span style=display:flex><span>  
+</span></span><span style=display:flex><span>	OnModelCreatingPartial(modelBuilder);  
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>在這邊會用到 <code>code.Reference(property.ClrType)</code> 與 <code>property.GetColumnName()</code>，各別取得資料類型與資料庫欄位名稱。</p><pre tabindex=0><code class=language-t4 data-lang=t4>foreach (var property in entityType.GetProperties())
+{
+	...
+
+	var excludeColumns = new List&lt;string&gt; { &#34;IsDeleted&#34;, &#34;CreatedAt&#34;, &#34;UpdatedAt&#34;, &#34;UpdatedUser&#34; };
+
+	if (excludeColumns.Any(exclude =&gt; property.Name.EndsWith(exclude))
+	{
+#&gt;
+		entity.Property&lt;&lt;#= code.Reference(property.ClrType) #&gt;&gt;(&#34;&lt;#= property.GetColumnName() #&gt;&#34;);
+&lt;#
+    }
+	else
+	{
+#&gt;
+	entity.Property(e =&gt; e.&lt;#= property.Name #&gt;)&lt;#= code.Fragment(propertyFluentApiCalls, indent: 4) #&gt;;
+	}
+
+	anyEntityTypeConfiguration = true;
+	firstProperty = false;
+}
+</code></pre><p>調整後，產生出來的 DbContext 如下。對應到資料庫 <code>B_CreatedAt</code>、<code>B_UpdatedAt</code>、<code>B_UpdatedUser</code>、<code>B_IsDeleted</code> 四個欄位的 Property 都已經變更為 Shadow Property。</p><p><figure><center><img src=images/modify-dbcontext-shadow-property-result.png alt="調整 DbContext.t4 產生的內容"><figcaption>調整 DbContext.t4 產生的內容</figcaption></center></figure></p><h4 id=改寫-savechangessavechangeasync-行為>改寫 SaveChanges/SaveChangeAsync 行為</h4><p>在前面，已經將 <code>CreatedAt</code>、<code>UpdatedAt</code>、<code>UpdatedUser</code>、<code>IsDeleted</code> 四個特定字詞結尾的欄位，變更為 Shadow Property。所以在進行 <code>SaveChanges/SaveChangesAsync</code> 調整時，需要直接對 Entity.Property 進行設定。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-C# data-lang=C#><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>internal</span> <span style=color:#66d9ef>partial</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>LabContext</span>
+</span></span><span style=display:flex><span>{
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>public</span> <span style=color:#66d9ef>override</span> <span style=color:#66d9ef>int</span> SaveChanges()
+</span></span><span style=display:flex><span>	{
+</span></span><span style=display:flex><span>		<span style=color:#66d9ef>this</span>.UpdateDataAttribute();
+</span></span><span style=display:flex><span>		<span style=color:#66d9ef>return</span> <span style=color:#66d9ef>base</span>.SaveChanges();
+</span></span><span style=display:flex><span>	}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>public</span> <span style=color:#66d9ef>override</span> Task&lt;<span style=color:#66d9ef>int</span>&gt; SaveChangesAsync(
+</span></span><span style=display:flex><span>		CancellationToken cancellationToken = <span style=color:#66d9ef>new</span> CancellationToken())
+</span></span><span style=display:flex><span>	{
+</span></span><span style=display:flex><span>		<span style=color:#66d9ef>this</span>.UpdateDataAttribute();
+</span></span><span style=display:flex><span>		<span style=color:#66d9ef>return</span> <span style=color:#66d9ef>base</span>.SaveChangesAsync(cancellationToken);
+</span></span><span style=display:flex><span>	}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>private</span> <span style=color:#66d9ef>void</span> UpdateDataAttribute()  
+</span></span><span style=display:flex><span>	{  
+</span></span><span style=display:flex><span>		<span style=color:#66d9ef>var</span> currentTime = DateTime.UtcNow;  
+</span></span><span style=display:flex><span>  
+</span></span><span style=display:flex><span>		<span style=color:#66d9ef>foreach</span> (<span style=color:#66d9ef>var</span> entry <span style=color:#66d9ef>in</span> <span style=color:#66d9ef>this</span>.ChangeTracker.Entries())  
+</span></span><span style=display:flex><span>		{  
+</span></span><span style=display:flex><span>		<span style=color:#75715e>// 若是刪除的操作，將操作改為軟刪除(編輯)  </span>
+</span></span><span style=display:flex><span>		<span style=color:#66d9ef>if</span> (entry.State == EntityState.Deleted)  
+</span></span><span style=display:flex><span>		{  
+</span></span><span style=display:flex><span>			<span style=color:#66d9ef>var</span> isValid = entry.Properties.FirstOrDefault(prop =&gt; 
+</span></span><span style=display:flex><span>							prop.Metadata.Name.EndsWith(<span style=color:#e6db74>&#34;IsDeleted&#34;</span>,  
+</span></span><span style=display:flex><span>								StringComparison.OrdinalIgnoreCase));  
+</span></span><span style=display:flex><span>  
+</span></span><span style=display:flex><span>			<span style=color:#75715e>// 因為資料庫欄位為 bit, 所以直接指定 1, 實務上請避免使用 Magic Number。  </span>
+</span></span><span style=display:flex><span>			<span style=color:#66d9ef>if</span> (isValid != <span style=color:#66d9ef>null</span>)  
+</span></span><span style=display:flex><span>				isValid.CurrentValue = <span style=color:#ae81ff>1</span>;  
+</span></span><span style=display:flex><span>  
+</span></span><span style=display:flex><span>			entry.State = EntityState.Modified;  
+</span></span><span style=display:flex><span>		}  
+</span></span><span style=display:flex><span>  
+</span></span><span style=display:flex><span>		<span style=color:#66d9ef>if</span> (entry.State == EntityState.Added)  
+</span></span><span style=display:flex><span>		{  
+</span></span><span style=display:flex><span>		<span style=color:#75715e>// 若是新增資料，額外指定 CreatedAt 的資料  </span>
+</span></span><span style=display:flex><span>		<span style=color:#66d9ef>var</span> createAtProperty = entry.Properties.FirstOrDefault(prop =&gt;  
+</span></span><span style=display:flex><span>								prop.Metadata.Name.EndsWith(<span style=color:#e6db74>&#34;CreatedAt&#34;</span>,  
+</span></span><span style=display:flex><span>									StringComparison.OrdinalIgnoreCase));  
+</span></span><span style=display:flex><span>  
+</span></span><span style=display:flex><span>		<span style=color:#66d9ef>if</span> (createAtProperty != <span style=color:#66d9ef>null</span>)  
+</span></span><span style=display:flex><span>			createAtProperty.CurrentValue = currentTime;  
+</span></span><span style=display:flex><span>		}  
+</span></span><span style=display:flex><span>  
+</span></span><span style=display:flex><span>		<span style=color:#75715e>// 更新 UpdatedAt</span>
+</span></span><span style=display:flex><span>		<span style=color:#66d9ef>var</span> updateAtProperty = entry.Properties.FirstOrDefault(prop =&gt;  
+</span></span><span style=display:flex><span>								prop.Metadata.Name.EndsWith(<span style=color:#e6db74>&#34;UpdatedAt&#34;</span>,  
+</span></span><span style=display:flex><span>								StringComparison.OrdinalIgnoreCase));  
+</span></span><span style=display:flex><span>  
+</span></span><span style=display:flex><span>		<span style=color:#66d9ef>if</span> (updateAtProperty != <span style=color:#66d9ef>null</span>)  
+</span></span><span style=display:flex><span>			updateAtProperty.CurrentValue = currentTime;  
+</span></span><span style=display:flex><span>  
+</span></span><span style=display:flex><span>		<span style=color:#75715e>// 更新 UpdatedUser</span>
+</span></span><span style=display:flex><span>		<span style=color:#66d9ef>var</span> updateUserProperty = entry.Properties.FirstOrDefault(prop =&gt;  
+</span></span><span style=display:flex><span>									prop.Metadata.Name.EndsWith(<span style=color:#e6db74>&#34;UpdatedUser&#34;</span>,  
+</span></span><span style=display:flex><span>										StringComparison.OrdinalIgnoreCase));  
+</span></span><span style=display:flex><span>  
+</span></span><span style=display:flex><span>		<span style=color:#75715e>// Lab 先固定 operateUser 為 system, 實務上需要從其他取得資料  </span>
+</span></span><span style=display:flex><span>		<span style=color:#66d9ef>if</span> (updateUserProperty != <span style=color:#66d9ef>null</span>)  
+</span></span><span style=display:flex><span>			updateUserProperty.CurrentValue = <span style=color:#e6db74>&#34;system&#34;</span>;  
+</span></span><span style=display:flex><span>	}
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><h4 id=成果>成果</h4><p>建立一個 .NET 6 的 console app，並依上述的說明進行調整。</p><p>從下述的 DEMO Code 可以看到，開發者在不指定或不知道 shadow property 的情況下，EF Core 在背後協助特定資料的更新。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-C# data-lang=C#><span style=display:flex><span><span style=color:#75715e>// Program.cs</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>using</span> Lab.Models;  
+</span></span><span style=display:flex><span>  
+</span></span><span style=display:flex><span>Console.WriteLine(<span style=color:#e6db74>&#34;Hello, World!&#34;</span>);  
+</span></span><span style=display:flex><span>  
+</span></span><span style=display:flex><span><span style=color:#66d9ef>var</span> context = <span style=color:#66d9ef>new</span> LabContext();  
+</span></span><span style=display:flex><span>context.Books.Add(<span style=color:#66d9ef>new</span> Book { BName = <span style=color:#e6db74>&#34;Test&#34;</span> });  
+</span></span><span style=display:flex><span>context.SaveChanges();
+</span></span></code></pre></div><p><figure><center><img src=images/qeury-efcore-override-savechage-result.png alt=查詢資料新增結果><figcaption>查詢資料新增結果</figcaption></center></figure></p><h3 id=更新-enity-的-field-名稱>更新 Enity 的 Field 名稱</h3><p>針對這個需求,需要同時異動 <code>EntityType.t4</code> 與 <code>DbContext.t4</code>，不然 DbContext 無法將 Entity 與 Database 的欄位 Mapping 起來。</p><p>在這些只是作個 DEMO，所以下述說明，僅調整 Property 的部份。但在實務上，還需要調整 <code>.HasKey</code> 、<code>HasIndex</code> 等地方，要特別注意。</p><h4 id=entitytypet4>EntityType.t4</h4><p>使用 <code>{ get; set; }</code> 快速定位要調整的位置。調整 <code>&lt;#= property.Name #></code> 的內容即可。</p><pre tabindex=0><code class=language-t4 data-lang=t4>// 原本的寫法
+public &lt;#= code.Reference(property.ClrType) #&gt;&lt;#= needsNullable ? &#34;?&#34; : &#34;&#34; #&gt; &lt;#= property.Name #&gt; { get; set; }&lt;#= needsInitializer ? &#34; = null!;&#34; : &#34;&#34; #&gt;
+
+// 調整後的寫法
+// 因為 POC 所以直接把欄位名稱第一個字元移除，實務上需依實際情況調整
+public &lt;#= code.Reference(property.ClrType) #&gt;&lt;#= needsNullable ? &#34;?&#34; : &#34;&#34; #&gt; &lt;#= property.Name.Substring(1) #&gt; { get; set; }&lt;#= needsInitializer ? &#34; = null!;&#34; : &#34;&#34; #&gt;
+</code></pre><p><figure><center><img src=images/modify-entitytype-property-name-result.png alt="調整 EntityType.t4 欄位名稱的結果"><figcaption>調整 EntityType.t4 欄位名稱的結果</figcaption></center></figure></p><h4 id=dbcontextt4>DbContext.t4</h4><p>欄位名稱調整的位置，跟前面進行 Shadow Propery 調整的位置相同。一樣可以使用 <code>entity.Property</code> 快速定位調整位置。</p><p>但因為沒有調整 <code>.HasKey</code> 、<code>HasIndex</code> 等地方，所以產生出來的 DbContext 內容會有異常。</p><pre tabindex=0><code class=language-t4 data-lang=t4>// 原本寫法
+entity.Property(e =&gt; e.&lt;#= property.Name #&gt;)&lt;#= code.Fragment(propertyFluentApiCalls, indent: 4) #&gt;;
+
+// 調整後
+entity.Property(e =&gt; e.&lt;#= property.Name.Substring(1) #&gt;)&lt;#= code.Fragment(propertyFluentApiCalls, indent: 4) #&gt;;
+</code></pre><p><figure><center><img src=images/modify-dbcontext-property-name-result.png alt="僅調整 DbContext.t4 欄位名稱的結果"><figcaption>僅調整 DbContext.t4 欄位名稱的結果</figcaption></center></figure></p><h2 id=小結>小結</h2><p>利用 EF Core 的特性來隱藏實際資料庫欄位資訊，並自動化進行特定資料的更新，除了在 EF Core 底層，需要做一些額外的設定。</p><p>同時需要規範資料庫欄位的格式，避免 EF Core 底層解析錯誤。</p><p>但換來的昰減少重復性的工作併且避免錯誤操作，造成的資料錯誤。</p><h2 id=延伸閱讀>延伸閱讀</h2><p>▶ 站內文章</p><ul><li><a href=https://eandev.com/post/develop/dfcore-dbcontext-hasqueryfilter/>使用 HasQueryFilter 限定 DBContext 查詢內容</a></li></ul><p>▶ 站外文章</p><ul><li><a href=https://github.com/ErikEJ/EFCorePowerTools/wiki/Reverse-Engineering>Reverse Engineering · ErikEJ/EFCorePowerTools Wiki · GitHub</a></li><li><a href="https://learn.microsoft.com/zh-tw/ef/core/managing-schemas/scaffolding/templates?tabs=dotnet-core-cli">自訂反向工程範本 - EF Core | Microsoft Learn</a></li><li><a href=https://learn.microsoft.com/zh-tw/ef/core/modeling/shadow-properties>陰影和索引子屬性 - EF Core | Microsoft Learn</a></li></ul></div><footer class=post__footer><div class="post__tags tags clearfix"><svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5.0 11V3C0 1.5.8.8.8.8S1.5.0 3 0h8c1.5.0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 100-6 3 3 0 000 6z"/></svg><ul class=tags__list><a class=tag href=/tags/ef-core/ rel=tag>EF Core</a></ul></div></footer><hr><div><p>文章內容均為個人學習記錄、心得與認知，若任何謬誤或建議，歡迎直接留言討論，一同成長。</p></div><iframe class=LikeCoin src="https://button.like.co/in/embed/wosilee/button?referrer=https%3a%2f%2feandev.com%2fpost%2fdevelop%2fdotnet-ef-core-customized-dbcontext-entity%2f" height=200 width=100% frameborder=0></iframe>
+<script src=/js/copy-code-clipboard.min.js></script></article></main><nav class="pager flex"><div class="pager__item pager__item--prev"><a class=pager__link href=/post/develop/di-encapsulate-service-and-use-external-parameters/ rel=prev><span class=pager__subtitle>«&#8201;Previous</span><p class=pager__title>ASP.NET Core | 封裝 DI 的註冊行為時，同時使用外部參數來建立不同物件</p></a></div><div class="pager__item pager__item--next"><a class=pager__link href=/post/develop/dfcore-dbcontext-hasqueryfilter/ rel=next><span class=pager__subtitle>Next&#8201;»</span><p class=pager__title>EF Core | 使用 HasQueryFilter 限定 DBContext 查詢內容</p></a></div></nav><section class=comments><div id=disqus_thread></div><script type=application/javascript>window.disqus_config=function(){},function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById("disqus_thread").innerHTML="Disqus comments not available by default when the website is previewed locally.";return}var t=document,e=t.createElement("script");e.async=!0,e.src="//eanblog.disqus.com/embed.js",e.setAttribute("data-timestamp",+new Date),(t.head||t.body).appendChild(e)}()</script><noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></section></div></div><footer class=footer><div class="container footer__container flex"><div class=footer__copyright>&copy; 2023 伊恩軟體技術學習與分享.
+<span class=footer__copyright-credits>Generated with <a href=https://gohugo.io/ rel="nofollow noopener" target=_blank>Hugo</a> and <a href=https://github.com/Vimux/Mainroad/ rel="nofollow noopener" target=_blank>Mainroad</a> theme.</span></div></div></footer></div></body></html>

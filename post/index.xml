@@ -9,7 +9,14 @@
 &lt;li>EF Core 2.0 之後提供 &lt;code>HasQueryFilter&lt;/code> 的方法，可針對 Entity 的任何查詢，進行套用 Linq 運算式。&lt;/li>
 &lt;li>若要排除 &lt;code>HasQueryFilter&lt;/code> 的影響，可以在 DBContext.Entites 加上 &lt;code>.IgnoreQueryFilters()&lt;/code> 。&lt;/li>
 &lt;/ul>
-&lt;/blockquote></description></item><item><title>ASP.NET Core | 封裝 DI 的註冊行為時，同時使用外部參數來建立不同物件</title><link>https://eandev.com/post/develop/di-encapsulate-service-and-use-external-parameters/</link><pubDate>Wed, 14 Jun 2023 12:56:50 +0800</pubDate><guid>https://eandev.com/post/develop/di-encapsulate-service-and-use-external-parameters/</guid><description>&lt;p>當發現一個 .NET Core 的類別，其所有方法均需要相同的參數資料，這時，我們就會想到從 DI 下手，在建立物件時，一併把參數傳入。這樣就不需要在調用方式時，還要重複的傳入參數。&lt;/p>
+&lt;/blockquote></description></item><item><title>EF Core | 使用 T4 CodeTemplate 客制化 EFCore Scaffold 產出內容</title><link>https://eandev.com/post/develop/dotnet-ef-core-customized-dbcontext-entity/</link><pubDate>Sat, 17 Jun 2023 11:22:44 +0800</pubDate><guid>https://eandev.com/post/develop/dotnet-ef-core-customized-dbcontext-entity/</guid><description>&lt;p>接續 DBContext 操作的議題，目前已知現有的資料庫內，所有的表格都有 &lt;code>CreatedAt&lt;/code>、&lt;code>UpdatedAt&lt;/code>、&lt;code>UpdatedUser&lt;/code>、 &lt;code>IsDeleted&lt;/code> 四個特定字詞結尾的欄位，額外記錄資料異動記錄。&lt;/p>
+&lt;p>在「&lt;a href="https://eandev.com/post/develop/dfcore-dbcontext-hasqueryfilter/">使用 HasQueryFilter 限定 DBContext 查詢內容&lt;/a>」中，提到如何透過 &lt;code>HasQueryFilter&lt;/code> 來簡化資料庫查詢的動作。&lt;/p>
+&lt;p>接下來，想要再進一步的封裝 EFCore 所使用的 Entity，讓這四個欄位的資訊，不要曝露於 DBContext 的操作中。&lt;/p>
+&lt;p>針對客制化 EFCore 的 DBContext 與 Entity Type，將相關的實作內容記錄下來。&lt;/p>
+&lt;pre tabindex="0">&lt;code class="language-ad-tldr" data-lang="ad-tldr">title: 長話短說
+- 若是覺得用 `dotnet ef dbcontext scaffold` 的指令來建立 DBContext 不方便，在 Visual Studo 可以安裝 [`EF Core Power Tool`](https://marketplace.visualstudio.com/items?itemName=ErikEJ.EFCorePowerTools) Extension 套件，以 GUI 進階設定 DBContext 的建立內容。
+- 針對 DBContext 的查詢要進行過濾，可在 DBContext 內的 `OnModelCreatingPartial(ModelBuilder modelBuilder)` 進行過濾。
+&lt;/code>&lt;/pre></description></item><item><title>ASP.NET Core | 封裝 DI 的註冊行為時，同時使用外部參數來建立不同物件</title><link>https://eandev.com/post/develop/di-encapsulate-service-and-use-external-parameters/</link><pubDate>Wed, 14 Jun 2023 12:56:50 +0800</pubDate><guid>https://eandev.com/post/develop/di-encapsulate-service-and-use-external-parameters/</guid><description>&lt;p>當發現一個 .NET Core 的類別，其所有方法均需要相同的參數資料，這時，我們就會想到從 DI 下手，在建立物件時，一併把參數傳入。這樣就不需要在調用方式時，還要重複的傳入參數。&lt;/p>
 &lt;p>為了隱藏服務的實現細節，將 DI 的服務註冊行為加以封裝，但又需要 WebApi 的 HttpContext 內的參數，建立對應的物件。&lt;/p>
 &lt;p>在這篇文章紀錄了直接使用 IHttpContextAccessor 和封裝 DI 所需的參數，兩筆不同的作法。筆者個人推薦後者的作法。&lt;/p>
 &lt;blockquote>
