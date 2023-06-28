@@ -1,7 +1,7 @@
 ﻿---
 title: 淺談 Pattern | 生產者與消費者模型
 description: 佇列常見用於生產者與消費者模型之中，作為兩者之間的緩沖區。將雙方的直接關係進行解耦，並減少雙方效率不均的問題。
-date: 2023-02-02T07:58:59.547Z
+date: 2023-02-02T15:58:59+08:00
 categories:
   - Pattern
 tags:
@@ -10,6 +10,7 @@ keywords:
   - producer-consumers
   - pattern
 slug: producer-consumers
+lastmod: 2023-06-28T10:10:47+08:00
 ---
 
 佇列常見用於生產者與消費者模型之中，作為兩者之間的緩沖區。將雙方的直接關係進行解耦，並減少雙方效率不均的問題。

@@ -11,9 +11,9 @@ keywords:
   - dockerfile
   - Azure Pipelines
   - jenkins
-date: 2023-01-11T07:01:17.100Z
+date: 2023-01-11T15:01:17+08:00
 slug: build-docker-image
-lastmod: 2023-01-12T07:25:42.274Z
+lastmod: 2023-06-28T10:10:47+08:00
 ---
 
 > [2019 iT 邦幫忙鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/1906)文章補完計劃，[從零開始建立自動化發佈的流水線]({{< ref "../build-ci-cd-from-scratch/index.md#container" >}})tainer 篇

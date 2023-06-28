@@ -9,11 +9,12 @@ keywords:
   - GitLab
   - Gitlab Runner
   - DevOps
-date: 2022-09-12T02:16:34.083Z
+date: 2022-09-12T10:16:34+08:00
 description: 在上一篇文章，已經成功在本機建立好 GitLab CI 的環境了，接下來，改在私用的環境，將 GitLab CI 與 Runner 分別建立，並讓 GitLab CI 順利運行。
 slug: build-gitlab-on-private-environment
 aliases:
   - /post/devops/gitlab_ci_network/
+lastmod: 2023-06-28T10:10:47+08:00
 ---
 
 延續上一篇 [GitLab CI 實作記錄(1) - 使用 Docker 在同台主機運行 GitLab 與 GitLab-Runner](GitLab%20CI%20實作記錄(1)%20-%20使用%20Docker%20在同台主機運行%20GitLab%20與%20GitLab-Runner.md) 的結果，接著要開始進行 GitLab CI 的環境架設。

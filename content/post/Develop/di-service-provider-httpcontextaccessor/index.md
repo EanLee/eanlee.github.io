@@ -14,8 +14,7 @@ keywords:
   - IServiceProvider
   - HttpContextAccessor
 slug: di-service-provider-httpcontextaccessor
-created: 2023-06-21T11:21:06+08:00
-updated: 2023-06-21T11:21:06+08:00
+lastmod: 2023-06-28T11:32:17+08:00
 ---
 
 > 🔖 長話短說 🔖

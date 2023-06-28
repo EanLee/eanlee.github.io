@@ -5,8 +5,8 @@ categories:
   - 開發雜談
 keywords: []
 description: 分享排除 API Server 有非預期請求的原因釐清過程
-date: 2022-06-10T04:00:00.000Z
-lastmod: 2022-06-18T17:10:26.662Z
+date: 2022-06-10T12:00:00+08:00
+lastmod: 2023-06-28T10:10:47+08:00
 slug: unexpected-request
 ---
 

@@ -12,6 +12,7 @@ keywords:
   - GitHub Action
   - GitHub
 slug: github-action-travis-ci
+lastmod: 2023-06-28T10:42:03+08:00
 ---
 
 > [2019 iT 邦幫忙鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/1906)文章補完計劃，[從零開始建立自動化發佈的流水線]({{< ref "../build-ci-cd-from-scratch/index.md#持續整合" >}})合篇

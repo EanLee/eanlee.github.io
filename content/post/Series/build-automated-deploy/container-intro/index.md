@@ -7,11 +7,10 @@ categories:
 keywords:
   - Container
   - Docker
-date: 2022-08-19T14:15:18.133Z
+date: 2022-08-19T22:15:18+08:00
 description: 從零開始建立自動化發佈的流水線的系列文中，開始進入 Container 的概念討論。
 slug: container-intro
-created: 2023-06-21T11:21:06+08:00
-updated: 2023-06-21T11:21:06+08:00
+lastmod: 2023-06-28T11:33:14+08:00
 ---
 
 > [2019 iT 邦幫忙鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/1906)文章補完計劃，[從零開始建立自動化發佈的流水線]({{< ref "../build-ci-cd-from-scratch/index.md#container" >}}) Container 篇

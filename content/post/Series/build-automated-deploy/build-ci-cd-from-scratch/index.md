@@ -8,8 +8,8 @@ keywords:
   - 版控
 categories:
   - 系列文章
-date: 2022-06-20T06:58:08.103Z
-lastmod: 2023-01-15T16:08:36.674Z
+date: 2022-06-20T14:58:08+08:00
+lastmod: 2023-06-28T10:31:57+08:00
 slug: build-ci-cd-from-scratch
 toc: false
 ---

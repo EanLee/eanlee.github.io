@@ -1,12 +1,12 @@
 ﻿---
 title: 聊聊名詞 | 單點故障 | Single point of failure, SPOF
 description: 試著簡單說明單點故障背後的意思
-date: 2022-06-23T03:25:10.317Z
+date: 2022-06-23T11:25:10+08:00
 categories:
   - 聊聊名詞
 tags:
   - 思維模式
-lastmod: 2022-06-28T08:52:39.741Z
+lastmod: 2023-06-28T10:10:47+08:00
 slug: spof
 ---
 

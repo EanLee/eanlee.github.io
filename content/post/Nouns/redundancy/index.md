@@ -1,7 +1,7 @@
 ﻿---
 title: 聊聊名詞 | 冗餘 | Redundancy
 description: 試著簡單說明接觸過的名詞，再次加深自己的印象，另一方面也作為備查用的資訊。
-date: 2022-06-09T09:15:15.154Z
+date: 2022-06-09T17:15:15+08:00
 categories:
   - 聊聊名詞
 slug: redundancy
@@ -10,7 +10,7 @@ keywords:
   - Redundancy
 tags:
   - 思維模式
-lastmod: 2022-06-28T08:52:03.079Z
+lastmod: 2023-06-28T10:10:47+08:00
 ---
 
 冗餘(Redundancy)是指為提昇系統的穩定性與可靠性，刻意配置重複的零件或機能。此動作主要是為避免單一環節失效，對系統的衝擊。

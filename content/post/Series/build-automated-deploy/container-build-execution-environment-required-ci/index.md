@@ -14,8 +14,9 @@ keywords:
   - Travis CI
   - Azure DevOps
   - jenkins
-date: 2023-01-10T16:15:41.512Z
+date: 2023-01-11T00:15:41+08:00
 slug: container-build-execution-environment-required-ci
+lastmod: 2023-06-28T10:10:47+08:00
 ---
 
 > [2019 iT 邦幫忙鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/1906) 文章補完計劃，[從零開始建立自動化發佈的流水線]({{< ref "../build-ci-cd-from-scratch/index.md#container" >}}) Container 篇

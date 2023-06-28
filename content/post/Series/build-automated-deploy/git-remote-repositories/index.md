@@ -16,7 +16,7 @@ keywords:
   - Azure DevOps
   - Azure Repos
 slug: git-remote-repositories
-lastmod: 2023-01-13T01:20:43.020Z
+lastmod: 2023-06-28T10:41:48+08:00
 ---
 
 > [2019 iT 邦幫忙鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/1906)文章補完計劃，[從零開始建立自動化發佈的流水線]({{< ref "../build-ci-cd-from-scratch/index.md#版控篇" >}}) 版控篇

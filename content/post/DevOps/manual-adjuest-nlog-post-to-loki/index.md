@@ -8,9 +8,10 @@ categories:
 keywords:
   - NLog
   - Loki
-date: 2023-03-23T07:23:19.102Z
+date: 2023-03-23T15:23:19+08:00
 description: 在大多的情況下，服務都是把 Log 存到檔案之中，若是要收集 Log 資料，一是直接改寫程式的 Log 的方式，不然就是使用 agent 來收集 Log 資料。分享一個奇淫怪招，在不使用 agent 與調整程式主體的前提下，讓 NLog POST Log 到 Loki。
 slug: manual-adjuest-nlog-post-to-loki
+lastmod: 2023-06-28T10:10:47+08:00
 ---
 
 想要收集現有的服務 Log 資料到 Grafana Loki 之中。而該服務使用 .NET Core 撰寫，並使用 NLog 套件輸出 Log 資料到檔案之中。

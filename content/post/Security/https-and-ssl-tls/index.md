@@ -5,7 +5,7 @@ keywords:
   - HTTPS
 categories:
   - 資訊安全
-date: 2022-05-23T23:52:24.237Z
+date: 2022-05-24T07:52:24+08:00
 description: 在資訊安全的討論上，常常提到要使用 HTTPS 與 SSL/TLS，但一直沒有好好的釐清背後的原理與概念。就來讓借這個機會來了解 OSI、HTTP/HTTPS 的通訊方式、SSL/TLS 的用途。
 tags:
   - 網路
@@ -13,19 +13,18 @@ tags:
 slug: https-and-ssl-tls
 aliases:
   - /post/security/talking_https_and_ssl/
-created: 2023-06-21T11:55:46+08:00
-updated: 2023-06-21T11:55:46+08:00
+lastmod: 2023-06-28T11:33:21+08:00
 ---
 
 在開始之前，先提一下 OSI，它是由國際標準化組織(ISO)針對開放式網路架構所制定的電腦互連標準，全名是開放式通訊系統互連參考模型（Open System Interconnection Reference Model, OSI），簡稱 OSI 模型。依網路通訊的運作，依不同的傳輸模式、定義的規範與標準，從實體到抽象，將劃分為七層。
 
 <!--more-->
 
-![OSI 模型](images/osi.png)
+![OSI 模型](images/osi-layer.png)
 
 ## HTTP 的傳輸方式
 
-![HTTP in OSI](images/osi_http.png)
+![HTTP in OSI](images/http-osi-layer.png)
 
 HTTP(HyperText Transfer Protocol) 為應用層的通訊協定，底層使用 TCP(Transmission Control Protocol) 通訊協定作為數據傳輸的方式。因此，在 HTTP 交換資料之前，在兩台機器開啟連線時，需要先進行 TCP 的三次交握(Three-way handshake)，完成後，才是正式進行資料的傳輸。
 
@@ -47,7 +46,7 @@ HTTP 本身單純 Request/Resonse 一來一往的進行通訊。
 
 SSL/TLS 的活動位置，位於 OSI 的 Seseion Layer，針對傳輸資料內容，進行加密與身份驗證，達到保護個人或機敏性資料的目的。
 
-![HTTPS in OSI](images/osi_https.png)
+![HTTPS in OSI](images/https-osi-layer.png)
 
 TLS 1.2 與 TLS 1.3 的交握機制有所不同，TLS 1.3 針對安全與交握機制進行改善，減少交握溝通的次數，達到縮減交接的往返時間(Round Trip Time, RTT)與提升安全性。
 

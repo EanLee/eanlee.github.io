@@ -9,7 +9,7 @@ tags:
   - Queue
 categories:
   - 軟體開發
-lastmod: 2023-01-19T01:30:36.906Z
+lastmod: 2023-06-28T10:10:47+08:00
 slug: queue
 ---
 

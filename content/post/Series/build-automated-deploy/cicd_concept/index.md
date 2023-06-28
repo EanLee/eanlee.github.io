@@ -7,7 +7,7 @@ categories:
 keywords:
   - CI
   - CD
-lastmod: 2022-06-28T09:03:47.840Z
+lastmod: 2023-06-28T10:10:47+08:00
 slug: cicd_concept
 ---
 
