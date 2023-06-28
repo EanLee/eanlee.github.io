@@ -1,8 +1,8 @@
 ﻿---
 title: EF Core | 使用 T4 CodeTemplate 客制化 EFCore Scaffold 產出內容
-description: null
+description: 本文探討 EF Core 的 DBContext 與 Entity Type 客制化，透過 CodeTemplate 實現客制化。包含使用Shadow Properties，以及重寫 DBContext 的 SaveChanges 自動更新欄位。
 date: 2023-06-28T23:42:45+08:00
-lastmod: 2023-06-28T23:42:45+08:00
+lastmod: 2023-06-29T00:04:32+08:00
 categories:
   - 軟體開發
 tags:
@@ -25,6 +25,7 @@ slug: dotnet-ef-core-customized-dbcontext-entity
 針對客制化 EFCore 的 DBContext 與 Entity Type，將相關的實作內容記錄下來。
 
 > 🔖 長話短說 🔖
+>
 > - 若是覺得用 `dotnet ef dbcontext scaffold` 的指令來建立 DBContext 不方便，在 Visual Studo 可以安裝 [`EF Core Power Tool`](https://marketplace.visualstudio.com/items?itemName=ErikEJ.EFCorePowerTools) Extension 套件，以 GUI 進階設定 DBContext 的建立內容。
 > - 針對 DBContext 的查詢要進行過濾，可在 DBContext 內的 `OnModelCreatingPartial(ModelBuilder modelBuilder)` 進行過濾。
 
@@ -198,23 +199,23 @@ foreach (var property in EntityType.GetProperties().OrderBy(p => p.GetColumnOrde
 接著，針對要原本的 `CreatedAt`、`UpdatedAt`、`UpdatedUser`、 `IsDeleted` 這四個欄位，改寫 DbContext.t4，使其成為 [Shadow Properties](https://learn.microsoft.com/zh-tw/ef/core/modeling/shadow-properties#configuring-shadow-properties)，並預期產出的 DBContext 內容如下。
 
 ```C#
-protected override void OnModelCreating(ModelBuilder modelBuilder)  
-{  
-	modelBuilder.Entity<Book>(entity =>  
-	{  
+protected override void OnModelCreating(ModelBuilder modelBuilder)
+{
+	modelBuilder.Entity<Book>(entity =>
+	{
 		... 略 ...
 
 		// 原本 DbContext 產生的內容
-		// entity.Property(e => e.BUpdatedAt)  
-		// 	     .HasDefaultValueSql("(getdate())")  
+		// entity.Property(e => e.BUpdatedAt)
+		// 	     .HasDefaultValueSql("(getdate())")
 		//  	 .HasColumnName("B_UpdatedAt");
 
 		// Shadow Property
-		entity.Property<DateTime>("B_UpdatedAt");  
+		entity.Property<DateTime>("B_UpdatedAt");
 
-	});  
-  
-	OnModelCreatingPartial(modelBuilder);  
+	});
+
+	OnModelCreatingPartial(modelBuilder);
 }
 ```
 
@@ -269,53 +270,53 @@ internal partial class LabContext
 		return base.SaveChangesAsync(cancellationToken);
 	}
 
-	private void UpdateDataAttribute()  
-	{  
-		var currentTime = DateTime.UtcNow;  
-  
-		foreach (var entry in this.ChangeTracker.Entries())  
-		{  
-		// 若是刪除的操作，將操作改為軟刪除(編輯)  
-		if (entry.State == EntityState.Deleted)  
-		{  
-			var isValid = entry.Properties.FirstOrDefault(prop => 
-							prop.Metadata.Name.EndsWith("IsDeleted",  
-								StringComparison.OrdinalIgnoreCase));  
-  
-			// 因為資料庫欄位為 bit, 所以直接指定 1, 實務上請避免使用 Magic Number。  
-			if (isValid != null)  
-				isValid.CurrentValue = 1;  
-  
-			entry.State = EntityState.Modified;  
-		}  
-  
-		if (entry.State == EntityState.Added)  
-		{  
-		// 若是新增資料，額外指定 CreatedAt 的資料  
-		var createAtProperty = entry.Properties.FirstOrDefault(prop =>  
-								prop.Metadata.Name.EndsWith("CreatedAt",  
-									StringComparison.OrdinalIgnoreCase));  
-  
-		if (createAtProperty != null)  
-			createAtProperty.CurrentValue = currentTime;  
-		}  
-  
+	private void UpdateDataAttribute()
+	{
+		var currentTime = DateTime.UtcNow;
+
+		foreach (var entry in this.ChangeTracker.Entries())
+		{
+		// 若是刪除的操作，將操作改為軟刪除(編輯)
+		if (entry.State == EntityState.Deleted)
+		{
+			var isValid = entry.Properties.FirstOrDefault(prop =>
+							prop.Metadata.Name.EndsWith("IsDeleted",
+								StringComparison.OrdinalIgnoreCase));
+
+			// 因為資料庫欄位為 bit, 所以直接指定 1, 實務上請避免使用 Magic Number。
+			if (isValid != null)
+				isValid.CurrentValue = 1;
+
+			entry.State = EntityState.Modified;
+		}
+
+		if (entry.State == EntityState.Added)
+		{
+		// 若是新增資料，額外指定 CreatedAt 的資料
+		var createAtProperty = entry.Properties.FirstOrDefault(prop =>
+								prop.Metadata.Name.EndsWith("CreatedAt",
+									StringComparison.OrdinalIgnoreCase));
+
+		if (createAtProperty != null)
+			createAtProperty.CurrentValue = currentTime;
+		}
+
 		// 更新 UpdatedAt
-		var updateAtProperty = entry.Properties.FirstOrDefault(prop =>  
-								prop.Metadata.Name.EndsWith("UpdatedAt",  
-								StringComparison.OrdinalIgnoreCase));  
-  
-		if (updateAtProperty != null)  
-			updateAtProperty.CurrentValue = currentTime;  
-  
+		var updateAtProperty = entry.Properties.FirstOrDefault(prop =>
+								prop.Metadata.Name.EndsWith("UpdatedAt",
+								StringComparison.OrdinalIgnoreCase));
+
+		if (updateAtProperty != null)
+			updateAtProperty.CurrentValue = currentTime;
+
 		// 更新 UpdatedUser
-		var updateUserProperty = entry.Properties.FirstOrDefault(prop =>  
-									prop.Metadata.Name.EndsWith("UpdatedUser",  
-										StringComparison.OrdinalIgnoreCase));  
-  
-		// Lab 先固定 operateUser 為 system, 實務上需要從其他取得資料  
-		if (updateUserProperty != null)  
-			updateUserProperty.CurrentValue = "system";  
+		var updateUserProperty = entry.Properties.FirstOrDefault(prop =>
+									prop.Metadata.Name.EndsWith("UpdatedUser",
+										StringComparison.OrdinalIgnoreCase));
+
+		// Lab 先固定 operateUser 為 system, 實務上需要從其他取得資料
+		if (updateUserProperty != null)
+			updateUserProperty.CurrentValue = "system";
 	}
 }
 ```
@@ -328,15 +329,14 @@ internal partial class LabContext
 
 ```C#
 // Program.cs
-using Lab.Models;  
-  
-Console.WriteLine("Hello, World!");  
-  
-var context = new LabContext();  
-context.Books.Add(new Book { BName = "Test" });  
+using Lab.Models;
+
+Console.WriteLine("Hello, World!");
+
+var context = new LabContext();
+context.Books.Add(new Book { BName = "Test" });
 context.SaveChanges();
 ```
-
 
 ![查詢資料新增結果](images/qeury-efcore-override-savechage-result.png)
 
@@ -360,6 +360,7 @@ public <#= code.Reference(property.ClrType) #><#= needsNullable ? "?" : "" #> <#
 ```
 
 ![調整 EntityType.t4 欄位名稱的結果](images/modify-entitytype-property-name-result.png)
+
 #### DbContext.t4
 
 欄位名稱調整的位置，跟前面進行 Shadow Propery 調整的位置相同。一樣可以使用 `entity.Property` 快速定位調整位置。
