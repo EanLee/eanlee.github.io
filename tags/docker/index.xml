@@ -27,7 +27,7 @@
 &lt;li>若要讓 PostgreSQL container 建立的同時，完成資料庫 schema 初始化。要在在建立 Docker Image 的同時，把 &lt;code>init.sql&lt;/code> 複制到 &lt;code>/docker-entrypoint-initdb.d/&lt;/code>&lt;/li>
 &lt;li>&lt;code>docker-entrypoint-initdb.d&lt;/code> 可放入多個 .sql 檔，其執行順序依地區設定的檔名順序。預設為 &lt;code>en_US.utf8&lt;/code>&lt;/li>
 &lt;/ul>
-&lt;/blockquote></description></item><item><title>使用 dotnet-ef 建立 SQL Server on Docker 的 DBContext</title><link>https://eandev.com/post/develop/dotnet-ef-sqlserver/</link><pubDate>Tue, 14 Feb 2023 18:12:33 +0800</pubDate><guid>https://eandev.com/post/develop/dotnet-ef-sqlserver/</guid><description>&lt;p>在 &lt;a href="https://eandev.com/post/develop/dotnet-ef-postgresql-dbcontext/">使用 dotnet-ef 建立 PostgreSQL 的 DBContext&lt;/a> 之後，也嘗試從 SQL Server on Docker 建立 DBContext，就順手把過程中遇到的小問題記錄下來。&lt;/p>
+&lt;/blockquote></description></item><item><title>EF Core | 使用 dotnet-ef 建立 SQL Server on Docker 的 DBContext</title><link>https://eandev.com/post/develop/dotnet-ef-sqlserver/</link><pubDate>Tue, 14 Feb 2023 18:12:33 +0800</pubDate><guid>https://eandev.com/post/develop/dotnet-ef-sqlserver/</guid><description>&lt;p>在 &lt;a href="https://eandev.com/post/develop/dotnet-ef-postgresql-dbcontext/">使用 dotnet-ef 建立 PostgreSQL 的 DBContext&lt;/a> 之後，也嘗試從 SQL Server on Docker 建立 DBContext，就順手把過程中遇到的小問題記錄下來。&lt;/p>
 &lt;blockquote>
 &lt;p>🔖 長話短說 🔖&lt;/p>
 &lt;ul>
