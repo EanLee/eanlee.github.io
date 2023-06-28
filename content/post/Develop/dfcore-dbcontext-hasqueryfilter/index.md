@@ -1,5 +1,5 @@
 ﻿---
-title: EFCore | 使用 HasQueryFilter 限定 DBContext 查詢內容
+title: EF Core | 使用 HasQueryFilter 限定 DBContext 查詢內容
 description: 分享三種在 EF Core 2.0 後的查詢過濾資料的方法。並著重說明 EFCore 2.0 後提供的 Global Query Filter 功能，它可以讓開發人員在模型建立期間設定預設的查詢過濾條件，這樣在所有的查詢中都會自動套用這個過濾條件，簡化查詢程式碼並避免查詢錯誤。
 date: 2023-06-19T03:17:17+08:00
 categories:

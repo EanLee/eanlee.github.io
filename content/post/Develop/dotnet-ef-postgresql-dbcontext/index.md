@@ -1,5 +1,5 @@
 ﻿---
-title: 使用 dotnet-ef 建立 PostgreSQL 的 DBContext
+title: EF Core | 使用 dotnet-ef 建立 PostgreSQL 的 DBContext
 description: 當 .NET Core 要使用 EF Core 去存取 PostgreSQL 時，可以先使用 dotnet-ef 的工具，協助產生對應 PostgreSQL
   schema 的 DBContext
 date: 2023-02-13T12:13:02+08:00
