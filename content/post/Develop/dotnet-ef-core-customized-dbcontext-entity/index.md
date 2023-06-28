@@ -1,8 +1,8 @@
 ﻿---
 title: EF Core | 使用 T4 CodeTemplate 客制化 EFCore Scaffold 產出內容
 description: null
-date: 2023-06-17T11:22:44+08:00
-lastmod: 2023-06-28T23:00:15+08:00
+date: 2023-06-28T23:42:45+08:00
+lastmod: 2023-06-28T23:42:45+08:00
 categories:
   - 軟體開發
 tags:
@@ -24,12 +24,9 @@ slug: dotnet-ef-core-customized-dbcontext-entity
 
 針對客制化 EFCore 的 DBContext 與 Entity Type，將相關的實作內容記錄下來。
 
-```ad-tldr
-title: 長話短說
-
-- 若是覺得用 `dotnet ef dbcontext scaffold` 的指令來建立 DBContext 不方便，在 Visual Studo 可以安裝 [`EF Core Power Tool`](https://marketplace.visualstudio.com/items?itemName=ErikEJ.EFCorePowerTools) Extension 套件，以 GUI 進階設定 DBContext 的建立內容。
-- 針對 DBContext 的查詢要進行過濾，可在 DBContext 內的 `OnModelCreatingPartial(ModelBuilder modelBuilder)` 進行過濾。
-```
+> 🔖 長話短說 🔖
+> - 若是覺得用 `dotnet ef dbcontext scaffold` 的指令來建立 DBContext 不方便，在 Visual Studo 可以安裝 [`EF Core Power Tool`](https://marketplace.visualstudio.com/items?itemName=ErikEJ.EFCorePowerTools) Extension 套件，以 GUI 進階設定 DBContext 的建立內容。
+> - 針對 DBContext 的查詢要進行過濾，可在 DBContext 內的 `OnModelCreatingPartial(ModelBuilder modelBuilder)` 進行過濾。
 
 <!--more-->
 
