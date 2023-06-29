@@ -2,7 +2,7 @@
 title: EF Core | 使用 T4 CodeTemplate 客制化 EFCore Scaffold 產出內容
 description: 本文探討 EF Core 的 DBContext 與 Entity Type 客制化，透過 CodeTemplate 實現客制化。包含使用Shadow Properties，以及重寫 DBContext 的 SaveChanges 自動更新欄位。
 date: 2023-06-28T23:42:45+08:00
-lastmod: 2023-06-29T00:04:32+08:00
+lastmod: 2023-06-29T09:24:58+08:00
 categories:
   - 軟體開發
 tags:
@@ -28,6 +28,7 @@ slug: dotnet-ef-core-customized-dbcontext-entity
 >
 > - 若是覺得用 `dotnet ef dbcontext scaffold` 的指令來建立 DBContext 不方便，在 Visual Studo 可以安裝 [`EF Core Power Tool`](https://marketplace.visualstudio.com/items?itemName=ErikEJ.EFCorePowerTools) Extension 套件，以 GUI 進階設定 DBContext 的建立內容。
 > - 針對 DBContext 的查詢要進行過濾，可在 DBContext 內的 `OnModelCreatingPartial(ModelBuilder modelBuilder)` 進行過濾。
+> - 若要使用 EFCore 的 Shadow Property 來隱藏並操作資料，需要**規範資料庫欄位的格式**，避免 EF Core 底層解析錯誤。
 
 <!--more-->
 
@@ -84,7 +85,7 @@ dotnet new ef-templates
 
 這意味著 DbContext 的使用應儘量被限制在 Data Layer 中，避免 DbContext 曝露在外的。確保資料操作在適當的範疇內進行。
 
-在資料庫的表格內，均有 `CreatedAt`、`chgTime`、`chgUser`、 `chgState` 四個欄位，額外記錄資料異動記錄。但希望減輕開發者的工作負擔，讓這四個欄位的更新或自動化。避免使用 ORM 時，還要花費心思在更新或維護這四個欄位的資料，或是發生更新失誤的情況。
+在資料庫的表格內，均有以 `CreatedAt`、`UpdatedAt`、`UpdatedUser`、 `IsDeleted`  這四個字詞結尾的欄位，額外記錄資料異動記錄。但希望減輕開發者的工作負擔，讓這四個欄位的更新或自動化。避免使用 ORM 時，還要花費心思在更新或維護這四個欄位的資料，或是發生更新失誤的情況。
 
 同時，資料庫欄位名稱過長或不夠直覺，想要讓 ORM 生成 Entity Field 時，變更為適當的名稱。讓程式碼更加直觀易懂，提高開發效率。
 

@@ -11,7 +11,7 @@ keywords:
   - HasQueryFilter
   - Entity Framework
 slug: dfcore-dbcontext-hasqueryfilter
-lastmod: 2023-06-27T15:17:54+08:00
+lastmod: 2023-06-29T09:25:56+08:00
 ---
 
 前些時間，在幫朋友改造現有倉儲系統時，發現現有資料庫內，所有的表格都有四個作為異動記錄使用的固定欄位。
