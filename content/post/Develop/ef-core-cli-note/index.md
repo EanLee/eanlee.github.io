@@ -3,7 +3,7 @@ title: EF Core | CLI Tools 操作筆記
 description: 記錄 ef tool 內的 DbContext Scaffold 與 code template 的 cli 指令
 date: 2023-08-17T01:29:27.194Z
 tags:
-  - EF Core
+  - 軟體開發
 categories:
   - EF Core
 keywords:
@@ -17,7 +17,7 @@ slug: ef-core-cli-note
 
 <!--more-->
 
-## Cli Tools 安裝與更新
+## CLI Tools 安裝與更新
 
 ### EF Tool 的安裝與更新
 
