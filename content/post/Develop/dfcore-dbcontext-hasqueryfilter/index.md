@@ -11,7 +11,7 @@ keywords:
   - HasQueryFilter
   - Entity Framework
 slug: dfcore-dbcontext-hasqueryfilter
-lastmod: 2023-06-29T09:25:56+08:00
+lastmod: 2023-06-29T09:43:17+08:00
 ---
 
 前些時間，在幫朋友改造現有倉儲系統時，發現現有資料庫內，所有的表格都有四個作為異動記錄使用的固定欄位。
@@ -137,21 +137,21 @@ public partical class LabContext
 		foreach (var entityType in modelBuilder.Model.GetEntityTypes())
 		{
 			// 只取出有效的資料
-			var prop = 
+			var prop =
 				entityType.GetProperties().FirstOrDefault(p => p.Name.EndsWith("IsDeleted"));
-	
+
 			var parameter = Expression.Parameter(entityType.ClrType);
-			
+
 			var filter =
 				Expression.Equal(
 					Expression.Property(parameter, prop.Name),
 					Expression.Constant(false));
-	
+
 			var lambda =
 				Expression.Lambda(
 					filter,
 					Expression.Parameter(entityType.ClrType));
-	
+
 			modelBuilder.Entity(entityType.ClrType).HasQueryFilter(lambda);
 		}
 	}
@@ -173,7 +173,7 @@ var stories = LabContext.Stories.IgnoreQueryFilters().ToList();
 
 ## Gobal Query Filter 多條件過濾
 
-假設多租戶系統的資料庫表格中，所有的表格都有存在 `StoreId` 與 `IsDeleted` 的欄位，所以我們希望可以同時過濾這2個欄位的資訊。
+假設多租戶系統的資料庫表格中，所有的表格都有存在 `StoreId` 與 `IsDeleted` 的欄位，所以我們希望可以同時過濾這 2 個欄位的資訊。
 
 所以我們可能會撰寫以下的程式。
 
@@ -184,30 +184,30 @@ public partical class LabContext
 	{
 		// Demo 固定值為 1, 實務上需透明其他方式取得
 		int storeId = 1;
-	
+
 		foreach (var entityType in modelBuilder.Model.GetEntityTypes())
 		{
 			var parameter = Expression.Parameter(entityType.ClrType);
-			
+
 			// 只取出有效的資料
-			var isDeletedProp = 
+			var isDeletedProp =
 				entityType.GetProperties().FirstOrDefault(p => p.Name.EndsWith("IsDeleted"));
-	
+
 			var isDeletedFilter =
 				Expression.Equal(
 					Expression.Property(parameter, isDeletedProp.Name),
 					Expression.Constant(false));
 
-			var storeIdProp = 
+			var storeIdProp =
 				entityType.GetProperties().FirstOrDefault(p => p.Name.EndsWith("StoreId"));
-	
+
 			var storeIdFilter =
 				Expression.Equal(
 					Expression.Property(parameter, prop.Name),
 					Expression.Constant(storeId));
-	
-			var combine = Expression.AndAlso(isDeletedFilter, storeIdFilter);  
-			var lambda = Expression.Lambda(combine, parameter);  
+
+			var combine = Expression.AndAlso(isDeletedFilter, storeIdFilter);
+			var lambda = Expression.Lambda(combine, parameter);
 			modelBuilder.Entity(entityType.ClrType).HasQueryFilter(lambda);
 		}
 	}
@@ -220,14 +220,14 @@ public partical class LabContext
 var parameter = Expression.Parameter(entityType.ClrType);
 
 // 只取出有效的資料
-var isDeletedProp = 
+var isDeletedProp =
 	entityType.GetProperties().FirstOrDefault(p => p.Name.EndsWith("IsDeleted"));
 
 var isDeletedFilter =
 	Expression.Equal(
 		Expression.Property(parameter, isDeletedProp.Name),
 		Expression.Constant(false));
-var storeIdProp = 
+var storeIdProp =
 	entityType.GetProperties().FirstOrDefault(p => p.Name.EndsWith("StoreId"));
 
 var storeIdFilter =
@@ -239,8 +239,8 @@ var storeIdFilter =
 在這邊，我們使用 `Express.AndAlso` 來合併兩個以上的 `BinaryExpress` 後，以便後續使用 `Expression.Lambda` 產出 `.HasQueryFilter()` 所需的 `LamdaExpression`。
 
 ```C#
-var combine = Expression.AndAlso(isDeletedFilter, storeIdFilter);  
-var lambda = Expression.Lambda(combine, parameter);  
+var combine = Expression.AndAlso(isDeletedFilter, storeIdFilter);
+var lambda = Expression.Lambda(combine, parameter);
 modelBuilder.Entity(entityType.ClrType).HasQueryFilter(lambda);
 ```
 
@@ -256,14 +256,14 @@ Either rewrite the query in a form that can be translated, or switch to client e
 下述為錯誤的範例。在 `Expression.Equal` 與 `Expression.Lamdba` 都是直接使用 `Expression.Parameter` 建立的新物件。雖然在編譯檢查的時候不會出現任何錯誤，但在執行階段就會出現無效操作的例外。
 
 ```C#
-var isDeletedProp = 
+var isDeletedProp =
 	entityType.GetProperties().FirstOrDefault(p => p.Name.EndsWith("IsDeleted"));
 
 var isDeletedFilter =
 	Expression.Equal(
 		Expression.Property(Expression.Parameter(entityType.ClrType), isDeletedProp.Name),
 		Expression.Constant(false));
-var storeIdProp = 
+var storeIdProp =
 	entityType.GetProperties().FirstOrDefault(p => p.Name.EndsWith("StoreId"));
 
 var storeIdFilter =
@@ -271,17 +271,18 @@ var storeIdFilter =
 		Expression.Property(Expression.Parameter(entityType.ClrType), prop.Name),
 		Expression.Constant(storeId));
 
-var combine = Expression.AndAlso(isDeletedFilter, storeIdFilter);  
-var lambda = Expression.Lambda(combine, Expression.Parameter(entityType.ClrType));  
+var combine = Expression.AndAlso(isDeletedFilter, storeIdFilter);
+var lambda = Expression.Lambda(combine, Expression.Parameter(entityType.ClrType));
 modelBuilder.Entity(entityType.ClrType).HasQueryFilter(lambda);
 ```
 
 ## 延伸閱讀
 
+▶ 站內文章
+
+- [使用 T4 CodeTemplate 客制化 EFCore Scaffold 產出內容]({{< ref "../dotnet-ef-core-customized-dbcontext-entity/index.md" >}})
+
 ▶ 站外文章
 
 - [How to Use Global Query Filters in EF Core](https://www.milanjovanovic.tech/blog/how-to-use-global-query-filters-in-ef-core)
-
-▶ 參考資料
-
 - [EntityTypeBuilder.HasQueryFilter(LambdaExpression) 方法 ](https://learn.microsoft.com/zh-tw/dotnet/api/microsoft.entityframeworkcore.metadata.builders.entitytypebuilder.hasqueryfilter?view=efcore-7.0)

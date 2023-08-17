@@ -1,8 +1,9 @@
 ﻿---
 title: EF Core | 使用 T4 CodeTemplate 客制化 EFCore Scaffold 產出內容
-description: 本文探討 EF Core 的 DBContext 與 Entity Type 客制化，透過 CodeTemplate 實現客制化。包含使用Shadow Properties，以及重寫 DBContext 的 SaveChanges 自動更新欄位。
-date: 2023-06-28T23:42:45+08:00
-lastmod: 2023-06-29T09:24:58+08:00
+description: 本文探討 EF Core 的 DBContext 與 Entity Type 客制化，透過 CodeTemplate
+  實現客制化。包含使用 Shadow Properties，以及重寫 DBContext 的 SaveChanges 自動更新欄位。
+date: 2023-06-29T09:22:03+08:00
+lastmod: 2023-08-17T09:02:30+08:00
 categories:
   - 軟體開發
 tags:
@@ -11,6 +12,7 @@ keywords:
   - EF Core
   - EF Core Power Tool
   - DbContext
+  - Shadow Property
   - T4
   - Text Template Transformation Toolkit
 slug: dotnet-ef-core-customized-dbcontext-entity
@@ -28,7 +30,7 @@ slug: dotnet-ef-core-customized-dbcontext-entity
 >
 > - 若是覺得用 `dotnet ef dbcontext scaffold` 的指令來建立 DBContext 不方便，在 Visual Studo 可以安裝 [`EF Core Power Tool`](https://marketplace.visualstudio.com/items?itemName=ErikEJ.EFCorePowerTools) Extension 套件，以 GUI 進階設定 DBContext 的建立內容。
 > - 針對 DBContext 的查詢要進行過濾，可在 DBContext 內的 `OnModelCreatingPartial(ModelBuilder modelBuilder)` 進行過濾。
-> - 若要使用 EFCore 的 Shadow Property 來隱藏並操作資料，需要**規範資料庫欄位的格式**，避免 EF Core 底層解析錯誤。
+> - 若要使用 EFCore 的 Shadow Property 來隱藏並操作資料，需要**規範資料庫欄位的格式**，避免 CodeTemplate 解析錯誤，以及 EF Core 更新資料發生錯誤。
 
 <!--more-->
 
@@ -50,7 +52,7 @@ slug: dotnet-ef-core-customized-dbcontext-entity
 
 ## 使用 CodeTemplate 自訂產出的 DBContext 與 Entity
 
-也可以使用 CLI 的方式來產生 CodeTemplate 資料夾。首先安裝 的  `dotnet new` EF Core 範本套件：
+也可以使用 CLI 的方式來產生 CodeTemplate 資料夾。首先需要安裝  `dotnet new` EF Core 範本套件：
 
 ```shell
 dotnet new install Microsoft.EntityFrameworkCore.Templates
