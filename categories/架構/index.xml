@@ -1,38 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>架構 on 伊恩的開發狂想</title><link>https://eandev.com/categories/%E6%9E%B6%E6%A7%8B/</link><description>Recent content in 架構 on 伊恩的開發狂想</description><generator>Hugo -- gohugo.io</generator><language>zh-tw</language><lastBuildDate>Sat, 11 Nov 2023 14:28:57 +0800</lastBuildDate><atom:link href="https://eandev.com/categories/%E6%9E%B6%E6%A7%8B/index.xml" rel="self" type="application/rss+xml"/><item><title>Docker | 縮網址服務實作記錄 (1) - 基於 Docker 容器技術的網站服務架構實踐</title><link>https://eandev.com/post/series/side-project/shorten-1-build-service-base-on-container/</link><pubDate>Sat, 11 Nov 2023 14:28:57 +0800</pubDate><guid>https://eandev.com/post/series/side-project/shorten-1-build-service-base-on-container/</guid><description>&lt;blockquote>
 &lt;p>縮網址服務為 &lt;a href="http://url-ins.com/shorten/">http://url-ins.com/shorten/&lt;/a> ，有任何想法或回饋，可以在 &lt;a href="https://www.surveycake.com/s/wgveX">SurveyCake&lt;/a> 留下寶貴的意見。(為了維持主機的維運，在頁面內放入 Google Adsense 廣告。)&lt;/p>
 &lt;/blockquote>
+&lt;p>在這一篇文章的內容，主要的內容包含以下項目。&lt;/p>
+&lt;ol>
+&lt;li>建立系統服務的評估架構規劃。&lt;/li>
+&lt;li>Ubuntu 的防火牆設定、使用者密碼/ SSH Key 的認證設定。&lt;/li>
+&lt;li>在 Docker 中，利用 Docker network 進行網段劃份，以控制服務之間的訪問。&lt;/li>
+&lt;li>使用 Docker Hub 以外的 Container Registry，進行 Docker Image 管理。&lt;/li>
+&lt;li>Grafana 與 Loki 的設定方式。&lt;/li>
+&lt;/ol>
 &lt;blockquote>
 &lt;p>🔖 長話短說 🔖&lt;/p>
 &lt;p>設定 Ubuntu 允許 SSH 使用密碼登入時，除了 &lt;code>/etc/ssh/sshd_config&lt;/code> 需要調整，也要檢查 Include 其他的 &lt;code>.conf&lt;/code> 是否有覆寫的情況。&lt;/p>
-&lt;/blockquote>
-&lt;p>使用技術、框架與環境設定如下&lt;/p>
-&lt;ul>
-&lt;li>網路服務商
-&lt;ul>
-&lt;li>Domain: &lt;a href="https://tw.godaddy.com/">Godaddy&lt;/a>&lt;/li>
-&lt;li>主機平台: &lt;a href="https://m.do.co/c/254e8cbe525a">Digital Ocean&lt;/a>&lt;/li>
-&lt;li>版控與 Container Registry: &lt;a href="https://gitlab.com">GitLab&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;li>使用服務:
-&lt;ul>
-&lt;li>Nginx 1.25.3&lt;/li>
-&lt;li>Postgresql 16&lt;/li>
-&lt;li>Grafana 10.2&lt;/li>
-&lt;li>Loki 2.9.2&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;li>使用技術
-&lt;ul>
-&lt;li>Vue3 / &lt;a href="https://astro.build">Astro&lt;/a> 3.3&lt;/li>
-&lt;li>.NET 7&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;/ul>
-&lt;p>使用相關線上工具&lt;/p>
-&lt;ul>
-&lt;li>&lt;a href="https://www.digitalocean.com/community/tools/nginx?global.app.lang=zhTW">NGINXConfig&lt;/a>: Digital Ocean 提供的 Nginx conf 的產生器，可直接使用介面點選後，自動產生對應的 Nginx config。&lt;/li>
-&lt;/ul></description></item><item><title>聊聊架構 - 系統負載、分流與限制理論</title><link>https://eandev.com/post/architecture/system-loading-limit-reroute/</link><pubDate>Tue, 26 Jul 2022 17:35:47 +0800</pubDate><guid>https://eandev.com/post/architecture/system-loading-limit-reroute/</guid><description>&lt;p>無論技術決策或解決方案的選擇，經常因為現實環境造成的種種限制條件，導致無法直接使用最優解。需要基於限制條件下，進行相對應的妥協與方案的調整。&lt;/p>
+&lt;p>若是在要 Docker Compose 使用的 &lt;code>yaml&lt;/code> 檔中，宣告使用外部的 docker network，記得加上 &lt;code>external: true&lt;/code>&lt;/p>
+&lt;/blockquote></description></item><item><title>聊聊架構 - 系統負載、分流與限制理論</title><link>https://eandev.com/post/architecture/system-loading-limit-reroute/</link><pubDate>Tue, 26 Jul 2022 17:35:47 +0800</pubDate><guid>https://eandev.com/post/architecture/system-loading-limit-reroute/</guid><description>&lt;p>無論技術決策或解決方案的選擇，經常因為現實環境造成的種種限制條件，導致無法直接使用最優解。需要基於限制條件下，進行相對應的妥協與方案的調整。&lt;/p>
 &lt;p>做為系統開發或維運人員，當系統遇到麻煩或困難或瓶頸時，所提出的解決方案或作法，需將先天的限制列入評估。試著在有限的的資源，想辦法得到最大的效率或收益。為此，需要試著找出造成麻煩的瓶頸，加以分析，最終得出解除瓶頸的方案。&lt;/p>
 &lt;p>若觀察的視角過小或過於局部，所找到的系統瓶頸，從整個系統視角評估，有時會發現，原先認為的瓶頸，並不是真正的瓶頸問題。為此，可以運用限制理論去找出問題環節，配合 80/20 法則找出影響力最大的點，然後處理它。&lt;/p></description></item><item><title>系統架構演進與 AWS 雲端服務結合(1) - 內部系統快速驗證</title><link>https://eandev.com/post/architecture/cloud/mvp-vaification/</link><pubDate>Fri, 24 Jun 2022 09:17:18 +0800</pubDate><guid>https://eandev.com/post/architecture/cloud/mvp-vaification/</guid><description>&lt;p>假設新創的網路服務提供商，隨著業務的發展，提供服務的軟體系統，從最初的簡易架構，依據面臨的挑戰與需求，不停調整擴充系統架構。&lt;/p>
 &lt;p>系統若建立在雲端，隨著系統架構的演進的同時，所對應雲端服務供應商的服務。本文章僅為個人學習與理解雲端服務的手札，有任何更好的建議都歡迎告知。&lt;/p></description></item></channel></rss>
