@@ -1,6 +1,6 @@
 ﻿---
 title: Docker | 縮網址服務實作記錄 (1) - 基於 Docker 容器技術的網站服務架構實踐
-description: 本文紀錄使用 Docker Compose 在 Digital Ocean Ubuntu VPS 上架設縮網址服務的過程,包括環境設定、服務架構規劃、Docker image 管理、網路與安全設定等。適合想學習如何利用容器技術架設 Web 服務的讀者。
+description: 本文紀錄使用 Docker Compose 在 Digital Ocean Ubuntu VPS 上架設縮網址服務的過程，包括環境設定、服務架構規劃、Docker image 管理、網路與安全設定等。適合想學習如何利用容器技術架設 Web 服務的讀者。
 date: 2023-11-11T14:28:57+08:00
 lastmod: 2023-11-11T15:22:30+08:00
 tags:
@@ -23,11 +23,42 @@ slug: shorten-1-build-service-base-on-container
 
 > 縮網址服務為 http://url-ins.com/shorten/ ，有任何想法或回饋，可以在 [SurveyCake](https://www.surveycake.com/s/wgveX) 留下寶貴的意見。(為了維持主機的維運，在頁面內放入 Google Adsense 廣告。)
 
+在這一篇文章的內容，主要的內容包含以下項目。
+
+1. 建立系統服務的評估架構規劃。
+2. Ubuntu 的防火牆設定、使用者密碼/ SSH Key 的認證設定。
+3. 在 Docker 中，利用 Docker network 進行網段劃份，以控制服務之間的訪問。
+4. 使用 Docker Hub 以外的 Container Registry，進行 Docker Image 管理。
+5. Grafana 與 Loki 的設定方式。
+
 > 🔖 長話短說 🔖
 >
 > 設定 Ubuntu 允許 SSH 使用密碼登入時，除了 `/etc/ssh/sshd_config` 需要調整，也要檢查 Include 其他的 `.conf` 是否有覆寫的情況。
+>
+> 若是在要 Docker Compose 使用的 `yaml` 檔中，宣告使用外部的 docker network，記得加上 `external: true`
 
-使用技術、框架與環境設定如下
+<!--more-->
+
+## 一、服務環境評估、選擇與服務架構規劃
+
+### 評估與規劃的先決條件
+
+- 在初期，維運成本的支出，要盡可能的低。
+- 使用 Docker 進行服務的佈署與管理。
+- 服務只對外開放 80/443 PORT，以及 SSH 22 PORT。
+- 集中收集與分析服務維運時的 LOG。
+
+在維運成本的考量下，初期使用一台主機來建置整個服務系統，並基於 Container 進行佈署與維運。
+
+最後選擇 Godaddy + [Digital Ocean](https://m.do.co/c/254e8cbe525a)(使用此推薦連結，可獲得 $200 的使用額度) 單一主機建立服務。
+
+在 Docker Image 的 Artiact 的管理部份，最初的選擇，是直接使用 Digital Ocean 的 `Container Registry` 。但考量 Free Plan 只能使用一個 Repo，而這個專案有使用至少 2 個 Image。
+
+在 GitLab 提供的 Container Registry 則是沒有數量的限制。它的提供 nlimit Private Container registry。
+
+這個原因，導制後續改為使用 GitLab 的 Container registry。
+
+### 使用技術、框架與環境設定如下
 
 - 網路服務商
   - Domain: [Godaddy](https://tw.godaddy.com/)
@@ -45,25 +76,6 @@ slug: shorten-1-build-service-base-on-container
 使用相關線上工具
 
 - [NGINXConfig](https://www.digitalocean.com/community/tools/nginx?global.app.lang=zhTW): Digital Ocean 提供的 Nginx conf 的產生器，可直接使用介面點選後，自動產生對應的 Nginx config。
-
-<!-- more -->
-
-## 一、服務環境評估、選擇與服務架構規劃
-
-### 評估與規劃的先決條件
-
-- 在初期，維運成本的支出，要盡可能的低。
-- 使用 Docker 進行服務的佈署與管理。
-- 服務只對外開放 80/443 PORT，以及 SSH 22 PORT。
-- 集中收集與分析服務維運時的 LOG。
-
-在維運成本的考量下，初期使用一台主機來建置整個服務系統，並基於 Container 進行佈署與維運。
-
-最後選擇 Godaddy + [Digital Ocean](https://m.do.co/c/254e8cbe525a)(使用此推薦連結，可獲得 $200 的使用額度) 單一主機建立服務。
-
-在 Docker Image 的 Artiact 的管理部份，最初的選擇，是直接使用 Digital Ocean 的 `Container Registry` 。但考量 Free Plan 只能使用一個 Repo，而這個專案有使用至少 2 個 Image。
-
-後面轉為使用 GitLab 的 Container registry，主要的原因，是因為它 Unlimit Private Container registry。
 
 ### 服務架構圖
 
