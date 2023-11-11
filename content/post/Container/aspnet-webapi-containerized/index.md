@@ -1,10 +1,10 @@
 ﻿---
 title: Docker | 使用 Docker 建置 ASP.NET Webapi 的 Image
-description: 在使用 Docker 封裝應用程式時，有時因為程式需要使用一些機敏性資料，例如連線字串及憑證資料等，就需要額外處理。在接下來的內文中，以 ASP.NET
-  Webapi 為例，簡述如何在確保使用容器技術的同時，又能保護機密性資料不被外人所知道。
+description: 在使用 Docker 封裝應用程式時，有時因為程式需要使用一些機敏性資料，例如連線字串及憑證資料等，就需要額外處理。在接下來的內文中，以 ASP.NET Webapi 為例，簡述如何在確保使用容器技術的同時，又能保護機密性資料不被外人所知道。
 tags:
   - ASP.NET
   - Docker
+  - Docker-Network
 categories:
   - container
 keywords:
@@ -16,7 +16,7 @@ keywords:
 date: 2023-02-26T14:18:53+08:00
 slug: aspnet-webapi-containerized
 draft: false
-lastmod: 2023-06-28T13:33:12+08:00
+lastmod: 2023-11-11T20:53:23+08:00
 ---
 
 想要使用 Docker 技術將 ASP.NET Web API 應用程式打包成 image 時，需要針對機敏性資料進行特別的處理，以確保這些機密性資料不會外流。
@@ -352,7 +352,7 @@ $ docker run -it -v lab-volume:/data alpine
 
 ### 為何 Webapi Container 無法連線本機另一個 Container 的資料庫？
 
-原因如同 [GitLab CI 實作記錄(1) - 使用 Docker 在同台主機運行 GitLab 與 GitLab-Runner](GitLab CI 實作記錄(1) - 使用 Docker 在同台主機運行 GitLab 與 GitLab-Runner.md) 中提到的 Docker Network 的觀念問題。
+原因如同 [GitLab CI 實作記錄(1) - 使用 Docker 在同台主機運行 GitLab 與 GitLab-Runner](../DevOps/GitLab%20CI%20實作記錄(1)%20-%20使用%20Docker%20在同台主機運行%20GitLab%20與%20GitLab-Runner.md) 中提到的 Docker Network 的觀念問題。
 
 在同一台主機上，啟動 Container 卻不指定 Network 的情況下，會使用名為 `bridge` 的預設 Network。
 

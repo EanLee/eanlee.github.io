@@ -2,6 +2,7 @@
 title: GitLab CI 實作記錄(1) - 使用 Docker 在同台主機運行 GitLab 與 GitLab-Runner
 tags:
   - GitLab
+  - Docker-Network
 categories:
   - DevOps
 keywords:
@@ -10,8 +11,8 @@ keywords:
   - GitLab Runner
   - DevOps
 date: 2022-08-31T23:58:45+08:00
+lastmod: 2023-11-11T20:54:30+08:00
 description: 在本機同時使用 Docker 建立 GitLab 與 GitLab Runner 時，在設定上遇到很多小眉腳。特別記錄下來，減少其他人撞牆的情況。
-lastmod: 2023-06-28T10:10:47+08:00
 slug: gitlab-and-runner-on-same-host-using-docker
 aliases:
   - /post/devops/gitlab_ci_same_host/
