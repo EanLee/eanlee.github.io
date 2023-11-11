@@ -1,8 +1,8 @@
 ﻿---
-title: Docker | 縮網址服務實作記錄 (1)- 基於 Docker Compose  的服務架構
-description: 
-date: 2023-10-27T08:33:23+08:00
-lastmod: 2023-11-11T14:28:57+08:00
+title: Docker | 縮網址服務實作記錄 (1) - 基於 Docker 容器技術的網站服務架構實踐
+description: 本文紀錄使用 Docker Compose 在 Digital Ocean Ubuntu VPS 上架設縮網址服務的過程,包括環境設定、服務架構規劃、Docker image 管理、網路與安全設定等。適合想學習如何利用容器技術架設 Web 服務的讀者。
+date: 2023-11-11T14:28:57+08:00
+lastmod: 2023-11-11T15:22:30+08:00
 tags:
   - Docker
   - Postgresql
@@ -10,12 +10,14 @@ tags:
   - Ubuntu
 categories:
   - 架構
+  - 系列文章
   - 軟體開發
 keywords:
   - .NET Core
   - Docker
   - Nginx
   - VPS
+  - Docker Compose
 slug: shorten-1-build-service-base-on-container
 ---
 
