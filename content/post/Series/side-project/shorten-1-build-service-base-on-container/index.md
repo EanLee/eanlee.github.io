@@ -46,7 +46,7 @@ slug: shorten-1-build-service-base-on-container
 
 - [NGINXConfig](https://www.digitalocean.com/community/tools/nginx?global.app.lang=zhTW): Digital Ocean 提供的 Nginx conf 的產生器，可直接使用介面點選後，自動產生對應的 Nginx config。
 
-<!-- more -->
+<!--more-->
 
 ## 一、服務環境評估、選擇與服務架構規劃
 
