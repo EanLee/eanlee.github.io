@@ -2,15 +2,15 @@
 title: 靈活運用 Docker - 打造高效的容器化應用環境
 description: 
 date: 2023-06-28T09:44:39+08:00
-lastmod: 2023-06-28T13:44:57+08:00
-tags: 
-- Container
-- Docker
-categories: 
-- 系列文章
-- container
-keywords: 
-- Docker
+lastmod: 2023-11-10T21:19:33+08:00
+tags:
+  - Container
+  - Docker
+categories:
+  - 系列文章
+  - container
+keywords:
+  - Docker
 slug: flexible-opereate-docker-foreword
 toc: false
 ---
@@ -63,7 +63,7 @@ toc: false
 
 - [Docker 操作簡介]({{< ref "../../Series/build-automated-deploy/docker-operate/index.md" >}})
 - [Container 簡介]({{< ref "../../Series/build-automated-deploy/container-intro/index.md" >}})
-- [GitLab CI 實作記錄(1) - 使用 Docker 在同台主機運行 GitLab 與 GitLab-Runner](../../Publish/DevOps/GitLab%20CI%20實作記錄(1)%20-%20使用%20Docker%20在同台主機運行%20GitLab%20與%20GitLab-Runner.md)
-- [GitLab CI 實作記錄(2) - Gitlab CI 的私有環境建置](../../Publish/DevOps/GitLab%20CI%20實作記錄(2)%20-%20Gitlab%20CI%20的私有環境建置.md)
+- [GitLab CI 實作記錄(1) - 使用 Docker 在同台主機運行 GitLab 與 GitLab-Runner](../DevOps/GitLab%20CI%20實作記錄(1)%20-%20使用%20Docker%20在同台主機運行%20GitLab%20與%20GitLab-Runner.md)
+- [GitLab CI 實作記錄(2) - Gitlab CI 的私有環境建置](../DevOps/GitLab%20CI%20實作記錄(2)%20-%20Gitlab%20CI%20的私有環境建置.md)
 - [使用 Docker 建置 ASP.NET Webapi 的 Image]({{< ref "../aspnet-webapi-containerized/index.md" >}})
 - [淺談 YAML 格式]({{< ref "../../Series/build-automated-deploy/yaml/index.md" >}})
