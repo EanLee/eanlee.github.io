@@ -2,7 +2,7 @@
 title: Docker | 縮網址服務實作記錄 (1) - 基於 Docker 容器技術的網站服務架構實踐
 description: 本文紀錄使用 Docker Compose 在 Digital Ocean Ubuntu VPS 上架設縮網址服務的過程，包括環境設定、服務架構規劃、Docker image 管理、網路與安全設定等。適合想學習如何利用容器技術架設 Web 服務的讀者。
 date: 2023-11-11T14:28:57+08:00
-lastmod: 2023-11-11T15:22:30+08:00
+lastmod: 2023-11-17T17:42:30+08:00
 tags:
   - Docker
   - Postgresql
@@ -419,7 +419,7 @@ network:
 
 使用 Nginx 作為反向代理，並設定 `nginx.conf`，讓所有的請求依 Domain 與路徑，指向 Astro/Vue 建立的靜態網站，或是 WebAPI 服務。
 
-若是對 Nginx 組態不熟悉，也可以使用 Digital Ocean 提供的 NGINX Conig 設定工具 ([NGINXConfig](https://www.digitalocean.com/community/tools/nginx?global.app.lang=zhTW)) 或 ChatGPT/Claude.ai 來協助設定。
+若是對 Nginx 組態不熟悉，也可以使用 Digital Ocean 提供的 NGINX Conig 設定工具 ([NGINXConfig](https://www.digitalocean.com/community/tools/nginx?global.app.lang=zhTW)) 或 [ChatGPT](https://chat.openai.com/)/[Claude.ai](https://claude.ai/) 來協助設定。
 
 ```yaml
 version: '3'
@@ -570,6 +570,8 @@ ssh -L <-port>:<remote-host>:<remote-port> <user>@<remote-host>
 ## 補充資料
 
 ▶ 站內文章
+
+- [縮網址服務實作記錄(2) - 基於 Container 的 Let's Encrypt 申請與設定](縮網址服務實作記錄(2)%20-%20基於%20Container%20的%20Let's%20Encrypt%20申請與設定.md)
 
 ▶ 外部文章
 
