@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Ubuntu on 伊恩的開發狂想</title><link>https://eandev.com/tags/ubuntu/</link><description>Recent content in Ubuntu on 伊恩的開發狂想</description><generator>Hugo -- gohugo.io</generator><language>zh-tw</language><lastBuildDate>Sat, 11 Nov 2023 14:28:57 +0800</lastBuildDate><atom:link href="https://eandev.com/tags/ubuntu/index.xml" rel="self" type="application/rss+xml"/><item><title>Docker | 縮網址服務實作記錄 (1) - 基於 Docker 容器技術的網站服務架構實踐</title><link>https://eandev.com/post/series/side-project/shorten-1-build-service-base-on-container/</link><pubDate>Sat, 11 Nov 2023 14:28:57 +0800</pubDate><guid>https://eandev.com/post/series/side-project/shorten-1-build-service-base-on-container/</guid><description>&lt;blockquote>
-&lt;p>縮網址服務為 &lt;a href="http://url-ins.com/shorten/">http://url-ins.com/shorten/&lt;/a> ，有任何想法或回饋，可以在 &lt;a href="https://www.surveycake.com/s/wgveX">SurveyCake&lt;/a> 留下寶貴的意見。(為了維持主機的維運，在頁面內放入 Google Adsense 廣告。)&lt;/p>
+&lt;p>縮網址服務為 &lt;a href="https://url-ins.com/shorten/">https://url-ins.com/shorten/&lt;/a> ，有任何想法或回饋，可以在 &lt;a href="https://www.surveycake.com/s/wgveX">SurveyCake&lt;/a> 留下寶貴的意見。(為了維持主機的維運，在頁面內放入 Google Adsense 廣告。)&lt;/p>
 &lt;/blockquote>
 &lt;p>在這一篇文章的內容，主要的內容包含以下項目。&lt;/p>
 &lt;ol>
