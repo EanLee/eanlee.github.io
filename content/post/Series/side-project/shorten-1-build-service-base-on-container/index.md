@@ -2,7 +2,7 @@
 title: Docker | 縮網址服務實作記錄 (1) - 基於 Docker 容器技術的網站服務架構實踐
 description: 本文紀錄使用 Docker Compose 在 Digital Ocean Ubuntu VPS 上架設縮網址服務的過程，包括環境設定、服務架構規劃、Docker image 管理、網路與安全設定等。適合想學習如何利用容器技術架設 Web 服務的讀者。
 date: 2023-11-11T14:28:57+08:00
-lastmod: 2023-11-17T17:42:30+08:00
+lastmod: 2023-11-18T01:23:34+08:00
 tags:
   - Docker
   - Postgresql
@@ -21,7 +21,7 @@ keywords:
 slug: shorten-1-build-service-base-on-container
 ---
 
-> 縮網址服務為 http://url-ins.com/shorten/ ，有任何想法或回饋，可以在 [SurveyCake](https://www.surveycake.com/s/wgveX) 留下寶貴的意見。(為了維持主機的維運，在頁面內放入 Google Adsense 廣告。)
+> 縮網址服務為 https://url-ins.com/shorten/ ，有任何想法或回饋，可以在 [SurveyCake](https://www.surveycake.com/s/wgveX) 留下寶貴的意見。(為了維持主機的維運，在頁面內放入 Google Adsense 廣告。)
 
 在這一篇文章的內容，主要的內容包含以下項目。
 
