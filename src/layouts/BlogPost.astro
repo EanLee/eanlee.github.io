@@ -71,6 +71,15 @@ const { title, description, date, lastmod, coverImage, tags } = Astro.props;
             <hr />
           </div>
           <slot />
+
+          <iframe
+            class="LikeCoin"
+            src={`https://button.like.co/in/embed/wosilee/button?referrer=${Astro.url}`}
+            height="200"
+            width="100%"
+            frameborder="0"
+          >
+          </iframe>
         </div>
       </article>
     </main>
@@ -152,7 +161,7 @@ const { title, description, date, lastmod, coverImage, tags } = Astro.props;
         display: inline-block;
         /* height: 26px; */
         /* line-height: 26px; */
-        padding: 2px .7rem;
+        padding: 2px 0.7rem;
         position: relative;
         margin: 0 5px;
         text-decoration: none;

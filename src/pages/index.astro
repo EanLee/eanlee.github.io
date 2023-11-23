@@ -80,16 +80,7 @@ const posts = (await getCollection("blog")).sort(
   <body>
     <Header />
     <main>
-      <!-- {
-        posts.map((post) => 
-        {
-          const path = post.id.slice(0, post.id.lastIndexOf('/')).toLowerCase();
-          
-          return (
-            <summary post={post} />       
-        );})
-      }
-       -->
+
       <section>
         <ul>
           {
@@ -97,21 +88,6 @@ const posts = (await getCollection("blog")).sort(
               const path = post.id
                 .slice(0, post.id.lastIndexOf("/"))
                 .toLowerCase();
-
-              // const summary = post.data.summary;
-              // 获取文章内容
-
-              const postContent = post.body;
-
-              // 判断是否有 more 分割标记
-              const truncated = postContent.includes("<!--more-->");
-
-              // 分割标记存在,获取前面的摘要部分
-              const summary = truncated
-                ? post.body.split("<!--more-->")[0]
-                : post.body.slice(0, 200);
-
-              //  const s1 = post.body.split('<!--more-->')[0].;
 
               return (
                 <li>

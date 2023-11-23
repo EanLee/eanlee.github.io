@@ -3,6 +3,7 @@ import mdx from "@astrojs/mdx";
 
 import sitemap from "@astrojs/sitemap";
 import rehypeExternalLinks from "rehype-external-links";
+import astroRemark from "@astrojs/markdown-remark";
 
 // https://astro.build/config
 export default defineConfig({
@@ -10,6 +11,18 @@ export default defineConfig({
   integrations: [mdx(), sitemap()],
   markdown: {
     rehypePlugins: [
+      "rehype-slug",
+      ["rehype-autolink-headings", { behavior: "append" }],
+      [
+        "rehype-toc",
+        {
+          headings: ["h1", "h2", "h3"],
+          cssClasses: {
+            toc: "toc-post",
+            link: "toc-link",
+          },
+        },
+      ],
       [
         rehypeExternalLinks,
         {
@@ -18,8 +31,8 @@ export default defineConfig({
       ],
     ],
   },
-//   build: {
-//     // 示例：在构建过程中生 成`page.html` 而不是 `page/index.html`。
-//     format: "directory",
-//   },
+  //   build: {
+  //     // 示例：在构建过程中生 成`page.html` 而不是 `page/index.html`。
+  //     format: "directory",
+  //   },
 });
