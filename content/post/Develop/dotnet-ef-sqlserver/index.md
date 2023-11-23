@@ -1,9 +1,8 @@
 ﻿---
 title: EF Core | 使用 dotnet-ef 建立 SQL Server on Docker 的 DBContext
-description: 建立 SQL Server on Docker 時，有一些持久性的議題必須特別注意。同時，使用 EF Core 連接 SQL Server
-  時，連線字串設定不當，也會造成連線失敗。
+description: 建立 SQL Server on Docker 時，有一些持久性的議題必須特別注意。同時，使用 EF Core 連接 SQL Server 時，連線字串設定不當，也會造成連線失敗。
 date: 2023-02-14T18:12:33+08:00
-lastmod: 2023-06-28T13:17:50+08:00
+lastmod: 2023-11-11T20:57:54+08:00
 categories:
   - 軟體開發
 tags:
