@@ -13,7 +13,7 @@ keywords:
   - IServiceProvider
   - HttpContextAccessor
 slug: di-encapsulate-service-and-use-external-parameters
-lastmod: 2023-06-29T09:25:56+08:00
+lastmod: 2023-06-29T09:45:58+08:00
 ---
 
 當發現一個 .NET Core 的類別，其所有方法均需要相同的參數資料，這時，我們就會想到從 DI 下手，在建立物件時，一併把參數傳入。這樣就不需要在調用方式時，還要重複的傳入參數。
