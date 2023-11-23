@@ -7,12 +7,6 @@
 &lt;li>若將 DI 的註冊行為封裝，但又需要傳入外部參數時，可使用 &lt;code>interface&lt;/code> ，在取得參數資料的同時，隔離實作的細節。&lt;/li>
 &lt;li>若 &lt;code>IHttpContextAccessor&lt;/code> 未定義是，需要引用 &lt;code>Microsoft.AspNetCore.Http&lt;/code> Nuget 套件。&lt;/li>
 &lt;/ul>
-&lt;/blockquote></description></item><item><title>ASP.NET Core | 問題排除隨手記 - API 回應 HTTP Status 非預期的原因筆記</title><link>https://eandev.com/post/troubleshooting/http-response-status-unexpected-note/</link><pubDate>Thu, 09 Mar 2023 16:19:47 +0800</pubDate><guid>https://eandev.com/post/troubleshooting/http-response-status-unexpected-note/</guid><description>&lt;p>有時呼叫 API 時，對方回應的 &lt;code>HTTP Status&lt;/code> 與我們所預期的不同。剛好最近有遇到，就順手記錄下來。後續有遇到其他情況，會再更新內容。&lt;/p>
-&lt;blockquote>
-&lt;p>🔖 長話短說 🔖&lt;/p>
-&lt;ul>
-&lt;li>&lt;code>415: Unsupported Media Type&lt;/code> 錯誤，請檢查 &lt;code>Content-Type&lt;/code> 與 &lt;code>Content&lt;/code> 與 API 要求的規範是否相同。&lt;/li>
-&lt;/ul>
 &lt;/blockquote></description></item><item><title>ASP.NET Core | 使用 DI 注入時，使用 Request 的參數，建立不同參數的物件</title><link>https://eandev.com/post/develop/di-service-provider-httpcontextaccessor/</link><pubDate>Sun, 19 Feb 2023 11:19:21 +0800</pubDate><guid>https://eandev.com/post/develop/di-service-provider-httpcontextaccessor/</guid><description>&lt;blockquote>
 &lt;p>🔖 長話短說 🔖&lt;/p>
 &lt;ul>
