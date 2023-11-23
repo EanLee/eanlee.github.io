@@ -1,5 +1,8 @@
 ﻿---
 title: 從消除遊戲學到的專案管理二三事
+description: 管理無所不在，就連消除遊戲之中，也可以看到專案管理。遊戲中的每一關都像一個全新的專案，在專案進行的過程中，確認目標、交付內容，可用資源、影響專案的難點。
+date: 2022-04-28T11:50:27+08:00
+lastmod: 2023-11-23T09:36:25+08:00
 tags:
   - 自我修練
   - 刻意練習
@@ -9,12 +12,7 @@ categories:
 keywords:
   - 專案管理
   - 以終為始
-date: 2022-04-28T11:50:27+08:00
 slug: concepts-of-project-management-from-elimination-games
-description: 管理無所不在，就連消除遊戲之中，也可以看到專案管理。遊戲中的每一關都像一個全新的專案，在專案進行的過程中，確認目標、交付內容，可用資源、影響專案的難點。
-aliases:
-  - /post/projectmanagement/concepts_of_project_management_from_elimination_games/
-lastmod: 2023-11-11T15:08:37+08:00
 ---
 
 在休閒時間遊玩的消除遊戲，無意中發現消除遊戲中，每一關的過關方式，都可以與專案管理有關。
