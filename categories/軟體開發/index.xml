@@ -38,6 +38,17 @@
 &lt;li>針對 DBContext 的查詢要進行過濾，可在 DBContext 內的 &lt;code>OnModelCreatingPartial(ModelBuilder modelBuilder)&lt;/code> 進行過濾。&lt;/li>
 &lt;li>若要使用 EFCore 的 Shadow Property 來隱藏並操作資料，需要&lt;strong>規範資料庫欄位的格式&lt;/strong>，避免 CodeTemplate 解析錯誤，以及 EF Core 更新資料發生錯誤。&lt;/li>
 &lt;/ul>
+&lt;/blockquote></description></item><item><title>EF Core | 使用 dotnet-ef 建立 PostgreSQL 的 DBContext</title><link>https://eandev.com/post/develop/dotnet-ef-postgresql-dbcontext/</link><pubDate>Mon, 26 Jun 2023 10:29:37 +0800</pubDate><guid>https://eandev.com/post/develop/dotnet-ef-postgresql-dbcontext/</guid><description>&lt;p>若是有使用過 Entity Framework, EF 的經驗，必然對 &lt;code>DBContext&lt;/code> 類別有所了解。在 EF 時可以使用 Visual Studo 的 UI 工具，以 Database-First 的方式建立 DBContext。&lt;/p>
+&lt;p>本篇文章則是記錄 Database-First 的開發方式下，EF Core 如何使用 CLI 來產生 DBContext。&lt;/p>
+&lt;blockquote>
+&lt;p>🔖 長話短說 🔖&lt;/p>
+&lt;ul>
+&lt;li>EF Core 要操作 PostgreSQL 的話，可使用 &lt;code>Npgsql.EntityFrameworkCore.PostgreSQL&lt;/code>&lt;/li>
+&lt;li>可使用 &lt;code>dotnet tool update --global dotnet-ef&lt;/code> 進行 &lt;code>dotnet-ef&lt;/code> 版本更新&lt;/li>
+&lt;li>可使用 &lt;code>dotnet ef dbcontext scffold&lt;/code> 的指令，協助從資料庫已存在的 Schema 產生對應的 dbcontext。&lt;/li>
+&lt;li>若專案內未參考 &lt;code>Microsoft.EntityFrameworkCore.Design&lt;/code> 的話，&lt;code>dotnet ef dbcontext scffold&lt;/code> 無法順利動作。&lt;/li>
+&lt;li>機敏性資料，可使用 &lt;code>user-secrets&lt;/code> 工具。&lt;/li>
+&lt;/ul>
 &lt;/blockquote></description></item><item><title>EF Core | 使用 HasQueryFilter 限定 DBContext 查詢內容</title><link>https://eandev.com/post/develop/dfcore-dbcontext-hasqueryfilter/</link><pubDate>Mon, 19 Jun 2023 03:17:17 +0800</pubDate><guid>https://eandev.com/post/develop/dfcore-dbcontext-hasqueryfilter/</guid><description>&lt;p>前些時間，在幫朋友改造現有倉儲系統時，發現現有資料庫內，所有的表格都有四個作為異動記錄使用的固定欄位。&lt;/p>
 &lt;p>導致查詢這些資料時，需要針對這些欄位內的數值，去做進行過濾的動作。&lt;/p>
 &lt;p>雖然以前經常使用 &lt;code>Where&lt;/code> 與自定義的 &lt;code>IQueryable Extension Methods&lt;/code> 來過濾資料，但是總會想要再更精簡開發要寫的程式碼。剛好發現 Entity Framework Core 在 2.0 版之後，提供了一個 Gobal Query Filter 的作法。&lt;/p>
@@ -69,7 +80,7 @@
 &lt;li>ChatGPT 有時會自行回答問題以外的內容，若要避免這個問題，要在 &lt;em>prompt&lt;/em> 中加入回答的限制。&lt;/li>
 &lt;li>ChapGPT 的 &lt;em>prompt&lt;/em> 有長度限制，source code 要分段傳入。&lt;/li>
 &lt;/ul>
-&lt;/blockquote></description></item><item><title>ASP.NET Core | API 回應 HTTP Status 非預期的原因筆記</title><link>https://eandev.com/post/develop/http-response-status-unexpected-note/</link><pubDate>Thu, 09 Mar 2023 16:19:47 +0800</pubDate><guid>https://eandev.com/post/develop/http-response-status-unexpected-note/</guid><description>&lt;p>有時呼叫 API 時，對方回應的 &lt;code>HTTP Status&lt;/code> 與我們所預期的不同。剛好最近有遇到，就順手記錄下來。後續有遇到其他情況，會再更新內容。&lt;/p>
+&lt;/blockquote></description></item><item><title>ASP.NET Core | 問題排除隨手記 - API 回應 HTTP Status 非預期的原因筆記</title><link>https://eandev.com/post/troubleshooting/http-response-status-unexpected-note/</link><pubDate>Thu, 09 Mar 2023 16:19:47 +0800</pubDate><guid>https://eandev.com/post/troubleshooting/http-response-status-unexpected-note/</guid><description>&lt;p>有時呼叫 API 時，對方回應的 &lt;code>HTTP Status&lt;/code> 與我們所預期的不同。剛好最近有遇到，就順手記錄下來。後續有遇到其他情況，會再更新內容。&lt;/p>
 &lt;blockquote>
 &lt;p>🔖 長話短說 🔖&lt;/p>
 &lt;ul>
@@ -90,17 +101,6 @@
 &lt;li>使用 Docker 建立的 SQL Server，若需要進行 bak 的備份與還原時，在執行 Container 時，別忘了 mount 資料夾。&lt;/li>
 &lt;li>使用 &lt;code>dotnet ef dbcontext scaffold&lt;/code> 時，發生 &lt;code>此憑證鏈結是由不受信任的授權單位發出的&lt;/code> 的差異，請在連線字串內加入 &lt;code>TrustServerCertificate=true&lt;/code>。&lt;/li>
 &lt;li>使用 &lt;code>dotnet ef dbcontext scaffold&lt;/code> 時，發生 &lt;code>Login failed for user&lt;/code> 的名稱與連線字串內的 &lt;code>User Id&lt;/code> 不同時，請確認連線字串內的 &lt;code>Trusted_Connection&lt;/code> 。&lt;/li>
-&lt;/ul>
-&lt;/blockquote></description></item><item><title>EF Core | 使用 dotnet-ef 建立 PostgreSQL 的 DBContext</title><link>https://eandev.com/post/develop/dotnet-ef-postgresql-dbcontext/</link><pubDate>Mon, 13 Feb 2023 12:13:02 +0800</pubDate><guid>https://eandev.com/post/develop/dotnet-ef-postgresql-dbcontext/</guid><description>&lt;p>若是有使用過 Entity Framework, EF 的經驗，必然對 &lt;code>DBContext&lt;/code> 類別有所了解。在 EF 時可以使用 Visual Studo 的 UI 工具，以 Database-First 的方式建立 DBContext。&lt;/p>
-&lt;p>本篇文章則是記錄 Database-First 的開發方式下，EF Core 如何使用 CLI 來產生 DBContext。&lt;/p>
-&lt;blockquote>
-&lt;p>🔖 長話短說 🔖&lt;/p>
-&lt;ul>
-&lt;li>EF Core 要操作 PostgreSQL 的話，可使用 &lt;code>Npgsql.EntityFrameworkCore.PostgreSQL&lt;/code>&lt;/li>
-&lt;li>可使用 &lt;code>dotnet tool update --global dotnet-ef&lt;/code> 進行 &lt;code>dotnet-ef&lt;/code> 版本更新&lt;/li>
-&lt;li>可使用 &lt;code>dotnet ef dbcontext scffold&lt;/code> 的指令，協助從資料庫已存在的 Schema 產生對應的 dbcontext。&lt;/li>
-&lt;li>若專案內未參考 &lt;code>Microsoft.EntityFrameworkCore.Design&lt;/code> 的話，&lt;code>dotnet ef dbcontext scffold&lt;/code> 無法順利動作。&lt;/li>
-&lt;li>機敏性資料，可使用 &lt;code>user-secrets&lt;/code> 工具。&lt;/li>
 &lt;/ul>
 &lt;/blockquote></description></item><item><title>使用 IIS 進行 SSL 憑證的申請與更新的步驟與注意事項</title><link>https://eandev.com/post/security/using-iis-create-and-complete-csr/</link><pubDate>Fri, 03 Feb 2023 11:43:18 +0800</pubDate><guid>https://eandev.com/post/security/using-iis-create-and-complete-csr/</guid><description>&lt;p>日前在使用 IIS 10 進行 SSL 伺服器憑證的申請與更新作業時，發生 IIS &lt;code>完成憑證請求&lt;/code> 後，進行 F5 重整時，憑證消失的問題。在排查過程中，發現一些有趣的地方，所以將其特別記錄下來。&lt;/p>
 &lt;p>在這篇文章中，主要使用 IIS 來進行操作，在實務上，也可選擇使用 &lt;code>openssl&lt;/code> 指令的方式來建立 &lt;code>csr&lt;/code> 與 &lt;code>pfx&lt;/code> 檔案。&lt;/p>
@@ -140,7 +140,7 @@
 &lt;p>個人認為佇列(Queue)的本質，就是做為資料載體的暫存與緩衝區，同時，它具備 &lt;strong>先進先出(First In First Out, FIFO)&lt;/strong> 的特性。&lt;/p>
 &lt;p>在演算法中，有些演算法使用 Queue 做為操作記錄資料的載體，例如針對二元樹的尋訪(Traversal)，廣度優先搜尋(Breadth First Search)，都是活用 Queue FIFO 的特性。&lt;/p>
 &lt;p>有時，資料本身的數量有限，但同時有多個對象需要取得資料。使用 Queue 來控制資料的處理速度，或是調配資源的的方式，作為資料配置最佳化的方式之一。&lt;/p>
-&lt;p>經常運用於跨執行緒、跨行程、跨系統之中的通訊使用。在這種場域下，產生資料與處理資料的兩方，處理的速度不一相同。借由 Queue 的暫存緩衝與 FIFO 特性，便於採用非同步的處理方式。&lt;/p></description></item><item><title>軟體開發需求釐清</title><link>https://eandev.com/post/software/%E8%BB%9F%E9%AB%94%E9%96%8B%E7%99%BC%E9%9C%80%E6%B1%82%E9%87%90%E6%B8%85/</link><pubDate>Sun, 02 Jan 2022 19:10:58 +0000</pubDate><guid>https://eandev.com/post/software/%E8%BB%9F%E9%AB%94%E9%96%8B%E7%99%BC%E9%9C%80%E6%B1%82%E9%87%90%E6%B8%85/</guid><description>&lt;p>當接到一個新的需求或新的任務，對需求/任務的內容、牽扯到人、事、物，絕大多的情況，或許明白部份的情況，但無法全盤明確情況。&lt;/p>
+&lt;p>經常運用於跨執行緒、跨行程、跨系統之中的通訊使用。在這種場域下，產生資料與處理資料的兩方，處理的速度不一相同。借由 Queue 的暫存緩衝與 FIFO 特性，便於採用非同步的處理方式。&lt;/p></description></item><item><title>軟體開發需求釐清</title><link>https://eandev.com/post/software/software-development-requirements-clarification/</link><pubDate>Sun, 02 Jan 2022 19:10:58 +0000</pubDate><guid>https://eandev.com/post/software/software-development-requirements-clarification/</guid><description>&lt;p>當接到一個新的需求或新的任務，對需求/任務的內容、牽扯到人、事、物，絕大多的情況，或許明白部份的情況，但無法全盤明確情況。&lt;/p>
 &lt;p>從一開始不了解需求，因為無知所產生的不安與焦慮。會隨著專案的進行，越來越來了解詳細的內容，就會變得平穩。但若中途發現有些部份的問題沒有考量到、或是誤解部份的需求，但交付期限將近，這時的感覺一定很差。&lt;/p>
 &lt;p>而且發生非預期的意外或誤解需求時，立即盤點影響範圍時，卻發現待解決的事項，無法在預定時程內完成，只好宣告失敗，再次爭取新的資源與時間。或是使用加班技能，交付一個自己都不滿意，但勉強可以符合需求的結果。&lt;/p>
 &lt;p>隨著專案的進行，從一開始不了解需求，因為無知所產生的不安與焦慮。會隨著專案的進行，越來越來了解詳細的內容，就會變得平穩。往往在專案結束後的回顧時，不禁會想到有些情況，若能提早知道，就可以避免無效的作工。&lt;/p>
