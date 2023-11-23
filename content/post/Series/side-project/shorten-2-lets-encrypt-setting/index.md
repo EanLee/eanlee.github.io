@@ -21,7 +21,7 @@ slug: shorten-2-lets-encrypt-setting
 
 > 縮網址服務為 https://url-ins.com/shorten/ ，有任何想法或回饋，可以在 [SurveyCake](https://www.surveycake.com/s/wgveX) 留下寶貴的意見。(為了維持主機的維運，在頁面內放入 Google Adsense 廣告。)
 
-在 [縮網址服務實作記錄(1) - 基於 Docker 容器技術的網站服務架構實踐](<../../../Publish/Series/side-project/縮網址服務實作記錄(1)%20-%20基於%20Docker%20容器技術的網站服務架構實踐.md>) 中，已經完成基本服務的建立。
+在 [縮網址服務實作記錄(1) - 基於 Docker 容器技術的網站服務架構實踐](./縮網址服務實作記錄(1)%20-%20基於%20Docker%20容器技術的網站服務架構實踐.md) 中，已經完成基本服務的建立。
 
 為了確保服務站台的可靠性與提升 SEO。接下來，就是要為服務站台增加 HTTPS 的 SSL/TLS 憑證保護。
 
@@ -407,7 +407,7 @@ sudo docker run -it --rm --name certbot \
 
 ▶ 站內文章
 
-- [縮網址服務實作記錄(1) - 基於 Docker 容器技術的網站服務架構實踐](<../../../Publish/Series/side-project/縮網址服務實作記錄(1)%20-%20基於%20Docker%20容器技術的網站服務架構實踐.md>)
+- [縮網址服務實作記錄(1) - 基於 Docker 容器技術的網站服務架構實踐](./縮網址服務實作記錄(1)%20-%20基於%20Docker%20容器技術的網站服務架構實踐.md)
 
 ▶ 外部文章
 
