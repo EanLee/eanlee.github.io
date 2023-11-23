@@ -11,6 +11,7 @@ keywords:
   - dotnetef
   - dbcontext scaffold
 slug: ef-core-cli-note
+lastmod: 2023-11-10T21:19:33+08:00
 ---
 
 將之前使用 dotnet ef 相關的指令整理在這篇，以便後續快速盤查資料使用。

@@ -12,7 +12,7 @@ keywords:
   - chatGPT
   - flutter
   - Pair-Programming
-lastmod: 2023-06-28T23:35:56+08:00
+lastmod: 2023-06-29T09:46:00+08:00
 slug: develop-assistant-chatgpt
 ---
 

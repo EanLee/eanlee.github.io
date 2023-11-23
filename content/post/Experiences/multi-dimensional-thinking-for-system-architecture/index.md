@@ -10,7 +10,7 @@ keywords:
   - 思維模式
 description: 當思考的維度不同時，會評估與參考資訊的側重點均有不同，影響最後作出的決策。
 date: 2022-06-19T01:10:57+08:00
-lastmod: 2023-06-28T10:10:47+08:00
+lastmod: 2023-11-11T23:26:33+08:00
 slug: multi-dimensional-thinking-for-system-architecture
 ---
 
