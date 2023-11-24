@@ -25,14 +25,14 @@ const AllCounts = categories.reduce((acc: CategoryCount, category) => {
 }, {});
 
 // 排序
-const tags = Object.keys(AllCounts).sort((a, b) => AllCounts[b] - AllCounts[a]);
+const result = Object.keys(AllCounts).sort((a, b) => AllCounts[b] - AllCounts[a]);
 ---
 
 <div>
   <h4>Categories</h4>
   <ul>
     {
-      tags.map((category) => (
+      result.map((category) => (
         <li>
           <a class="tag" href={`/categories/${category}`}>
             {category} ({AllCounts[category]})
