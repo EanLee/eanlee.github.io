@@ -30,7 +30,7 @@ slug: multi-dimensional-thinking-for-system-architecture
 - 在呼叫 API 時，將取回的 Token 作為必要參數，一同送至 API。
 - API 收到請求後，先進行 Token 的驗證。驗證失敗，直接中斷動作，反之，成功回傳 API 的資訊。
 
-![design base on API](images/design-base-on-API.png)
+![design base on API](./images/design-base-on-API.png)
 
 這種做法是很合理，因為 APIs 的本身暴露在公開的網路環境中，基於零信任的原則，所以必須對每組 API 的請求，都進行相關身份的驗證。
 
@@ -44,15 +44,15 @@ slug: multi-dimensional-thinking-for-system-architecture
 
 與相關人員確認後，會發現 APIs 主要提供站台使用，可以初步勾勒出的系統的全貌。
 
-![站台呼叫 API](images/web-host-connet-to-api.png)
+![站台呼叫 API](./images/web-host-connet-to-api.png)
 
 與站台的開發人員，確認會從 JavaScript 直接呼叫 APIs，進行業務層級的操作。
 
-![純前端呼叫 API](images/web-pure-front-connect-to-api.png)
+![純前端呼叫 API](./images/web-pure-front-connect-to-api.png)
 
 再進一步確認使用情境，發現首頁與特定頁面，需要使用 server side rendering(SSR) 產出頁面。以首頁為例，產出頁面過程中，需要呼叫 10 支 API 組成所需資料。
 
-![站台呼叫 API](images/web-server-render-connect-to-api.png)
+![站台呼叫 API](./images/web-server-render-connect-to-api.png)
 
 試著從分析 Client 站連入首頁時，系統一連串的動作行為，會發現在載入 server side rendering 的頁面時，所需要觸發的 API 背後的動作。
 

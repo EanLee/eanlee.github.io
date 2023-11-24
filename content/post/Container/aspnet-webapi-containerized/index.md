@@ -16,7 +16,7 @@ keywords:
 date: 2023-02-26T14:18:53+08:00
 slug: aspnet-webapi-containerized
 draft: false
-lastmod: 2023-11-11T20:53:23+08:00
+lastmod: 2023-11-24T11:54:12+08:00
 ---
 
 想要使用 Docker 技術將 ASP.NET Web API 應用程式打包成 image 時，需要針對機敏性資料進行特別的處理，以確保這些機密性資料不會外流。
@@ -266,9 +266,9 @@ docker build . -f Dockerfile -t lab/webapi-args:latest
 docker run -p 5000:80 --name webapi lab/webapi-args --ConnectionStrings=agnongw8gan99s==
 ```
 
-![Multi-Stage 建置 Image 的訊息](images/docker-multi-stage-build.png)
+![Multi-Stage 建置 Image 的訊息](./images/docker-multi-stage-build.png)
 
-![傳入的 Argument 確實的被程式取得](images/docker-run-args.png)
+![傳入的 Argument 確實的被程式取得](./images/docker-run-args.png)
 
 #### 作法三、掛載文件檔
 
@@ -346,13 +346,13 @@ $ docker run -v lab-volume:/data -v %cd%:/src alpine sh -c "cp /src/appsettings.
 $ docker run -it -v lab-volume:/data alpine
 ```
 
-![快速驗證檔案加入 Volume 的流程](images/docker-volume-add-file.png)
+![快速驗證檔案加入 Volume 的流程](./images/docker-volume-add-file.png)
 
 ## FAQ
 
 ### 為何 Webapi Container 無法連線本機另一個 Container 的資料庫？
 
-原因如同 [GitLab CI 實作記錄(1) - 使用 Docker 在同台主機運行 GitLab 與 GitLab-Runner](../DevOps/GitLab%20CI%20實作記錄(1)%20-%20使用%20Docker%20在同台主機運行%20GitLab%20與%20GitLab-Runner.md) 中提到的 Docker Network 的觀念問題。
+原因如同 [GitLab CI 實作記錄(1) - 使用 Docker 在同台主機運行 GitLab 與 GitLab-Runner]({{< ref "../../DevOps/gitlab-and-runner-on-same-host-using-docker/index.md" >}}) 中提到的 Docker Network 的觀念問題。
 
 在同一台主機上，啟動 Container 卻不指定 Network 的情況下，會使用名為 `bridge` 的預設 Network。
 
@@ -379,7 +379,7 @@ docker run -d -e host=localhost -p 5001:80 lab/webapi
 docker inspect -f "{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}" {db_container_name}
 ```
 
-![使用 docker inspect 查詢 container 的 IP address](images/docker-inspect-network-ip.png)
+![使用 docker inspect 查詢 container 的 IP address](./images/docker-inspect-network-ip.png)
 
 #### 解法二、新增 Network 並使用 Docker 內的 DNS 功能
 

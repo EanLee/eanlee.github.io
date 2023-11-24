@@ -58,7 +58,7 @@ Eric:
 
 ## CI/CD 的差異
 
-![CI/CD process](images/cicd_flow.png)
+![CI/CD process](./images/cicd_flow.png)
 (圖片來源: [Cisco Blogs](https://blogs.cisco.com/cloud/have-you-ever-considered-ci-cd-as-a-service))
 
 常從其他人口中，將 CI/CD 混在一起說，但其實 CI/CD 分別指 **持續整合(Continuous Integration, CI)**、**持續部署inuous Delivery, CD)**、**持續交付(Continuous Deployment, CD)**，後者負責範圍包括前者的內容。

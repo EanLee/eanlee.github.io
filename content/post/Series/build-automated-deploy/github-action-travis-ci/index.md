@@ -44,7 +44,7 @@ Travis CI 對 GitHub 有著高度的整合，讓使用者可以快速與 GitHub 
 
 ~~比較可惜的是，依 Travis CI 提供的文件說明，目前只支援 GitHub。~~
 
-![23018 年 Travis CI 首頁](images/travisci-index.png)
+![23018 年 Travis CI 首頁](./images/travisci-index.png)
 
 在首頁，~~就可以觀察到 Travis CI 與 GitHub 的關係有多密切~~，只要使用者有 GitHub/Bitbucket/GitLab/Assembla 帳號，就可以直接登入使用。
 
@@ -54,13 +54,13 @@ Travis CI 對 GitHub 有著高度的整合，讓使用者可以快速與 GitHub 
 >
 > 在[官方文件](https://docs.travis-ci.com/user/tutorial/)中，指出支援 GitHub、Bitbucket、GitLab 與 Assembla 這幾個託管平台。但是必須使用 GitHub、Bitbucket、GitLab 或 Assembla 的帳號進行註冊，才能使用對應的託管平台內的 Repository 資訊。
 
-![2023 年 Travis CI 首頁](images/travis-ci-index-2023.jpeg)
+![2023 年 Travis CI 首頁](./images/travis-ci-index-2023.jpeg)
 
 初次登入時，Travis CI 會跟使用者確認 GitHub 的存取項目與行為。
 
 同意授權後， Travis CI 會花費一些時間，與 GitHub 內的內容同步。最終會把 GitHub 內所有的 Repository 列出來。
 
-![使用 GitHub 帳號登入/註冊](images/travisci-authorize.png)
+![使用 GitHub 帳號登入/註冊](./images/travisci-authorize.png)
 
 ~~順帶一提，[travis-ci.org](https://travis-ci.org) 這個網址的 Travis CI 僅提供給 public repository 使用。若是想要存取 private repository ，則是要從 [travis-ci.com](https://travis-ci.com/) 這個網址進入。~~
 
@@ -70,15 +70,15 @@ Travis CI 對 GitHub 有著高度的整合，讓使用者可以快速與 GitHub 
 >
 > 另外，2023 年的當下，已經不提供免費的服務，新註冊用戶可以享用 30 天的試用。
 
-![Travis CI 的付費方案](images/travis-ci-pricing-plan.png)
+![Travis CI 的付費方案](./images/travis-ci-pricing-plan.png)
 
 登入 Travis CI 後，在 Travis CI 的 Dashboard 內可以看到託管平台上所有的 Reposiotries。
 
-![index](images/travisci-dashboard.png)
+![index](./images/travisci-dashboard.png)
 
 若要對特定 repository 進行 CI，只要將 repository 後方的整合功能開啟，Travis CI 就會自動到 GitHub repository 的 webhook 的設定。完全不需要自行手動設定 webhook。  
 
-![github_webhook](images/travisci-github_webhook.png)
+![github_webhook](./images/travisci-github_webhook.png)
 
 ### 開始使用 Travis CI
 
@@ -86,11 +86,11 @@ Travis CI 對 GitHub 有著高度的整合，讓使用者可以快速與 GitHub 
 
 實際測試串接 Travis CI 的結果，在串接前，已先提交了一份 .net core 程式。並在完成 Travis CI 串接後，直接在 GitHub 中，增加了 `README.md` 的檔案。Travis CI 執行結果如下。
 
-![Travis CI 內，Repository 的 建置請求清單](images/travisci-request.png)
+![Travis CI 內，Repository 的 建置請求清單](./images/travisci-request.png)
 
 失敗的原因在於 GitHub repository 中，缺少 `.travis.yml` 這個檔案，導致 Travis CI 無法進行任何動作。對 Travis CI 而言，`.travis.yml` 中，註明專案的使用的語言、使用的框架、執行的動作等資訊。若是不清楚 `travis.yml` 要如何設定，也可以參照 Travis CI Document 的的寫法。
 
-![Travis CI Document 中 .NET core 設定方式](images/travisci-document-net-core-setting.png)
+![Travis CI Document 中 .NET core 設定方式](./images/travisci-document-net-core-setting.png)
 
 ```yaml
 language: csharp
@@ -116,11 +116,11 @@ on_error: always # default: always
 
 同時，在 Build History 中，可以很清楚的看到建置的結果與耗時。
 
-![總建置歷史結果](images/travisci-build-history.png)
+![總建置歷史結果](./images/travisci-build-history.png)
 
 而在 Travis CI 中的 Branches 中，也可以看到各分支的最近五次的整合情況。
 
-![各 Branches 最近五次的建置結果](images/travisci-branches.png)
+![各 Branches 最近五次的建置結果](./images/travisci-branches.png)
 
 ```chat
 吉米: Travis CI 的設定真的很簡單，又快速上手。前後不到幾分鐘，就完成設定了。
@@ -138,26 +138,26 @@ GitHub 在 2019/11/13 正式推出 GitHub Actions，讓開發者可以不用離�
 
 在 Repository 的頁面，就可以看到 `Actions` 的頁籤，可以從此進入到 GitHub Actions 設定的頁面。
 
-![GitHub Repository 頁面](images/github-repo-code-page.png)
+![GitHub Repository 頁面](./images/github-repo-code-page.png)
 因為目前 Repository 還沒有進行任何 GitHub Actions 的設定，所以這一頁是空白的。
 
 可以按下 `set up a workflow yourself`，從無到有，一切自己設定。可以參考 [GitHub Actions Docs](https://docs.github.com/en/actions/learn-github-actions) 文件。
 
 不過，這樣工程有些浩大，建議使用 GitHub 會自動偵測 Repository 內容後給予的推薦設定樣版，或是撰擇現有的設定樣版。只要按下 `Configure`，就可以使用對應的預設樣版設定。
 
-![GitHub Actions 設定頁面](images/github-repo-actions.png)
+![GitHub Actions 設定頁面](./images/github-repo-actions.png)
 
 當按下 `configure` 後，GitHub 會自行在 `.github/workflows/` 的位置，建立 YAML 檔案。
 
-![GitHub Actions YAML 設定](images/github-action-yaml.png)
+![GitHub Actions YAML 設定](./images/github-action-yaml.png)
 
 若是預設內容無法滿足需求，也可以檢視右端的 `Marketplace` 與 `Document` 來調整 YAML 的設定。
 
-![GitHub Actions 設定中，右側可以直接查尋相關的設定說明](images/github-actions-marketplace-document.png)
+![GitHub Actions 設定中，右側可以直接查尋相關的設定說明](./images/github-actions-marketplace-document.png)
 
 當完成設定後，再進入 GitHub Actions 後，就可以查看建置的動作了。
 
-![](images/github-actions-workflow.png)
+![](./images/github-actions-workflow.png)
 
 ```chat
 吉米: 可以直接在 GitHub 直接進行 CI/CD 設定，真的方便了不少。

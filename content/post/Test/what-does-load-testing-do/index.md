@@ -42,7 +42,7 @@ slug: what-does-load-testing-do
 
 假若，此時注重的重點，是單一台機器的效能與情況，測試系統架構圖上會盡可能的讓測試的焦點集中在一台機器。同時，系統中的快取機制，資料庫的存取架構(例如讀取分離)等，都會列入評估範圍。
 
-![單一機器測試架構](images/stress_test_single_test_arch.png)
+![單一機器測試架構](./images/stress_test_single_test_arch.png)
 
 舉例來說，若是今天的測試目的，是想要找出系統在沒有 cache 的情況下，在單一台機器，可承載的請求數量上限為何？同時到達上限後，遇到系統瓶頸時，問題點是發生在軟體本身？資料庫回應逾時？資料庫 I/O 過高？
 
@@ -74,11 +74,11 @@ slug: what-does-load-testing-do
 
 舉例來說，若某個測試案例中，資料處理過程中，將會依序與使用三個第三方服務  `Service 1`、`Service 2`、`Service 3`  。
 
-![測試與第三方服務](images/stress_test_3rd_party_process_before.png)
+![測試與第三方服務](./images/stress_test_3rd_party_process_before.png)
 
 但 `Service 1`、`Service 3` 不是此時測試的考量重點，就會進行**系統內相關區塊的改寫**或是**指向 Mock Service**，減少非必要因素的影響。
 
-![測試與第三方服務](images/stress_test_3rd_party_process_after.png)
+![測試與第三方服務](./images/stress_test_3rd_party_process_after.png)
 
 當測試的目的是為系統改善優化，那一定要有一個基準值，基準值不僅僅是規劃優化項目的參考資訊，同時也用來比對優化前後差異。這個基準值可能是上一次測試的結果資訊，也可能是新收集到的資訊。
 

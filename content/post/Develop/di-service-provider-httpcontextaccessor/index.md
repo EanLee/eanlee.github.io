@@ -122,7 +122,7 @@ builder.Services.AddScoped<ITenantService>(provider =>
 });
 ```
 
-![使用 curl 的執行結果](images/curl-request-response.png)
+![使用 curl 的執行結果](./images/curl-request-response.png)
 
 #### 使用 IServiceProviderFactory
 

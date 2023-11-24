@@ -16,7 +16,7 @@ slug: unexpected-request
 
 ## 釐清過程
 
-![Arch](images/arch.png)
+![Arch](./images/arch.png)
 
 上方為簡易的系統架構，依架構來看，API Server 內的 IIS Log 增長，必定是從 Web 主機群過來的請求。
 
@@ -30,7 +30,7 @@ slug: unexpected-request
 
 後續減少變數，團隊決定將禁止外部連入，並關閉冗餘的主機，只留下 Web01 與 AP01。
 
-![關閉冗餘主機與禁止外部連線](images/arch_close_port_and_host.png)
+![關閉冗餘主機與禁止外部連線](./images/arch_close_port_and_host.png)
 
 再次觀察 AP01 內的 IIS Log，發現沒有任何外部連線的情況下，Log 還是持續增加，但 Log 的增長速度明顯降低。
 
@@ -49,7 +49,7 @@ slug: unexpected-request
 - 前端載入首頁時，需要先到 AP Server 內的 Identity 服務取得 JWT Token 後，再用這組 Token 同時呼叫 10 支 AP Server 內的 API 服務，以取得完整資訊。
 - 後端 API 服務在收到請求後，都會先到 Identity 服務確認 Token 的有效性。
 
-![origin](images/Origin.png)
+![origin](./images/Origin.png)
 
 此設計模式，造成單一使用者在載入首頁後，需要針對各別的 API 反覆的進行 Token 驗證，所以才會存在多筆相同的 API 請求。
 
@@ -57,7 +57,7 @@ slug: unexpected-request
 
 例如將 API 內的 Token 驗証與本身的職責分開，並彙整需要一起呼叫 API，利用 API Gateway 或 BFF 的概念，將多個 API 整合，只需驗証一次 Token 就可以取得完整資訊。
 
-![api gateway](images/apigateway.png)
+![api gateway](./images/apigateway.png)
 
 或者是直接在 API 服務進行整合，減少前端呼叫 API 的數量。
 

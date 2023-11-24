@@ -20,21 +20,21 @@ lastmod: 2023-06-28T11:33:21+08:00
 
 <!--more-->
 
-![OSI 模型](images/osi-layer.png)
+![OSI 模型](./images/osi-layer.png)
 
 ## HTTP 的傳輸方式
 
-![HTTP in OSI](images/http-osi-layer.png)
+![HTTP in OSI](./images/http-osi-layer.png)
 
 HTTP(HyperText Transfer Protocol) 為應用層的通訊協定，底層使用 TCP(Transmission Control Protocol) 通訊協定作為數據傳輸的方式。因此，在 HTTP 交換資料之前，在兩台機器開啟連線時，需要先進行 TCP 的三次交握(Three-way handshake)，完成後，才是正式進行資料的傳輸。
 
-![Three-way handshake](images/tcp_3way_handshake.png)
+![Three-way handshake](./images/tcp_3way_handshake.png)
 
 > 題外補充: 三次交握的主要目的是**避免歷史錯誤連接的建立並讓通信的雙方確定初始序列號**
 
 HTTP 本身單純 Request/Resonse 一來一往的進行通訊。
 
-![HTTP](images/http_communication.png)
+![HTTP](./images/http_communication.png)
 
 (注意: 此圖僅用於表示兩台機器在各層內的互動方式，並非實際通訊流程)
 
@@ -46,7 +46,7 @@ HTTP 本身單純 Request/Resonse 一來一往的進行通訊。
 
 SSL/TLS 的活動位置，位於 OSI 的 Seseion Layer，針對傳輸資料內容，進行加密與身份驗證，達到保護個人或機敏性資料的目的。
 
-![HTTPS in OSI](images/https-osi-layer.png)
+![HTTPS in OSI](./images/https-osi-layer.png)
 
 TLS 1.2 與 TLS 1.3 的交握機制有所不同，TLS 1.3 針對安全與交握機制進行改善，減少交握溝通的次數，達到縮減交接的往返時間(Round Trip Time, RTT)與提升安全性。
 
@@ -54,7 +54,7 @@ TLS 1.2 與 TLS 1.3 的交握機制有所不同，TLS 1.3 針對安全與交握�
 
 以初次連線為例，來看一下 TLS 1.2 與 TLS 1.3 兩者的差異。
 
-![TLS1.2 vs TLS1.3](images/TLS_1_2_and_TLS_1_3.png)
+![TLS1.2 vs TLS1.3](./images/TLS_1_2_and_TLS_1_3.png)
 
 (注意: 此圖僅用於表示兩台機器在各層內的互動方式，並非實際通訊流程)
 

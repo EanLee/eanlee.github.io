@@ -37,7 +37,7 @@ slug: concepts-of-project-management-from-elimination-games
 
 在每一關的開始，都一定有過關的目標，這就像是專案，每一個專案，必定有一個需交付的產品。
 
-![聚焦目標](images/Focus_Goal.png)
+![聚焦目標](./images/Focus_Goal.png)
 
 上圖左側，是消除遊戲各關卡所要達成的過關條件，**知道了解目標為何？我們才能在。消除遊戲的過程中採用更有效率的方式來達成目的**。以這關來看，我們必須消除所有的顏色區塊，以及四隻玩偶。
 
@@ -49,7 +49,7 @@ slug: concepts-of-project-management-from-elimination-games
 
 在專案的開始，我們要看見全貌。也就是說，我們要對整個大局有所估計。其作用是為了發現目前的一個環境背景下。我們可以使用的資源是什麼？要解決什麼樣的問題？要處理的。時候可能會遇到哪些？困難卡點的地方。
 
-![看見全貌](images/full_view.png)
+![看見全貌](./images/full_view.png)
 
 已知確認過關條件為消除所有的顏色區塊及四隻玩偶，接著觀察中間的活動區塊。
 
@@ -69,13 +69,13 @@ slug: concepts-of-project-management-from-elimination-games
 
 ## 借力使力，可運用的資源與工具
 
-![可用資源](images/Resource.png)
+![可用資源](./images/Resource.png)
 
 上圖右側的區塊，是遊戲關卡中間可使用的特殊道具。使用這些道具時，無需花費額外的移動步驟，有効的幫助玩者消除方塊。所以當關卡遇到困難的時候，可以使用這些額外的道具來幫我們解決難關。
 
 特殊道具或是右側的道具欄，對應到專案管理，就像專案執行過程中，可以使用的資源或工具，我們可以決定使用或是保留這些資源。但是無疑，這這些都是我們的額外助力。
 
-![Tools](images/tools.png)
+![Tools](./images/tools.png)
 
 值得一提的是工具的使用，在消除遊戲中常見的道具有四種
 
@@ -96,7 +96,7 @@ slug: concepts-of-project-management-from-elimination-games
 
 ## 持續確認，時時停下再看全貌
 
-![時時停下再看全貌](images/anytime.png)
+![時時停下再看全貌](./images/anytime.png)
 
 隨著遊戲的進行，遭遇到的問題或阻礙會不斷的變化。所以需要時時的注意可用的步數與過關的阻礙。若是對達成目標無用的動作，就要避免浪費步數。
 
@@ -113,7 +113,7 @@ slug: concepts-of-project-management-from-elimination-games
 
 ## 適時的放棄
 
-![放棄](images/abort.png)
+![放棄](./images/abort.png)
 
 在遊戲中，若是關卡的移動步數用完。還無法達到過關條件時。遊戲會問是否斷續，花費紙鈔追加資源，以順利過關。或是放棄本關卡。
 

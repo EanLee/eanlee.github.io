@@ -52,7 +52,7 @@ slug: queue
 
 通常，會把資源放入 Queue 的動作，稱為 ***Push*** 或 ***Enqueue***。反之，從資源離開 Queue 的動作，稱為 ***Pop*** 或 ***Dequeue***。
 
-![Queue](images/queue.png)
+![Queue](./images/queue.png)
 
 ## Queue
 
@@ -159,7 +159,7 @@ public class CircleQueue
 
 先討論第二種情況，當資源加入 Queue 後，離開 Queue 順序會因為權重而有所變更。用白話來說，這就是**插隊機制**。
 
-![Priotity](images/priotity-queue.png)
+![Priotity](./images/priotity-queue.png)
 
 這種打破 FIFO 特性，卻又保留部份 FIFO 的 Queu，稱為 Priority Queue 。而權重的比對，可以組合 `Compare`  與不同的 `排序演算法`的實作，來決定各資源離開的順序。
 
@@ -225,15 +225,15 @@ public class PriorityQueue
 
 當放入新的資源時，會將該資源放入節點中，同時將原本 Rear 的節點與新節點鍵結，並移到 Rear 到最後的節點。
 
-![Linked List by push](images/linked-list-push.png)
+![Linked List by push](./images/linked-list-push.png)
 
 反之，當資源離開時，Front 會向後移動一個節點，其他節點與 Rear 維持不動。
 
-![Linked List by pop](images/linked-list-pop.png)
+![Linked List by pop](./images/linked-list-pop.png)
 
 不管是單向鍵結或雙向鍵結，概念都是相同的。
 
-![Linked List by two-way](images/linked-list-two-way.png)
+![Linked List by two-way](./images/linked-list-two-way.png)
 
 下面的實作，採用單向鍵結的方式，來實作 Queue。但因為 .NET Core 之中，己經存有 `LinkedList<T>` ，所以將範例內的類別名稱取為 `LinkedListQueue<T>`
 

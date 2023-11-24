@@ -40,7 +40,7 @@ aliases:
 
 ### 系統負載
 
-![系統與使用率](images/origin.png)
+![系統與使用率](./images/origin.png)
 
 此時，嘗試重現發現異常的情境。
 
@@ -104,7 +104,7 @@ aliases:
 
 ### 優化後的架構
 
-![加入 Cache 的架構](images/use_cache.png)
+![加入 Cache 的架構](./images/use_cache.png)
 
 在調整服務架構後，對於首頁相關的請求，可以直接從 Cache 取得資料，當 Cache 內資料不存在或過期了，再去跟 DB 取資料。
 

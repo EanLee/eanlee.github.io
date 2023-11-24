@@ -72,29 +72,29 @@ public void PostRedirectGet([FromBody] TestEntity entity)
 
 我們直接使用 Postman 測試 API，會發現回應 `Statue: 405 Method Not Allowed` 。
 
-![Postman response 405](images/RedirectPermanent_Postman_405.png)
+![Postman response 405](./images/RedirectPermanent_Postman_405.png)
 
 但觀察 Console 的記錄，發現 API 回應 `301 Move Permanently`，並持續原本的  `POST`  Method 去呼叫 <http://www.google.com> ，然後就收到 `405 Method Not Allow` 的錯誤。
 
 回頭查看 <http://www.google.com> 回應的標題，它就很明確的告知，只允許 `GET`、`HEAD` 兩種方式。
 
-![Postman response header](images/RedirectPermanent_Postman_405_Response_Header.png)
+![Postman response header](./images/RedirectPermanent_Postman_405_Response_Header.png)
 
 回頭檢查 Postman 的請求設定中，發現 `Follow original HTTP Method` 、`Automatically follow redirects` 兩個選項。
 
 當開啟  `Follow original HTTP Method`  時，只要 API 回應 `3xx` 的 StatusCode 時，會使用原先的 HTTP Method 去進行 Redirect 。
 
-![Postman request settings](images/Postman_Request_settings.png)
+![Postman request settings](./images/Postman_Request_settings.png)
 
 所以將 `Follow original Http Method` 選項 Disabled 後，再重新發送請求。
 
 可以發現 Redirect 時，使用 `GET`  Method 呼叫 <http://www.google.com.tw> ，順利得到 `200 OK` 的回應。
 
-![disable follow origin HTTP Method](images/Postman_Disabled_Follow_origin_HTTP_Method.png)
+![disable follow origin HTTP Method](./images/Postman_Disabled_Follow_origin_HTTP_Method.png)
 
 此外，若將 `Automatically follow redirects` 關閉時，當 API 回應 `3xx` 的 StatusCode 時，Postman 不會進行 Redirect 的行為。
 
-![disable automatically follow redirects](images/Postman_Disabled_Automaticall_follow_redirects.png)
+![disable automatically follow redirects](./images/Postman_Disabled_Automaticall_follow_redirects.png)
 
 ## 延伸閱讀
 

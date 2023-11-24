@@ -69,7 +69,7 @@ Eric:
 
 目前主流的版本控制系統的架構，大致上，都可以歸屬於**集中式**與**分散式**這兩種類型。在下面的圖中，Subversion 就是集中式版本控制系統，Git 則是分散式版本控制系統。
 
-![advantages of distributed version control systems](images/centralized-vs-distributed-advantages.png)
+![advantages of distributed version control systems](./images/centralized-vs-distributed-advantages.png)
 (圖片出處: [Scriptcrunch](https://scriptcrunch.com/295/))
 
 ### 集中式版本控制系統(Centralized VCS)
@@ -110,7 +110,7 @@ Eric:
 
 同時，運用 Push、Pull 的動作，使用者之間可分享自己的變更內容，達到同步的結果。因此，為了更有效的同步版本內容，分散式版本控制系統就更重視 Branch、Merge 的支援與功能。
 
-![sauvegarder : git flow](images/basic-remote-workflow.png)
+![sauvegarder : git flow](./images/basic-remote-workflow.png)
 
 (圖片出處: [www.git-tower.com](https://www.git-tower.com/learn/git/ebook/en/command-line/remote-repositories/introduction))
 

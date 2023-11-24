@@ -53,9 +53,9 @@ Eric:
 >
 > 2023 年的 [GitHub](https://github.com/) 首頁的宣言已更換，GitHub 將自己定位為安全的協作平台。
 
-![GitHub 首頁(2018)](images/github-index-2018.png)
+![GitHub 首頁(2018)](./images/github-index-2018.png)
 
-![GitHub 首頁(2023)](images/github-index-2023.png)
+![GitHub 首頁(2023)](./images/github-index-2023.png)
 
 ```chat
 Eric:
@@ -70,9 +70,9 @@ Eric:
 
 登入帳號後，直接到右上角選取 `New repository` ，就會進入建立 repository 的設定頁面了。
 
-![GitHub 建立新 Repository 的進入點](images/github-new-repository.png)
+![GitHub 建立新 Repository 的進入點](./images/github-new-repository.png)
 
-![GitHub 建立 Repository 必須資訊](images/github-create-repository.png)
+![GitHub 建立 Repository 必須資訊](./images/github-create-repository.png)
 
 其實，只要設定 `Repository name` 並檢查無相同名稱後，就可以直接按下 `Create repository` 進行建立。完成後，頁面會貼心的提示，本地端的 repository 要如何與 GitHub repository 建立起關連。
 
@@ -88,7 +88,7 @@ Eric:
 
 ~~假若希望將專案設為 `私有(private)` ，避免被不相關的人檢視內容。在網頁中，也清楚的說明，每個月支付 7 美元，提升帳戶的級層，就可以無限制的使用 `private repositories`。~~
 
-![GitHub Repository 建立完成](images/github-empty-repository.png)
+![GitHub Repository 建立完成](./images/github-empty-repository.png)
 
 ### BitBucket
 
@@ -101,9 +101,9 @@ Eric:
 >
 > 雖然 2023 年的 [BitBucket](https://bitbucket.org/) 首頁的宣言已更換，本質上沒有太大的改變，只是更加強調 BitBucket 是 Atlassian's Open DevOps 解決方案的一員。
 
-![BitBucket index in 2019](images/bitbucket-index-in-2019.png)
+![BitBucket index in 2019](./images/bitbucket-index-in-2019.png)
 
-![BitBucket Index in 2023](images/bitbucket-index-in-2023.png)
+![BitBucket Index in 2023](./images/bitbucket-index-in-2023.png)
 
 ```chat
 Eric:
@@ -122,11 +122,11 @@ Eric:
 
 略過註冊的部份，直接來看看 repository 的設定畫面。
 
-![可選擇的新增項目](images/bitbucket-create-option.png)
+![可選擇的新增項目](./images/bitbucket-create-option.png)
 
 當按下 `Create` ，並選取 `Respository` 後，會看到設定 repository 的設定畫面。
 
-![建立 Repository 必填資訊](images/bitbucket-create-repository.png)
+![建立 Repository 必填資訊](./images/bitbucket-create-repository.png)
 
 跟 GitHub 相同，只要輸入 `Repository name` 就可以創立一個新的 repository。
 
@@ -134,7 +134,7 @@ Eric:
 
 此外，BitBucket 同時兩種分散式版本控制系統 Git 與 Mercurial，如果沒有需求，直接使用預設值 Git 即可。
 
-![建立完成的畫面](images/bitbucket-created-repository.jpeg)
+![建立完成的畫面](./images/bitbucket-created-repository.jpeg)
 
 建立 repository 完成後，BitBucket 一樣會貼心的提示您，如何將本地端的 repository 與 BitBucket repository 建立起關連。
 
@@ -142,7 +142,7 @@ Eric:
 
 若需要調整 repository 的設定，都可以從 `Setting` 進行設定的變更。
 
-![Repository 的設定畫面](images/bitbucket-repository-setting.jpeg)
+![Repository 的設定畫面](./images/bitbucket-repository-setting.jpeg)
 
 ### Azure Repositories of Azure DevOps
 
@@ -170,9 +170,9 @@ Eric:
 >
 > 順便吐嘈一下 Microsoft，現在使用 Azure DevOps 的入口變的超不友善，每次都要花上不少時間，才能進入 Azure DevOps。
 
-![2019 年 Azure DevOps 定價](images/azure-devops-charge-2019.png)
+![2019 年 Azure DevOps 定價](./images/azure-devops-charge-2019.png)
 
-![2023 年 Azure DevOps 定價](images/azure-devops-charge-2023.jpeg)
+![2023 年 Azure DevOps 定價](./images/azure-devops-charge-2023.jpeg)
 
 ```chat
 Eric:
@@ -197,45 +197,45 @@ Eric:
 
 當在 Google 搜尋 `Azure DevOps` 時，會出現 `Azure DevOps Service` 的頁面，點選後，會進入 Azure DevOps 的宣傳頁面。
 
-![Azure DevOps Ad](images/azure-devops-ad.png)
+![Azure DevOps Ad](./images/azure-devops-ad.png)
 
 在這邊要使用 Azure 的帳號登入。若是沒有 Azure 帳號的，它要要求先註冊 Azure 帳號。
 
 登入後，會直接跳到 Azure Dashboard 的頁面。此時，畫面上是找不到 `Azure DevOps` 的項目，請在上面搜尋欄輸入 `DevOps` 並選擇搜尋結果 `Auzre DevOps organizations`。
 
-![Azure Dashboard](images/azure-dashboard.png)
+![Azure Dashboard](./images/azure-dashboard.png)
 
-![Azure DevOps organizations](images/azure-devops-organizations.png)
+![Azure DevOps organizations](./images/azure-devops-organizations.png)
 
 接著點選 `My Azure Devops Organization` 後，網頁會跳 [Azure DevOps Services | 登入](https://aex.dev.azure.com/me?mkt=zh-TW) 書面。
 
 此時，就可以看到目前帳號所屬的 DevOps 組織列表。
 
-![Azure Devops Organization list](images/azure-devops-organization-list.png)
+![Azure Devops Organization list](./images/azure-devops-organization-list.png)
 
 若是沒有任何所屬組織，會要求用戶新增一個組織並建立新專案。
 
-![create organization](images/azure-devops-organization-create.png)
+![create organization](./images/azure-devops-organization-create.png)
 
 Azure DevOps 與 GitHub、BitBucket 建立比較不同的地方，在於後兩者是直接建立 Repository，而;在 Azure DevOps 則是先建立專案項目。
 
 在建立專案時，需要指定該專案是屬於 `公開` 或 `私有` ，這個決定 Azure DevOps 對專案的支援項目。
 
-![在 Azure Devops 建立新專案的畫面 (2019 年)](images/azure-devops-create-project.png)
+![在 Azure Devops 建立新專案的畫面 (2019 年)](./images/azure-devops-create-project.png)
 
-![在 Azure Devops 建立新專案的畫面 (2023 年)](images/azure-devops-create-project-2023.png)
+![在 Azure Devops 建立新專案的畫面 (2023 年)](./images/azure-devops-create-project-2023.png)
 
 專案建立後，會在左側功能看到 Azure DevOps 提供的服務，像 `Boards`、`Repos`、`Pipeline`、`Test Plan`。
 
-![Azure Devops 的專案畫面](images/azure-devops-project-index.png)
+![Azure Devops 的專案畫面](./images/azure-devops-project-index.png)
 
 點開 `Repos` 後，會發現系統己經自行建立一個與專案名稱相同的 Repository。也一樣會貼心的提示您，如何將本地端的 repository 與 BitBucket repository 建立起關連。
 
-![空白專案的操作方式](images/azure-devops-created.png)
+![空白專案的操作方式](./images/azure-devops-created.png)
 
 如果需要額外進行 Repository 的新增、滙入與合併，可以直接點選頁面上方的 repository 項目，就會出現操作選單。
 
-![Repository 的延伸操作](images/azure-devops-repos-manage.png)
+![Repository 的延伸操作](./images/azure-devops-repos-manage.png)
 
 到這邊，接下來的 Git 設定方式，不管是選擇使用 `Git 指令` 或是 `Git Client GUI` 那一種，跟前面提到的設定方法相同，。
 

@@ -74,24 +74,24 @@ Eric: 放心，這點我有想到，我們可以使用雲端服務來解決這�
 - 平台即服務 (Platform as a Service, PaaS)
 - 軟體即服務 (Software as a Service, SaaS)
 
-![IaaS v.s. PaaS v.s. SaaS](images/cloud-models-iaas-paas-saas.jpg)
+![IaaS v.s. PaaS v.s. SaaS](./images/cloud-models-iaas-paas-saas.jpg)
 圖示來源: [IaaS vs. PaaS vs. SaaS - DEV Community 👩‍💻👨‍💻](https://dev.to/cloudtech/iaas-vs-paas-vs-saas-41d2)
 
 ## Azure 簡介
 
 Azure 是 Microsoft 近年來，大力推行的公有雲端服務平台。它提供了多種服務，讓用使用者自行選擇、組合與運用。
 
-![Windows Azure 介紹](images/Azure.png)
+![Windows Azure 介紹](./images/Azure.png)
 ( 圖片來源: [Azure 官網](https://azure.microsoft.com/zh-tw/resources/infographics/azure/))
 
 Azure 發展致今，服務內容己經横跨 **運算**、**資料服務**、**應用程式服務**、**儲存**、**網路** 等類型。
 
 目前 Azure 為了讓更多人使用與體驗，提供 免費帳戶 讓大家有機會嘗試 Azure 豐富的服務內容。
 
-![Azure on 2018](images/microsoft-azure-index-2018.png)
+![Azure on 2018](./images/microsoft-azure-index-2018.png)
 2019 年 Azure 首頁畫面
 
-![Azure on 2023](images/azure-index-2023.png)
+![Azure on 2023](./images/azure-index-2023.png)
 2023年 [Azure 首頁](https://azure.microsoft.com/zh-tw)畫面
 
 為了確保帳戶的有效性，在申請免費帳戶時，必需經過信用卡驗證的關卡。
@@ -106,26 +106,26 @@ Azure 發展致今，服務內容己經横跨 **運算**、**資料服務**、**
 
 同時，它也是一個使用 Java 撰寫的開源專案，
 
-![2019 年 Jenkins 首頁](images/jenkins_index.png)
+![2019 年 Jenkins 首頁](./images/jenkins_index.png)
 
-![2023 年 Jenkins 首頁](images/jenkins-index-2023.png)
+![2023 年 Jenkins 首頁](./images/jenkins-index-2023.png)
 
 ### 架設 Jenkins
 
 #### Azure VM 機器建立
 
 為了在將 Jenkins 掛在 Azure 上，因此，採用 Azure 的 Linux **虛擬機器** 。
-![index_1](images/index_1.png)
+![index_1](./images/index_1.png)
 
 在進入 Azure 的畫面後，直接到 Marketplace 中，找到 Jenkins 進行安裝。
 
-![market](images/market.png)
+![market](./images/market.png)
 
 接下來就是進行一連續的設定動作。
 
 筆者特別把建立過程中，遇到的問題，跟大家分享一下。
 
-![cloud_shell](images/cloud_shell.png)
+![cloud_shell](./images/cloud_shell.png)
 
 在 Linux 虛擬機器設定的步驟中，採用 `SSH 公開金鑰` 保護的機制。
 
@@ -139,15 +139,15 @@ ssh-keygen
 cat xxxxxxx.pub
 ```
 
-![domain name](images/domain_name.png)
+![domain name](./images/domain_name.png)
 
 接著，在進行網路相關設定時，Domain Name 有進行規則運算式的驗證，要注意一下。
 
 全部都設定完成後，就是等 Azure 完成部署。
 
-![building](images/building.png)
+![building](./images/building.png)
 
-![vm](images/vm.png)
+![vm](./images/vm.png)
 
 #### Jenkins 設定
 
@@ -155,7 +155,7 @@ cat xxxxxxx.pub
 
 連到該網址後，因為伺服器是採用 SSH 金鑰的認證，所以無法直接使用網站。
 
-![圖片20181026_022330](images/remote_web.png)
+![圖片20181026_022330](./images/remote_web.png)
 
 依指示，在本機端輸入 SSH 指令
 
@@ -167,7 +167,7 @@ username: 設定時，所輸入的名稱。
 
 domainname: 虛擬機器網路設定時，所輸入的 domain name。
 
-![ssh_fail](images/ssh_fail.png)
+![ssh_fail](./images/ssh_fail.png)
 
 結果，訊息回傳 `Permission denied (publickey)` 的錯誤。
 
@@ -175,11 +175,11 @@ domainname: 虛擬機器網路設定時，所輸入的 domain name。
 
 只要將 Azure 中的金鑰，下載放到本機端的 .ssh 資料夾中，就可以順利動作。
 
-![ssh_success](images/ssh_success.png)
+![ssh_success](./images/ssh_success.png)
 
 接下來，就可以從 <http://localhost:8080> 進入 Jenkins。不過第一次登入，一定要進行 Unlock 的動作。
 
-![Jenkins_First](images/Jenkins_First.png)
+![Jenkins_First](./images/Jenkins_First.png)
 
 指 Jenkins 指示，輸入指令，就可以取回密碼，完成 Jenkins 的初始設定。
 
@@ -187,7 +187,7 @@ domainname: 虛擬機器網路設定時，所輸入的 domain name。
 sudo cat /var/lib/jenkins/secrets/initialAdminPassword
 ```
 
-![Jenkns_working](images/Jenkns_working.png)
+![Jenkns_working](./images/Jenkns_working.png)
 
 看到這個畫面，就大功告成，完成安裝。
 
@@ -220,13 +220,13 @@ Eric:
 
 直接移到原始碼管理，將 Repository 的位置填入，然後在 **Credentials 中，選擇或新增 所使用 Repository 的帳密**。以便 Jenkins 可以成功進入 private repository ，並取回資料。
 
-![add projec](images/Add-project.png)
+![add projec](./images/Add-project.png)
 
-![bitbucket_create](images/jenkins-bitbucket-create.png)
+![bitbucket_create](./images/jenkins-bitbucket-create.png)
 
 Repository 的設定只要出錯，建置的結果必定失敗。若去看建置失敗的原因，就會看到 git fetch 失敗。
 
-![BitBucket_result](images/jenkins-bitbucket-result.png)
+![BitBucket_result](./images/jenkins-bitbucket-result.png)
 
 設定到這邊，Jenkins 已經可以主動跟 Repository 取回資料，進行 CI 的行為。但無法在 Repository 異動的第一時間，得知 Repository 是任何變更，需要重新執行 CI 動作。
 
@@ -245,13 +245,13 @@ Eric:
 
 在最新版本的 Jenkins，己經預設安裝 `Github Plugin` 這個插件。所以在專案的 `組態` 中，看到 `GitHub projects`、`GitHub hook trigger for GITScm polling` 這兩個項目。
 
-![Jenkins_plugin_github](images/Jenkins_plugin_github.png)
+![Jenkins_plugin_github](./images/Jenkins_plugin_github.png)
 
 勾選 GitHub Projects 後，專案選單中，會出現 `GitHub` 。點選後，會直接轉跳到 GitHub 網址。
 
 勾選 GitHub hook trigger for GIT trigger for GITScm polling，則是出現 `GitHub Hook Log`。
 
-![Jenkins_plugin_github_selection](images/Jenkins_plugin_github_selection.png)
+![Jenkins_plugin_github_selection](./images/Jenkins_plugin_github_selection.png)
 
 但是這樣還是收不到，記得到 GitHub 設定 Webhook。
 
@@ -275,19 +275,19 @@ Eric: 我們先來聊聊 Azure Pipelines 對自家產品 Azure Repositories 的�
 
 ### Azure PipeLines 的建立
 
-![Azure Pipeline 的建置頁面](images/azure-devops-project-index.png)
+![Azure Pipeline 的建置頁面](./images/azure-devops-project-index.png)
 
 選取 Pipelines 的 Builds 後，會看到工作清單。但因為目前沒有任何資料，所以直接進入`建立 pipeline` 的容量。
 
-![選擇 Code 的來源](images/azure-pipeline-repo-source.png)
+![選擇 Code 的來源](./images/azure-pipeline-repo-source.png)
 
 選擇 Azure Repository 後，如果該 Repository 內有資料，會列出 Repository 清單。
 
-![選擇 Azure Pipeline 使用的 Repository](images/azure-pipeline-select-repos.png)
+![選擇 Azure Pipeline 使用的 Repository](./images/azure-pipeline-select-repos.png)
 
 如果選取的 Repository 內己經有資料，Azure Pipeline 會自動分析，並建立 yml 檔。
 
-![Azure Pipeline 使用的 YAML 檔](images/azure-pipeline-yaml.png)
+![Azure Pipeline 使用的 YAML 檔](./images/azure-pipeline-yaml.png)
 
 ### azure-pipelines.yml
 
@@ -335,7 +335,7 @@ Azure pipeline 動作時， 會依序執行 task，只要其中一個 task 失�
 
 下面的圖為 Azure Pipelines 執行中的畫面。
 
-![Azure_pipelines_result](images/azure-pipelines-exec-result.png)
+![Azure_pipelines_result](./images/azure-pipelines-exec-result.png)
 
 ```chat
 Eric: 接下來，我們來聊聊 YAML 這個標註語言。
