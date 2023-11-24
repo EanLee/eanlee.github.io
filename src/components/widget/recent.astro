@@ -12,11 +12,14 @@ const recentPosts = posts.slice(0, 5);
   <h4>Recent Posts</h4>
   <ul>
     {
-      recentPosts.map((post) => (
-        <li>
-          <a href={post.slug}> {post.data.title} </a>
-        </li>
-      ))
+      recentPosts.map((post) => {
+        const path = post.id.slice(0, post.id.lastIndexOf("/")).toLowerCase();
+        return (
+          <li>
+            <a href={`/post/${path}/`}> {post.data.title} </a>
+          </li>
+        );
+      })
     }
   </ul>
 </div>
