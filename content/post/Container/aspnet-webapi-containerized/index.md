@@ -266,9 +266,9 @@ docker build . -f Dockerfile -t lab/webapi-args:latest
 docker run -p 5000:80 --name webapi lab/webapi-args --ConnectionStrings=agnongw8gan99s==
 ```
 
-![Multi-Stage 建置 Image 的訊息](images/docker-multi-stage-build.png)
+![Multi-Stage 建置 Image 的訊息](./images/docker-multi-stage-build.png)
 
-![傳入的 Argument 確實的被程式取得](images/docker-run-args.png)
+![傳入的 Argument 確實的被程式取得](./images/docker-run-args.png)
 
 #### 作法三、掛載文件檔
 
@@ -346,7 +346,7 @@ $ docker run -v lab-volume:/data -v %cd%:/src alpine sh -c "cp /src/appsettings.
 $ docker run -it -v lab-volume:/data alpine
 ```
 
-![快速驗證檔案加入 Volume 的流程](images/docker-volume-add-file.png)
+![快速驗證檔案加入 Volume 的流程](./images/docker-volume-add-file.png)
 
 ## FAQ
 
@@ -379,7 +379,7 @@ docker run -d -e host=localhost -p 5001:80 lab/webapi
 docker inspect -f "{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}" {db_container_name}
 ```
 
-![使用 docker inspect 查詢 container 的 IP address](images/docker-inspect-network-ip.png)
+![使用 docker inspect 查詢 container 的 IP address](./images/docker-inspect-network-ip.png)
 
 #### 解法二、新增 Network 並使用 Docker 內的 DNS 功能
 

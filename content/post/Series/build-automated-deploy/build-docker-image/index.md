@@ -53,13 +53,13 @@ trigger:
 
 直接到 Azure Pipeline 中，選擇 `New Pipeline`，並選擇 `Docker`與設定後，Azure pipeline 就會自動產生 `azure-pipelines.yml` 。後續再依需求自行調整即可。
 
-![建立新的 Pipeline](images/azure_pipeline_new_pipeline.png)
+![建立新的 Pipeline](./images/azure_pipeline_new_pipeline.png)
 
-![設定 Azure Pipleline 組態](images/azure_pipeline_new_pipeline_select_docker.png)
+![設定 Azure Pipleline 組態](./images/azure_pipeline_new_pipeline_select_docker.png)
 
-![選擇使用 Docker](images/azure_pipeline_dockerfile.png)
+![選擇使用 Docker](./images/azure_pipeline_dockerfile.png)
 
-![自動產出的 azure-pipeline.yml 檔](images/azure_pipeline_review.png)
+![自動產出的 azure-pipeline.yml 檔](./images/azure_pipeline_review.png)
 
 ## Jenkins
 

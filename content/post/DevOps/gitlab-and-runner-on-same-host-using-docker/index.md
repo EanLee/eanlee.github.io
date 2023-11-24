@@ -43,7 +43,7 @@ aliases:
 
 首先，我們可以直接到 [Docker Hub](https://hub.docker.com/r/gitlab/gitlab-ce) 中，在 Gitlab-ce 的 Tags 頁面查看要下載的 Docker Image 版本。
 
-![Gitlab on Docker Hub](images/docker_hub_gitlab.png)
+![Gitlab on Docker Hub](./images/docker_hub_gitlab.png)
 
 在這邊，直接使用 `gitlab/gitlab-ce` 最新的版本。
 
@@ -58,7 +58,7 @@ docker pull gitlab/gitlab-ce:latest
 docker run -d --name gitlab -p 8080:80 --restart always gitlab/gitlab-ce
 ```
 
-![GitLab sign-in](images/gitlab_sigin_in.png)  
+![GitLab sign-in](./images/gitlab_sigin_in.png)  
 
 此時會遇到第一個問題，就是不知道登入的密碼是什麼？
 
@@ -69,15 +69,15 @@ docker run -d --name gitlab -p 8080:80 --restart always gitlab/gitlab-ce
 docker exec -it gitlab grep 'Password:' /etc/gitlab/initial_root_password
 ```
 
-![root 預設密碼](images/docker_gitlab_initial_root_pwd.png)  
+![root 預設密碼](./images/docker_gitlab_initial_root_pwd.png)  
 
 順利登入後，新建立一個名為 Test 的 Repository 後，點選 `Clone` 按鈕後，會發現 `Clone with HTTP` 路徑為 `http://d04070f2213e/[Repository-Name]/test.git`。
 
-![clone path](images/gitlab_clone_http_bad.png)
+![clone path](./images/gitlab_clone_http_bad.png)
 
 其實，下載的網址內出現的 `d04070f2213e` 字串，其實是 CONTAINER ID。
 
-![docker ps](images/docker_ps_only_gitlab.png)  
+![docker ps](./images/docker_ps_only_gitlab.png)  
 
 但實務上，這樣的網址是無直接使用，變成每次需要手動調整更正為主機 Domain Name 或 IP。
 
@@ -126,7 +126,7 @@ docker run --detach \
 
 重新建立好之後，再觀察 `Clone with HTTP`，就會變成預期的 Hostname。
 
-![git clone path](images/clone_localhost.png)
+![git clone path](./images/clone_localhost.png)
 
 但是直接使用 `Clone with HTTP` 的路徑，還是無法成功使用。
 
@@ -164,11 +164,11 @@ docker exec -it gitlab-runner gitlab-runner register
 
 在註冊專案本身使用的 Runner 時，所需的 `Url` 與 `Token`，可以從專案的 `Settings > CI/CD` 的 `Runners` 取得。
 
-![Runner setting](images/gitlab_registor_runner.png)  
+![Runner setting](./images/gitlab_registor_runner.png)  
 
 ⚠️ 在註冊過程中，會發生會發生 `connect refuse` 的問題。
 
-![runner registory fail: connect refuse](images/runnerj_register_failed.png)
+![runner registory fail: connect refuse](./images/runnerj_register_failed.png)
 
 從上面可以看到 `連線到 127.0.0.1:8080 被拒` 的異常訊息，若對 docker network 概念不熟悉的話，可能會在這邊卡住，無法理解，為何無法連線？
 
@@ -176,7 +176,7 @@ docker exec -it gitlab-runner gitlab-runner register
 
 用圖來理解目前的 Container 的網路架構。
 
-![network](images/docker_network.png)  
+![network](./images/docker_network.png)  
 
 在了解網路架構後，有兩種調整的做法。分別為硬幹型與標準型。
 
@@ -187,18 +187,18 @@ docker exec -it gitlab-runner gitlab-runner register
 docker inspect -f '{{json .NetworkSettings.Networks}}' gitlab
 ```
 
-![network setting of gitlab container](images/gitlab_container_networkSetting.png)  
+![network setting of gitlab container](./images/gitlab_container_networkSetting.png)  
 
 發現 GitLab container 在 Bridge 內配的 IP 為 `172.17.0.2`，Gateway 為 `172.17.0.1`，在註冊 Runner 時，`GitLab Url` 位置的設定方式有兩種
 
 - 使用 IP: 因為 GitLab 預設使用 80 Port，直接輸入 `http://172.17.0.2`，就可以成功從 GitLab-Runner 連入 GitLab。
 - 使用 Gateway: 輸入 `http://172.17.0.1:8080/`。簡單來說，Bridge 會依據 Container 建立時的設定，傳導至 GitLab Continer。這邊原理比較複雜，再另外說明。
 
-![runner registory success](images/register_runner_success.png)
+![runner registory success](./images/register_runner_success.png)
 
 成功註冊後，再重新整理 `Setting > CI/CD` 的頁面，會發現原先 Runner 的項目下，出現方才新的 Runner。
 
-![specific runner](images/gitlab_specific_Runner.png)  
+![specific runner](./images/gitlab_specific_Runner.png)  
 
 ☑ 標準的作法(建議):
 
@@ -237,15 +237,15 @@ docker network disconnect bridge gitlab-runner
 
 此次再檢視預設 Bridge 網路的內容，可以發現 GitLab 與 GitLab-Runner 兩個 Container 已不在其中。
 
-![default gridge network](images/default_gridge_network_nouse.png)
+![default gridge network](./images/default_gridge_network_nouse.png)
 
 而在 `gitlab-network` 的 bridge 網路中，可以找到兩個 Container。
 
-![User-Defined gridge network](images/user-define-bridge-network.png)  
+![User-Defined gridge network](./images/user-define-bridge-network.png)  
 
 再次進行 Runner 的註冊時，`GitLab Url` 就可以使用 DNS 的方式指到 GitLab Container。
 
-![runner registory success](images/runner_register_success_2.png)
+![runner registory success](./images/runner_register_success_2.png)
 
 ⚠️ 補充：在 GitLab-Runner 的 Container 內，`/etc/hosts` 內已定義 `localhost`，所以在註冊時使用 localhost 必定會失敗。
 
@@ -341,25 +341,25 @@ docker-compse -d up
 
 接著，來撰寫 GitLab CI 的執行腳本。到 `CI/CD > Editor` 內進行 `.gitlab-ci.yml` 的編輯，我們直接使用預設產生的內容進行測試。
 
-![CD/CD Editor](images/gitlab_ci_editor.png)  
+![CD/CD Editor](./images/gitlab_ci_editor.png)  
 
 ⚠️ 此時會發現 CI 卡住。一直在 `Pending`，這是因為 `.gitlab-ci.yml` 內未指定 Runner Tag，GitLab CI 找不到可以用的 Runner。
 
-![CI Pending](images/ci_pending.png)
-![CI Pending 2](images/ci_pending_2.png)
+![CI Pending](./images/ci_pending.png)
+![CI Pending 2](./images/ci_pending_2.png)
 
 所以需要到 `Settings > CI/CD` 的 Runner，將負責 CI 的 Runner 進行的設定變更，勾選 `Run Untagged Job` 即可。
 
-![runner edit](images/gitlab_setting_runner_edit.png)  
-![runner edit](images/edit_runner_untagged.png)
+![runner edit](./images/gitlab_setting_runner_edit.png)  
+![runner edit](./images/edit_runner_untagged.png)
 
 接著 Redo 之前的 CI Job，還是發生錯誤。
 
-![can't pull git](images/cannot_pull_git.png)  
+![can't pull git](./images/cannot_pull_git.png)  
 
 ⚠️ Runner 回應 git 的路徑不正確，無法連線。因此，需要額外在 GitLab-runner 的 `etc\gitlab-runner\config.toml` 中，加入參數 `clone-url`。
 
-![add clone url](images/clone_url.png)  
+![add clone url](./images/clone_url.png)  
 
 調整完成後，記得要重置 GitLab-Runner。
 
@@ -370,17 +370,17 @@ gitlab-runner restart
 
 接著 Redo 之前的 CI Job，持續發生錯誤。
 
-![Can't reslove host](images/gitlab_job_fail_not_resolve_host.png)
+![Can't reslove host](./images/gitlab_job_fail_not_resolve_host.png)
 
 此時的錯誤是無法 Runner 無法解析 DNS。若是 GitLab-runner 的 Executor 指定 Docker，必須告知 Docker Executor 使用的網路。
 
 在 `etc\gitlab-runner\config.toml` 的 `runners.docker` 加入 `network_mode` 後，記得要重置 GitLab-Runner。
 
-![add netowrk_mode ](images/add_docker_runner_network.png)
+![add netowrk_mode ](./images/add_docker_runner_network.png)
 
 再 Redo 之前的 CI Job，終於成功了。
 
-![CI success](images/gitlab_ci_job_success.png)
+![CI success](./images/gitlab_ci_job_success.png)
 
 若不想要進到 config.toml 進行參數的調整，也可以在註冊 Runner 加入參數 `--clone-url` 與 `--docker-network-mode` 的參數。
 

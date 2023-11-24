@@ -175,7 +175,7 @@ builder.Services.AddLogging((loggingBuilder) =>
 curl --location 'https://localhost:5001/weatherforecast'
 ```
 
-![Loki Explore 畫面](images/loki-explore-label-app.png)
+![Loki Explore 畫面](./images/loki-explore-label-app.png)
 
 ## 補充資料
 

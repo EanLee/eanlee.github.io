@@ -24,7 +24,7 @@ slug: spof
 
 基於以上的情境，規劃的系統架構如下，若是請求 API 的種類與公告資訊相關。API 的處理流程是先嘗試到 Cache 取得資料，若 Cache 內沒有資料，再去訪問資料庫，並將取回的資訊放一份在 Cache 內。
 
-![flow](images/service-data-flow.png)
+![flow](./images/service-data-flow.png)
 
 服務的系統架構初步看起來好像沒有問題，仔細觀察，發現所有的 API 主機同時使用同一台 Cache，這個節點的發生故障或異常，可能造成服務中止。
 

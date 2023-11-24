@@ -34,7 +34,7 @@ lastmod: 2023-06-28T10:10:47+08:00
 - CI/CD 的主機不可以暴露於公開環境
 - CI 主機對外連線需要控管。
 
-![Netowrk arch](images/network_arch.png)
+![Netowrk arch](./images/network_arch.png)
 
 ## 建立 Gitlab Server
 
@@ -73,7 +73,7 @@ GitLab-Runner 的安裝與註冊方式，可參考 [註冊 GitLab-Runner](GitLab
 
 這時，設定好 Runner，並進行 CI/CD 的 Try-run 時，會發生 git clone 失敗的錯誤。
 
-![git clone fail](images/gitlab_job_fail_not_resolve_host.png)
+![git clone fail](./images/gitlab_job_fail_not_resolve_host.png)
 
 問題的原因在於網路環境的設定與規劃。
 
@@ -157,7 +157,7 @@ dev-build-job:       # This job runs in the build stage, which runs first.
 docker pull mcr.microsoft.com/dotnet/framework/sdk:4.8
 ```
 
-![no matching manifest for linux/amd64 in the manifest list entries](images/no_match_manifest.png)  
+![no matching manifest for linux/amd64 in the manifest list entries](./images/no_match_manifest.png)  
 
 結果發生 `no matching manifest for linux/amd64 in the manifest list entries` 的錯誤訊息。
 

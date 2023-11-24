@@ -101,7 +101,7 @@ docker run --name lab-postgres-init -e POSTGRES_PASSWORD=mysecretpassword lab/po
 
 從輸出訊息中，可以看到 PostgreSQL Docker 會使用 `/usr/local/bin/docker-entrypoint.sh`  執行 `init.sql` 。
 
-![建立 container 時，也進行資料庫初始化](images/initial-script.png)
+![建立 container 時，也進行資料庫初始化](./images/initial-script.png)
 
 ### 使用多個 sql 檔案
 
@@ -160,7 +160,7 @@ docker build . -f init-schema-postgres.dockerfile -t lab/postgres-init:0.2
 docker run --name lab-postgres-init -e POSTGRES_PASSWORD=mysecretpassword lab/postgres-init:0.2
 ```
 
-![建立 container 時，執行多個 .sql ](images/initial-multi-sql.png)
+![建立 container 時，執行多個 .sql ](./images/initial-multi-sql.png)
 
 #### 加入測試資料
 
@@ -224,7 +224,7 @@ docker run --name lab-postgres-init -e POSTGRES_PASSWORD=mysecretpassword lab/po
 
 從訊息可以看到，在建立 container 時，依序的執行 `init.sql`、`migration-20230103.sql`、`test-01.sql` 三支 script。
 
-![初始化資料庫 schema 時，也一併加入測試資料](images/initial-multi-sql-and-test-data.png)
+![初始化資料庫 schema 時，也一併加入測試資料](./images/initial-multi-sql-and-test-data.png)
 
 #### 注意事項
 
@@ -234,7 +234,7 @@ docker run --name lab-postgres-init -e POSTGRES_PASSWORD=mysecretpassword lab/po
 
 為了實驗，故意放入 `02.sql` 後，執行 Image，就會看到以下的錯誤訊息。
 
-![.sql 執行順序造成的失敗](images/initial-script-fail.png)
+![.sql 執行順序造成的失敗](./images/initial-script-fail.png)
 在還沒有進行資料庫 schema 之前，就進行塞入測試資料的動作。會成立 Container 啟用資料，就算開啟 Container，內部的資料庫 schema 與資料也不完整。這是要注意的地方。
 
 ## 補充資料

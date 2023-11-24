@@ -57,11 +57,11 @@ ChatGPT 在收到 _prompt_ 後，因為問題的範圍過大，會產生一大�
 
 此時，就要不斷的送出 `繼續` 的 _prompt_ ，直要求 ChatGPT 繼續前一個回答。但 ChapGPT 有時 ChatGPT 不理你，直接重新回答，或是無法理解你的問題。
 
-![ChatGPT 回答中斷與答非所問](images/irrelevant-answer.png)
+![ChatGPT 回答中斷與答非所問](./images/irrelevant-answer.png)
 
 ### 程式碼 check
 
-![讓 ChapGPT 檢查程式碼](images/code-review.png)
+![讓 ChapGPT 檢查程式碼](./images/code-review.png)
 
 像這種範圍不明確、或過大的問題時，加上回答的限制，讓 ChatGPT 以 **`列表`** 的方式，回覆不包含細節的執行步驟。
 
@@ -83,7 +83,7 @@ Center (
 
 如此一來，就可以快速取得調整後的樣版，再進行細修。
 
-![程式碼調整](images/modify-code.png)
+![程式碼調整](./images/modify-code.png)
 
 ### 概念詢問
 
@@ -93,7 +93,7 @@ Center (
 在 Flutter 建立的 Android, 在沒有開啟 APP 時，也要能發出通知，其執行步驟與作法?
 ```
 
-![概念與作法的詢問](images/ask-concept.png)
+![概念與作法的詢問](./images/ask-concept.png)
 
 ## 小結
 

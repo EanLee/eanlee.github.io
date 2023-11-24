@@ -42,17 +42,17 @@ Eric: 好啊。
 
 檔案上傳到 Dropbox 時，筆者運用 andreafabrizi 在 GitHub ，所分享的 [Dropbox-Uploader](https://github.com/andreafabrizi/Dropbox-Uploader) ，以簡化介接 Dropbox API 的工作量。
 
-![Dropbox-Uploader by andreafabrizi GitHub](images/dropbox-uploader-github.png)
+![Dropbox-Uploader by andreafabrizi GitHub](./images/dropbox-uploader-github.png)
 
 首先，先到 [Dorpbox Developers](https://www.dropbox.com/developers)，會看到以下的畫面
 
-![2023 年 Dropbox Developer 首頁](images/dropbox-developer-index.png)
+![2023 年 Dropbox Developer 首頁](./images/dropbox-developer-index.png)
 
 在成功註冊/登入後，首先，我們必須在 `Dropbox` 建立 app 專案，讓 Dropbx 開放權限，允許應用程式呼叫 Dropbox API。
 
-![應用程式控制台 (2018)](images/dropbox-developer-app-console-2018.png)
+![應用程式控制台 (2018)](./images/dropbox-developer-app-console-2018.png)
 
-![應用程式控制台 (2023)](images/dropbox-developer-app-console-2023.png)
+![應用程式控制台 (2023)](./images/dropbox-developer-app-console-2023.png)
 
 > 📝 資訊補充 📝
 >
@@ -62,13 +62,13 @@ Eric: 好啊。
 
 按下 `Create app` 後，創立一個提供 CI Server 使用的 API 存取權限。
 
-![建立 Dropbox app (2018)](images/dropbox-developer-create-app-2018.jpeg)
+![建立 Dropbox app (2018)](./images/dropbox-developer-create-app-2018.jpeg)
 
-![建立 Dropbox app (2023)](images/dropbox-developer-create-app-2023.png)
+![建立 Dropbox app (2023)](./images/dropbox-developer-create-app-2023.png)
 
 完成建立後，直接到 `OAuth 2` 的區域取得 Token 值，這會用在 `Dropbox_Uploader.sh` 之中。
 
-![Dropbox app 的組態設定畫面 (2018)](images/dropbox-app-config.jpeg)
+![Dropbox app 的組態設定畫面 (2018)](./images/dropbox-app-config.jpeg)
 
 要注意的是，`dropbox_uploader.sh` 中，是將先前取得的 Dropbox OAuth2 的 Token 另存檔案。但這情況不適合用在 CI Server ，所以對 `dropbox_uploader.sh` 進行部份修改。
 
@@ -114,7 +114,7 @@ script:
     - bash dropbox_uploader.sh upload IronmanDemo/bin/Release 2019Ironman/Travis
 ```
 
-![使用 Travis CI 把檔案發佈到 Dropbox](images/dropbox-list-on-travis.jpeg)
+![使用 Travis CI 把檔案發佈到 Dropbox](./images/dropbox-list-on-travis.jpeg)
 
 ### 使用 Azure Pipeline 發佈檔案
 
@@ -143,7 +143,7 @@ script:
     args: upload IronmanDemo/bin 2019Ironman/AzureDevOps
 ```
 
-![使用 Azure Pipeline 把檔案發佈到 Dropbox](images/dropbox-list-on-azure-devops.jpeg)
+![使用 Azure Pipeline 把檔案發佈到 Dropbox](./images/dropbox-list-on-azure-devops.jpeg)
 
 ```chat
 吉米: 透過 shell script 的操作，CI Server 的運用，就更加靈活。

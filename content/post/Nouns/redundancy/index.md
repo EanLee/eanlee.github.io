@@ -19,11 +19,11 @@ lastmod: 2023-06-28T13:23:11+08:00
 
 在系統架構中，冗餘的機制常用來避免[單點故障]({{< ref "../spof/index.md" >}})時，系統失效的情況。資訊系統中，常見的 Load Balancer 與備援機制，都是運用冗餘概念的作法。
 
-![system](images/redundancy.png)
+![system](./images/redundancy.png)
 
 有時，為提升系統性能也會使用冗餘的方式。例如，電商為面對搶購活動，突如其來的巨量請求，在資訊系統的 Load Balancer 後方增加機器，以提高系統的負載量。
 
-![system](images/redundancy_2.png)
+![system](./images/redundancy_2.png)
 
 此外，在軟體開發使用 Behaviour-Driven Development, BDD 也是冗餘的應用之一，針對同一目的，使用不同作法的不同機能冗餘。
 

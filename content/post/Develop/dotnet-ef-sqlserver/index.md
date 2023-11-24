@@ -109,7 +109,7 @@ docker run -e "ACCEPT_EULA=Y" \
 
 若是想要使用 SSMS 將 `.bak` 進行還原，或是進行備份時，若是建立 contaier 時沒有 `mount` 實體位置時，就會發生找不到要還原的 `.bak` 檔案。
 
-![SMSS 從進行資料庫還原作業](images/smss-sql-server-on-docker.png)
+![SMSS 從進行資料庫還原作業](./images/smss-sql-server-on-docker.png)
 所以，若是有備份或還原 `.bak` 的需求，別忘了mount 的動作。
 
 ```shell
@@ -161,7 +161,7 @@ Server=localhost;Database=Lab;User Id=sa;Password=!QAZxsw23edc;Trusted_Connectio
 
 當使用直接使用上述的連線字串時，會發生 SqlException: `A connection was successfully established with the server, but then an error occurred during the login process. (provider: SSL Provider, error: 0 - 此憑證鏈結是由不受信任的授權單位發出的。)`。
 
-![此憑證鏈結是由不受信任的授權單位發出的](images/error-during-login-process.png)
+![此憑證鏈結是由不受信任的授權單位發出的](./images/error-during-login-process.png)
 
 當使用的 `Microsoft ODBC Driver for SQL Server` 升級到 18 之後，Driver **預設開啟資料加密**。
 
@@ -181,7 +181,7 @@ Server=localhost;Database=Lab;User Id=sa;Password=!QAZxsw23edc;Trusted_Connectio
 
 當 `Trusted_Connection=Ture` 時，SQL Server 為確保是可信任的連線，會使用 `Windows 驗證` 的方式登入，若找不到對應的帳號，預設使用 `Guest` 帳號。
 
-![Login failed for user](images/login-failed-for-user.png)
+![Login failed for user](./images/login-failed-for-user.png)
 
 ## 延伸閱讀
 

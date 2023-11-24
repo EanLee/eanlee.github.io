@@ -2,7 +2,7 @@
 title: Docker | 縮網址服務實作記錄 (1) - 基於 Docker 容器技術的網站服務架構實踐
 description: 本文紀錄使用 Docker Compose 在 Digital Ocean Ubuntu VPS 上架設縮網址服務的過程，包括環境設定、服務架構規劃、Docker image 管理、網路與安全設定等。適合想學習如何利用容器技術架設 Web 服務的讀者。
 date: 2023-11-11T14:28:57+08:00
-lastmod: 2023-11-18T01:23:34+08:00
+lastmod: 2023-11-24T11:46:26+08:00
 tags:
   - Docker
   - Postgresql
@@ -79,7 +79,7 @@ slug: shorten-1-build-service-base-on-container
 
 ### 服務架構圖
 
-![VPS 內的服務架構](images/service-arch.png)
+![VPS 內的服務架構](./images/service-arch.png)
 
 #### 服務
 
@@ -132,7 +132,7 @@ ufw allow 443/tcp
 ufw enable
 ```
 
-![ufw status](images/ubuntu-ufw-status.jpeg)
+![ufw status](./images/ubuntu-ufw-status.jpeg)
 
 ### 使用者權限設定
 
@@ -144,7 +144,7 @@ sudo usermod -aG sudo 新使用者名稱
 su - 新使用者名稱
 ```
 
-![](images/ubuntu-adduser.jpeg)
+![](./images/ubuntu-adduser.jpeg)
 
 #### 使用密碼驗證 (Password Authenticaiton)
 
@@ -156,11 +156,11 @@ Ditigal Ocean 開立的 Ubuntu 主機，預設是關閉 `PasswordAuthentication`
 cat /etc/ssh/sshd_config | grep
 ```
 
-![確認 sshd_config 內的設定](images/ubuntu-user-password-auth-1.jpeg)
+![確認 sshd_config 內的設定](./images/ubuntu-user-password-auth-1.jpeg)
 
 開啟密碼認證的設定，將 `PasswordAuthentication` 設為 `yes`。
 
-![在調整後，再次確認 sshd_config](images/ubuntu-user-password-auth-2.jpeg)
+![在調整後，再次確認 sshd_config](./images/ubuntu-user-password-auth-2.jpeg)
 
 重啟 `sshd` 服務，讓 `PasswordAuthentication` 變動生效。
 
@@ -192,7 +192,7 @@ sudo systemctl restart sshd
 
 首先，先產生新使用者 `opser` 使用的 SSH Key。
 
-![使用 ssh-keygen 產生 public/private key](images/ssh-keygen-key.jpeg)
+![使用 ssh-keygen 產生 public/private key](./images/ssh-keygen-key.jpeg)
 
 接著，讓我們把 Public Key 放到 Ubuntu 主機，並進行 `authorized_keys` 與對應的 `.ssh` 訪問權限設定。
 
@@ -214,13 +214,13 @@ chmod -R go= ~/.ssh
 cat /digitalocean_opser.pub >> ~/.ssh/authorized_keys
 ```
 
-![](images/set-ubuntu-user-ssh-key-1.jpeg)
+![](./images/set-ubuntu-user-ssh-key-1.jpeg)
 
-![](images/set-ubuntu-user-ssh-key-2.jpeg)
+![](./images/set-ubuntu-user-ssh-key-2.jpeg)
 
 完成上述指令之後就可以順利的使用 opser 以 SSH Key 登入。
 
-![使用 opser 順利登入 Ubuntu 主機](images/new-user-ssh-key-success.png)
+![使用 opser 順利登入 Ubuntu 主機](./images/new-user-ssh-key-success.png)
 
 ### Docker 確認
 
@@ -292,7 +292,7 @@ docker login <container-registry-host>
 
 例如 Digital Ocean 的認證資料，就需要先去申請 API Token 後，再把 Token 輸入 Username/Password。
 
-![docker login DigitalOcean](images/docker-login-digitalocean.jpeg)
+![docker login DigitalOcean](./images/docker-login-digitalocean.jpeg)
 在成功登入，就可以在允許的權限下，進行 Container Registry 操作。
 
 #### docker push image
@@ -333,23 +333,23 @@ docker push registry.digitalocean.com/<registry-name>/<image-name>:<tag>
 docker push registry.digitalocean.com/my-registry/url-insight/web:latest
 ```
 
-![Push image 到 Digital Ocean Container Registry](images/cli-push-image-to-digital-ocean.png)
+![Push image 到 Digital Ocean Container Registry](./images/cli-push-image-to-digital-ocean.png)
 
 完成 Push 後，就可以在 Digital Ocean Container Registry 查到上傳的 Image 記錄。
 
-![](images/digital-ocean-container-registry-push-result.jpeg)
+![](./images/digital-ocean-container-registry-push-result.jpeg)
 
 #### 變更使用的 Container Registry
 
 在完成 `uri-insight/web` 的 Image 上傳後，繼續上傳 `uri-insight/api` 的 Docker Image 時，出現 `denied: registry contains 1 repositories, limit is 1` 錯誤。
 
-![Push Image 到 Digital Ocean 時，被拒絕](images/push-image-denied.png)
+![Push Image 到 Digital Ocean 時，被拒絕](./images/push-image-denied.png)
 
 這時，我才發現犯了一個認知的錯誤。
 
 原本查看 Digital Ocean 的 Registry 的免費方案時，以為 Digitial Coean 的 Starter plan 的 1 Repo，指的是 Project level 的 Repository。
 
-![](images/digital-ocean-container-registry-payment-plan.jpeg)
+![](./images/digital-ocean-container-registry-payment-plan.jpeg)
 
 想說可以將實作的服務，`uri-insight/web` 與 `uri-insight/api` 兩個 Image，都上傳到同一個 Repo。
 
@@ -357,19 +357,19 @@ docker push registry.digitalocean.com/my-registry/url-insight/web:latest
 
 所以 push 第二個 Docker Image 時，才會出現了 `denied: registry contains 1 repositories, limit is 1` 錯誤。
 
-![Push Image 到 Digital Ocean 時，被拒絕](images/push-image-denied.png)
+![Push Image 到 Digital Ocean 時，被拒絕](./images/push-image-denied.png)
 
 剛好，使用的版控的 Gitlab 平台，也有提供 Container registry，而且，在官方的 [GitLab Container Registry 說明文件](https://docs.gitlab.com/ee/user/packages/container_registry/)中提到，它們提供的 Private Container Registry 沒有數量限制。
 
 所以決定移到 GitLab 這個 Unlimit Private Container Registry。
 
-![Container Registry 進入位置](images/gitlab-container-registry-entry.jpeg)
+![Container Registry 進入位置](./images/gitlab-container-registry-entry.jpeg)
 
-![GitLab 的 Container Registry 畫面](images/gitlab-container-registory.jpeg)
+![GitLab 的 Container Registry 畫面](./images/gitlab-container-registory.jpeg)
 
 題外話，在 Container Registry 的呈現畫面，個人比較喜歡 Digital Ocean 的呈現方式
 
-![Digital Ocean 的 Container Registry 畫面](images/digitial-ocean-container-registry.jpeg)
+![Digital Ocean 的 Container Registry 畫面](./images/digitial-ocean-container-registry.jpeg)
 
 ### 服務佈屬
 
@@ -571,7 +571,7 @@ ssh -L <-port>:<remote-host>:<remote-port> <user>@<remote-host>
 
 ▶ 站內文章
 
-- [縮網址服務實作記錄(2) - 基於 Container 的 Let's Encrypt 申請與設定](縮網址服務實作記錄(2)%20-%20基於%20Container%20的%20Let's%20Encrypt%20申請與設定.md)
+- [縮網址服務實作記錄(2) - 基於 Container 的 Let's Encrypt 申請與設定]({{< ref "../shorten-2-lets-encrypt-setting/index.md" >}})
 
 ▶ 外部文章
 

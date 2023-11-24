@@ -40,7 +40,7 @@ A 公司只能將緊急中止新代工廠的訂單，待原本代工廠完成原
 - 集貨倉庫：商品的存放區。
 - 消費者：銷售後的購買行為。
 
-![生產者-消費者 模型](images/producer-customer-pattern.png)
+![生產者-消費者 模型](./images/producer-customer-pattern.png)
 
 其中，代工廠作為**生產者**，負責產生資源(商品)。集貨倉庫可視為 Queue，負責資源的暫存緩衝與資源調派。消費者，就負責把資源取走、使用。
 
@@ -140,7 +140,7 @@ lock(obj)
 
 這時，再把前面的圖回顧一下。
 
-![Lock](images/Lock.png)
+![Lock](./images/Lock.png)
 
 Producer 1、Producer 2、Customer 1 三者前後請求對 Queue 的操作，而 Queue 處理與回應的順序，也是與請求順序相同。這就是有序性。
 

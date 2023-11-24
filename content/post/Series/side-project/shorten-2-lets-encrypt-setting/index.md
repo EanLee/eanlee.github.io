@@ -2,7 +2,7 @@
 title: Docker | 縮網址服務實作記錄 (2) - 基於 Docker 的 Let's Encrypt 申請與設定
 description: 本文介紹如何在 Docker 環境中，使用 Let's Encrypt 與 Certbot 申請免費 SSL/TLS 憑證，並設定 Nginx 支持 HTTPS。主要內容包括直接在 Ubuntu 主機使用 Certbot 配合 volume 掛載申請憑證、使用 Certbot 官方 Docker Image 的申請流程。適合需要在 Docker 容器中設定 HTTPS 的網站管理員或開發者參考。
 date: 2023-11-17T16:38:06+08:00
-lastmod: 2023-11-21T09:01:12+08:00
+lastmod: 2023-11-24T11:46:13+08:00
 tags:
   - Docker
   - Nginx
@@ -21,7 +21,7 @@ slug: shorten-2-lets-encrypt-setting
 
 > 縮網址服務為 https://url-ins.com/shorten/ ，有任何想法或回饋，可以在 [SurveyCake](https://www.surveycake.com/s/wgveX) 留下寶貴的意見。(為了維持主機的維運，在頁面內放入 Google Adsense 廣告。)
 
-在 [縮網址服務實作記錄(1) - 基於 Docker 容器技術的網站服務架構實踐](./縮網址服務實作記錄(1)%20-%20基於%20Docker%20容器技術的網站服務架構實踐.md) 中，已經完成基本服務的建立。
+在 [縮網址服務實作記錄(1) - 基於 Docker 容器技術的網站服務架構實踐]({{< ref "../shorten-1-build-service-base-on-container/index.md" >}}) 中，已經完成基本服務的建立。
 
 為了確保服務站台的可靠性與提升 SEO。接下來，就是要為服務站台增加 HTTPS 的 SSL/TLS 憑證保護。
 
@@ -139,7 +139,7 @@ server {
 sudo certbot certonly --webroot -w ./letsencrypt-site -d url-ins.com
 ```
 
-![certbot certonly --webroot](images/certbot-certonly-webroot.png)
+![certbot certonly --webroot](./images/certbot-certonly-webroot.png)
 
 此時，`fullchain.pem` 與 `privkey.pem` 是存放在 Ubuntu 主機的 `/etc/letsencrypt/live` 目錄下。
 
@@ -211,7 +211,7 @@ sudo docker cp /etc/letsencrypt test-busybox:/mnt
 - 在 `docker run` 時，使用 `-v` 來掛載 Docker volume，並宣告建立出來的 Container name 為 testbusybox
 - 最後，使用 `docker cp` 來進行資料夾的複製。
 
-![複製 /etc/letsencrypt 內的資訊](images/docker-cp-letsencrypt-folder.png)
+![複製 /etc/letsencrypt 內的資訊](./images/docker-cp-letsencrypt-folder.png)
 
 當然，如果要確認 volume 是否有資料，可以再建一個臨時 Container 來進行查看。
 
@@ -219,7 +219,7 @@ sudo docker cp /etc/letsencrypt test-busybox:/mnt
 sudo docker run -it --rm -v letsencrypt-certs:/mnt busybox
 ```
 
-![建立一個臨時 Container 來確認 volume 內容](images/verify-docker-volume.png)
+![建立一個臨時 Container 來確認 volume 內容](./images/verify-docker-volume.png)
 
 再完成將 `*.pem` 複製到 volume 的動作後，就是把 volume 掛載到 NGINX 所在的 Container 中。
 
@@ -407,7 +407,7 @@ sudo docker run -it --rm --name certbot \
 
 ▶ 站內文章
 
-- [縮網址服務實作記錄(1) - 基於 Docker 容器技術的網站服務架構實踐](./縮網址服務實作記錄(1)%20-%20基於%20Docker%20容器技術的網站服務架構實踐.md)
+- [縮網址服務實作記錄(1) - 基於 Docker 容器技術的網站服務架構實踐]({{< ref "../shorten-1-build-service-base-on-container/index.md" >}})
 
 ▶ 外部文章
 

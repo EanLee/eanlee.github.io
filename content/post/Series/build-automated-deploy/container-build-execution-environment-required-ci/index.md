@@ -207,7 +207,7 @@ steps:
 
 在 Pipeline 中，Jenkins 會依據 `jenkinsfile` 內容的指示執行各種動作。運用 Groovy 的格式來撰寫 `jenkinsfile` 讓使用者可以客制化建置的流程與環境。
 
-![Jenkins pipeline 設定](images/jenkins_pipeline.png)
+![Jenkins pipeline 設定](./images/jenkins_pipeline.png)
 
 經由 `jenkinsfile` 與 docker 的配合，我們可以自行訂定各 **階段 (stages)** ，使用不同 Docker Image 建置環境，執行不同的動作。而無需手動配置環境。
 

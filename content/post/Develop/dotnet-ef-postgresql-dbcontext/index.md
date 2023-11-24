@@ -105,7 +105,7 @@ dotnet add package Microsoft.EntityFrameworkCore.Design
 
 若是沒有安裝 `Microsoft.EntityFrameworkCore.Design`，後續執行 `dotnet ef dbcontext scffold ...` 的指令時，會出現錯誤提示。
 
-![未安裝 Microsoft.EntityFrameworkCore.Design 的錯誤提示](images/uninstall-efcore-design-result.png)
+![未安裝 Microsoft.EntityFrameworkCore.Design 的錯誤提示](./images/uninstall-efcore-design-result.png)
 
 ## Entity Framework Core Tools
 
@@ -139,7 +139,7 @@ dotnet ef dbcontext scaffold <connection_string> Npgsql.EntityFrameworkCore.Post
 dotnet ef dbcontext scaffold "Host=localhost;Database=postgres;Username=postgres;Password=psg1234;Trust Server Certificate=true" Npgsql.EntityFrameworkCore.PostgreSQL
 ```
 
-![順利更新 DBContext](images/success-dbcontext-scaffold.png)
+![順利更新 DBContext](./images/success-dbcontext-scaffold.png)
 
 若是想要指定產生出來的 `<DBContext.cs>` 放到指定位置，記得額加使用 `-o <Path>` 的指令。否則產生出來的位置與 .csproj 的位置相同。
 
@@ -156,13 +156,13 @@ dotnet ef dbcontext scaffold <connection_string> Npgsql.EntityFrameworkCore.Post
 
 在這邊，刻意將連線字串內的 Database 名稱，由 `postgres` 改為 `Postgres`，會看到下述的錯誤訊息。
 
-![資料庫名稱大小寫不同，回應資料庫不存在](images/failed-dbcontext-scffold-dbname-differice.png)
+![資料庫名稱大小寫不同，回應資料庫不存在](./images/failed-dbcontext-scffold-dbname-differice.png)
 
 #### 狀況二、已存在檔案
 
 若先前已經有產生過 `<DBContext>` 相關檔案，直接執行指令會出現 `The following file(s) already exist in directory 'c:\Codes\lab\efcore_lab\': PostgresContext.cs,Todo.cs. Use the Force flag to overwrite these files.` 錯誤訊息。
 
-![已存在資料，需指定覆寫原有資料](images/failed-overwrite.png)
+![已存在資料，需指定覆寫原有資料](./images/failed-overwrite.png)
 
 所以必須在指令加上 `-f`，告知 `ef dbcontext scaffold` 要覆寫先前已存在的檔案。
 
@@ -172,7 +172,7 @@ dotnet ef dbcontext scaffold <connection_string> Npgsql.EntityFrameworkCore.Post
 
 但要注意的是，上述的指令所產生出來 DBContext.cs 內，會含有連線字串，為了避免資訊外洩，務必記得移除，改用 configuration 注入的方式。
 
-![dotnet ef 產生出來的 PostgresContext 內容](images/postgres-dbcontext.png)
+![dotnet ef 產生出來的 PostgresContext 內容](./images/postgres-dbcontext.png)
 
 ## user-secrets
 
@@ -187,19 +187,19 @@ dotnet ef dbcontext scaffold Name=ConnectionStrings:lab Npgsql.EntityFrameworkCo
 
 當 `user-serets init` 初始化之後，會產生一組 `UserSecretsId`，並存在 .csproj 之中。
 
-![user-secrets init](images/user-secrets-init.png)
+![user-secrets init](./images/user-secrets-init.png)
 
-![csproj 專案檔內的 UserSecretsId](images/csproj-content.png)
+![csproj 專案檔內的 UserSecretsId](./images/csproj-content.png)
 
 使用 `user-secrets set` 後，系統會把機敏資料存放到 `C:\Users\<user>\AppData\Roaming\Microsoft\UserSecrets\<UserSecretsId>\secrets.json` 之中。
 
-![使用 user-secrets 設定連線字串](images/user-secrets-setting-connectionstring.png)
-![secrets.json 內的資料](images/secrets-json-content.png)
+![使用 user-secrets 設定連線字串](./images/user-secrets-setting-connectionstring.png)
+![secrets.json 內的資料](./images/secrets-json-content.png)
 
 最後使用 `dotnet ef dbcontext scaffold` 使用 `user-secrets` 內的連線字串來產生 DBContext。可以發現連線字串不會被記錄在 DBContext 之中。
 
-![使用 user-secrets 內的連線字串](images/dbcontext-scaffold-user-secrets.png)
-![使用 user-secrets 產生出來的 PostgresContext](images/postregs-dbcontext-context-user-secrets.png)
+![使用 user-secrets 內的連線字串](./images/dbcontext-scaffold-user-secrets.png)
+![使用 user-secrets 產生出來的 PostgresContext](./images/postregs-dbcontext-context-user-secrets.png)
 
 ## 延伸閱讀
 

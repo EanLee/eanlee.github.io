@@ -1,8 +1,8 @@
 ﻿---
 title: 靈活運用 Docker - 打造高效的容器化應用環境
-description: 
+description: 本系列文章將會介紹如何靈活運用 Docker 來打造高效的容器化應用環境。
 date: 2023-06-28T09:44:39+08:00
-lastmod: 2023-11-23T09:31:42+08:00
+lastmod: 2023-11-24T11:34:08+08:00
 tags:
   - Container
   - Docker
@@ -67,5 +67,5 @@ toc: false
 - [GitLab CI 實作記錄(2) - Gitlab CI 的私有環境建置](../DevOps/GitLab%20CI%20實作記錄(2)%20-%20Gitlab%20CI%20的私有環境建置.md)
 - [使用 Docker 建置 ASP.NET Webapi 的 Image]({{< ref "../aspnet-webapi-containerized/index.md" >}})
 - [淺談 YAML 格式]({{< ref "../../Series/build-automated-deploy/yaml/index.md" >}})
-- [縮網址服務實作記錄(1) - 基於 Docker 容器技術的網站服務架構實踐](../Series/side-project/縮網址服務實作記錄(1)%20-%20基於%20Docker%20容器技術的網站服務架構實踐.md)
-- [縮網址服務實作記錄(2) - 基於 Container 的 Let's Encrypt 申請與設定](../Series/side-project/縮網址服務實作記錄(2)%20-%20基於%20Container%20的%20Let's%20Encrypt%20申請與設定.md)
+- [縮網址服務實作記錄 1 - 基於 Docker 容器技術的網站服務架構實踐]({{< ref "../../Series/side-project/shorten-1-build-service-base-on-container/index.md" >}})
+- [縮網址服務實作記錄 2 - 基於 Container 的 Let's Encrypt 申請與設定]({{< ref "../../Series/side-project/shorten-2-lets-encrypt-setting/index.md" >}})

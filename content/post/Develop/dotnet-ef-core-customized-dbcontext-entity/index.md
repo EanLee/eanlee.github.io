@@ -196,7 +196,7 @@ foreach (var property in EntityType.GetProperties().OrderBy(p => p.GetColumnOrde
 
 當調整完 EntityType 後，再執行 `dotnet ef dbcontext scaffold` 後，會發現 LabContext 內的發生以下的錯誤。
 
-![DbContext 的 modelBuilder 無法與 Entity 對應](images/dbcontext-error-by-entitytype-modify.png)
+![DbContext 的 modelBuilder 無法與 Entity 對應](./images/dbcontext-error-by-entitytype-modify.png)
 所以，接下來我們要進行 DbContext.t4 的調整。可以使用 `entity.Property` 為 keyword，快速定位要調整的位置。
 
 接著，針對要原本的 `CreatedAt`、`UpdatedAt`、`UpdatedUser`、 `IsDeleted` 這四個欄位，改寫 DbContext.t4，使其成為 [Shadow Properties](https://learn.microsoft.com/zh-tw/ef/core/modeling/shadow-properties#configuring-shadow-properties)，並預期產出的 DBContext 內容如下。
@@ -250,7 +250,7 @@ foreach (var property in entityType.GetProperties())
 
 調整後，產生出來的 DbContext 如下。對應到資料庫 `B_CreatedAt`、`B_UpdatedAt`、`B_UpdatedUser`、`B_IsDeleted` 四個欄位的 Property 都已經變更為 Shadow Property。
 
-![調整 DbContext.t4 產生的內容](images/modify-dbcontext-shadow-property-result.png)
+![調整 DbContext.t4 產生的內容](./images/modify-dbcontext-shadow-property-result.png)
 
 #### 改寫 SaveChanges/SaveChangeAsync 行為
 
@@ -341,7 +341,7 @@ context.Books.Add(new Book { BName = "Test" });
 context.SaveChanges();
 ```
 
-![查詢資料新增結果](images/qeury-efcore-override-savechage-result.png)
+![查詢資料新增結果](./images/qeury-efcore-override-savechage-result.png)
 
 ### 更新 Enity 的 Field 名稱
 
@@ -362,7 +362,7 @@ public <#= code.Reference(property.ClrType) #><#= needsNullable ? "?" : "" #> <#
 public <#= code.Reference(property.ClrType) #><#= needsNullable ? "?" : "" #> <#= property.Name.Substring(1) #> { get; set; }<#= needsInitializer ? " = null!;" : "" #>
 ```
 
-![調整 EntityType.t4 欄位名稱的結果](images/modify-entitytype-property-name-result.png)
+![調整 EntityType.t4 欄位名稱的結果](./images/modify-entitytype-property-name-result.png)
 
 #### DbContext.t4
 
@@ -378,7 +378,7 @@ entity.Property(e => e.<#= property.Name #>)<#= code.Fragment(propertyFluentApiC
 entity.Property(e => e.<#= property.Name.Substring(1) #>)<#= code.Fragment(propertyFluentApiCalls, indent: 4) #>;
 ```
 
-![僅調整 DbContext.t4 欄位名稱的結果](images/modify-dbcontext-property-name-result.png)
+![僅調整 DbContext.t4 欄位名稱的結果](./images/modify-dbcontext-property-name-result.png)
 
 ## 小結
 
