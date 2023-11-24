@@ -5,6 +5,7 @@ import Footer from "../components/Footer.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
 import { getCollection } from "astro:content";
 import FormattedDate from "../components/FormattedDate.astro";
+import Sidebar from "../components/sidebar.astro";
 // import Summary from "../components/summary.astro";
 
 const posts = (await getCollection("blog")).sort(
@@ -18,7 +19,12 @@ const posts = (await getCollection("blog")).sort(
     <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
     <style>
       main {
+        display: flex;
         width: 960px;
+        /* background-color: blueviolet; */
+      }
+      section {
+        flex: 1;
       }
       ul {
         display: flex;
@@ -68,19 +74,12 @@ const posts = (await getCollection("blog")).sort(
           width: 100%;
           text-align: center;
         }
-        /* ul li:first-child {
-          margin-bottom: 0;
-        }
-        ul li:first-child .title {
-          font-size: 1.563em;
-        } */
       }
     </style>
   </head>
   <body>
     <Header />
     <main>
-
       <section>
         <ul>
           {
@@ -109,6 +108,7 @@ const posts = (await getCollection("blog")).sort(
           }
         </ul>
       </section>
+      <Sidebar />
     </main>
     <Footer />
   </body>

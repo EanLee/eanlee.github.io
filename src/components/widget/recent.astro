@@ -1,0 +1,29 @@
+---
+import { getCollection } from "astro:content";
+
+const posts = (await getCollection("blog")).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+
+const recentPosts = posts.slice(0, 5);
+---
+
+<div>
+  <h4>Recent Posts</h4>
+  <ul>
+    {
+      recentPosts.map((post) => (
+        <li>
+          <a href={post.slug}> {post.data.title} </a>
+        </li>
+      ))
+    }
+  </ul>
+</div>
+
+<style>
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+</style>
