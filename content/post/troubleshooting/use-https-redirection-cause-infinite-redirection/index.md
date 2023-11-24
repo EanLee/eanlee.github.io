@@ -2,7 +2,7 @@
 title: ASP.NET Core | 問題排除隨手記 - UseHttpsRedirection 造成的無限 Redirection (Response Http Status 307)
 description: 排除 ASP.NET Core 無限重定向的問題。由於系統架構規劃 Web API 只能由反向代理 (Reverse Proxy) ，使用 HTTP(80) 訪問 Web API 所在主機，但又在 ASP.NET Core 開發的 Web API 中，調用 UseHttpsRedirection Middleware，回應狀態碼 307。最終造成 redirection 重定向次數過多的情形。
 date: 2023-11-22T14:54:54+08:00
-lastmod: 2023-11-24T10:51:32+08:00
+lastmod: 2023-11-24T12:35:51+08:00
 tags:
   - ASP.NET
   - Core
@@ -25,13 +25,13 @@ slug: use-https-redirection-cause-infinite-redirection
 
 明明 API 就只有單純的回傳資訊，但卻出現在瀏覽器出現 `ERR_TOO_MANY_REDIRECTS` 、Postman 出現 `Error: Exceeded maxRedirects. Probably stuck in a redirect loop`、或是 Insomnia 出現 `Error: Number of redirects hit maximum amount` 的錯誤訊息。
 
-![Broswer 錯誤畫面](./images/broswer-display-ERR_TOO_MANY_REDIRECTS.png)
 明眼人一看，就知道是 Redirect 重定向過多造成的錯誤。
 
 而將新開發的 Web API 架設在使用反向代理(Reverse Proxy) 的環境時，遇到這個問題，就順手記錄下來。
 
 <!--more-->
 
+![Broswer 錯誤畫面](./images/broswer-display-ERR_TOO_MANY_REDIRECTS.png)
 Ps. 個人習慣把`Redirection` 重定向，稱為轉導。所以在下面文章，會使用轉導的名詞。
 
 ## ASP.NET Core 預設的 Https Redirection
