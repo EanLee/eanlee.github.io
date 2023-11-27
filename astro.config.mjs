@@ -12,7 +12,7 @@ export default defineConfig({
   integrations: [mdx(), sitemap()],
   markdown: {
     rehypePlugins: [
-      rehypeFigure,
+      [rehypeFigure, { className: "my-figure"}],
       "rehype-slug",
       ["rehype-autolink-headings", { behavior: "append" }],
       [

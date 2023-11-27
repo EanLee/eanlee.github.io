@@ -158,3 +158,15 @@ hr {
 	/* added line to stop words getting smushed together (as they go onto seperate lines and some screen readers do not understand line feeds as a space */
 	white-space: nowrap;
 }
+
+.my-figure {
+	margin: 0 0 20px;
+	margin: 0 0 1.25rem;
+	text-align: center;
+	line-height: 1;
+  }
+
+ .my-figure figcaption {
+	font-size:medium;
+	color: #666;
+  }
