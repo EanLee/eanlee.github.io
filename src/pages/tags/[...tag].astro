@@ -38,7 +38,7 @@ const filteredPosts = posts
   .filter((post) => {
     return post.data.tags?.map((c) => c.toUpperCase()).includes(tag || "");
   })
-  .sort((a, b) => b.data.date - a.data.date);
+  .sort((a, b) => Number(b.data.date) - Number(a.data.date));
 ---
 
 <GeneralLayout>
