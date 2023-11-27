@@ -4,7 +4,9 @@ import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
 import rehypeExternalLinks from "rehype-external-links";
 import rehypeFigure from "rehype-figure";
-import astroRemark from "@astrojs/markdown-remark";
+
+import rehypeSlug from 'rehype-slug';
+import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 
 // https://astro.build/config
 export default defineConfig({
@@ -13,8 +15,7 @@ export default defineConfig({
   markdown: {
     rehypePlugins: [
       [rehypeFigure, { className: "my-figure"}],
-      "rehype-slug",
-      ["rehype-autolink-headings", { behavior: "append" }],
+      rehypeSlug, [rehypeAutolinkHeadings, { behavior: 'append' }],
       [
         "rehype-toc",
         {
