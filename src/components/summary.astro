@@ -1,39 +1,81 @@
 ---
+import FormattedDate from "../components/FormattedDate.astro";
 
 const { post } = Astro.props;
-
-
-
+const path = post.id.slice(0, post.id.lastIndexOf("/")).toLowerCase();
 ---
 
 <article>
-    <h2>{post.title}</h2>
+  <header>
+    <h2>
+      <a href={`/post/${path}/`} rel="bookmark">
+        {post.data.title}
+      </a>
+    </h2>
+  </header>
+  <div class="meta">
+    <p class="date">
+      <FormattedDate date={post.data.date} />
+      {
+        post.data.lastmod && (
+          <span>
+            (最後更新: <FormattedDate date={post.data.lastmod} />)
+          </span>
+        )
+      }
+    </p>
+  </div>
+  <div class="summary">
+    <p>{post.data.summary}</p>
+  </div>
 
+  <div>
+    <a href={`/post/${path}/`}> 繼續閱讀</a>
+  </div>
+  <style>
+    :root {
+      --list-frame: #e0e0e0;
+    }
+
+    article {
+      margin-bottom: 10px;
+      border: var(--list-frame) solid 1px;
+      border-radius: 5px;
+    }
+
+    header {
+      padding: 0px 5px;
+    }
+
+    article h2 {
+      font-size: 20px;
+      font-size: 1.25rem;
+
+      text-shadow: 1px 1px 1px whitesmoke;
+      background: none repeat scroll 0% 0% var(--list-frame);
+      border-radius: 5px 5px 0px 0px;
+      padding: 0.5rem;
+      margin: -1px -6px;
+    }
+
+    a {
+      color: rgb(var(--black));
+      text-decoration: none;
+      transition: 0.2s ease;
+    }
+
+    a:hover {
+      color: #2337ff;
+    }
+
+    .meta {
+      padding: 0px 0.5rem;
+    }
+
+    .date {
+      font-size: medium;
+      margin: 0;
+      color: rgb(var(--gray));
+    }
+  </style>
 </article>
-
-<!-- <article class="list__item post">
-	{{ partial "post_thumbnail.html" (dict "class" "list" "page" .) }}
-	<header class="list__header">
-		<h2 class="list__title post__title">
-			<a href="{{ .RelPermalink }}" rel="bookmark">
-			{{if .Draft}}(草稿) {{end}}{{ .Title }}
-			</a>
-		</h2>
-		{{- with .Params.lead }}
-		<p class="list__lead post__lead">{{ . }}</p>
-		{{- end }}
-		{{ with partial "post_meta.html" . -}}
-		<div class="list__meta meta">{{ . }}</div>
-		{{- end }}
-	</header>
-	<div class="content list__excerpt post__content clearfix">
-		{{ .Summary }}
-	</div>
-	{{- if .Site.Params.readmore }}
-	{{- if .Truncated }}
-	<div class="list__footer clearfix">
-		<a class="list__footer-readmore readmore-btn" href="{{ .RelPermalink }}">{{ T "read_more" }}</a>
-	</div>
-	{{- end }}
-	{{- end }}
-</article> -->
