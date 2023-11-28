@@ -1,15 +1,15 @@
 ---
 import { getCollection } from "astro:content";
+import WidgetBase from "./WidgetBase.astro";
 
 const posts = (await getCollection("blog")).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
 );
 
-const recentPosts = posts.slice(0, 5);
+const recentPosts = posts.slice(0, 6);
 ---
 
-<div>
-  <h4>Recent Posts</h4>
+<WidgetBase topic="Recent Posts">
   <ul>
     {
       recentPosts.map((post) => {
@@ -22,11 +22,41 @@ const recentPosts = posts.slice(0, 5);
       })
     }
   </ul>
-</div>
+</WidgetBase>
 
 <style>
   ul {
     list-style: none;
     padding: 0;
+    /* margin: 0; */
+
+    display: block;
+    font-size: small;
+    /* padding: 5px 0; */
+    border-bottom: 1px dotted #ebebeb;
+  }
+
+  ul a {
+    text-decoration: none;
+    color: var(--text-color);
+  }
+
+  h4 {
+    position: relative;
+    padding-bottom: 5px;
+    font-size: 16px;
+    font-size: 1rem;
+    text-transform: uppercase;
+    border-bottom: 3px solid var(#82b366);
+  }
+
+  li {
+    display: block;
+    padding: 5px 0;
+    border-bottom: 1px dotted #bb4747;
+  }
+
+  li:first-child {
+    padding-top: 0;
   }
 </style>

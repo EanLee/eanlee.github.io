@@ -1,5 +1,6 @@
 ---
 import { getCollection } from "astro:content";
+import WidgetBase from "./WidgetBase.astro";
 
 // 獲取所有文章
 const posts = await getCollection("blog");
@@ -23,13 +24,10 @@ const tagCounts = allTags.reduce((acc: TagCount, tag) => {
 }, {});
 
 // 排序
-const tags = Object.keys(tagCounts)
-  .sort((a, b) => tagCounts[b] - tagCounts[a]);
-  // .slice(0, 10);
+const tags = Object.keys(tagCounts).sort((a, b) => tagCounts[b] - tagCounts[a]);
 ---
 
-<div>
-  <h4>Tags</h4>
+<WidgetBase topic="Tags">
   <ul>
     {
       tags.map((tag) => (
@@ -39,7 +37,7 @@ const tags = Object.keys(tagCounts)
       ))
     }
   </ul>
-</div>
+</WidgetBase>
 
 <style>
   ul {
@@ -48,12 +46,6 @@ const tags = Object.keys(tagCounts)
     /* margin: 0; */
   }
 
-  /* ul a {
-    text-decoration: none;
-    color: var(--text-color);
-  } */
-
-  /* Tags Widget */
   .tag {
     display: inline-block;
     text-transform: uppercase;
@@ -76,5 +68,4 @@ const tags = Object.keys(tagCounts)
     border-color: var(--highlight);
     border-style: solid;
   }
-
 </style>
