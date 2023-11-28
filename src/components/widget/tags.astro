@@ -43,16 +43,17 @@ const tags = Object.keys(tagCounts).sort((a, b) => tagCounts[b] - tagCounts[a]);
   ul {
     list-style: none;
     padding: 0;
-    /* margin: 0; */
+    margin: 0;
+    line-height: normal;
   }
 
-  .tag {
+  ul a {
     display: inline-block;
     text-transform: uppercase;
     white-space: pre-line;
 
-    margin: 0 2px 4px 0;
-    padding: 2px 6px;
+    margin-right: 4px;
+    padding: 4px;
 
     font-size: 10px;
     font-weight: 700;
@@ -62,7 +63,7 @@ const tags = Object.keys(tagCounts).sort((a, b) => tagCounts[b] - tagCounts[a]);
     border: 1px dashed lightgrey;
   }
 
-  .tag:hover {
+  ul a:hover {
     font-weight: 700;
     color: var(--highlight);
     border-color: var(--highlight);
