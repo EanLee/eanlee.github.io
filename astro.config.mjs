@@ -5,17 +5,21 @@ import sitemap from "@astrojs/sitemap";
 import rehypeExternalLinks from "rehype-external-links";
 import rehypeFigure from "rehype-figure";
 
-import rehypeSlug from 'rehype-slug';
-import rehypeAutolinkHeadings from 'rehype-autolink-headings';
+import rehypeSlug from "rehype-slug";
+import rehypeAutolinkHeadings from "rehype-autolink-headings";
+
+import remarkRemoveMd from "./remark-remove-md.mjs";
 
 // https://astro.build/config
 export default defineConfig({
   site: "https://eandev.com",
   integrations: [mdx(), sitemap()],
   markdown: {
+    remarkPlugins: [remarkRemoveMd],
     rehypePlugins: [
-      [rehypeFigure, { className: "my-figure"}],
-      rehypeSlug, [rehypeAutolinkHeadings, { behavior: 'append' }],
+      [rehypeFigure, { className: "my-figure" }],
+      rehypeSlug,
+      [rehypeAutolinkHeadings, { behavior: "append" }],
       [
         "rehype-toc",
         {
