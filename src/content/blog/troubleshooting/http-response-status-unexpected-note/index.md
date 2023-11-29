@@ -2,10 +2,9 @@
 title: ASP.NET Core | 問題排除隨手記 - API 回應 HTTP Status 415 Unsupported Media Type
 description: 本篇文章探討在呼叫 API 時遇到非預期的 HTTP Status 狀況，並針對 415 Unsupported Media Type 錯誤，說明錯誤原因與其解法。如果遇到類似的問題，這篇文章或許可以提供參考。
 date: 2023-03-09T16:19:47+08:00
-lastmod: 2023-11-23T11:15:38+08:00
+lastmod: 2023-11-27T23:32:48+08:00
 tags:
-  - ASP.NET
-  - Core
+  - ASP.NET Core
 categories:
   - 軟體開發
   - 開發雜談
@@ -76,5 +75,5 @@ public async Task<IActionResult> callback(
 
 ▶ 延伸閱讀
 
-- [問題排除隨手記 - UseHttpsRedirection 造成的無限 Redirection]({{< ref "../../Drafts/troubleshooting/問題排除隨手記%20-%20UseHttpsRedirection%20造成的無限%20Redirection.md" >}})
-- [開發雜談 - API Server 有非預期的請求的原因釐清]({{< ref "../../Experiences/unexpected-request/index.md" >}})
+- [問題排除隨手記 - UseHttpsRedirection 造成的無限 Redirection](../use-https-redirection-cause-infinite-redirection/index.md)
+- [開發雜談 - API Server 有非預期的請求的原因釐清](../../Experiences/unexpected-request/index.md)

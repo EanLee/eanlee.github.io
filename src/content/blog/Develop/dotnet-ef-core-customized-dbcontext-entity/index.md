@@ -20,7 +20,7 @@ slug: dotnet-ef-core-customized-dbcontext-entity
 
 接續 DBContext 操作的議題，目前已知現有的資料庫內，所有的表格都有 `CreatedAt`、`UpdatedAt`、`UpdatedUser`、 `IsDeleted` 四個特定字詞結尾的欄位，額外記錄資料異動記錄。
 
-在「[使用 HasQueryFilter 限定 DBContext 查詢內容]({{< ref "../dfcore-dbcontext-hasqueryfilter/index.md" >}})」中，提到如何透過 `HasQueryFilter` 來簡化資料庫查詢的動作。
+在「[使用 HasQueryFilter 限定 DBContext 查詢內容](../dfcore-dbcontext-hasqueryfilter/index.md)」中，提到如何透過 `HasQueryFilter` 來簡化資料庫查詢的動作。
 
 接下來，想要再進一步的封裝 EFCore 所使用的 Entity，讓這四個欄位的資訊，不要曝露於 DBContext 的操作中。
 
@@ -392,8 +392,8 @@ entity.Property(e => e.<#= property.Name.Substring(1) #>)<#= code.Fragment(prope
 
 ▶ 站內文章
 
-- [使用 HasQueryFilter 限定 DBContext 查詢內容]({{< ref "../dfcore-dbcontext-hasqueryfilter/index.md" >}})
-- [在 HasQueryFilter 使用 Shadow Property 的注意事項]({{< ref "../../Drafts/Develop/EF%20Core%20在%20HasQueryFilter%20使用%20Shadow%20Property%20的注意事項.md" >}})
+- [使用 HasQueryFilter 限定 DBContext 查詢內容](../dfcore-dbcontext-hasqueryfilter/index.md)
+- [在 HasQueryFilter 使用 Shadow Property 的注意事項](../../Drafts/Develop/EF%20Core%20在%20HasQueryFilter%20使用%20Shadow%20Property%20的注意事項.md)
 
 ▶ 站外文章
 

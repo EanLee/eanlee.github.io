@@ -20,12 +20,12 @@ slug: foreword1
 
 ### 基礎篇
 
-- [簡述程式碼品質與優化方向]({{< ref "../coding-basic-skills/index.md" >}}) 簡述程式碼的壞味道、重構與善用工具的概念。
+- [簡述程式碼品質與優化方向](../coding-basic-skills/index.md) 簡述程式碼的壞味道、重構與善用工具的概念。
 
 ### 物件導向設計篇 (Object-oriented)
 
 - 物件導向的特性 — 封裝、繼承、多型、抽象
-- [物件導向設計原則 — SOLID]({{< ref "../oop-practice/index.md" >}})
+- [物件導向設計原則 — SOLID](../oop-practice/index.md)
   - SOLID 五原則
   - 從被動變主動 — 依賴反轉
   - 斷開鎖鏈！低耦合、高內聚

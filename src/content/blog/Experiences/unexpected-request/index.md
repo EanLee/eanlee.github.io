@@ -71,7 +71,7 @@ Load Balaner 的 Health Check 指向站台的靜態頁面，即可滿足檢查�
 
 無最佳的解法，需評估看待 API 服務的層面。若僅供內部系統使用，或許有再次優化空間。若提供外部與第三方系統使用，此種作法應為合理的作法。
 
-服務面向不同，其作法也所不同，需依實際環境決策。對於這個議題，在 [對於系統架構的多維度思考能力]({{< ref "../multi-dimensional-thinking-for-system-architecture/index.md" >}}) 有進一步的自我探討。
+服務面向不同，其作法也所不同，需依實際環境決策。對於這個議題，在 [對於系統架構的多維度思考能力](../multi-dimensional-thinking-for-system-architecture/index.md) 有進一步的自我探討。
 
 ## 小結
 

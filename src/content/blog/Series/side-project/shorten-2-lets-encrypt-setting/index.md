@@ -2,7 +2,7 @@
 title: Docker | 縮網址服務實作記錄 (2) - 基於 Docker 的 Let's Encrypt 申請與設定
 description: 本文介紹如何在 Docker 環境中，使用 Let's Encrypt 與 Certbot 申請免費 SSL/TLS 憑證，並設定 Nginx 支持 HTTPS。主要內容包括直接在 Ubuntu 主機使用 Certbot 配合 volume 掛載申請憑證、使用 Certbot 官方 Docker Image 的申請流程。適合需要在 Docker 容器中設定 HTTPS 的網站管理員或開發者參考。
 date: 2023-11-17T16:38:06+08:00
-lastmod: 2023-11-21T09:01:12+08:00
+lastmod: 2023-11-27T23:32:32+08:00
 tags:
   - Docker
   - Nginx
@@ -19,9 +19,9 @@ keywords:
 slug: shorten-2-lets-encrypt-setting
 ---
 
-> 縮網址服務為 https://url-ins.com/shorten/ ，有任何想法或回饋，可以在 [SurveyCake](https://www.surveycake.com/s/wgveX) 留下寶貴的意見。(為了維持主機的維運，在頁面內放入 Google Adsense 廣告。)
+> 縮網址服務為 <https://url-ins.com/shorten/> ，有任何想法或回饋，可以在 [SurveyCake](https://www.surveycake.com/s/wgveX) 留下寶貴的意見。(為了維持主機的維運，在頁面內放入 Google Adsense 廣告。)
 
-在 [縮網址服務實作記錄(1) - 基於 Docker 容器技術的網站服務架構實踐](<../../../Publish/Series/side-project/縮網址服務實作記錄(1)%20-%20基於%20Docker%20容器技術的網站服務架構實踐.md>) 中，已經完成基本服務的建立。
+在 [縮網址服務實作記錄(1) - 基於 Docker 容器技術的網站服務架構實踐](../shorten-1-build-service-base-on-container/index.md) 中，已經完成基本服務的建立。
 
 為了確保服務站台的可靠性與提升 SEO。接下來，就是要為服務站台增加 HTTPS 的 SSL/TLS 憑證保護。
 
@@ -47,7 +47,7 @@ slug: shorten-2-lets-encrypt-setting
 
 ACME 的驗證方式，可以進一步查看 Let's Encrypt 提供的 [ACME 驗證方式](https://letsencrypt.org/zh-tw/docs/challenge-types/) 說明。
 
-當 Nginx 直接安裝在 Ubuntu 主機，可以參考[ NGINX 官方 Blog 說明](https://www.nginx.com/blog/using-free-ssltls-certificates-from-lets-encrypt-with-nginx/)，直接依據下列步驟，進行 Certbot 的安裝與 SSL/TLS 憑證的申請。
+當 Nginx 直接安裝在 Ubuntu 主機，可以參考 [NGINX 官方 Blog 說明](https://www.nginx.com/blog/using-free-ssltls-certificates-from-lets-encrypt-with-nginx/)，直接依據下列步驟，進行 Certbot 的安裝與 SSL/TLS 憑證的申請。
 
 另外，由於 Certbot 已經整合 NGNX，可以使用 `certbot --nginx` 指令，自動更新 Nginx 組態，請求證書。也可以加上 `certonly` 參數，讓 certbot 只是單純申請 SSL/TLS 憑證，
 
@@ -363,7 +363,7 @@ networks:
 
 在這邊，`ssl_certificate` 與 `ssl_certificate_key` 預設使用 Let's Encrypt SSL/TLS 的資料夾位置。實務上，可以依自行規劃進行調整指定的位置。
 
-```nginx.conf
+```plaintext:nginx.conf
 http {
  server{
     listen 80;
@@ -403,11 +403,12 @@ sudo docker run -it --rm --name certbot \
 ```
 
 完成後，就完成了 SSL/TLS 憑證的申請作業了。
+
 ## 補充資料
 
 ▶ 站內文章
 
-- [縮網址服務實作記錄(1) - 基於 Docker 容器技術的網站服務架構實踐](<../../../Publish/Series/side-project/縮網址服務實作記錄(1)%20-%20基於%20Docker%20容器技術的網站服務架構實踐.md>)
+- [縮網址服務實作記錄(1) - 基於 Docker 容器技術的網站服務架構實踐](../shorten-1-build-service-base-on-container/index.md)
 
 ▶ 外部文章
 

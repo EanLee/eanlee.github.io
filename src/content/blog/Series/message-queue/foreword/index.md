@@ -44,7 +44,7 @@ slug: foreword
 
 ### 基礎篇
 
-- [佇列 Queue]({{< ref "../queue/index.md" >}})
+- [佇列 Queue](../queue/index.md)
   - 說明 Queue、Circle Queue、Priority Queue、Linked List 的差異
 - 佇列的應用
   - 生產者與消費者模型 (producer-consumers pattern)

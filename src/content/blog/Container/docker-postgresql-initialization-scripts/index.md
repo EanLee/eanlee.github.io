@@ -12,7 +12,7 @@ keywords:
   - dockerfile
 date: 2023-02-21T00:13:07+08:00
 slug: docker-postgresql-initialization-scripts
-lastmod: 2023-11-11T20:51:04+08:00
+lastmod: 2023-11-27T23:33:57+08:00
 ---
 
 現在都可以使用 Container 的方式來運行資料庫，那麼。是否有辦法在 Image 建立 Container 的當下，就一併完成資料庫 schema 的設定？
@@ -20,9 +20,9 @@ lastmod: 2023-11-11T20:51:04+08:00
 若是可以，在啟動 PostgreSQL Image 時，就已經完成初始化資料庫的 container ，可以享受一些好處。
 
 - 簡化部署流程：在建立 Container 時，自動完成初始化資料庫的過程，可以大幅簡化部署流程。只需要運行一個命令，就可以創建已經包含初始化資料庫的 Container，而不需要再手動初始化資料庫。
-    
+
 - 自動化測試：例如在每次測試運行時，都使用相同的的資料庫，確保測試結果一致性和可靠性。
-    
+
 - 方便協作：不同的開發人員可以使用相同的初始化資料庫 Continaer，確保在開發和測試過程中，使用相同的資料庫，減少開發和測試之間的差異。
 
 > 🔖 長話短說 🔖
@@ -32,7 +32,7 @@ lastmod: 2023-11-11T20:51:04+08:00
 
 <!--more-->
 
-在 [使用 dotnet-ef 建立 PostgreSQL 的 DBContext]({{< ref "../../Develop/dotnet-ef-postgresql-dbcontext/index.md" >}}) 已經有使用 Docker-compose 建立 PostgreSQL，而本篇文章記錄的重點，在於建立 PostgreSQL  Container 時，自動把 database schema 建立起來。
+在 [使用 dotnet-ef 建立 PostgreSQL 的 DBContext](../../Develop/dotnet-ef-postgresql-dbcontext/index.md) 已經有使用 Docker-compose 建立 PostgreSQL，而本篇文章記錄的重點，在於建立 PostgreSQL  Container 時，自動把 database schema 建立起來。
 
 操作環境:
 
@@ -44,7 +44,6 @@ lastmod: 2023-11-11T20:51:04+08:00
 在 PostgreSQL 的 [Docker Hub](https://hub.docker.com/_/postgres/) 內容中，`Initialization scripts` 有特別說明，若有需在 Container 建立之初，額外執行 script 時，可以把一到多個的  `*.sql`、`*.sql.gz`、 `*.sh`  的 scripts 放到 `/docker-entrypoint-initdb.d` 內。PostgreSQL 在 `initdb` 時，會去執行這些 script。
 
 ### 單個 init.sql 檔案
-
 
 首先，將建立資料庫與表格的 script 存為 `init.sql`，並放在 `schema` 的資料夾中。
 
@@ -241,8 +240,8 @@ docker run --name lab-postgres-init -e POSTGRES_PASSWORD=mysecretpassword lab/po
 
 ▶ 站內文章
 
-- [使用 dotnet-ef 建立 PostgreSQL 的 DBContext]({{< ref "../../Develop/dotnet-ef-postgresql-dbcontext/index.md" >}})
-- [Docker 操作簡介]({{< ref "../../Series/build-automated-deploy/docker-operate/index.md" >}})
+- [使用 dotnet-ef 建立 PostgreSQL 的 DBContext](../../Develop/dotnet-ef-postgresql-dbcontext/index.md)
+- [Docker 操作簡介](../../Series/build-automated-deploy/docker-operate/index.md)
 
 ▶ 外部文章
 

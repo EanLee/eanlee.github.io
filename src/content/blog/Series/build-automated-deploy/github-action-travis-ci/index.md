@@ -15,9 +15,9 @@ slug: github-action-travis-ci
 lastmod: 2023-06-28T10:42:03+08:00
 ---
 
-> [2019 iT 邦幫忙鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/1906)文章補完計劃，[從零開始建立自動化發佈的流水線]({{< ref "../build-ci-cd-from-scratch/index.md#持續整合" >}})合篇
+> [2019 iT 邦幫忙鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/1906)文章補完計劃，[從零開始建立自動化發佈的流水線](../build-ci-cd-from-scratch/index.md#持續整合)合篇
 
-在上一篇 [踏入 CI/CD 的世界 - 觀念篇]({{< ref "../cicd_concept/index.md" >}}) 介紹 CI/CD 的觀念後，接著來介紹如何使用 Travis CI 與 GitHub Actions 進行持續整合(Continuous integration, CI)。
+在上一篇 [踏入 CI/CD 的世界 - 觀念篇](../cicd_concept/index.md) 介紹 CI/CD 的觀念後，接著來介紹如何使用 Travis CI 與 GitHub Actions 進行持續整合(Continuous integration, CI)。
 
 <!--more-->
 

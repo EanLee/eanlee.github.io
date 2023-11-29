@@ -280,7 +280,7 @@ modelBuilder.Entity(entityType.ClrType).HasQueryFilter(lambda);
 
 ▶ 站內文章
 
-- [使用 T4 CodeTemplate 客制化 EFCore Scaffold 產出內容]({{< ref "../dotnet-ef-core-customized-dbcontext-entity/index.md" >}})
+- [使用 T4 CodeTemplate 客制化 EFCore Scaffold 產出內容](../dotnet-ef-core-customized-dbcontext-entity/index.md)
 
 ▶ 站外文章
 

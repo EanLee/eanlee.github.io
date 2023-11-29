@@ -36,7 +36,7 @@ lastmod: 2023-06-28T10:10:44+08:00
 在進行測試之前，需要知道這次測試的目的為何？
 
 - 是要確認目前系統正常提供服務的極限值？作為設定系統警報水位的參考值。
-- 要找出目前可能發生的 [單點故障]({{< ref "../../Nouns/spof/index.md" >}}) 的位置或瓶頸點？作為系統效能調教或改善的依據。
+- 要找出目前可能發生的 [單點故障](../../Nouns/spof/index.md) 的位置或瓶頸點？作為系統效能調教或改善的依據。
 
 不同的目的，測試的條件、計劃、與測試過程所關注的重點都有所不同，這些都會影響或決定產出的結告內容。
 
@@ -118,6 +118,6 @@ lastmod: 2023-06-28T10:10:44+08:00
 
 ## 延伸閱讀
 
-1. [亂聊壓力測試/負載測試到底要做什麼?]({{< ref "../what-does-load-testing-do/index.md" >}})
+1. [亂聊壓力測試/負載測試到底要做什麼?](../what-does-load-testing-do/index.md)
 2. [Introduction (k6.io)](https://k6.io/docs/test-types/introduction/)
 3. [Performance Testing vs. Load Testing vs. Stress Testing | Blazemeter by Perforce](https://www.blazemeter.com/blog/performance-testing-vs-load-testing-vs-stress-testing)

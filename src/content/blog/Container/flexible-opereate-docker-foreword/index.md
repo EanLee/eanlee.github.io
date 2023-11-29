@@ -2,7 +2,7 @@
 title: 靈活運用 Docker - 打造高效的容器化應用環境
 description: 本系列文章將會介紹如何靈活運用 Docker 來打造高效的容器化應用環境。
 date: 2023-06-28T09:44:39+08:00
-lastmod: 2023-11-23T12:46:11+08:00
+lastmod: 2023-11-24T12:04:55+08:00
 tags:
   - Container
   - Docker
@@ -23,13 +23,13 @@ toc: false
 
 **觀念**
 
-- [靈活運用 Docker - Container 觀念與 VM 的差異]({{< ref "靈活運用 Docker - Container 觀念與 VM 的差異.md" >}})
+- [靈活運用 Docker - Container 觀念與 VM 的差異](靈活運用 Docker - Container 觀念與 VM 的差異.md)
 
 **IMAGE / CONTAINER 操作**
 
-- [靈活運用 Docker - Docker 的安裝]({{< ref "靈活運用 Docker - Docker 的安裝.md" >}})
+- [靈活運用 Docker - Docker 的安裝](靈活運用 Docker - Docker 的安裝.md)
 - 靈活運用 Docker - Image 流程與架構
-- [靈活運用 Docker - Container 操作與參數]({{< ref "靈活運用 Docker - Container 操作與參數.md" >}})
+- [靈活運用 Docker - Container 操作與參數](靈活運用 Docker - Container 操作與參數.md)
 - 靈活運用 Docker - 使用 Mount 或 Volume 來確保資料的持久性
 - 靈活運用 Docker - docker-compose 統一操作 Container Group
 - 靈活運用 Docker - 無法使用 Registry 的 Image 操作
@@ -37,7 +37,7 @@ toc: false
 **IMAGE 的建立**
 
 - 靈活運用 Docker - 簡易建立 IMAGE
-- [靈活運用 Docker - 使用 Multi-Build 減少不必要的資料]({{< ref "../../Drafts/Container/靈活運用%20Docker%20-%20使用%20Multi-Build%20減少不必要的資料.md" >}})
+- [靈活運用 Docker - 使用 Multi-Build 減少不必要的資料](../../Drafts/Container/靈活運用%20Docker%20-%20使用%20Multi-Build%20減少不必要的資料.md)
 - 靈活運用 Docker - 修改現有的 IMAGE
 - 靈活運用 Docker - Image 的安全性
 
@@ -60,11 +60,11 @@ toc: false
 
 ▶ 延伸閱讀
 
-- [Docker 操作簡介]({{< ref "../../Series/build-automated-deploy/docker-operate/index.md" >}})
-- [Container 簡介]({{< ref "../../Series/build-automated-deploy/container-intro/index.md" >}})
-- [GitLab CI 實作記錄(1) - 使用 Docker 在同台主機運行 GitLab 與 GitLab-Runner](<../DevOps/GitLab%20CI%20實作記錄(1)%20-%20使用%20Docker%20在同台主機運行%20GitLab%20與%20GitLab-Runner.md>)
-- [GitLab CI 實作記錄(2) - Gitlab CI 的私有環境建置](<../DevOps/GitLab%20CI%20實作記錄(2)%20-%20Gitlab%20CI%20的私有環境建置.md>)
-- [使用 Docker 建置 ASP.NET Webapi 的 Image]({{< ref "../aspnet-webapi-containerized/index.md" >}})
-- [淺談 YAML 格式]({{< ref "../../Series/build-automated-deploy/yaml/index.md" >}})
-- [縮網址服務實作記錄(1) - 基於 Docker 容器技術的網站服務架構實踐](<../Series/side-project/縮網址服務實作記錄(1)%20-%20基於%20Docker%20容器技術的網站服務架構實踐.md>)
-- [縮網址服務實作記錄(2) - 基於 Container 的 Let's Encrypt 申請與設定](<../Series/side-project/縮網址服務實作記錄(2)%20-%20基於%20Container%20的%20Let's%20Encrypt%20申請與設定.md>)
+- [Docker 操作簡介](../../Series/build-automated-deploy/docker-operate/index.md)
+- [Container 簡介](../../Series/build-automated-deploy/container-intro/index.md)
+- [GitLab CI 實作記錄(1) - 使用 Docker 在同台主機運行 GitLab 與 GitLab-Runner](../../DevOps/gitlab-and-runner-on-same-host-using-docker/index.md)
+- [GitLab CI 實作記錄(2) - Gitlab CI 的私有環境建置](../../DevOps/build-gitlab-on-private-environment/index.md)
+- [使用 Docker 建置 ASP.NET Webapi 的 Image](../aspnet-webapi-containerized/index.md)
+- [淺談 YAML 格式](../../Series/build-automated-deploy/yaml/index.md)
+- [縮網址服務實作記錄(1) - 基於 Docker 容器技術的網站服務架構實踐](../../Series/side-project/shorten-1-build-service-base-on-container/index.md)
+- [縮網址服務實作記錄(2) - 基於 Container 的 Let's Encrypt 申請與設定](../../Series/side-project/shorten-2-lets-encrypt-setting/index.md)

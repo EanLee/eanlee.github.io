@@ -14,9 +14,9 @@ slug: cd-dropbox
 lastmod: 2023-06-28T10:10:47+08:00
 ---
 
-> [2019 iT 邦幫忙鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/1906)文章補完計劃，[從零開始建立自動化發佈的流水線]({{< ref "../build-ci-cd-from-scratch/index.md#持續發佈" >}}) 持續發佈篇
+> [2019 iT 邦幫忙鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/1906)文章補完計劃，[從零開始建立自動化發佈的流水線](../build-ci-cd-from-scratch/index.md#持續發佈) 持續發佈篇
 
-在前面 [持續整合(Continuous Integration, CI)]({{< ref "../build-ci-cd-from-scratch/index.md#持續整合" >}}) 的文章，初步介紹概念與 Travis CI / Azure Pipeline 的設定方式後，接著要來嘗試`持續部署 (Continuous Deployment, CD)`/`持續交付 (Continuous Delivery, CD)` 的實作。
+在前面 [持續整合(Continuous Integration, CI)](../build-ci-cd-from-scratch/index.md#持續整合) 的文章，初步介紹概念與 Travis CI / Azure Pipeline 的設定方式後，接著要來嘗試`持續部署 (Continuous Deployment, CD)`/`持續交付 (Continuous Delivery, CD)` 的實作。
 
 在這一篇，將試著透過 Travis CI 與 Azure Pipeline 兩種工具，將程式進行自動化測試、建置、並將其建置出來 Artifact 放置於 Dropbx。
 

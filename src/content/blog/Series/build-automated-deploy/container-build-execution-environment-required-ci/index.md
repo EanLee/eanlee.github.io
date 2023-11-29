@@ -19,9 +19,9 @@ slug: container-build-execution-environment-required-ci
 lastmod: 2023-06-28T10:10:47+08:00
 ---
 
-> [2019 iT 邦幫忙鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/1906) 文章補完計劃，[從零開始建立自動化發佈的流水線]({{< ref "../build-ci-cd-from-scratch/index.md#container" >}}) Container 篇
+> [2019 iT 邦幫忙鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/1906) 文章補完計劃，[從零開始建立自動化發佈的流水線](../build-ci-cd-from-scratch/index.md#container) Container 篇
 
-在 [Docker 操作簡介]({{< ref "../docker-operate/index.md" >}}) 中，初步了解 Docker、dockerfile、docker-compose 的操作方法。
+在 [Docker 操作簡介](../docker-operate/index.md) 中，初步了解 Docker、dockerfile、docker-compose 的操作方法。
 
 接下來，要與 CI Server 搭配使用，讓 CI Server 可以依據設定檔，使用 docker 的方式，建置出執行 CI 所需要的環境。
 

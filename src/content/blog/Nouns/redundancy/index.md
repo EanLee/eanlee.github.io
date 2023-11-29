@@ -17,7 +17,7 @@ lastmod: 2023-06-28T13:23:11+08:00
 
 <!--more-->
 
-在系統架構中，冗餘的機制常用來避免[單點故障]({{< ref "../spof/index.md" >}})時，系統失效的情況。資訊系統中，常見的 Load Balancer 與備援機制，都是運用冗餘概念的作法。
+在系統架構中，冗餘的機制常用來避免[單點故障](../spof/index.md)時，系統失效的情況。資訊系統中，常見的 Load Balancer 與備援機制，都是運用冗餘概念的作法。
 
 ![system](./images/redundancy.png)
 

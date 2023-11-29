@@ -20,7 +20,7 @@ slug: oop-practice
 lastmod: 2023-06-28T11:38:28+08:00
 ---
 
-> [2018 iT 邦幫忙鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/1430)文章補完計劃，[持續優化程式碼品質-總覽]({{< ref "../foreword/index.md#物件導向設計篇-object-oriented" >}})物件導向設計篇
+> [2018 iT 邦幫忙鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/1430)文章補完計劃，[持續優化程式碼品質-總覽](../foreword/index.md#物件導向設計篇-object-oriented)物件導向設計篇
 
 知道物件導向的特性，就可以寫出具備**閱讀性**、**維謢性**、**擴充性**的程式碼？
 

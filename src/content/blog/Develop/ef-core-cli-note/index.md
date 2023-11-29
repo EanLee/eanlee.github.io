@@ -78,7 +78,7 @@ dotnet ef dbcontext scaffold "Server=localhost;Database=Lab;User Id=sa;Password=
 
 ## 客制 DbContext 與 Entity
 
-若想要客制 dbdcontext scaffold 產生出來的 DbContext 與 Entity，可以使用 CodeTemplate 自訂產出的 DbContext 與 Entity。詳細實作可參考 [使用 T4 CodeTemplate 客制化 EFCore Scaffold 產出內容]({{< ref "../dotnet-ef-core-customized-dbcontext-entity/index.md" >}})。
+若想要客制 dbdcontext scaffold 產生出來的 DbContext 與 Entity，可以使用 CodeTemplate 自訂產出的 DbContext 與 Entity。詳細實作可參考 [使用 T4 CodeTemplate 客制化 EFCore Scaffold 產出內容](../dotnet-ef-core-customized-dbcontext-entity/index.md)。
 
 在使用 CLI 的方式來產生 CodeTemplate 前，需先安裝 `dotnet new` EF Core 範本套件：
 
@@ -103,7 +103,7 @@ dotnet new ef-templates
 
 ▶ 延伸閱讀
 
-- [使用 HasQueryFilter 限定 DbContext 查詢內容]({{< ref "../dfcore-dbcontext-hasqueryfilter/index.md" >}})
-- [使用 T4 CodeTemplate 客制化 EFCore Scaffold 產出內容]({{< ref "../dotnet-ef-core-customized-dbcontext-entity/index.md" >}})
-- [使用 dotnet-ef 建立 PostgreSQL 的 DbContext]({{< ref "../dotnet-ef-postgresql-dbcontext/index.md" >}})
-- [使用 dotnet-ef 建立 SQL Server on Docker 的 DbContext]({{< ref "../dotnet-ef-sqlserver/index.md" >}})
+- [使用 HasQueryFilter 限定 DbContext 查詢內容](../dfcore-dbcontext-hasqueryfilter/index.md)
+- [使用 T4 CodeTemplate 客制化 EFCore Scaffold 產出內容](../dotnet-ef-core-customized-dbcontext-entity/index.md)
+- [使用 dotnet-ef 建立 PostgreSQL 的 DbContext](../dotnet-ef-postgresql-dbcontext/index.md)
+- [使用 dotnet-ef 建立 SQL Server on Docker 的 DbContext](../dotnet-ef-sqlserver/index.md)

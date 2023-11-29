@@ -187,7 +187,7 @@ VPC 為是用戶創建網環境的基礎元件，AWS 建議在建構基礎設施
 
 ##### Network Access Control List, NACL
 
-屬於 [OSI Level 4: Transport Layer]({{< ref "../../../Security/https-and-ssl-tls/index.md" >}}) 層級的操作，如同防火牆一般，可控制一或多個 subnet 的傳入和傳出流量。
+屬於 [OSI Level 4: Transport Layer](../../../Security/https-and-ssl-tls/index.md) 層級的操作，如同防火牆一般，可控制一或多個 subnet 的傳入和傳出流量。
 
 ##### subnet
 
@@ -207,7 +207,7 @@ Private subnet: subnet 流量無法經由 internet gateway 到達公開網路，
 
 每個安全群組，可依據協定和連接埠編號控制流量，對傳入流量和傳出流量建立不同的規則集合。
 
-因為可依據協定和連接埠編號控制流量，應屬於 OSI Level 3: Network Layer / [OSI Level 4: Transport Layer]({{< ref "../../../Security/https-and-ssl-tls/index.md" >}}) 層級的操作。([參考來源](https://stackoverflow.com/questions/65507894/at-what-osi-layer-do-aws-security-groups-operate))
+因為可依據協定和連接埠編號控制流量，應屬於 OSI Level 3: Network Layer / [OSI Level 4: Transport Layer](../../../Security/https-and-ssl-tls/index.md) 層級的操作。([參考來源](https://stackoverflow.com/questions/65507894/at-what-osi-layer-do-aws-security-groups-operate))
 
 ##### Security Group v.s. NACL
 
