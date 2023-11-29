@@ -5,15 +5,22 @@ import Categories from "./widget/categories.astro";
 ---
 
 <aside>
-    <!-- 此處放置側邊欄內容 --> 
-    <Recent />
-    <Categories />
-    <Tags />
-  </aside>
+  <!-- 此處放置側邊欄內容 -->
+  <Recent />
+  <Categories />
+  <Tags />
+</aside>
 
-  <style>
+<style>
+  aside {
+    width: 250px;
+    margin: 0 0.5em;
+  }
+
+  @media screen and (max-width: 768px) {
     aside {
-      width: 250px;
-      margin: 0 0.5em;
+      width: 100%;
+      margin: 1em 0;
     }
-  </style>
+  }
+</style>
