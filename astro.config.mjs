@@ -12,10 +12,14 @@ import remarkRemoveMd from "./remark-remove-md.mjs";
 
 import robotsTxt from "astro-robots-txt";
 
+import tailwind from "@astrojs/tailwind";
+
 // https://astro.build/config
 export default defineConfig({
   site: "https://eandev.com",
-  integrations: [mdx(), sitemap(), robotsTxt()],
+  integrations: [mdx(), sitemap(), robotsTxt(), tailwind( 
+    {applyBaseStyles:false}
+   )],
   markdown: {
     remarkPlugins: [remarkRemoveMd],
     rehypePlugins: [
