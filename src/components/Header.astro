@@ -7,22 +7,16 @@ const image = "/favicon.ico";
 
 <header>
   <nav>
-    <h2><a href="/">{SITE_TITLE}</a></h2>
-
-    <!-- <div class="logo">
+    <div class="logo">
       <a href="/">
-        <div class="logo__image">
-          <img src={image} alt="Logo" />
-        </div>
-        <div class="logo__title">{SITE_TITLE}</div>
-        <div class="logo__subtitle">{SITE_DESCRIPTION}</div>
+        <img src={ image } alt="Logo" />
+        <h2>{ SITE_TITLE }</h2>
       </a>
-    </div> -->
+    </div>
 
     <div class="internal-links">
       <HeaderLink href="/">Home</HeaderLink>
       <HeaderLink href="/archives">Archives</HeaderLink>
-      <HeaderLink href="/project">Project</HeaderLink>
     </div>
   </nav>
 </header>
@@ -33,9 +27,25 @@ const image = "/favicon.ico";
     background: white;
     box-shadow: 0 2px 8px rgba(var(--black), 5%);
   }
-  h2 {
+
+  .logo {
+    display: flex;
+    align-items: center;
+  }
+
+  .logo h2 {
     margin: 0;
-    font-size: 1em;
+    font-size: 1.5em;
+    font-weight: bold;
+    display: inline-block;
+  }
+
+  .logo a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    margin: 0;
+    padding: 0;
   }
 
   h2 a,
