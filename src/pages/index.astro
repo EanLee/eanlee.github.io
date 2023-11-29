@@ -4,9 +4,8 @@ import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
 import { getCollection } from "astro:content";
-import FormattedDate from "../components/FormattedDate.astro";
+import Summary from "../components/summary.astro";
 import Sidebar from "../components/sidebar.astro";
-// import Summary from "../components/summary.astro";
 
 const posts = (await getCollection("blog")).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
@@ -21,59 +20,10 @@ const posts = (await getCollection("blog")).sort(
       main {
         display: flex;
         width: 960px;
-        /* background-color: blueviolet; */
       }
       section {
         flex: 1;
-      }
-      ul {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 2rem;
-        list-style-type: none;
-        margin: 0;
-        padding: 0;
-      }
-      ul li {
-        width: 100%;
-        margin-bottom: 1rem;
-      }
-      ul li * {
-        text-decoration: none;
-        transition: 0.2s ease;
-      }
-      ul li img {
-        margin-bottom: 0.5rem;
-        border-radius: 12px;
-      }
-      ul li a {
-        display: block;
-      }
-      .title {
-        margin: 0;
-        color: rgb(var(--black));
-        line-height: 1;
-      }
-      .date {
-        margin: 0;
-        color: rgb(var(--gray));
-      }
-      ul li a:hover h4,
-      ul li a:hover .date {
-        color: rgb(var(--accent));
-      }
-      ul a:hover img {
-        box-shadow: var(--box-shadow);
-      }
-
-      @media (max-width: 720px) {
-        ul {
-          gap: 0.5em;
-        }
-        ul li {
-          width: 100%;
-          text-align: center;
-        }
+        margin-right: 1rem;
       }
     </style>
   </head>
@@ -81,32 +31,7 @@ const posts = (await getCollection("blog")).sort(
     <Header />
     <main>
       <section>
-        <ul>
-          {
-            posts.map((post) => {
-              const path = post.id
-                .slice(0, post.id.lastIndexOf("/"))
-                .toLowerCase();
-
-              return (
-                <li>
-                  <a href={`/post/${path}/`}>
-                    <h4 class="title">{post.data.title}</h4>
-                  </a>
-                  <p class="date">
-                    <FormattedDate date={post.data.date} />
-                    {post.data.lastmod && (
-                      <span>
-                        (最後更新:
-                        <FormattedDate date={post.data.lastmod} />)
-                      </span>
-                    )}
-                  </p>
-                </li>
-              );
-            })
-          }
-        </ul>
+        {posts.map((post) => <Summary post={post} />)}
       </section>
       <Sidebar />
     </main>
