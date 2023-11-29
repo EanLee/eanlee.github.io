@@ -31,9 +31,11 @@ const tags = Object.keys(tagCounts).sort((a, b) => tagCounts[b] - tagCounts[a]);
   <ul>
     {
       tags.map((tag) => (
-        <a class="tag" href={`/tags/${tag}`}>
-          {tag} ({tagCounts[tag]})
-        </a>
+        <li>
+          <a class="tag" href={`/tags/${tag}`}>
+            {tag} ({tagCounts[tag]})
+          </a>
+        </li>
       ))
     }
   </ul>
@@ -47,26 +49,32 @@ const tags = Object.keys(tagCounts).sort((a, b) => tagCounts[b] - tagCounts[a]);
     line-height: normal;
   }
 
-  ul a {
+  li {
     display: inline-block;
+    margin-right: 4px;
+    margin-bottom: 4px;
+
+    min-width: 50px;
+  }
+
+  ul a {
     text-transform: uppercase;
     white-space: pre-line;
 
-    margin-right: 4px;
     padding: 4px;
 
     font-size: small;
     font-weight: 700;
 
-    color: gray;
+    color: grey;
     border-radius: 5px;
     border: 1px dashed lightgrey;
   }
 
   ul a:hover {
     font-weight: 700;
-    color: var(--highlight);
-    border-color: var(--highlight);
+    color: black;
+    border-color: black;
     border-style: solid;
   }
 </style>

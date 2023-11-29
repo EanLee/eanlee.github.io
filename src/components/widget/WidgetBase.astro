@@ -7,17 +7,22 @@ const { topic } = Astro.props;
 ---
 
 <div>
-  <h4>{topic}</h4>
+  <p>{topic}</p>
   <slot />
 </div>
 
 <style>
-  h4 {
+  p {
     position: relative;
     padding-bottom: 5px;
-    font-size: 16px;
     font-size: 1rem;
+    font-weight: bold;
+    font-style: italic;
     text-transform: uppercase;
     border-bottom: 3px solid #82b366;
+  }
+
+  div {
+    margin-bottom: 20px;
   }
 </style>
