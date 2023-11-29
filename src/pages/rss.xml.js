@@ -9,10 +9,12 @@ export async function GET(context) {
     description: SITE_DESCRIPTION,
     site: context.site,
     items: posts.map((post) => {
+      console.log(post.id);
       const path = post.id.slice(0, post.id.lastIndexOf("/")).toLowerCase();
       return {
         ...post.data,
         link: `/post/${path}/`,
+        pubDate: new Date(post.data.date).toUTCString(),
       };
     }),
   });
