@@ -25,6 +25,16 @@ const posts = (await getCollection("blog")).sort(
         flex: 1;
         margin-right: 1rem;
       }
+
+      @media (max-width: 768px) {
+        main {
+          flex-direction: column;
+          width: 100%;
+        }
+        section {
+          margin-right: 0;
+        }
+      }
     </style>
   </head>
   <body>
