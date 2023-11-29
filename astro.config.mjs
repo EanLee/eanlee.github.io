@@ -17,7 +17,9 @@ import tailwind from "@astrojs/tailwind";
 // https://astro.build/config
 export default defineConfig({
   site: "https://eandev.com",
-  integrations: [mdx(), sitemap(), robotsTxt(), tailwind()],
+  integrations: [mdx(), sitemap(), robotsTxt(), tailwind( 
+    {applyBaseStyles:false}
+   )],
   markdown: {
     remarkPlugins: [remarkRemoveMd],
     rehypePlugins: [
