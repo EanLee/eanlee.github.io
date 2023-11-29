@@ -24,7 +24,7 @@ export async function getStaticPaths() {
       return filteredPosts.map((post) => {
         return {
           params: {
-            category,
+            category: category,
             slug: post.slug,
           },
         };
@@ -36,11 +36,13 @@ export async function getStaticPaths() {
 const { category } = Astro.params;
 
 const posts = await getCollection("blog");
-const filteredPosts = posts.filter((post) => {
-  return post.data.categories
-    ?.map((c) => c.toUpperCase())
-    .includes(category || "");
-}).sort((a, b) => b.data.date - a.data.date);
+const filteredPosts = posts
+  .filter((post) => {
+    return post.data.categories
+      ?.map((c) => c.toUpperCase())
+      .includes(category || "");
+  })
+  .sort((a, b) => Number(b.data.date) - Number(a.data.date));
 ---
 
 <GeneralLayout>
