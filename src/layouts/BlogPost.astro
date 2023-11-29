@@ -18,7 +18,7 @@ const { title, description, date, lastmod, coverImage, tags } = Astro.props;
   <body>
     <Header />
     <main>
-      <article>
+      <article class="prose lg:prose-xl">
         <div class="hero-image">
           {
             coverImage && (
@@ -106,7 +106,7 @@ const { title, description, date, lastmod, coverImage, tags } = Astro.props;
       }
 
       .prose {
-        width: 720px;
+        width: 960px;
         max-width: calc(100% - 2em);
         margin: auto;
         padding: 1em;
