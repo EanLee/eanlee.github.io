@@ -1,0 +1,68 @@
+---
+import { getCollection } from "astro:content";
+import GeneralLayout from "../../layouts/GeneralLayout.astro";
+import FormattedDate from "../../components/FormattedDate.astro";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog");
+
+  // 獲取所有類別
+  const categories = [
+    ...new Set(
+      posts.map((p) => p.data.categories?.map((c) => c.toUpperCase())).flat()
+    ),
+  ];
+
+  return categories
+    .map((category) => {
+      const filteredPosts = posts.filter((post) =>
+        post.data.categories
+          ?.map((c) => c.toUpperCase())
+          .includes(category || "")
+      );
+
+      return filteredPosts.map((post) => {
+        return {
+          params: {
+            category,
+            slug: post.slug,
+          },
+        };
+      });
+    })
+    .flat();
+}
+
+const { category } = Astro.params;
+
+const posts = await getCollection("blog");
+const filteredPosts = posts.filter((post) => {
+  return post.data.categories
+    ?.map((c) => c.toUpperCase())
+    .includes(category || "");
+}).sort((a, b) => b.data.date - a.data.date);
+---
+
+<GeneralLayout>
+  <div>
+    <h4>Category: {category}</h4>
+    <ul>
+      {
+        filteredPosts.map((post) => {
+          const path = post.id.slice(0, post.id.lastIndexOf("/")).toLowerCase();
+
+          return (
+            <li>
+              <span>
+                <FormattedDate date={post.data.date} />
+              </span>{" "}
+              <a href={`/post/${path}/`}>
+                <h4 class="title">{post.data.title}</h4>
+              </a>
+            </li>
+          );
+        })
+      }
+    </ul>
+  </div>
+</GeneralLayout>

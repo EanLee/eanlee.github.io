@@ -1,0 +1,63 @@
+---
+import { getCollection } from "astro:content";
+import WidgetBase from "./WidgetBase.astro";
+
+// 獲取所有文章
+const posts = await getCollection("blog");
+
+// 提取標籤
+const categories = posts
+  .map((p) =>
+    p.data.categories ? p.data.categories.map((t) => t.toUpperCase()) : []
+  )
+  .flat()
+  .filter((tag) => tag);
+
+interface CategoryCount {
+  [category: string]: number;
+}
+// 統計數量
+const AllCounts = categories.reduce((acc: CategoryCount, category) => {
+  if (!acc[category]) {
+    acc[category] = 0;
+  }
+  acc[category]++;
+  return acc;
+}, {});
+
+// 排序
+const result = Object.keys(AllCounts).sort(
+  (a, b) => AllCounts[b] - AllCounts[a]
+);
+---
+
+<WidgetBase topic="Categories">
+  <ul>
+    {
+      result.map((category) => (
+        <li>
+          <a class="tag" href={`/categories/${category}`}>
+            {category} ({AllCounts[category]})
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</WidgetBase>
+
+<style>
+  ul {
+    list-style: none;
+
+    display: block;
+    font-size: 0.9rem;;
+    padding: 5px 0;
+    border-bottom: 1px dotted #ebebeb;
+  }
+
+  ul a {
+    text-decoration: none;
+    color: var(--text-color);
+  }
+
+</style>

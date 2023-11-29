@@ -1,0 +1,106 @@
+---
+import FormattedDate from "../components/FormattedDate.astro";
+
+const { post } = Astro.props;
+const path = post.id.slice(0, post.id.lastIndexOf("/")).toLowerCase();
+
+---
+
+<article>
+  <header>
+    <h2>
+      <a href={`/post/${path}/`} rel="bookmark">
+        {post.data.title}
+      </a>
+    </h2>
+  </header>
+  <div class="meta">
+    <p class="date">
+      <FormattedDate date={post.data.date} />
+      {
+        post.data.lastmod && (
+          <span>
+            (最後更新: <FormattedDate date={post.data.lastmod} />)
+          </span>
+        )
+      }
+    </p>
+  </div>
+  <div class="summary">
+    { post.data.description }
+  </div>
+
+  <p class="more-read">
+    <a href={`/post/${path}/`}> 繼續閱讀</a>
+  </p>
+  <style>
+    :root {
+      --list-frame: #e0e0e0;
+    }
+
+    article {
+      margin-bottom: 10px;
+      border: var(--list-frame) solid 1px;
+      border-radius: 5px;
+    }
+
+    header {
+      padding: 0 5px;
+    }
+
+    article h2 {
+      font-size: 1.25rem;
+
+      text-shadow: 1px 1px 1px whitesmoke;
+      background: none repeat scroll 0 0 var(--list-frame);
+      border-radius: 5px 5px 0 0;
+      padding: 0.5rem;
+      margin: -1px -6px;
+    }
+
+    a {
+      color: rgb(var(--black));
+      text-decoration: none;
+      transition: 0.2s ease;
+    }
+
+    a:hover {
+      color: #2337ff;
+    }
+
+    .summary {
+      padding: 0 0.5rem;
+      margin: 0;
+
+      font-size: medium;
+    }
+
+    .more-read {
+      padding: 0 0.5rem;
+      margin: 0;
+
+      text-align: right;
+      font-weight: 600;
+      font-size: smaller;
+    }
+
+    .more-read a {
+      color: gray;
+    }
+
+    .more-read a:hover {
+      color: #2337ff;
+    }
+
+    .meta {
+      padding: 0 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .date {
+      font-size: small;
+      margin: 0;
+      color: rgb(var(--gray));
+    }
+  </style>
+</article>

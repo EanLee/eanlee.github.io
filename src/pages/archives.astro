@@ -1,0 +1,33 @@
+---
+import GeneralLayout from "../layouts/GeneralLayout.astro";
+import { getCollection } from "astro:content";
+import FormattedDate from "../components/FormattedDate.astro";
+
+const posts = (await getCollection("blog")).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+---
+
+<GeneralLayout>
+	<section>
+	  <h1>Articles</h1>
+    <ul>
+      {
+        posts.map((post) => {
+          const path = post.id.slice(0, post.id.lastIndexOf("/")).toLowerCase();
+
+          return (
+            <li>
+              <span>
+                <FormattedDate date={post.data.date} />
+              </span>{" "}
+              <a href={`/post/${path}/`}>
+                <h5 class="title">{post.data.title}</h5>
+              </a>
+            </li>
+          );
+        })
+      }
+    </ul>
+  </section>
+</GeneralLayout>
