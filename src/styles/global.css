@@ -5,6 +5,7 @@
  */
 
 :root {
+	--text-color: #000;
 	--accent: #2337ff;
 	--accent-dark: #000d8a;
 	--black: 15, 18, 25;
