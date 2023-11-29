@@ -10,7 +10,7 @@ const image = "/favicon.ico";
     <nav>
       <div class="logo">
         <a href="/">
-          <img src={image} alt="Logo" />
+          <img class="logo-img" src={image} alt="Logo"  />
           <h2>{SITE_TITLE}</h2>
         </a>
       </div>
@@ -41,6 +41,11 @@ const image = "/favicon.ico";
     display: flex;
     align-items: center;
     flex-direction: row; 
+  }
+
+  .logo-img {
+    width: 64px;
+    height: 64px;
   }
 
   .logo h2 {
