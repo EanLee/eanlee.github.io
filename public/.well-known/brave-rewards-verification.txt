@@ -1,4 +1,0 @@
-This is a Brave Rewards publisher verification file.
-
-Domain: eandev.com
-Token: e40e0011285cfad3b46b0880efecf25fff8903934f0172b07be3f14d22d31295

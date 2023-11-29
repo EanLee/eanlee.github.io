@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Refactor on 伊恩的開發狂想</title><link>https://eandev.com/tags/refactor/</link><description>Recent content in Refactor on 伊恩的開發狂想</description><generator>Hugo -- gohugo.io</generator><language>zh-tw</language><lastBuildDate>Tue, 21 Jun 2022 15:06:43 +0000</lastBuildDate><atom:link href="https://eandev.com/tags/refactor/index.xml" rel="self" type="application/rss+xml"/><item><title>簡述程式碼品質與優化方向</title><link>https://eandev.com/post/series/coding-skill/coding-basic-skills/</link><pubDate>Tue, 21 Jun 2022 15:06:43 +0000</pubDate><guid>https://eandev.com/post/series/coding-skill/coding-basic-skills/</guid><description>&lt;blockquote>
-&lt;p>&lt;a href="https://ithelp.ithome.com.tw/users/20107551/ironman/1430">2018 iT 邦幫忙鐵人賽&lt;/a>文章補完計劃，&lt;a href="https://eandev.com/post/series/coding-skill/foreword/#基礎篇">持續優化程式碼品質-總覽&lt;/a>基礎篇&lt;/p>
-&lt;/blockquote>
-&lt;p>在開發時，為了快速或是避免麻煩，可能會用簡單的代號，例如 &lt;code>aa&lt;/code> 這種名稱，來暫時做為變數的名稱。這無可厚非，但是&amp;hellip;假若在完成該功能後，未能進行程式的整理。&lt;/p>
-&lt;p>也許在三個月後的某一天，程式有需求變動，不管是要修改自己開發的程式，還是要維護前人遺留下來的軟體。在一番苦戰，好不容易找到要修改變動的程式區塊。&lt;/p>
-&lt;p>看著各種無意義的命名、複雜且混亂的程式邏輯，只能苦苦的思考，為什麼當初會這樣寫？這個變數是什麼意義？動作背後的用意？邊改寫程式，邊幹譙當初寫下這段程式的人。&lt;/p></description></item></channel></rss>

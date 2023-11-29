@@ -1,0 +1,72 @@
+---
+import { getCollection } from "astro:content";
+import WidgetBase from "./WidgetBase.astro";
+
+// 獲取所有文章
+const posts = await getCollection("blog");
+
+// 提取標籤
+const allTags = posts
+  .map((p) => (p.data.tags ? p.data.tags.map((t) => t.toUpperCase()) : []))
+  .flat()
+  .filter((tag) => tag);
+
+interface TagCount {
+  [tag: string]: number;
+}
+// 統計數量
+const tagCounts = allTags.reduce((acc: TagCount, tag) => {
+  if (!acc[tag]) {
+    acc[tag] = 0;
+  }
+  acc[tag]++;
+  return acc;
+}, {});
+
+// 排序
+const tags = Object.keys(tagCounts).sort((a, b) => tagCounts[b] - tagCounts[a]);
+---
+
+<WidgetBase topic="Tags">
+  <ul>
+    {
+      tags.map((tag) => (
+        <a class="tag" href={`/tags/${tag}`}>
+          {tag} ({tagCounts[tag]})
+        </a>
+      ))
+    }
+  </ul>
+</WidgetBase>
+
+<style>
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    line-height: normal;
+  }
+
+  ul a {
+    display: inline-block;
+    text-transform: uppercase;
+    white-space: pre-line;
+
+    margin-right: 4px;
+    padding: 4px;
+
+    font-size: small;
+    font-weight: 700;
+
+    color: gray;
+    border-radius: 5px;
+    border: 1px dashed lightgrey;
+  }
+
+  ul a:hover {
+    font-weight: 700;
+    color: var(--highlight);
+    border-color: var(--highlight);
+    border-style: solid;
+  }
+</style>

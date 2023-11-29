@@ -1,0 +1,39 @@
+---
+const today = new Date();
+---
+
+<footer>
+	<p>文章內容均為個人學習記錄、心得與認知，若任何謬誤或建議，歡迎直接留言討論，一同成長。</p>
+	&copy; 2021-{today.getFullYear()} 伊恩的軟體狂想 All rights reserved.
+	
+</footer>
+
+<style>
+
+	footer {
+		padding: .5rem 0;
+		background: linear-gradient(var(--gray-gradient)) no-repeat;
+		color: rgb(var(--gray));
+		text-align: center;
+	}
+
+	footer p {
+		text-align: center;
+		margin-bottom: 0;
+		margin-top: .5rem;
+	}
+
+	.social-links {
+		display: flex;
+		justify-content: center;
+		gap: 1em;
+		margin-top: 1em;
+	}
+	.social-links a {
+		text-decoration: none;
+		color: rgb(var(--gray));
+	}
+	.social-links a:hover {
+		color: rgb(var(--gray-dark));
+	}
+</style>

@@ -1,0 +1,23 @@
+---
+interface Props {
+  topic: string;
+}
+
+const { topic } = Astro.props;
+---
+
+<div>
+  <h4>{topic}</h4>
+  <slot />
+</div>
+
+<style>
+  h4 {
+    position: relative;
+    padding-bottom: 5px;
+    font-size: 16px;
+    font-size: 1rem;
+    text-transform: uppercase;
+    border-bottom: 3px solid #82b366;
+  }
+</style>

@@ -1,0 +1,59 @@
+---
+import { getCollection } from "astro:content";
+import WidgetBase from "./WidgetBase.astro";
+
+const posts = (await getCollection("blog")).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+
+const recentPosts = posts.slice(0, 6);
+---
+
+<WidgetBase topic="Recent Posts">
+  <ul>
+    {
+      recentPosts.map((post) => {
+        const path = post.id.slice(0, post.id.lastIndexOf("/")).toLowerCase();
+        return (
+          <li>
+            <a href={`/post/${path}/`}> {post.data.title} </a>
+          </li>
+        );
+      })
+    }
+  </ul>
+</WidgetBase>
+
+<style>
+  ul {
+    list-style: none;
+    padding: 0;
+
+    display: block;
+    border-bottom: 1px dotted #ebebeb;
+  }
+
+  ul a {
+    text-decoration: none;
+    color: var(--text-color);
+  }
+
+  h4 {
+    position: relative;
+    padding-bottom: 5px;
+    font-size: 1rem;
+    text-transform: uppercase;
+    border-bottom: 3px solid #82b366;
+  }
+
+  li {
+    display: block;
+    font-size: 0.9rem;
+    padding: 5px 0;
+    border-bottom: 1px dotted lightgray;
+  }
+
+  li:first-child {
+    padding-top: 0;
+  }
+</style>

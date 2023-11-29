@@ -1,0 +1,40 @@
+---
+import BaseHead from "../components/BaseHead.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
+import { getCollection } from "astro:content";
+import Summary from "../components/summary.astro";
+import Sidebar from "../components/sidebar.astro";
+
+const posts = (await getCollection("blog")).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+    <style>
+      main {
+        display: flex;
+        width: 960px;
+      }
+      section {
+        flex: 1;
+        margin-right: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <Header />
+    <main>
+      <section>
+        {posts.map((post) => <Summary post={post} />)}
+      </section>
+      <Sidebar />
+    </main>
+    <Footer />
+  </body>
+</html>
