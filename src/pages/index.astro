@@ -13,7 +13,7 @@ const posts = (await getCollection("blog")).sort(
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" itemscope itemtype="https://schema.org/Blog">
   <head>
     <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
     <style>
@@ -36,6 +36,9 @@ const posts = (await getCollection("blog")).sort(
         }
       }
     </style>
+
+    <!-- microdata -->
+    <meta itemprop="headline" content={SITE_TITLE}>
   </head>
   <body>
     <Header />
