@@ -10,10 +10,12 @@ import rehypeAutolinkHeadings from "rehype-autolink-headings";
 
 import remarkRemoveMd from "./remark-remove-md.mjs";
 
+import robotsTxt from "astro-robots-txt";
+
 // https://astro.build/config
 export default defineConfig({
   site: "https://eandev.com",
-  integrations: [mdx(), sitemap()],
+  integrations: [mdx(), sitemap(), robotsTxt()],
   markdown: {
     remarkPlugins: [remarkRemoveMd],
     rehypePlugins: [
