@@ -42,7 +42,7 @@ const filteredPosts = posts
 ---
 
 <GeneralLayout>
-  <div>
+  <article class="prose lg:prose-xl">
     <h4>TAG: {tag}</h4>
     <ul>
       {
@@ -51,16 +51,34 @@ const filteredPosts = posts
 
           return (
             <li>
-              <span>
+              <span class="createDate">
                 <FormattedDate date={post.data.date} />
               </span>{" "}
               <a href={`/post/${path}/`}>
-                <h4 class="title">{post.data.title}</h4>
+                <span class="title">{post.data.title}</span>
               </a>
             </li>
           );
         })
       }
     </ul>
-  </div>
+  </article>
 </GeneralLayout>
+
+<style>
+  a {
+    text-decoration: none;
+  }
+
+  .createDate {
+    display: inline-block;
+    font-size: .9rem;
+    text-align: right;
+    margin-right: 10px;
+  }
+
+  li {
+    margin-top: 5px;
+    margin-bottom: 3px;
+  }
+</style>
