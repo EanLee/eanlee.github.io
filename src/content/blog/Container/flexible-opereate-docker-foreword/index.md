@@ -7,7 +7,6 @@ tags:
   - Container
   - Docker
 categories:
-  - 系列文章
   - Container
 keywords:
   - Docker
@@ -18,9 +17,7 @@ series: 靈活運用 Docker 打造高效的容器化應用環境
 
 目前有許多文章的內容，都包含部份的 Docker 操作指令。也因為如此，所有的 Docker 指令與說明散在各處，所以起心動念，整理完整的 Docker 操作與應用的系列文章。
 
-<!--more-->
-
-系統文章大綱暫定如下，後續會隨撰寫過程，來進行增修。
+系統文章大綱暫定如下，初期會將現有文章中，提到的內容，進行資燉彙整。後續也會不定期依最近的文章內容，進行增修。
 
 **觀念**
 
@@ -33,6 +30,7 @@ series: 靈活運用 Docker 打造高效的容器化應用環境
 - 靈活運用 Docker - Container 操作與參數
 - 靈活運用 Docker - 使用 Mount 或 Volume 來確保資料的持久性
 - 靈活運用 Docker - docker-compose 統一操作 Container Group
+- 靈活運用 Docker - 存取公私有的 Registry 
 - 靈活運用 Docker - 無法使用 Registry 的 Image 操作
 
 **IMAGE 的建立**

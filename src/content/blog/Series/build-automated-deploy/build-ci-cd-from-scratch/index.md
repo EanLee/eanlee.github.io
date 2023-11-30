@@ -7,7 +7,8 @@ keywords:
   - Docker
   - 版控
 categories:
-  - 系列文章
+  - DevOps
+  - 軟體開發
 date: 2022-06-20T14:58:08+08:00
 lastmod: 2023-11-29T11:27:27+08:00
 slug: build-ci-cd-from-scratch
