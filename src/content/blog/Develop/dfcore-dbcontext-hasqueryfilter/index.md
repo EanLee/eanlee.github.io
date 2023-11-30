@@ -4,8 +4,9 @@ description: 分享三種在 EF Core 2.0 後的查詢過濾資料的方法。並
 date: 2023-06-19T03:17:17+08:00
 categories:
   - 軟體開發
-tags:
   - EF Core
+tags:
+  - EF-Core
 keywords:
   - EF Core
   - HasQueryFilter
