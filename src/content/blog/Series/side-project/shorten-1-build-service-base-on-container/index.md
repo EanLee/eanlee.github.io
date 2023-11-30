@@ -2,7 +2,7 @@
 title: Docker | 縮網址服務實作記錄 (1) - 基於 Docker 容器技術的網站服務架構實踐
 description: 本文紀錄使用 Docker Compose 在 Digital Ocean Ubuntu VPS 上架設縮網址服務的過程，包括環境設定、服務架構規劃、Docker image 管理、網路與安全設定等。適合想學習如何利用容器技術架設 Web 服務的讀者。
 date: 2023-11-11T14:28:57+08:00
-lastmod: 2023-11-27T23:31:34+08:00
+lastmod: 2023-11-29T11:24:56+08:00
 tags:
   - Docker
   - Postgresql
@@ -19,6 +19,7 @@ keywords:
   - VPS
   - Docker Compose
 slug: shorten-1-build-service-base-on-container
+series: 縮網址服務實作記錄
 ---
 
 > 縮網址服務為 <https://url-ins.com/shorten/> ，有任何想法或回饋，可以在 [SurveyCake](https://www.surveycake.com/s/wgveX) 留下寶貴的意見。(為了維持主機的維運，在頁面內放入 Google Adsense 廣告。)
@@ -132,7 +133,7 @@ ufw allow 443/tcp
 ufw enable
 ```
 
-![ufw status](./images/ubuntu-ufw-status.jpeg)
+![使用 ufw status 查詢防火牆狀態](./images/ubuntu-ufw-status.jpeg)
 
 ### 使用者權限設定
 
@@ -214,9 +215,9 @@ chmod -R go= ~/.ssh
 cat /digitalocean_opser.pub >> ~/.ssh/authorized_keys
 ```
 
-![](./images/set-ubuntu-user-ssh-key-1.jpeg)
+![設定 ssh 憑證位置與存取權限](./images/set-ubuntu-user-ssh-key-1.jpeg)
 
-![](./images/set-ubuntu-user-ssh-key-2.jpeg)
+![複製 Public Key 並確認內容](./images/set-ubuntu-user-ssh-key-2.jpeg)
 
 完成上述指令之後就可以順利的使用 opser 以 SSH Key 登入。
 
@@ -292,7 +293,7 @@ docker login <container-registry-host>
 
 例如 Digital Ocean 的認證資料，就需要先去申請 API Token 後，再把 Token 輸入 Username/Password。
 
-![docker login DigitalOcean](./images/docker-login-digitalocean.jpeg)
+![使用 docker login 登入 DigitalOcean](./images/docker-login-digitalocean.jpeg)
 在成功登入，就可以在允許的權限下，進行 Container Registry 操作。
 
 #### docker push image
@@ -337,7 +338,7 @@ docker push registry.digitalocean.com/my-registry/url-insight/web:latest
 
 完成 Push 後，就可以在 Digital Ocean Container Registry 查到上傳的 Image 記錄。
 
-![](./images/digital-ocean-container-registry-push-result.jpeg)
+![Digital Ocean Container Registry 的 Web 畫面](./images/digital-ocean-container-registry-push-result.jpeg)
 
 #### 變更使用的 Container Registry
 
@@ -349,7 +350,7 @@ docker push registry.digitalocean.com/my-registry/url-insight/web:latest
 
 原本查看 Digital Ocean 的 Registry 的免費方案時，以為 Digitial Coean 的 Starter plan 的 1 Repo，指的是 Project level 的 Repository。
 
-![](./images/digital-ocean-container-registry-payment-plan.jpeg)
+![Digital Ocean Container Registry 的付費方案](./images/digital-ocean-container-registry-payment-plan.jpeg)
 
 想說可以將實作的服務，`uri-insight/web` 與 `uri-insight/api` 兩個 Image，都上傳到同一個 Repo。
 

@@ -15,7 +15,7 @@ lastmod: 2022-07-29T09:26:17.140Z
 slug: coding-basic-skills
 ---
 
-> [2018 iT 邦幫忙鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/1430)文章補完計劃，[持續優化程式碼品質-總覽](../foreword/index.md#基礎篇)基礎篇
+> [2018 iT 邦幫忙鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/1430)文章補完計劃，[持續優化程式碼品質-總覽](../codeing-skill-foreword/index.md#基礎篇)基礎篇
 
 在開發時，為了快速或是避免麻煩，可能會用簡單的代號，例如 `aa` 這種名稱，來暫時做為變數的名稱。這無可厚非，但是...假若在完成該功能後，未能進行程式的整理。
 
