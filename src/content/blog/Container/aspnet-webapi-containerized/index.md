@@ -6,7 +6,7 @@ tags:
   - Docker
   - Docker-Network
 categories:
-  - container
+  - Container
 keywords:
   - Docker
   - ASP.NET
@@ -15,7 +15,6 @@ keywords:
   - 機敏資料
 date: 2023-02-26T14:18:53+08:00
 slug: aspnet-webapi-containerized
-draft: false
 lastmod: 2023-11-24T11:54:12+08:00
 ---
 
