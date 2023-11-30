@@ -35,9 +35,9 @@ series: 靈活運用 Docker 打造高效的容器化應用環境
 
 **IMAGE 的建立**
 
-- 靈活運用 Docker - 簡易建立 IMAGE
+- 靈活運用 Docker - 簡易建立 Image
 - 靈活運用 Docker - 使用 Multi-Build 減少不必要的資料
-- 靈活運用 Docker - 修改現有的 IMAGE
+- 靈活運用 Docker - 修改現有的 Image
 - 靈活運用 Docker - Image 的安全性
 
 **Docker Network**

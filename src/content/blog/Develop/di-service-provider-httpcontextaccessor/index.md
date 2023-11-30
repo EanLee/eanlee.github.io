@@ -1,18 +1,18 @@
 ﻿---
 title: ASP.NET Core | 使用 DI 注入時，使用 Request 的參數，建立不同參數的物件
-description: 當開發多租戶的 API 時，已知 API 的 Route 中必定含有 tenantId。因此希望在建立服務的時候，可以根據 tenantId
-  直接建立對應的服務。那要如何從 DI 的角度切入，讓它協助創建不同參數的物件。
+description: 當開發多租戶的 API 時，已知 API 的 Route 中必定含有 tenantId。因此希望在建立服務的時候，可以根據 tenantId 直接建立對應的服務。那要如何從 DI 的角度切入，讓它協助創建不同參數的物件。
 date: 2023-02-19T11:19:21+08:00
 categories:
   - 軟體開發
 tags:
-  - ASP.NET Core
+  - ASP.NET
   - DI
 keywords:
   - Microsoft.Extensions.DependencyInjection
   - DI
   - IServiceProvider
   - HttpContextAccessor
+  - ASP.NET Core
 slug: di-service-provider-httpcontextaccessor
 lastmod: 2023-06-28T11:32:17+08:00
 ---

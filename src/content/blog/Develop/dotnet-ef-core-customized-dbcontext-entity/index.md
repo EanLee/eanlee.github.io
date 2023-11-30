@@ -1,13 +1,13 @@
 ﻿---
 title: EF Core | 使用 T4 CodeTemplate 客制化 EFCore Scaffold 產出內容
-description: 本文探討 EF Core 的 DBContext 與 Entity Type 客制化，透過 CodeTemplate
-  實現客制化。包含使用 Shadow Properties，以及重寫 DBContext 的 SaveChanges 自動更新欄位。
+description: 本文探討 EF Core 的 DBContext 與 Entity Type 客制化，透過 CodeTemplate 實現客制化。包含使用 Shadow Properties，以及重寫 DBContext 的 SaveChanges 自動更新欄位。
 date: 2023-06-29T09:22:03+08:00
 lastmod: 2023-08-17T09:02:30+08:00
 categories:
   - 軟體開發
-tags:
   - EF Core
+tags:
+  - EF-Core
 keywords:
   - EF Core
   - EF Core Power Tool
