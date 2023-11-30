@@ -18,7 +18,9 @@ import tailwind from "@astrojs/tailwind";
 export default defineConfig({
   site: "https://eandev.com",
   redirects: {
-    '/post/test/淺談單元測試的撰寫/': '/post/test/talking-writing-unit-tests/'
+    '/post/test/淺談單元測試的撰寫/': '/post/test/talking-writing-unit-tests/',
+    '/post/series/message-queue/foreword/': '/post/series/message-queue/build-mq-foreword/',
+    '/post/series/coding-skill/foreword/' : '/post/series/coding-skill/coding-skill-foreword/',
   },
   integrations: [mdx(), sitemap(), robotsTxt(), tailwind( 
     {applyBaseStyles:false}
