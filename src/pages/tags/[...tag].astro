@@ -9,14 +9,14 @@ export async function getStaticPaths() {
   // 獲取所有類別
   const tags = [
     ...new Set(
-      posts.map((p) => p.data.tags?.map((c) => c.toUpperCase())).flat()
+      posts.map((p) => p.data.tags?.map((c) => c.toLowerCase())).flat()
     ),
   ];
 
   return tags
     .map((tag) => {
       const filteredPosts = posts.filter((post) =>
-        post.data.tags?.map((c) => c.toUpperCase()).includes(tag || "")
+        post.data.tags?.map((c) => c.toLowerCase()).includes(tag || "")
       );
 
       return filteredPosts.map((post) => {
@@ -36,7 +36,7 @@ const { tag } = Astro.params;
 const posts = await getCollection("blog");
 const filteredPosts = posts
   .filter((post) => {
-    return post.data.tags?.map((c) => c.toUpperCase()).includes(tag || "");
+    return post.data.tags?.map((c) => c.toLowerCase()).includes(tag || "");
   })
   .sort((a, b) => Number(b.data.date) - Number(a.data.date));
 ---
