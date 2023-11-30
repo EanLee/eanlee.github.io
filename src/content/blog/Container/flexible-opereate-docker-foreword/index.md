@@ -8,11 +8,12 @@ tags:
   - Docker
 categories:
   - 系列文章
-  - container
+  - Container
 keywords:
   - Docker
 slug: flexible-opereate-docker-foreword
 toc: false
+series: 靈活運用 Docker 打造高效的容器化應用環境
 ---
 
 目前有許多文章的內容，都包含部份的 Docker 操作指令。也因為如此，所有的 Docker 指令與說明散在各處，所以起心動念，整理完整的 Docker 操作與應用的系列文章。
@@ -23,7 +24,7 @@ toc: false
 
 **觀念**
 
-- [靈活運用 Docker - Container 觀念與 VM 的差異](靈活運用 Docker - Container 觀念與 VM 的差異.md)
+- [靈活運用 Docker - Container 觀念與 VM 的差異](../container-vm-difference/index.md)
 
 **IMAGE / CONTAINER 操作**
 
@@ -60,11 +61,11 @@ toc: false
 
 ▶ 延伸閱讀
 
-- [Docker 操作簡介](../../Series/build-automated-deploy/docker-operate/index.md)
-- [Container 簡介](../../Series/build-automated-deploy/container-intro/index.md)
 - [GitLab CI 實作記錄(1) - 使用 Docker 在同台主機運行 GitLab 與 GitLab-Runner](../../DevOps/gitlab-and-runner-on-same-host-using-docker/index.md)
 - [GitLab CI 實作記錄(2) - Gitlab CI 的私有環境建置](../../DevOps/build-gitlab-on-private-environment/index.md)
-- [使用 Docker 建置 ASP.NET Webapi 的 Image](../aspnet-webapi-containerized/index.md)
-- [淺談 YAML 格式](../../Series/build-automated-deploy/yaml/index.md)
 - [縮網址服務實作記錄(1) - 基於 Docker 容器技術的網站服務架構實踐](../../Series/side-project/shorten-1-build-service-base-on-container/index.md)
 - [縮網址服務實作記錄(2) - 基於 Container 的 Let's Encrypt 申請與設定](../../Series/side-project/shorten-2-lets-encrypt-setting/index.md)
+- [淺談 YAML 格式](../../Series/build-automated-deploy/yaml/index.md)
+- [使用 Docker 建置 ASP.NET Webapi 的 Image](../aspnet-webapi-containerized/index.md)
+- [Docker 操作簡介 - command / dockerfile / docker-compose](../../Series/build-automated-deploy/docker-operate/index.md)
+- [部署新境界 - 使用 Container 簡化流程](../../Series/build-automated-deploy/container-intro/index.md)

@@ -5,7 +5,7 @@ tags:
   - Postgresql
   - Docker
 categories:
-  - container
+  - Container
 keywords:
   - Docker
   - Postgresql
