@@ -1,5 +1,6 @@
 ﻿---
 title: "[Fluent Assertions] Object graph comparison"
+description: 使用 FluentAssertions 4.13.1 版進行單元測試時，發現使用 Should().BeEquivalentTo() 比對失敗，在物件內容相同的情況下，仍報告資料不符合。此問題並非資料有誤，而是該方法本身有問題。解決方向為換為 ShouldBeEquivalentTo() 或升級到 5.0 版本以上。
 tags:
   - 單元測試
 date: 2021-02-11 14:00:22
@@ -55,7 +56,7 @@ TestProject1.Account
 {
    Money = 100M
    Name = "T1"
-}, 
+},
 
 TestProject1.Account
 {
@@ -67,7 +68,7 @@ TestProject1.Account
 {
    Money = 100M
    Name = "T1"
-}, 
+},
 
 TestProject1.Account
 {
@@ -79,7 +80,7 @@ TestProject1.Account
 {
    Money = 100M
    Name = "T1"
-}, 
+},
 
 TestProject1.Account
 {

@@ -8,7 +8,7 @@ import rehypeFigure from "rehype-figure";
 import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 
-import remarkRemoveMd from "./remark-remove-md.mjs";
+import remarkRemoveMd from "./remark-adjust-md-link.mjs";
 
 import robotsTxt from "astro-robots-txt";
 
@@ -17,6 +17,9 @@ import tailwind from "@astrojs/tailwind";
 // https://astro.build/config
 export default defineConfig({
   site: "https://eandev.com",
+  redirects: {
+    '/post/test/淺談單元測試的撰寫/': '/post/test/talking-writing-unit-tests/'
+  },
   integrations: [mdx(), sitemap(), robotsTxt(), tailwind( 
     {applyBaseStyles:false}
    )],

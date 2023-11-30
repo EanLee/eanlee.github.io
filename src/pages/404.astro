@@ -1,0 +1,55 @@
+---
+import GeneralLayout from "../layouts/GeneralLayout.astro";
+---
+
+<GeneralLayout>
+    <div>
+        <img src="/svg/18038_color.svg" alt="404" />
+
+        <h1>此網址連結失效</h1>
+        <p><span id="countdown">10</span> 秒後跳轉到首頁</p>
+    </div>
+
+</GeneralLayout>
+
+<script>
+    let seconds = 10;
+    const countdownElement = document.getElementById("countdown");
+
+    setInterval(() => {
+        seconds--;
+        if (countdownElement) {
+            countdownElement.textContent = String(seconds);
+        }
+
+        if (seconds <= 0) {
+            window.location.href = '/';
+        }
+    }, 1000);
+
+</script>
+
+<style>
+    div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto;
+    }
+
+    img {
+        width: 200px;
+        height: 200px;
+    }
+
+    h1 {
+        font-size: 3rem;
+        margin: 0;
+    }
+
+    p {
+        font-size: 1.5rem;
+        margin: 0;
+    }
+</style>

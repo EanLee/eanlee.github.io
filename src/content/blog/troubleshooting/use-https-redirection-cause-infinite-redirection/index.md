@@ -1,6 +1,6 @@
 ﻿---
-title: ASP.NET Core | 問題排除隨手記 - UseHttpsRedirection 造成的無限重定向問題
-description: 排除 ASP.NET Core 無限重定向的問題。由於系統架構規劃 Web API 只能由反向代理 (Reverse Proxy) ，使用 HTTP(80) 訪問 Web API 所在主機，但又在 ASP.NET Core 開發的 Web API 中，調用 UseHttpsRedirection Middleware，回應狀態碼 307。最終造成 redirection 重定向次數過多的情形。
+title: ASP.NET Core | 問題排除隨手記 - UseHttpsRedirection 造成的無限重定向異常
+description: 排除 ASP.NET Core 無限重定向的問題。因系統架構限制 Web API 只能透過反向代理 (Reverse Proxy) 訪問，而反向代理使用 HTTP 訪問 Web API，但因為 Web API 中，使用 UseHttpsRedirection 強制重定向到 HTTPS。最終造成重定向次數過多的情形。
 date: 2023-11-22T14:54:54+08:00
 lastmod: 2023-11-27T23:32:55+08:00
 tags:

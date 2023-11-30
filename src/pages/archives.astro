@@ -9,7 +9,7 @@ const posts = (await getCollection("blog")).sort(
 ---
 
 <GeneralLayout>
-	<section>
+	<article class="prose lg:prose-xl">
 	  <h1>Articles</h1>
     <ul>
       {
@@ -18,16 +18,34 @@ const posts = (await getCollection("blog")).sort(
 
           return (
             <li>
-              <span>
+              <span class="createDate">
                 <FormattedDate date={post.data.date} />
               </span>{" "}
               <a href={`/post/${path}/`}>
-                <h5 class="title">{post.data.title}</h5>
+                  <span class="title">{ post.data.title }</span>
               </a>
             </li>
           );
         })
       }
     </ul>
-  </section>
+  </article>
 </GeneralLayout>
+
+<style>
+    a {
+        text-decoration: none;
+    }
+
+    .createDate {
+        display: inline-block;
+        font-size: .9rem;
+        text-align: right;
+        margin-right: 10px;
+    }
+
+    li {
+        margin-top: 5px;
+        margin-bottom: 3px;
+    }
+</style>

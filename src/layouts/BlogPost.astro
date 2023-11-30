@@ -7,18 +7,20 @@ import FormattedDate from "../components/FormattedDate.astro";
 
 type Props = CollectionEntry<"blog">["data"];
 
-const { title, description, date, lastmod, coverImage, tags } = Astro.props;
+const { title, description, date, lastmod, coverImage, tags, keywords } = Astro.props;
 ---
 
 <html lang="en">
   <head>
     <BaseHead title={title} description={description} />
+    <meta name="tags" content={tags?.join(", ")} />
+    <meta name="keywords" content={keywords?.join(", ")} />
   </head>
 
   <body>
     <Header />
     <main>
-      <article class="prose lg:prose-xl">
+      <article class="prose lg:prose-xl" itemscope itemtype="https://schema.org/BlogPosting">
         <div class="hero-image">
           {
             coverImage && (
@@ -57,13 +59,13 @@ const { title, description, date, lastmod, coverImage, tags } = Astro.props;
                 </div>
               )
             }
-            <h1>{title}</h1>
+            <h1 itemprop="headline">{title}</h1>
             <div class="date">
-              <FormattedDate date={date} />
+              <FormattedDate date={date} itemprop="datePublished"/>
               {
                 lastmod && (
                   <div class="last-updated-on">
-                    Last updated on <FormattedDate date={lastmod} />
+                    Last updated on <FormattedDate date={lastmod} itemprop="dateModified" />
                   </div>
                 )
               }
