@@ -8,7 +8,7 @@ import rehypeFigure from "rehype-figure";
 import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 
-import remarkRemoveMd from "./remark-remove-md.mjs";
+import remarkRemoveMd from "./remark-adjust-md-link.mjs";
 
 import robotsTxt from "astro-robots-txt";
 
