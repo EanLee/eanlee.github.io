@@ -17,6 +17,9 @@ import tailwind from "@astrojs/tailwind";
 // https://astro.build/config
 export default defineConfig({
   site: "https://eandev.com",
+  redirects: {
+    '/post/test/淺談單元測試的撰寫/': '/post/test/talking-writing-unit-tests/'
+  },
   integrations: [mdx(), sitemap(), robotsTxt(), tailwind( 
     {applyBaseStyles:false}
    )],

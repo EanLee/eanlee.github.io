@@ -11,7 +11,7 @@ categories:
 tags:
   - 單元測試
 lastmod: 2022-08-04T12:30:07.612Z
-slug: 淺談單元測試的撰寫
+slug: talking-writing-unit-tests
 ---
 
 近年來，在業界各位前輩的推展下，越來越多人知道單元測試，並且開始撰寫單元測試。
