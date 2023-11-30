@@ -23,13 +23,13 @@ toc: false
 
 **觀念**
 
-- [靈活運用 Docker - Container 觀念與 VM 的差異](靈活運用 Docker - Container 觀念與 VM 的差異.md)
+- 靈活運用 Docker - Container 觀念與 VM 的差異
 
 **IMAGE / CONTAINER 操作**
 
-- [靈活運用 Docker - Docker 的安裝](靈活運用 Docker - Docker 的安裝.md)
+- 靈活運用 Docker - Docker 的安裝
 - 靈活運用 Docker - Image 流程與架構
-- [靈活運用 Docker - Container 操作與參數](靈活運用 Docker - Container 操作與參數.md)
+- 靈活運用 Docker - Container 操作與參數
 - 靈活運用 Docker - 使用 Mount 或 Volume 來確保資料的持久性
 - 靈活運用 Docker - docker-compose 統一操作 Container Group
 - 靈活運用 Docker - 無法使用 Registry 的 Image 操作
@@ -37,7 +37,7 @@ toc: false
 **IMAGE 的建立**
 
 - 靈活運用 Docker - 簡易建立 IMAGE
-- [靈活運用 Docker - 使用 Multi-Build 減少不必要的資料](../../Drafts/Container/靈活運用%20Docker%20-%20使用%20Multi-Build%20減少不必要的資料.md)
+- 靈活運用 Docker - 使用 Multi-Build 減少不必要的資料
 - 靈活運用 Docker - 修改現有的 IMAGE
 - 靈活運用 Docker - Image 的安全性
 
