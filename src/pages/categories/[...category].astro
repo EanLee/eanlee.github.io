@@ -9,7 +9,7 @@ export async function getStaticPaths() {
   // 獲取所有類別
   const categories = [
     ...new Set(
-      posts.map((p) => p.data.categories?.map((c) => c.toUpperCase())).flat()
+      posts.map((p) => p.data.categories?.map((c) => c.toLowerCase())).flat()
     ),
   ];
 
@@ -17,7 +17,7 @@ export async function getStaticPaths() {
     .map((category) => {
       const filteredPosts = posts.filter((post) =>
         post.data.categories
-          ?.map((c) => c.toUpperCase())
+          ?.map((c) => c.toLowerCase())
           .includes(category || "")
       );
 
@@ -39,7 +39,7 @@ const posts = await getCollection("blog");
 const filteredPosts = posts
   .filter((post) => {
     return post.data.categories
-      ?.map((c) => c.toUpperCase())
+      ?.map((c) => c.toLowerCase())
       .includes(category || "");
   })
   .sort((a, b) => Number(b.data.date) - Number(a.data.date));

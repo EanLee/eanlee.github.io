@@ -7,7 +7,7 @@ const posts = await getCollection("blog");
 
 // 提取標籤
 const allTags = posts
-  .map((p) => (p.data.tags ? p.data.tags.map((t) => t.toUpperCase()) : []))
+  .map((p) => (p.data.tags ? p.data.tags.map((t) => t.toLowerCase()) : []))
   .flat()
   .filter((tag) => tag);
 

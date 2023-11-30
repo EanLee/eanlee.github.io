@@ -8,7 +8,7 @@ const posts = await getCollection("blog");
 // 提取標籤
 const categories = posts
   .map((p) =>
-    p.data.categories ? p.data.categories.map((t) => t.toUpperCase()) : []
+    p.data.categories ? p.data.categories.map((t) => t.toLowerCase()) : []
   )
   .flat()
   .filter((tag) => tag);
@@ -37,7 +37,7 @@ const result = Object.keys(AllCounts).sort(
       result.map((category) => (
         <li>
           <a class="tag" href={`/categories/${category}`}>
-            {category} ({AllCounts[category]})
+            {category.toUpperCase()} ({AllCounts[category]})
           </a>
         </li>
       ))
