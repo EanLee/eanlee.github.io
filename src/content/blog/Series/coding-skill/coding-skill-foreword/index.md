@@ -2,14 +2,14 @@
 title: 持續優化程式碼品質(持續補完中)
 description: 想要持續程式碼的品質，是需要參與專案的所有發人員共同維護的。當開發人員的基礎功越扎實，就越容易演化出易閱讀、易理解、易修改的程式碼品質。
 date: 2022-06-20T06:12:48.600Z
+lastmod: 2023-11-28T09:18:59+08:00
 keywords:
   - 程式碼品質
   - Object-oriented
   - SOLID
 categories:
-  - 系列文章
-lastmod: 2023-11-28T09:18:59+08:00
-slug: codeing-skill-foreword
+  - 軟體開發
+slug: coding-skill-foreword
 ---
 
 > 當初參與 [2018 iT 邦幫忙鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/1430)，挑戰三十天連續不間斷發文失敗。將當初的文章搬遷到此，同時對文章內容，進行整理與補完欠缺的內容。

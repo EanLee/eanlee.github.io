@@ -10,7 +10,6 @@ tags:
   - Ubuntu
 categories:
   - 架構
-  - 系列文章
   - 軟體開發
 keywords:
   - .NET Core

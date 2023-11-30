@@ -6,9 +6,10 @@ keywords:
   - Message Queue
   - Queue
 categories:
-  - 系列文章
+  - 軟體開發
 lastmod: 2023-11-28T09:19:26+08:00
 slug: build-mq-foreword
+series: 從零開始土炮 Message Queue
 ---
 
 > 將原本參與 [第 11 屆(2020) iThome 鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/2172) 的文章，再加以整理與補充。
