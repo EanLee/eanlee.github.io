@@ -18,7 +18,9 @@ import GeneralLayout from "../layouts/GeneralLayout.astro";
 
     setInterval(() => {
         seconds--;
-        countdownElement.textContent = String(seconds);
+        if (countdownElement) {
+            countdownElement.textContent = String(seconds);
+        }
 
         if (seconds <= 0) {
             window.location.href = '/';
