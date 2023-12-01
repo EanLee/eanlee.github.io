@@ -1,8 +1,7 @@
 ﻿---
 title: 使用 Travis CI/GitHub Action 進行持續整合
 date: 2023-01-15T21:53:33+08:00
-description: 在介紹完 CI/CD 的觀念後，接著來介紹如何使用 Travis CI 與 GitHub Actions 進行持續整合(Continuous
-  integration, CI)
+description: 在介紹完 CI/CD 的觀念後，接著來介紹如何使用 Travis CI 與 GitHub Actions 進行持續整合(Continuous integration, CI)
 categories:
   - DevOps
 keywords:
@@ -12,7 +11,8 @@ keywords:
   - GitHub Action
   - GitHub
 slug: github-action-travis-ci
-lastmod: 2023-06-28T10:42:03+08:00
+lastmod: 2023-12-02T02:11:37+08:00
+series: 從零開始建立自動化發佈的流水線
 ---
 
 > [2019 iT 邦幫忙鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/1906)文章補完計劃，[從零開始建立自動化發佈的流水線](../build-ci-cd-from-scratch/index.md#持續整合)合篇

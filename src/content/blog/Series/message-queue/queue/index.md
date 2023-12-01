@@ -9,8 +9,9 @@ tags:
   - Queue
 categories:
   - 軟體開發
-lastmod: 2023-11-18T01:24:26+08:00
+lastmod: 2023-12-02T02:09:01+08:00
 slug: queue
+series: 從零開始土炮 Message Queue
 ---
 
 > [第 11 屆(2020) iThome 鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/2172)文章補完計劃，[從零開始土炮 MQ](../build-mq-foreword/index.md#基礎篇) 基礎篇

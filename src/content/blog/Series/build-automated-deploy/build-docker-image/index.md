@@ -1,7 +1,6 @@
 ﻿---
 title: 使用 Azure Pipelines / Jenkins 建置 Docker image
-description: 在 Azure PipeLines, Jenkins 中，除了可以直接指定使用現有的 Docker image 做為執行 CI 所需的運行環境。也可以讓
-  Azure Pipelines, Jenkins，運用 dockerfile 或 cmd 的方式，直接把程式封裝為 Docker Image
+description: 在 Azure PipeLines, Jenkins 中，除了可以直接指定使用現有的 Docker image 做為執行 CI 所需的運行環境。也可以讓 Azure Pipelines, Jenkins，運用 dockerfile 或 cmd 的方式，直接把程式封裝為 Docker Image
 tags:
   - Docker
 categories:
@@ -13,7 +12,8 @@ keywords:
   - jenkins
 date: 2023-01-11T15:01:17+08:00
 slug: build-docker-image
-lastmod: 2023-06-28T10:10:47+08:00
+lastmod: 2023-12-02T02:10:13+08:00
+series: 從零開始建立自動化發佈的流水線
 ---
 
 > [2019 iT 邦幫忙鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/1906)文章補完計劃，[從零開始建立自動化發佈的流水線](../build-ci-cd-from-scratch/index.md#container)tainer 篇

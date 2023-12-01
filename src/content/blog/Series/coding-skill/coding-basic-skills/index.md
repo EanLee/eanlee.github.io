@@ -11,8 +11,9 @@ categories:
   - 開發雜談
 tags:
   - Refactor
-lastmod: 2022-07-29T09:26:17.140Z
+lastmod: 2023-12-02T02:09:46+08:00
 slug: coding-basic-skills
+series: 持續優化程式碼品質
 ---
 
 > [2018 iT 邦幫忙鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/1430)文章補完計劃，[持續優化程式碼品質-總覽](../coding-skill-foreword/index.md#基礎篇)基礎篇
