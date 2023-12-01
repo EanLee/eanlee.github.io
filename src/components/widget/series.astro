@@ -12,6 +12,7 @@ interface seriesModel {
 
 // 提取標籤
 const series: seriesModel[] = posts
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
   .filter((p) => p.data.series)
   .map((p) => {
     return {
