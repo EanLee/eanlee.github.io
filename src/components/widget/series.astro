@@ -12,10 +12,11 @@ interface seriesModel {
 
 // 提取標籤
 const series: seriesModel[] = posts
+  .filter((p) => p.data.series)
   .map((p) => {
     return {
       id: p.id.slice(0, p.id.lastIndexOf(p.slug)).toLowerCase(),
-      series: p.data.series?.toLowerCase(),
+      series: p.data.series ? p.data.series.toLowerCase() : "",
     };
   })
   .filter((p) => p.series) // 篩選出有標籤的文章
@@ -31,8 +32,8 @@ interface Count {
 }
 // 統計數量
 const statistic = posts
-  .map((s) => s.data.series?.toLowerCase())
-  .filter((s) => s)
+  .filter((p) => p.data.series)
+  .map((s) => (s.data.series ? s.data.series.toLowerCase() : ""))
   .reduce((acc: Count, series) => {
     if (!acc[series]) {
       acc[series] = 0;
