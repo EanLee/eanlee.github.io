@@ -7,17 +7,17 @@ const posts = await getCollection("blog");
 
 interface seriesModel {
   id: string;
-  series?: string;
+  series: string;
 }
 
 // 提取標籤
 const series: seriesModel[] = posts
+  .filter((p) => p.data.series)
   .map((p) => {
-    const model: seriesModel = {
+    return {
       id: p.id.slice(0, p.id.lastIndexOf(p.slug)).toLowerCase(),
-      series: p.data.series?.toLowerCase(),
+      series: p.data.series ? p.data.series.toLowerCase() : "",
     };
-    return model;
   })
   .filter((p) => p.series) // 篩選出有標籤的文章
   .reduce((acc, cur) => {
@@ -26,6 +26,23 @@ const series: seriesModel[] = posts
     }
     return acc;
   }, [] as seriesModel[]);
+
+interface Count {
+  [series: string]: number;
+}
+// 統計數量
+const statistic = posts
+  .filter((p) => p.data.series)
+  .map((s) => (s.data.series ? s.data.series.toLowerCase() : ""))
+  .reduce((acc: Count, series) => {
+    if (!acc[series]) {
+      acc[series] = 0;
+    }
+    acc[series]++;
+    return acc;
+  }, {});
+
+console.log(statistic);
 ---
 
 <WidgetBase topic="Series">
@@ -34,7 +51,7 @@ const series: seriesModel[] = posts
       series.map((s) => (
         <li>
           <a class="tag" href={`/${s.id}`}>
-            {s.series}
+            {s.series.toUpperCase()} ({statistic[s.series]})
           </a>
         </li>
       ))
