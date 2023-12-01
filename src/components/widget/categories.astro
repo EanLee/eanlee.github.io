@@ -36,7 +36,7 @@ const result = Object.keys(AllCounts).sort(
     {
       result.map((category) => (
         <li>
-          <a class="tag" href={`/categories/${category}`}>
+          <a class="tag" href={`/categories/${category}/`}>
             {category.toUpperCase()} ({AllCounts[category]})
           </a>
         </li>
