@@ -1,0 +1,87 @@
+---
+import { getCollection } from "astro:content";
+import GeneralLayout from "../../layouts/GeneralLayout.astro";
+import FormattedDate from "../../components/FormattedDate.astro";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog");
+
+  // 取得 id 與 Astro.params 相同的
+  const seriesNames = [
+    ...new Set(
+      posts
+        .filter((post) => post.data.series)
+        .map((post) => {
+          return post.id
+            .slice(post.id.indexOf("/") + 1, post.id.lastIndexOf(post.slug) - 1)
+            .toLowerCase();
+        })
+    ),
+  ];
+
+  console.log(seriesNames);
+
+  return seriesNames.map((seriesName) => {
+    return {
+      params: {
+        slug: seriesName,
+      },
+    };
+  });
+}
+
+const posts = await getCollection("blog");
+const filteredPosts = posts
+  .filter((post) => {
+    const postPath = post.id
+      .slice(post.id.indexOf("/") + 1, post.id.lastIndexOf(post.slug) - 1)
+      .toLowerCase();
+
+    return post.data.series && postPath === Astro.params.slug;
+  })
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const seriesNames = filteredPosts[0].data.series;
+---
+
+<GeneralLayout>
+  <article class="prose lg:prose-xl md:prose-sm">
+    <h4>{seriesNames}</h4>
+    <ul>
+      {
+        filteredPosts.map((post) => {
+          const path = post.id.slice(0, post.id.lastIndexOf("/")).toLowerCase();
+
+          return (
+            <li>
+              <span class="createDate">
+                <FormattedDate date={post.data.date} />
+              </span>
+              <a href={`/post/${path}/`}>
+                <span class="title">{post.data.title}</span>
+              </a>
+            </li>
+          );
+        })
+      }
+    </ul>
+  </article>
+</GeneralLayout>
+
+<style>
+  a {
+    text-decoration: none;
+  }
+
+  .createDate {
+    display: inline-block;
+    font-size: 0.9rem;
+    text-align: right;
+    margin-right: 10px;
+  }
+
+  li {
+    margin-top: 5px;
+    margin-bottom: 3px;
+  }
+</style>
