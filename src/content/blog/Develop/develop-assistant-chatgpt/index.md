@@ -1,18 +1,16 @@
 ﻿---
 title: 運用 ChapGpt 以 Pair-programing 輔助程式開發
-description: 如何運用 ChatGPT 進行 Pair-Programming，並以使用 Flutter 撰寫 APP 為例，如何利用 ChatGPT
-  協助程式設計、概念詢問、程式碼修改與實作等方面，並提供注意事項。並提到 ChatGPT 在回答問題時有時會回答與問題無關的內容，使用者需要在 prompt
-  中加入回答的限制。
+description: 如何運用 ChatGPT 進行 Pair-Programming，並以使用 Flutter 撰寫 APP 為例，如何利用 ChatGPT 協助程式設計、概念詢問、程式碼修改與實作等方面，並提供注意事項。並提到 ChatGPT 在回答問題時有時會回答與問題無關的內容，使用者需要在 prompt 中加入回答的限制。
 date: 2023-03-15T14:00:03+08:00
 categories:
   - 軟體開發
 tags:
-  - Open AI
+  - OpenAI
 keywords:
   - chatGPT
   - flutter
   - Pair-Programming
-lastmod: 2023-06-29T09:46:00+08:00
+lastmod: 2023-12-01T16:44:28+08:00
 slug: develop-assistant-chatgpt
 ---
 

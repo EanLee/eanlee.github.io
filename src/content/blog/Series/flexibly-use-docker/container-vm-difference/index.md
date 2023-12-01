@@ -12,6 +12,7 @@ keywords:
   - Guest OS
 slug: container-vm-difference
 series: 靈活運用 Docker 打造高效的容器化應用環境
+lastmod: 2023-12-02T00:08:11+08:00
 ---
 
 ![What's the Diff: Containers vs VMs](https://www.backblaze.com/blog/wp-content/uploads/2018/06/whats-the-diff-container-vs-vm.jpg)
@@ -63,7 +64,7 @@ Container 技術最早是被發佈與運用在 Linux 之中，經過 Docker 的�
 
 ▶ 延伸閱讀
 
-- [Container 簡介](../../Series/build-automated-deploy/container-intro/index.md)
-- [靈活運用 Docker - 打造高效的容器化應用環境](../flexible-opereate-docker-foreword/index.md)
+- [Container 簡介](../../build-automated-deploy/container-intro/index.md)
+- [靈活運用 Docker - 打造高效的容器化應用環境](../flexibly-use-docker-foreword/index.md)
 
 ▶ 外部文章
