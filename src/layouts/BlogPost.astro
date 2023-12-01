@@ -50,7 +50,7 @@ const { title, description, date, lastmod, coverImage, tags, keywords } = Astro.
                   <ul>
                     {tags.map((tag) => (
                       <li>
-                        <a class="tag" href={`/tags/${tag}`}>
+                        <a class="tag" href={`/tags/${tag.toLowerCase()}`}>
                           {tag}
                         </a>
                       </li>
