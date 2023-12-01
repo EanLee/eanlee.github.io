@@ -2,6 +2,7 @@
 title: 靈活運用 Docker - Container 觀念與 VM 的差異
 description: 本文探討虛擬機器 (Virtual Machine, VM) 與容器 (Container) 技術的差異。 VM 是從操作系統層虛擬化，建立 Guest OS 環境；Container 則從應用程序層入手，將應用程序打包成映像檔，共用 Host OS。
 date: 2023-11-30T07:28:30.651Z
+lastmod: 2023-12-02T02:09:17+08:00
 tags:
   - Container
 categories:
@@ -63,7 +64,7 @@ Container 技術最早是被發佈與運用在 Linux 之中，經過 Docker 的�
 
 ▶ 延伸閱讀
 
-- [Container 簡介](../../Series/build-automated-deploy/container-intro/index.md)
-- [靈活運用 Docker - 打造高效的容器化應用環境](../flexible-opereate-docker-foreword/index.md)
+- [Container 簡介](../../build-automated-deploy/container-intro/index.md)
+- [靈活運用 Docker - 打造高效的容器化應用環境](../flexibly-use-docker-foreword/index.md)
 
 ▶ 外部文章

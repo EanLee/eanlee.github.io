@@ -1,7 +1,6 @@
 ﻿---
 title: 使用 Container 建立 CI 所需要的建置環境
-description: 對於 docker/container 有基本概念後，接著要與 CI/CD 的工具搭配使用，讓 CI Server
-  同時支援更多不同的環境的要求。本篇文章會以 Travis CI、Azure DevOps、Jenkins 為例。
+description: 對於 docker/container 有基本概念後，接著要與 CI/CD 的工具搭配使用，讓 CI Server 同時支援更多不同的環境的要求。本篇文章會以 Travis CI、Azure DevOps、Jenkins 為例。
 tags:
   - Docker
 categories:
@@ -16,7 +15,8 @@ keywords:
   - jenkins
 date: 2023-01-11T00:15:41+08:00
 slug: container-build-execution-environment-required-ci
-lastmod: 2023-06-28T10:10:47+08:00
+lastmod: 2023-12-02T02:10:32+08:00
+series: 從零開始建立自動化發佈的流水線
 ---
 
 > [2019 iT 邦幫忙鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/1906) 文章補完計劃，[從零開始建立自動化發佈的流水線](../build-ci-cd-from-scratch/index.md#container) Container 篇

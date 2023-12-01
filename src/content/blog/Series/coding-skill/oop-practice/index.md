@@ -1,8 +1,8 @@
 ﻿---
 title: 物件導向設計原則
-description: 知道物件導向的特性，就可以寫出具備閱讀性、維謢性、擴充性的程式碼？夢想很豐滿、現實很骨感。就算已經熟悉物件導向的特性，但在實務上還是很難寫寫出具備閱讀性、維謢性、擴充性的程式碼。此時可以配合
-  SOLID 原則來輔助開發。
+description: 知道物件導向的特性，就可以寫出具備閱讀性、維謢性、擴充性的程式碼？夢想很豐滿、現實很骨感。就算已經熟悉物件導向的特性，但在實務上還是很難寫寫出具備閱讀性、維謢性、擴充性的程式碼。此時可以配合 SOLID 原則來輔助開發。
 date: 2023-01-16T12:05:34+08:00
+lastmod: 2023-12-02T02:10:04+08:00
 keywords:
   - OOP
   - Object-oriented
@@ -17,7 +17,7 @@ categories:
 tags:
   - OOP
 slug: oop-practice
-lastmod: 2023-06-28T11:38:28+08:00
+series: 持續優化程式碼品質
 ---
 
 > [2018 iT 邦幫忙鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/1430)文章補完計劃，[持續優化程式碼品質-總覽](../coding-skill-foreword/index.md#物件導向設計篇-object-oriented)物件導向設計篇

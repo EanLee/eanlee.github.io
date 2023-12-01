@@ -1,8 +1,8 @@
 ﻿---
 title: Docker | 縮網址服務實作記錄 (2) - 基於 Docker 的 Let's Encrypt 申請與設定
-description: 本文介紹如何在 Docker 環境中，使用 Let's Encrypt 與 Certbot 申請免費 SSL/TLS 憑證，並設定 Nginx 支持 HTTPS。主要內容包括直接在 Ubuntu 主機使用 Certbot 配合 volume 掛載申請憑證、使用 Certbot 官方 Docker Image 的申請流程。適合需要在 Docker 容器中設定 HTTPS 的網站管理員或開發者參考。
+description: 本文介紹如何在 Docker 環境中使用 Let's Encrypt 和 Certbot 申請免費 SSL/TLS 憑證，並設定 Nginx 支持 HTTPS。作法包括直接在 Ubuntu 主機使用 Certbot 配合 volume 掛載申請憑證，以及使用 Certbot 官方 Docker Image 的申請流程。
 date: 2023-11-17T16:38:06+08:00
-lastmod: 2023-11-29T11:25:48+08:00
+lastmod: 2023-12-02T00:38:29+08:00
 tags:
   - Docker
   - Nginx
