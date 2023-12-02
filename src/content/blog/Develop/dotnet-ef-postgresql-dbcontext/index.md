@@ -13,7 +13,6 @@ keywords:
   - EF Core
   - Postgresql
   - user-secrets
-draft: false
 slug: dotnet-ef-postgresql-dbcontext
 ---
 

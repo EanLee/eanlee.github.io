@@ -12,7 +12,6 @@ tags:
   - EF-Core
 keywords:
   - EF Core
-draft: false
 slug: dotnet-ef-sqlserver
 ---
 

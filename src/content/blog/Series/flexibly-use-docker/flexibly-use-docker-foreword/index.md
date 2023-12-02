@@ -2,7 +2,7 @@
 title: 靈活運用 Docker 打造高效的容器化應用環境
 description: 本系列文章將會介紹如何靈活運用 Docker 來打造高效的容器化應用環境。
 date: 2023-06-28T09:44:39+08:00
-lastmod: 2023-12-02T00:08:11+08:00
+lastmod: 2023-12-02T09:18:43+08:00
 tags:
   - Container
   - Docker
@@ -27,7 +27,7 @@ series: 靈活運用 Docker 打造高效的容器化應用環境
 
 ### IMAGE / CONTAINER 操作
 
-- 靈活運用 Docker - Docker 的安裝
+- [靈活運用 Docker - Docker 的安裝](../install-docker/index.md)
 - 靈活運用 Docker - Image 流程與架構
 - 靈活運用 Docker - Container 操作與參數
 - 靈活運用 Docker - 使用 Mount 或 Volume 來確保資料的持久性
@@ -38,7 +38,7 @@ series: 靈活運用 Docker 打造高效的容器化應用環境
 ### IMAGE 的建立
 
 - 靈活運用 Docker - 解讀 docker build 使用 dockerfile 內容指令
-- 靈活運用 Docker - 使用 Multi-Build 減少不必要的資料
+- [靈活運用 Docker - 建置 Docker Image 時，使用 Multi-Stage Build 減少不必要的資料](../docker-build-use-multi-stage-build/index.md)
 - 靈活運用 Docker - 使用 distroless
 - 靈活運用 Docker - 修改現有的 Image
 - 靈活運用 Docker - Image 的安全性

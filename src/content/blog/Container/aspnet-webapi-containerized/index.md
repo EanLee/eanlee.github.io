@@ -15,7 +15,7 @@ keywords:
   - 機敏資料
 date: 2023-02-26T14:18:53+08:00
 slug: aspnet-webapi-containerized
-lastmod: 2023-11-24T11:54:12+08:00
+lastmod: 2023-12-02T09:09:06+08:00
 ---
 
 想要使用 Docker 技術將 ASP.NET Web API 應用程式打包成 image 時，需要針對機敏性資料進行特別的處理，以確保這些機密性資料不會外流。
@@ -43,7 +43,7 @@ lastmod: 2023-11-24T11:54:12+08:00
 
 ### Single-Stage Build
 
-關於 Docker 建置 Image 時，最簡單的方式就是在 Dockerfile 內一個步驟完成所有的設定，這種方式稱為  `Single-Stage Build`。
+關於 Docker 建置 Image 時，最簡單的方式就是在 Dockerfile 內一個步驟完成所有的設定，這種方式稱為 `Single-Stage Build`。
 
 ```dockerfile
 FROM mcr.microsoft.com/dotnet/sdk:7.0
@@ -213,7 +213,7 @@ docker run -e DB_HOST=127.0.0.1 \
 
 這邊，我們將連線字串加密，使用環境變數的方式，傳遞加密後的字串，這樣就可以避免直接將連線字串放置在程式碼內。
 
-要注意的是，加密後的連線字串，無法直接使用，需要在程式碼中，進行解密。至於連線字串的加解密方式，網路上已經有很多範例，這邊就不再贅述。例如：[為EF連線字串加密的簡單範例-黑暗執行緒](https://blog.darkthread.net/blog/encrypt-ef-connstring/)。
+要注意的是，加密後的連線字串，無法直接使用，需要在程式碼中，進行解密。至於連線字串的加解密方式，網路上已經有很多範例，這邊就不再贅述。例如：[為 EF 連線字串加密的簡單範例-黑暗執行緒](https://blog.darkthread.net/blog/encrypt-ef-connstring/)。
 
 基本上，Dockerfile 的調整方式，與作法一相同，只是在環境變數的設定上，改為加密後的連線字串。
 
@@ -411,4 +411,4 @@ docker run -d --name -e host={db_container_name} -e database=demo -e user_id=tes
 ▶ 站外文章
 
 - [ConnectionStrings.com](https://www.connectionstrings.com/)
-- [為EF連線字串加密的簡單範例-黑暗執行緒](https://blog.darkthread.net/blog/encrypt-ef-connstring/)
+- [為 EF 連線字串加密的簡單範例-黑暗執行緒](https://blog.darkthread.net/blog/encrypt-ef-connstring/)
