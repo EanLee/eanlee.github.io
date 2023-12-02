@@ -2,7 +2,7 @@
 title: 靈活運用 Docker - 建置 Docker Image 時，使用 Multi-Stage Build 減少不必要的資料
 description: 本文記錄在建置 Docker Image 時，如何使用 Multi-Stage build的方式，有效的減少產出 Artfact 的大小。後續不定期更新內容。
 date: 2023-12-02T09:09:31+08:00
-lastmod: 2023-12-02T09:09:31+08:00
+lastmod: 2023-12-02T09:51:42+08:00
 tags:
   - Docker
 categories:
@@ -16,13 +16,15 @@ slug: docker-build-use-multi-stage-build
 series: 靈活運用 Docker 打造高效的容器化應用環境
 ---
 
-> 本篇內容是從現有的文章中，將相關的內容整理於此。後續不定期更新內容。
+> 本篇為 [靈活運用 Docker 打造高效的容器化應用環境](../flexibly-use-docker-foreword/index.md) 系列的文章之一。內容由現有的文章中，將相關的內容整理於此。後續不定期編修與更新內容。
 
+> 🔖 長話短說 🔖
+> Multi-Stage Build 分階段建置 Image,可以減少 Image 大小,也降低資料外洩的風險。
 ### Multi-Stage Build
 
 在 Visual studio 建立 .NET 專案時，若有勾選 support Docker 的選項。在建立專案的同時，一併建立 `Dockerfile` 的檔案，其內容的編排，就是使用 `Multi-stage` 的方式。
 
-在這個 Dockerfile 內的描述，會分成四個階段來進行建置。
+在這個 Dockerfile 內的描述，會分成四個階段來進行建置。可以使用 `AS` 為每個階段命名:
 
 - 首先，建立運行發佈程式所需要的 Base Image。
 - 再來，建立建置環境用的影像檔，裡面包含.NET SDK 與 程式碼，並確認程式碼可以正常建置。
