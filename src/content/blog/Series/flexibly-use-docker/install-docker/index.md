@@ -1,6 +1,6 @@
 ﻿---
 title: 靈活運用 Docker - Docker 的安裝
-description: 本文內，記錄了如何在 Ubuntu 之中，進行 Docker 的安裝設定。後續不定期更新內容。
+description: 「靈活運用 Docker 打造高效的容器化應用環境」系列的文章之一。記錄了如何在 Ubuntu 之中，進行 Docker 的安裝設定。後續不定期更新內容。
 date: 2023-12-01T11:14:30+08:00
 lastmod: 2023-12-02T09:52:18+08:00
 tags:
