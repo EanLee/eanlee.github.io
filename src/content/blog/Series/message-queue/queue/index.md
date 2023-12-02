@@ -1,7 +1,8 @@
 ﻿---
 title: Queue 佇列的概念
-date: 2022-06-14T15:46:41+08:00
 description: 回顧 Queue 的概念與用法
+date: 2022-06-14T15:46:41+08:00
+lastmod: 2023-12-02T02:09:01+08:00
 keywords:
   - Queue
   - 佇列
@@ -9,7 +10,6 @@ tags:
   - Queue
 categories:
   - 軟體開發
-lastmod: 2023-12-02T02:09:01+08:00
 slug: queue
 series: 從零開始土炮 Message Queue
 ---

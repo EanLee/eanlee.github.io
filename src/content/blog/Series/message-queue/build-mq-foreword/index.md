@@ -2,12 +2,12 @@
 title: 從零開始土炮 MQ (持續更新中)
 description: 從零開始土炮 Message Queue 序言
 date: 2022-06-14T07:12:18.564Z
+lastmod: 2023-11-28T09:19:26+08:00
 keywords:
   - Message Queue
   - Queue
 categories:
   - 軟體開發
-lastmod: 2023-11-28T09:19:26+08:00
 slug: build-mq-foreword
 series: 從零開始土炮 Message Queue
 ---
