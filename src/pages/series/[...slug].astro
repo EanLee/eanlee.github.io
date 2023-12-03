@@ -19,8 +19,6 @@ export async function getStaticPaths() {
     ),
   ];
 
-  console.log(seriesNames);
-
   return seriesNames.map((seriesName) => {
     return {
       params: {
