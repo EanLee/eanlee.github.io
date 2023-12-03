@@ -2,7 +2,7 @@
 title: 靈活運用 Docker - 操作 Docker 與 Container 常用指令
 description: 「靈活運用 Docker 打造高效的容器化應用環境」系列的文章之一。本篇文章整理使用 Docker 時，Image 與 Container 常用的基本指令，內容包含查詢、啟動、停止、移除等等。
 date: 2023-11-30T18:46:44+08:00
-lastmod: 2023-12-02T09:53:27+08:00
+lastmod: 2023-12-03T22:19:03+08:00
 tags:
   - Docker
 categories:
@@ -19,7 +19,7 @@ series: 靈活運用 Docker 打造高效的容器化應用環境
 
 若需確認機器上運行的 Docker 版本，可以使用以下指令來進行查詢。
 
-```docker
+```shell
 docker --version
 
 # 取回的資料較為詳細
@@ -63,9 +63,9 @@ docker rmi IMAGE
 
 ![docker image ls](./images/docker_cmd_image_ls_2.png)
 
-![docker remvoe image](./images/docker_cmd_rm_image_success.png)
+![docker remove image](./images/docker_cmd_rm_image_success.png)
 
-```docker
+```shell
 # create/build image
 docker image build [dockerfile path]
 ```
@@ -126,7 +126,7 @@ docker container start [CONTAINER ID]
 
 下這個指令，請**務必、務必、務必確認已停止的 Container 沒有需要保留，不然清除後可是救不回來的。**
 
-```docker
+```shell
 # remove stopped container
 docker conatiner prune
 ```
@@ -135,7 +135,7 @@ docker conatiner prune
 
 相同的，如果要一口氣移除無用的 container、Volume、Network，則可以使用 `docker system prune`。
 
-```powershell
+```shell
 # remove unused data
 docker system prune
 ```
