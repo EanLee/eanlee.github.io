@@ -13,6 +13,14 @@ import remarkRemoveMd from "./remark-adjust-md-link.mjs";
 import robotsTxt from "astro-robots-txt";
 
 import tailwind from "@astrojs/tailwind";
+import astroExpressiveCode from "astro-expressive-code";
+
+const astroExpressiveCodeOptions = {
+  // You can use any of the themes bundled with Shiki by name,
+  // specify a path to JSON theme file, or pass an instance
+  // of the `ExpressiveCodeTheme` class here:
+  themes: ["dracula", "solarized-light"],
+};
 
 // https://astro.build/config
 export default defineConfig({
@@ -24,9 +32,13 @@ export default defineConfig({
     '/post/container/flexible-opereate-docker-foreword/': '/post/series/flexibly-use-docker/flexibly-use-docker-foreword/',
     'post/container/container-vm-difference/': '/post/series/flexibly-use-docker/container-vm-difference/',
    },
-  integrations: [mdx(), sitemap(), robotsTxt(), tailwind( 
-    {applyBaseStyles:false}
-   )],
+  integrations: [
+    astroExpressiveCode(astroExpressiveCodeOptions),
+    mdx(),
+    sitemap(),
+    robotsTxt(),
+    tailwind({ applyBaseStyles: false }),
+  ],
   markdown: {
     remarkPlugins: [remarkRemoveMd],
     rehypePlugins: [
@@ -51,9 +63,4 @@ export default defineConfig({
       ],
     ],
   },
-
-  //   build: {
-  //     // 示例：在构建过程中生 成`page.html` 而不是 `page/index.html`。
-  //     format: "directory",
-  //   },
 });
