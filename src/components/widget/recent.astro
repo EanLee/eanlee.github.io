@@ -16,7 +16,7 @@ const recentPosts = posts.slice(0, 6);
         const path = post.id.slice(0, post.id.lastIndexOf("/")).toLowerCase();
         return (
           <li>
-            <a href={`/post/${path}/`}> {post.data.title} </a>
+            <a href={`post/${path}/`}> {post.data.title} </a>
           </li>
         );
       })

@@ -9,28 +9,20 @@ export async function getStaticPaths() {
   // 獲取所有類別
   const categories = [
     ...new Set(
-      posts.map((p) => p.data.categories?.map((c) => c.toLowerCase())).flat()
+      posts
+        .map((p) => p.data.categories?.map((c) => c.toLowerCase()))
+        .filter((c) => c)
+        .flat()
     ),
   ];
 
-  return categories
-    .map((category) => {
-      const filteredPosts = posts.filter((post) =>
-        post.data.categories
-          ?.map((c) => c.toLowerCase())
-          .includes(category || "")
-      );
-
-      return filteredPosts.map((post) => {
-        return {
-          params: {
-            category: category,
-            slug: post.slug,
-          },
-        };
-      });
-    })
-    .flat();
+  return categories.map((category) => {
+    return {
+      params: {
+        category: category,
+      },
+    };
+  });
 }
 
 const { category } = Astro.params;
@@ -58,8 +50,8 @@ const filteredPosts = posts
               <span class="createDate">
                 <FormattedDate date={post.data.date} />
               </span>
-              <a href={`/post/${path}/`}>
-                <span class="title">{ post.data.title }</span>
+              <a href={`post/${path}/`}>
+                <span class="title">{post.data.title}</span>
               </a>
             </li>
           );
@@ -76,7 +68,7 @@ const filteredPosts = posts
 
   .createDate {
     display: inline-block;
-    font-size: .9rem;
+    font-size: 0.9rem;
     text-align: right;
     margin-right: 10px;
   }
