@@ -48,7 +48,7 @@ dotnet new webapi -n test -f  netcoreapp3.1
 
 ### 作法一：使用 RedirectPermanent
 
-```C#
+```csharp
 [HttpPost("PRG")]
 public IActionResult PostRedirectGet([FromBody] TestEntity entity)
 {
@@ -59,7 +59,7 @@ public IActionResult PostRedirectGet([FromBody] TestEntity entity)
 
 ### 作法二：調整 Response 的 Header 與 StatusCode
 
-```C#
+```csharp
 [HttpPost("PRG")]
 public void PostRedirectGet([FromBody] TestEntity entity)
 {

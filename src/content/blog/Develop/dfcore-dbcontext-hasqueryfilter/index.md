@@ -47,7 +47,7 @@ lastmod: 2023-06-29T09:43:17+08:00
 
 假設下述的 `Store` 是使用 EFCore Scffold 產生來的 Entity Type 與 DbContext。
 
-```C#
+```csharp
 public partial class LabContext : DBContext
 {
 	public virtual DbSet<Tenant> Tenants { get; set; }
@@ -92,7 +92,7 @@ public class Store
 
 而在 `.ToList()` 之後的操作，屬於 `client evaluation`，意味著資料已經下載到主機的記憶體。
 
-```C#
+```csharp
 var context = new LabContext;
 
 // 使用 Where 過濾資料
@@ -103,7 +103,7 @@ var stories = LabContext.Stories.Where(x => x.IsDeleted == false).ToList();
 
 當然我們也可以針對資料去進行封裝，在設定好通用的 `Expression.Lambda` 後，配合 `IQueryable.Where`，一樣可以達成 `sever evaluation` 資料過濾的目的。
 
-```C#
+```csharp
 internal static class DbExtension
 {
     public static IQueryable<T> Valid<T>(this IQueryable<T> data) where T : class
@@ -130,7 +130,7 @@ internal static class DbExtension
 
 針對 `IsDeleted` 欄位的過濾，我們可以用下述的程式，取回 `IsDeleted = false` 的資料。
 
-```C#
+```csharp
 public partical class LabContext
 {
 	partial void OnModelCreatingPartial(ModelBuilder modelBuilder)
@@ -165,7 +165,7 @@ public partical class LabContext
 
 若是查詢時，想要排除已經設定在 Gobal Query Filter 的過濾條件，可以在查詢時，加入 `.IgnoreQueryFilters()`，告知不要使用 Query Filter。
 
-```C#
+```csharp
 var context = new LabContext;
 
 // 告知不要使用 Query Filter
@@ -178,7 +178,7 @@ var stories = LabContext.Stories.IgnoreQueryFilters().ToList();
 
 所以我們可能會撰寫以下的程式。
 
-```C#
+```csharp
 public partical class LabContext
 {
 	partial void OnModelCreatingPartial(ModelBuilder modelBuilder)
@@ -217,7 +217,7 @@ public partical class LabContext
 
 首先，先分別產生 isDeletedFilter 與 tenantIdFitler 兩個 `BinaryExpress`
 
-```C#
+```csharp
 var parameter = Expression.Parameter(entityType.ClrType);
 
 // 只取出有效的資料
@@ -239,7 +239,7 @@ var storeIdFilter =
 
 在這邊，我們使用 `Express.AndAlso` 來合併兩個以上的 `BinaryExpress` 後，以便後續使用 `Expression.Lambda` 產出 `.HasQueryFilter()` 所需的 `LamdaExpression`。
 
-```C#
+```csharp
 var combine = Expression.AndAlso(isDeletedFilter, storeIdFilter);
 var lambda = Expression.Lambda(combine, parameter);
 modelBuilder.Entity(entityType.ClrType).HasQueryFilter(lambda);
@@ -256,7 +256,7 @@ Either rewrite the query in a form that can be translated, or switch to client e
 
 下述為錯誤的範例。在 `Expression.Equal` 與 `Expression.Lamdba` 都是直接使用 `Expression.Parameter` 建立的新物件。雖然在編譯檢查的時候不會出現任何錯誤，但在執行階段就會出現無效操作的例外。
 
-```C#
+```csharp
 var isDeletedProp =
 	entityType.GetProperties().FirstOrDefault(p => p.Name.EndsWith("IsDeleted"));
 

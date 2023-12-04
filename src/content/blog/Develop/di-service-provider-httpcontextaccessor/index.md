@@ -46,7 +46,7 @@ lastmod: 2023-06-28T11:32:17+08:00
 - ControllerBase 的 `[Rotue]` ，指定一個變數 `{id}`。
 - 要使用 DI 注入的服務，在 constructor 指定傳入一個參數。
 
-```C#
+```csharp
 [ApiController]  
 [Route("[controller]/{id}")]  
 public class diController : ControllerBase  
@@ -96,7 +96,7 @@ class TenantService : ITenantService
 
 接著，就可以使用 `ServiceProvider.GetService<IHttpContextAccessor>` 的功能，取得 HttpContextAccessor。
 
-```C#
+```csharp
 // 在 DI 之中，增加 HttpContextAccessor
 builder.Services.AddHttpContextAccessor();
 ```
@@ -109,7 +109,7 @@ builder.Services.AddHttpContextAccessor();
 
 在 `AddScoped<ITenantService>` 時，配合 IServiceProvider 與 HttpContextAccessor，就可以達到，在每一個請求的過程中，都是使用請求 `Route` 之中的 `id` 參數所建立的 TenantService。
 
-```C#
+```csharp
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<ITenantService>(provider =>
 {
@@ -130,7 +130,7 @@ builder.Services.AddScoped<ITenantService>(provider =>
 
 接著，把之前取 HttpContextAccessor 與 ISeviceProvider 的程式碼，在 `CreateBuilder` 之中，再重新實作一次。
 
-```C#
+```csharp
 public class TenatntServiceProviderFactory : IServiceProviderFactory<IServiceCollection>  
 {  
     public IServiceCollection CreateBuilder(IServiceCollection services)  
@@ -160,7 +160,7 @@ public class TenatntServiceProviderFactory : IServiceProviderFactory<IServiceCol
 
 接著跟 Host 告知要使用自定的 `TenantServiceProviderFactory`。
 
-```C#
+```csharp
 var builder = WebApplication.CreateBuilder(args);  
   
 builder.Host.UseServiceProviderFactory(new TenantServiceProviderFactory());
