@@ -15,7 +15,7 @@ keywords:
   - 機敏資料
 date: 2023-02-26T14:18:53+08:00
 slug: aspnet-webapi-containerized
-lastmod: 2023-12-02T09:09:06+08:00
+lastmod: 2023-12-03T23:11:49+08:00
 ---
 
 想要使用 Docker 技術將 ASP.NET Web API 應用程式打包成 image 時，需要針對機敏性資料進行特別的處理，以確保這些機密性資料不會外流。
@@ -89,7 +89,7 @@ Docker 的 [官方文件](https://docs.docker.com/build/building/multi-stage/)�
 - 第三步，將第二步建置過的程式碼，打包成發佈版本。
 - 最後，將發佈版本的程式，放入運行環境的 Base Image 內。
 
-```Dockerfile
+```dockerfile
 # 建立一個執行程式的基礎模板
 FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
 WORKDIR /app
@@ -157,7 +157,7 @@ ENTRYPOINT ["dotnet", "demo.dll"]
 
 實務上，在 User 與 Password 的部份，建議環境變數的資料，使用加密後的密文，避免明文的方式傳遞。在組合連線字串前再解密，以避免資料外洩。
 
-```C#
+```csharp
 // 機敏資料的解密。
 // 使用自行實作的 Decrypt 方法來解密
 var user = Decrypt(Environment.GetEnvironmentVariable("DB_USER"));
@@ -230,7 +230,7 @@ EXPOSE 443
 // 略 ...
 ```
 
-```C#
+```csharp
 // 連線字串的解密。
 // 使用自行實作的 Decrypt 方法來解密
 var connectionString = Decrypt(Environment.GetEnvironmentVariable("ConnectionStrings"));
@@ -250,7 +250,7 @@ docker run -d -p 5000:80 --name webapi -e ConnectionStrings={加密後的連線�
 
 在這作個簡單 Demo 範例，先新增一個 ASP.NET Core Webapi 專案，並在 Program.cs 中，加入以下的程式碼。
 
-```C#
+```csharp
 var list = args.ToList();
 Log.Information(list.Count > 0 ? string.Join(" ", list) : "No arguments");
 ```
@@ -290,7 +290,7 @@ EXPOSE 443
 // 略 ...
 ```
 
-```C#
+```csharp
 // 宣告存放連線字串的 connect.json 檔案
 var configuration = new ConfigurationBuilder()
                    .SetBasePath(Directory.GetCurrentDirectory())

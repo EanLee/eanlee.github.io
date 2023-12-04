@@ -48,7 +48,7 @@ Solution
 
 這時，我們可能會在 `BussinessLogic` 的專案內，建立一個 DI 使用的 Extnesion
 
-```C#
+```csharp
 public static class DiExtension  
 {  
 	public static void AddServices(this IServiceCollection services)  
@@ -60,7 +60,7 @@ public static class DiExtension
 
 以便 ASP.NET Core 內的 `Program.cs` 中，使用
 
-```C#
+```csharp
 // Program.cs
 
 var builder = WebApplication.CreateBuilder(args);
@@ -71,7 +71,7 @@ builder.Services.AddServices();
 
 這時, 因為所有的 User 相關 API 的路徑，都含有 `userId` 而且 UserService 內所有的方法，都需要傳入 `userId`，所以希望可以減少手動傳入參數的行為。
 
-```C#
+```csharp
 // IUserService
 interface IUserService
 {
@@ -87,7 +87,7 @@ class UserService: IUserService
 }
 ```
 
-```C#
+```csharp
 // API
 [ApiController]  
 [Route("[Controller]")]  
@@ -117,7 +117,7 @@ public class UserController : ControllerBase
 
 也就是將上述的程式，變更如下
 
-```C#
+```csharp
 // IUserService
 interface IUserService
 {
@@ -140,7 +140,7 @@ class UserService: IUserService
 }
 ```
 
-```C#
+```csharp
 // API
 [ApiController]  
 [Route("[Controller]/{userId}")]  
@@ -178,7 +178,7 @@ public class UserController : ControllerBase
 
 因為 `userId` 資料，是調用 HttpContextAccessor 從 Route 中取得的資訊，所以別忘了在 `Program.cs` 加入`AddHttpContextAccessor`。
 
-```C#
+```csharp
 // Program
 
 var builder = WebApplication.CreateBuilder(args);
@@ -196,7 +196,7 @@ builder.Services.AddServices();
 
 注意：需要加入 `Microsoft.AspNetCore.Http`  Nuget 套件，否則無法識別 IHttpContextAccessor。
 
-```C#
+```csharp
 public static class DiExtension  
 {  
 	public static void AddServices(this IServiceCollection services)  
@@ -233,7 +233,7 @@ Solution
 
 首先，在建立一個共用的 Library (BusinessLogic.Common)，並建立 interface。
 
-```C#
+```csharp
 public interface IParameterService
 {
 	string GetUserId();
@@ -242,7 +242,7 @@ public interface IParameterService
 
 接著，在 WebApi 內，進行 `IParamterService` 的實作
 
-```C#
+```csharp
 public class ParameterService : IParameterService  
 {  
 	private readonly IHttpContextAccessor _accessor;  
@@ -262,7 +262,7 @@ public class ParameterService : IParameterService
 
 最後，再調整 BusinessLogic 內的 DIExtension 即可。
 
-```C#
+```csharp
 public static class DiExtension  
 {  
 	public static void AddServices(this IServiceCollection services)  

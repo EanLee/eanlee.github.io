@@ -99,7 +99,7 @@ dotnet new ef-templates
 
 假設直接使用預設 Template 產生的 DBContext/Entity 內容。
 
-```C#
+```csharp
 public partial class LabDbContext : DbContext
 {
 	public virtual DbSet<Book> Books { get; set; }
@@ -127,7 +127,7 @@ public class Book
 
 期望的 DBContext/Entity 內容
 
-```C#
+```csharp
 internal partial class LabDbContext : DbContext
 {
 	public virtual DbSet<Book> Books { get; set; }
@@ -201,7 +201,7 @@ foreach (var property in EntityType.GetProperties().OrderBy(p => p.GetColumnOrde
 
 接著，針對要原本的 `CreatedAt`、`UpdatedAt`、`UpdatedUser`、 `IsDeleted` 這四個欄位，改寫 DbContext.t4，使其成為 [Shadow Properties](https://learn.microsoft.com/zh-tw/ef/core/modeling/shadow-properties#configuring-shadow-properties)，並預期產出的 DBContext 內容如下。
 
-```C#
+```csharp
 protected override void OnModelCreating(ModelBuilder modelBuilder)
 {
 	modelBuilder.Entity<Book>(entity =>
@@ -256,7 +256,7 @@ foreach (var property in entityType.GetProperties())
 
 在前面，已經將 `CreatedAt`、`UpdatedAt`、`UpdatedUser`、`IsDeleted` 四個特定字詞結尾的欄位，變更為 Shadow Property。所以在進行 `SaveChanges/SaveChangesAsync` 調整時，需要直接對 Entity.Property 進行設定。
 
-```C#
+```csharp
 
 internal partial class LabContext
 {
@@ -330,7 +330,7 @@ internal partial class LabContext
 
 從下述的 DEMO Code 可以看到，開發者在不指定或不知道 shadow property 的情況下，EF Core 在背後協助特定資料的更新。
 
-```C#
+```csharp
 // Program.cs
 using Lab.Models;
 

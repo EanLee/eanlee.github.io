@@ -22,7 +22,7 @@ lastmod: 2023-01-11T08:52:19.233Z
 
 為簡化問題的本身，在測試案例中，新增 `待測物件` 與 `期望物件` 兩個物件，且資料相同。以下是測試案列與錯誤訊息。
 
-```c#
+```csharp
 [Fact]
 public void Test()
 {
@@ -102,7 +102,7 @@ TestProject1.Account
 
 在 Fluentassertions Nuget 套件不升級的條件下，將 `Should().BeEquivalentTo` 變更為 `ShouldBeEquivalentTo`() 或 `ShouldAllBeEquivalentTo()` 就能順利通過測試。
 
-```c#
+```csharp
 [Fact]
 public void Test()
 {

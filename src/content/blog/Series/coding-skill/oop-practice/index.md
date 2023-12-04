@@ -81,7 +81,7 @@ series: 持續優化程式碼品質
 
 #### 高階模組依賴低階模組
 
-```C#
+```csharp
 public class ReportStatistic()
 {
     private SQLAccess _access = new SQLAccess();
@@ -108,7 +108,7 @@ public class SQLAccess
 
 當我們依據 DIP 的原則，將兩個物件均改為依賴抽象，那麼程式碼會變成……
 
-```c#
+```csharp
 public class ReportStatistic()
 {
     private IAccess _access = new SQLAccess();
@@ -140,7 +140,7 @@ public class SQLAccess : IAccess
 
 在上面的程式碼，可以猜到資料來源是使用 SQLAccess 這個類別，但是，如果今天有需求要求要從 csv 存取資料，我們也依據 DIP 原則，繼承 IAccess 實作了一個 CsvAccess。那程式碼應該會變成……
 
-```c#
+```csharp
 public class ReportStatistic()
 {
     private IAccess _access = new CsvAccess();
@@ -165,7 +165,7 @@ public class CsvAccess : IAccess
 
 於是乎，就有人想到，那麼就**不要讓高階模組，自行控制低階模組的建立**。而是**將低階模組建立的控制權移到高階模組外部。**再將建立好的低階模組放到高階模組中，讓高階模組使用。
 
-```c#
+```csharp
 public class ReportStatistic()
 {
     private IAccess _access = null

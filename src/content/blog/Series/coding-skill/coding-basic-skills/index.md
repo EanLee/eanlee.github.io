@@ -32,7 +32,7 @@ series: 持續優化程式碼品質
 
 為了撰寫程式的效率，我們應該盡可能讓程式碼呈現更高的意圖性與可讀性，讓後續接手的人可以更快速的定位焦點所在。
 
-```C# {linenos=inline}
+```csharp {linenos=inline}
 public int[,] ga(int[,,] im_1, int[,,] im2_1)
 {
     int h = im_1.GetLength(1);
@@ -161,7 +161,7 @@ public int[,] ga(int[,,] im_1, int[,,] im2_1)
 
 造成程式碼不易閱讀的因素有很多，但最常見的就是**命名行為不確實**。
 
-```C# {linenos=inline, linenostart=30, hl_lines=[1,2,8]}
+```csharp {linenos=inline, linenostart=30, hl_lines=[1,2,8]}
     for (int score1 = 0; score1 <= 15; score1++){
         int[,] k111 = k;
         Random innerRnd8 = new Random(Guid.NewGuid().GetHashCode());
@@ -177,7 +177,7 @@ public int[,] ga(int[,,] im_1, int[,,] im2_1)
 
 回頭找到 `k` 的定義，這才發現它是一組用於儲存樣本資料的二維陣列，長度為 `ggg` 代表的取樣的數量。
 
-```C# {linenos=inline}
+```csharp {linenos=inline}
 private int ggg = 40;
     
 public int[,] ga(int[,,] im_1, int[,,] im2_1)
@@ -193,7 +193,7 @@ public int[,] ga(int[,,] im_1, int[,,] im2_1)
 
 針對兩個問題，進行調整。
 
-```C# {linenos=inline}
+```csharp {linenos=inline}
 private int _sampleAmount = 40;
     
 public int[,] ga(int[,,] im_1, int[,,] im2_1)
@@ -212,7 +212,7 @@ public int[,] ga(int[,,] im_1, int[,,] im2_1)
 
 最後，再來看一再重複出現，但功能相同的程式碼。
 
-```C# {linenos=inline, linenostart=32}
+```csharp {linenos=inline, linenostart=32}
     Random innerRnd8 = new Random(Guid.NewGuid().GetHashCode());
     int a1 = innerRnd8.Next(ggg);
     Random innerRnd9 = new Random(Guid.NewGuid().GetHashCode());
@@ -285,7 +285,7 @@ public int[,] ga(int[,,] im_1, int[,,] im2_1)
 
 另外要注意的是註解干擾，例如`無用的註解`、`無法解讀的註解`，這部份務必上版或釋出前，請刪除無意義或無用的註解。
 
-```C# {linenos=inline, hl_lines=["4-6",14, 16]}
+```csharp {linenos=inline, hl_lines=["4-6",14, 16]}
 public int StatisticCostAmount(...)
 {
     ...

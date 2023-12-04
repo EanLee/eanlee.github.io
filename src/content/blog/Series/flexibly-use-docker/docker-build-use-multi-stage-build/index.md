@@ -2,7 +2,7 @@
 title: 靈活運用 Docker - 建置 Docker Image 時，使用 Multi-Stage Build 減少不必要的資料
 description: 「靈活運用 Docker 打造高效的容器化應用環境」系列的文章之一。記錄在建置 Docker Image 時，如何使用 Multi-Stage build 的方式，有效的減少產出 Artfact 的大小。後續不定期更新內容。
 date: 2023-12-02T09:09:31+08:00
-lastmod: 2023-12-02T09:51:42+08:00
+lastmod: 2023-12-03T23:11:54+08:00
 tags:
   - Docker
 categories:
@@ -31,7 +31,7 @@ series: 靈活運用 Docker 打造高效的容器化應用環境
 - 第三步，將第二步建置過的程式碼，打包成發佈版本。
 - 最後，將發佈版本的程式，放入運行環境的 Base Image 內。
 
-```Dockerfile
+```dockerfile
 # 建立一個執行程式的基礎模板
 FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
 WORKDIR /app

@@ -154,7 +154,7 @@ Eric:
 
 在開始之前，先建立一個名稱為 Calculate.Tests 的.net core unit test 專案，特別注意，使用的測試工具是 **MSTest**。
 
-```c#
+```csharp
 [TestMethod]
 public void Plus_1_plus_1_equ_2()
 {

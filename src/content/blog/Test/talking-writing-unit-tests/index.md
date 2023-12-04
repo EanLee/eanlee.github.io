@@ -60,7 +60,7 @@ slug: talking-writing-unit-tests
 
 此時，因為這個扣折金額與購物車相關，所以我們可能會下意識，將取得折扣金額的方法 `GetDiscount`，放入 ShoppingCartService 之中。
 
-```C# {linenos=inline, hl_lines=[11,"26-32"]}
+```csharp {linenos=inline, hl_lines=[11,"26-32"]}
 /// <summary>
 /// 購物車
 /// </Summary>
@@ -108,7 +108,7 @@ public class ShoppingCartService
 
 ▶ **直接在現有的單元測試類別中，加入新的測試案例。**
 
-```C# {linenos=inline, hl_lines=[8, 17]}
+```csharp {linenos=inline, hl_lines=[8, 17]}
 class ShoppingCartServiceTest
 {
     IProductionService _productionSerice;
@@ -143,7 +143,7 @@ class ShoppingCartServiceTest
 
 ```
 
-```C# {linenos=inline, linenostart=312 hl_lines=[7, 17]}
+```csharp {linenos=inline, linenostart=312 hl_lines=[7, 17]}
     [Fact]
     public void NewTestCase()
     {
@@ -169,7 +169,7 @@ class ShoppingCartServiceTest
 
 ▶ **另開一個新的測試類別，專門進行折扣的測試案例。**
 
-```C# {linenos=inline, hl_lines=["16-17",19, 21]}
+```csharp {linenos=inline, hl_lines=["16-17",19, 21]}
 class ShoppingCartDiscountTest
 {
     IMemberService _memberService;
@@ -226,7 +226,7 @@ class ShoppingCartDiscountTest
 
 這就是 Code smell 中提到的 Large Class，為此真正應該做的是進行類別層次的重構，依職責或業務行為，再進一步細切。在提升程式的維護性的同時，也間接的提升系統的效能。
 
-```C# {linenos=inline}
+```csharp {linenos=inline}
 /// <summary>
 /// 計算折扣
 /// </Summary>
