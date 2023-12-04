@@ -90,14 +90,14 @@ const paginationList: number[] = Array.from({ length: page.lastPage }, (_, i) =>
                                         return (
                                                 <li>
                                                     <a href={ path }
-                                                       class:list={ ["common-page-item-start", (page.currentPage === num) && "text-gray-200"] }>{ num }</a>
+                                                       class:list={ ["common-page-item-start", (page.currentPage === num) && 'font-black text-red-500'] }>{ num }</a>
                                                 </li>
                                         );
                                     case page.lastPage:
                                         return (
                                                 <li>
                                                     <a href={ path }
-                                                       class="common-page-item-end">{ num }</a>
+                                                       class:list={["common-page-item-end", (page.currentPage === num) && 'font-black text-red-500']}>{ num }</a>
                                                 </li>
                                         );
                                     default:
@@ -110,17 +110,9 @@ const paginationList: number[] = Array.from({ length: page.lastPage }, (_, i) =>
                                         );
 
                                 }
-                                if (num == page.currentPage) {
-                                    return <span>{ num }</span>;
-                                } else {
-                                    const path = `${ num == 1 ? "" : num }`;
-                                    return <a href={ path }>{ num }</a>;
-                                }
                             })
                         }
-
                     </ul>
-
                 </nav>
         ) : null }
     </section>
