@@ -7,7 +7,7 @@ import { getCollection } from "astro:content";
 import Summary from "../components/summary.astro";
 import Sidebar from "../components/sidebar.astro";
 
-import type { GetStaticPathsOptions, Page, } from 'astro';
+import type { GetStaticPathsOptions } from 'astro';
 
 export async function getStaticPaths(options: GetStaticPathsOptions) {
     const { paginate } = options;
