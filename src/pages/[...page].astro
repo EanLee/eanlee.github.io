@@ -7,7 +7,7 @@ import { getCollection } from "astro:content";
 import Summary from "../components/summary.astro";
 import Sidebar from "../components/sidebar.astro";
 
-import type { GetStaticPathsOptions } from 'astro';
+import type { GetStaticPathsOptions , Page} from 'astro';
 
 export async function getStaticPaths(options: GetStaticPathsOptions) {
     const { paginate } = options;
@@ -21,7 +21,7 @@ export async function getStaticPaths(options: GetStaticPathsOptions) {
     })
 }
 
-const { page } = Astro.props;
+const { page } = Astro.props as { page: Page };
 const paginationList: number[] = Array.from({ length: page.lastPage }, (_, i) => i + 1);
 ---
 
@@ -72,18 +72,13 @@ const paginationList: number[] = Array.from({ length: page.lastPage }, (_, i) =>
 <Header />
 <main>
     <section>
-        { page.data.map((post) =>
-                <Summary post={ post } />) }
+        { page.data.map((post) =>                <Summary post={ post } />) }
         { page.total > page.size ? (
-            <!--<div class="mt-4">-->
                 <nav aria-label="Blog pages" class="page flex justify-center">
-                    <!-- 頁數 -->
-                    <!--                <div class="flex justify-center">-->
-
                     <ul class="inline-flex -space-x-px text-sm m-auto">
                         {
                             paginationList.map((num) => {
-                                const path = `${ num == 1 ? "/" : num }`;
+                                const path = '/' + `${ num == 1 ? "" : num }`;
 
                                 switch (num) {
                                     case 1:
