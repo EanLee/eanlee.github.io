@@ -3,32 +3,34 @@ import BaseHead from "../components/BaseHead.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
-
+const { title, coverImage } = Astro.props;
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
-    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+    <BaseHead
+      title={title ? title + " - " + SITE_TITLE : SITE_TITLE}
+      description={SITE_DESCRIPTION}
+    />
   </head>
   <body>
     <Header />
     <main>
-      <slot/>
+      <slot />
     </main>
     <Footer />
+    <style>
+      main {
+        display: flex;
+        width: 960px;
+      }
+
+      @media (max-width: 960px) {
+        main {
+          width: 100%;
+        }
+      }
+    </style>
   </body>
 </html>
-<style>
-  main {
-    display: flex;
-    width: 960px;
-    /* background-color: blueviolet; */
-  }
- 
-  @media (max-width: 960px) {
-    main {
-      width: 100%;
-    }
-  }
-</style>

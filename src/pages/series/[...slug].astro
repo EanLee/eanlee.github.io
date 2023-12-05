@@ -1,7 +1,6 @@
 ---
 import { getCollection } from "astro:content";
 import GeneralLayout from "../../layouts/GeneralLayout.astro";
-import FormattedDate from "../../components/FormattedDate.astro";
 import Summary from "../../components/summary.astro";
 
 export async function getStaticPaths() {
@@ -43,7 +42,7 @@ const filteredPosts = posts
 const seriesNames = filteredPosts[0].data.series;
 ---
 
-<GeneralLayout>
+<GeneralLayout title={seriesNames}>
   <article class="prose lg:prose-xl md:prose-sm">
     <h1 class="justify-center text-xl">{ seriesNames }</h1>
     { filteredPosts.map((post) =>
