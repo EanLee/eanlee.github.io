@@ -4,6 +4,7 @@ import BaseHead from "../components/BaseHead.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import FormattedDate from "../components/FormattedDate.astro";
+import { SITE_TITLE } from "../consts";
 
 type Props = CollectionEntry<"blog">["data"];
 
@@ -13,7 +14,7 @@ const { title, description, date, lastmod, coverImage, tags, keywords } =
 
 <html lang="en">
   <head>
-    <BaseHead title={title} description={description} />
+    <BaseHead title={title + " - " + SITE_TITLE} description={description} />
     <meta name="tags" content={tags?.join(", ")} />
     <meta name="keywords" content={keywords?.join(", ")} />
   </head>
@@ -107,7 +108,7 @@ const { title, description, date, lastmod, coverImage, tags, keywords } =
         padding: 1em;
         color: rgb(var(--gray-dark));
       }
-      
+
       h1 {
         font-weight: 700;
       }
@@ -125,10 +126,10 @@ const { title, description, date, lastmod, coverImage, tags, keywords } =
           margin: auto;
           padding: 0;
 
-          font-size: .9rem;
+          font-size: 0.9rem;
         }
 
-        h1{
+        h1 {
           font-size: 1.5rem;
         }
       }
@@ -142,7 +143,7 @@ const { title, description, date, lastmod, coverImage, tags, keywords } =
         border-radius: 12px;
         box-shadow: var(--box-shadow);
       }
-      
+
       .title {
         margin-bottom: 1em;
         padding: 1em 0;

@@ -37,7 +37,7 @@ const filteredPosts = posts
   .sort((a, b) => Number(b.data.date) - Number(a.data.date));
 ---
 
-<GeneralLayout>
+<GeneralLayout title={category}>
   <article class="prose lg:prose-xl md:prose-sm">
     <h4>Category: {category}</h4>
     <ul>
