@@ -10,7 +10,7 @@ keywords:
   - producer-consumers
   - pattern
 slug: producer-consumers
-lastmod: 2023-06-28T10:10:47+08:00
+lastmod: 2023-12-05T14:58:40+08:00
 ---
 
 佇列常見用於生產者與消費者模型之中，作為兩者之間的緩沖區。將雙方的直接關係進行解耦，並減少雙方效率不均的問題。
