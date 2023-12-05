@@ -9,7 +9,7 @@ const path = post.id.slice(0, post.id.lastIndexOf("/")).toLowerCase();
 <article>
   <header>
     <h2 class="title">
-      <a href={`post/${path}/`} rel="bookmark">
+      <a href={`/post/${path}/`} rel="bookmark">
         {post.data.title}
       </a>
     </h2>
@@ -31,7 +31,7 @@ const path = post.id.slice(0, post.id.lastIndexOf("/")).toLowerCase();
   </div>
 
   <p class="more-read">
-    <a href={`post/${path}/`}>繼續閱讀</a>
+    <a href={`/post/${path}/`}>繼續閱讀</a>
   </p>
   <style>
     :root {
