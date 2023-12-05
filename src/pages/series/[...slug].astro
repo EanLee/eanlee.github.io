@@ -49,13 +49,12 @@ const seriesNames = filteredPosts[0].data.series;
       {
         filteredPosts.map((post) => {
           const path = post.id.slice(0, post.id.lastIndexOf("/")).toLowerCase();
-
           return (
             <li>
               <span class="createDate">
                 <FormattedDate date={post.data.date} />
               </span>
-              <a href={`post/${path}/`}>
+              <a href={`/post/${path}/`}>
                 <span class="title">{post.data.title}</span>
               </a>
             </li>
