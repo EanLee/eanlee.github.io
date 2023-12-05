@@ -2,7 +2,7 @@
 title: ASP.NET Core | Web API 的 Post-Redirect-Get 實作與注意事項
 description: 在進行 Post-Redirect-Get 實作時，301 redirect 到目標的網址時，發生回應 405。其問題的原因與 Postman 的設定及目標網址允許的 HTTP 方法有關。
 tags:
-  - ASP.NET CORE
+  - ASP.NET
 categories:
   - 軟體開發
 keywords:
@@ -10,7 +10,7 @@ keywords:
   - Postman
   - .NET Core
 date: 2023-01-05T10:42:57+08:00
-lastmod: 2023-06-28T13:20:54+08:00
+lastmod: 2023-12-04T21:47:21+08:00
 slug: post-redirect-get
 ---
 

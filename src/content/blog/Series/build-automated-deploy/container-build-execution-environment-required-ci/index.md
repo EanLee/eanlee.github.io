@@ -15,7 +15,7 @@ keywords:
   - jenkins
 date: 2023-01-11T00:15:41+08:00
 slug: container-build-execution-environment-required-ci
-lastmod: 2023-12-02T02:10:32+08:00
+lastmod: 2023-12-04T21:49:10+08:00
 series: 從零開始建立自動化發佈的流水線
 ---
 
@@ -29,7 +29,7 @@ series: 從零開始建立自動化發佈的流水線
 
 ## Travis CI
 
-在 [Travis CI 官方文件](https://docs.travis-ci.com/user/docker/)中，提到使用  `docker` 與 `docker-compose` 兩種建置方式，若想更進一步查看詳細資訊，建議直接進入 Travis CI 官網文件 [Using Docker in Builds](https://docs.travis-ci.com/user/docker/)觀看。
+在 [Travis CI 官方文件](https://docs.travis-ci.com/user/docker/)中，提到使用 `docker` 與 `docker-compose` 兩種建置方式，若想更進一步查看詳細資訊，建議直接進入 Travis CI 官網文件 [Using Docker in Builds](https://docs.travis-ci.com/user/docker/)觀看。
 
 在 Travis CI 的服務，所有與 CI 相關的設定，預設都寫在 `.travis.yml` 之中，所以若要使用 Docker 進行建置，必須在 `.travis.yml` 加入以下設定。
 
@@ -65,7 +65,7 @@ script:
 ```yaml
 services:
   - docker
- 
+
 script:
   - docker-compose build
   - docker-compose run test
@@ -121,38 +121,38 @@ steps:
   inputs:
   # Container Registry
     containerregistrytype: 'Azure Container Registry' # 'Azure Container Registry' | 'Container Registry'. Required. Container registry type. Default: Azure Container Registry.
-    #dockerRegistryEndpoint: # string. Optional. Use when containerregistrytype = Container Registry. Docker registry service connection. 
-    #azureSubscriptionEndpoint: # string. Optional. Use when containerregistrytype = Azure Container Registry. Azure subscription. 
-    #azureContainerRegistry: # string. Optional. Use when containerregistrytype = Azure Container Registry. Azure container registry. 
+    #dockerRegistryEndpoint: # string. Optional. Use when containerregistrytype = Container Registry. Docker registry service connection.
+    #azureSubscriptionEndpoint: # string. Optional. Use when containerregistrytype = Azure Container Registry. Azure subscription.
+    #azureContainerRegistry: # string. Optional. Use when containerregistrytype = Azure Container Registry. Azure container registry.
   # Commands
     #addBaseImageData: true # boolean. Add base image metadata to image(s). Default: true.
     command: 'Build an image' # 'Build an image' | 'Tag image' | 'Push an image' | 'Run an image' | 'login' | 'logout'. Required. Command. Default: Build an image.
     #dockerFile: '**/Dockerfile' # string. Required when command = Build an image || command = build. Dockerfile. Default: **/Dockerfile.
-    #arguments: # string. Optional. Use when command != login && command != logout. Arguments. 
+    #arguments: # string. Optional. Use when command != login && command != logout. Arguments.
     #pushMultipleImages: false # boolean. Optional. Use when command = Push an image || command = push. Push multiple images. Default: false.
     #tagMultipleImages: false # boolean. Optional. Use when command = Tag image || command = tag. Tag multiple images. Default: false.
     #imageName: '$(Build.Repository.Name):$(Build.BuildId)' # string. Required when command = Build an image || command = build || command = Run an image || command = run || pushMultipleImages = false || tagMultipleImages = false. Image name. Default: $(Build.Repository.Name):$(Build.BuildId).
-    #imageNamesPath: # string. Required when tagMultipleImages = true || pushMultipleImages = true. Image names path. 
+    #imageNamesPath: # string. Required when tagMultipleImages = true || pushMultipleImages = true. Image names path.
     #qualifyImageName: true # boolean. Optional. Use when command = Build an image || command = build || command = Tag image || command = tag || command = Push an image || command = push || command = Run an image || command = run. Qualify image name. Default: true.
     #qualifySourceImageName: false # boolean. Optional. Use when command = Tag image || command = tag. Qualify source image name. Default: false.
     #includeSourceTags: false # boolean. Optional. Use when command = Build an image || command = build || command = Tag image || command = tag  || command = Push an image || command = push. Include source tags. Default: false.
     #includeLatestTag: false # boolean. Optional. Use when command = Build an image || command = build. Include latest tag. Default: false.
     #addDefaultLabels: true # boolean. Optional. Use when addDefaultLabels = false. Add default labels. Default: true.
     #useDefaultContext: true # boolean. Optional. Use when command = Build an image || command = build. Use default build context. Default: true.
-    #buildContext: # string. Optional. Use when useDefaultContext = false. Build context. 
-    #imageDigestFile: # string. Optional. Use when command = Push an image || command = push. Image digest file. 
-    #containerName: # string. Optional. Use when command = Run an image || command = run. Container name. 
-    #ports: # string. Optional. Use when command = Run an image || command = run. Ports. 
-    #volumes: # string. Optional. Use when command = Run an image || command = run. Volumes. 
-    #envVars: # string. Optional. Use when command = Run an image || command = run. Environment variables. 
-    #workingDirectory: # string. Optional. Use when command = Run an image || command = run. Working directory. 
-    #entrypointOverride: # string. Optional. Use when command = Run an image || command = run. Entry point override. 
-    #containerCommand: # string. Optional. Use when command = Run an image || command = run. Container command. 
+    #buildContext: # string. Optional. Use when useDefaultContext = false. Build context.
+    #imageDigestFile: # string. Optional. Use when command = Push an image || command = push. Image digest file.
+    #containerName: # string. Optional. Use when command = Run an image || command = run. Container name.
+    #ports: # string. Optional. Use when command = Run an image || command = run. Ports.
+    #volumes: # string. Optional. Use when command = Run an image || command = run. Volumes.
+    #envVars: # string. Optional. Use when command = Run an image || command = run. Environment variables.
+    #workingDirectory: # string. Optional. Use when command = Run an image || command = run. Working directory.
+    #entrypointOverride: # string. Optional. Use when command = Run an image || command = run. Entry point override.
+    #containerCommand: # string. Optional. Use when command = Run an image || command = run. Container command.
     #runInBackground: true # boolean. Optional. Use when command = Run an image || command = run. Run in background. Default: true.
     restartPolicy: 'no' # 'no' | 'onFailure' | 'always' | 'unlessStopped'. Required when runInBackground = true. Restart policy. Default: no.
-    #maxRestartRetries: # string. Optional. Use when runInBackground = true && restartPolicy = onFailure. Maximum restart retries. 
+    #maxRestartRetries: # string. Optional. Use when runInBackground = true && restartPolicy = onFailure. Maximum restart retries.
   # Advanced Options
-    #dockerHostEndpoint: # string. Docker host service connection. 
+    #dockerHostEndpoint: # string. Docker host service connection.
     #enforceDockerNamingConvention: true # boolean. Force image name to follow Docker naming convention. Default: true.
     #memoryLimit: # string. Memory limit.
 ```
@@ -166,35 +166,35 @@ steps:
 - task: DockerCompose@0
   inputs:
     containerregistrytype: 'Azure Container Registry' # 'Azure Container Registry' | 'Container Registry'. Required. Container Registry Type. Default: Azure Container Registry.
-    #dockerRegistryEndpoint: # string. Optional. Use when containerregistrytype = Container Registry. Docker Registry Service Connection. 
-    #azureSubscription: # string. Alias: azureSubscriptionEndpoint. Optional. Use when containerregistrytype = Azure Container Registry. Azure subscription. 
-    #azureContainerRegistry: # string. Optional. Use when containerregistrytype = Azure Container Registry. Azure Container Registry. 
+    #dockerRegistryEndpoint: # string. Optional. Use when containerregistrytype = Container Registry. Docker Registry Service Connection.
+    #azureSubscription: # string. Alias: azureSubscriptionEndpoint. Optional. Use when containerregistrytype = Azure Container Registry. Azure subscription.
+    #azureContainerRegistry: # string. Optional. Use when containerregistrytype = Azure Container Registry. Azure Container Registry.
     dockerComposeFile: '**/docker-compose.yml' # string. Required. Docker Compose File. Default: **/docker-compose.yml.
-    #additionalDockerComposeFiles: # string. Additional Docker Compose Files. 
-    #dockerComposeFileArgs: # string. Environment Variables. 
+    #additionalDockerComposeFiles: # string. Additional Docker Compose Files.
+    #dockerComposeFileArgs: # string. Environment Variables.
     #projectName: '$(Build.Repository.Name)' # string. Project Name. Default: $(Build.Repository.Name).
     #qualifyImageNames: true # boolean. Qualify Image Names. Default: true.
     action: 'Run a Docker Compose command' # 'Build services' | 'Push services' | 'Run services' | 'Run a specific service' | 'Lock services' | 'Write service image digests' | 'Combine configuration' | 'Run a Docker Compose command'. Required. Action. Default: Run a Docker Compose command.
-    #additionalImageTags: # string. Optional. Use when action = Build services || action = Push services. Additional Image Tags. 
+    #additionalImageTags: # string. Optional. Use when action = Build services || action = Push services. Additional Image Tags.
     #includeSourceTags: false # boolean. Optional. Use when action = Build services || action = Push services. Include Source Tags. Default: false.
     #includeLatestTag: false # boolean. Optional. Use when action = Build services || action = Push services. Include Latest Tag. Default: false.
     #buildImages: true # boolean. Optional. Use when action = Run services. Build Images. Default: true.
-    #serviceName: # string. Required when action = Run a specific service. Service Name. 
-    #containerName: # string. Optional. Use when action = Run a specific service. Container Name. 
-    #ports: # string. Optional. Use when action = Run a specific service. Ports. 
-    #workingDirectory: # string. Alias: workDir. Optional. Use when action = Run a specific service. Working Directory. 
-    #entrypoint: # string. Optional. Use when action = Run a specific service. Entry Point Override. 
-    #containerCommand: # string. Optional. Use when action = Run a specific service. Command. 
+    #serviceName: # string. Required when action = Run a specific service. Service Name.
+    #containerName: # string. Optional. Use when action = Run a specific service. Container Name.
+    #ports: # string. Optional. Use when action = Run a specific service. Ports.
+    #workingDirectory: # string. Alias: workDir. Optional. Use when action = Run a specific service. Working Directory.
+    #entrypoint: # string. Optional. Use when action = Run a specific service. Entry Point Override.
+    #containerCommand: # string. Optional. Use when action = Run a specific service. Command.
     #detached: true # boolean. Optional. Use when action = Run services || action = Run a specific service. Run in Background. Default: true.
     #abortOnContainerExit: true # boolean. Optional. Use when action = Run services && detached == false. Abort on Container Exit. Default: true.
     #imageDigestComposeFile: '$(Build.StagingDirectory)/docker-compose.images.yml' # string. Required when action = Write service image digests. Image Digest Compose File. Default: $(Build.StagingDirectory)/docker-compose.images.yml.
     #removeBuildOptions: false # boolean. Optional. Use when action = Lock services || action = Combine configuration. Remove Build Options. Default: false.
-    #baseResolveDirectory: # string. Optional. Use when action = Lock services || action = Combine configuration. Base Resolve Directory. 
+    #baseResolveDirectory: # string. Optional. Use when action = Lock services || action = Combine configuration. Base Resolve Directory.
     #outputDockerComposeFile: '$(Build.StagingDirectory)/docker-compose.yml' # string. Required when action = Lock services || action = Combine configuration. Output Docker Compose File. Default: $(Build.StagingDirectory)/docker-compose.yml.
-    #dockerComposeCommand: # string. Required when action = Run a Docker Compose command. Command. 
-    #arguments: # string. Optional. Use when action != Lock services && action != Combine configuration && action != Write service image digests. Arguments. 
+    #dockerComposeCommand: # string. Required when action = Run a Docker Compose command. Command.
+    #arguments: # string. Optional. Use when action != Lock services && action != Combine configuration && action != Write service image digests. Arguments.
   # Advanced Options
-    #dockerHostEndpoint: # string. Docker Host Service Connection. 
+    #dockerHostEndpoint: # string. Docker Host Service Connection.
     #nopIfNoDockerComposeFile: false # boolean. No-op if no Docker Compose File. Default: false.
     #requireAdditionalDockerComposeFiles: false # boolean. Require Additional Docker Compose Files. Default: false.
     #currentWorkingDirectory: '$(System.DefaultWorkingDirectory)' # string. Alias: cwd. Working Directory. Default: $(System.DefaultWorkingDirectory).

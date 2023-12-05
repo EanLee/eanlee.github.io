@@ -2,7 +2,7 @@
 title: Docker | 縮網址服務實作記錄 (1) - 基於 Docker 容器技術的網站服務架構實踐
 description: 本文紀錄使用 Docker Compose 在 Digital Ocean Ubuntu VPS 上架設縮網址服務的過程，包括環境設定、服務架構規劃、Docker image 管理、網路與安全設定等。適合想學習如何利用容器技術架設 Web 服務的讀者。
 date: 2023-11-11T14:28:57+08:00
-lastmod: 2023-11-29T11:24:56+08:00
+lastmod: 2023-12-05T09:02:09+08:00
 tags:
   - Docker
   - Postgresql
@@ -23,7 +23,9 @@ series: 縮網址服務實作記錄
 
 > 縮網址服務為 <https://url-ins.com/shorten/> ，有任何想法或回饋，可以在 [SurveyCake](https://www.surveycake.com/s/wgveX) 留下寶貴的意見。(為了維持主機的維運，在頁面內放入 Google Adsense 廣告。)
 
-在這一篇文章的內容，主要的內容包含以下項目。
+這一系列的文章，是個人在實作縮網址服務時，思考模式、技術選擇、架構規劃與實作過程的記錄。國外也有類似的系統設計概念分享[URL Shortening System Design](https://systemdesign.one/url-shortening-system-design/) 也很推薦去看看。
+
+這篇文章的內容，主要的內容包含以下項目。
 
 1. 建立系統服務的評估架構規劃。
 2. Ubuntu 的防火牆設定、使用者密碼/ SSH Key 的認證設定。
@@ -36,8 +38,6 @@ series: 縮網址服務實作記錄
 > 設定 Ubuntu 允許 SSH 使用密碼登入時，除了 `/etc/ssh/sshd_config` 需要調整，也要檢查 Include 其他的 `.conf` 是否有覆寫的情況。
 >
 > 若是在要 Docker Compose 使用的 `yaml` 檔中，宣告使用外部的 docker network，記得加上 `external: true`
-
-<!--more-->
 
 ## 一、服務環境評估、選擇與服務架構規劃
 
@@ -54,7 +54,7 @@ series: 縮網址服務實作記錄
 
 在 Docker Image 的 Artiact 的管理部份，最初的選擇，是直接使用 Digital Ocean 的 `Container Registry` 。但考量 Free Plan 只能使用一個 Repo，而這個專案有使用至少 2 個 Image。
 
-在 GitLab 提供的 Container Registry 則是沒有數量的限制。它的提供 nlimit Private Container registry。
+在 GitLab 提供的 Container Registry 則是沒有數量的限制。它的提供 unlimit Private Container registry。
 
 這個原因，導制後續改為使用 GitLab 的 Container registry。
 
