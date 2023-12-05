@@ -11,7 +11,7 @@ keywords:
 date: 2023-01-09T09:47:58+08:00
 slug: docker-operate
 description: 在順利完成 Docker 的安裝後，接下來就是進一步了解如何操作 Docker 的指令了。但是這樣還不夠，我們還想要一鍵同時啟用多個 container，以及自行建立 Docker Image。
-lastmod: 2023-12-02T02:12:15+08:00
+lastmod: 2023-12-05T11:15:57+08:00
 series: 從零開始建立自動化發佈的流水線
 ---
 
@@ -32,14 +32,14 @@ Eric:
 
 若需確認機器上運行的 Docker 版本，可以使用以下指令來進行查詢。
 
-``` docker
+```docker
 docker --version
 
 # 取回的資料較為詳細
 docker version
 ```
 
-![Docker version](./images/docker_version.png)  
+![Docker version](./images/docker_version.png)
 
 ### Image
 
@@ -47,11 +47,11 @@ docker version
 
 可以使用 `docker image --help` 查詢所有與 Image 相關的操作。
 
-![docker image --help](./images/docker_image_help.png)  
+![docker image --help](./images/docker_image_help.png)
 
 雖然操作 Image 的指令很多，但最常用的指令有四種。
 
-``` bash
+```bash
 # 取得本地當下存放的 Image
 # 可以檢視到 Image 的名稱、建立時間與大小
 docker image ls
@@ -78,7 +78,7 @@ docker rmi IMAGE
 
 ![docker remvoe image](./images/docker_cmd_rm_image_success.png)
 
-``` docker
+```docker
 # create/build image
 docker image build [dockerfile path]
 ```
@@ -89,7 +89,7 @@ docker image build [dockerfile path]
 
 常用的 Container 指令如下
 
-``` bash
+```bash
 # 查看目前的 container 清單
 docker ps
 docker container ls
@@ -105,11 +105,11 @@ docker container start [CONTAINER ID]
 
 先前，已經從 Docker Hub 取得 busybox 的 image，接著，我們使用 `docker run busybox` 的方式，告知 Docker Engine ，以 busybox Image 啟動 container。
 
-![docker run](./images/docker_cmd_run.png)  
+![docker run](./images/docker_cmd_run.png)
 
 在啟動 container 後，可以使用下述的指令，進行確認 container 目前的狀態。
 
-``` bash
+```bash
 # 查看目前的 container 清單
 # 作法一
 docker container ls
@@ -123,7 +123,7 @@ docker ps
 
 ![docker container ls](./images/docker_cmd_container_ls.png)
 
-``` bash
+```bash
 # 啟動已停止的 Container
 # 作法一
 docker start [CONTAINER ID]
@@ -133,22 +133,22 @@ docker container start [CONTAINER ID]
 
 假若要執行的 container 己經存在，可以運用 `start` 來啟動己經停止的 container。在下圖可以發現的狀態有所變動。
 
-![docker container start](./images/docker_container_start.png)  
+![docker container start](./images/docker_container_start.png)
 
 若看到己經執行完成的 container 一直存在清單之中，覺得怪不舒服。可以用 `docker conatiner prune` 將一口氣已停止的 container 刪除。
 
 下這個指令，請**務必、務必、務必確認已停止的 Container 沒有需要保留，不然清除後可是救不回來的。**
 
-``` docker
+```docker
 # remove stopped container
 docker conatiner prune
 ```
 
-![container prune](./images/docker_container_prune.png)  
+![container prune](./images/docker_container_prune.png)
 
 相同的，如果要一口氣移除無用的 container、Volume、Network，則可以使用 `docker system prune`。
 
-``` powershell
+```powershell
 # remove unused data
 docker system prune
 ```
@@ -174,7 +174,7 @@ Docker 在建立 image 時，會依據 `dockerfile` 的內容來進行建製的�
 
 #### 初始設定
 
-- `FROM` 指定 docker image 建立時，使用的底層 (Base Image)。**
+- `FROM` 指定 docker image 建立時，使用的底層 (Base Image)。
 
   ```dockerfile
   FROM <image> [AS <name>]
@@ -185,18 +185,19 @@ Docker 在建立 image 時，會依據 `dockerfile` 的內容來進行建製的�
 - `LABLE`
 
   The `LABEL` instruction adds metadata to an image. A `LABEL` is a key-value pair.
-  
+
   To include spaces within a `LABEL` value, use quotes and backslashes as you would in command-line parsing.
 
 - `ENV`
 
   `ENV` 使用 key-value 的結構，來設定 Container 所使用的環境變數。
-  
+
   This value will be in the environment for all subsequent instructions in the build stage and can be [replaced inline](https://docs.docker.com/engine/reference/builder/#environment-replacement) in many as well.
 
 #### 配置
 
 - 程式的配置
+
   - `COPY` 複制檔案或資料夾到 container 的檔案系統內。
 
     ```dockerfile
@@ -215,7 +216,7 @@ Docker 在建立 image 時，會依據 `dockerfile` 的內容來進行建製的�
 
     所以，在執行 container 時，要使用公開端口，記得要加上 `-p` 的參數。
 
-    ``` docker
+    ```docker
     # 網路 port=80 對應到 container port=80
     docker run -p 80:80/tcp
     ```
@@ -228,12 +229,12 @@ Docker 在建立 image 時，會依據 `dockerfile` 的內容來進行建製的�
 
 - `RUN` builds your application with `make`.
 
-  RUN 指令，將會基於目前的映像檔上，執行命令，並產生新的映像檔，以提供 Dockerfile 中的下一步使用。  
+  RUN 指令，將會基於目前的映像檔上，執行命令，並產生新的映像檔，以提供 Dockerfile 中的下一步使用。
 
   ```dockerfile
   # 1. shell 型式
-  RUN <command> 
-  
+  RUN <command>
+
   # exec 型式
   RUN ["executable", "param1", "param2"]
   ```
@@ -242,15 +243,15 @@ Docker 在建立 image 時，會依據 `dockerfile` 的內容來進行建製的�
 
 - `CMD` specifies what command to run within the container.
 
-  ``` dockerfile
+  ```dockerfile
   # CMD 有三種操作的方式
-  
+
   # exec 型式 (建議優先選取此方式)
-  CMD ["executable","param1","param2"] 
-  
+  CMD ["executable","param1","param2"]
+
   # 將預設參數傳給 ENTRYPOINT
   CMD ["param1","param2"]
-  
+
   # shell 形式
   CMD command param1 param2
   ```
@@ -261,7 +262,7 @@ Docker 在建立 image 時，會依據 `dockerfile` 的內容來進行建製的�
 
   ```dockerfile
   # ENTRYPOINT 有兩種方式
-  
+
   # exec 型式 (建議優先選取此方式)
   ENTRYPOINT ["executable", "param1", "param2"] (exec form, preferred)
 
@@ -269,19 +270,17 @@ Docker 在建立 image 時，會依據 `dockerfile` 的內容來進行建製的�
   ENTRYPOINT command param1 param2 (shell form)
   ```
 
-When you run an image and generate a container, you add a new *writable layer* (the “container layer”) on top of the underlying layers. All changes made to the running container, such as writing new files, modifying existing files, and deleting files, are written to this thin writable container layer.
+When you run an image and generate a container, you add a new _writable layer_ (the “container layer”) on top of the underlying layers. All changes made to the running container, such as writing new files, modifying existing files, and deleting files, are written to this thin writable container layer.
 
 ### .dockerignore
 
-Before the docker CLI sends the context to the docker daemon, it looks for a file named `.dockerignore` in the root directory of the context. If this file exists, the CLI modifies the context to exclude files and directories that match patterns in it. This helps to avoid unnecessarily sending large or sensitive files and directories to the daemon and potentially adding them to images using `ADD` or `COPY`.
+在 Docker CLI 將 build context 送到 Docker daemon 前，會在 context 的 root 目錄找尋 `.dockerignore` 檔案。
 
-The CLI interprets the `.dockerignore` file as a newline-separated list of patterns similar to the file globs of Unix shells. For the purposes of matching, the root of the context is considered to be both the working and the root directory. For example, the patterns `/foo/bar` and `foo/bar` both exclude a file or directory named `bar` in the `foo` subdirectory of `PATH` or in the root of the git repository located at `URL`. Neither excludes anything else.
-
-If a line in `.dockerignore` file starts with `#` in column 1, then this line is considered as a comment and is ignored before interpreted by the CLI.
+如果找到的話，CLI 會根據這個檔案來修改 context 以排除符合某些模式的檔案和目錄，以避免不必要地把大檔案或敏感資料傳送給 daemon，也避免這些檔案和目錄被不小心加到 image 裡面。
 
 ### 建立 Image 檔
 
-``` docker
+```docker
 # build image
 docker build [OPTIONS] PATH | URL
 ```
@@ -345,9 +344,13 @@ volumes:
 
 從這個範例中，可以看到 **docker-compose.yml 的內容，是以 [YAML](../yaml/index.md) 格式撰寫。** 包含 compose file 格式的版本、服務內的 container 設定，以及執行環境的設制。
 
+> 2023.12.05 補充
+>
+> 在 docker-compose.yml 中，所使用的 `links` 的指令，與 docker command `--link` flag，因為在網路隔離的部份，有安全與架構上的疑慮，官方不建議使用，也明白表示後續可能會移除。([Legacy container links](https://docs.docker.com/network/links/))
+
 關於 compose file 內的指令語法，還有許多未能說明的。真的有需求或興趣，可以直接到 Docker 的文件庫內查看。
 
-``` chat
+```chat
 吉米:
   既然 docker compose 讓佈置變的這麼方便，那接來下，將它與 CI Server 結合在一起吧。
 
@@ -360,22 +363,24 @@ Eric:
 
 ## 延伸閱讀
 
-▶  Docker Command
+- [docker link 过时不再用了？那容器互联、服务发现怎么办？](https://www.cnblogs.com/YatHo/p/7866018.html)
 
- 1. [全面易懂的Docker指令大全](https://legacy.gitbook.com/book/joshhu/dockercommands/details)
- 2. [Docker —— 从入门到实践](https://legacy.gitbook.com/book/yeasy/docker_practice)
- 3. [《Docker —— 從入門到實踐­》正體中文版 (gitbook.io)](https://philipzheng.gitbook.io/docker_practice/)
+▶ Docker Command
 
-▶  Dockerfile
+1.  [全面易懂的 Docker 指令大全](https://legacy.gitbook.com/book/joshhu/dockercommands/details)
+2.  [Docker —— 从入门到实践](https://legacy.gitbook.com/book/yeasy/docker_practice)
+3.  [《Docker —— 從入門到實踐 ­》正體中文版 (gitbook.io)](https://philipzheng.gitbook.io/docker_practice/)
 
- 1. [正確撰寫Dockerfile　製作最好用容器映像檔](https://www.netadmin.com.tw/article_content.aspx?sn=1710020002&jump=3)
- 2. Docker Document, [Dockerfile reference](https://docs.docker.com/engine/reference/builder/)
- 3. Docker Document, [Best practices for writing Dockerfiles](https://docs.docker.com/develop/develop-images/dockerfile_best-practices/)
- 4. peihsinsu, [Docker學習筆記](https://legacy.gitbook.com/read/book/peihsinsu/docker-note-book)
+▶ Dockerfile
+
+1.  [正確撰寫 Dockerfile 　製作最好用容器映像檔](https://www.netadmin.com.tw/article_content.aspx?sn=1710020002&jump=3)
+2.  Docker Document, [Dockerfile reference](https://docs.docker.com/engine/reference/builder/)
+3.  Docker Document, [Best practices for writing Dockerfiles](https://docs.docker.com/develop/develop-images/dockerfile_best-practices/)
+4.  peihsinsu, [Docker 學習筆記](https://legacy.gitbook.com/read/book/peihsinsu/docker-note-book)
 
 ▶ Docker Compose
 
- 1. akira.ohio, [5. Using Docker Compose](https://www.penflip.com/akira.ohio/appcatalyst-hands-on-lab-en/blob/master/docker-compose.txt)
- 2. Docker Document, [Overview of Docker Compose](https://docs.docker.com/compose/overview/)
- 3. Docker Document, [Compose file version 3 reference](https://docs.docker.com/compose/compose-file/)
- 4. TechBridge 技術共筆部落格, [Docker Compose 建置 Web service 起步走入門教學](https://blog.techbridge.cc/2018/09/07/docker-compose-tutorial-intro/)
+1.  akira.ohio, [5. Using Docker Compose](https://www.penflip.com/akira.ohio/appcatalyst-hands-on-lab-en/blob/master/docker-compose.txt)
+2.  Docker Document, [Overview of Docker Compose](https://docs.docker.com/compose/overview/)
+3.  Docker Document, [Compose file version 3 reference](https://docs.docker.com/compose/compose-file/)
+4.  TechBridge 技術共筆部落格, [Docker Compose 建置 Web service 起步走入門教學](https://blog.techbridge.cc/2018/09/07/docker-compose-tutorial-intro/)
