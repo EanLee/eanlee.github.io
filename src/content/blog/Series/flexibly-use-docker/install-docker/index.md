@@ -2,7 +2,7 @@
 title: 靈活運用 Docker - Docker 的安裝
 description: 「靈活運用 Docker 打造高效的容器化應用環境」系列的文章之一。記錄了如何在 Ubuntu 之中，進行 Docker 的安裝設定。後續不定期更新內容。
 date: 2023-12-01T11:14:30+08:00
-lastmod: 2023-12-02T09:52:18+08:00
+lastmod: 2023-12-05T10:08:39+08:00
 tags:
   - Docker
 categories:
@@ -16,6 +16,35 @@ series: 靈活運用 Docker 打造高效的容器化應用環境
 > 本篇為 [靈活運用 Docker 打造高效的容器化應用環境](../flexibly-use-docker-foreword/index.md) 系列的文章之一。內容由現有的文章中，將相關的內容整理於此。後續不定期編修與更新內容。
 
 ## 各 OS 安裝 Docker
+
+### Windows
+
+由於 Docker 政策的因素，是無法直接在 Docker 官網下載 Docker CE。必需經過 Docker store，才能下載 Docker CE 。
+
+Docker Store 必需登入帳戶，才能進行下載動作。如果沒有帳戶，記得申請帳戶。
+
+![Docker 官網](./images/docker_office_web.jpeg)
+
+安裝時，不用額外設定，只要順著指示步驟進行安裝，就能完成設定。
+
+要注意的是，如果準備安裝 Docker for Windows 的作業系統，不是 **Windows 10 Pro** 、 **Enterprise** 、**Windows Server 2016**，會出現以下的畫面，然後就停止安裝動作。
+
+![無法安裝 Docker for windows](./images/docker_cannot_install.png)
+
+但是，要補充一點，在 Docker 完裝完成後，假若機器是第一次安裝 Docker，會出現 `close and log out` 的按鈕：反之，只會出現 `close` 的按鈕。
+
+當啟用 Docker for Windows 時，Docker 會自行確認所需的技術或功能是否有開啟支援。若未開啟相關功能，Docker 會詢問是否要開啟。同意的話，會自動重新開機。反之，則直接告知無法啟動 Docker。
+
+![啟用 Hyper-V](./images/startup-hyper-V.png)
+
+~~在啟動後，Docker 會要求使用者登入。~~
+
+> [2022.08 補充] 
+> 目前 Docker for Windows version 20.10 之後，不會直接出現使用登入的畫面，改為 Docker Desktop Dashboard 的畫面。
+
+實際上，登入與否的差異，只差在能否存取 Docker Hub 的 Repositories。本機 Docker 還是可以正常操作。
+
+![Docker Dashboard](./images/docker_desktop_20.png)
 
 ### Ubuntu
 
