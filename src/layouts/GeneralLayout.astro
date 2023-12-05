@@ -21,9 +21,16 @@ const { title, coverImage } = Astro.props;
     </main>
     <Footer />
     <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+
       main {
         display: flex;
         width: 960px;
+        flex: 1;
       }
 
       @media (max-width: 960px) {
