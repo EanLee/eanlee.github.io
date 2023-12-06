@@ -15,7 +15,6 @@ const { title, description, date, lastmod, coverImage, tags, keywords } =
 <html lang="en">
   <head>
     <BaseHead title={title + " - " + SITE_TITLE} description={description} />
-    <meta name="tags" content={tags?.join(", ")} />
     <meta name="keywords" content={keywords?.join(", ")} />
   </head>
 
@@ -57,7 +56,7 @@ const { title, description, date, lastmod, coverImage, tags, keywords } =
                     {tags.map((tag) => (
                       <li>
                         <a class="tag" href={`/tags/${tag.toLowerCase()}/`}>
-                          {tag}
+                          {tag.toUpperCase().replace(/-/g, " ")}
                         </a>
                       </li>
                     ))}
