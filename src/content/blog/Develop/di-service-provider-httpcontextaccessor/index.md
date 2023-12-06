@@ -5,7 +5,7 @@ date: 2023-02-19T11:19:21+08:00
 categories:
   - 軟體開發
 tags:
-  - ASP.NET
+  - ASP.NET-Core
   - DI
 keywords:
   - Microsoft.Extensions.DependencyInjection

@@ -12,6 +12,8 @@ tags:
   - EF-Core
 keywords:
   - EF Core
+  - SQL Server
+  - dotnet-ef
 slug: dotnet-ef-sqlserver
 ---
 

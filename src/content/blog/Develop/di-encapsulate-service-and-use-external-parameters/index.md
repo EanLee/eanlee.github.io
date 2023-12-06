@@ -5,13 +5,14 @@ date: 2023-06-14T12:56:50+08:00
 categories:
   - 軟體開發
 tags:
-  - ASP.NET
+  - ASP.NET-Core
   - DI
 keywords:
   - Microsoft.Extensions.DependencyInjection
   - DI
   - IServiceProvider
   - HttpContextAccessor
+  - ASP.NET Core
 slug: di-encapsulate-service-and-use-external-parameters
 lastmod: 2023-06-29T09:45:58+08:00
 ---

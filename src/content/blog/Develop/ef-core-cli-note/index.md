@@ -4,6 +4,7 @@ description: 記錄 ef tool 內的 DbContext Scaffold 與 code template 的 cli 
 date: 2023-08-17T01:29:27.194Z
 tags:
   - 軟體開發
+  - EF-Core
 categories:
   - EF Core
 keywords:
