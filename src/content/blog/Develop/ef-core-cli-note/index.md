@@ -1,6 +1,6 @@
 ﻿---
 title: EF Core | CLI Tools 操作筆記
-description: 記錄 ef tool 內的 DbContext Scaffold 與 code template 的 cli 指令
+description: 記錄 EF Core Tools 相關操作重點摘要。內容包含 EF Tool 的安裝、DbContext Scaffold 與 code template 的 CLI 指令。
 date: 2023-08-17T01:29:27.194Z
 tags:
   - 軟體開發
@@ -16,8 +16,6 @@ lastmod: 2023-11-10T21:19:33+08:00
 ---
 
 將之前使用 dotnet ef 相關的指令整理在這篇，以便後續快速盤查資料使用。
-
-<!--more-->
 
 ## CLI Tools 安裝與更新
 
@@ -81,7 +79,7 @@ dotnet ef dbcontext scaffold "Server=localhost;Database=Lab;User Id=sa;Password=
 
 若想要客制 dbdcontext scaffold 產生出來的 DbContext 與 Entity，可以使用 CodeTemplate 自訂產出的 DbContext 與 Entity。詳細實作可參考 [使用 T4 CodeTemplate 客制化 EFCore Scaffold 產出內容](../dotnet-ef-core-customized-dbcontext-entity/index.md)。
 
-在使用 CLI 的方式來產生 CodeTemplate 前，需先安裝 `dotnet new` EF Core 範本套件：
+在使用 CLI 的方式來產生 CodeTemplate 前，需先安裝  `dotnet new` EF Core 範本套件：
 
 ```shell
 dotnet new install Microsoft.EntityFrameworkCore.Templates
