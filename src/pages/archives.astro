@@ -6,46 +6,82 @@ import FormattedDate from "../components/FormattedDate.astro";
 const posts = (await getCollection("blog")).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
 );
+
+interface PostsByYear {
+  [year: string]: any[];
+}
+
+// 將文章按年份分組
+const postsByYear = posts.reduce((acc: PostsByYear, post) => {
+  const year = new Date(post.data.date).getFullYear();
+  if (!acc[year]) {
+    acc[year] = [];
+  }
+  acc[year].push(post);
+  return acc;
+}, {});
+
+const sortedYears = Object.keys(postsByYear).sort(
+  (a, b) => Number(b) - Number(a)
+);
 ---
 
 <GeneralLayout>
-	<article class="prose lg:prose-xl md:prose-sm">
-	  <h1>Articles</h1>
-    <ul>
-      {
-        posts.map((post) => {
-          const path = post.id.slice(0, post.id.lastIndexOf("/")).toLowerCase();
+  <article class="prose lg:prose-xl md:prose-sm">
+    <h1 class="justify-center text-xl">Articles</h1>
 
-          return (
-            <li>
-              <span class="createDate">
-                <FormattedDate date={post.data.date} />
-              </span>{" "}
-              <a href={`/post/${path}/`}>
-                  <span class="title">{ post.data.title }</span>
-              </a>
-            </li>
-          );
-        })
-      }
-    </ul>
+    {
+      sortedYears.map((year) => {
+        return (
+         
+            <h2 class="inline-block">{year}</h2>
+            <span class="inline-block ml-3">共 {postsByYear[year].length} 篇</span>
+            <ul>
+              {postsByYear[year].map((post: any) => {
+                const path = post.id
+                  .slice(0, post.id.lastIndexOf("/"))
+                  .toLowerCase();
+
+                return (
+                  <li>
+                    <span class="createDate" style="width: 100px;">
+                      <FormattedDate date={post.data.date} />
+                    </span>
+                    <a href={`/post/${path}/`}>
+                      <span class="title">{post.data.title}</span>
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
+         
+        );
+      })
+    }
+
   </article>
 </GeneralLayout>
 
 <style>
-    a {
-        text-decoration: none;
-    }
 
-    .createDate {
-        display: inline-block;
-        font-size: .9rem;
-        text-align: right;
-        margin-right: 10px;
-    }
+  a {
+    text-decoration: none;
+  }
 
-    li {
-        margin-top: 5px;
-        margin-bottom: 3px;
-    }
+  .createDate {
+    display: inline-block;
+    font-size: 0.9rem;
+    text-align: right;
+    margin-right: 10px;
+  }
+
+  ul {
+    list-style: none;
+    padding-left: 0.5rem;
+    margin-top: 0;
+  }
+
+  li {
+    margin: auto;
+  }
 </style>
