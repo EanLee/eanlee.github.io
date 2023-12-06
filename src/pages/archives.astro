@@ -21,7 +21,7 @@ const posts = (await getCollection("blog")).sort(
               <span class="createDate">
                 <FormattedDate date={post.data.date} />
               </span>{" "}
-              <a href={`post/${path}/`}>
+              <a href={`/post/${path}/`}>
                   <span class="title">{ post.data.title }</span>
               </a>
             </li>
