@@ -24,14 +24,14 @@ const { title, description, image = '/blog-placeholder-1.jpg' } = Astro.props;
 <ViewTransitions />
 
 <!-- google adsense -->
-<script type="text/partytown" lang="ts">(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
-<script type="text/partytown" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7903108559996033"
+<script lang="ts">(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7903108559996033"
  crossorigin="anonymous"></script>
 
 <!-- Google Analytics -->
 <!-- Google tag (gtag.js) -->
-<script type="text/partytown" src="https://www.googletagmanager.com/gtag/js?id=G-4HXSCXTZKZ"></script>
-<script type="text/partytown" lang="ts">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4HXSCXTZKZ"></script>
+<script lang="ts">
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
