@@ -2,7 +2,6 @@
 title: ASP.NET Core | JWT 授權與驗證機制
 description: 本文介紹了在 .NET Core 中如何設定及使用 JWT Authentication，包含 Middleware 的設定、JWT Token 的驗證條件設定、產生 JWT Token 的程式、輸出 Authentication 失敗訊息的方式等。
 date: 2023-12-6
-lastmod: 
 categories:
   - 軟體開發
 tags:
