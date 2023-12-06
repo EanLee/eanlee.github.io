@@ -1,15 +1,18 @@
 import { defineConfig } from "astro/config";
 import mdx from "@astrojs/mdx";
+
 import sitemap from "@astrojs/sitemap";
 import rehypeExternalLinks from "rehype-external-links";
 import rehypeFigure from "rehype-figure";
+
 import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
-import remarkRemoveMd from "./remark-adjust-md-link.mjs";
-import robotsTxt from "astro-robots-txt";
-import tailwind from "@astrojs/tailwind";
 
-import partytown from "@astrojs/partytown";
+import remarkRemoveMd from "./remark-adjust-md-link.mjs";
+
+import robotsTxt from "astro-robots-txt";
+
+import tailwind from "@astrojs/tailwind";
 
 // https://astro.build/config
 export default defineConfig({
@@ -31,31 +34,14 @@ export default defineConfig({
     mdx(),
     sitemap(),
     robotsTxt(),
-    tailwind({
-      applyBaseStyles: false,
-    }),
-    partytown({
-      config: {
-        forward: ["dataLayer.push"],
-      },
-    }),
+    tailwind({ applyBaseStyles: false }),
   ],
   markdown: {
     remarkPlugins: [remarkRemoveMd],
     rehypePlugins: [
-      [
-        rehypeFigure,
-        {
-          className: "my-figure",
-        },
-      ],
+      [rehypeFigure, { className: "my-figure" }],
       rehypeSlug,
-      [
-        rehypeAutolinkHeadings,
-        {
-          behavior: "append",
-        },
-      ],
+      [rehypeAutolinkHeadings, { behavior: "append" }],
       [
         "rehype-toc",
         {
@@ -69,10 +55,7 @@ export default defineConfig({
       [
         rehypeExternalLinks,
         {
-          content: {
-            type: "text",
-            value: " 🔗",
-          },
+          content: { type: "text", value: " 🔗" },
         },
       ],
     ],
