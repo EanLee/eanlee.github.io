@@ -4,7 +4,7 @@ description: 排除 ASP.NET Core 無限重定向的問題。因系統架構限�
 date: 2023-11-22T14:54:54+08:00
 lastmod: 2023-12-03T23:20:35+08:00
 tags:
-  - ASP.NET
+  - ASP.NET-Core
 categories:
   - 開發雜談
   - 軟體開發

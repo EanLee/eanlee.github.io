@@ -4,7 +4,7 @@ description: 本篇文章探討在呼叫 API 時遇到非預期的 HTTP Status �
 date: 2023-03-09T16:19:47+08:00
 lastmod: 2023-11-28T10:22:17+08:00
 tags:
-  - ASP.NET
+  - ASP.NET-Core
 categories:
   - 軟體開發
   - 開發雜談

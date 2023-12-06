@@ -2,14 +2,14 @@
 title: Docker | 使用 Docker 建置 ASP.NET Webapi 的 Image
 description: 在使用 Docker 封裝應用程式時，有時因為程式需要使用一些機敏性資料，例如連線字串及憑證資料等，就需要額外處理。在接下來的內文中，以 ASP.NET Webapi 為例，簡述如何在確保使用容器技術的同時，又能保護機密性資料不被外人所知道。
 tags:
-  - ASP.NET
+  - ASP.NET-Core
   - Docker
   - Docker-Network
 categories:
   - Container
 keywords:
   - Docker
-  - ASP.NET
+  - ASP.NET Core
   - Dockerfile
   - Multi-Stage Build
   - 機敏資料
