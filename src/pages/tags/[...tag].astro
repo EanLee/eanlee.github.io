@@ -35,7 +35,7 @@ const filteredPosts = posts
 
 <GeneralLayout title={tag}>
   <article class="prose lg:prose-xl md:prose-sm">
-    <h4>TAG: {tag}</h4>
+    <h4>TAG: {tag?.toUpperCase().replace("-", " ")}</h4>
     <ul>
       {
         filteredPosts.map((post) => {
