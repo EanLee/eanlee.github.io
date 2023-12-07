@@ -145,10 +145,6 @@ var credentials=
 
 ## 延伸閱讀
 
-▶ 站內文章
-
-- [ASP.NET Core | 淺講 Authentication 與 Authorization 機制](淺談%20Authentication%20與%20Authorization%20機制.md)
-
 ▶ JWT Authentication
 
 - [c# - How do I log authorization attempts in .net core - Stack Overflow](https://stackoverflow.com/questions/48889771/how-do-i-log-authorization-attempts-in-net-core)
