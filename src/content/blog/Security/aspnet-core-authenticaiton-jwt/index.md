@@ -33,7 +33,7 @@ slug: aspnet-core-authenticaiton-jwt
 
 ### Middleware 設定
 
-在 [淺談 Authentication 與 Authorization 機制](淺談%20Authentication%20與%20Authorization%20機制.md) 這篇提到，在 .NET 中，授權與認證的機制，依賴 `AuthenticationMiddleware` 與 `AuthorizationMiddleware` 兩個 Middleware。
+在 .NET 中，授權與認證的機制，依賴 `AuthenticationMiddleware` 與 `AuthorizationMiddleware` 兩個 Middleware。
 
 所以，務必記得在插入兩個 Middleware。
 
