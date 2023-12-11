@@ -1,7 +1,6 @@
 ﻿---
 title: 使用 IIS 進行 SSL 憑證的申請與更新的步驟與注意事項
-description: 日前在使用 IIS 10 進行 SSL 伺服器憑證的申請與更新作業時，發生 F5
-  重整時，伺服器憑證消失的問題。在排查過程中，發現一些有趣的地方，所以將其特別記錄下來。
+description: 日前在使用 IIS 10 進行 SSL 伺服器憑證的申請與更新作業時，發生 F5 重整時，伺服器憑證消失的問題。在排查過程中，發現一些有趣的地方，所以將其特別記錄下來。
 date: 2023-02-03T11:43:18+08:00
 categories:
   - 軟體開發
@@ -12,6 +11,7 @@ tags:
 keywords:
   - IIS
   - CSR
+  - SSL
 slug: using-iis-create-and-complete-csr
 lastmod: 2023-06-28T10:10:47+08:00
 ---
@@ -173,5 +173,5 @@ openssl pkcs12 -in <certificate>.pfx -nocerts -out private.key -nodes -password 
 ## 延伸閱讀
 
 - [[Server] TLS/SSL 憑證 (Certificate) 指南 – 常用指令 | 製作 CSR – YIDAS Code](https://code.yidas.com/tls-ssl-certificate-guide/)
-- [如何使用 OpenSSL 工具產製 CSR 憑證要求檔並成功申請正式 TLS 憑證 | The Will Will Web (miniasp.com)](https://blog.miniasp.com/post/2022/06/14/How-to-request-new-tls-certificate-using-OpenSSL)
+- [如何使用 OpenSSL 工具產製 CSR 憑證要求檔並成功申請正式 TLS 憑證 | The Will Will Web](https://blog.miniasp.com/post/2022/06/14/How-to-request-new-tls-certificate-using-OpenSSL)
 - [CSR 檔 - 憑證簽名請求檔案格式](https://docs.fileformat.com/web/csr/)
