@@ -16,6 +16,7 @@ keywords:
   - Event-Driven
   - Docker
 slug: shorten-use-rabbitmq-process-analysis-event
+series: 縮網址服務實作記錄
 ---
 
 > 縮網址服務為 https://url-ins.com/shorten/ ，有任何想法或回饋，可以在 [SurveyCake](https://www.surveycake.com/s/wgveX) 留下寶貴的意見。(為了維持主機的維運，在頁面內放入 Google Adsense 廣告。)
