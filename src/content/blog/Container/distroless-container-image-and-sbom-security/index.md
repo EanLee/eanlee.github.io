@@ -15,7 +15,6 @@ keywords:
   - Distroless
   - vulnerabilities
 slug: distroless-container-image-and-sbom-security
-series:
 ---
 
 ## Distroless Contaier Image
