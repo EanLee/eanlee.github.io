@@ -2,7 +2,6 @@
 title: Docker | 初探 Distroless Container Image 與 SBOM 資訊安全
 description: Distroless Container 去除非必要工具，只留應用運行所需元件，實現輕量、安全的目的。本文以 .NET 和 Ubuntu Chiseled Image 為例，比較一般與 Distroless Image 的差異。並利用 Trivy、Syft、Grype 等工具，檢視 Image 的 SBOM 和漏洞。
 date: 2023-12-13
-lastmod: 
 categories:
   - 資訊安全
   - Container

@@ -2,7 +2,6 @@
 title: 縮網址服務實作記錄(3) - 使用 RabbitMQ 以事件驅動的方式分析縮網址的資訊來源
 description: 使用 RabbitMQ 來建立一個 Event-Driven 的縮網址點擊分析的功能。透過生產者與消費者模型，讓服務與數據分析的行為解耦。避免後續增修數據分析功能時，影響到原本正常的功能。
 date: 2023-12-12
-lastmod: 
 tags:
   - Docker
   - RabbitMQ
