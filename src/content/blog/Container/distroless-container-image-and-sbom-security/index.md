@@ -80,6 +80,7 @@ ENTRYPOINT ["dotnet", "demo.dll"]
 | distroless           | mcr.microsoft.com/dotnet/aspnet:8.0-jammy-chiseled | demo:chiseled |
 
 ![建置基於 aspnet:8.0 的 Image](./images/build-common-container-image.png)
+
 ![建置基於 aspnet:8.0-jamy-chiseled 的 Image](./images/build-distroless-container-image.png)
 
 接著將剛剛產出的 `demo:common` 與 `demo:chiseled` 兩個 Docker Image 列出來。
@@ -89,6 +90,7 @@ docker image ls --filter reference=demo
 ```
 
 ![比對兩個 Artifact 的尺寸](./images/container-image-size-diff.png)
+
 可以看到 Image base 為 `aspnet:8.0-jammy-chiseled` 比 `asp.net:8.0` 的檔案尺寸，明顯小了一半。
 
 接著，我們可以藉由 SBOM 來查看，剛剛建立的兩個 Docker Image 當中，含有那些套件。
@@ -134,6 +136,7 @@ docker run aquasec/trivy image python:3.4-alpine
 但調整為掃描本地的 `demo:common` Image 時，發生 "image scan error: scan error: unable to initialize a scanner: unable to initialize an image scanner" 的問題。
 
 ![使用 Trivy 的 Docker Image 時，在掃描 local Image 發生錯誤](./images/trivy-container-scan-other-image-error.png)
+
 這是因為位置 Container 的 Trivy 作業時，找不到位於外部的 Host 的 Image。
 
 所以，必需加入 `-v /var/run/docker.sock:/var/run/docker.sock` 設定，讓 Container 內的 Trivy 可以找到位於 Host 的 Local Image。
@@ -144,6 +147,7 @@ docker run -v /var/run/docker.sock:/var/run/docker.sock \
 ```
 
 ![成功使用 Trivy container 掃描 Host 的 Local image](./images/trivy-container-scan-host-other-image.png)
+
 從上圖可以發現，執行 trivy 的 Container 時，每次都會到 `ghcr.io/aquasecurity/trivy-db` 下載資料，預設會放在 `/root/.cache/trivy` 內。如果想要調整 cache 儲存位置，可以使用 `--cache-dir` 參數設定 cache 位置。
 
 這邊，選擇使用 Docker Volume 的方式，將 trivy-db 的資料，儲存到 Volume 之中。
