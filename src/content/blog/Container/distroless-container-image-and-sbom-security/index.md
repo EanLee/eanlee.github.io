@@ -14,6 +14,7 @@ keywords:
   - Distroless
   - vulnerabilities
 slug: distroless-container-image-and-sbom-security
+lastmod: 2023-12-14T08:51:42+08:00
 ---
 
 ## Distroless Contaier Image
@@ -164,6 +165,7 @@ docker run -v /var/run/docker.sock:/var/run/docker.sock \
 ![使用 Trivy 掃描完 demo:common 漏洞的結果](./images/trivy-common-image-vulnerabilities.png.png)
 
 ![使用 Trivy 掃描完 demo:chiseled 漏洞的結果](./images/trivy-chiseled-image-vulnerabilities.png)
+
 Trivy 分別掃描 `demo:common` 與 `demo:chiseld` 後，明顯發現檢查出來的問題總量，減少了 8 成以上 (74 -> 6)。
 
 | Image        | Total | Unknown | Low | Medium | High | Critical |
