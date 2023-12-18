@@ -1,5 +1,5 @@
 ---
-import type { CollectionEntry } from "astro:content";
+import { getCollection, type CollectionEntry } from "astro:content";
 import BaseHead from "../components/BaseHead.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
@@ -8,8 +8,31 @@ import { SITE_TITLE } from "../consts";
 
 type Props = CollectionEntry<"blog">["data"];
 
-const { title, description, date, lastmod, coverImage, tags, keywords } =
-  Astro.props;
+const { title, description, date, lastmod, coverImage, tags, keywords, series} = Astro.props;
+
+const posts = await getCollection("blog");
+const filteredPosts = posts
+  .filter((post) => post.data.series === series)
+  .sort((a, b) => a.data.date.valueOf() - b.data.date.valueOf());
+
+const currentIndex = filteredPosts.findIndex(
+  (post) => post.data.title === title
+);
+
+const getPostPath = (previousPost: CollectionEntry<"blog"> | null) => {
+  if (!previousPost) return null;
+
+  const path = previousPost.id
+    .slice(0, previousPost.id.lastIndexOf("/"))
+    .toLowerCase();
+  return "/post/" + path;
+};
+
+const previousPost = currentIndex > 0 ? filteredPosts[currentIndex - 1] : null;
+const nextPost =
+  currentIndex < filteredPosts.length - 1
+    ? filteredPosts[currentIndex + 1]
+    : null;
 ---
 
 <html lang="en">
@@ -80,6 +103,29 @@ const { title, description, date, lastmod, coverImage, tags, keywords } =
           </div>
           <slot />
 
+          <!-- Prev/Next 限系列文 -->
+          {
+            series && series?.length !== 0 && (
+              <div class="flex justify-between">
+                {previousPost && (
+                  <div>
+                    <a class="button" href={getPostPath(previousPost)}>
+                      Previous
+                    </a>
+                  </div>
+                )}
+                {nextPost && (
+                  <div>
+                    <a class="button" href={getPostPath(nextPost)}>
+                      Next
+                    </a>
+                  </div>
+                )}
+              </div>
+            )
+          }
+
+          <!-- LikeCoin Button -->
           <iframe
             title="LikeCoin Button"
             class="LikeCoin"
@@ -92,6 +138,7 @@ const { title, description, date, lastmod, coverImage, tags, keywords } =
         </div>
       </article>
     </main>
+
     <Footer />
     <style>
       main {
