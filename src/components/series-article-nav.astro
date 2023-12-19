@@ -26,7 +26,7 @@ const getPostPath = (previousPost: CollectionEntry<"blog"> | null) => {
   return "/post/" + path;
 };
 
-const articleListPath = filteredPosts[0].id
+const articleListPath = series && filteredPosts[0].id
     .slice(0, filteredPosts[0].id.lastIndexOf(filteredPosts[0].slug) - 1)
     .toLowerCase();
 
