@@ -1,0 +1,70 @@
+---
+import { type CollectionEntry, getCollection } from "astro:content";
+
+interface Props {
+  series: string | null;
+  title: string;
+}
+
+const { series, title } = Astro.props;
+
+const posts = await getCollection("blog");
+const filteredPosts = posts
+  .filter((post) => series && post.data.series === series)
+  .sort((a, b) => a.data.date.valueOf() - b.data.date.valueOf());
+
+const currentIndex = filteredPosts.findIndex(
+  (post) => post.data.title === title
+);
+
+const getPostPath = (previousPost: CollectionEntry<"blog"> | null) => {
+  if (!previousPost) return null;
+
+  const path = previousPost.id
+    .slice(0, previousPost.id.lastIndexOf("/"))
+    .toLowerCase();
+  return "/post/" + path;
+};
+
+const previousPost = currentIndex > 0 ? filteredPosts[currentIndex - 1] : null;
+const nextPost =
+  currentIndex < filteredPosts.length - 1
+    ? filteredPosts[currentIndex + 1]
+    : null;
+---
+
+<!-- Prev/Next 限系列文 -->{
+  series && series?.length!==0 && (
+    <>
+      <hr />
+      <div>
+        <div>
+          <h2 class="text-2xl font-bold ">{series}</h2>
+        </div>
+        <div class="flex justify-between space-x-10">
+          {previousPost ? (
+            <div class="flex-1 flex flex-col items-center p-4 bg-gray-100 rounded-lg">
+              <a class="no-underline" href={getPostPath(previousPost)}>
+                <div class="uppercase text-xs text-gray-500">Previous</div>
+                <div class="text-lg font-medium">{previousPost.data.title}</div>
+              </a>
+            </div>
+          ) : (
+            <div class="flex-1 flex flex-col" />
+          )}
+
+          {nextPost ? (
+            <div class="flex-1 flex flex-col items-center p-4 bg-gray-100 rounded-lg">
+              <a class="no-underline" href={getPostPath(nextPost)}>
+                <div class="uppercase text-xs text-gray-500">Next</div>
+                <div class="text-lg font-medium">{nextPost.data.title}</div>
+              </a>
+            </div>
+          ) : (
+            <div class="flex-1 flex flex-col" />
+          )}
+        </div>
+      </div>
+    </>
+  )
+}
