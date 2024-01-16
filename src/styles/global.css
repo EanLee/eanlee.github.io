@@ -178,11 +178,11 @@ hr {
 
 
   #ad-header {
-	min-height: 280px;
+	max-height: 280px;
   }
-  
+
   @media screen and (min-width: 40em) {
 	#ad-header {
-	  min-height: 200px;
+	  max-height: 200px;
 	}
   }
