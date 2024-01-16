@@ -26,6 +26,21 @@ const {
 
   <body>
     <Header />
+
+    <!-- 處理 Adsense 造成的 CLS -->
+    <div id="ad-header">
+      <ins class="adsbygoogle"
+        style="display:block"
+        data-ad-client="ca-pub-***"
+        data-ad-slot="***"
+        data-ad-format="auto"
+        data-full-width-responsive="true">
+      </ins>
+      <script type="text/javascript">
+        (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+    </div>
+
     <main>
       <article
         class="prose lg:prose-xl md:prose-sm"
