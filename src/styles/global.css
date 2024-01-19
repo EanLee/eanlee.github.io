@@ -177,12 +177,3 @@ hr {
   }
 
 
-  #ad-header {
-	max-height: 280px;
-  }
-
-  @media screen and (min-width: 40em) {
-	#ad-header {
-	  max-height: 200px;
-	}
-  }
