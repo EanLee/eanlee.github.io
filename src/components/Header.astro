@@ -1,5 +1,6 @@
 ---
 import HeaderLink from "./HeaderLink.astro";
+import SearchBar from "./SearchBar.astro";
 import { SITE_TITLE } from "../consts";
 
 const image = "/favicon.ico";
@@ -15,9 +16,14 @@ const image = "/favicon.ico";
         </a>
       </div>
 
-      <div class="internal-links">
-        <HeaderLink href="/">Home</HeaderLink>
-        <HeaderLink href="/archives/">Archives</HeaderLink>
+      <div class="nav-right">
+        <div class="search-wrapper">
+          <SearchBar />
+        </div>
+        <div class="internal-links">
+          <HeaderLink href="/">Home</HeaderLink>
+          <HeaderLink href="/archives/">Archives</HeaderLink>
+        </div>
       </div>
     </nav>
   </div>
@@ -74,6 +80,16 @@ const image = "/favicon.ico";
     justify-content: space-between;
   }
 
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .search-wrapper {
+    width: 250px;
+  }
+
   nav a {
     padding: 1em 0.5em;
     color: var(--black);
@@ -83,5 +99,31 @@ const image = "/favicon.ico";
   nav a.active {
     text-decoration: none;
     border-bottom-color: var(--accent);
+  }
+
+  @media (max-width: 768px) {
+    nav {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 0.5rem 0;
+    }
+
+    .nav-right {
+      width: 100%;
+      flex-direction: column;
+      align-items: flex-start;
+      margin-top: 0.5rem;
+    }
+
+    .search-wrapper {
+      width: 100%;
+      margin-bottom: 0.5rem;
+    }
+
+    .internal-links {
+      width: 100%;
+      display: flex;
+      justify-content: flex-start;
+    }
   }
 </style>
