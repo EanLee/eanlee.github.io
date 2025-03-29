@@ -1,0 +1,127 @@
+---
+// SocialShare.astro
+// This component provides social sharing buttons for blog posts
+
+interface Props {
+  title: string;
+  url: string;
+  description?: string;
+}
+
+const { title, url, description = "" } = Astro.props;
+
+// Encode the URL and text for sharing
+const encodedUrl = encodeURIComponent(url);
+const encodedTitle = encodeURIComponent(title);
+const encodedDescription = encodeURIComponent(description);
+
+// Define social sharing links
+const shareLinks = [
+  {
+    name: "Facebook",
+    url: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"/></svg>`,
+    color: "bg-[#1877F2] hover:bg-[#0d6efd]",
+  },
+  {
+    name: "X",
+    url: `https://x.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`,
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>`,
+    color: "bg-[#000000] hover:bg-[#333333]",
+  },
+  {
+    name: "LinkedIn",
+    url: `https://www.linkedin.com/shareArticle?mini=true&url=${encodedUrl}&title=${encodedTitle}&summary=${encodedDescription}`,
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5s-2.48-1.119-2.48-2.5c0-1.38 1.11-2.5 2.48-2.5s2.48 1.12 2.48 2.5zm.02 4.5h-5v16h5v-16zm7.982 0h-4.968v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0v8.399h4.988v-10.131c0-7.88-8.922-7.593-11.018-3.714v-2.155z"/></svg>`,
+    color: "bg-[#0A66C2] hover:bg-[#0952a0]",
+  },
+  {
+    name: "Email",
+    url: `mailto:?subject=${encodedTitle}&body=${encodedDescription}%0A%0A${encodedUrl}`,
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M0 3v18h24v-18h-24zm6.623 7.929l-4.623 5.712v-9.458l4.623 3.746zm-4.141-5.929h19.035l-9.517 7.713-9.518-7.713zm5.694 7.188l3.824 3.099 3.83-3.104 5.612 6.817h-18.779l5.513-6.812zm9.208-1.264l4.616-3.741v9.348l-4.616-5.607z"/></svg>`,
+    color: "bg-[#666666] hover:bg-[#444444]",
+  },
+];
+---
+
+<div class="social-share-container">
+  <p class="share-title">分享這篇文章：</p>
+  <div class="social-buttons">
+    {
+      shareLinks.map((link) => (
+        <a
+          href={link.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          class={`social-button ${link.color} text-white`}
+          aria-label={`Share on ${link.name}`}
+          title={`Share on ${link.name}`}
+        >
+          <span class="icon" set:html={link.icon} />
+          <span class="sr-only">{link.name}</span>
+        </a>
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  .social-share-container {
+    margin: 2rem 0;
+    padding: 1rem;
+    border-top: 1px solid #eaeaea;
+    border-bottom: 1px solid #eaeaea;
+  }
+
+  .share-title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    color: #666;
+  }
+
+  .social-buttons {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .social-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+  }
+
+  .social-button:hover {
+    transform: translateY(-2px);
+  }
+
+  .icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+
+  @media (max-width: 768px) {
+    .social-button {
+      width: 36px;
+      height: 36px;
+    }
+  }
+</style>

@@ -5,6 +5,7 @@ import Footer from "../components/Footer.astro";
 import FormattedDate from "../components/FormattedDate.astro";
 import SeriesArticleNav from "../components/series-article-nav.astro";
 import AdRow from "../components/ad-row.astro";
+import SocialShare from "../components/SocialShare.astro";
 
 import { SITE_TITLE } from "../consts";
 const {
@@ -87,6 +88,13 @@ const {
             <hr />
           </div>
           <slot />
+
+          <!-- 社交分享按鈕 -->
+          <SocialShare 
+            title={title} 
+            url={Astro.url.href} 
+            description={description} 
+          />
 
           <!-- Prev/Next 限系列文 -->
           <SeriesArticleNav series={series} title={title} />
