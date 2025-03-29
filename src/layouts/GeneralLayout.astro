@@ -2,6 +2,7 @@
 import BaseHead from "../components/BaseHead.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
+import BackToTop from "../components/BackToTop.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
 const { title, coverImage } = Astro.props;
 ---
@@ -20,6 +21,7 @@ const { title, coverImage } = Astro.props;
       <slot />
     </main>
     <Footer />
+    <BackToTop />
     <style>
       body {
         display: flex;
@@ -31,6 +33,7 @@ const { title, coverImage } = Astro.props;
         display: flex;
         width: 1120px;
         flex: 1;
+        margin: 0 auto;
       }
 
       @media (max-width: 1120px) {
