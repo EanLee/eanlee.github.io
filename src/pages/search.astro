@@ -1,0 +1,480 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+import { getCollection } from 'astro:content';
+
+// Get all blog posts for client-side search
+const posts = await getCollection('blog');
+const allPosts = posts.map(post => {
+  const path = post.id.slice(0, post.id.lastIndexOf("/")).toLowerCase();
+  return {
+    title: post.data.title,
+    description: post.data.description || '',
+    date: post.data.date.toISOString(),
+    tags: post.data.tags || [],
+    categories: post.data.categories || [],
+    url: `/post/${path}/`,
+    slug: post.slug,
+    id: post.id
+  };
+});
+
+// Sort by date (newest first)
+allPosts.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+// Get query parameter from URL
+const url = new URL(Astro.request.url);
+const query = url.searchParams.get('q') || '';
+
+// Filter posts based on query
+let searchResults = [];
+if (query) {
+  const searchTerms = query.toLowerCase().trim().split(/\s+/);
+  searchResults = allPosts.filter(post => {
+    const titleMatch = post.title && searchTerms.some(term => 
+      post.title.toLowerCase().includes(term)
+    );
+    
+    const descriptionMatch = post.description && searchTerms.some(term => 
+      post.description.toLowerCase().includes(term)
+    );
+    
+    const tagsMatch = post.tags && Array.isArray(post.tags) && searchTerms.some(term => 
+      post.tags.some(tag => tag.toLowerCase().includes(term))
+    );
+    
+    return titleMatch || descriptionMatch || tagsMatch;
+  });
+}
+
+// Function to highlight search terms in text
+function highlightText(text, query) {
+  if (!text || !query) return text;
+  
+  const searchTerms = query.toLowerCase().trim().split(/\s+/);
+  let highlightedText = text;
+  
+  searchTerms.forEach(term => {
+    if (term.length < 2) return; // Skip very short terms
+    
+    const regex = new RegExp(`(${term})`, 'gi');
+    highlightedText = highlightedText.replace(regex, '<span class="search-result-highlight">$1</span>');
+  });
+  
+  return highlightedText;
+}
+---
+
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <BaseHead title={`搜尋 | ${SITE_TITLE}`} description={SITE_DESCRIPTION} />
+    <style>
+      .search-page {
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 2rem 1rem;
+      }
+      
+      .search-header {
+        margin-bottom: 2rem;
+        text-align: center;
+      }
+      
+      .search-header h1 {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+        color: #1e293b;
+      }
+      
+      .search-results-count {
+        font-size: 1rem;
+        color: #64748b;
+        margin-bottom: 1.5rem;
+        text-align: center;
+        font-weight: 500;
+      }
+      
+      .search-results-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 1.5rem;
+      }
+      
+      .search-result-item {
+        padding: 1.5rem;
+        border-radius: 0.75rem;
+        border: 1px solid #e2e8f0;
+        transition: all 0.3s ease;
+        background-color: #fff;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+      }
+      
+      .search-result-item:hover {
+        border-color: #cbd5e1;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        transform: translateY(-3px);
+      }
+      
+      .search-result-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #1a202c;
+        margin-bottom: 0.75rem;
+      }
+      
+      .search-result-title a {
+        text-decoration: none;
+        color: inherit;
+      }
+      
+      .search-result-title a:hover {
+        color: #3b82f6;
+      }
+      
+      .search-result-date {
+        font-size: 0.875rem;
+        color: #64748b;
+        margin-bottom: 0.75rem;
+        font-weight: 500;
+      }
+      
+      .search-result-description {
+        font-size: 1rem;
+        color: #4b5563;
+        line-height: 1.6;
+        flex-grow: 1;
+      }
+      
+      .search-result-highlight {
+        background-color: rgba(251, 191, 36, 0.3);
+        padding: 0.125rem 0.25rem;
+        border-radius: 0.25rem;
+        font-weight: 500;
+      }
+      
+      .no-results {
+        padding: 3rem;
+        text-align: center;
+        color: #64748b;
+        font-size: 1.25rem;
+        background-color: #f8fafc;
+        border-radius: 0.75rem;
+        border: 1px dashed #e2e8f0;
+        grid-column: 1 / -1;
+      }
+      
+      .loading-container {
+        display: none;
+        justify-content: center;
+        align-items: center;
+        padding: 3rem;
+        grid-column: 1 / -1;
+      }
+      
+      .loading-spinner {
+        width: 50px;
+        height: 50px;
+        border: 5px solid #e2e8f0;
+        border-radius: 50%;
+        border-top-color: #3b82f6;
+        animation: spinner 1s linear infinite;
+      }
+      
+      @keyframes spinner {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      
+      .search-query-display {
+        font-weight: 600;
+        color: #3b82f6;
+      }
+      
+      @media (max-width: 768px) {
+        .search-results-list {
+          grid-template-columns: 1fr;
+        }
+        
+        .search-header h1 {
+          font-size: 1.75rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <Header />
+    <main class="search-page">
+      <div class="search-header">
+        <h1>搜尋結果</h1>
+      </div>
+      
+      <div id="search-results">
+        {query && (
+          <div class="search-results-count">
+            {searchResults.length === 0 
+              ? `沒有找到符合 "<span class="search-query-display">${query}</span>" 的結果` 
+              : `找到 ${searchResults.length} 個符合 "<span class="search-query-display">${query}</span>" 的結果`}
+          </div>
+        )}
+        
+        <div class="loading-container" id="loading-container">
+          <div class="loading-spinner"></div>
+        </div>
+        
+        <div class="search-results-list" id="search-results-list">
+          {searchResults.length === 0 && query ? (
+            <div class="no-results">
+              <p>沒有找到符合 "<span class="search-query-display">${query}</span>" 的結果</p>
+              <p>請嘗試使用不同的關鍵字或更廣泛的搜尋詞</p>
+            </div>
+          ) : (
+            searchResults.map(post => (
+              <div class="search-result-item">
+                <div class="search-result-title">
+                  <a href={post.url} set:html={highlightText(post.title, query)} />
+                </div>
+                <div class="search-result-date">
+                  {new Date(post.date).toLocaleDateString('zh-TW')}
+                </div>
+                {post.description && (
+                  <div class="search-result-description" set:html={highlightText(post.description, query)} />
+                )}
+              </div>
+            ))
+          )}
+          
+          {!query && (
+            <div class="no-results">請在頁面上方的搜尋欄中輸入搜尋關鍵字</div>
+          )}
+        </div>
+      </div>
+    </main>
+    <Footer />
+    
+    <script>
+      // Client-side search functionality for the search results page
+      let searchIndex = null;
+      let allPosts = [];
+      let isSearching = false;
+
+      // Function to initialize the search index
+      async function initSearchIndex() {
+        try {
+          // Fetch the search index from our endpoint
+          const response = await fetch('/search-index.json');
+          
+          if (!response.ok) {
+            throw new Error(`Failed to load search index: ${response.status} ${response.statusText}`);
+          }
+          
+          const data = await response.json();
+          
+          if (!Array.isArray(data)) {
+            console.error('Search index is not an array:', data);
+            return;
+          }
+          
+          allPosts = data;
+          searchIndex = data;
+          
+          console.log('Search index initialized with', allPosts.length, 'posts');
+        } catch (error) {
+          console.error('Error initializing search index:', error);
+        }
+      }
+
+      // Function to perform search
+      function performSearch(query) {
+        if (!searchIndex || !query.trim()) {
+          return [];
+        }
+
+        const searchTerms = query.toLowerCase().trim().split(/\s+/);
+        
+        return searchIndex.filter(post => {
+          const titleMatch = post.title && searchTerms.some(term => 
+            post.title.toLowerCase().includes(term)
+          );
+          
+          const descriptionMatch = post.description && searchTerms.some(term => 
+            post.description.toLowerCase().includes(term)
+          );
+          
+          const tagsMatch = post.tags && Array.isArray(post.tags) && searchTerms.some(term => 
+            post.tags.some(tag => tag.toLowerCase().includes(term))
+          );
+          
+          return titleMatch || descriptionMatch || tagsMatch;
+        });
+      }
+
+      // Function to highlight search terms in text
+      function highlightText(text, query) {
+        if (!text) return '';
+        
+        const searchTerms = query.toLowerCase().trim().split(/\s+/);
+        let highlightedText = text;
+        
+        searchTerms.forEach(term => {
+          if (term.length < 2) return; // Skip very short terms
+          
+          const regex = new RegExp(`(${term})`, 'gi');
+          highlightedText = highlightedText.replace(regex, '<span class="search-result-highlight">$1</span>');
+        });
+        
+        return highlightedText;
+      }
+
+      // Function to show loading indicator
+      function showLoading() {
+        const loadingContainer = document.getElementById('loading-container');
+        const resultsContainer = document.getElementById('search-results-list');
+        
+        if (loadingContainer && resultsContainer) {
+          loadingContainer.style.display = 'flex';
+          resultsContainer.style.display = 'none';
+        }
+        
+        isSearching = true;
+      }
+
+      // Function to hide loading indicator
+      function hideLoading() {
+        const loadingContainer = document.getElementById('loading-container');
+        const resultsContainer = document.getElementById('search-results-list');
+        
+        if (loadingContainer && resultsContainer) {
+          loadingContainer.style.display = 'none';
+          resultsContainer.style.display = 'grid';
+        }
+        
+        isSearching = false;
+      }
+
+      // Function to render search results
+      function renderSearchResults(results, query) {
+        const resultsContainer = document.getElementById('search-results');
+        if (!resultsContainer) return;
+        
+        let html = '';
+        
+        if (query) {
+          html += `<div class="search-results-count">
+            ${results.length === 0 
+              ? `沒有找到符合 "<span class="search-query-display">${query}</span>" 的結果` 
+              : `找到 ${results.length} 個符合 "<span class="search-query-display">${query}</span>" 的結果`}
+          </div>`;
+        }
+        
+        html += '<div id="loading-container" class="loading-container" style="display: none;"><div class="loading-spinner"></div></div>';
+        
+        html += '<div id="search-results-list" class="search-results-list">';
+        
+        if (results.length === 0 && query) {
+          html += `<div class="no-results">
+            <p>沒有找到符合 "<span class="search-query-display">${query}</span>" 的結果</p>
+            <p>請嘗試使用不同的關鍵字或更廣泛的搜尋詞</p>
+          </div>`;
+        } else if (!query) {
+          html += '<div class="no-results">請在頁面上方的搜尋欄中輸入搜尋關鍵字</div>';
+        } else {
+          results.forEach(post => {
+            html += `
+              <div class="search-result-item">
+                <div class="search-result-title">
+                  <a href="${post.url}">${highlightText(post.title, query)}</a>
+                </div>
+                <div class="search-result-date">
+                  ${new Date(post.date).toLocaleDateString('zh-TW')}
+                </div>
+                ${post.description ? 
+                  `<div class="search-result-description">${highlightText(post.description, query)}</div>` : 
+                  ''}
+              </div>
+            `;
+          });
+        }
+        
+        html += '</div>';
+        
+        resultsContainer.innerHTML = html;
+      }
+
+      // Function to update URL without page reload
+      function updateURL(query) {
+        const url = new URL(window.location);
+        url.searchParams.set('q', query);
+        window.history.pushState({}, '', url);
+      }
+
+      // Initialize search when DOM is loaded
+      document.addEventListener('DOMContentLoaded', () => {
+        // Find the search form and input in the header
+        const headerSearchForm = document.querySelector('header .search-form');
+        const headerSearchInput = document.querySelector('header #search-input');
+        
+        if (!headerSearchForm || !headerSearchInput) {
+          console.error('Header search elements not found');
+          return;
+        }
+        
+        // Initialize search index
+        initSearchIndex().then(() => {
+          // If there's a query in the URL, perform client-side search as well
+          const urlParams = new URLSearchParams(window.location.search);
+          const query = urlParams.get('q');
+          
+          if (query && searchIndex) {
+            // Update the header search input with the current query
+            headerSearchInput.value = query;
+            
+            // Perform the search
+            const results = performSearch(query);
+            renderSearchResults(results, query);
+          }
+        });
+        
+        // Handle header search form submission
+        headerSearchForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          
+          const query = headerSearchInput.value.trim();
+          
+          if (query.length === 0) {
+            return;
+          }
+          
+          // Update URL
+          updateURL(query);
+          
+          // Show loading
+          showLoading();
+          
+          // Wait for search index to be initialized if it's not already
+          if (!searchIndex) {
+            await initSearchIndex();
+          }
+          
+          // Add a small delay to show the loading indicator
+          setTimeout(() => {
+            // Perform search
+            const results = performSearch(query);
+            
+            // Render results
+            renderSearchResults(results, query);
+            
+            // Hide loading
+            hideLoading();
+          }, 500);
+        });
+      });
+    </script>
+  </body>
+</html>
