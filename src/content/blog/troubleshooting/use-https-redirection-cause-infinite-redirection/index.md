@@ -64,7 +64,7 @@ app.MapControllers();
 
 ### 正常: Web API 可接收 HTTP/HTTPS 的請求
 
-![Web API 正常由 HTTP 轉導到 HTTPS](./images/webapi-redirection-https.svg)
+![Web API 正常由 HTTP 轉導到 HTTPS](./images/webapi-redirection-https.png)
 
 當 Web API 收到 HTTP 請求後，因為 Web API 內有 HTTPS Redirection 的機制，會回應 Broswer 使用 HTTPS 來訪問 API。
 
@@ -72,7 +72,7 @@ app.MapControllers();
 
 ### 異常: Web API 在 Reverse Proxy 下，只能接收到 HTTP 請求
 
-![Reverse Proxy 使用 HTTP 將請求導向 Web API ](./images/https-redirection-in-reverse-proxy-fail.svg)
+![Reverse Proxy 使用 HTTP 將請求導向 Web API ](./images/https-redirection-in-reverse-proxy-fail.png)
 
 1. 當 Broswer 對 Reverse Proxy 發出 HTTP 請求時，若 Reverse Proxy 沒有對 HTTP 請求阻擋或轉導時，會繼續將 HTTP 請求導向 Web API。
 2. 此時，因為 Web API 內，使用 `UseHttpsRedirections` 強制將 HTTP Redirection HTTPS。Broswer 會收到 Redirerction 的回應。
