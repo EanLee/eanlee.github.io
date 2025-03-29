@@ -6,6 +6,7 @@ import FormattedDate from "../components/FormattedDate.astro";
 import SeriesArticleNav from "../components/series-article-nav.astro";
 import AdRow from "../components/ad-row.astro";
 import SocialShare from "../components/SocialShare.astro";
+import BackToTop from "../components/BackToTop.astro";
 
 import { SITE_TITLE } from "../consts";
 const {
@@ -87,7 +88,9 @@ const {
             </div>
             <hr />
           </div>
-          <slot />
+          <div class="article-content">
+            <slot />
+          </div>
 
           <!-- 社交分享按鈕 -->
           <SocialShare 
@@ -104,6 +107,7 @@ const {
     </main>
 
     <Footer />
+    <BackToTop />
     <style>
       main {
         width: calc(100% - 2em);
@@ -117,6 +121,70 @@ const {
         margin: auto;
         padding: 1em;
         color: rgb(var(--gray-dark));
+      }
+
+      .article-content {
+        font-size: 1.1rem;
+        line-height: 1.8;
+        letter-spacing: 0.01em;
+      }
+
+      .article-content :global(h2) {
+        margin-top: 2em;
+        margin-bottom: 0.8em;
+        font-size: 1.7em;
+        border-bottom: 1px solid rgba(var(--gray-light), 0.8);
+        padding-bottom: 0.3em;
+      }
+
+      .article-content :global(h3) {
+        margin-top: 1.5em;
+        margin-bottom: 0.6em;
+        font-size: 1.4em;
+      }
+
+      .article-content :global(p) {
+        margin-bottom: 1.5em;
+        text-align: justify;
+      }
+
+      .article-content :global(ul), .article-content :global(ol) {
+        padding-left: 1.5em;
+        margin-bottom: 1.5em;
+      }
+
+      .article-content :global(li) {
+        margin-bottom: 0.5em;
+      }
+
+      .article-content :global(img) {
+        display: block;
+        margin: 2em auto;
+        max-width: 100%;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .article-content :global(blockquote) {
+        background-color: rgba(var(--gray-light), 0.3);
+        border-left: 4px solid var(--accent);
+        padding: 1em 1.5em;
+        margin: 1.5em 0;
+        border-radius: 0 8px 8px 0;
+      }
+
+      .article-content :global(code) {
+        font-family: 'Fira Code', monospace;
+        font-size: 0.9em;
+      }
+
+      .article-content :global(pre) {
+        margin: 1.5em 0;
+        padding: 1.5em;
+        border-radius: 8px;
+        overflow-x: auto;
+        background-color: #2d2d2d;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
       }
 
       h1 {
@@ -134,9 +202,12 @@ const {
           width: 100%;
           max-width: calc(100% - 2em);
           margin: auto;
-          padding: 0;
+          padding: 0 1em;
+        }
 
-          font-size: 0.9rem;
+        .article-content {
+          font-size: 1rem;
+          line-height: 1.7;
         }
 
         h1 {
@@ -215,8 +286,6 @@ const {
       .tag:hover::after {
         border-left-color: crimson;
       }
-
-
     </style>
   </body>
 </html>
