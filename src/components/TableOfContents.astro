@@ -27,23 +27,19 @@
 <script>
   // 在頁面加載完成後執行
   document.addEventListener('DOMContentLoaded', () => {
-    console.log('目錄功能初始化開始'); // 偵錯用
     
     // 獲取文章內容區域
     const articleContent = document.querySelector('.article-content');
     if (!articleContent) {
-      console.log('找不到文章內容區域'); // 偵錯用
       return;
     }
     
     // 獲取所有標題元素 (h2, h3, h4)
     const headings = articleContent.querySelectorAll('h2, h3, h4');
-    console.log(`找到 ${headings.length} 個標題`); // 偵錯用
     
     if (headings.length === 0) {
       document.querySelector('.toc-container').style.display = 'none';
       document.querySelector('.toc-toggle-fixed').style.display = 'none';
-      console.log('沒有標題，隱藏目錄'); // 偵錯用
       return;
     }
     
@@ -54,12 +50,10 @@
     const tocOpen = document.getElementById('toc-open');
     
     if (!tocContainer || !tocContent || !tocClose || !tocOpen) {
-      console.log('找不到目錄元素'); // 偵錯用
       return;
     }
 
     // 建立目錄結構
-    console.log('開始建立目錄結構'); // 偵錯用
     const tocStructure = createNestedTOC(headings);
     tocContent.appendChild(tocStructure);
     
@@ -78,7 +72,6 @@
     
     // 處理開啟目錄按鈕點擊
     tocOpen.addEventListener('click', () => {
-      console.log('開啟目錄'); // 偵錯用
       tocContainer.classList.add('open');
       tocContainer.style.visibility = 'visible';
       tocContainer.style.opacity = '1';
@@ -87,7 +80,6 @@
     
     // 處理關閉目錄按鈕點擊
     tocClose.addEventListener('click', () => {
-      console.log('關閉目錄'); // 偵錯用
       tocContainer.classList.remove('open');
       tocContainer.style.visibility = 'hidden';
       tocContainer.style.opacity = '0';
@@ -102,7 +94,6 @@
     const firstHeading = headings[0];
     if (firstHeading) {
       const showTocAtPosition = firstHeading.offsetTop - 150;
-      console.log(`目錄顯示位置: ${showTocAtPosition}`); // 偵錯用
       
       // 滾動處理函數
       const toggleTocVisibility = () => {
@@ -143,7 +134,6 @@
       });
     }
     
-    console.log('目錄功能初始化完成'); // 偵錯用
   });
   
   // 更新當前活躍標題
