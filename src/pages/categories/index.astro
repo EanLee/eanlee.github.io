@@ -1,0 +1,234 @@
+---
+import { getCollection } from "astro:content";
+import GeneralLayout from "../../layouts/GeneralLayout.astro";
+
+// 定義分類類型
+interface Category {
+  name: string;
+  count: number;
+}
+
+// 獲取所有文章
+const posts = await getCollection("blog");
+
+// 獲取所有分類並計算每個分類的文章數量
+const categoriesMap = posts.reduce((acc: Record<string, Category>, post) => {
+  if (post.data.categories) {
+    post.data.categories.forEach((category: string) => {
+      const lowerCategory = category.toLowerCase();
+      if (!acc[lowerCategory]) {
+        acc[lowerCategory] = {
+          name: category,
+          count: 0,
+        };
+      }
+      acc[lowerCategory].count += 1;
+    });
+  }
+  return acc;
+}, {});
+
+// 將分類轉換為數組並按文章數量排序
+const categories: Category[] = Object.values(categoriesMap).sort((a: Category, b: Category) => b.count - a.count);
+
+// 頁面標題
+const pageTitle = "所有分類";
+---
+
+<GeneralLayout title={pageTitle}>
+  <div class="categories-container">
+    <header class="categories-header">
+      <div class="categories-title-wrapper">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-folder-open"><path d="m6 14 1.5-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.54 6a2 2 0 0 1-1.95 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2"/></svg>
+        <h1 class="categories-title">{pageTitle}</h1>
+      </div>
+      <div class="categories-meta">
+        <span class="categories-count">{categories.length} 個分類</span>
+      </div>
+    </header>
+
+    <div class="categories-description">
+      <p>瀏覽所有文章分類，點擊任意分類查看相關文章。</p>
+    </div>
+
+    {categories.length > 0 ? (
+      <div class="categories-grid">
+        {categories.map((category: Category) => (
+          <a href={`/categories/${category.name.toLowerCase()}/`} class="category-card">
+            <div class="category-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-folder"><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"/></svg>
+            </div>
+            <div class="category-content">
+              <h2 class="category-name">{category.name}</h2>
+              <div class="category-count">{category.count} 篇文章</div>
+            </div>
+          </a>
+        ))}
+      </div>
+    ) : (
+      <div class="no-categories">
+        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-folder-x"><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"/><path d="m9.5 10.5 5 5"/><path d="m14.5 10.5-5 5"/></svg>
+        <p>目前還沒有任何分類。</p>
+      </div>
+    )}
+
+    <div class="back-link">
+      <a href="/">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-home"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        返回首頁
+      </a>
+    </div>
+  </div>
+</GeneralLayout>
+
+<style>
+  .categories-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+  }
+
+  .categories-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color, #eaeaea);
+  }
+
+  .categories-title-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .categories-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--title-color, #333);
+    margin: 0;
+  }
+
+  .categories-meta {
+    font-size: 1rem;
+    color: var(--meta-color, #666);
+    background-color: var(--tag-bg, #f0f0f0);
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+  }
+
+  .categories-description {
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+    color: var(--text-color, #555);
+    line-height: 1.6;
+  }
+
+  .categories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .category-card {
+    display: flex;
+    align-items: center;
+    padding: 1.2rem;
+    border-radius: 8px;
+    background-color: var(--card-bg, #fff);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    text-decoration: none;
+    transition: box-shadow 0.2s ease;
+  }
+
+  .category-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+
+  .category-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    background-color: var(--tag-bg, #f0f0f0);
+    margin-right: 1rem;
+    color: var(--link-color, #0077cc);
+  }
+
+  .category-content {
+    flex: 1;
+  }
+
+  .category-name {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--title-color, #333);
+    margin: 0 0 0.3rem 0;
+  }
+
+  .category-count {
+    font-size: 0.9rem;
+    color: var(--meta-color, #666);
+  }
+
+  .no-categories {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem;
+    background-color: var(--card-bg, #f9f9f9);
+    border-radius: 8px;
+    text-align: center;
+    color: var(--meta-color, #666);
+  }
+
+  .no-categories svg {
+    margin-bottom: 1rem;
+    opacity: 0.5;
+  }
+
+  .no-categories p {
+    font-size: 1.2rem;
+    margin: 0;
+  }
+
+  .back-link {
+    margin-top: 2rem;
+    text-align: center;
+  }
+
+  .back-link a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background-color: var(--card-bg, #f9f9f9);
+    border-radius: 4px;
+    color: var(--link-color, #0077cc);
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.2s ease;
+  }
+
+  .back-link a:hover {
+    background-color: var(--link-color, #0077cc);
+    color: white;
+  }
+
+  @media (max-width: 768px) {
+    .categories-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+
+    .categories-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
