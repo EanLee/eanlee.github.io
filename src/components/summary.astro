@@ -3,106 +3,263 @@ import FormattedDate from "../components/FormattedDate.astro";
 
 const { post } = Astro.props;
 const path = post.id.slice(0, post.id.lastIndexOf("/")).toLowerCase();
-
 ---
 
-<article>
-  <header>
-    <h2 class="title">
-      <a href={`/post/${path}/`} rel="bookmark">
-        {post.data.title}
+<article class="post-card">
+  <div class="post-content-wrapper">
+    <!-- 分類放在標題上方 -->
+    {post.data.categories && post.data.categories.length > 0 && (
+      <div class="post-categories">
+        <i class="fas fa-folder"></i>
+        {post.data.categories.map((category: string, index: number) => (
+          <>
+            <a href={`/categories/${category.toLowerCase()}/`} class="category-link">
+              {category}
+            </a>{index < post.data.categories.length - 1 ? " • " : ""}
+          </>
+        ))}
+      </div>
+    )}
+    
+    <header class="post-header">
+      <h2 class="post-title">
+        <a href={`/post/${path}/`} rel="bookmark">
+          {post.data.title}
+        </a>
+      </h2>
+    </header>
+    
+    <!-- 日期與標籤在同一行 -->
+    <div class="post-meta-row">
+      <div class="post-date">
+        <i class="fas fa-calendar-alt"></i> <FormattedDate date={post.data.date} />
+        {
+          post.data.lastmod && (
+            <span class="post-updated">
+              <i class="fas fa-edit"></i> <FormattedDate date={post.data.lastmod} />
+            </span>
+          )
+        }
+      </div>
+      
+      {post.data.tags && post.data.tags.length > 0 && (
+        <div class="post-tags">
+          <i class="fas fa-tags"></i>
+          <div class="tag-wrapper">
+            {post.data.tags.map((tag: string) => (
+              <a href={`/tags/${tag.toLowerCase()}/`} class="tag-link">
+                {tag}
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+    
+    <div class="post-excerpt">
+      {post.data.description}
+    </div>
+    
+    <div class="post-actions">
+      <a href={`/post/${path}/`} class="read-more">
+        繼續閱讀 <i class="fas fa-arrow-right"></i>
       </a>
-    </h2>
-  </header>
-  <div class="meta">
-    <p class="date">
-      <FormattedDate date={post.data.date} />
-      {
-        post.data.lastmod && (
-          <span>
-            (最後更新: <FormattedDate date={post.data.lastmod} />)
-          </span>
-        )
-      }
-    </p>
+    </div>
   </div>
-  <div class="summary">
-    { post.data.description }
-  </div>
-
-  <p class="more-read">
-    <a href={`/post/${path}/`}>繼續閱讀</a>
-  </p>
-  <style>
-    :root {
-      --list-frame: #e0e0e0;
-    }
-
-    article {
-      margin-bottom: 10px;
-      border: var(--list-frame) solid 1px;
-      border-radius: 5px;
-    }
-
-    header {
-      padding: 0 5px;
-    }
-
-    .title {
-      font-size: 1.25rem;
-      font-weight: bold;
-
-      text-shadow: 1px 1px 1px whitesmoke;
-      background: none repeat scroll 0 0 var(--list-frame);
-      border-radius: 5px 5px 0 0;
-      padding: 0.5rem;
-      margin: -1px -6px;
-    }
-
-    a {
-      color: rgb(var(--black));
-      text-decoration: none;
-      transition: 0.2s ease;
-    }
-
-    a:hover {
-      color: #2337ff;
-    }
-
-    .summary {
-      padding: 0 0.5rem;
-      margin: 0;
-
-      font-size: medium;
-      text-align: justify;
-    }
-
-    .more-read {
-      padding: 0 0.5rem;
-      margin: 0;
-
-      text-align: right;
-      font-weight: 600;
-      font-size: smaller;
-    }
-
-    .more-read a {
-      color: gray;
-    }
-
-    .more-read a:hover {
-      color: #2337ff;
-    }
-
-    .meta {
-      padding: 0 0.5rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .date {
-      font-size: small;
-      margin: 0;
-      color: rgb(var(--gray));
-    }
-  </style>
 </article>
+
+<style>
+  /* 基本變數 */
+  :root {
+    --card-bg: #ffffff;
+    --card-border: #e0e0e0;
+    --card-shadow: rgba(0, 0, 0, 0.1);
+    --title-color: #333333;
+    --text-color: #444444;
+    --meta-color: #666666;
+    --link-color: #2337ff;
+    --link-hover: #1a29cc;
+    --category-color: #6b8e23;
+    --tag-color: #4682b4;
+    --tag-bg: #f0f0f0;
+    --divider-color: #eeeeee;
+  }
+
+  /* 卡片基本樣式 */
+  .post-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .post-card:hover {
+    box-shadow: 0 5px 15px var(--card-shadow);
+  }
+
+  .post-content-wrapper {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* 分類樣式 - 現在在標題上方 */
+  .post-categories {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--category-color);
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px dashed var(--divider-color);
+  }
+
+  .category-link {
+    color: var(--category-color);
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .category-link:hover {
+    color: var(--link-hover);
+    text-decoration: underline;
+  }
+
+  /* 標題區域 */
+  .post-header {
+    margin-bottom: 0.75rem;
+  }
+
+  .post-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin: 0;
+    line-height: 1.3;
+  }
+
+  .post-title a {
+    color: var(--title-color);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .post-title a:hover {
+    color: var(--link-color);
+  }
+
+  /* 日期和標籤在同一行 */
+  .post-meta-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px dashed var(--divider-color);
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .post-date {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    font-size: 0.85rem;
+    color: var(--meta-color);
+    flex-wrap: wrap;
+  }
+
+  .post-updated {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+
+  /* 標籤樣式 - 現在在日期右側 */
+  .post-tags {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+  }
+
+  .tag-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .tag-link {
+    background-color: var(--tag-bg);
+    color: var(--tag-color);
+    padding: 0.2rem 0.5rem;
+    border-radius: 3px;
+    font-size: 0.75rem;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .tag-link:hover {
+    background-color: var(--tag-color);
+    color: white;
+  }
+
+  /* 內容區域 */
+  .post-excerpt {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--text-color);
+    margin-bottom: 1rem;
+  }
+
+  /* 動作區域 */
+  .post-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: auto;
+  }
+
+  .read-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    background-color: var(--tag-bg);
+    color: var(--text-color);
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .read-more:hover {
+    background-color: var(--link-color);
+    color: white;
+  }
+
+  /* 響應式設計 */
+  @media (max-width: 768px) {
+    .post-meta-row {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    
+    .post-tags {
+      margin-top: 0.3rem;
+    }
+    
+    .post-actions {
+      justify-content: center;
+    }
+    
+    .read-more {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+</style>
