@@ -8,11 +8,17 @@ interface Props {
 	title: string;
 	description?: string;
 	image?: string;
+	keywords?: string[];
 }
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
-const { title, description, image = '/blog-placeholder-1.jpg' } = Astro.props;
+const { 
+  title, 
+  description, 
+  image = '/blog-placeholder-1.jpg',
+  keywords = [] 
+} = Astro.props;
 ---
 
 <!-- Global Metadata -->
@@ -23,24 +29,25 @@ const { title, description, image = '/blog-placeholder-1.jpg' } = Astro.props;
 
 <ViewTransitions />
 
+<!-- Preload critical resources -->
+<link rel="preload" href="/fonts/atkinson-regular.woff" as="font" type="font/woff" crossorigin />
+<link rel="preload" href="/fonts/atkinson-bold.woff" as="font" type="font/woff" crossorigin />
+
+<!-- Defer non-critical JavaScript -->
 <!-- google adsense -->
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7903108559996033"
+<script async defer src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7903108559996033"
      crossorigin="anonymous"></script>
 
 <!-- Google Analytics -->
 <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-4HXSCXTZKZ"></script>
-<script lang="ts">
+<script async defer src="https://www.googletagmanager.com/gtag/js?id=G-4HXSCXTZKZ"></script>
+<script defer lang="ts">
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
   gtag('config', 'G-4HXSCXTZKZ');
 </script>
-
-<!-- Font preloads -->
-<link rel="preload" href="/fonts/atkinson-regular.woff" as="font" type="font/woff" crossorigin />
-<link rel="preload" href="/fonts/atkinson-bold.woff" as="font" type="font/woff" crossorigin />
 
 <!-- Canonical URL -->
 <link rel="canonical" href={canonicalURL} />
@@ -49,6 +56,7 @@ const { title, description, image = '/blog-placeholder-1.jpg' } = Astro.props;
 <title>{title}</title>
 <meta name="title" content={title} />
 <meta name="description" content={description} />
+{keywords.length > 0 && <meta name="keywords" content={keywords.join(', ')} />}
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website" />
