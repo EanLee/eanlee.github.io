@@ -22,10 +22,9 @@ const {
 } = Astro.props;
 ---
 
-<html lang="en">
+<html lang="zh-tw">
   <head>
-    <BaseHead title={title + " - " + SITE_TITLE} description={description} />
-    <meta name="keywords" content={keywords?.join(", ")} />
+    <BaseHead title={title + " - " + SITE_TITLE} description={description} keywords={keywords} />
   </head>
 
   <body>
@@ -40,7 +39,7 @@ const {
         <div class="hero-image">
           {
             coverImage && (
-              <img width={1020} height={510} src={coverImage} alt="" />
+              <img width={1020} height={510} src={coverImage} alt={title} />
             )
           }
         </div>
@@ -75,7 +74,7 @@ const {
                 </div>
               )
             }
-            <h1 itemprop="headline">{title}</h1>
+            <h1 class="article-title" itemprop="headline">{title}</h1>
             <div class="date">
               <FormattedDate date={date} itemprop="datePublished" />
               {
@@ -124,6 +123,14 @@ const {
         margin: auto;
         padding: 1em;
         color: rgb(var(--gray-dark));
+      }
+
+      .article-title {
+        font-size: 2.5em;
+        font-weight: 700;
+        line-height: 1.2;
+        margin-bottom: 0.5em;
+        color: var(--accent);
       }
 
       .article-content {
@@ -190,10 +197,6 @@ const {
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
       }
 
-      h1 {
-        font-weight: 700;
-      }
-
       @media (max-width: 768px) {
         main {
           width: 100%;
@@ -203,19 +206,70 @@ const {
 
         .prose {
           width: 100%;
-          max-width: calc(100% - 2em);
-          margin: auto;
-          padding: 0 1em;
+          padding: 1em;
         }
 
-        .article-content {
-          font-size: 1rem;
-          line-height: 1.7;
+        .article-title {
+          font-size: 2em;
         }
+      }
 
-        h1 {
-          font-size: 1.5rem;
-        }
+      .title {
+        margin-bottom: 1em;
+      }
+
+      .title h1 {
+        margin: 0 0 0.5em 0;
+      }
+
+      .date {
+        margin-bottom: 0.5em;
+        color: rgb(var(--gray));
+      }
+
+      .last-updated-on {
+        font-style: italic;
+      }
+
+      .tags {
+        display: flex;
+        flex-wrap: wrap;
+        margin: 0 0 1em 0;
+      }
+
+      .tags .icon-tag {
+        width: 1.25em;
+        height: 1.25em;
+        margin-right: 0.5em;
+        fill: var(--accent);
+      }
+
+      .tags ul {
+        display: flex;
+        flex-wrap: wrap;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .tags li {
+        margin-right: 0.5em;
+        margin-bottom: 0.5em;
+      }
+
+      .tags a {
+        display: inline-block;
+        padding: 0.2em 0.6em;
+        border-radius: 4px;
+        background-color: rgba(var(--accent-light), 0.2);
+        color: var(--accent);
+        font-size: 0.8em;
+        text-decoration: none;
+        transition: background-color 0.2s;
+      }
+
+      .tags a:hover {
+        background-color: rgba(var(--accent-light), 0.4);
       }
 
       .hero-image {
@@ -228,6 +282,14 @@ const {
         box-shadow: var(--box-shadow);
       }
 
+      .prose {
+        width: 720px;
+        max-width: calc(100% - 2em);
+        margin: auto;
+        padding: 1em;
+        color: rgb(var(--gray-dark));
+      }
+
       .title {
         margin-bottom: 1em;
         padding: 1em 0;
@@ -235,59 +297,17 @@ const {
         line-height: 1;
       }
 
+      .title h1 {
+        margin: 0 0 0.5em 0;
+      }
+
       .date {
         margin-bottom: 0.5em;
         color: rgb(var(--gray));
       }
+
       .last-updated-on {
         font-style: italic;
-      }
-
-      .tags {
-        display: flex;
-        align-items: center;
-        margin-bottom: 0.5em;
-      }
-
-      .tags svg {
-        margin-right: 0.5em;
-      }
-      .tags a {
-        margin-right: 0.5em;
-      }
-      .tags a:last-child {
-        margin-right: 0;
-      }
-
-      .tags ul {
-        display: flex;
-        flex-wrap: wrap;
-        margin: 0;
-        padding: 0;
-        list-style: none;
-      }
-
-      .tag {
-        background: #eee;
-        border-radius: 5px;
-        color: #999;
-        display: inline-block;
-        padding: 2px 0.7rem;
-        position: relative;
-        margin: 0 5px;
-        text-decoration: none;
-        text-transform: uppercase;
-        -webkit-transition: color 0.2s;
-        font-size: medium;
-      }
-
-      .tag:hover {
-        background-color: crimson;
-        color: white;
-      }
-
-      .tag:hover::after {
-        border-left-color: crimson;
       }
     </style>
   </body>
