@@ -10,7 +10,7 @@ const path = post.id.slice(0, post.id.lastIndexOf("/")).toLowerCase();
     <!-- 分類放在標題上方 -->
     {post.data.categories && post.data.categories.length > 0 && (
       <div class="post-categories">
-        <i class="fas fa-folder"></i>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-folder"><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"/></svg>
         {post.data.categories.map((category: string, index: number) => (
           <>
             <a href={`/categories/${category.toLowerCase()}/`} class="category-link">
@@ -32,11 +32,13 @@ const path = post.id.slice(0, post.id.lastIndexOf("/")).toLowerCase();
     <!-- 日期與標籤在同一行 -->
     <div class="post-meta-row">
       <div class="post-date">
-        <i class="fas fa-calendar-alt"></i> <FormattedDate date={post.data.date} />
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calendar"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+        <FormattedDate date={post.data.date} />
         {
           post.data.lastmod && (
             <span class="post-updated">
-              <i class="fas fa-edit"></i> <FormattedDate date={post.data.lastmod} />
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-edit"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+              <FormattedDate date={post.data.lastmod} />
             </span>
           )
         }
@@ -44,7 +46,7 @@ const path = post.id.slice(0, post.id.lastIndexOf("/")).toLowerCase();
       
       {post.data.tags && post.data.tags.length > 0 && (
         <div class="post-tags">
-          <i class="fas fa-tags"></i>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-tags"><path d="M9 5H2v7l6.29 6.29c.94.94 2.48.94 3.42 0l3.58-3.58c.94-.94.94-2.48 0-3.42L9 5Z"/><path d="M6 9.01V9"/><path d="m15 5 6.3 6.3a2.4 2.4 0 0 1 0 3.4L17 19"/></svg>
           <div class="tag-wrapper">
             {post.data.tags.map((tag: string) => (
               <a href={`/tags/${tag.toLowerCase()}/`} class="tag-link">
@@ -62,7 +64,7 @@ const path = post.id.slice(0, post.id.lastIndexOf("/")).toLowerCase();
     
     <div class="post-actions">
       <a href={`/post/${path}/`} class="read-more">
-        繼續閱讀 <i class="fas fa-arrow-right"></i>
+        繼續閱讀 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
       </a>
     </div>
   </div>
@@ -240,6 +242,11 @@ const path = post.id.slice(0, post.id.lastIndexOf("/")).toLowerCase();
   .read-more:hover {
     background-color: var(--link-color);
     color: white;
+  }
+
+  /* Lucide 圖標樣式 */
+  .lucide {
+    vertical-align: middle;
   }
 
   /* 響應式設計 */
