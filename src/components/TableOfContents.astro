@@ -34,23 +34,29 @@
 </button>
 
 <script>
-  // 在頁面加載完成後執行
-  document.addEventListener("DOMContentLoaded", () => {
+  // 為 window 對象聲明自定義屬性
+  declare global {
+    interface Window {
+      tocInitTimeout: ReturnType<typeof setTimeout> | undefined;
+    }
+  }
+
+  // 定義初始化函數，以便可以在不同時機調用
+  function initTOC(): void {
     // 獲取文章內容區域
-    const articleContent = document.querySelector(".article-content");
+    const articleContent = document.querySelector<HTMLElement>(".article-content");
     if (!articleContent) {
       return;
     }
 
     // 獲取所有標題元素 (h2, h3, h4)
-    const headings = articleContent.querySelectorAll(
-      "h2, h3, h4",
-    ) as NodeListOf<HTMLElement>;
+    const headings = articleContent.querySelectorAll<HTMLHeadingElement>("h2, h3, h4");
 
     if (headings.length === 0) {
-      hiddenTocContainer();
+      hideTocContainer();
       return;
     }
+
 
     // 獲取目錄容器和按鈕
     const tocContainer = document.getElementById("toc-container");
@@ -62,9 +68,11 @@
       return;
     }
 
+    // 清空現有目錄內容，避免重複添加
+    tocContent.innerHTML = '';
+
     // 建立目錄結構
     const tocStructure = createNestedTOC(headings);
-    // console.log(tocStructure);
     tocContent.appendChild(tocStructure);
 
     // 初始狀態設定 - 目錄預設顯示
@@ -106,7 +114,7 @@
       const showTocAtPosition = firstHeading.offsetTop - 150;
 
       // 滾動處理函數
-      const toggleTocVisibility = () => {
+      const toggleTocVisibility = (): void => {
         // 檢查是否已滾動到顯示目錄的位置
         const shouldShowToc = window.scrollY > showTocAtPosition;
 
@@ -143,13 +151,26 @@
         }
       });
     }
-  });
+  }
+
+  // 定義一個函數來檢查是否在文章頁面
+  function isArticlePage(): boolean {
+    return !!document.querySelector(".article-content");
+  }
+
+  // 定義一個函數來處理頁面變化
+  function handlePageChange(): void {
+    if (isArticlePage()) {
+      // 使用延遲確保 DOM 完全加載
+      setTimeout(initTOC, 100);
+    }
+  }
 
   /**
    * 隱藏目錄容器和開啟按鈕
    * @description 當沒有標題時，隱藏目錄容器和開啟按鈕
    */
-  function hiddenTocContainer() {
+  function hideTocContainer(): void {
     const tocContainer = document.getElementById("toc-container");
     const tocOpen = document.getElementById("toc-open");
 
@@ -163,14 +184,14 @@
   }
 
   // 更新當前活躍標題
-  function updateActiveHeading(headings: NodeListOf<HTMLElement>) {
+  function updateActiveHeading(headings: NodeListOf<HTMLHeadingElement>): void {
     // 儲存所有目錄項鏈接
-    const tocLinks = document.querySelectorAll(".toc-content a");
+    const tocLinks = document.querySelectorAll<HTMLAnchorElement>(".toc-content a");
 
     if (tocLinks.length === 0) return;
 
-    let currentHeadingId = null;
-    let closestHeading: HTMLElement | null = null;
+    let currentHeadingId: string | null = null;
+    let closestHeading: HTMLHeadingElement | null = null;
     let closestDistance = Infinity;
     const windowMiddle = window.scrollY + window.innerHeight / 3;
 
@@ -185,7 +206,7 @@
       }
     });
 
-    if (closestHeading) {
+    if (closestHeading && closestHeading.id) {
       currentHeadingId = closestHeading.id;
     }
 
@@ -195,8 +216,8 @@
     });
 
     if (currentHeadingId) {
-      const activeLink = document.querySelector(
-        `.toc-content a[href="#${currentHeadingId}"]`,
+      const activeLink = document.querySelector<HTMLAnchorElement>(
+        `.toc-content a[href="#${currentHeadingId}"]`
       );
 
       if (activeLink) {
@@ -206,10 +227,7 @@
   }
 
   // 創建嵌套結構的目錄，更好地表現層級關係
-  /**
-   * @param {NodeListOf<HTMLElement>} headings - A list of heading elements (h2, h3, h4).
-   */
-  function createNestedTOC(headings: NodeListOf<HTMLElement>) {
+  function createNestedTOC(headings: NodeListOf<HTMLHeadingElement>): HTMLUListElement {
     const mainList = document.createElement("ul");
     mainList.className = "toc-list main-list";
     let currentH2List = mainList;
@@ -228,11 +246,23 @@
       // 創建鏈接
       const link = document.createElement("a");
       link.href = `#${heading.id}`;
-      link.textContent = heading.textContent;
+      link.textContent = heading.textContent || '';
       link.setAttribute("role", "link");
       link.addEventListener("click", () => {
         if (window.innerWidth <= 1024) {
-          document.getElementById("toc-container")?.classList.remove("open");
+          const tocContainer = document.getElementById("toc-container");
+          if (tocContainer) {
+            tocContainer.classList.remove("open");
+            tocContainer.style.visibility = "hidden";
+            tocContainer.style.opacity = "0";
+            
+            const tocOpen = document.getElementById("toc-open");
+            if (tocOpen) {
+              tocOpen.style.display = "block";
+              tocOpen.style.visibility = "visible";
+              tocOpen.style.opacity = "1";
+            }
+          }
         }
       });
 
@@ -263,6 +293,50 @@
 
     return mainList;
   }
+
+  // 在頁面加載完成後執行
+  document.addEventListener("DOMContentLoaded", () => {
+    handlePageChange();
+  });
+
+  // 監聽 Astro 的視圖轉換事件（如果使用 Astro 的 View Transitions）
+  document.addEventListener("astro:page-load", () => {
+    handlePageChange();
+  });
+
+  // 監聽 Astro 的內容加載事件
+  document.addEventListener("astro:after-swap", () => {
+    handlePageChange();
+  });
+
+  // 使用 MutationObserver 作為備用方案
+  const observer = new MutationObserver((mutations) => {
+    let shouldCheck = false;
+    
+    for (const mutation of mutations) {
+      if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+        // 檢查是否有文章內容區域被添加到 DOM
+        shouldCheck = true;
+        break;
+      }
+    }
+    
+    if (shouldCheck && isArticlePage()) {
+      // 使用防抖處理，避免多次觸發
+      if (window.tocInitTimeout) {
+        clearTimeout(window.tocInitTimeout);
+      }
+      window.tocInitTimeout = setTimeout(initTOC, 200);
+    }
+  });
+
+  // 開始觀察 document.body 的變化
+  observer.observe(document.body, { childList: true, subtree: true });
+
+  // 也監聽 window 的 load 事件作為最後的保障
+  window.addEventListener("load", () => {
+    handlePageChange();
+  });
 </script>
 
 <style>

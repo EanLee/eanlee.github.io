@@ -34,43 +34,203 @@ const filteredPosts = posts
 ---
 
 <GeneralLayout title={tag}>
-  <article class="prose lg:prose-xl md:prose-sm">
-    <h4>TAG: {tag?.toUpperCase().replace("-", " ")}</h4>
-    <ul>
-      {
-        filteredPosts.map((post) => {
+  <div class="tag-container">
+    <header class="tag-header">
+      <div class="tag-title-wrapper">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-tag"><path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg>
+        <h1 class="tag-title">{tag?.toUpperCase().replace("-", " ")}</h1>
+      </div>
+      <div class="tag-meta">
+        <span class="tag-count">{filteredPosts.length} 篇文章</span>
+      </div>
+    </header>
+
+    {filteredPosts.length > 0 ? (
+      <ul class="posts-list">
+        {filteredPosts.map((post) => {
           const path = post.id.slice(0, post.id.lastIndexOf("/")).toLowerCase();
 
           return (
-            <li>
-              <span class="createDate">
-                <FormattedDate date={post.data.date} />
-              </span>{" "}
-              <a href={`/post/${path}/`}>
-                <span class="title">{post.data.title}</span>
-              </a>
+            <li class="post-item">
+              <div class="post-item-content">
+                <span class="post-date">
+                  <FormattedDate date={post.data.date} />
+                </span>
+                <div class="post-content">
+                  <a href={`/post/${path}/`} class="post-title-link">
+                    <span class="post-title">{post.data.title}</span>
+                  </a>
+                  {post.data.description && (
+                    <p class="post-description">
+                      {post.data.description.length > 120 
+                        ? post.data.description.slice(0, 120) + "..." 
+                        : post.data.description}
+                    </p>
+                  )}
+                </div>
+              </div>
             </li>
           );
-        })
-      }
-    </ul>
-  </article>
+        })}
+      </ul>
+    ) : (
+      <div class="no-posts">
+        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-x"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><path d="m9.5 10.5 5 5"/><path d="m14.5 10.5-5 5"/></svg>
+        <p>此標籤下沒有任何文章。</p>
+      </div>
+    )}
+  </div>
 </GeneralLayout>
 
 <style>
-  a {
-    text-decoration: none;
+  .tag-container {
+    width: 100%;
+    margin: 0 auto;
+    padding: 2rem 1rem;
   }
 
-  .createDate {
-    display: inline-block;
+  .tag-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color, #eaeaea);
+  }
+
+  .tag-title-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .tag-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--title-color, #333);
+    margin: 0;
+  }
+
+  .tag-meta {
+    font-size: 1rem;
+    color: var(--meta-color, #666);
+    background-color: var(--tag-bg, #f0f0f0);
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+  }
+
+  .posts-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .post-item {
+    padding-bottom: .5rem;
+    transition: transform 0.2s ease;
+  }
+
+  .post-item:hover {
+    transform: translateX(5px);
+  }
+
+  .post-item-content {
+    display: flex;
+    align-items: baseline;
+    gap: 1.5rem;
+  }
+
+  .post-date {
     font-size: 0.9rem;
+    color: var(--meta-color, #666);
+    min-width: 100px;
     text-align: right;
-    margin-right: 10px;
+    flex-shrink: 0;
   }
 
-  li {
-    margin-top: 5px;
-    margin-bottom: 3px;
+  .post-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .post-title-link {
+    text-decoration: none;
+    color: var(--title-color, #333);
+  }
+
+  .post-title-link:hover {
+    color: var(--link-color, #0077cc);
+  }
+
+  .post-title {
+    /* font-size: 1.5rem; */
+    /* font-weight: 600; */
+    margin: 0;
+    flex-grow: 1;
+  }
+
+  .post-description {
+    font-size: 0.9rem;
+    color: var(--meta-color, #666);
+    margin: 0.5rem 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+  }
+
+  .no-posts {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem;
+    background-color: var(--card-bg, #f9f9f9);
+    border-radius: 8px;
+    text-align: center;
+    color: var(--meta-color, #666);
+  }
+
+  .no-posts svg {
+    margin-bottom: 1rem;
+    opacity: 0.5;
+  }
+
+  .no-posts p {
+    font-size: 1.2rem;
+    margin: 0;
+  }
+
+  @media (max-width: 768px) {
+    .tag-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+    
+    .tag-meta {
+      align-self: flex-start;
+    }
+    
+    .tag-title {
+      font-size: 1.8rem;
+    }
+    
+    .post-title {
+      font-size: 1.3rem;
+    }
+    
+    .post-item-content {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+    
+    .post-date {
+      min-width: auto;
+      text-align: left;
+    }
   }
 </style>
