@@ -1,5 +1,4 @@
 import { defineConfig } from "astro/config";
-import mdx from "@astrojs/mdx";
 
 import sitemap from "@astrojs/sitemap";
 import rehypeExternalLinks from "rehype-external-links";
@@ -31,7 +30,6 @@ export default defineConfig({
       "/post/projectmanagement/concepts-of-project-management-from-elimination-games/",
   },
   integrations: [
-    mdx(),
     sitemap(),
     robotsTxt(),
     tailwind({ applyBaseStyles: false }),
