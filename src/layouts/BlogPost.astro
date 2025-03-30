@@ -7,6 +7,7 @@ import SeriesArticleNav from "../components/series-article-nav.astro";
 import AdRow from "../components/ad-row.astro";
 import SocialShare from "../components/SocialShare.astro";
 import BackToTop from "../components/BackToTop.astro";
+import TableOfContents from "../components/TableOfContents.astro";
 
 import { SITE_TITLE } from "../consts";
 const {
@@ -88,6 +89,7 @@ const {
             </div>
             <hr />
           </div>
+          
           <div class="article-content">
             <slot />
           </div>
@@ -104,6 +106,7 @@ const {
 
         </div>
       </article>
+      <TableOfContents />
     </main>
 
     <Footer />
