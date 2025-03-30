@@ -91,9 +91,11 @@
       tocContainer.classList.remove('open');
       tocContainer.style.visibility = 'hidden';
       tocContainer.style.opacity = '0';
-      setTimeout(() => {
-        tocOpen.style.display = 'block';
-      }, 300); // 與轉場效果時間同步
+      
+      // 立即顯示開啟按鈕，不使用延遲
+      tocOpen.style.display = 'block';
+      tocOpen.style.visibility = 'visible';
+      tocOpen.style.opacity = '1';
     });
     
     // 監控滾動事件，確保只在滾動到內文才顯示目錄按鈕
@@ -102,31 +104,43 @@
       const showTocAtPosition = firstHeading.offsetTop - 150;
       console.log(`目錄顯示位置: ${showTocAtPosition}`); // 偵錯用
       
-      const toggleTocVisibility = throttle(() => {
-        if (window.scrollY > showTocAtPosition) {
-          // 顯示目錄按鈕
-          tocOpen.style.visibility = 'visible';
-          tocOpen.style.opacity = '1';
+      // 滾動處理函數
+      const toggleTocVisibility = () => {
+        // 檢查是否已滾動到顯示目錄的位置
+        const shouldShowToc = window.scrollY > showTocAtPosition;
+        
+        if (shouldShowToc) {
+          // 只有在目錄未開啟時，才顯示開啟按鈕
+          if (!tocContainer.classList.contains('open')) {
+            tocOpen.style.display = 'block';
+            tocOpen.style.visibility = 'visible';
+            tocOpen.style.opacity = '1';
+          }
         } else {
           // 隱藏目錄按鈕
+          tocOpen.style.display = 'none';
           tocOpen.style.visibility = 'hidden';
           tocOpen.style.opacity = '0';
-          
-          // 同時關閉已開啟的目錄
-          if (tocContainer.classList.contains('open')) {
-            tocContainer.classList.remove('open');
-            tocContainer.style.visibility = 'hidden';
-            tocContainer.style.opacity = '0';
-          }
         }
         
         // 更新當前活躍標題
         updateActiveHeading(headings);
-      }, 100);
+      };
       
       // 初始檢查
       toggleTocVisibility(); 
-      window.addEventListener('scroll', toggleTocVisibility);
+      
+      // 使用 requestAnimationFrame 優化滾動處理
+      let ticking = false;
+      window.addEventListener('scroll', () => {
+        if (!ticking) {
+          window.requestAnimationFrame(() => {
+            toggleTocVisibility();
+            ticking = false;
+          });
+          ticking = true;
+        }
+      });
     }
     
     console.log('目錄功能初始化完成'); // 偵錯用
@@ -148,9 +162,11 @@
     
     // 尋找最接近視窗中間的標題
     headings.forEach(heading => {
-      const distance = Math.abs(heading.getBoundingClientRect().top + window.scrollY - windowMiddle);
+      const rect = heading.getBoundingClientRect();
+      const topOffset = rect.top + window.scrollY;
+      const distance = Math.abs(topOffset - windowMiddle);
       
-      if (distance < closestDistance && heading.getBoundingClientRect().top <= window.innerHeight / 2) {
+      if (distance < closestDistance && rect.top <= window.innerHeight / 2) {
         closestDistance = distance;
         closestHeading = heading;
       }
@@ -160,9 +176,16 @@
       currentHeadingId = closestHeading.id;
     }
     
-    // 移除所有活躍標記
+    // 先重置所有鏈接的樣式
     tocLinks.forEach(link => {
+      // 移除所有活躍標記
       link.classList.remove('active', 'parent-active');
+      
+      // 重置樣式
+      link.style.color = '#666';
+      link.style.fontWeight = 'normal';
+      link.style.backgroundColor = 'transparent';
+      link.style.borderLeft = 'none';
     });
     
     // 如果找到當前標題，設置其與父標題為活躍
@@ -171,6 +194,12 @@
       if (activeLink) {
         activeLink.classList.add('active');
         
+        // 直接設置活躍鏈接的樣式
+        activeLink.style.color = '#2337ff'; // 使用 --accent 的具體顏色值
+        activeLink.style.fontWeight = '500';
+        activeLink.style.backgroundColor = 'rgba(35, 55, 255, 0.05)';
+        activeLink.style.borderLeft = '2px solid #2337ff';
+        
         // 為父層級添加父活躍標記
         let parent = activeLink.parentElement;
         while (parent && !parent.classList.contains('main-list')) {
@@ -178,6 +207,10 @@
             const parentLink = parent.parentElement.previousElementSibling.querySelector('a');
             if (parentLink) {
               parentLink.classList.add('parent-active');
+              
+              // 保持父層級為灰色
+              parentLink.style.color = '#666';
+              parentLink.style.backgroundColor = 'rgba(200, 200, 200, 0.05)';
             }
           }
           parent = parent.parentElement;
@@ -258,28 +291,6 @@
     
     return mainList;
   }
-  
-  // 新增節流函式以優化效能
-  function throttle(func, limit) {
-    let lastFunc;
-    let lastRan;
-    return function () {
-      const context = this;
-      const args = arguments;
-      if (!lastRan) {
-        func.apply(context, args);
-        lastRan = Date.now();
-      } else {
-        clearTimeout(lastFunc);
-        lastFunc = setTimeout(function () {
-          if (Date.now() - lastRan >= limit) {
-            func.apply(context, args);
-            lastRan = Date.now();
-          }
-        }, limit - (Date.now() - lastRan));
-      }
-    };
-  }
 </script>
 
 <style>
@@ -344,7 +355,7 @@
   }
   
   .toc-toggle:hover {
-    color: rgba(var(--accent-rgb), 0.8);
+    color: rgba(var(--gray-dark), 0.75);
     background-color: rgba(245, 245, 245, 1);
   }
   
@@ -465,37 +476,6 @@
     display: none;
   }
   
-  /* 更低調的鏈接樣式 */
-  .toc-content a {
-    text-decoration: none;
-    color: rgba(var(--gray-dark), 0.55);
-    display: block;
-    transition: color 0.2s, padding-left 0.2s;
-    padding: 3px 5px;
-    border-radius: 3px;
-    line-height: 1.4;
-  }
-  
-  .toc-content a:hover {
-    color: rgba(var(--accent-rgb), 0.75);
-    background-color: rgba(var(--accent-rgb), 0.04);
-    padding-left: 7px;
-  }
-  
-  /* 當前活躍項目樣式 - 更低調 */
-  .toc-content a.active {
-    color: rgba(var(--accent-rgb), 0.8);
-    font-weight: normal;
-    background-color: rgba(var(--accent-rgb), 0.05);
-    border-left: 2px solid rgba(var(--accent-rgb), 0.3);
-  }
-  
-  /* 父層級活躍樣式 - 更低調 */
-  .toc-content a.parent-active {
-    color: rgba(var(--accent-rgb), 0.7);
-    background-color: rgba(var(--accent-rgb), 0.02);
-  }
-  
   /* 小螢幕適配 */
   @media (max-width: 768px) {
     .toc-container {
@@ -510,9 +490,22 @@
     .toc-item.h4 {
       padding-left: 1.2em;
     }
-    
-    .toc-content a {
-      padding: 2px 3px;
-    }
+  }
+  
+  /* 重新添加基本鏈接樣式 */
+  .toc-content a {
+    text-decoration: none;
+    color: #666;
+    display: block;
+    transition: color 0.2s, padding-left 0.2s, background-color 0.2s;
+    padding: 3px 5px;
+    border-radius: 3px;
+    line-height: 1.4;
+  }
+  
+  .toc-content a:hover {
+    color: #444;
+    background-color: rgba(200, 200, 200, 0.1);
+    padding-left: 7px;
   }
 </style>
