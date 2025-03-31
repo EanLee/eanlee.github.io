@@ -30,107 +30,116 @@ const {
   <body>
     <Header />
     <main>
-      <article class="prose lg:prose-xl md:prose-sm"
-               itemscope
-               itemtype="https://schema.org/BlogPosting">
+      <article 
+        itemscope
+        itemtype="https://schema.org/BlogPosting"
+      >
+        <div class="article-wrapper">
+          <AdRow />
 
-        <AdRow />
-
-        <div class="hero-image">
-          {
-            coverImage && (
-              <img width={1020} height={510} src={coverImage} alt={title} />
-            )
-          }
-        </div>
-        <div class="prose">
-          <div class="title">
+          <div class="hero-image">
             {
-              tags && (
-                <div class="tags">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="icon icon-tag"
-                    width="16"
-                    height="16"
-                    viewBox="0 0 32 32"
-                    stroke-width="1.5"
-                    stroke="#2c3e50"
-                    fill="none"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  >
-                    <path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
-                  </svg>
-                  <ul>
-                    {tags.map((tag: string) => (
-                      <li>
-                        <a class="tag" href={`/tags/${tag.toLowerCase()}/`}>
-                          {tag.toUpperCase().replace(/-/g, " ")}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+              coverImage && (
+                <img width={1020} height={510} src={coverImage} alt={title} />
               )
             }
-            <h1 class="article-title" itemprop="headline">{title}</h1>
-            <div class="date">
-              <FormattedDate date={date} itemprop="datePublished" />
+          </div>
+          <div class="prose-content">
+            <div class="title">
               {
-                lastmod && (
-                  <div class="last-updated-on">
-                    Last updated on{" "}
-                    <FormattedDate date={lastmod} itemprop="dateModified" />
+                tags && (
+                  <div class="tags">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="icon icon-tag"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 32 32"
+                      stroke-width="1.5"
+                      stroke="#2c3e50"
+                      fill="none"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
+                    </svg>
+                    <ul>
+                      {tags.map((tag: string) => (
+                        <li>
+                          <a class="tag" href={`/tags/${tag.toLowerCase()}/`}>
+                            {tag.toUpperCase().replace(/-/g, " ")}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
                 )
               }
+              <h1 class="article-title" itemprop="headline">{title}</h1>
+              <div class="date">
+                <FormattedDate date={date} itemprop="datePublished" />
+                {
+                  lastmod && (
+                    <div class="last-updated-on">
+                      Last updated on{" "}
+                      <FormattedDate date={lastmod} itemprop="dateModified" />
+                    </div>
+                  )
+                }
+              </div>
+              <hr />
             </div>
-            <hr />
+            
+            <div class="article-content">
+              <slot />
+            </div>
+
+            <!-- 社交分享按鈕 -->
+            <SocialShare 
+              title={title} 
+              url={Astro.url.href} 
+              description={description} 
+            />
+
+            <!-- Prev/Next 限系列文 -->
+            <SeriesArticleNav series={series} title={title} />
           </div>
-          
-          <div class="article-content">
-            <slot />
-          </div>
-
-          <!-- 社交分享按鈕 -->
-          <SocialShare 
-            title={title} 
-            url={Astro.url.href} 
-            description={description} 
-          />
-
-          <!-- Prev/Next 限系列文 -->
-          <SeriesArticleNav series={series} title={title} />
-
+          <TableOfContents />
         </div>
       </article>
-      <TableOfContents />
     </main>
 
     <Footer />
     <BackToTop />
     <style>
       main {
-        width: calc(100% - 2em);
-        max-width: 100%;
+        width: 100%;
         margin: 0;
+        padding: 0;
+        background-color: white;
       }
 
-      .prose {
+      article {
+        width: 100%;
+      }
+
+      .article-wrapper {
         width: 1120px;
         max-width: calc(100% - 2em);
-        margin: auto;
-        padding: 1em;
-        color: rgb(var(--gray-dark));
+        margin: 0 auto;
+        padding: 0 1em;
       }
 
-      .article-title {
-        font-size: 2.5em;
-        font-weight: 700;
-        line-height: 1.2;
-        margin-bottom: 0.5em;
-        color: var(--accent);
+      .hero-image {
+        width: 100%;
+        margin: 1em 0;
+      }
+
+      .hero-image img {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+        border-radius: 8px;
       }
 
       .article-content {
@@ -204,7 +213,7 @@ const {
           padding: 0;
         }
 
-        .prose {
+        .article-wrapper {
           width: 100%;
           padding: 1em;
         }
@@ -270,44 +279,6 @@ const {
 
       .tags a:hover {
         background-color: rgba(var(--accent-light), 0.4);
-      }
-
-      .hero-image {
-        width: 100%;
-      }
-      .hero-image img {
-        display: block;
-        margin: 0 auto;
-        border-radius: 12px;
-        box-shadow: var(--box-shadow);
-      }
-
-      .prose {
-        width: 720px;
-        max-width: calc(100% - 2em);
-        margin: auto;
-        padding: 1em;
-        color: rgb(var(--gray-dark));
-      }
-
-      .title {
-        margin-bottom: 1em;
-        padding: 1em 0;
-        text-align: center;
-        line-height: 1;
-      }
-
-      .title h1 {
-        margin: 0 0 0.5em 0;
-      }
-
-      .date {
-        margin-bottom: 0.5em;
-        color: rgb(var(--gray));
-      }
-
-      .last-updated-on {
-        font-style: italic;
       }
     </style>
   </body>
