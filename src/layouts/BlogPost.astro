@@ -24,16 +24,17 @@ const {
 
 <html lang="zh-tw">
   <head>
-    <BaseHead title={title + " - " + SITE_TITLE} description={description} keywords={keywords} />
+    <BaseHead
+      title={title + " - " + SITE_TITLE}
+      description={description}
+      keywords={keywords}
+    />
   </head>
 
   <body>
     <Header />
     <main>
-      <article 
-        itemscope
-        itemtype="https://schema.org/BlogPosting"
-      >
+      <article itemscope itemtype="https://schema.org/BlogPosting">
         <div class="article-wrapper">
           <AdRow />
 
@@ -89,16 +90,16 @@ const {
               </div>
               <hr />
             </div>
-            
+
             <div class="article-content">
               <slot />
             </div>
 
             <!-- 社交分享按鈕 -->
-            <SocialShare 
-              title={title} 
-              url={Astro.url.href} 
-              description={description} 
+            <SocialShare
+              title={title}
+              url={Astro.url.href}
+              description={description}
             />
 
             <!-- Prev/Next 限系列文 -->
@@ -167,7 +168,8 @@ const {
         text-align: justify;
       }
 
-      .article-content :global(ul), .article-content :global(ol) {
+      .article-content :global(ul),
+      .article-content :global(ol) {
         padding-left: 1.5em;
         margin-bottom: 1.5em;
       }
@@ -193,7 +195,7 @@ const {
       }
 
       .article-content :global(code) {
-        font-family: 'Fira Code', monospace;
+        font-family: "Fira Code", monospace;
         font-size: 0.9em;
       }
 
@@ -279,6 +281,96 @@ const {
 
       .tags a:hover {
         background-color: rgba(var(--accent-light), 0.4);
+      }
+
+      /* Series Article Navigation Styling */
+      :global(.series-article-nav) {
+        margin-top: 2em;
+        margin-bottom: 2em;
+      }
+
+      :global(.series-article-nav hr) {
+        margin: 2em 0;
+        border: 0;
+        border-top: 1px solid rgba(var(--gray-light), 0.5);
+      }
+
+      :global(.series-article-nav a) {
+        text-decoration: none;
+        color: var(--text-color);
+        transition: color 0.2s;
+      }
+
+      :global(.series-article-nav a:hover) {
+        color: var(--accent);
+      }
+
+      :global(.series-article-nav .flex) {
+        display: flex;
+      }
+
+      :global(.series-article-nav .justify-between) {
+        justify-content: space-between;
+      }
+
+      :global(.series-article-nav .space-x-10) {
+        gap: 2.5rem;
+      }
+
+      :global(.series-article-nav .flex-1) {
+        flex: 1;
+      }
+
+      :global(.series-article-nav .flex-col) {
+        flex-direction: column;
+      }
+
+      :global(.series-article-nav .items-center) {
+        align-items: center;
+      }
+
+      :global(.series-article-nav .p-4) {
+        padding: 1rem;
+      }
+
+      :global(.series-article-nav .bg-gray-100) {
+        background-color: rgba(var(--gray-light), 0.2);
+      }
+
+      :global(.series-article-nav .rounded-lg) {
+        border-radius: 0.5rem;
+      }
+
+      :global(.series-article-nav .uppercase) {
+        text-transform: uppercase;
+      }
+
+      :global(.series-article-nav .text-xs) {
+        font-size: 0.75rem;
+      }
+
+      :global(.series-article-nav .text-gray-500) {
+        color: rgba(var(--gray), 0.8);
+      }
+
+      :global(.series-article-nav .text-3xl) {
+        font-size: 1.875rem;
+      }
+
+      :global(.series-article-nav .text-lg) {
+        font-size: 1.125rem;
+      }
+
+      :global(.series-article-nav .font-bold) {
+        font-weight: 700;
+      }
+
+      :global(.series-article-nav .font-medium) {
+        font-weight: 500;
+      }
+
+      :global(.series-article-nav .mb-3) {
+        margin-bottom: 0.75rem;
       }
     </style>
   </body>
