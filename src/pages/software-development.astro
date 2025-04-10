@@ -10,9 +10,14 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 // Get all software development posts
 const allPosts = await getCollection('blog');
 const softwarePosts = allPosts
-  .filter(post => post.data.categories?.some(category => 
-    ["軟體開發", "software development", "web-development", "app-development", "devops", "architecture"].includes(category.toLowerCase())
-  ))
+  .filter(post => {
+    // If post has epic field, use it for categorization
+    if ('epic' in post.data) {
+      return post.data.epic === "軟體開發";
+    }
+    // Default to software development if no epic
+    return true;
+  })
   .sort((a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf());
 ---
 

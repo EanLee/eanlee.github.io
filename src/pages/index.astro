@@ -5,7 +5,7 @@ import Footer from "../components/Footer.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
 import { getCollection } from "astro:content";
 import Sidebar from "../components/sidebar.astro";
-import CategoryBlock from "../components/CategoryBlock.astro";
+import EpicBlock from "../components/EpicBlock.astro";
 
 // 獲取所有文章
 const allPosts = await getCollection("blog");
@@ -17,23 +17,48 @@ const sortedPosts = allPosts.sort((a, b) =>
 
 // 獲取軟體開發類別的文章
 const softwarePosts = sortedPosts
-    .filter(post => post.data.categories?.some(category => 
-        ["軟體開發", "software development", "web-development", "app-development", "devops", "architecture"].includes(category.toLowerCase())
-    ))
+    .filter(post => {
+        // If post has epic field, use it for categorization
+        if ('epic' in post.data) {
+            return post.data.epic === "軟體開發";
+        }
+        // Default to software development if no epic or categories
+        return true;
+    })
     .slice(0, 5);
 
 // 獲取管理經驗類別的文章
 const managementPosts = sortedPosts
-    .filter(post => post.data.categories?.some(category => 
-        ["管理經驗", "management"].includes(category.toLowerCase())
-    ))
+    .filter(post => {
+        // If post has epic field, use it for categorization
+        if ('epic' in post.data) {
+            return post.data.epic === "管理經驗";
+        }
+        // Default to management experience if no epic
+        return false;
+    })
     .slice(0, 5);
 
 // 獲取閱讀心得類別的文章
 const readingPosts = sortedPosts
-    .filter(post => post.data.categories?.some(category => 
-        ["閱讀心得", "reading"].includes(category.toLowerCase())
-    ))
+    .filter(post => {
+        if ('epic' in post.data) {
+            return post.data.epic === "閱讀心得";
+        }
+        return false;
+    })
+    .slice(0, 5);
+
+// 獲取個人成長類別的文章
+const personalGrowthPosts = sortedPosts
+    .filter(post => {
+        // If post has epic field, use it for categorization
+        if ('epic' in post.data) {
+            return post.data.epic === "個人成長";
+        }
+        // Default to personal growth if no epic
+        return false;
+    })
     .slice(0, 5);
 
 // 為SEO準備關鍵字
@@ -180,7 +205,7 @@ const structuredData = {
         
         <div class="content-area">
             <div class="category-section">
-                <CategoryBlock 
+                <EpicBlock 
                     title="軟體開發" 
                     posts={softwarePosts} 
                     viewAllLink="/software-development/" 
@@ -188,18 +213,26 @@ const structuredData = {
             </div>
             
             <div class="category-section">
-                <CategoryBlock 
+                <EpicBlock 
                     title="管理經驗" 
-                    posts={managementPosts.length > 0 ? managementPosts : softwarePosts.slice(0, 2)} 
+                    posts={managementPosts} 
                     viewAllLink="/categories/管理經驗/" 
                 />
             </div>
             
             <div class="category-section">
-                <CategoryBlock 
+                <EpicBlock 
                     title="閱讀心得" 
-                    posts={readingPosts.length > 0 ? readingPosts : softwarePosts.slice(0, 2)} 
+                    posts={readingPosts} 
                     viewAllLink="/categories/閱讀心得/" 
+                />
+            </div>
+            
+            <div class="category-section">
+                <EpicBlock 
+                    title="個人成長" 
+                    posts={personalGrowthPosts} 
+                    viewAllLink="/categories/個人成長/" 
                 />
             </div>
         </div>
