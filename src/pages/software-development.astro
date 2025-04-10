@@ -33,11 +33,15 @@ const softwarePosts = allPosts
         <div class="sidebar-area">
           <div class="widget-container">
             <Series />
-            <Categories />
+            <Categories posts={softwarePosts} />
           </div>
         </div>
         
         <div class="content-area">
+          <div class="page-header">
+            <h1>軟體開發</h1>
+            <p>分享軟體開發經驗和技術分享</p>
+          </div>
           <div class="posts-list">
             {softwarePosts.slice(0, 20).map(post => (
               <article class="post-card">
@@ -126,6 +130,26 @@ const softwarePosts = allPosts
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    width: 100%;
+  }
+  
+  .page-header {
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #eaeaea;
+  }
+  
+  .page-header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0 0 0.5rem 0;
+    color: #4299e1;
+  }
+  
+  .page-header p {
+    font-size: 1rem;
+    color: #666;
+    margin: 0;
   }
   
   .posts-list {

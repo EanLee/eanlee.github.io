@@ -2,8 +2,9 @@
 import { getCollection } from "astro:content";
 import WidgetBase from "./WidgetBase.astro";
 
-// 獲取所有文章
-const posts = await getCollection("blog");
+// 接收外部傳入的 posts，如果沒有提供則獲取所有文章
+const { posts: providedPosts } = Astro.props;
+const posts = providedPosts || await getCollection("blog");
 
 // 提取標籤
 const categories = posts
