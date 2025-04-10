@@ -1,0 +1,217 @@
+---
+import BaseHead from "../components/BaseHead.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
+import { getCollection } from "astro:content";
+import Sidebar from "../components/sidebar.astro";
+import CategoryBlock from "../components/CategoryBlock.astro";
+
+// 獲取所有文章
+const allPosts = await getCollection("blog");
+
+// 按日期排序
+const sortedPosts = allPosts.sort((a, b) =>
+    b.data.date.valueOf() - a.data.date.valueOf()
+);
+
+// 獲取軟體開發類別的文章
+const softwarePosts = sortedPosts
+    .filter(post => post.data.categories?.some(category => 
+        ["軟體開發", "software development", "web-development", "app-development", "devops", "architecture"].includes(category.toLowerCase())
+    ))
+    .slice(0, 5);
+
+// 獲取管理經驗類別的文章
+const managementPosts = sortedPosts
+    .filter(post => post.data.categories?.some(category => 
+        ["管理經驗", "management"].includes(category.toLowerCase())
+    ))
+    .slice(0, 5);
+
+// 獲取閱讀心得類別的文章
+const readingPosts = sortedPosts
+    .filter(post => post.data.categories?.some(category => 
+        ["閱讀心得", "reading"].includes(category.toLowerCase())
+    ))
+    .slice(0, 5);
+
+// 為SEO準備關鍵字
+const keywords = ["技術部落格", "軟體開發", "管理經驗", "閱讀心得", "個人成長", "程式設計", "技術分享"];
+
+// 準備結構化資料
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "Blog",
+  "headline": SITE_TITLE,
+  "description": SITE_DESCRIPTION,
+  "url": Astro.url.toString(),
+  "author": {
+    "@type": "Person",
+    "name": "Ean Lee"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Ean Lee",
+    "logo": {
+      "@type": "ImageObject",
+      "url": new URL("/favicon.ico", Astro.url).toString()
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": Astro.url.toString()
+  }
+};
+---
+
+<!doctype html>
+<html lang="zh-TW" itemscope itemtype="https://schema.org/Blog">
+<head>
+    <BaseHead 
+      title={SITE_TITLE} 
+      description={SITE_DESCRIPTION} 
+      keywords={keywords}
+    />
+    <style>
+        .home-container {
+            width: 100%;
+            max-width: 100%;
+            margin: 0 auto;
+        }
+
+        .hero-section {
+            margin: 2rem 0;
+            padding: 2.5rem;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e9f2 100%);
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+
+        .hero-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: #2d3748;
+        }
+
+        .hero-description {
+            font-size: 1.2rem;
+            color: #4a5568;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 300px minmax(0, 1fr);
+            gap: 2rem;
+            margin: 2rem 0 3rem;
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+
+        .sidebar-area {
+            width: 300px;
+        }
+
+        .content-area {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .category-section {
+            width: 100%;
+        }
+
+        @media (max-width: 1200px) {
+            .main-content {
+                grid-template-columns: 250px minmax(0, 1fr);
+            }
+
+            .sidebar-area {
+                width: 250px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar-area {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .hero-description {
+                font-size: 1rem;
+            }
+        }
+    </style>
+
+    <!-- Structured Data for SEO -->
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+</head>
+<body>
+<Header />
+
+<div class="home-container">
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <h1 class="hero-title">歡迎來到 {SITE_TITLE}</h1>
+        <p class="hero-description">{SITE_DESCRIPTION}</p>
+    </section>
+
+    <div class="main-content">
+        <div class="sidebar-area">
+            <Sidebar />
+        </div>
+        
+        <div class="content-area">
+            <div class="category-section">
+                <CategoryBlock 
+                    title="軟體開發" 
+                    posts={softwarePosts} 
+                    viewAllLink="/categories/軟體開發/" 
+                />
+            </div>
+            
+            <div class="category-section">
+                <CategoryBlock 
+                    title="管理經驗" 
+                    posts={managementPosts.length > 0 ? managementPosts : softwarePosts.slice(0, 2)} 
+                    viewAllLink="/categories/管理經驗/" 
+                />
+            </div>
+            
+            <div class="category-section">
+                <CategoryBlock 
+                    title="閱讀心得" 
+                    posts={readingPosts.length > 0 ? readingPosts : softwarePosts.slice(0, 2)} 
+                    viewAllLink="/categories/閱讀心得/" 
+                />
+            </div>
+        </div>
+    </div>
+</div>
+
+<Footer />
+</body>
+</html>
