@@ -66,7 +66,7 @@ const displayCount = Math.min(5, posts.length);
   {posts.length > 0 ? (
     <div class="posts-list">
       {posts.slice(0, displayCount).map((post) => {
-        const path = post.slug.toLowerCase();
+        const path = post.id.slice(0, post.id.lastIndexOf("/")).toLowerCase();
         return (
           <article class="post-card">
             <div class="post-content-wrapper">
@@ -91,7 +91,7 @@ const displayCount = Math.min(5, posts.length);
               </div>
               
               <h3 class="post-title">
-                <a href={`/blog/${path}/`}>{post.data.title}</a>
+                <a href={`/post/${path}/`}>{post.data.title}</a>
               </h3>
               
               {post.data.description && (
@@ -101,7 +101,7 @@ const displayCount = Math.min(5, posts.length);
               )}
               
               <div class="post-actions">
-                <a href={`/blog/${path}/`} class="read-more">
+                <a href={`/post/${path}/`} class="read-more">
                   繼續閱讀
                   <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
                 </a>
