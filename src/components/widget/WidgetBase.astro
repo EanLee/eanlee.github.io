@@ -1,28 +1,63 @@
 ---
 interface Props {
   topic: string;
+  icon?: string;
 }
 
-const { topic } = Astro.props;
+const { topic, icon } = Astro.props;
+
+// Default icon if none provided
+const defaultIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="10"/></svg>`;
 ---
 
-<div>
-  <p>{topic}</p>
-  <slot />
+<div class="sidebar-widget">
+  <div class="widget-header">
+    <h3 class="widget-title">
+      <span set:html={icon || defaultIcon} />
+      {topic}
+    </h3>
+  </div>
+  <div class="widget-content">
+    <slot />
+  </div>
 </div>
 
 <style>
-  p {
-    position: relative;
-    padding-bottom: 5px;
-    font-size: 1rem;
-    font-weight: bold;
-    font-style: italic;
-    text-transform: uppercase;
-    border-bottom: 3px solid #82b366;
+  .sidebar-widget {
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
   }
 
-  div {
-    margin-bottom: 20px;
+  .widget-header {
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid #eaeaea;
+  }
+
+  .widget-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0;
+    color: #2d3748;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .widget-title :global(svg) {
+    color: #4299e1;
+  }
+
+  .widget-content {
+    font-size: 0.95rem;
+  }
+
+  @media (max-width: 768px) {
+    .sidebar-widget {
+      margin-bottom: 1.5rem;
+    }
   }
 </style>
