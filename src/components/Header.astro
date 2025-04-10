@@ -22,7 +22,11 @@ const image = "/favicon.ico";
         </div>
         <div class="internal-links">
           <HeaderLink href="/">Home</HeaderLink>
-          <HeaderLink href="/archives/">Archives</HeaderLink>
+          <HeaderLink href="/software-development/">軟體開發</HeaderLink>
+          <HeaderLink href="/management-experience/">管理經驗</HeaderLink>
+          <HeaderLink href="/reading-insights/">閱讀心得</HeaderLink>
+          <HeaderLink href="/personal-growth/">個人成長</HeaderLink>
+          <HeaderLink href="/archives/">所有文章</HeaderLink>
         </div>
       </div>
     </nav>
@@ -31,16 +35,18 @@ const image = "/favicon.ico";
 <style>
 
   .header-div {
-    max-width: 1120px;
+    max-width: 1400px;
     margin: 0 auto;
-    padding: 0 1em;
+    padding: 0 1rem;
+    width: 100%;
   }
 
   header {
     margin: 0;
-    padding: 0 1em;
+    padding: 0;
     background: white;
     box-shadow: 0 2px 8px rgba(var(--black), 5%);
+    width: 100%;
   }
 
   .logo {
@@ -101,6 +107,11 @@ const image = "/favicon.ico";
     border-bottom-color: var(--accent);
   }
 
+  .internal-links {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
   @media (max-width: 768px) {
     nav {
       flex-direction: column;
@@ -124,6 +135,7 @@ const image = "/favicon.ico";
       width: 100%;
       display: flex;
       justify-content: flex-start;
+      overflow-x: auto;
     }
   }
 </style>

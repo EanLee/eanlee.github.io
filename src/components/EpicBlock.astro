@@ -1,0 +1,319 @@
+---
+import FormattedDate from "./FormattedDate.astro";
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  title: string;
+  posts: CollectionEntry<'blog'>[];
+  viewAllLink: string;
+}
+
+const { title, posts, viewAllLink } = Astro.props;
+
+// 根據 epic 名稱選擇適當的圖標
+const getEpicIcon = (epicTitle: string) => {
+  switch(epicTitle) {
+    case "軟體開發":
+      return `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>`;
+    case "管理經驗":
+      return `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`;
+    case "閱讀心得":
+      return `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>`;
+    case "個人成長":
+      return `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>`;
+    default:
+      return `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"/></svg>`;
+  }
+};
+
+// 獲取 epic 顏色
+const getEpicColor = (epicTitle: string) => {
+  switch(epicTitle) {
+    case "軟體開發":
+      return "#4299e1"; // 藍色
+    case "管理經驗":
+      return "#38a169"; // 綠色
+    case "閱讀心得":
+      return "#ed8936"; // 橙色
+    case "個人成長":
+      return "#9f7aea"; // 紫色
+    default:
+      return "#4299e1"; // 默認藍色
+  }
+};
+
+const epicIcon = getEpicIcon(title);
+const epicColor = getEpicColor(title);
+
+// 計算顯示的文章數量 - 最多顯示5篇文章
+const displayCount = Math.min(5, posts.length);
+---
+
+<div class="epic-block" style={`--epic-color: ${epicColor}`}>
+  <div class="epic-header">
+    <h2 class="epic-title">
+      <span class="epic-icon" set:html={epicIcon} />
+      {title}
+    </h2>
+    {posts.length > 0 && (
+      <a href={viewAllLink} class="view-all">
+        查看全部
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </a>
+    )}
+  </div>
+  
+  {posts.length > 0 ? (
+    <div class="posts-list">
+      {posts.slice(0, displayCount).map((post) => {
+        const path = post.id.slice(0, post.id.lastIndexOf("/")).toLowerCase();
+        return (
+          <article class="post-card">
+            <div class="post-content-wrapper">
+              <div class="post-meta-row">
+                <div class="post-date">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calendar"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+                  <FormattedDate date={post.data.date} />
+                </div>
+                
+                {post.data.tags && post.data.tags.length > 0 && (
+                  <div class="post-tags">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-tags"><path d="M9 5H2v7l6.29 6.29c.94.94 2.48.94 3.42 0l3.58-3.58c.94-.94.94-2.48 0-3.42L9 5Z"/><path d="M6 9.01V9"/><path d="m15 5 6.3 6.3a2.4 2.4 0 0 1 0 3.4L17 19"/></svg>
+                    <div class="tag-wrapper">
+                      {post.data.tags.map((tag: string) => (
+                        <a href={`/tags/${tag.toLowerCase()}/`} class="tag-link">
+                          {tag}
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+              
+              <h3 class="post-title">
+                <a href={`/post/${path}/`}>{post.data.title}</a>
+              </h3>
+              
+              {post.data.description && (
+                <div class="post-excerpt">
+                  {post.data.description}
+                </div>
+              )}
+              
+              <div class="post-actions">
+                <a href={`/post/${path}/`} class="read-more">
+                  繼續閱讀
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                </a>
+              </div>
+            </div>
+          </article>
+        );
+      })}
+    </div>
+  ) : (
+    <div class="no-posts">
+      <p>暫無相關文章</p>
+    </div>
+  )}
+</div>
+
+<style>
+  /* 基本變數 */
+  :root {
+    --card-bg: #ffffff;
+    --card-border: #e0e0e0;
+    --card-shadow: rgba(0, 0, 0, 0.1);
+    --title-color: #333333;
+    --text-color: #444444;
+    --meta-color: #666666;
+    --link-color: #2337ff;
+    --link-hover: #1a29cc;
+    --divider-color: #eeeeee;
+    --tag-color: #4682b4;
+    --tag-bg: #f0f0f0;
+  }
+
+  .epic-block {
+    margin-bottom: 2rem;
+  }
+
+  .epic-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid var(--epic-color, #4299e1);
+  }
+
+  .epic-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0;
+    color: var(--title-color);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .epic-icon {
+    display: flex;
+    align-items: center;
+    color: var(--epic-color, #4299e1);
+  }
+
+  .view-all {
+    font-size: 0.9rem;
+    color: var(--epic-color, #4299e1);
+    text-decoration: none;
+    transition: color 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+    font-weight: 500;
+  }
+
+  .view-all:hover {
+    opacity: 0.8;
+  }
+
+  .posts-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .post-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    overflow: hidden;
+    transition: box-shadow 0.2s ease;
+  }
+
+  .post-card:hover {
+    box-shadow: 0 5px 15px var(--card-shadow);
+  }
+
+  .post-content-wrapper {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .post-meta-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .post-date {
+    font-size: 0.8rem;
+    color: var(--meta-color);
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .post-tags {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .tag-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+  }
+
+  .tag-link {
+    font-size: 0.7rem;
+    padding: 0.1rem 0.5rem;
+    background-color: var(--tag-bg);
+    color: var(--tag-color);
+    border-radius: 9999px;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+  }
+
+  .tag-link:hover {
+    background-color: var(--epic-color, #4299e1);
+    color: white;
+  }
+
+  .post-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0.5rem 0;
+    line-height: 1.3;
+  }
+
+  .post-title a {
+    color: var(--title-color);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .post-title a:hover {
+    color: var(--epic-color, #4299e1);
+  }
+
+  .post-excerpt {
+    font-size: 0.9rem;
+    color: var(--text-color);
+    line-height: 1.5;
+    margin-bottom: 1rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+
+  .post-actions {
+    margin-top: auto;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .read-more {
+    font-size: 0.85rem;
+    color: var(--epic-color, #4299e1);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    transition: opacity 0.2s ease;
+  }
+
+  .read-more:hover {
+    opacity: 0.8;
+  }
+
+  .no-posts {
+    padding: 2rem;
+    text-align: center;
+    color: var(--meta-color);
+    background-color: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 8px;
+  }
+
+  @media (max-width: 768px) {
+    .epic-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+    
+    .post-meta-row {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+</style>
