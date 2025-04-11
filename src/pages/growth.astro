@@ -8,7 +8,7 @@ const growthPosts = allPosts
   .filter(post => {
     // If post has epic field, use it for categorization
     if ('epic' in post.data) {
-      return post.data.epic === "自我成長";
+      return post.data.epic === "growth";
     }
     // No fallback - only show posts with this epic
     return false;

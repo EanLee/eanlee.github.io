@@ -20,7 +20,7 @@ const softwarePosts = sortedPosts
     .filter(post => {
         // If post has epic field, use it for categorization
         if ('epic' in post.data) {
-            return post.data.epic === "軟體開發";
+            return post.data.epic === "software";
         }
         // Default to software development if no epic or categories
         return true;
@@ -32,7 +32,7 @@ const managementPosts = sortedPosts
     .filter(post => {
         // If post has epic field, use it for categorization
         if ('epic' in post.data) {
-            return post.data.epic === "管理經驗";
+            return post.data.epic === "management";
         }
         // Default to management experience if no epic
         return false;
@@ -43,18 +43,18 @@ const managementPosts = sortedPosts
 const readingPosts = sortedPosts
     .filter(post => {
         if ('epic' in post.data) {
-            return post.data.epic === "閱讀心得";
+            return post.data.epic === "reading";
         }
         return false;
     })
     .slice(0, 5);
 
 // 獲取個人成長類別的文章
-const personalGrowthPosts = sortedPosts
+const growthPosts = sortedPosts
     .filter(post => {
         // If post has epic field, use it for categorization
         if ('epic' in post.data) {
-            return post.data.epic === "個人成長";
+            return post.data.epic === "growth";
         }
         // Default to personal growth if no epic
         return false;
@@ -62,7 +62,7 @@ const personalGrowthPosts = sortedPosts
     .slice(0, 5);
 
 // 為SEO準備關鍵字
-const keywords = ["技術部落格", "軟體開發", "管理經驗", "閱讀心得", "個人成長", "程式設計", "技術分享"];
+const keywords = ["技術部落格", "軟體開發", "管理經驗", "閱讀心得", "成長", "程式設計", "技術分享"];
 
 // 準備結構化資料
 const structuredData = {
@@ -222,7 +222,7 @@ const structuredData = {
                 />
                 <EpicBlock 
                     title="自我成長" 
-                    posts={personalGrowthPosts} 
+                    posts={growthPosts} 
                     viewAllLink="/growth/" 
                 />
             </div>

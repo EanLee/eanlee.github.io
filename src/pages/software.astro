@@ -8,7 +8,7 @@ const softwarePosts = allPosts
   .filter(post => {
     // If post has epic field, use it for categorization
     if ('epic' in post.data) {
-      return post.data.epic === "軟體開發";
+      return post.data.epic === "software";
     }
     // Default to software development if no epic
     return true;

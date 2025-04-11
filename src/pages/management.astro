@@ -8,7 +8,7 @@ const managementPosts = allPosts
   .filter((post) => {
     // If post has epic field, use it for categorization
     if ("epic" in post.data) {
-      return post.data.epic === "管理經驗";
+      return post.data.epic === "management";
     }
     // No fallback - only show posts with this epic
     return false;
@@ -22,7 +22,7 @@ const managementPosts = allPosts
 <EpicLayout
   epicName="管理經驗"
   epicTitle="管理經驗"
-  epicDescription="分享我在管理領域的經驗和見解"
+  epicDescription="關於管理的一些個人看法，包括專案管理、團隊管理、成本管理等等。"
   accentColor="#38a169"
   source={managementPosts}
   showSeries={false}
