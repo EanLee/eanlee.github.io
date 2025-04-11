@@ -4,11 +4,11 @@ import EpicLayout from '../layouts/EpicLayout.astro';
 
 // Get all personal growth posts
 const allPosts = await getCollection('blog');
-const personalGrowthPosts = allPosts
+const growthPosts = allPosts
   .filter(post => {
     // If post has epic field, use it for categorization
     if ('epic' in post.data) {
-      return post.data.epic === "個人成長";
+      return post.data.epic === "自我成長";
     }
     // No fallback - only show posts with this epic
     return false;
@@ -17,10 +17,10 @@ const personalGrowthPosts = allPosts
 ---
 
 <EpicLayout
-  epicName="個人成長"
-  epicTitle="個人成長"
-  epicDescription="分享我的個人成長歷程和心得"
+  epicName="自我成長"
+  epicTitle="自我成長"
+  epicDescription="分享自我成長的一些想法與看法"
   accentColor="#9f7aea"
-  source={personalGrowthPosts}
+  source={growthPosts}
   showSeries={false}
 />
