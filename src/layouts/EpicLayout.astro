@@ -7,87 +7,95 @@ import Categories from '../components/widget/categories.astro';
 import Series from '../components/widget/series.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 
-// Get all software development posts
-const allPosts = await getCollection('blog');
-const softwarePosts = allPosts
-  .filter(post => {
-    // If post has epic field, use it for categorization
-    if ('epic' in post.data) {
-      return post.data.epic === "軟體開發";
-    }
-    // Default to software development if no epic
-    return true;
-  })
-  .sort((a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf());
+export interface Props {
+  epicName: string;
+  epicTitle: string;
+  epicDescription: string;
+  accentColor: string;
+  showSeries?: boolean;
+  source?: any[];
+}
+
+const { epicName, epicTitle, epicDescription, accentColor, showSeries = false, source } = Astro.props;
+
+// Get all posts for this epic
+const epicPosts = source?.sort((a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf()) || [];
 ---
 
 <html lang="zh-TW">
   <head>
-    <BaseHead title={`軟體開發 | ${SITE_TITLE}`} description={SITE_DESCRIPTION} />
+    <BaseHead title={`${epicTitle} | ${SITE_TITLE}`} description={SITE_DESCRIPTION} />
   </head>
   <body>
     <Header />
     
-    <div class="software-container">
+    <div class="epic-container">
       <div class="main-content">
         <div class="sidebar-area">
           <div class="widget-container">
-            <Series />
-            <Categories posts={softwarePosts} />
+            {showSeries && <Series />}
+            <Categories posts={epicPosts} />
           </div>
         </div>
         
         <div class="content-area">
           <div class="page-header">
-            <h1>軟體開發</h1>
-            <p>分享軟體開發經驗和技術分享</p>
-          </div>
-          <div class="posts-list">
-            {softwarePosts.slice(0, 20).map(post => (
-              <article class="post-card">
-                <div class="post-content">
-                  <div class="post-meta-row">
-                    <time class="post-date" datetime={post.data.date.toISOString()}>
-                      {new Date(post.data.date).toLocaleDateString('zh-TW', {
-                        year: 'numeric',
-                        month: 'short',
-                        day: 'numeric',
-                      })}
-                    </time>
-                    
-                    {post.data.tags && post.data.tags.length > 0 && (
-                      <div class="post-tags">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"/><path d="M7 7h.01"/></svg>
-                        <span class="tag-list">
-                          {post.data.tags.map((tag, index) => (
-                            <>
-                              <a href={`/tags/${tag}`} class="tag-link">{tag}</a>
-                              {index < post.data.tags.length - 1 && ", "}
-                            </>
-                          ))}
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                  
-                  <h3 class="post-title">
-                    <a href={`/post/${post.id.slice(0, post.id.lastIndexOf("/")).toLowerCase()}/`}>{post.data.title}</a>
-                  </h3>
-                  
-                  <p class="post-description">
-                    {post.data.description}
-                  </p>
-                  
-                  <a href={`/post/${post.id.slice(0, post.id.lastIndexOf("/")).toLowerCase()}/`} class="read-more">
-                    閱讀更多
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-                  </a>
-                </div>
-              </article>
-            ))}
+            <h1>{epicTitle}</h1>
+            <p>{epicDescription}</p>
           </div>
           
-          {softwarePosts.length > 20 && (
+          <div class="posts-list">
+            {epicPosts.length > 0 ? (
+              epicPosts.slice(0, 20).map(post => (
+                <article class="post-card">
+                  <div class="post-content">
+                    <div class="post-meta-row">
+                      <time class="post-date" datetime={post.data.date.toISOString()}>
+                        {new Date(post.data.date).toLocaleDateString('zh-TW', {
+                          year: 'numeric',
+                          month: 'short',
+                          day: 'numeric',
+                        })}
+                      </time>
+                      
+                      {post.data.tags && post.data.tags.length > 0 && (
+                        <div class="post-tags">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"/><path d="M7 7h.01"/></svg>
+                          <span class="tag-list">
+                            {post.data.tags?.map((tag, index) => (
+                              <>
+                                <a href={`/tags/${tag}`} class="tag-link">{tag}</a>
+                                {index < post.data.tags.length - 1 && ", "}
+                              </>
+                            ))}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                    
+                    <h3 class="post-title">
+                      <a href={`/post/${post.id.slice(0, post.id.lastIndexOf("/")).toLowerCase()}/`}>{post.data.title}</a>
+                    </h3>
+                    
+                    <p class="post-description">
+                      {post.data.description}
+                    </p>
+                    
+                    <a href={`/post/${post.id.slice(0, post.id.lastIndexOf("/")).toLowerCase()}/`} class="read-more">
+                      閱讀更多
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                    </a>
+                  </div>
+                </article>
+              ))
+            ) : (
+              <div class="no-posts">
+                <p>暫無{epicTitle}相關文章</p>
+              </div>
+            )}
+          </div>
+          
+          {epicPosts.length > 20 && (
             <div class="view-more-container">
               <a href="/archives/" class="view-more-link">
                 查看更多文章
@@ -103,8 +111,8 @@ const softwarePosts = allPosts
   </body>
 </html>
 
-<style>
-  .software-container {
+<style define:vars={{ accentColor }}>
+  .epic-container {
     width: 100%;
     max-width: 100%;
     margin: 0 auto;
@@ -126,6 +134,12 @@ const softwarePosts = allPosts
     width: 300px;
   }
   
+  .widget-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+  
   .content-area {
     display: flex;
     flex-direction: column;
@@ -143,7 +157,7 @@ const softwarePosts = allPosts
     font-size: 2rem;
     font-weight: 700;
     margin: 0 0 0.5rem 0;
-    color: #4299e1;
+    color: var(--accentColor);
   }
   
   .page-header p {
@@ -156,16 +170,11 @@ const softwarePosts = allPosts
     width: 100%;
   }
   
-  .posts-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 2rem;
-  }
-  
   .post-card {
     border-radius: 12px;
     overflow: hidden;
     transition: transform 0.3s ease;
+    margin-bottom: 1.5rem;
   }
   
   .post-content {
@@ -194,7 +203,7 @@ const softwarePosts = allPosts
   }
   
   .post-tags svg {
-    color: #4299e1;
+    color: var(--accentColor);
   }
   
   .tag-link {
@@ -204,7 +213,7 @@ const softwarePosts = allPosts
   }
   
   .tag-link:hover {
-    color: #4299e1;
+    color: var(--accentColor);
   }
   
   .post-title {
@@ -220,7 +229,7 @@ const softwarePosts = allPosts
   }
   
   .post-title a:hover {
-    color: #4299e1;
+    color: var(--accentColor);
   }
   
   .post-description {
@@ -236,13 +245,14 @@ const softwarePosts = allPosts
     gap: 0.5rem;
     font-size: 0.95rem;
     font-weight: 500;
-    color: #4299e1;
+    color: var(--accentColor);
     text-decoration: none;
     transition: color 0.2s ease;
   }
   
   .read-more:hover {
-    color: #2b6cb0;
+    color: var(--accentColor);
+    opacity: 0.8;
   }
   
   .view-more-container {
@@ -256,16 +266,16 @@ const softwarePosts = allPosts
     gap: 0.5rem;
     font-size: 1rem;
     font-weight: 500;
-    color: #4299e1;
+    color: var(--accentColor);
     text-decoration: none;
     padding: 0.75rem 1.5rem;
-    border: 1px solid #4299e1;
+    border: 1px solid var(--accentColor);
     border-radius: 0.5rem;
     transition: all 0.2s ease;
   }
   
   .view-more-link:hover {
-    background-color: #4299e1;
+    background-color: var(--accentColor);
     color: white;
   }
   
@@ -273,9 +283,13 @@ const softwarePosts = allPosts
     color: white;
   }
   
-  .widget-container {
-    display: flex;
-    flex-direction: column;
+  .no-posts {
+    width: 100%;
+    text-align: center;
+    /* padding: 2rem; */
+    background-color: #f7fafc;
+    border-radius: 8px;
+    color: #718096;
   }
   
   @media (max-width: 1200px) {

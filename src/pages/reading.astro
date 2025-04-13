@@ -1,0 +1,26 @@
+---
+import { getCollection } from 'astro:content';
+import EpicLayout from '../layouts/EpicLayout.astro';
+
+// Get all reading insights posts
+const allPosts = await getCollection('blog');
+const readingPosts = allPosts
+  .filter(post => {
+    // If post has epic field, use it for categorization
+    if ('epic' in post.data) {
+      return post.data.epic === "reading";
+    }
+    // No fallback - only show posts with this epic
+    return false;
+  })
+  .sort((a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf());
+---
+
+<EpicLayout
+  epicName="閱讀心得"
+  epicTitle="閱讀心得"
+  epicDescription="分享閱讀書籍後的個人看法，以及推薦的書籍"
+  accentColor="#ed8936"
+  source={readingPosts}
+  showSeries={false}
+/>
