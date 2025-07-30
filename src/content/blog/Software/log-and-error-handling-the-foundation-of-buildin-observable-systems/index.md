@@ -17,7 +17,7 @@ keywords:
   - 系統監控
   - 可觀測性
   - Structured Logging
-slug: log-and-error-handling-best-practices
+slug: log-and-error-handling-the-foundation-of-buildin-observable-systems
 ---
 
 > 🔖 長話短說 🔖
