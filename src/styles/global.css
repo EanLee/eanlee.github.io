@@ -245,11 +245,48 @@ hr {
 }
 
 .prose blockquote {
-    font-style: italic;
-    color: var(--prose-blockquote);
-    padding-left: 1rem;
-    border-left: 4px solid var(--prose-blockquote-border);
-    margin: 1.5rem 0;
+    font-style: normal;
+    font-size: 1.05em;
+    line-height: 1.7;
+    color: #374151;
+    padding: 1.75rem 2rem;
+    margin: 2.5rem 0;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    border: none;
+    border-left: 4px solid var(--accent);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    position: relative;
+    transition: all 0.2s ease;
+}
+
+.prose blockquote:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transform: translateY(-1px);
+}
+
+.prose blockquote p {
+    margin: 0.75em 0;
+}
+
+.prose blockquote p:first-child {
+    margin-top: 0;
+}
+
+.prose blockquote p:last-child {
+    margin-bottom: 0;
+}
+
+.prose blockquote::before {
+    content: '"';
+    font-size: 3em;
+    font-family: Georgia, serif;
+    color: var(--accent);
+    opacity: 0.3;
+    position: absolute;
+    left: 0.5rem;
+    top: -0.2rem;
+    line-height: 1;
 }
 
 .prose hr {
