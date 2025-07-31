@@ -1,0 +1,26 @@
+---
+import { getCollection } from 'astro:content';
+import EpicLayout from '../layouts/EpicLayout.astro';
+
+// Get all personal growth posts
+const allPosts = await getCollection('blog');
+const growthPosts = allPosts
+  .filter(post => {
+    // If post has epic field, use it for categorization
+    if ('epic' in post.data) {
+      return post.data.epic === "growth";
+    }
+    // No fallback - only show posts with this epic
+    return false;
+  })
+  .sort((a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf());
+---
+
+<EpicLayout
+  epicName="自我成長"
+  epicTitle="自我成長"
+  epicDescription="分享自我成長的一些想法與看法"
+  accentColor="#9f7aea"
+  source={growthPosts}
+  showSeries={false}
+/>

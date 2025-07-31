@@ -8,11 +8,21 @@ const blog = defineCollection({
 		// Transform string to Date object
 		date: z.coerce.date(),
 		lastmod: z.coerce.date().optional(),
-		tags: z.array(z.string()).optional(),
-		categories: z.array(z.string()).optional(),
-		keywords: z.array(z.string()).optional(),
-		coverImage: z.string().optional(),
-		series: z.string().optional(),
+		tags: z.preprocess(
+			(val) => (Array.isArray(val) ? val.filter((item) => item !== null) : val),
+			z.array(z.string()).nullable().optional()
+		),
+		categories: z.preprocess(
+			(val) => (Array.isArray(val) ? val.filter((item) => item !== null) : val),
+			z.array(z.string()).nullable().optional()
+		),
+		keywords: z.preprocess(
+			(val) => (Array.isArray(val) ? val.filter((item) => item !== null) : val),
+			z.array(z.string()).nullable().optional()
+		),
+		coverImage: z.string().nullable().optional(),
+		series: z.string().nullable().optional(),
+		epic: z.string().nullable().optional(),
 	}),
 });
 

@@ -1,0 +1,26 @@
+---
+import { getCollection } from 'astro:content';
+import EpicLayout from '../layouts/EpicLayout.astro';
+
+// Get all software development posts
+const allPosts = await getCollection('blog');
+const softwarePosts = allPosts
+  .filter(post => {
+    // If post has epic field, use it for categorization
+    if ('epic' in post.data) {
+      return post.data.epic === "software";
+    }
+    // Default to software development if no epic
+    return true;
+  })
+  .sort((a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf());
+---
+
+<EpicLayout
+  epicName="軟體開發"
+  epicTitle="軟體開發"
+  epicDescription="分享軟體開發經驗和技術分享"
+  accentColor="#4299e1"
+  source={softwarePosts}
+  showSeries={true}
+/>
