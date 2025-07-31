@@ -35,77 +35,81 @@ const {
     <Header />
     <main>
       <article itemscope itemtype="https://schema.org/BlogPosting">
-        <div class="article-wrapper">
-          <AdRow />
+        <div class="wrapper">
+          <article itemscope itemtype="https://schema.org/BlogPosting">
+            <AdRow />
 
-          <div class="hero-image">
-            {
-              coverImage && (
-                <img width={1020} height={510} src={coverImage} alt={title} />
-              )
-            }
-          </div>
-          <div class="prose-content">
-            <div class="title">
+            <div class="hero-image">
               {
-                tags && (
-                  <div class="tags">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="icon icon-tag"
-                      width="16"
-                      height="16"
-                      viewBox="0 0 32 32"
-                      stroke-width="1.5"
-                      stroke="#2c3e50"
-                      fill="none"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    >
-                      <path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
-                    </svg>
-                    <ul>
-                      {tags.map((tag: string) => (
-                        <li>
-                          <a class="tag" href={`/tags/${tag.toLowerCase()}/`}>
-                            {tag.toUpperCase().replace(/-/g, " ")}
-                          </a>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+                coverImage && (
+                  <img width={1020} height={510} src={coverImage} alt={title} />
                 )
               }
-              <h1 class="article-title" itemprop="headline">{title}</h1>
-              <div class="date">
-                <FormattedDate date={date} itemprop="datePublished" />
+            </div>
+            <div class="prose">
+              <div class="title">
                 {
-                  lastmod && (
-                    <div class="last-updated-on">
-                      Last updated on{" "}
-                      <FormattedDate date={lastmod} itemprop="dateModified" />
+                  tags && (
+                    <div class="tags">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="icon icon-tag"
+                        width="16"
+                        height="16"
+                        viewBox="0 0 32 32"
+                        stroke-width="1.5"
+                        stroke="#2c3e50"
+                        fill="none"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
+                      </svg>
+                      <ul>
+                        {tags.map((tag: string) => (
+                          <li>
+                            <a class="tag" href={`/tags/${tag.toLowerCase()}/`}>
+                              {tag.toUpperCase().replace(/-/g, " ")}
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
                   )
                 }
+                <h1 class="article-title" itemprop="headline">{title}</h1>
+                <div class="date">
+                  <FormattedDate date={date} itemprop="datePublished" />
+                  {
+                    lastmod && (
+                      <div class="last-updated-on">
+                        Last updated on{" "}
+                        <FormattedDate date={lastmod} itemprop="dateModified" />
+                      </div>
+                    )
+                  }
+                </div>
+                <hr />
               </div>
-              <hr />
+
+              <div class="article-content">
+                <slot />
+              </div>
+
+              <!-- 社交分享按鈕 -->
+              <SocialShare
+                title={title}
+                url={Astro.url.href}
+                description={description}
+              />
+
+              <!-- Prev/Next 限系列文 -->
+              <SeriesArticleNav series={series} title={title} />
             </div>
-
-            <div class="article-content">
-              <slot />
-            </div>
-
-            <!-- 社交分享按鈕 -->
-            <SocialShare
-              title={title}
-              url={Astro.url.href}
-              description={description}
-            />
-
-            <!-- Prev/Next 限系列文 -->
-            <SeriesArticleNav series={series} title={title} />
-          </div>
-          <TableOfContents />
+          </article>
+          <aside class="sidebar">
+            <TableOfContents />
+          </aside>
         </div>
       </article>
     </main>
@@ -124,11 +128,24 @@ const {
         width: 100%;
       }
 
-      .article-wrapper {
+      .wrapper {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 2rem;
         width: 1120px;
         max-width: calc(100% - 2em);
         margin: 0 auto;
         padding: 0 1em;
+      }
+
+      @media (min-width: 1024px) {
+        .wrapper {
+          grid-template-columns: 3fr 1fr;
+        }
+      }
+
+      .sidebar {
+        /* Add sidebar styles here */
       }
 
       .hero-image {

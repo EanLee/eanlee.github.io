@@ -177,3 +177,115 @@ hr {
   }
 
 
+/* 專為內文設計的樣式，提升閱讀體驗 */
+.prose {
+    --prose-body: #374151; /* 內文顏色，柔和的深灰色 */
+    --prose-headings: #111827; /* 標題顏色，更深的灰色 */
+    --prose-links: #2563eb; /* 連結顏色，鮮明的藍色 */
+    --prose-code: #111827; /* 程式碼顏色 */
+    --prose-code-bg: #f3f4f6; /* 程式碼區塊背景色 */
+    --prose-blockquote: #6b7280; /* 引用區塊顏色 */
+    --prose-blockquote-border: #e5e7eb; /* 引用區塊左側邊框顏色 */
+
+    color: var(--prose-body);
+    font-family: 'Atkinson Hyperlegible', sans-serif;
+    font-size: 1.125rem; /* 18px，適合閱讀的字體大小 */
+    line-height: 1.7; /* 1.7 倍行高，讓文字不擁擠 */
+    max-width: 80ch; /* 限制每行最大寬度約 80 個字元 */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4,
+.prose h5,
+.prose h6 {
+    color: var(--prose-headings);
+    margin-top: 2.5rem;
+    margin-bottom: 1.25rem;
+    line-height: 1.3;
+}
+
+.prose h1 { font-size: 2.5rem; }
+.prose h2 { font-size: 2rem; }
+.prose h3 { font-size: 1.5rem; }
+.prose h4 { font-size: 1.25rem; }
+
+.prose p {
+    margin-bottom: 1.5rem;
+}
+
+.prose a {
+    color: var(--prose-links);
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+    transition: border-color 0.3s ease;
+}
+
+.prose a:hover {
+    border-bottom-color: currentColor;
+}
+
+.prose strong {
+    font-weight: bold;
+    color: var(--prose-headings);
+}
+
+.prose ul,
+.prose ol {
+    padding-left: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.prose li > ul,
+.prose li > ol {
+    margin-top: 0.5rem;
+}
+
+.prose blockquote {
+    font-style: italic;
+    color: var(--prose-blockquote);
+    padding-left: 1rem;
+    border-left: 4px solid var(--prose-blockquote-border);
+    margin: 1.5rem 0;
+}
+
+.prose hr {
+    border-top: 1px solid var(--prose-blockquote-border);
+    margin: 3rem 0;
+}
+
+/* 程式碼區塊 */
+.prose pre {
+    background-color: var(--prose-code-bg);
+    color: var(--prose-code);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    overflow-x: auto;
+    margin-bottom: 1.5rem;
+}
+
+/* 行內程式碼 */
+.prose code {
+    font-family: 'Courier New', Courier, monospace;
+    background-color: var(--prose-code-bg);
+    padding: 0.2em 0.4em;
+    border-radius: 0.25rem;
+    font-size: 0.9em;
+}
+
+/* 清除 pre 區塊內 code 標籤的樣式，避免雙重背景 */
+.prose pre code {
+    background-color: transparent;
+    padding: 0;
+    border-radius: 0;
+}
+
+.prose img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
+    margin: 2rem 0;
+}

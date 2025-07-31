@@ -1,538 +1,184 @@
----
-// 側邊目錄組件 - 自動根據文章內容生成目錄
+--- 
+// src/components/TableOfContents.astro
+// A sticky sidebar table of contents that uses IntersectionObserver for scrollspy.
 ---
 
-<!-- 目錄容器 -->
-<div class="toc-container" id="toc-container">
-  <div class="toc-header">
-    <span>目錄</span>
-    <button id="toc-close" class="toc-toggle" aria-label="關閉目錄">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="20"
-        height="20"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      >
-        <line x1="18" y1="6" x2="6" y2="18"></line>
-        <line x1="6" y1="6" x2="18" y2="18"></line>
-      </svg>
-    </button>
-  </div>
-  <div class="toc-content" id="toc-content">
-    <!-- 目錄內容將由 JavaScript 動態生成 -->
-  </div>
+<div class="toc-wrapper">
+  <h3 class="toc-header">目錄</h3>
+  <nav id="toc-nav" class="toc-nav"></nav>
 </div>
 
-<!-- 固定位置的開啟按鈕 -->
-<button id="toc-open" class="toc-toggle toc-toggle-fixed" aria-label="開啟目錄">
-  <span class="button-text">目錄</span>
-</button>
-
 <script>
-  // 為 window 對象聲明自定義屬性
-  declare global {
-    interface Window {
-      tocInitTimeout: ReturnType<typeof setTimeout> | undefined;
-    }
-  }
+  function initTOC() {
+    const tocNav = document.getElementById('toc-nav');
+    const articleContent = document.querySelector('.article-content');
 
-  // 定義初始化函數，以便可以在不同時機調用
-  function initTOC(): void {
-    // 獲取文章內容區域
-    const articleContent = document.querySelector<HTMLElement>(".article-content");
-    if (!articleContent) {
+    if (!tocNav || !articleContent) {
       return;
     }
 
-    // 獲取所有標題元素 (h2, h3, h4)
-    const headings = articleContent.querySelectorAll<HTMLHeadingElement>("h2, h3, h4");
+    const headings = Array.from(
+      articleContent.querySelectorAll<HTMLHeadingElement>('h2, h3, h4')
+    );
+    const tocWrapper = document.querySelector<HTMLElement>('.toc-wrapper');
 
-    if (headings.length === 0) {
-      hideTocContainer();
+    if (headings.length === 0 && tocWrapper) {
+      tocWrapper.style.display = 'none';
       return;
+    } else if (tocWrapper) {
+      tocWrapper.style.display = 'block';
     }
 
+    tocNav.innerHTML = '';
+    const tocList = document.createElement('ul');
+    tocList.className = 'toc-list';
 
-    // 獲取目錄容器和按鈕
-    const tocContainer = document.getElementById("toc-container");
-    const tocContent = document.getElementById("toc-content");
-    const tocClose = document.getElementById("toc-close");
-    const tocOpen = document.getElementById("toc-open");
-
-    if (!tocContainer || !tocContent || !tocClose || !tocOpen) {
-      return;
-    }
-
-    // 清空現有目錄內容，避免重複添加
-    tocContent.innerHTML = '';
-
-    // 建立目錄結構
-    const tocStructure = createNestedTOC(headings);
-    tocContent.appendChild(tocStructure);
-
-    // 初始狀態設定 - 目錄預設顯示
-    if (window.innerWidth > 1024) {
-      tocContainer.classList.add("open");
-      tocContainer.style.visibility = "visible";
-      tocContainer.style.opacity = "1";
-      tocOpen.style.display = "none";
-    } else {
-      tocContainer.classList.remove("open");
-      tocContainer.style.visibility = "hidden";
-      tocContainer.style.opacity = "0";
-      tocOpen.style.display = "block";
-    }
-
-    // 處理開啟目錄按鈕點擊
-    tocOpen.addEventListener("click", () => {
-      tocContainer.classList.add("open");
-      tocContainer.style.visibility = "visible";
-      tocContainer.style.opacity = "1";
-      tocOpen.style.display = "none";
-    });
-
-    // 處理關閉目錄按鈕點擊
-    tocClose.addEventListener("click", () => {
-      tocContainer.classList.remove("open");
-      tocContainer.style.visibility = "hidden";
-      tocContainer.style.opacity = "0";
-
-      // 立即顯示開啟按鈕，不使用延遲
-      tocOpen.style.display = "block";
-      tocOpen.style.visibility = "visible";
-      tocOpen.style.opacity = "1";
-    });
-
-    // 監控滾動事件，確保只在滾動到內文才顯示目錄按鈕
-    const firstHeading = headings[0];
-    if (firstHeading) {
-      const showTocAtPosition = firstHeading.offsetTop - 150;
-
-      // 滾動處理函數
-      const toggleTocVisibility = (): void => {
-        // 檢查是否已滾動到顯示目錄的位置
-        const shouldShowToc = window.scrollY > showTocAtPosition;
-
-        if (shouldShowToc) {
-          // 只有在目錄未開啟時，才顯示開啟按鈕
-          if (!tocContainer.classList.contains("open")) {
-            tocOpen.style.display = "block";
-            tocOpen.style.visibility = "visible";
-            tocOpen.style.opacity = "1";
-          }
-        } else {
-          // 隱藏目錄按鈕
-          tocOpen.style.display = "none";
-          tocOpen.style.visibility = "hidden";
-          tocOpen.style.opacity = "0";
-        }
-
-        // 更新當前活躍標題
-        updateActiveHeading(headings);
-      };
-
-      // 初始檢查
-      toggleTocVisibility();
-
-      // 使用 requestAnimationFrame 優化滾動處理
-      let ticking = false;
-      window.addEventListener("scroll", () => {
-        if (!ticking) {
-          window.requestAnimationFrame(() => {
-            toggleTocVisibility();
-            ticking = false;
-          });
-          ticking = true;
-        }
-      });
-    }
-  }
-
-  // 定義一個函數來檢查是否在文章頁面
-  function isArticlePage(): boolean {
-    return !!document.querySelector(".article-content");
-  }
-
-  // 定義一個函數來處理頁面變化
-  function handlePageChange(): void {
-    if (isArticlePage()) {
-      // 使用延遲確保 DOM 完全加載
-      setTimeout(initTOC, 100);
-    }
-  }
-
-  /**
-   * 隱藏目錄容器和開啟按鈕
-   * @description 當沒有標題時，隱藏目錄容器和開啟按鈕
-   */
-  function hideTocContainer(): void {
-    const tocContainer = document.getElementById("toc-container");
-    const tocOpen = document.getElementById("toc-open");
-
-    if (tocContainer) {
-      tocContainer.style.display = "none";
-    }
-
-    if (tocOpen) {
-      tocOpen.style.display = "none";
-    }
-  }
-
-  // 更新當前活躍標題
-  function updateActiveHeading(headings: NodeListOf<HTMLHeadingElement>): void {
-    // 儲存所有目錄項鏈接
-    const tocLinks = document.querySelectorAll<HTMLAnchorElement>(".toc-content a");
-
-    if (tocLinks.length === 0) return;
-
-    let currentHeadingId: string | null = null;
-    let closestHeading: HTMLHeadingElement | null = null;
-    let closestDistance = Infinity;
-    const windowMiddle = window.scrollY + window.innerHeight / 3;
-
-    headings.forEach((heading) => {
-      const rect = heading.getBoundingClientRect();
-      const topOffset = rect.top + window.scrollY;
-      const distance = Math.abs(topOffset - windowMiddle);
-
-      if (distance < closestDistance && rect.top <= window.innerHeight / 2) {
-        closestDistance = distance;
-        closestHeading = heading;
-      }
-    });
-
-    if (closestHeading && closestHeading.id) {
-      currentHeadingId = closestHeading.id;
-    }
-
-    // 重置所有鏈接樣式
-    tocLinks.forEach((link) => {
-      link.classList.remove("focus");
-    });
-
-    if (currentHeadingId) {
-      const activeLink = document.querySelector<HTMLAnchorElement>(
-        `.toc-content a[href="#${currentHeadingId}"]`
-      );
-
-      if (activeLink) {
-        activeLink.classList.add("focus");
-      }
-    }
-  }
-
-  // 創建嵌套結構的目錄，更好地表現層級關係
-  function createNestedTOC(headings: NodeListOf<HTMLHeadingElement>): HTMLUListElement {
-    const mainList = document.createElement("ul");
-    mainList.className = "toc-list main-list";
-    let currentH2List = mainList;
-    let currentH3List: HTMLUListElement | null = null;
+    const tocLinks: HTMLAnchorElement[] = [];
 
     headings.forEach((heading, index) => {
       if (!heading.id) {
-        heading.id = `heading-${index}`;
+        heading.id = `toc-heading-${index}`;
       }
 
-      // 創建目錄項
-      const listItem = document.createElement("li");
-      listItem.className = `toc-item ${heading.tagName.toLowerCase()}`;
-      listItem.setAttribute("role", "listitem");
+      const listItem = document.createElement('li');
+      listItem.className = `toc-item toc-${heading.tagName.toLowerCase()}`;
 
-      // 創建鏈接
-      const link = document.createElement("a");
+      const link = document.createElement('a');
       link.href = `#${heading.id}`;
       link.textContent = heading.textContent || '';
-      link.setAttribute("role", "link");
-      link.addEventListener("click", () => {
-        if (window.innerWidth <= 1024) {
-          const tocContainer = document.getElementById("toc-container");
-          if (tocContainer) {
-            tocContainer.classList.remove("open");
-            tocContainer.style.visibility = "hidden";
-            tocContainer.style.opacity = "0";
-            
-            const tocOpen = document.getElementById("toc-open");
-            if (tocOpen) {
-              tocOpen.style.display = "block";
-              tocOpen.style.visibility = "visible";
-              tocOpen.style.opacity = "1";
+      link.dataset.targetId = heading.id;
+
+      listItem.appendChild(link);
+      tocList.appendChild(listItem);
+      tocLinks.push(link);
+    });
+
+    tocNav.appendChild(tocList);
+
+    let activeHeadingId: string | null = null;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        let topmostIntersectingEntry: IntersectionObserverEntry | null = null;
+
+        // Find the topmost heading that is currently visible in the viewport
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            if (
+              !topmostIntersectingEntry ||
+              entry.boundingClientRect.top <
+                topmostIntersectingEntry.boundingClientRect.top
+            ) {
+              topmostIntersectingEntry = entry;
             }
           }
         }
-      });
 
-      listItem.appendChild(link);
+        const newActiveId = topmostIntersectingEntry
+          ? topmostIntersectingEntry.target.id
+          : null;
 
-      switch (heading.tagName) {
-        case "H2":
-          mainList.appendChild(listItem);
-          const subList = document.createElement("ul");
-          subList.className = "toc-list";
-          listItem.appendChild(subList);
-          currentH2List = subList;
-          currentH3List = null;
-          break;
-        case "H3":
-          currentH2List.appendChild(listItem);
-          const h4List = document.createElement("ul");
-          h4List.className = "toc-list";
-          listItem.appendChild(h4List);
-          currentH3List = h4List;
-          break;
-        case "H4":
-          // 如果沒有 h3 父級，則直接添加到 h2 的子列表
-          (currentH3List || currentH2List).appendChild(listItem);
-          break;
+        if (newActiveId !== activeHeadingId) {
+          activeHeadingId = newActiveId;
+          tocLinks.forEach((link) => {
+            link.classList.remove('active');
+            if (link.dataset.targetId === activeHeadingId) {
+              link.classList.add('active');
+            }
+          });
+        }
+      },
+      {
+        // Trigger when a heading is in the top 20% of the viewport
+        rootMargin: '0px 0px -80% 0px',
+        threshold: 0,
       }
-    });
+    );
 
-    return mainList;
+    headings.forEach((heading) => observer.observe(heading));
+
+    // Clean up the observer when the page is about to be swapped by Astro's view transitions
+    document.addEventListener(
+      'astro:before-swap',
+      () => {
+        observer.disconnect();
+      },
+      { once: true }
+    );
   }
 
-  // 在頁面加載完成後執行
-  document.addEventListener("DOMContentLoaded", () => {
-    handlePageChange();
-  });
-
-  // 監聽 Astro 的視圖轉換事件（如果使用 Astro 的 View Transitions）
-  document.addEventListener("astro:page-load", () => {
-    handlePageChange();
-  });
-
-  // 監聽 Astro 的內容加載事件
-  document.addEventListener("astro:after-swap", () => {
-    handlePageChange();
-  });
-
-  // 使用 MutationObserver 作為備用方案
-  const observer = new MutationObserver((mutations) => {
-    let shouldCheck = false;
-    
-    for (const mutation of mutations) {
-      if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
-        // 檢查是否有文章內容區域被添加到 DOM
-        shouldCheck = true;
-        break;
-      }
-    }
-    
-    if (shouldCheck && isArticlePage()) {
-      // 使用防抖處理，避免多次觸發
-      if (window.tocInitTimeout) {
-        clearTimeout(window.tocInitTimeout);
-      }
-      window.tocInitTimeout = setTimeout(initTOC, 200);
-    }
-  });
-
-  // 開始觀察 document.body 的變化
-  observer.observe(document.body, { childList: true, subtree: true });
-
-  // 也監聽 window 的 load 事件作為最後的保障
-  window.addEventListener("load", () => {
-    handlePageChange();
-  });
+  // Run the initialization on initial page load and after view transitions
+  document.addEventListener('astro:page-load', initTOC);
 </script>
 
 <style>
-  :global(.toc-content) {
-    padding-right: 5px;
-    margin-top: 10px;
-    font-size: 0.9em;
-  }
+  .toc-wrapper {
+    /* Stick to the top of the viewport within its parent sidebar */
+    position: sticky;
+    top: 80px; /* Adjust based on your header's height */
 
-  /* 重新添加基本鏈接樣式 */
-  :global(.toc-content a) {
-    text-decoration: none;
-    color: #666;
-    display: block;
-    transition:
-      color 0.2s,
-      padding-left 0.2s,
-      background-color 0.2s;
-    border-radius: 3px;
-    line-height: 1.4;
-  }
-
-  :global(.toc-content a:hover) {
-    color: #444;
-    background-color: rgba(200, 200, 200, 0.1);
-    padding-left: 7px;
-  }
-
-  :global(.toc-content a.focus) {
-    color: #2337ff; /* 使用 CSS 變數 */
-    font-weight: 500;
-  }
-
-  /* 修正目錄主容器的顯示問題 */
-  .toc-container {
-    position: fixed;
-    right: 5px;
-    top: 80px;
-    width: 260px;
-    max-height: calc(100vh - 200px);
+    /* Allow scrolling for long TOCs */
+    max-height: calc(100vh - 100px);
     overflow-y: auto;
-    background-color: rgba(245, 245, 245, 0.75); /* 降低不透明度 */
-    border-radius: 8px;
-    padding: 1em;
-    border-left: 3px solid rgba(var(--gray), 0.4); /* 降低邊框明顯度 */
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03); /* 減輕陰影 */
-    transition:
-      transform 0.3s ease,
-      opacity 0.3s ease,
-      visibility 0.3s ease;
-    z-index: 90;
-    transform: translateX(100%);
-    opacity: 0;
-    visibility: hidden;
-  }
 
-  /* 當目錄開啟時才顯示目錄內容 */
-  .toc-container.open {
-    transform: translateX(0);
-    opacity: 1;
-    visibility: visible;
-  }
-
-  /* 移除原本部分顯示的樣式 */
-  .toc-container:not(.open) {
-    transform: translateX(100%);
+    /* Basic styling */
+    padding-left: 1.5rem;
   }
 
   .toc-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: rgb(var(--gray-dark));
+    margin-bottom: 1rem;
   }
 
-  /* 目錄按鈕樣式 */
-  .toc-toggle {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
-    background: rgba(245, 245, 245, 0.9);
-    color: rgba(0, 0, 0, 0.7);
-    border: none;
-    border-radius: 4px;
-    padding: 5px 10px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-  }
-
-  .toc-toggle:hover {
-    color: rgba(var(--gray-dark), 0.75);
-    background-color: rgba(245, 245, 245, 1);
-  }
-
-  .toc-toggle .button-text {
-    font-size: 0.85rem;
-    font-weight: 500;
-  }
-
-  /* 隱藏目錄時的按鈕 (固定位置) */
-  .toc-toggle-fixed {
-    position: fixed;
-    right: 20px;
-    top: 80px;
-    z-index: 98;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    visibility: hidden;
-    opacity: 0;
-    transition:
-      visibility 0.3s,
-      opacity 0.3s;
-    display: flex;
-    align-items: center;
-    padding: 8px 12px;
-  }
-
-  /* 顯示目錄時的按鈕 (在目錄內) */
-  .toc-container.open .toc-toggle-fixed {
-    display: none;
-  }
-
-  /* 目錄開關效果 */
-  .toc-container.open .toc-toggle {
-    transform: rotate(0); /* 重設旋轉，因為我們現在有明確的文字 */
-  }
-
-  /* 確保在小螢幕上按鈕更明顯 */
-  @media (max-width: 768px) {
-    .toc-toggle-fixed {
-      right: 10px;
-      padding: 6px 10px;
-    }
-
-    .toc-toggle .button-text {
-      font-size: 0.8rem;
-    }
-  }
-
-  /* 目錄列表的基本樣式 */
-  .toc-list {
-    list-style-type: none;
-    padding-left: 0;
+  :global(.toc-list) {
+    list-style: none;
+    padding: 0;
     margin: 0;
+    border-left: 1px solid rgba(var(--gray-light), 0.8);
   }
 
-  /* 各級項目的基本樣式 */
-  :global(.toc-item) {
-    position: relative;
-    line-height: 1.2;
+  :global(.toc-item a) {
+    display: block;
+    color: rgb(var(--gray));
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+    line-height: 1.5;
+    padding: 0.25rem 0 0.25rem 1rem;
+    border-left: 2px solid transparent;
   }
 
-  /* 標題層級樣式 */
-  :global(.toc-item.h2) {
-    font-size: 0.9em;
-    font-weight: 600;
-    margin-top: 0.5em;
-    padding-left: 0;
-    border-left: none;
+  :global(.toc-item.toc-h2 a) {
+    padding-left: 1rem;
   }
 
-  :global(.toc-item.h3) {
-    font-weight: normal;
-    margin-top: 0.3em;
-    padding-left: 1em;
-    border-left: 1px solid rgba(var(--gray), 0.2);
-    padding-bottom: 1px;
+  :global(.toc-item.toc-h3 a) {
+    padding-left: 2rem;
   }
 
-  :global(.toc-item.h4) {
-    font-weight: normal;
-    margin-top: 0.2em;
-    padding-left: 1.2em;
-    border-left: 1px solid rgba(var(--gray), 0.15);
+  :global(.toc-item.toc-h4 a) {
+    padding-left: 3rem;
+    font-size: 0.85rem;
   }
 
-  /* 移除之前的指示器樣式 */
-  .toc-item.h2::before,
-  .toc-item.h3::before,
-  .toc-item.h4::before {
-    display: none;
+  :global(.toc-item a:hover) {
+    color: rgb(var(--gray-dark));
+    background-color: rgba(var(--gray-light), 0.5);
   }
 
-  /* 小螢幕適配 */
-  @media (max-width: 768px) {
-    .toc-container {
-      width: 180px;
-      right: 5px;
-    }
+  :global(.toc-item a.active) {
+    color: var(--accent);
+    border-left-color: var(--accent);
+  }
 
-    .toc-item.h3 {
-      padding-left: 0.6em;
-    }
-
-    .toc-item.h4 {
-      padding-left: 1.2em;
+  /* On smaller screens, the sidebar layout is gone, so we hide the TOC */
+  @media (max-width: 1023px) {
+    .toc-wrapper {
+      display: none;
     }
   }
 </style>
