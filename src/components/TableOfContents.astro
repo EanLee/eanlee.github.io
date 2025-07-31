@@ -9,31 +9,6 @@
 </div>
 
 <script>
-  function setupTocVisibility() {
-    const tocWrapper = document.querySelector<HTMLElement>('.toc-wrapper');
-    const mainTitle = document.querySelector<HTMLHeadingElement>('h1.article-title');
-
-    if (!tocWrapper || !mainTitle) {
-      if (tocWrapper) tocWrapper.style.display = 'none';
-      return;
-    }
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        // When the main title is no longer visible at the top, show the TOC
-        tocWrapper.classList.toggle('visible', !entry.isIntersecting && entry.boundingClientRect.bottom < 0);
-      },
-      {
-        rootMargin: '0px 0px -100% 0px',
-        threshold: 0,
-      }
-    );
-
-    observer.observe(mainTitle);
-
-    document.addEventListener('astro:before-swap', () => observer.disconnect(), { once: true });
-  }
-
   function initTOC() {
     const tocNav = document.getElementById('toc-nav');
     const articleContent = document.querySelector('.article-content');
@@ -107,10 +82,7 @@
     document.addEventListener('astro:before-swap', () => scrollSpyObserver.disconnect(), { once: true });
   }
 
-  document.addEventListener('astro:page-load', () => {
-    initTOC();
-    setupTocVisibility();
-  });
+  document.addEventListener('astro:page-load', initTOC);
 </script>
 
 <style>
@@ -120,16 +92,6 @@
     max-height: calc(100vh - 100px);
     overflow-y: auto;
     padding-left: 1.5rem;
-    /* Initially hidden */
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
-  }
-
-  .toc-wrapper.visible {
-    /* Fade in when visible */
-    opacity: 1;
-    visibility: visible;
   }
 
   .toc-header {
