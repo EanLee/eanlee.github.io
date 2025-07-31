@@ -1,6 +1,6 @@
 --- 
 // src/components/TableOfContents.astro
-// A sticky sidebar table of contents that uses IntersectionObserver for scrollspy.
+// A sticky sidebar table of contents that appears when the main title is scrolled past.
 ---
 
 <div class="toc-wrapper">
@@ -9,13 +9,36 @@
 </div>
 
 <script>
+  function setupTocVisibility() {
+    const tocWrapper = document.querySelector<HTMLElement>('.toc-wrapper');
+    const mainTitle = document.querySelector<HTMLHeadingElement>('h1.article-title');
+
+    if (!tocWrapper || !mainTitle) {
+      if (tocWrapper) tocWrapper.style.display = 'none';
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        // When the main title is no longer visible at the top, show the TOC
+        tocWrapper.classList.toggle('visible', !entry.isIntersecting && entry.boundingClientRect.bottom < 0);
+      },
+      {
+        rootMargin: '0px 0px -100% 0px',
+        threshold: 0,
+      }
+    );
+
+    observer.observe(mainTitle);
+
+    document.addEventListener('astro:before-swap', () => observer.disconnect(), { once: true });
+  }
+
   function initTOC() {
     const tocNav = document.getElementById('toc-nav');
     const articleContent = document.querySelector('.article-content');
 
-    if (!tocNav || !articleContent) {
-      return;
-    }
+    if (!tocNav || !articleContent) return;
 
     const headings = Array.from(
       articleContent.querySelectorAll<HTMLHeadingElement>('h2, h3, h4')
@@ -25,8 +48,6 @@
     if (headings.length === 0 && tocWrapper) {
       tocWrapper.style.display = 'none';
       return;
-    } else if (tocWrapper) {
-      tocWrapper.style.display = 'block';
     }
 
     tocNav.innerHTML = '';
@@ -36,9 +57,7 @@
     const tocLinks: HTMLAnchorElement[] = [];
 
     headings.forEach((heading, index) => {
-      if (!heading.id) {
-        heading.id = `toc-heading-${index}`;
-      }
+      if (!heading.id) heading.id = `toc-heading-${index}`;
 
       const listItem = document.createElement('li');
       listItem.className = `toc-item toc-${heading.tagName.toLowerCase()}`;
@@ -57,26 +76,18 @@
 
     let activeHeadingId: string | null = null;
 
-    const observer = new IntersectionObserver(
+    const scrollSpyObserver = new IntersectionObserver(
       (entries) => {
         let topmostIntersectingEntry: IntersectionObserverEntry | null = null;
-
-        // Find the topmost heading that is currently visible in the viewport
         for (const entry of entries) {
           if (entry.isIntersecting) {
-            if (
-              !topmostIntersectingEntry ||
-              entry.boundingClientRect.top <
-                topmostIntersectingEntry.boundingClientRect.top
-            ) {
+            if (!topmostIntersectingEntry || entry.boundingClientRect.top < topmostIntersectingEntry.boundingClientRect.top) {
               topmostIntersectingEntry = entry;
             }
           }
         }
 
-        const newActiveId = topmostIntersectingEntry
-          ? topmostIntersectingEntry.target.id
-          : null;
+        const newActiveId = topmostIntersectingEntry ? topmostIntersectingEntry.target.id : null;
 
         if (newActiveId !== activeHeadingId) {
           activeHeadingId = newActiveId;
@@ -88,41 +99,37 @@
           });
         }
       },
-      {
-        // Trigger when a heading is in the top 20% of the viewport
-        rootMargin: '0px 0px -80% 0px',
-        threshold: 0,
-      }
+      { rootMargin: '0px 0px -80% 0px', threshold: 0 }
     );
 
-    headings.forEach((heading) => observer.observe(heading));
+    headings.forEach((heading) => scrollSpyObserver.observe(heading));
 
-    // Clean up the observer when the page is about to be swapped by Astro's view transitions
-    document.addEventListener(
-      'astro:before-swap',
-      () => {
-        observer.disconnect();
-      },
-      { once: true }
-    );
+    document.addEventListener('astro:before-swap', () => scrollSpyObserver.disconnect(), { once: true });
   }
 
-  // Run the initialization on initial page load and after view transitions
-  document.addEventListener('astro:page-load', initTOC);
+  document.addEventListener('astro:page-load', () => {
+    initTOC();
+    setupTocVisibility();
+  });
 </script>
 
 <style>
   .toc-wrapper {
-    /* Stick to the top of the viewport within its parent sidebar */
     position: sticky;
-    top: 80px; /* Adjust based on your header's height */
-
-    /* Allow scrolling for long TOCs */
+    top: 80px;
     max-height: calc(100vh - 100px);
     overflow-y: auto;
-
-    /* Basic styling */
     padding-left: 1.5rem;
+    /* Initially hidden */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+  }
+
+  .toc-wrapper.visible {
+    /* Fade in when visible */
+    opacity: 1;
+    visibility: visible;
   }
 
   .toc-header {
@@ -175,7 +182,6 @@
     border-left-color: var(--accent);
   }
 
-  /* On smaller screens, the sidebar layout is gone, so we hide the TOC */
   @media (max-width: 1023px) {
     .toc-wrapper {
       display: none;

@@ -40,16 +40,7 @@ export default defineConfig({
       [rehypeFigure, { className: "my-figure" }],
       rehypeSlug,
       [rehypeAutolinkHeadings, { behavior: "append" }],
-      [
-        "rehype-toc",
-        {
-          headings: ["h1", "h2", "h3"],
-          cssClasses: {
-            toc: "toc-post",
-            link: "toc-link",
-          },
-        },
-      ],
+      
       [
         rehypeExternalLinks,
         {
