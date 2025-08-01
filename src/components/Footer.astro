@@ -6,7 +6,7 @@ const today = new Date();
   <div class="footer-div">
     <div class="footer-content">
       <div
-        class="max-w-7xl py-6 mx-auto flex md:items-center lg:items-start md:flex-row md:flex-no-wrap flex-wrap flex-col"
+        class="py-6 flex md:items-center lg:items-start md:flex-row md:flex-no-wrap flex-wrap flex-col"
       >
         <div class="md:w-2/5 md:mx-0 mx-auto text-center md:text-left">
           <p
@@ -102,7 +102,7 @@ const today = new Date();
 <style>
   .footer-div {
     width: 100%;
-    max-width: 1400px;
+    max-width: 1120px;
     margin: 0 auto;
     padding: 0 1rem;
   }
@@ -130,5 +130,92 @@ const today = new Date();
   li {
     list-style: none;
     font-size: small;
+  }
+
+  @media (max-width: 768px) {
+    .footer-div {
+      padding: 0 1rem;
+    }
+
+    .footer-content > div {
+      flex-direction: column;
+      text-align: center;
+      padding: 1rem 0;
+    }
+
+    .footer-content .md\\:w-2\\/5 {
+      width: 100%;
+      margin-bottom: 1.5rem;
+    }
+
+    .footer__links {
+      width: 100%;
+      margin-top: 0;
+      padding-left: 0;
+    }
+
+    .footer__links .md\\:w-1\\/2 {
+      width: 100%;
+      margin-bottom: 1rem;
+    }
+
+    .footer__links h2 {
+      font-size: 1rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .footer__links nav {
+      margin-bottom: 0.5rem;
+    }
+
+    .footer__links li {
+      margin-bottom: 0.5rem;
+    }
+
+    .footer__links a {
+      font-size: 0.9rem;
+      color: var(--text-color);
+      text-decoration: none;
+      padding: 0.25rem 0;
+      display: inline-block;
+    }
+
+    .footer__links a:hover {
+      color: var(--accent);
+    }
+
+    .footer-copyright {
+      border-top: 1px solid rgba(var(--gray), 0.3);
+      padding-top: 1rem;
+      margin-top: 1rem;
+      font-size: 0.8rem;
+      line-height: 1.4;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .footer-content p {
+      font-size: 0.85rem;
+      line-height: 1.5;
+    }
+
+    .footer-copyright {
+      font-size: 0.75rem;
+      padding: 0.75rem 0;
+    }
+  }
+
+  @media (max-width: 414px) {
+    .footer-div {
+      padding: 0 0.5rem;
+    }
+
+    .footer-content > div {
+      padding: 0.75rem 0;
+    }
+
+    .footer-content p {
+      font-size: 0.8rem;
+    }
   }
 </style>
