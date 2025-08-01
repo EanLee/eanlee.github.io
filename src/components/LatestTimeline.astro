@@ -52,9 +52,9 @@ const getPostEpic = (post: CollectionEntry<'blog'>) => {
   } else {
     // 根據檔案路徑判斷分類
     const postPath = post.id.toLowerCase();
-    if (postPath.includes('/software/')) return 'software';
-    if (postPath.includes('/management/')) return 'management'; 
-    if (postPath.includes('/growth/')) return 'growth';
+    if (postPath.startsWith('software/')) return 'software';
+    if (postPath.startsWith('management/')) return 'management'; 
+    if (postPath.startsWith('growth/')) return 'growth';
     // 默認歸類為軟體開發（因為大部分沒有 epic 欄位的文章都在 software 目錄下）
     return 'software';
   }

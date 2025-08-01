@@ -53,24 +53,15 @@ const categoryStats = categories.map(category => {
       // 根據檔案路徑判斷分類
       const postPath = post.id.toLowerCase();
       
-      // 調試輸出 (開發環境)
-      if (import.meta.env.DEV && category.id === 'software') {
-        console.log(`Checking post: ${post.id}, path: ${postPath}, includes software: ${postPath.includes('/software/')}`);
-      }
-      
-      // 特別處理 reading 分類，因為該目錄不存在
+      // 路徑格式可能是 "software/article-name/index.md" 或類似格式
+      // 檢查路徑是否以分類名稱開頭
       if (category.id === 'reading') {
-        return false; // reading 目錄不存在，所以沒有基於路徑的文章
+        return false; // reading 目錄不存在
       }
       
-      return postPath.includes(`/${category.id}/`);
+      return postPath.startsWith(`${category.id}/`);
     }
   }).length;
-  
-  // 調試輸出 (開發環境)  
-  if (import.meta.env.DEV) {
-    console.log(`Category ${category.id}: ${count} articles`);
-  }
   
   return { ...category, count };
 });

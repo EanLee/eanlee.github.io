@@ -11,7 +11,7 @@ const image = "/favicon.ico";
     <nav>
       <div class="logo">
           <img class="logo-img" src={image} alt="Logo"  />
-          <h2>{SITE_TITLE}</h2>
+          <h2><a href="/">{SITE_TITLE}</a></h2>
       </div>
 
       <button class="mobile-menu-toggle" aria-label="開啟選單" title="點擊開啟選單">
@@ -24,8 +24,7 @@ const image = "/favicon.ico";
         <div class="search-wrapper">
           <SearchButton />
         </div>
-        <div class="internal-links">
-          <HeaderLink href="/">Home</HeaderLink>
+        <div class="internal-links">          
           <HeaderLink href="/software/">軟體開發</HeaderLink>
           <HeaderLink href="/management/">管理經驗</HeaderLink>
           <HeaderLink href="/reading/">閱讀心得</HeaderLink>
