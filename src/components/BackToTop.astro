@@ -13,40 +13,47 @@
 
 <script>
   // Get the button
-  const backToTopButton = document.getElementById("backToTopBtn");
+  const backToTopButton = document.getElementById("backToTopBtn") as HTMLElement | null;
   
   // Show the button when user scrolls down 500px from the top
-  let scrollTimer;
+  let scrollTimer: NodeJS.Timeout;
   window.addEventListener('scroll', function() {
     clearTimeout(scrollTimer);
     const scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
     
-    if (scrollTop > 500) {
-      backToTopButton.classList.add('show');
-    } else {
-      backToTopButton.classList.remove('show');
+    if (backToTopButton) {
+      if (scrollTop > 500) {
+        backToTopButton.classList.add('show');
+      } else {
+        backToTopButton.classList.remove('show');
+      }
+      
+      // Add scrolling class for animation
+      backToTopButton.classList.add('scrolling');
     }
     
-    // Add scrolling class for animation
-    backToTopButton.classList.add('scrolling');
     scrollTimer = setTimeout(function() {
-      backToTopButton.classList.remove('scrolling');
+      if (backToTopButton) {
+        backToTopButton.classList.remove('scrolling');
+      }
     }, 150);
   });
   
   // Scroll to the top when button is clicked
-  backToTopButton.addEventListener("click", function() {
-    backToTopButton.classList.add('clicked');
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
+  if (backToTopButton) {
+    backToTopButton.addEventListener("click", function() {
+      backToTopButton.classList.add('clicked');
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+      
+      // Remove clicked class after animation
+      setTimeout(function() {
+        backToTopButton.classList.remove('clicked');
+      }, 200);
     });
-    
-    // Remove clicked class after animation
-    setTimeout(function() {
-      backToTopButton.classList.remove('clicked');
-    }, 200);
-  });
+  }
 </script>
 
 <style>

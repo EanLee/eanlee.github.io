@@ -91,12 +91,6 @@ const postsWithCoverImages = await Promise.all(
   })
 );
 
-// 檢查是否有封面圖片
-const hasCoverImage = (post: CollectionEntry<'blog'>) => {
-  // 檢查 frontmatter 或內容中是否有圖片
-  return !!(post.data.coverImage || post.body.match(/!\[.*?\]\((.*?)\)/));
-};
-
 // 獲取文章的 epic 分類
 const getPostEpic = (post: CollectionEntry<'blog'>) => {
   // 優先使用 epic 欄位

@@ -275,51 +275,55 @@ const image = "/favicon.ico";
 
     // 移除之前的事件監聽器（避免重複綁定）
     mobileMenuToggle.replaceWith(mobileMenuToggle.cloneNode(true));
-    const newMobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+    const newMobileMenuToggle = document.querySelector('.mobile-menu-toggle') as HTMLElement | null;
     
-    newMobileMenuToggle.addEventListener('click', function(e) {
-      e.preventDefault();
-      e.stopPropagation();
-      
-      console.log('Mobile menu toggle clicked');
-      this.classList.toggle('active');
-      navRight.classList.toggle('active');
-      
-      // 防止背景滾動
-      if (navRight.classList.contains('active')) {
-        document.body.style.overflow = 'hidden';
-      } else {
-        document.body.style.overflow = '';
-      }
-    });
-
-    // 點擊連結後關閉選單
-    const navLinks = document.querySelectorAll('.internal-links a');
-    navLinks.forEach(link => {
-      link.addEventListener('click', function() {
-        newMobileMenuToggle.classList.remove('active');
-        navRight.classList.remove('active');
-        document.body.style.overflow = '';
+    if (newMobileMenuToggle) {
+      newMobileMenuToggle.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        console.log('Mobile menu toggle clicked');
+        (this as HTMLElement).classList.toggle('active');
+        navRight.classList.toggle('active');
+        
+        // 防止背景滾動
+        if (navRight.classList.contains('active')) {
+          document.body.style.overflow = 'hidden';
+        } else {
+          document.body.style.overflow = '';
+        }
       });
-    });
 
-    // 點擊背景關閉選單
-    navRight.addEventListener('click', function(e) {
-      if (e.target === navRight) {
-        newMobileMenuToggle.classList.remove('active');
-        navRight.classList.remove('active');
-        document.body.style.overflow = '';
-      }
-    });
+      // 點擊連結後關閉選單
+      const navLinks = document.querySelectorAll('.internal-links a');
+      navLinks.forEach(link => {
+        link.addEventListener('click', function() {
+          if (newMobileMenuToggle) {
+            newMobileMenuToggle.classList.remove('active');
+          }
+          navRight.classList.remove('active');
+          document.body.style.overflow = '';
+        });
+      });
 
-    // ESC 鍵關閉選單
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape' && navRight.classList.contains('active')) {
-        newMobileMenuToggle.classList.remove('active');
-        navRight.classList.remove('active');
-        document.body.style.overflow = '';
-      }
-    });
+      // 點擊背景關閉選單
+      navRight.addEventListener('click', function(e) {
+        if (e.target === navRight && newMobileMenuToggle) {
+          newMobileMenuToggle.classList.remove('active');
+          navRight.classList.remove('active');
+          document.body.style.overflow = '';
+        }
+      });
+
+      // ESC 鍵關閉選單
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && navRight.classList.contains('active') && newMobileMenuToggle) {
+          newMobileMenuToggle.classList.remove('active');
+          navRight.classList.remove('active');
+          document.body.style.overflow = '';
+        }
+      });
+    }
   }
 
   // 初始化和 Astro 頁面切換時重新初始化
