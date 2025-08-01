@@ -5,7 +5,7 @@ import Footer from "../components/Footer.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
 import { getCollection } from "astro:content";
 import MiniHero from "../components/MiniHero.astro";
-import LatestTimeline from "../components/LatestTimeline.astro";
+import LatestPosts from "../components/LatestPosts.astro";
 import CategoryGrid from "../components/CategoryGrid.astro";
 
 // 獲取所有文章
@@ -149,8 +149,8 @@ const blogStructuredData = {
         <!-- Mini Hero Section -->
         <MiniHero />
         
-        <!-- Latest Articles Timeline -->
-        <LatestTimeline posts={latestPosts} limit={6} />
+        <!-- Latest Articles -->
+        <LatestPosts posts={latestPosts} limit={6} />
         
         <!-- Category Grid -->
         <CategoryGrid allPosts={allPosts} />

@@ -12,11 +12,21 @@ const { posts, limit = 6 } = Astro.props;
 // 取得最新文章，限制數量
 const latestPosts = posts.slice(0, limit);
 
+// 獲取 fallback 圖片
+const fallbackImages = await Astro.glob("/public/cover/**/*.{png,jpg,jpeg,webp}");
+
 // 獲取文章的封面圖片
-const getCoverImage = (post: CollectionEntry<'blog'>) => {
+const getCoverImage = async (post: CollectionEntry<'blog'>) => {
   // 1. 優先使用 frontmatter 中的 coverImage
   if (post.data.coverImage) {
-    return post.data.coverImage;
+    // 如果是 image() helper 處理過的圖片，會有 src 屬性
+    if (typeof post.data.coverImage === 'object' && post.data.coverImage.src) {
+      return post.data.coverImage.src;
+    }
+    // 如果是字串（URL），直接返回
+    if (typeof post.data.coverImage === 'string') {
+      return post.data.coverImage;
+    }
   }
   
   // 2. 嘗試從文章內容中找第一張圖片
@@ -25,18 +35,61 @@ const getCoverImage = (post: CollectionEntry<'blog'>) => {
   const match = body.match(imageRegex);
   if (match && match[1]) {
     const imagePath = match[1];
-    // 如果是相對路徑，轉換為絕對路徑
-    if (imagePath.startsWith('./') || imagePath.startsWith('images/')) {
-      const postPath = post.id.slice(0, post.id.lastIndexOf("/"));
-      return `/src/content/blog/${postPath}/${imagePath.replace('./', '')}`;
+    
+    // 如果是 HTTP/HTTPS URL，直接返回
+    if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+      return imagePath;
     }
+    
+    // 如果是絕對路徑（以 / 開頭），直接返回
+    if (imagePath.startsWith('/')) {
+      return imagePath;
+    }
+    
+    // 對於相對路徑，嘗試動態導入以讓 Astro 處理
+    if (imagePath.startsWith('./') || imagePath.startsWith('images/')) {
+      try {
+        const postPath = post.id.slice(0, post.id.lastIndexOf("/"));
+        const cleanImagePath = imagePath.replace('./', '');
+        
+        // 構建相對於 src/content/blog 的路徑進行動態導入
+        const fullPath = `../content/blog/${postPath}/${cleanImagePath}`;
+        
+        // 使用動態導入讓 Astro 處理圖片，轉換為 webp 並放到 _astro 目錄
+        const imageModule = await import(/* @vite-ignore */ fullPath);
+        return imageModule.default?.src || imageModule.default;
+      } catch (error) {
+        console.warn(`無法載入相對路徑圖片: ${imagePath} in post ${post.id}`, error);
+        // 如果動態導入失敗，使用 fallback 圖片
+        if (fallbackImages.length > 0) {
+          const randomIndex = Math.floor(Math.random() * fallbackImages.length);
+          return fallbackImages[randomIndex].default.src;
+        }
+        return null;
+      }
+    }
+    
+    // 其他情況直接返回路徑
     return imagePath;
   }
   
-  // 3. 嘗試尋找常見的封面圖片檔案 (假設存在)
-  const postPath = post.id.slice(0, post.id.lastIndexOf("/"));
-  return `/src/content/blog/${postPath}/images/origin.png`;
+  // 3. 如果都沒有可用的圖片，使用隨機的 fallback 圖片
+  if (fallbackImages.length > 0) {
+    const randomIndex = Math.floor(Math.random() * fallbackImages.length);
+    return fallbackImages[randomIndex].default.src;
+  }
+  
+  // 4. 如果都沒有，返回 null
+  return null;
 };
+
+// 為所有文章預先獲取封面圖片
+const postsWithCoverImages = await Promise.all(
+  latestPosts.map(async (post) => {
+    const coverImage = await getCoverImage(post);
+    return { ...post, coverImage };
+  })
+);
 
 // 檢查是否有封面圖片
 const hasCoverImage = (post: CollectionEntry<'blog'>) => {
@@ -109,9 +162,9 @@ const getEpicName = (epic: string) => {
 };
 ---
 
-<div class="latest-timeline">
-  <div class="timeline-header">
-    <h2 class="timeline-title">
+<div class="latest-posts">
+  <div class="posts-header">
+    <h2 class="posts-title">
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M12 8v4l3 3"/>
         <circle cx="12" cy="12" r="10"/>
@@ -127,8 +180,9 @@ const getEpicName = (epic: string) => {
     </a>
   </div>
 
-  <div class="timeline-content">
-    {latestPosts.map((post, index) => {
+  <div class="posts-content">
+    {postsWithCoverImages.map((postWithImage, index) => {
+      const { coverImage, ...post } = postWithImage;
       const path = post.id.slice(0, post.id.lastIndexOf("/")).toLowerCase();
       const epic = getPostEpic(post);
       const epicIcon = getEpicIcon(epic);
@@ -136,8 +190,7 @@ const getEpicName = (epic: string) => {
       const epicName = getEpicName(epic);
       const isLatest = index === 0;
       
-      const coverImage = getCoverImage(post);
-      const showCoverImage = hasCoverImage(post);
+      const showCoverImage = !!coverImage;
       
       return (
         <article class={`post-card ${isLatest ? 'featured-card' : 'regular-card'} ${!showCoverImage ? 'no-image' : ''}`} style={`--epic-color: ${epicColor}`}>
@@ -297,11 +350,11 @@ const getEpicName = (epic: string) => {
 </div>
 
 <style>
-  .latest-timeline {
+  .latest-posts {
     margin-bottom: var(--spacing-2xl);
   }
 
-  .timeline-header {
+  .posts-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -310,7 +363,7 @@ const getEpicName = (epic: string) => {
     border-bottom: 2px solid var(--border-primary);
   }
 
-  .timeline-title {
+  .posts-title {
     font-size: 1.75rem;
     font-weight: 700;
     margin: 0;
@@ -320,7 +373,7 @@ const getEpicName = (epic: string) => {
     gap: var(--spacing-sm);
   }
 
-  .timeline-title svg {
+  .posts-title svg {
     color: var(--primary-500);
   }
 
@@ -338,7 +391,7 @@ const getEpicName = (epic: string) => {
     opacity: 0.8;
   }
 
-  .timeline-content {
+  .posts-content {
     display: grid;
     gap: var(--spacing-lg);
   }
@@ -607,23 +660,23 @@ const getEpicName = (epic: string) => {
 
   /* Grid Layout for Regular Cards */
   @media (min-width: 769px) {
-    .timeline-content {
+    .posts-content {
       grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
     }
   }
 
   @media (max-width: 768px) {
-    .timeline-header {
+    .posts-header {
       flex-direction: column;
       align-items: flex-start;
       gap: var(--spacing-sm);
     }
 
-    .timeline-title {
+    .posts-title {
       font-size: 1.5rem;
     }
 
-    .timeline-content {
+    .posts-content {
       grid-template-columns: 1fr;
       gap: var(--spacing-md);
     }
