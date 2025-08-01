@@ -156,11 +156,96 @@
 4. **測試手機版時務必檢查 414px 寬度** - 這是最小支援寬度
 5. **避免在組件中使用 `!important`** - 破壞 CSS 層級結構
 
+## 🚀 Google Ads & SEO 優化
+
+### ✅ 已完成的廣告優化
+
+1. **延遲載入 AdSense 腳本**
+   - 使用動態載入避免阻塞初始渲染
+   - 1秒延遲載入，提升 FCP (First Contentful Paint)
+   - 錯誤處理和重複載入防護
+
+2. **CLS (Cumulative Layout Shift) 優化**
+   - 廣告佔位符預留空間，減少版面跳動
+   - 載入動畫和骨架屏幕提升用戶體驗
+   - 響應式廣告尺寸適配
+
+3. **Google Analytics 優化**
+   - 用戶互動後才載入，符合 Core Web Vitals 最佳實踐
+   - 防止重複發送頁面瀏覽事件
+   - 3秒備用自動載入機制
+
+4. **網路優化**
+   - 添加 `preconnect` 和 `dns-prefetch` 預連線
+   - 安全標頭 (X-Frame-Options, CSP 等)
+   - 推薦人政策優化
+
+### 🎯 廣告載入策略
+
+#### AdSense 最佳實踐
+```javascript
+// ✅ 推薦做法 - 延遲載入
+setTimeout(() => {
+  loadAdSense();
+}, 1000);
+
+// ❌ 避免 - 同步載入
+<script src="adsbygoogle.js"></script>
+```
+
+#### CLS 預防措施
+```css
+/* ✅ 使用佔位符 */
+.ad-placeholder {
+  min-height: 250px; /* 預留廣告空間 */
+  background-color: var(--color-bg-muted);
+}
+
+/* ❌ 避免無高度容器 */
+.ad-container {
+  /* 會造成 CLS */
+}
+```
+
+### 📊 性能監控
+
+使用 `PerformanceMonitor.astro` 組件監控：
+- **LCP** (Largest Contentful Paint)
+- **FID** (First Input Delay) 
+- **CLS** (Cumulative Layout Shift)
+- **廣告載入時間**
+
+```astro
+<!-- 開發環境啟用監控 -->
+<PerformanceMonitor enabled={import.meta.env.DEV} />
+```
+
+### ⚠️ 廣告相關注意事項
+
+1. **不要移除 ads.txt** - Google AdSense 驗證必需
+2. **廣告密度控制** - 避免過多廣告影響用戶體驗
+3. **響應式適配** - 確保各尺寸設備廣告正常顯示
+4. **載入錯誤處理** - 廣告攔截器或網路問題的 fallback
+5. **Core Web Vitals 監控** - 定期檢查 Lighthouse 分數
+
+### 🔍 SEO 檢查清單
+
+- [x] 延遲載入非關鍵 JavaScript
+- [x] 預連線外部域名
+- [x] 安全標頭設置
+- [x] CLS 優化
+- [x] 廣告佔位符
+- [x] 錯誤處理機制
+- [ ] 定期 Lighthouse 審計
+- [ ] PageSpeed Insights 監控
+
 ## 📈 未來改進方向
 
 1. **深色主題實作** - 基於現有設計令牌系統
 2. **更多設計令牌** - 根據需求擴展動畫、陰影等系統
 3. **CSS 模組化** - 考慮將大型組件樣式獨立管理
 4. **效能監控** - 追蹤 CSS 載入和渲染效能
+5. **A/B 測試廣告位置** - 優化廣告收益和用戶體驗平衡
+6. **Service Worker** - 考慮實作離線支援和快取策略
 
-這個 CSS 架構重構為網站提供了堅實的基礎，請在後續開發中遵循這些原則，確保代碼品質和用戶體驗的一致性。
+這個 CSS 架構重構和廣告優化為網站提供了堅實的基礎，請在後續開發中遵循這些原則，確保代碼品質和用戶體驗的一致性。

@@ -1,0 +1,166 @@
+---
+// 性能監控組件 - 僅在開發環境或需要時使用
+interface Props {
+  enabled?: boolean;
+}
+
+const { enabled = false } = Astro.props;
+---
+
+{enabled && (
+  <script type="module">
+    // Core Web Vitals 監控
+    function measureWebVitals() {
+      if (!window.performance || !window.PerformanceObserver) {
+        console.warn('Performance API not supported');
+        return;
+      }
+
+      // 監控 Largest Contentful Paint (LCP)
+      const observeLCP = () => {
+        try {
+          const observer = new PerformanceObserver((entryList) => {
+            const entries = entryList.getEntries();
+            const lastEntry = entries[entries.length - 1];
+            console.log('LCP:', lastEntry.startTime, 'ms');
+            
+            // 記錄到 Analytics（如果需要）
+            if (window.gtag) {
+              window.gtag('event', 'web_vitals', {
+                name: 'LCP',
+                value: Math.round(lastEntry.startTime),
+                event_category: 'Performance'
+              });
+            }
+          });
+          observer.observe({ type: 'largest-contentful-paint', buffered: true });
+        } catch (e) {
+          console.warn('LCP observation failed:', e);
+        }
+      };
+
+      // 監控 First Input Delay (FID)
+      const observeFID = () => {
+        try {
+          const observer = new PerformanceObserver((entryList) => {
+            const entries = entryList.getEntries();
+            entries.forEach((entry) => {
+              console.log('FID:', entry.processingStart - entry.startTime, 'ms');
+              
+              if (window.gtag) {
+                window.gtag('event', 'web_vitals', {
+                  name: 'FID',
+                  value: Math.round(entry.processingStart - entry.startTime),
+                  event_category: 'Performance'
+                });
+              }
+            });
+          });
+          observer.observe({ type: 'first-input', buffered: true });
+        } catch (e) {
+          console.warn('FID observation failed:', e);
+        }
+      };
+
+      // 監控 Cumulative Layout Shift (CLS)
+      const observeCLS = () => {
+        try {
+          let clsValue = 0;
+          const observer = new PerformanceObserver((entryList) => {
+            const entries = entryList.getEntries();
+            entries.forEach((entry) => {
+              if (!entry.hadRecentInput) {
+                clsValue += entry.value;
+              }
+            });
+            console.log('CLS:', clsValue);
+            
+            if (window.gtag) {
+              window.gtag('event', 'web_vitals', {
+                name: 'CLS',
+                value: Math.round(clsValue * 1000),
+                event_category: 'Performance'
+              });
+            }
+          });
+          observer.observe({ type: 'layout-shift', buffered: true });
+        } catch (e) {
+          console.warn('CLS observation failed:', e);
+        }
+      };
+
+      // 監控廣告載入時間
+      const monitorAdLoading = () => {
+        const adElements = document.querySelectorAll('.adsbygoogle');
+        const startTime = performance.now();
+        
+        let loadedAds = 0;
+        const totalAds = adElements.length;
+        
+        if (totalAds === 0) return;
+
+        const checkAdLoaded = () => {
+          adElements.forEach((ad, index) => {
+            if (ad.innerHTML.trim() !== '' && !ad.dataset.monitored) {
+              ad.dataset.monitored = 'true';
+              loadedAds++;
+              
+              const loadTime = performance.now() - startTime;
+              console.log(`Ad ${index + 1} loaded in ${loadTime.toFixed(2)}ms`);
+              
+              if (window.gtag) {
+                window.gtag('event', 'ad_performance', {
+                  ad_slot: ad.dataset.adSlot || 'unknown',
+                  load_time: Math.round(loadTime),
+                  event_category: 'Ads'
+                });
+              }
+              
+              if (loadedAds === totalAds) {
+                console.log(`All ${totalAds} ads loaded in ${loadTime.toFixed(2)}ms`);
+              }
+            }
+          });
+        };
+
+        // 定期檢查廣告載入狀態
+        const interval = setInterval(checkAdLoaded, 500);
+        
+        // 10秒後停止監控
+        setTimeout(() => {
+          clearInterval(interval);
+          if (loadedAds < totalAds) {
+            console.warn(`${totalAds - loadedAds} ads failed to load within 10 seconds`);
+          }
+        }, 10000);
+      };
+
+      // 頁面載入完成後開始監控
+      if (document.readyState === 'complete') {
+        observeLCP();
+        observeFID();
+        observeCLS();
+        setTimeout(monitorAdLoading, 1000);
+      } else {
+        window.addEventListener('load', () => {
+          observeLCP();
+          observeFID();
+          observeCLS();
+          setTimeout(monitorAdLoading, 1000);
+        });
+      }
+
+      // 頁面可見性變化時的額外監控
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'hidden') {
+          console.log('Page became hidden - performance monitoring paused');
+        } else {
+          console.log('Page became visible - performance monitoring resumed');
+        }
+      });
+    }
+
+    // 初始化監控
+    measureWebVitals();
+  </script>
+)}

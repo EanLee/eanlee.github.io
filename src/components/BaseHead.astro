@@ -27,26 +27,105 @@ const {
 <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
 <meta name="generator" content={Astro.generator} />
 
+<!-- Security Headers -->
+<meta http-equiv="X-Content-Type-Options" content="nosniff" />
+<meta http-equiv="X-Frame-Options" content="DENY" />
+<meta http-equiv="X-XSS-Protection" content="1; mode=block" />
+<meta name="referrer" content="strict-origin-when-cross-origin" />
+
+<!-- DNS Prefetch for better performance -->
+<link rel="dns-prefetch" href="//fonts.googleapis.com">
+<link rel="dns-prefetch" href="//fonts.gstatic.com">
+
 <ViewTransitions />
+
+<!-- Preconnect to external domains -->
+<link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
+<link rel="preconnect" href="https://tpc.googlesyndication.com" crossorigin>
+<link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+<link rel="preconnect" href="https://www.google-analytics.com" crossorigin>
 
 <!-- Preload critical resources -->
 <link rel="preload" href="/fonts/atkinson-regular.woff" as="font" type="font/woff" crossorigin />
 <link rel="preload" href="/fonts/atkinson-bold.woff" as="font" type="font/woff" crossorigin />
 
-<!-- Defer non-critical JavaScript -->
-<!-- google adsense -->
-<script async defer src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7903108559996033"
-     crossorigin="anonymous"></script>
+<!-- Google AdSense - 延遲載入以提升效能 -->
+<script type="module">
+  // 延遲載入 AdSense，避免阻塞初始渲染
+  function loadAdSense() {
+    if (window.adsbygoogle) return; // 避免重複載入
+    
+    const script = document.createElement('script');
+    script.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7903108559996033';
+    script.async = true;
+    script.crossOrigin = 'anonymous';
+    script.onload = () => {
+      console.log('AdSense loaded');
+      // 初始化已存在的廣告
+      document.querySelectorAll('.adsbygoogle').forEach(ad => {
+        if (!ad.dataset.adsbygoogleStatus) {
+          try {
+            (window.adsbygoogle = window.adsbygoogle || []).push({});
+          } catch (e) {
+            console.warn('AdSense initialization failed:', e);
+          }
+        }
+      });
+    };
+    script.onerror = () => console.warn('AdSense failed to load');
+    document.head.appendChild(script);
+  }
 
-<!-- Google Analytics -->
-<!-- Google tag (gtag.js) -->
-<script async defer src="https://www.googletagmanager.com/gtag/js?id=G-4HXSCXTZKZ"></script>
-<script defer lang="ts">
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  // 等待 DOM 載入完成後再載入 AdSense
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      setTimeout(loadAdSense, 1000); // 延遲 1 秒載入
+    });
+  } else {
+    setTimeout(loadAdSense, 1000);
+  }
+</script>
 
-  gtag('config', 'G-4HXSCXTZKZ');
+<!-- Google Analytics - 優化載入 -->
+<script type="module">
+  function loadGoogleAnalytics() {
+    // 載入 gtag.js
+    const script = document.createElement('script');
+    script.src = 'https://www.googletagmanager.com/gtag/js?id=G-4HXSCXTZKZ';
+    script.async = true;
+    script.onload = () => {
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-4HXSCXTZKZ', {
+        send_page_view: false // 防止重複發送頁面瀏覽
+      });
+      
+      // 手動發送頁面瀏覽事件
+      gtag('config', 'G-4HXSCXTZKZ', {
+        page_title: document.title,
+        page_location: window.location.href
+      });
+    };
+    document.head.appendChild(script);
+  }
+
+  // 用戶互動後再載入 GA，符合 Core Web Vitals 最佳實踐
+  function initGA() {
+    loadGoogleAnalytics();
+    // 移除事件監聽器
+    ['mousedown', 'keydown', 'scroll', 'touchstart'].forEach(event => {
+      document.removeEventListener(event, initGA, { passive: true });
+    });
+  }
+
+  // 監聽用戶互動
+  ['mousedown', 'keydown', 'scroll', 'touchstart'].forEach(event => {
+    document.addEventListener(event, initGA, { passive: true });
+  });
+  
+  // 備用：3秒後自動載入
+  setTimeout(loadGoogleAnalytics, 3000);
 </script>
 
 <!-- Canonical URL -->

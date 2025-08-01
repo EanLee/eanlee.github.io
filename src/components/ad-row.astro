@@ -1,30 +1,198 @@
 ---
+interface Props {
+  slot?: string;
+  format?: string;
+  className?: string;
+}
 
+const { 
+  slot = "3186465722", 
+  format = "auto",
+  className = "ad-container"
+} = Astro.props;
 ---
 
-<div class="ad-div">
-  <!-- 橫版廣告-多媒體 -->
+<div class={`ad-wrapper ${className}`}>
+  <!-- 廣告佔位符，減少 CLS -->
+  <div class="ad-placeholder" id={`ad-placeholder-${slot}`}>
+    <div class="ad-loading">
+      <span class="ad-label">廣告</span>
+      <div class="loading-skeleton"></div>
+    </div>
+  </div>
+  
+  <!-- AdSense 廣告容器 -->
   <ins
-    class="adsbygoogle"
+    class="adsbygoogle ad-content"
     style="display:block"
     data-ad-client="ca-pub-7903108559996033"
-    data-ad-slot="3186465722"
-    data-ad-format="auto"
-    data-full-width-responsive="true"></ins>
-
-  <script type="text/javascript">
-    (adsbygoogle = window.adsbygoogle || []).push({});
-  </script>
+    data-ad-slot={slot}
+    data-ad-format={format}
+    data-full-width-responsive="true"
+    data-ad-placeholder-id={`ad-placeholder-${slot}`}>
+  </ins>
 </div>
 
-<style>
-  .ad-div {
-    min-height: 200px;
+<script type="module" define:vars={{ slot }}>
+  function initAd() {
+    const adElement = document.querySelector(`[data-ad-slot="${slot}"]`);
+    const placeholder = document.getElementById(`ad-placeholder-${slot}`);
+    
+    if (!adElement || !placeholder) return;
+
+    // 廣告載入成功後隱藏佔位符
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+          // 檢查廣告是否已載入
+          const hasAdContent = adElement.querySelector('iframe') || 
+                              adElement.innerHTML.trim() !== '';
+          
+          if (hasAdContent) {
+            placeholder.style.display = 'none';
+            adElement.style.display = 'block';
+            observer.disconnect();
+          }
+        }
+      });
+    });
+
+    observer.observe(adElement, { 
+      childList: true, 
+      subtree: true 
+    });
+
+    // 備用：3秒後隱藏佔位符
+    setTimeout(() => {
+      if (placeholder.style.display !== 'none') {
+        placeholder.style.display = 'none';
+        adElement.style.display = 'block';
+      }
+    }, 3000);
+
+    // 嘗試初始化廣告（如果 AdSense 已載入）
+    if (window.adsbygoogle && !adElement.dataset.adsbygoogleStatus) {
+      try {
+        (window.adsbygoogle).push({});
+      } catch (e) {
+        console.warn('AdSense initialization failed:', e);
+      }
+    }
   }
 
-  @media screen and (min-width: 40em) {
-    .ad-div {
-      min-height: 160px;
+  // 等待 DOM 和 AdSense 載入
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initAd);
+  } else {
+    initAd();
+  }
+</script>
+
+<style>
+  .ad-wrapper {
+    width: 100%;
+    position: relative;
+    margin: var(--spacing-lg) 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .ad-placeholder {
+    width: 100%;
+    min-height: 250px;
+    background-color: var(--color-bg-muted);
+    border: 1px solid rgba(var(--color-gray-light), 0.5);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity var(--transition-normal);
+  }
+
+  .ad-loading {
+    text-align: center;
+    color: var(--text-muted);
+  }
+
+  .ad-label {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    display: block;
+    margin-bottom: var(--spacing-sm);
+    opacity: 0.7;
+  }
+
+  .loading-skeleton {
+    width: 200px;
+    height: 100px;
+    background: linear-gradient(
+      90deg, 
+      transparent, 
+      rgba(var(--color-gray-light), 0.4), 
+      transparent
+    );
+    background-size: 200px 100px;
+    animation: loading 1.5s infinite;
+    border-radius: var(--radius-sm);
+  }
+
+  @keyframes loading {
+    0% {
+      background-position: -200px 0;
     }
+    100% {
+      background-position: 200px 0;
+    }
+  }
+
+  .ad-content {
+    display: none; /* 初始隱藏，載入後顯示 */
+    width: 100%;
+    min-height: 250px;
+  }
+
+  /* 響應式廣告尺寸 */
+  @media screen and (max-width: 768px) {
+    .ad-placeholder {
+      min-height: 200px;
+    }
+    
+    .ad-content {
+      min-height: 200px;
+    }
+    
+    .loading-skeleton {
+      width: 150px;
+      height: 80px;
+    }
+  }
+
+  @media screen and (max-width: 480px) {
+    .ad-placeholder {
+      min-height: 150px;
+    }
+    
+    .ad-content {
+      min-height: 150px;
+    }
+    
+    .loading-skeleton {
+      width: 120px;
+      height: 60px;
+    }
+  }
+
+  /* 廣告載入失敗時的樣式 */
+  .ad-wrapper.ad-failed .ad-placeholder {
+    border-color: rgba(var(--color-gray), 0.3);
+    background-color: rgba(var(--color-gray-light), 0.2);
+  }
+
+  .ad-wrapper.ad-failed .ad-label::after {
+    content: " (載入中...)";
+    font-size: var(--font-size-xs);
   }
 </style>
