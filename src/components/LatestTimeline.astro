@@ -1,0 +1,702 @@
+---
+import FormattedDate from "./FormattedDate.astro";
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  posts: CollectionEntry<'blog'>[];
+  limit?: number;
+}
+
+const { posts, limit = 6 } = Astro.props;
+
+// 取得最新文章，限制數量
+const latestPosts = posts.slice(0, limit);
+
+// 獲取文章的封面圖片
+const getCoverImage = (post: CollectionEntry<'blog'>) => {
+  // 1. 優先使用 frontmatter 中的 coverImage
+  if (post.data.coverImage) {
+    return post.data.coverImage;
+  }
+  
+  // 2. 嘗試從文章內容中找第一張圖片
+  const { body } = post;
+  const imageRegex = /!\[.*?\]\((.*?)\)/;
+  const match = body.match(imageRegex);
+  if (match && match[1]) {
+    const imagePath = match[1];
+    // 如果是相對路徑，轉換為絕對路徑
+    if (imagePath.startsWith('./') || imagePath.startsWith('images/')) {
+      const postPath = post.id.slice(0, post.id.lastIndexOf("/"));
+      return `/src/content/blog/${postPath}/${imagePath.replace('./', '')}`;
+    }
+    return imagePath;
+  }
+  
+  // 3. 嘗試尋找常見的封面圖片檔案 (假設存在)
+  const postPath = post.id.slice(0, post.id.lastIndexOf("/"));
+  return `/src/content/blog/${postPath}/images/origin.png`;
+};
+
+// 檢查是否有封面圖片
+const hasCoverImage = (post: CollectionEntry<'blog'>) => {
+  // 檢查 frontmatter 或內容中是否有圖片
+  return !!(post.data.coverImage || post.body.match(/!\[.*?\]\((.*?)\)/));
+};
+
+// 獲取文章的 epic 分類
+const getPostEpic = (post: CollectionEntry<'blog'>) => {
+  // 優先使用 epic 欄位，如果沒有則根據檔案路徑判斷
+  if (post.data.epic) {
+    return post.data.epic;
+  } else {
+    // 根據檔案路徑判斷分類
+    const postPath = post.id.toLowerCase();
+    if (postPath.includes('/software/')) return 'software';
+    if (postPath.includes('/management/')) return 'management'; 
+    if (postPath.includes('/reading/')) return 'reading';
+    if (postPath.includes('/growth/')) return 'growth';
+    // 默認歸類為軟體開發（因為大部分文章都在 software 目錄下）
+    return 'software';
+  }
+};
+
+// 根據 epic 獲取圖標
+const getEpicIcon = (epic: string) => {
+  switch(epic) {
+    case "software":
+      return `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>`;
+    case "management":
+      return `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`;
+    case "reading":
+      return `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>`;
+    case "growth":
+      return `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>`;
+    default:
+      return `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"/></svg>`;
+  }
+};
+
+// 根據 epic 獲取顏色
+const getEpicColor = (epic: string) => {
+  switch(epic) {
+    case "software":
+      return "#4299e1";
+    case "management":
+      return "#38a169";
+    case "reading":
+      return "#ed8936";
+    case "growth":
+      return "#9f7aea";
+    default:
+      return "#4299e1";
+  }
+};
+
+// 獲取分類中文名稱
+const getEpicName = (epic: string) => {
+  switch(epic) {
+    case "software":
+      return "軟體開發";
+    case "management":
+      return "管理經驗";
+    case "reading":
+      return "閱讀心得";
+    case "growth":
+      return "自我成長";
+    default:
+      return "其他";
+  }
+};
+---
+
+<div class="latest-timeline">
+  <div class="timeline-header">
+    <h2 class="timeline-title">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 8v4l3 3"/>
+        <circle cx="12" cy="12" r="10"/>
+      </svg>
+      最新文章
+    </h2>
+    <a href="/archives/" class="view-all-link">
+      查看所有文章
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 12h14"/>
+        <path d="m12 5 7 7-7 7"/>
+      </svg>
+    </a>
+  </div>
+
+  <div class="timeline-content">
+    {latestPosts.map((post, index) => {
+      const path = post.id.slice(0, post.id.lastIndexOf("/")).toLowerCase();
+      const epic = getPostEpic(post);
+      const epicIcon = getEpicIcon(epic);
+      const epicColor = getEpicColor(epic);
+      const epicName = getEpicName(epic);
+      const isLatest = index === 0;
+      
+      const coverImage = getCoverImage(post);
+      const showCoverImage = hasCoverImage(post);
+      
+      return (
+        <article class={`post-card ${isLatest ? 'featured-card' : 'regular-card'} ${!showCoverImage ? 'no-image' : ''}`} style={`--epic-color: ${epicColor}`}>
+          {isLatest && showCoverImage && (
+            <!-- Featured card with full-width cover image -->
+            <div class="card-cover-full">
+              <img src={coverImage} alt={post.data.title} class="cover-image-full" />
+              <div class="cover-overlay">
+                <div class="card-category featured-category">
+                  <span class="category-icon" set:html={epicIcon}></span>
+                  <span class="category-name">{epicName}</span>
+                </div>
+              </div>
+            </div>
+          )}
+          
+          {!isLatest && showCoverImage && (
+            <div class="card-layout-vertical">
+              <div class="card-header-full">
+                <div class="card-category">
+                  <span class="category-icon" set:html={epicIcon}></span>
+                  <span class="category-name">{epicName}</span>
+                </div>
+                <time class="card-date">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect width="18" height="18" x="3" y="4" rx="2" ry="2"/>
+                    <line x1="16" x2="16" y1="2" y2="6"/>
+                    <line x1="8" x2="8" y1="2" y2="6"/>
+                    <line x1="3" x2="21" y1="10" y2="10"/>
+                  </svg>
+                  <FormattedDate date={post.data.date} />
+                </time>
+              </div>
+              <div class="card-body-horizontal">
+                <div class="card-thumbnail">
+                  <img src={coverImage} alt={post.data.title} class="cover-image-thumb" />
+                </div>
+                <div class="card-content-wrapper">
+                
+                <div class="card-content">
+                  <h3 class="card-title">
+                    <a href={`/post/${path}/`}>{post.data.title}</a>
+                  </h3>
+                  
+                  {post.data.description && (
+                    <p class="card-excerpt">{post.data.description}</p>
+                  )}
+                  
+                </div>
+                
+                <div class="card-footer">
+                  <a href={`/post/${path}/`} class="read-more-btn">
+                    閱讀全文
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M5 12h14"/>
+                      <path d="m12 5 7 7-7 7"/>
+                    </svg>
+                  </a>
+                </div>
+                </div>
+              </div>
+            </div>
+          )}
+          
+          {!isLatest && !showCoverImage && (
+            <div class="card-layout-vertical">
+              <div class="card-header-full">
+                <div class="card-category">
+                  <span class="category-icon" set:html={epicIcon}></span>
+                  <span class="category-name">{epicName}</span>
+                </div>
+                <time class="card-date">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect width="18" height="18" x="3" y="4" rx="2" ry="2"/>
+                    <line x1="16" x2="16" y1="2" y2="6"/>
+                    <line x1="8" x2="8" y1="2" y2="6"/>
+                    <line x1="3" x2="21" y1="10" y2="10"/>
+                  </svg>
+                  <FormattedDate date={post.data.date} />
+                </time>
+              </div>
+              <div class="card-body-horizontal">
+                <div class="card-thumbnail-placeholder">
+                  <div class="no-image-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <rect width="18" height="18" x="3" y="3" rx="2" ry="2"/>
+                      <circle cx="9" cy="9" r="2"/>
+                      <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>
+                    </svg>
+                  </div>
+                </div>
+                <div class="card-content-wrapper">
+                
+                <div class="card-content">
+                  <h3 class="card-title">
+                    <a href={`/post/${path}/`}>{post.data.title}</a>
+                  </h3>
+                  
+                  {post.data.description && (
+                    <p class="card-excerpt">{post.data.description}</p>
+                  )}
+                  
+                </div>
+                
+                <div class="card-footer">
+                  <a href={`/post/${path}/`} class="read-more-btn">
+                    閱讀全文
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M5 12h14"/>
+                      <path d="m12 5 7 7-7 7"/>
+                    </svg>
+                  </a>
+                </div>
+                </div>
+              </div>
+            </div>
+          )}
+          
+          {isLatest && (
+            <div class="card-header">
+              <time class="card-date">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect width="18" height="18" x="3" y="4" rx="2" ry="2"/>
+                  <line x1="16" x2="16" y1="2" y2="6"/>
+                  <line x1="8" x2="8" y1="2" y2="6"/>
+                  <line x1="3" x2="21" y1="10" y2="10"/>
+                </svg>
+                <FormattedDate date={post.data.date} />
+              </time>
+            </div>
+            
+            <div class="card-content">
+              <h3 class="card-title">
+                <a href={`/post/${path}/`}>{post.data.title}</a>
+              </h3>
+              
+              {post.data.description && (
+                <p class="card-excerpt">{post.data.description}</p>
+              )}
+              
+            </div>
+            
+            <div class="card-footer">
+              <a href={`/post/${path}/`} class="read-more-btn">
+                閱讀全文
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M5 12h14"/>
+                  <path d="m12 5 7 7-7 7"/>
+                </svg>
+              </a>
+            </div>
+          )}
+        </article>
+      );
+    })}
+  </div>
+</div>
+
+<style>
+  .latest-timeline {
+    margin-bottom: var(--spacing-2xl);
+  }
+
+  .timeline-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-xl);
+    padding-bottom: var(--spacing-md);
+    border-bottom: 2px solid var(--border-primary);
+  }
+
+  .timeline-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin: 0;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+  }
+
+  .timeline-title svg {
+    color: var(--primary-500);
+  }
+
+  .view-all-link {
+    color: var(--primary-500);
+    text-decoration: none;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    transition: opacity var(--transition-normal);
+  }
+
+  .view-all-link:hover {
+    opacity: 0.8;
+  }
+
+  .timeline-content {
+    display: grid;
+    gap: var(--spacing-lg);
+  }
+
+  .post-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    position: relative;
+  }
+
+  .post-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background-color: var(--epic-color);
+  }
+
+  /* Featured Card (Latest Post) */
+  .featured-card {
+    grid-column: 1 / -1;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card-cover-full {
+    position: relative;
+    height: 300px;
+    overflow: hidden;
+  }
+
+  .cover-image-full {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .cover-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.7) 100%);
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: var(--spacing-lg);
+  }
+
+  .featured-category {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--radius-full);
+    color: var(--epic-color) !important;
+  }
+
+  .featured-card .card-header,
+  .featured-card .card-content,
+  .featured-card .card-footer {
+    padding: var(--spacing-lg) var(--spacing-xl);
+  }
+
+  .featured-card .card-header {
+    padding-bottom: 0;
+  }
+
+  .featured-card .card-footer {
+    padding-top: 0;
+  }
+
+  .featured-card .card-title {
+    font-size: 1.75rem;
+    margin-bottom: var(--spacing-md);
+  }
+
+  .featured-card .card-excerpt {
+    font-size: 1.1rem;
+    -webkit-line-clamp: 3;
+  }
+
+  /* Regular Cards */
+  .regular-card {
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .card-layout-vertical {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 160px;
+  }
+
+  .card-header-full {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-md) var(--spacing-md) var(--spacing-sm);
+    border-bottom: 1px solid var(--border-muted);
+  }
+
+  .card-body-horizontal {
+    display: flex;
+    flex: 1;
+  }
+
+  .card-category {
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+  }
+
+  .card-thumbnail {
+    width: 120px;
+    height: 120px;
+    flex-shrink: 0;
+    overflow: hidden;
+    border-radius: var(--radius-md);
+    margin: var(--spacing-md);
+  }
+
+  .card-thumbnail-placeholder {
+    width: 120px;
+    height: 120px;
+    flex-shrink: 0;
+    border-radius: var(--radius-md);
+    background-color: var(--color-bg-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: var(--spacing-md);
+  }
+
+  .no-image-icon {
+    color: var(--text-muted);
+    opacity: 0.5;
+  }
+
+  .cover-image-thumb {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .card-content-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: var(--spacing-md);
+    justify-content: space-between;
+  }
+
+
+  .regular-card .card-title {
+    font-size: 1.25rem;
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .regular-card .card-excerpt {
+    font-size: 0.95rem;
+    -webkit-line-clamp: 2;
+  }
+
+
+  /* Card Header */
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: var(--spacing-sm);
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+  }
+
+  .card-category {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--epic-color);
+  }
+
+  .category-icon {
+    display: flex;
+    align-items: center;
+  }
+
+  .card-date {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+  }
+
+  /* Card Content */
+  .card-content {
+    flex: 1;
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .card-title {
+    font-weight: 600;
+    line-height: 1.4;
+    margin: 0;
+  }
+
+  /* 確保標題文字的上緣對齊 */
+  .card-layout-horizontal .card-title {
+    margin-top: 0;
+    line-height: 1.3;
+  }
+
+  .card-title a {
+    color: var(--text-primary);
+    text-decoration: none;
+    transition: color var(--transition-normal);
+  }
+
+  .card-title a:hover {
+    color: var(--epic-color);
+  }
+
+  .card-excerpt {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin: var(--spacing-sm) 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+  }
+
+
+  /* Card Footer */
+  .card-footer {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: var(--spacing-xs);
+    margin-top: auto;
+  }
+
+  .read-more-btn {
+    color: var(--epic-color);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    transition: all var(--transition-normal);
+  }
+
+  .read-more-btn:hover {
+    opacity: 0.8;
+  }
+
+  /* Grid Layout for Regular Cards */
+  @media (min-width: 769px) {
+    .timeline-content {
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    }
+  }
+
+  @media (max-width: 768px) {
+    .timeline-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--spacing-sm);
+    }
+
+    .timeline-title {
+      font-size: 1.5rem;
+    }
+
+    .timeline-content {
+      grid-template-columns: 1fr;
+      gap: var(--spacing-md);
+    }
+
+    .card-cover-full {
+      height: 200px;
+    }
+
+    .featured-card .card-header,
+    .featured-card .card-content,
+    .featured-card .card-footer {
+      padding: var(--spacing-md) var(--spacing-lg);
+    }
+
+    .featured-card .card-title {
+      font-size: 1.5rem;
+    }
+
+    .card-body-horizontal {
+      flex-direction: column;
+    }
+
+    .card-thumbnail {
+      width: 100%;
+      height: 150px;
+      margin: 0;
+      border-radius: 0;
+    }
+
+    .card-thumbnail-placeholder {
+      width: 100%;
+      height: 150px;
+      margin: 0;
+      border-radius: 0;
+    }
+
+
+    .card-header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .card-cover-full {
+      height: 180px;
+    }
+
+    .cover-overlay {
+      padding: var(--spacing-md);
+    }
+
+    .featured-card .card-header,
+    .featured-card .card-content,
+    .featured-card .card-footer {
+      padding: var(--spacing-sm) var(--spacing-md);
+    }
+
+    .featured-card .card-title {
+      font-size: 1.3rem;
+    }
+
+    .regular-card .card-title {
+      font-size: 1.1rem;
+    }
+
+    .card-excerpt {
+      font-size: 0.9rem;
+    }
+
+    .card-thumbnail {
+      height: 120px;
+    }
+  }
+</style>

@@ -4,8 +4,9 @@ import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
 import { getCollection } from "astro:content";
-import Sidebar from "../components/sidebar.astro";
-import EpicBlock from "../components/EpicBlock.astro";
+import MiniHero from "../components/MiniHero.astro";
+import LatestTimeline from "../components/LatestTimeline.astro";
+import CategoryGrid from "../components/CategoryGrid.astro";
 
 // 獲取所有文章
 const allPosts = await getCollection("blog");
@@ -15,45 +16,8 @@ const sortedPosts = allPosts.sort((a, b) =>
     b.data.date.valueOf() - a.data.date.valueOf()
 );
 
-// 獲取軟體開發類別的文章
-const softwarePosts = sortedPosts
-    .filter(post => {
-        if ('epic' in post.data) {
-            return post.data.epic === "software";
-        }
-        return true;
-    })
-    .slice(0, 5);
-
-// 獲取管理經驗類別的文章
-const managementPosts = sortedPosts
-    .filter(post => {
-        if ('epic' in post.data) {
-            return post.data.epic === "management";
-        }
-        return false;
-    })
-    .slice(0, 5);
-
-// 獲取閱讀心得類別的文章
-const readingPosts = sortedPosts
-    .filter(post => {
-        if ('epic' in post.data) {
-            return post.data.epic === "reading";
-        }
-        return false;
-    })
-    .slice(0, 5);
-
-// 獲取個人成長類別的文章
-const growthPosts = sortedPosts
-    .filter(post => {
-        if ('epic' in post.data) {
-            return post.data.epic === "growth";
-        }
-        return false;
-    })
-    .slice(0, 5);
+// 取得最新文章用於時間軸顯示
+const latestPosts = sortedPosts;
 
 
 // 為SEO準備關鍵字
@@ -155,45 +119,19 @@ const blogStructuredData = {
         }
 
         .main-content {
-            display: grid;
-            grid-template-columns: 300px minmax(0, 1fr);
-            gap: var(--spacing-xl);
             margin: var(--spacing-lg) 0 var(--spacing-2xl);
-        }
-
-        .sidebar-area {
-            width: 300px;
-        }
-
-        .content-area {
             display: flex;
             flex-direction: column;
-            gap: var(--spacing-xl);
-        }
-
-        @media (max-width: 1200px) {
-            .main-content {
-                grid-template-columns: 250px minmax(0, 1fr);
-            }
-
-            .sidebar-area {
-                width: 250px;
-            }
-        }
-
-        @media (max-width: 992px) {
-            .main-content {
-                grid-template-columns: 1fr;
-            }
-
-            .sidebar-area {
-                display: none;
-            }
+            gap: var(--spacing-2xl);
         }
 
         @media (max-width: 768px) {
             .home-container {
                 padding: 0 var(--spacing-sm);
+            }
+
+            .main-content {
+                gap: var(--spacing-xl);
             }
         }
     </style>
@@ -208,34 +146,14 @@ const blogStructuredData = {
 
 <div class="home-container">
     <div class="main-content">
-        <div class="sidebar-area">
-            <Sidebar />
-        </div>
+        <!-- Mini Hero Section -->
+        <MiniHero />
         
-        <div class="content-area">
-            <div class="epic-blocks">
-                <EpicBlock 
-                    title="軟體開發" 
-                    posts={softwarePosts} 
-                    viewAllLink="/software/" 
-                />
-                <EpicBlock 
-                    title="管理經驗" 
-                    posts={managementPosts} 
-                    viewAllLink="/management/" 
-                />
-                <EpicBlock 
-                    title="閱讀心得" 
-                    posts={readingPosts} 
-                    viewAllLink="/reading/" 
-                />
-                <EpicBlock 
-                    title="自我成長" 
-                    posts={growthPosts} 
-                    viewAllLink="/growth/" 
-                />
-            </div>
-        </div>
+        <!-- Latest Articles Timeline -->
+        <LatestTimeline posts={latestPosts} limit={6} />
+        
+        <!-- Category Grid -->
+        <CategoryGrid allPosts={allPosts} />
     </div>
 </div>
 

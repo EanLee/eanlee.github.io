@@ -1,0 +1,92 @@
+---
+import { SITE_TITLE } from "../consts";
+
+// 使用新的自我介紹文字
+const heroDescription = `我是伊恩，一位擁有多年開發經驗的軟體開發者，目前專注於 .NET、Cloud Native 架構、系統設計、容器化技術及監控整合。
+
+在持續學習並跟上快速演進的技術過程中，我逐漸體悟到：資訊系統是支撐企業營運的基石。如何在確保系統穩定與可靠的同時，有效降低建置與營運成本，是每一間公司都必須面對的重要課題。
+
+這個部落格記錄了我在軟體開發、技術管理、閱讀習慣與自我成長等方面的心得與觀點。我相信，持續學習與知識分享，是技術人成長的關鍵動力。
+
+歡迎你與我交流、討論任何技術話題，讓我們一起在這條路上持續進步。`;
+---
+
+<section class="mini-hero">
+  <div class="hero-content">
+    <h1 class="hero-title">{SITE_TITLE}</h1>
+    <div class="hero-description">
+      {heroDescription.split('\n\n').map((paragraph) => (
+        paragraph.trim() && <p>{paragraph}</p>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .mini-hero {
+    background-color: var(--card-bg);
+    border: 1px solid var(--card-border);
+    padding: var(--spacing-2xl) 0;
+    margin-bottom: var(--spacing-xl);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+  }
+
+  .hero-content {
+    max-width: var(--container-lg);
+    margin: 0 auto;
+    padding: 0 var(--spacing-md);
+    text-align: left;
+  }
+
+  .hero-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 var(--spacing-lg);
+    text-align: center;
+  }
+
+  .hero-description {
+    color: var(--text-secondary);
+    line-height: 1.8;
+  }
+
+  .hero-description p {
+    font-size: 1rem;
+    margin: 0 0 var(--spacing-md);
+  }
+
+  .hero-description p:last-child {
+    margin-bottom: 0;
+  }
+
+  @media (max-width: 768px) {
+    .mini-hero {
+      padding: var(--spacing-xl) 0;
+      margin-bottom: var(--spacing-lg);
+    }
+
+    .hero-title {
+      font-size: 2rem;
+    }
+
+    .hero-description p {
+      font-size: 0.95rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .mini-hero {
+      padding: var(--spacing-lg) 0;
+    }
+
+    .hero-title {
+      font-size: 1.75rem;
+    }
+
+    .hero-description p {
+      font-size: 0.9rem;
+    }
+  }
+</style>
