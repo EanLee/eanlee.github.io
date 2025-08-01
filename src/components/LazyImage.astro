@@ -151,6 +151,8 @@ const webpSrcSet = width ? [
 <script>
   // 圖片懶加載觀察器
   class LazyImageObserver {
+    imageObserver;
+    
     constructor() {
       this.imageObserver = new IntersectionObserver(
         this.handleIntersection.bind(this),

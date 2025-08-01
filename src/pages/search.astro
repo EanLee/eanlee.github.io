@@ -22,7 +22,7 @@ const allPosts = posts.map(post => {
 });
 
 // Sort by date (newest first)
-allPosts.sort((a, b) => new Date(b.date) - new Date(a.date));
+allPosts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
 // Get query parameter from URL
 const url = new URL(Astro.request.url);
@@ -768,7 +768,7 @@ function highlightText(text, query) {
 
       // Function to update URL without page reload
       function updateURL(query) {
-        const url = new URL(window.location);
+        const url = new URL(window.location.href);
         url.searchParams.set('q', query);
         window.history.pushState({}, '', url);
       }
@@ -817,7 +817,7 @@ function highlightText(text, query) {
 
         // Handle search input changes (real-time search)
         searchInput.addEventListener('input', (e) => {
-          const query = e.target.value.trim();
+          const query = (e.target as HTMLInputElement).value.trim();
           if (query.length > 0) {
             debouncedSearch(query);
           } else {
@@ -831,7 +831,7 @@ function highlightText(text, query) {
         searchForm.addEventListener('submit', async (e) => {
           e.preventDefault();
           
-          const query = searchInput.value.trim();
+          const query = (searchInput as HTMLInputElement).value.trim();
           
           if (query.length === 0) {
             renderSearchResults([], '');

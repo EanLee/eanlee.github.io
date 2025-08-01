@@ -171,13 +171,13 @@
     searchForm.addEventListener('submit', (e) => {
       e.preventDefault();
       
-      const query = searchInput.value;
+      const query = (searchInput as HTMLInputElement).value;
       
       if (query.trim().length === 0) {
         return;
       }
       
-      searchForm.submit();
+      (searchForm as HTMLFormElement).submit();
     });
   });
 </script>

@@ -31,7 +31,6 @@ const {
     <div class="skeleton-paragraph">
       {Array.from({ length: lines }, (_, i) => (
         <div 
-          key={i}
           class="skeleton-line" 
           style={`width: ${i === lines - 1 ? '70%' : '100%'}; height: ${height};`}
         ></div>
@@ -188,14 +187,14 @@ const {
   class SkeletonManager {
     static show(element: Element) {
       element.classList.remove('skeleton-fade-out');
-      element.style.display = 'block';
+      (element as HTMLElement).style.display = 'block';
     }
 
     static hide(element: Element, callback?: () => void) {
       element.classList.add('skeleton-fade-out');
       
       setTimeout(() => {
-        element.style.display = 'none';
+        (element as HTMLElement).style.display = 'none';
         element.classList.remove('skeleton-fade-out');
         callback?.();
       }, 200); // 對應 CSS transition 時間
