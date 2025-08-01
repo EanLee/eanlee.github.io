@@ -53,7 +53,7 @@ const shareLinks = [
           href={link.url}
           target="_blank"
           rel="noopener noreferrer"
-          class={`social-button ${link.color} text-white`}
+          class={`social-button ${link.color}`}
           aria-label={`Share on ${link.name}`}
           title={`Share on ${link.name}`}
         >
@@ -67,17 +67,17 @@ const shareLinks = [
 
 <style>
   .social-share-container {
-    margin: 2rem 0;
-    padding: 1rem;
-    border-top: 1px solid #eaeaea;
-    border-bottom: 1px solid #eaeaea;
+    margin: var(--spacing-xl) 0;
+    padding: var(--spacing-md);
+    border-top: 1px solid var(--color-border-light);
+    border-bottom: 1px solid var(--color-border-light);
   }
 
   .share-title {
-    font-size: 1rem;
-    font-weight: 600;
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
     margin-bottom: 0.75rem;
-    color: #666;
+    color: var(--text-muted);
   }
 
   .social-buttons {
@@ -93,8 +93,40 @@ const shareLinks = [
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    transition: all 0.2s ease;
-    color: white; /* Ensure icon color is white */
+    transition: all var(--transition-normal);
+    color: white;
+  }
+
+  .social-button.social-facebook {
+    background-color: var(--social-facebook);
+  }
+
+  .social-button.social-facebook:hover {
+    background-color: var(--social-facebook-hover);
+  }
+
+  .social-button.social-twitter {
+    background-color: var(--social-twitter);
+  }
+
+  .social-button.social-twitter:hover {
+    background-color: var(--social-twitter-hover);
+  }
+
+  .social-button.social-linkedin {
+    background-color: var(--social-linkedin);
+  }
+
+  .social-button.social-linkedin:hover {
+    background-color: var(--social-linkedin-hover);
+  }
+
+  .social-button.social-email {
+    background-color: var(--social-email);
+  }
+
+  .social-button.social-email:hover {
+    background-color: var(--social-email-hover);
   }
 
   .social-button:hover {

@@ -3,6 +3,7 @@
   https://github.com/HermanMartinus/bearblog/blob/297026a877bc2ab2b3bdfbd6b9f7961c350917dd/templates/styles/blog/default.css
   License MIT: https://github.com/HermanMartinus/bearblog/blob/master/LICENSE.md
  */
+ @import './design-tokens.css';
  @tailwind base;
  @tailwind components;
  @tailwind utilities;
@@ -15,18 +16,7 @@ html {
   overflow-x: hidden;
 }
 
-:root {
-	--text-color: #000;
-	--accent: #2337ff;
-	--accent-dark: #000d8a;
-	--black: 15, 18, 25;
-	--gray: 96, 115, 159;
-	--gray-light: 229, 233, 240;
-	--gray-dark: 34, 41, 57;
-	--gray-gradient: rgba(var(--gray-light), 50%), #fff;
-	--box-shadow: 0 2px 6px rgba(var(--gray), 25%), 0 8px 24px rgba(var(--gray), 33%),
-		0 16px 32px rgba(var(--gray), 33%);
-}
+/* CSS 變數已移至 design-tokens.css 統一管理 */
 @font-face {
 	font-family: 'Atkinson';
 	src: url('/fonts/atkinson-regular.woff') format('woff');
@@ -57,7 +47,7 @@ body {
 }
 
 main {
-	width: 720px;
+	width: var(--container-xl);
 	max-width: calc(100% - 2em);
 	margin: auto;
 	padding: 3em 1em;
@@ -145,7 +135,7 @@ hr {
 	border-top: 1px solid rgb(var(--gray-light));
 }
 
-@media (max-width: 720px) {
+@media (max-width: 768px) {
 	body {
 		font-size: 18px;
 	}
@@ -187,19 +177,11 @@ hr {
 
 /* 專為內文設計的樣式，提升閱讀體驗 */
 .prose {
-    --prose-body: #374151; /* 內文顏色，柔和的深灰色 */
-    --prose-headings: #111827; /* 標題顏色，更深的灰色 */
-    --prose-links: #2563eb; /* 連結顏色，鮮明的藍色 */
-    --prose-code: #111827; /* 程式碼顏色 */
-    --prose-code-bg: #f3f4f6; /* 程式碼區塊背景色 */
-    --prose-blockquote: #6b7280; /* 引用區塊顏色 */
-    --prose-blockquote-border: #e5e7eb; /* 引用區塊左側邊框顏色 */
-
     color: var(--prose-body);
-    font-family: 'Atkinson Hyperlegible', sans-serif;
-    font-size: 1.125rem; /* 18px，適合閱讀的字體大小 */
-    line-height: 1.7; /* 1.7 倍行高，讓文字不擁擠 */
-    max-width: 80ch; /* 限制每行最大寬度約 80 個字元 */
+    font-family: var(--font-family-primary);
+    font-size: var(--font-size-lg);
+    line-height: var(--line-height-relaxed);
+    max-width: 80ch;
     margin-left: auto;
     margin-right: auto;
 }
@@ -211,25 +193,25 @@ hr {
 .prose h5,
 .prose h6 {
     color: var(--prose-headings);
-    margin-top: 2.5rem;
-    margin-bottom: 1.25rem;
-    line-height: 1.3;
+    margin-top: var(--spacing-2xl);
+    margin-bottom: var(--spacing-lg);
+    line-height: var(--line-height-tight);
 }
 
-.prose h1 { font-size: 2.5rem; }
-.prose h2 { font-size: 2rem; }
-.prose h3 { font-size: 1.5rem; }
-.prose h4 { font-size: 1.25rem; }
+.prose h1 { font-size: var(--font-size-4xl); }
+.prose h2 { font-size: var(--font-size-3xl); }
+.prose h3 { font-size: var(--font-size-2xl); }
+.prose h4 { font-size: var(--font-size-xl); }
 
 .prose p {
-    margin-bottom: 1.5rem;
+    margin-bottom: var(--spacing-lg);
 }
 
 .prose a {
     color: var(--prose-links);
     text-decoration: none;
     border-bottom: 2px solid transparent;
-    transition: border-color 0.3s ease;
+    transition: border-color var(--transition-slow);
 }
 
 .prose a:hover {
@@ -237,19 +219,19 @@ hr {
 }
 
 .prose strong {
-    font-weight: bold;
+    font-weight: var(--font-weight-bold);
     color: var(--prose-headings);
 }
 
 .prose ul,
 .prose ol {
-    padding-left: 1.5rem;
-    margin-bottom: 1.5rem;
+    padding-left: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
 }
 
 .prose li > ul,
 .prose li > ol {
-    margin-top: 0.5rem;
+    margin-top: var(--spacing-sm);
 }
 
 .prose blockquote {

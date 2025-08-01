@@ -119,20 +119,7 @@ const displayCount = Math.min(5, posts.length);
 </div>
 
 <style>
-  /* 基本變數 */
-  :root {
-    --card-bg: #ffffff;
-    --card-border: #e0e0e0;
-    --card-shadow: rgba(0, 0, 0, 0.1);
-    --title-color: #333333;
-    --text-color: #444444;
-    --meta-color: #666666;
-    --link-color: #2337ff;
-    --link-hover: #1a29cc;
-    --divider-color: #eeeeee;
-    --tag-color: #4682b4;
-    --tag-bg: #f0f0f0;
-  }
+  /* 使用統一的設計令牌 */
 
   .epic-block {
     margin-bottom: 2rem;
@@ -151,7 +138,7 @@ const displayCount = Math.min(5, posts.length);
     font-size: 1.5rem;
     font-weight: 700;
     margin: 0;
-    color: var(--title-color);
+    color: var(--text-primary);
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -186,18 +173,18 @@ const displayCount = Math.min(5, posts.length);
   .post-card {
     background-color: var(--card-bg);
     border: 1px solid var(--card-border);
-    border-radius: 8px;
-    margin-bottom: 1rem;
+    border-radius: var(--radius-md);
+    margin-bottom: var(--spacing-md);
     overflow: hidden;
-    transition: box-shadow 0.2s ease;
+    transition: box-shadow var(--transition-normal);
   }
 
   .post-card:hover {
-    box-shadow: 0 5px 15px var(--card-shadow);
+    box-shadow: var(--shadow-lg);
   }
 
   .post-content-wrapper {
-    padding: 1rem;
+    padding: var(--spacing-md);
     display: flex;
     flex-direction: column;
   }
@@ -213,7 +200,7 @@ const displayCount = Math.min(5, posts.length);
 
   .post-date {
     font-size: 0.8rem;
-    color: var(--meta-color);
+    color: var(--text-muted);
     display: flex;
     align-items: center;
     gap: 0.25rem;
@@ -236,7 +223,7 @@ const displayCount = Math.min(5, posts.length);
     padding: 0.1rem 0.5rem;
     background-color: var(--tag-bg);
     color: var(--tag-color);
-    border-radius: 9999px;
+    border-radius: var(--radius-full);
     text-decoration: none;
     transition: background-color 0.2s ease;
   }
@@ -254,7 +241,7 @@ const displayCount = Math.min(5, posts.length);
   }
 
   .post-title a {
-    color: var(--title-color);
+    color: var(--text-primary);
     text-decoration: none;
     transition: color 0.2s ease;
   }
@@ -265,7 +252,7 @@ const displayCount = Math.min(5, posts.length);
 
   .post-excerpt {
     font-size: 0.9rem;
-    color: var(--text-color);
+    color: var(--text-secondary);
     line-height: 1.5;
     margin-bottom: 1rem;
     overflow: hidden;
@@ -298,7 +285,7 @@ const displayCount = Math.min(5, posts.length);
   .no-posts {
     padding: 2rem;
     text-align: center;
-    color: var(--meta-color);
+    color: var(--text-muted);
     background-color: var(--card-bg);
     border: 1px solid var(--card-border);
     border-radius: 8px;

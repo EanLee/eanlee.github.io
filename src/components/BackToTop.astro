@@ -52,25 +52,25 @@
 <style>
   #backToTopBtn {
     position: fixed;
-    bottom: 40px;
-    right: 40px;
-    z-index: 1000;
+    bottom: var(--spacing-2xl);
+    right: var(--spacing-2xl);
+    z-index: var(--z-dropdown);
     border: none;
     outline: none;
-    background: linear-gradient(135deg, var(--accent) 0%, #667eea 100%);
+    background: var(--gradient-primary);
     color: white;
     cursor: pointer;
     padding: 0;
-    border-radius: 16px;
-    font-size: 11px;
-    font-weight: 600;
+    border-radius: var(--radius-xl);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
     opacity: 0;
     visibility: hidden;
-    transform: translateY(20px) scale(0.8);
+    transform: translateY(var(--spacing-md)) scale(0.8);
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    box-shadow: var(--shadow-lg);
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(var(--color-white), 0.1);
     width: 60px;
     height: 60px;
     display: flex;
@@ -83,7 +83,7 @@
     flex-direction: column;
     align-items: center;
     gap: 2px;
-    transition: all 0.3s ease;
+    transition: all var(--transition-slow);
   }
 
   .btn-text {
@@ -101,7 +101,7 @@
   #backToTopBtn:hover {
     background: linear-gradient(135deg, #667eea 0%, var(--accent) 100%);
     transform: translateY(-4px) scale(1.05);
-    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
+    box-shadow: var(--shadow-xl);
   }
 
   #backToTopBtn:hover .btn-content {
@@ -110,7 +110,7 @@
 
   #backToTopBtn.clicked {
     transform: translateY(0) scale(0.95);
-    transition: transform 0.1s ease;
+    transition: transform var(--transition-fast);
   }
 
   #backToTopBtn.scrolling {
@@ -118,15 +118,15 @@
   }
 
   @keyframes pulse {
-    0% { box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15); }
+    0% { box-shadow: var(--shadow-lg); }
     50% { box-shadow: 0 8px 25px rgba(var(--accent-rgb), 0.4); }
-    100% { box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15); }
+    100% { box-shadow: var(--shadow-lg); }
   }
 
   @media (max-width: 768px) {
     #backToTopBtn {
-      bottom: 24px;
-      right: 24px;
+      bottom: var(--spacing-lg);
+      right: var(--spacing-lg);
       width: 52px;
       height: 52px;
       font-size: 10px;
@@ -135,8 +135,8 @@
 
   @media (max-width: 480px) {
     #backToTopBtn {
-      bottom: 20px;
-      right: 20px;
+      bottom: var(--spacing-md);
+      right: var(--spacing-md);
       width: 48px;
       height: 48px;
     }
