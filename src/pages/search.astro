@@ -73,100 +73,301 @@ function highlightText(text, query) {
     <BaseHead title={`搜尋 | ${SITE_TITLE}`} description={SITE_DESCRIPTION} />
     <style>
       .search-page {
-        max-width: 1120px;
+        max-width: 1200px;
         margin: 0 auto;
         padding: 2rem 1rem;
+        min-height: 70vh;
       }
       
       .search-header {
-        margin-bottom: 2rem;
+        margin-bottom: var(--spacing-lg);
         text-align: center;
       }
       
       .search-header h1 {
-        font-size: 2rem;
-        margin-bottom: 1rem;
-        color: #1e293b;
+        font-size: var(--font-size-2xl);
+        font-weight: var(--font-weight-bold);
+        margin-bottom: var(--spacing-md);
+        color: var(--text-primary);
+      }
+
+      .search-input-container {
+        max-width: 600px;
+        margin: 0 auto var(--spacing-lg);
+        position: relative;
+      }
+
+      .search-form {
+        position: relative;
+        display: flex;
+        align-items: center;
+      }
+
+      .search-input {
+        width: 100%;
+        padding: var(--spacing-md) 3.5rem var(--spacing-md) var(--spacing-lg);
+        border: 2px solid var(--color-border-light);
+        border-radius: var(--radius-full);
+        font-size: var(--font-size-base);
+        background: var(--color-bg-primary);
+        color: var(--text-primary);
+        transition: all var(--transition-normal);
+        box-shadow: var(--shadow-sm);
+      }
+
+      .search-input:focus {
+        outline: none;
+        border-color: var(--color-primary);
+        box-shadow: 0 0 0 4px rgba(35, 55, 255, 0.1);
+        transform: scale(1.02);
+      }
+
+      .search-input::placeholder {
+        color: var(--text-muted);
+      }
+
+      .search-submit {
+        position: absolute;
+        right: 4px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 40px;
+        height: 40px;
+        background: var(--color-primary);
+        color: white;
+        border: none;
+        border-radius: var(--radius-full);
+        cursor: pointer;
+        transition: all var(--transition-normal);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: var(--shadow-sm);
+      }
+
+      .search-submit:hover {
+        background: var(--color-primary-dark);
+        transform: translateY(-50%) scale(1.05);
+        box-shadow: var(--shadow-md);
+      }
+
+      .search-submit svg {
+        width: 18px;
+        height: 18px;
+      }
+
+      .search-stats {
+        text-align: center;
+        margin-bottom: var(--spacing-2xl);
+        padding: var(--spacing-lg);
+        background: var(--color-bg-secondary);
+        border-radius: var(--radius-lg);
+        border: 1px solid var(--color-border-light);
       }
       
-      .search-results-count {
-        font-size: 1rem;
-        color: #64748b;
-        margin-bottom: 1.5rem;
-        text-align: center;
-        font-weight: 500;
+      .search-stats-text {
+        font-size: var(--font-size-base);
+        color: var(--text-secondary);
+        margin: 0;
+        font-weight: var(--font-weight-medium);
       }
       
       .search-results-list {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-        gap: 1.5rem;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: var(--spacing-xl);
+        margin-bottom: var(--spacing-3xl);
       }
       
       .search-result-item {
-        padding: 1.5rem;
-        border-radius: 0.75rem;
-        border: 1px solid #e2e8f0;
-        transition: all 0.3s ease;
-        background-color: #fff;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        padding: var(--spacing-lg);
+        border-radius: var(--radius-lg);
+        border: 1px solid var(--color-border-light);
+        transition: all var(--transition-normal);
+        background: var(--color-bg-primary);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
         display: flex;
         flex-direction: column;
+        height: fit-content;
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+      }
+
+      .search-result-item::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 4px;
         height: 100%;
+        background: var(--color-primary);
+        opacity: 0;
+        transition: all var(--transition-normal);
+      }
+
+      .search-result-item::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, rgba(35, 55, 255, 0.02) 0%, rgba(35, 55, 255, 0.01) 100%);
+        opacity: 0;
+        transition: opacity var(--transition-normal);
+        pointer-events: none;
       }
       
       .search-result-item:hover {
-        border-color: #cbd5e1;
-        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-        transform: translateY(-3px);
+        border-color: rgba(35, 55, 255, 0.3);
+        box-shadow: 0 8px 25px rgba(35, 55, 255, 0.15);
+        transform: translateY(-2px);
+      }
+
+      .search-result-item:hover::before {
+        opacity: 1;
+      }
+
+      .search-result-item:hover::after {
+        opacity: 1;
       }
       
       .search-result-title {
-        font-size: 1.25rem;
-        font-weight: 600;
-        color: #1a202c;
-        margin-bottom: 0.75rem;
+        font-size: var(--font-size-lg);
+        font-weight: var(--font-weight-semibold);
+        color: var(--text-primary);
+        margin-bottom: var(--spacing-sm);
+        line-height: var(--line-height-tight);
+        position: relative;
+        z-index: 2;
       }
       
       .search-result-title a {
         text-decoration: none;
         color: inherit;
+        transition: color var(--transition-fast);
       }
       
       .search-result-title a:hover {
-        color: #3b82f6;
+        color: var(--color-primary);
       }
       
       .search-result-date {
-        font-size: 0.875rem;
-        color: #64748b;
-        margin-bottom: 0.75rem;
-        font-weight: 500;
+        font-size: var(--font-size-xs);
+        color: var(--text-muted);
+        margin-bottom: var(--spacing-sm);
+        font-weight: var(--font-weight-medium);
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-xs);
+        position: relative;
+        z-index: 2;
+      }
+
+      .search-result-date::before {
+        content: '📅';
+        font-size: 0.8em;
       }
       
       .search-result-description {
-        font-size: 1rem;
-        color: #4b5563;
-        line-height: 1.6;
+        font-size: var(--font-size-sm);
+        color: var(--text-secondary);
+        line-height: var(--line-height-relaxed);
         flex-grow: 1;
+        position: relative;
+        z-index: 2;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
       }
       
       .search-result-highlight {
-        background-color: rgba(251, 191, 36, 0.3);
+        background-color: rgba(35, 55, 255, 0.15);
+        color: var(--color-primary);
         padding: 0.125rem 0.25rem;
-        border-radius: 0.25rem;
-        font-weight: 500;
+        border-radius: var(--radius-sm);
+        font-weight: var(--font-weight-medium);
       }
       
       .no-results {
-        padding: 3rem;
-        text-align: center;
-        color: #64748b;
-        font-size: 1.25rem;
-        background-color: #f8fafc;
-        border-radius: 0.75rem;
-        border: 1px dashed #e2e8f0;
         grid-column: 1 / -1;
+        padding: var(--spacing-3xl);
+        text-align: center;
+        background: linear-gradient(135deg, var(--color-bg-secondary) 0%, var(--color-bg-primary) 100%);
+        border-radius: var(--radius-xl);
+        border: 1px solid var(--color-border-light);
+        max-width: 700px;
+        margin: 0 auto;
+        box-shadow: var(--shadow-sm);
+      }
+
+      .welcome-search {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: var(--spacing-lg);
+      }
+
+      .search-icon-large {
+        font-size: 4rem;
+        margin-bottom: var(--spacing-md);
+      }
+
+      .welcome-search h2 {
+        font-size: var(--font-size-2xl);
+        font-weight: var(--font-weight-bold);
+        color: var(--text-primary);
+        margin: 0;
+      }
+
+      .welcome-search p {
+        font-size: var(--font-size-lg);
+        color: var(--text-secondary);
+        margin: 0;
+        max-width: 400px;
+      }
+
+      .search-suggestions {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: var(--spacing-md);
+        margin-top: var(--spacing-lg);
+      }
+
+      .suggestion-label {
+        font-size: var(--font-size-sm);
+        color: var(--text-muted);
+        font-weight: var(--font-weight-medium);
+      }
+
+      .suggestion-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--spacing-sm);
+        justify-content: center;
+      }
+
+      .suggestion-tag {
+        padding: var(--spacing-sm) var(--spacing-md);
+        background: var(--color-bg-primary);
+        border: 1px solid var(--color-border-light);
+        border-radius: var(--radius-full);
+        font-size: var(--font-size-sm);
+        color: var(--text-secondary);
+        cursor: pointer;
+        transition: all var(--transition-normal);
+        user-select: none;
+      }
+
+      .suggestion-tag:hover {
+        background: var(--color-primary);
+        color: white;
+        border-color: var(--color-primary);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-md);
       }
       
       .loading-container {
@@ -193,17 +394,65 @@ function highlightText(text, query) {
       }
       
       .search-query-display {
-        font-weight: 600;
-        color: #3b82f6;
+        font-weight: var(--font-weight-semibold);
+        color: var(--color-primary);
       }
       
       @media (max-width: 768px) {
+        .search-page {
+          padding: 1rem;
+        }
+
+        .search-header h1 {
+          font-size: var(--font-size-3xl);
+        }
+
+        .search-input-container {
+          margin-bottom: var(--spacing-lg);
+          max-width: 90%;
+        }
+
+        .search-input {
+          padding: var(--spacing-sm) 3rem var(--spacing-sm) var(--spacing-md);
+          font-size: var(--font-size-sm);
+        }
+
+        .search-submit {
+          width: 35px;
+          height: 35px;
+          right: 3px;
+        }
+
+        .search-submit svg {
+          width: 16px;
+          height: 16px;
+        }
+        
         .search-results-list {
           grid-template-columns: 1fr;
         }
         
-        .search-header h1 {
-          font-size: 1.75rem;
+        .search-result-item {
+          padding: var(--spacing-md);
+        }
+
+        .search-result-title {
+          font-size: var(--font-size-base);
+        }
+
+        .search-result-description {
+          font-size: var(--font-size-xs);
+          -webkit-line-clamp: 2;
+        }
+
+        .suggestion-tags {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .suggestion-tag {
+          min-width: 120px;
+          text-align: center;
         }
       }
     </style>
@@ -212,15 +461,38 @@ function highlightText(text, query) {
     <Header />
     <main class="search-page">
       <div class="search-header">
-        <h1>搜尋結果</h1>
+        <h1>🔍 搜尋文章</h1>
       </div>
       
+      <div class="search-input-container">
+        <form id="search-form" class="search-form" action="/search" method="get">
+          <input 
+            type="text" 
+            id="search-input" 
+            name="q"
+            value={query || ''}
+            placeholder="輸入關鍵字搜尋文章..." 
+            class="search-input"
+            autocomplete="off"
+            autofocus={!query}
+          />
+          <button type="submit" class="search-submit" title="搜尋">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"></circle>
+              <path d="m21 21-4.35-4.35"></path>
+            </svg>
+          </button>
+        </form>
+      </div>
+
       <div id="search-results">
         {query && (
-          <div class="search-results-count">
-            {searchResults.length === 0 
-              ? `沒有找到符合 "<span class="search-query-display">${query}</span>" 的結果` 
-              : `找到 ${searchResults.length} 個符合 "<span class="search-query-display">${query}</span>" 的結果`}
+          <div class="search-stats">
+            <p class="search-stats-text">
+              {searchResults.length === 0 
+                ? `沒有找到符合 "${query}" 的結果` 
+                : `找到 ${searchResults.length} 個符合 "${query}" 的結果`}
+            </p>
           </div>
         )}
         
@@ -236,7 +508,7 @@ function highlightText(text, query) {
             </div>
           ) : (
             searchResults.map(post => (
-              <div class="search-result-item">
+              <div class="search-result-item" onclick={`window.location.href='${post.url}'`} role="link" tabindex="0">
                 <div class="search-result-title">
                   <a href={post.url} set:html={highlightText(post.title, query)} />
                 </div>
@@ -251,7 +523,23 @@ function highlightText(text, query) {
           )}
           
           {!query && (
-            <div class="no-results">請在頁面上方的搜尋欄中輸入搜尋關鍵字</div>
+            <div class="no-results">
+              <div class="welcome-search">
+                <div class="search-icon-large">🔍</div>
+                <h2>開始搜尋文章</h2>
+                <p>在上方搜尋框中輸入關鍵字，探索豐富的技術內容</p>
+                <div class="search-suggestions">
+                  <span class="suggestion-label">熱門搜尋:</span>
+                  <div class="suggestion-tags">
+                    <span class="suggestion-tag" data-query="Docker">Docker</span>
+                    <span class="suggestion-tag" data-query="架構">架構</span>
+                    <span class="suggestion-tag" data-query="DevOps">DevOps</span>
+                    <span class="suggestion-tag" data-query=".NET">.NET</span>
+                    <span class="suggestion-tag" data-query="管理">管理</span>
+                  </div>
+                </div>
+              </div>
+            </div>
           )}
         </div>
       </div>
@@ -361,33 +649,65 @@ function highlightText(text, query) {
       // Function to render search results
       function renderSearchResults(results, query) {
         const resultsContainer = document.getElementById('search-results');
-        if (!resultsContainer) return;
+        const resultsListContainer = document.getElementById('search-results-list');
         
-        let html = '';
+        if (!resultsContainer || !resultsListContainer) return;
         
+        // Update stats
+        let statsHtml = '';
         if (query) {
-          html += `<div class="search-results-count">
-            ${results.length === 0 
-              ? `沒有找到符合 "<span class="search-query-display">${query}</span>" 的結果` 
-              : `找到 ${results.length} 個符合 "<span class="search-query-display">${query}</span>" 的結果`}
+          statsHtml = `<div class="search-stats">
+            <p class="search-stats-text">
+              ${results.length === 0 
+                ? `沒有找到符合 "${query}" 的結果` 
+                : `找到 ${results.length} 個符合 "${query}" 的結果`}
+            </p>
           </div>`;
         }
         
-        html += '<div id="loading-container" class="loading-container" style="display: none;"><div class="loading-spinner"></div></div>';
-        
-        html += '<div id="search-results-list" class="search-results-list">';
+        // Update results list
+        let resultsHtml = '';
         
         if (results.length === 0 && query) {
-          html += `<div class="no-results">
-            <p>沒有找到符合 "<span class="search-query-display">${query}</span>" 的結果</p>
-            <p>請嘗試使用不同的關鍵字或更廣泛的搜尋詞</p>
+          resultsHtml = `<div class="no-results">
+            <div class="welcome-search">
+              <div class="search-icon-large">😞</div>
+              <h2>沒有找到結果</h2>
+              <p>沒有找到符合 "${query}" 的文章</p>
+              <div class="search-suggestions">
+                <span class="suggestion-label">試試其他關鍵字:</span>
+                <div class="suggestion-tags">
+                  <span class="suggestion-tag" data-query="Docker">Docker</span>
+                  <span class="suggestion-tag" data-query="架構">架構</span>
+                  <span class="suggestion-tag" data-query="DevOps">DevOps</span>
+                  <span class="suggestion-tag" data-query=".NET">.NET</span>
+                  <span class="suggestion-tag" data-query="管理">管理</span>
+                </div>
+              </div>
+            </div>
           </div>`;
         } else if (!query) {
-          html += '<div class="no-results">請在頁面上方的搜尋欄中輸入搜尋關鍵字</div>';
+          resultsHtml = `<div class="no-results">
+            <div class="welcome-search">
+              <div class="search-icon-large">🔍</div>
+              <h2>開始搜尋文章</h2>
+              <p>在上方搜尋框中輸入關鍵字，探索豐富的技術內容</p>
+              <div class="search-suggestions">
+                <span class="suggestion-label">熱門搜尋:</span>
+                <div class="suggestion-tags">
+                  <span class="suggestion-tag" data-query="Docker">Docker</span>
+                  <span class="suggestion-tag" data-query="架構">架構</span>
+                  <span class="suggestion-tag" data-query="DevOps">DevOps</span>
+                  <span class="suggestion-tag" data-query=".NET">.NET</span>
+                  <span class="suggestion-tag" data-query="管理">管理</span>
+                </div>
+              </div>
+            </div>
+          </div>`;
         } else {
           results.forEach(post => {
-            html += `
-              <div class="search-result-item">
+            resultsHtml += `
+              <div class="search-result-item" onclick="window.location.href='${post.url}'" role="link" tabindex="0">
                 <div class="search-result-title">
                   <a href="${post.url}">${highlightText(post.title, query)}</a>
                 </div>
@@ -402,9 +722,34 @@ function highlightText(text, query) {
           });
         }
         
-        html += '</div>';
+        // Update the DOM
+        const existingStats = resultsContainer.querySelector('.search-stats');
+        if (existingStats) {
+          if (statsHtml) {
+            existingStats.outerHTML = statsHtml;
+          } else {
+            existingStats.remove();
+          }
+        } else if (statsHtml) {
+          resultsContainer.insertAdjacentHTML('afterbegin', statsHtml);
+        }
         
-        resultsContainer.innerHTML = html;
+        resultsListContainer.innerHTML = resultsHtml;
+        
+        // Re-attach suggestion tag event listeners
+        const suggestionTags = document.querySelectorAll('.suggestion-tag');
+        suggestionTags.forEach(tag => {
+          tag.addEventListener('click', () => {
+            const query = tag.dataset.query;
+            if (query) {
+              const searchInput = document.getElementById('search-input');
+              searchInput.value = query;
+              // Trigger search
+              const searchForm = document.getElementById('search-form');
+              searchForm.dispatchEvent(new Event('submit'));
+            }
+          });
+        });
       }
 
       // Function to update URL without page reload
@@ -416,12 +761,12 @@ function highlightText(text, query) {
 
       // Initialize search when DOM is loaded
       document.addEventListener('DOMContentLoaded', () => {
-        // Find the search form and input in the header
-        const headerSearchForm = document.querySelector('header .search-form');
-        const headerSearchInput = document.querySelector('header #search-input');
+        // Find the search form and input
+        const searchForm = document.getElementById('search-form');
+        const searchInput = document.getElementById('search-input');
         
-        if (!headerSearchForm || !headerSearchInput) {
-          console.error('Header search elements not found');
+        if (!searchForm || !searchInput) {
+          console.error('Search elements not found');
           return;
         }
         
@@ -432,47 +777,73 @@ function highlightText(text, query) {
           const query = urlParams.get('q');
           
           if (query && searchIndex) {
-            // Update the header search input with the current query
-            headerSearchInput.value = query;
-            
             // Perform the search
             const results = performSearch(query);
             renderSearchResults(results, query);
+          } else if (!query) {
+            // Show welcome screen if no query
+            renderSearchResults([], '');
           }
         });
+
+        // Handle suggestion tag clicks
+        const suggestionTags = document.querySelectorAll('.suggestion-tag');
+        suggestionTags.forEach(tag => {
+          tag.addEventListener('click', () => {
+            const query = tag.dataset.query;
+            if (query) {
+              searchInput.value = query;
+              searchForm.submit();
+            }
+          });
+        });
         
-        // Handle header search form submission
-        headerSearchForm.addEventListener('submit', async (e) => {
+        // Debounced search function
+        let searchTimeout;
+        function debouncedSearch(query) {
+          clearTimeout(searchTimeout);
+          searchTimeout = setTimeout(async () => {
+            if (!searchIndex) {
+              await initSearchIndex();
+            }
+            
+            const results = performSearch(query);
+            updateURL(query);
+            renderSearchResults(results, query);
+          }, 300);
+        }
+
+        // Handle search input changes (real-time search)
+        searchInput.addEventListener('input', (e) => {
+          const query = e.target.value.trim();
+          if (query.length > 0) {
+            debouncedSearch(query);
+          } else {
+            // Clear results if input is empty
+            updateURL('');
+            renderSearchResults([], '');
+          }
+        });
+
+        // Handle search form submission
+        searchForm.addEventListener('submit', async (e) => {
           e.preventDefault();
           
-          const query = headerSearchInput.value.trim();
+          const query = searchInput.value.trim();
           
           if (query.length === 0) {
+            renderSearchResults([], '');
             return;
           }
           
-          // Update URL
-          updateURL(query);
-          
-          // Show loading
-          showLoading();
-          
-          // Wait for search index to be initialized if it's not already
+          // Immediate search on submit
           if (!searchIndex) {
             await initSearchIndex();
           }
           
-          // Add a small delay to show the loading indicator
-          setTimeout(() => {
-            // Perform search
-            const results = performSearch(query);
-            
-            // Render results
-            renderSearchResults(results, query);
-            
-            // Hide loading
-            hideLoading();
-          }, 500);
+          const results = performSearch(query);
+          updateURL(query);
+          renderSearchResults(results, query);
         });
       });
     </script>

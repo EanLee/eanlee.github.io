@@ -1,6 +1,6 @@
 ---
 import HeaderLink from "./HeaderLink.astro";
-import SearchBar from "./SearchBar.astro";
+import SearchButton from "./SearchButton.astro";
 import { SITE_TITLE } from "../consts";
 
 const image = "/favicon.ico";
@@ -22,7 +22,7 @@ const image = "/favicon.ico";
 
       <div class="nav-right">
         <div class="search-wrapper">
-          <SearchBar />
+          <SearchButton />
         </div>
         <div class="internal-links">
           <HeaderLink href="/">Home</HeaderLink>
@@ -97,7 +97,8 @@ const image = "/favicon.ico";
   }
 
   .search-wrapper {
-    width: 250px;
+    display: flex;
+    align-items: center;
   }
 
   nav a {
@@ -204,8 +205,7 @@ const image = "/favicon.ico";
     }
 
     .search-wrapper {
-      width: 80%;
-      max-width: 300px;
+      order: -1; /* 在手機版時優先顯示 */
     }
 
     .internal-links {
