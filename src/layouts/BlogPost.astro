@@ -20,6 +20,17 @@ const {
   keywords,
   series,
 } = Astro.props;
+
+// Get all possible cover images from the /public/cover/ directory
+const fallbackImages = await Astro.glob("/public/cover/**/*.{png,jpg,jpeg,webp}");
+
+let displayImage = coverImage;
+
+if (!displayImage && fallbackImages.length > 0) {
+  const randomIndex = Math.floor(Math.random() * fallbackImages.length);
+  // For files in `public`, the `src` is the direct web path
+  displayImage = fallbackImages[randomIndex].default.src;
+}
 ---
 
 <html lang="zh-tw">
@@ -38,57 +49,48 @@ const {
         <div class="wrapper">
           <AdRow />
 
-          <div class="hero-image">
-            {
-              coverImage && (
-                <img width={1020} height={510} src={coverImage} alt={title} />
-              )
-            }
-          </div>
-
-          <div class="title">
-            {
-              tags && (
-                <div class="tags">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="icon icon-tag"
-                    width="16"
-                    height="16"
-                    viewBox="0 0 32 32"
-                    stroke-width="1.5"
-                    stroke="#2c3e50"
-                    fill="none"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  >
-                    <path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
-                  </svg>
-                  <ul>
-                    {tags.map((tag: string) => (
-                      <li>
-                        <a class="tag" href={`/tags/${tag.toLowerCase()}/`}>
-                          {tag.toUpperCase().replace(/-/g, " ")}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )
-            }
-            <h1 class="article-title" itemprop="headline">{title}</h1>
-            <div class="date">
-              <FormattedDate date={date} itemprop="datePublished" />
-              {
-                lastmod && (
-                  <div class="last-updated-on">
-                    Last updated on{" "}
-                    <FormattedDate date={lastmod} itemprop="dateModified" />
+          <div class="hero-container">
+            {displayImage && (
+              <img
+                width={1200}
+                height={600}
+                src={displayImage}
+                alt={title}
+                class="hero-image-bg"
+              />
+            )}
+            <div class="title-overlay">
+              <div class="main-title-area">
+                <h1 class="article-title" itemprop="headline">
+                  {title}
+                </h1>
+              </div>
+              <div class="metadata-area">
+                {tags && (
+                  <div class="tags">
+                    <ul>
+                      {tags.map((tag: string) => (
+                        <li>
+                          <a class="tag" href={`/tags/${tag.toLowerCase()}/`}>
+                            {tag.toUpperCase().replace(/-/g, " ")}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
-                )
-              }
+                )}
+                <div class="date">
+                  <FormattedDate date={date} itemprop="datePublished" />
+                  {lastmod && (
+                    <div class="last-updated-on">
+                      Last updated on{" "}
+                      <FormattedDate date={lastmod} itemprop="dateModified" />
+                    </div>
+                  )}
+                </div>
+              </div>
             </div>
-            <hr />
+            
           </div>
 
           <div class="content-wrapper">
@@ -152,16 +154,125 @@ const {
         /* Add sidebar styles here */
       }
 
-      .hero-image {
+      .hero-container {
+        position: relative;
         width: 100%;
         margin: 1em 0;
+        border-radius: 8px;
+        overflow: hidden;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(45deg, #34495e, #2c3e50);
       }
 
-      .hero-image img {
+      .hero-image-bg {
         width: 100%;
-        height: auto;
+        height: 100%;
         object-fit: cover;
-        border-radius: 8px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 1;
+      }
+
+      .title-overlay {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.55);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 2.5em;
+        min-height: 300px;
+      }
+
+      .main-title-area {
+        flex: 3;
+      }
+
+      .metadata-area {
+        flex: 2;
+        text-align: right;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+      }
+
+      .article-title {
+        font-size: 2.8em;
+        margin: 0;
+        line-height: 1.2;
+        color: white;
+        font-weight: 700;
+      }
+
+      .date {
+        order: 2;
+        margin-top: 1em;
+        color: rgba(255, 255, 255, 0.9);
+      }
+
+      .last-updated-on {
+        font-style: italic;
+        font-size: 0.9em;
+        margin-top: 0.25em;
+      }
+
+      .tags {
+        order: 1;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        margin: 0;
+      }
+
+      .tags ul {
+        display: flex;
+        flex-wrap: wrap;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        justify-content: flex-end;
+      }
+
+      .tags li {
+        margin-left: 0.5em;
+        margin-bottom: 0.5em;
+      }
+
+      .tags a {
+        display: inline-block;
+        padding: 0.3em 0.8em;
+        border-radius: 15px;
+        background-color: rgba(255, 255, 255, 0.15);
+        color: white;
+        border: none;
+        font-size: 0.75em;
+        text-decoration: none;
+        transition: all 0.2s ease-in-out;
+      }
+
+      .tags a:hover {
+        background-color: rgba(255, 255, 255, 0.3);
+      }
+
+      .image-attribution {
+        position: absolute;
+        bottom: 8px;
+        right: 12px;
+        z-index: 3;
+        font-size: 0.7em;
+        color: rgba(255, 255, 255, 0.5);
+      }
+      .image-attribution a {
+        color: rgba(255, 255, 255, 0.6);
+        text-decoration: none;
+      }
+      .image-attribution a:hover {
+        text-decoration: underline;
       }
 
       .article-content {
@@ -230,78 +341,39 @@ const {
       }
 
       @media (max-width: 768px) {
-        main {
-          width: 100%;
-          margin: auto;
-          padding: 0;
+        .title-overlay {
+          flex-direction: column;
+          align-items: flex-start;
+          justify-content: flex-end;
+          padding: 1.5em;
+          text-align: left;
         }
 
-        .article-wrapper {
+        .main-title-area,
+        .metadata-area {
+          flex: none;
+          text-align: left;
           width: 100%;
-          padding: 1em;
+          align-items: flex-start;
         }
 
         .article-title {
-          font-size: 2em;
+          font-size: 2.2em;
         }
-      }
 
-      .title {
-        margin-bottom: 1em;
-      }
+        .metadata-area {
+          margin-top: 1.5em;
+        }
 
-      .title h1 {
-        margin: 0 0 0.5em 0;
-      }
+        .tags,
+        .tags ul {
+          justify-content: flex-start;
+        }
 
-      .date {
-        margin-bottom: 0.5em;
-        color: rgb(var(--gray));
-      }
-
-      .last-updated-on {
-        font-style: italic;
-      }
-
-      .tags {
-        display: flex;
-        flex-wrap: wrap;
-        margin: 0 0 1em 0;
-      }
-
-      .tags .icon-tag {
-        width: 1.25em;
-        height: 1.25em;
-        margin-right: 0.5em;
-        fill: var(--accent);
-      }
-
-      .tags ul {
-        display: flex;
-        flex-wrap: wrap;
-        list-style: none;
-        padding: 0;
-        margin: 0;
-      }
-
-      .tags li {
-        margin-right: 0.5em;
-        margin-bottom: 0.5em;
-      }
-
-      .tags a {
-        display: inline-block;
-        padding: 0.2em 0.6em;
-        border-radius: 4px;
-        background-color: rgba(var(--accent-light), 0.2);
-        color: var(--accent);
-        font-size: 0.8em;
-        text-decoration: none;
-        transition: background-color 0.2s;
-      }
-
-      .tags a:hover {
-        background-color: rgba(var(--accent-light), 0.4);
+        .tags li {
+          margin-left: 0;
+          margin-right: 0.5em;
+        }
       }
 
       /* Series Article Navigation Styling */
@@ -381,6 +453,8 @@ const {
       :global(.series-article-nav .text-lg) {
         font-size: 1.125rem;
       }
+
+
 
       :global(.series-article-nav .font-bold) {
         font-weight: 700;
