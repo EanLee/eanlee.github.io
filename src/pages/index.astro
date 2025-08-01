@@ -62,30 +62,83 @@ const growthPosts = sortedPosts
     .slice(0, 5);
 
 // 為SEO準備關鍵字
-const keywords = ["技術部落格", "軟體開發", "管理經驗", "閱讀心得", "成長", "程式設計", "技術分享"];
+const keywords = [
+  "技術部落格", "軟體開發", "管理經驗", "閱讀心得", "個人成長", 
+  "程式設計", "技術分享", ".NET開發", "Cloud Native", "系統架構",
+  "容器化", "DevOps", "軟體工程", "技術管理", "後端開發"
+];
 
-// 準備結構化資料
-const structuredData = {
+// 增強的 SEO description
+const enhancedDescription = `${SITE_DESCRIPTION} 涵蓋軟體開發、技術管理、系統架構設計等豐富內容，助您在技術職涯中持續成長。`;
+
+// BreadcrumbList 結構化資料
+const breadcrumbData = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "首頁",
+      "item": Astro.url.toString()
+    }
+  ]
+};
+
+// 網站導航結構化資料
+const siteNavigationData = {
+  "@context": "https://schema.org",
+  "@type": "SiteNavigationElement",
+  "name": "主要導航",
+  "url": [
+    new URL("/software/", Astro.url).toString(),
+    new URL("/management/", Astro.url).toString(),
+    new URL("/reading/", Astro.url).toString(),
+    new URL("/growth/", Astro.url).toString(),
+    new URL("/archives/", Astro.url).toString()
+  ]
+};
+
+// 增強的部落格結構化資料
+const blogStructuredData = {
   "@context": "https://schema.org",
   "@type": "Blog",
   "headline": SITE_TITLE,
-  "description": SITE_DESCRIPTION,
+  "description": enhancedDescription,
   "url": Astro.url.toString(),
+  "inLanguage": "zh-TW",
   "author": {
     "@type": "Person",
-    "name": "Ean Lee"
+    "name": "Ean Lee",
+    "description": "資深軟體開發者，專注於 .NET、Cloud Native 與系統架構設計",
+    "url": Astro.url.toString(),
+    "sameAs": [
+      "https://github.com/EanLee"
+    ]
   },
   "publisher": {
     "@type": "Organization",
-    "name": "Ean Lee",
+    "name": "伊恩的開發狂想",
+    "description": "技術部落格，分享軟體開發與技術管理經驗",
+    "url": Astro.url.toString(),
     "logo": {
       "@type": "ImageObject",
-      "url": new URL("/favicon.ico", Astro.url).toString()
+      "url": new URL("/favicon.ico", Astro.url).toString(),
+      "width": 60,
+      "height": 60
     }
   },
   "mainEntityOfPage": {
     "@type": "WebPage",
     "@id": Astro.url.toString()
+  },
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": new URL("/search/?q={search_term_string}", Astro.url).toString()
+    },
+    "query-input": "required name=search_term_string"
   }
 };
 ---
@@ -95,7 +148,7 @@ const structuredData = {
 <head>
     <BaseHead 
       title={SITE_TITLE} 
-      description={SITE_DESCRIPTION} 
+      description={enhancedDescription} 
       keywords={keywords}
     />
     <style>
@@ -192,7 +245,9 @@ const structuredData = {
     </style>
 
     <!-- Structured Data for SEO -->
-    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+    <script type="application/ld+json" set:html={JSON.stringify(blogStructuredData)} />
+    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbData)} />
+    <script type="application/ld+json" set:html={JSON.stringify(siteNavigationData)} />
 </head>
 <body>
 <Header />
