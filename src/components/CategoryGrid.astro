@@ -46,15 +46,32 @@ const categories = [
 // 計算每個分類的文章數量
 const categoryStats = categories.map(category => {
   const count = allPosts.filter(post => {
-    // 優先使用 epic 欄位，如果沒有則根據檔案路徑判斷
+    // 優先使用 epic 欄位
     if (post.data.epic) {
       return post.data.epic === category.id;
     } else {
       // 根據檔案路徑判斷分類
       const postPath = post.id.toLowerCase();
+      
+      // 調試輸出 (開發環境)
+      if (import.meta.env.DEV && category.id === 'software') {
+        console.log(`Checking post: ${post.id}, path: ${postPath}, includes software: ${postPath.includes('/software/')}`);
+      }
+      
+      // 特別處理 reading 分類，因為該目錄不存在
+      if (category.id === 'reading') {
+        return false; // reading 目錄不存在，所以沒有基於路徑的文章
+      }
+      
       return postPath.includes(`/${category.id}/`);
     }
   }).length;
+  
+  // 調試輸出 (開發環境)  
+  if (import.meta.env.DEV) {
+    console.log(`Category ${category.id}: ${count} articles`);
+  }
+  
   return { ...category, count };
 });
 ---
