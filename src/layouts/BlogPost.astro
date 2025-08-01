@@ -376,18 +376,24 @@ if (!displayImage && fallbackImages.length > 0) {
         width: 100%;
         border-collapse: collapse;
         margin: var(--spacing-lg) 0;
+        table-layout: auto;
+      }
+      
+      .article-content :global(.table-wrapper) {
         overflow-x: auto;
-        display: block;
-        white-space: nowrap;
+        margin: var(--spacing-lg) 0;
       }
 
       .article-content :global(th),
       .article-content :global(td) {
-        padding: 0.75em;
+        padding: var(--spacing-sm) var(--spacing-md);
         border: 1px solid rgba(var(--gray-light), 0.8);
         text-align: left;
         word-wrap: break-word;
         overflow-wrap: break-word;
+        white-space: normal;
+        vertical-align: top;
+        min-width: 100px;
       }
 
       .article-content :global(th) {
@@ -404,6 +410,16 @@ if (!displayImage && fallbackImages.length > 0) {
       @media (max-width: 768px) {
         .wrapper {
           padding: 0 var(--spacing-md);
+        }
+        
+        .article-content :global(table) {
+          font-size: 0.9rem;
+        }
+        
+        .article-content :global(th),
+        .article-content :global(td) {
+          padding: var(--spacing-xs) var(--spacing-sm);
+          min-width: 80px;
         }
 
         .hero-container {
@@ -497,6 +513,16 @@ if (!displayImage && fallbackImages.length > 0) {
         .wrapper {
           padding: 0 0.75rem;
         }
+        
+        .article-content :global(table) {
+          font-size: 0.85rem;
+        }
+        
+        .article-content :global(th),
+        .article-content :global(td) {
+          padding: var(--spacing-xs);
+          min-width: 60px;
+        }
 
         .title-overlay {
           padding: 1rem 0.8rem;
@@ -523,6 +549,20 @@ if (!displayImage && fallbackImages.length > 0) {
       @media (max-width: 414px) {
         .wrapper {
           padding: 0 0.5rem;
+        }
+        
+        .article-content :global(.table-wrapper) {
+          margin: var(--spacing-md) -0.5rem;
+        }
+        
+        .article-content :global(table) {
+          font-size: 0.8rem;
+        }
+        
+        .article-content :global(th),
+        .article-content :global(td) {
+          padding: var(--spacing-xs);
+          min-width: 50px;
         }
 
         .hero-container {
