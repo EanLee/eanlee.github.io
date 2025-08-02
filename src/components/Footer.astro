@@ -1,5 +1,24 @@
 ---
 const today = new Date();
+
+// SEO 優化：作者結構化資料
+const authorSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Ean Lee (伊恩)",
+  "jobTitle": ".NET 資深開發者 | 系統架構師",
+  "description": "專精於 .NET 開發、Cloud Native 架構、容器化與 DevOps 實踐的資深軟體工程師",
+  "knowsAbout": ["ASP.NET Core", ".NET 開發", "Docker", "Cloud Native", "DevOps"],
+  "sameAs": [
+    "https://facebook.com/276561129952456",
+    "https://www.linkedin.com/in/ean-lee-7b63b6110/"
+  ],
+  "url": Astro.url.origin,
+  "worksFor": {
+    "@type": "Organization",
+    "name": "伊恩的軟體狂想"
+  }
+};
 ---
 
 <footer>
@@ -8,9 +27,14 @@ const today = new Date();
       
       <!-- 個人資訊區域 -->
       <div class="footer-about">
-        <div class="author-info">
-          <div class="author-name">伊恩</div>
-          <div class="author-role">.NET Developer | Blogger | Learner</div>
+        <div class="author-brand">
+          <div class="author-avatar">
+            <span class="avatar-initial">伊</span>
+          </div>
+          <div class="brand-info">
+            <div class="author-name">伊恩</div>
+            <div class="author-role">軟體開發者| 學習者 | 技術愛好者</div>
+          </div>
         </div>
         
         <div class="author-descriptions">
@@ -18,7 +42,7 @@ const today = new Date();
             在知識大海中漂流的小船，不停追尋屬於自己的秘寶。關注各種架構與技術的發展，並持續探索技術與業務價值的平衡點。
           </p>
           <p class="author-focus">
-            目前專注於.NET、Cloud Native、系統架構、容器化與監控的統整，在支撐業務價值的同時，有效降低建置/營運成本、並提升系統的可靠性。
+            專注於 <strong>.NET 後端開發</strong>、<strong>Cloud Native 系統架構</strong>、<strong>容器化與 DevOps</strong> 實踐。擅長設計高可用性的微服務架構，並在降低營運成本的同時提升系統可靠性，協助企業實現數位轉型目標。
           </p>
         </div>
       </div>
@@ -34,12 +58,20 @@ const today = new Date();
 
         <div class="link-section">
           <div class="section-title">Social</div>
-          <a href="https://facebook.com/276561129952456" title="Facebook" target="_blank" rel="noopener noreferrer" class="social-link">
-            <span class="social-icon">📘</span>
+          <a href="https://facebook.com/276561129952456" title="追蹤最新 .NET 開發技術分享" target="_blank" rel="noopener noreferrer" class="social-link facebook">
+            <span class="social-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+              </svg>
+            </span>
             Facebook
           </a>
-          <a href="https://www.linkedin.com/in/ean-lee-7b63b6110/" title="LinkedIn" target="_blank" rel="noopener noreferrer" class="social-link">
-            <span class="social-icon">💼</span>
+          <a href="https://www.linkedin.com/in/ean-lee-7b63b6110/" title="專業 .NET 系統架構師 LinkedIn" target="_blank" rel="noopener noreferrer" class="social-link linkedin">
+            <span class="social-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+              </svg>
+            </span>
             LinkedIn
           </a>
         </div>
@@ -60,6 +92,9 @@ const today = new Date();
     </div>
   </div>
 </footer>
+
+<!-- SEO 優化：作者結構化資料 -->
+<script type="application/ld+json" set:html={JSON.stringify(authorSchema)} />
 
 <style>
   footer {
@@ -87,8 +122,45 @@ const today = new Date();
     max-width: 600px;
   }
 
-  .author-info {
-    margin-bottom: var(--spacing-md);
+  /* 品牌頭像區域 */
+  .author-brand {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .author-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--color-primary), rgba(var(--color-primary), 0.8));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-xl);
+    box-shadow: var(--shadow-md);
+    position: relative;
+  }
+
+  .author-avatar::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--color-primary), transparent, var(--color-primary));
+    z-index: -1;
+    opacity: 0.3;
+  }
+
+  .avatar-initial {
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  }
+
+  .brand-info {
+    flex: 1;
   }
 
   .author-name {
@@ -164,12 +236,32 @@ const today = new Date();
     display: flex;
     align-items: center;
     gap: var(--spacing-xs);
+    padding: var(--spacing-xs) 0;
+    transition: color var(--transition-normal);
+  }
+
+  .social-link.facebook:hover {
+    color: #1877F2;
+  }
+
+  .social-link.linkedin:hover {
+    color: #0077B5;
   }
 
   .social-icon {
-    font-size: var(--font-size-base);
-    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
   }
+
+  .social-icon svg {
+    width: 16px;
+    height: 16px;
+    transition: all var(--transition-normal);
+  }
+
 
   /* 版權區域 */
   .footer-bottom {
@@ -212,6 +304,18 @@ const today = new Date();
       max-width: none;
     }
 
+    .author-brand {
+      flex-direction: column;
+      text-align: center;
+      gap: var(--spacing-md);
+    }
+
+    .author-avatar {
+      width: 50px;
+      height: 50px;
+      font-size: var(--font-size-lg);
+    }
+
     .footer-links {
       flex-direction: row;
       justify-content: center;
@@ -232,6 +336,12 @@ const today = new Date();
 
     .author-name {
       font-size: var(--font-size-lg);
+    }
+
+    .author-avatar {
+      width: 45px;
+      height: 45px;
+      font-size: var(--font-size-base);
     }
 
   }
