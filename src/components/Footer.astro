@@ -3,219 +3,239 @@ const today = new Date();
 ---
 
 <footer>
-  <div class="footer-div">
+  <div class="footer-container">
     <div class="footer-content">
-      <div
-        class="py-6 flex md:items-center lg:items-start md:flex-row md:flex-no-wrap flex-wrap flex-col"
-      >
-        <div class="md:w-2/5 md:mx-0 mx-auto text-center md:text-left">
-          <p
-            class="uppercase font-display flex text-2xl font-medium items-center justify-center text-gray-900"
-          >
-            <span class="text-gray-600 dark:text-gray-400">伊恩</span>
-          </p>
-          <p class="mt-2 font-display text-gray-700">
-            <span class="font-normal block dark:text-gray-300">
-              .NET Developer | Blogger | Learner
-            </span>
-          </p>
-          <p class="mt-2 leading-relaxed font-normal">
-            <span
-              >在知識大海中漂流的小船，不停追尋屬於自己的秘寶。關注各種架構與技術的發展，並持續探索技術與業務價值的平衡點。</span
-            >
-            <span>
-              目前專注於.NET、Cloud Native、系統架構、容器化與監控的統整，在支撐業務價值的同時，有效降低建置/營運成本、並系統的可靠性。
-            </span>
-          </p>
+      
+      <!-- 個人資訊區域 -->
+      <div class="footer-about">
+        <div class="author-info">
+          <div class="author-name">伊恩</div>
+          <div class="author-role">.NET Developer | Blogger | Learner</div>
         </div>
-        <div
-          class="footer__links md:w-3/5 flex flex-wrap md:pl-20 -mb-10 md:mt-0 mt-10 text-center"
-        >
-          <div class="md:w-1/2 w-full px-4">
-            <h2
-              class="title-font uppercase font-medium text-gray-900 tracking-widest text-sm mb-3"
-            >
-              Projects
-            </h2>
-            <nav class="list-none mb-10">
-              <ul>
-                <li class="mb-1">
-                  <a
-                    class=""
-                    href="https://url-ins.com"
-                    title="Url-Insight"
-                    target="_blank"
-                    rel="noopener"
-                  >
-                    Url-Insight
-                  </a>
-                </li>
-              </ul>
-            </nav>
-          </div>
-
-          <div class="md:w-1/2 w-full px-4">
-            <h2
-              class="title-font uppercase font-medium text-gray-900 tracking-widest text-sm mb-3"
-            >
-              Social
-            </h2>
-            <nav class="list-none mb-10">
-              <ul>
-                <li class="mb-1">
-                  <a
-                    class=""
-                    href="https://facebook.com/276561129952456"
-                    title="Facebook"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Facebook</a
-                  >
-                </li>
-                <li class="mb-1">
-                  <a
-                    class=""
-                    href="https://www.linkedin.com/in/ean-lee-7b63b6110/"
-                    title="LinkedIn"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    LinkedIn</a
-                  >
-                </li>
-              </ul>
-            </nav>
-          </div>
+        
+        <div class="author-descriptions">
+          <p class="author-description">
+            在知識大海中漂流的小船，不停追尋屬於自己的秘寶。關注各種架構與技術的發展，並持續探索技術與業務價值的平衡點。
+          </p>
+          <p class="author-focus">
+            目前專注於.NET、Cloud Native、系統架構、容器化與監控的統整，在支撐業務價值的同時，有效降低建置/營運成本、並提升系統的可靠性。
+          </p>
         </div>
       </div>
+
+      <!-- 連結區域 -->
+      <div class="footer-links">
+        <div class="link-section">
+          <div class="section-title">Projects</div>
+          <a href="https://url-ins.com" title="Url-Insight" target="_blank" rel="noopener">
+            Url-Insight
+          </a>
+        </div>
+
+        <div class="link-section">
+          <div class="section-title">Social</div>
+          <a href="https://facebook.com/276561129952456" title="Facebook" target="_blank" rel="noopener noreferrer">
+            Facebook
+          </a>
+          <a href="https://www.linkedin.com/in/ean-lee-7b63b6110/" title="LinkedIn" target="_blank" rel="noopener noreferrer">
+            LinkedIn
+          </a>
+        </div>
+      </div>
+      
     </div>
-    <div class="footer-copyright">
-      <p>
+  </div>
+
+  <!-- 版權區域 -->
+  <div class="footer-bottom">
+    <div class="bottom-content">
+      <p class="disclaimer">
         文章內容均為個人學習記錄、心得與認知，若任何謬誤或建議，歡迎直接留言討論，一同成長。
       </p>
-       &copy; 2021-{today.getFullYear()} 伊恩的軟體狂想 All rights reserved.
+      <p class="copyright">
+        &copy; 2021-{today.getFullYear()} 伊恩的軟體狂想 All rights reserved.
+      </p>
     </div>
   </div>
 </footer>
 
 <style>
-  .footer-div {
-    width: 100%;
-    max-width: 1120px;
-    margin: 0 auto;
-    padding: 0 1rem;
-  }
-
-  .footer-content, .footer-copyright {
-    width: 100%;
-    padding: 0 1rem;
-  }
-
   footer {
-    padding: 0.5rem 0;
-    background: linear-gradient(var(--gray-gradient)) no-repeat;
-    color: rgb(var(--gray));
+    margin-top: var(--spacing-3xl);
+    background: var(--color-bg-secondary);
+    border-top: 1px solid var(--color-border-light);
+  }
+
+  .footer-container {
+    max-width: var(--container-xl);
+    margin: 0 auto;
+    padding: 0 var(--spacing-md);
+  }
+
+  .footer-content {
+    padding: var(--spacing-2xl) 0;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: var(--spacing-2xl);
+    border-bottom: 1px solid var(--color-border-light);
+  }
+
+  /* 個人資訊區域 */
+  .footer-about {
+    max-width: 600px;
+  }
+
+  .author-info {
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .author-name {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--text-primary);
+    margin: 0 0 var(--spacing-xs) 0;
+  }
+
+  .author-role {
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+    margin: 0;
+    font-weight: var(--font-weight-medium);
+  }
+
+  .author-descriptions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+
+  .author-description {
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+    line-height: var(--line-height-relaxed);
+    margin: 0;
+    font-style: italic;
+  }
+
+  .author-focus {
+    font-size: var(--font-size-sm);
+    color: var(--text-primary);
+    line-height: var(--line-height-relaxed);
+    margin: 0;
+    padding: var(--spacing-sm);
+    background: rgba(var(--color-primary), 0.05);
+    border-radius: var(--radius-sm);
+    border-left: 2px solid var(--color-primary);
+  }
+
+  /* 連結區域 */
+  .footer-links {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+  }
+
+  .link-section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+
+  .section-title {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .link-section a {
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color var(--transition-normal);
+    padding: var(--spacing-xs) 0;
+  }
+
+  .link-section a:hover {
+    color: var(--color-primary);
+  }
+
+  /* 版權區域 */
+  .footer-bottom {
+    background: rgba(var(--color-black), 0.02);
+  }
+
+  .bottom-content {
+    max-width: var(--container-xl);
+    margin: 0 auto;
+    padding: var(--spacing-md);
     text-align: center;
-    font-size: 0.75rem;
-    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
   }
 
-  footer p {
-    text-align: center;
-    margin-bottom: 0;
-    margin-top: 0.5rem;
+  .disclaimer {
+    font-size: var(--font-size-xs);
+    color: var(--text-secondary);
+    line-height: var(--line-height-relaxed);
+    margin: 0;
   }
 
-  li {
-    list-style: none;
-    font-size: small;
+  .copyright {
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+    margin: 0;
+    font-weight: var(--font-weight-medium);
   }
 
+  /* 響應式設計 */
   @media (max-width: 768px) {
-    .footer-div {
-      padding: 0 1rem;
-    }
-
-    .footer-content > div {
-      flex-direction: column;
+    .footer-content {
+      grid-template-columns: 1fr;
+      gap: var(--spacing-xl);
       text-align: center;
-      padding: 1rem 0;
     }
 
-    .footer-content .md\\:w-2\\/5 {
-      width: 100%;
-      margin-bottom: 1.5rem;
+    .footer-about {
+      max-width: none;
     }
 
-    .footer__links {
-      width: 100%;
-      margin-top: 0;
-      padding-left: 0;
-    }
-
-    .footer__links .md\\:w-1\\/2 {
-      width: 100%;
-      margin-bottom: 1rem;
-    }
-
-    .footer__links h2 {
-      font-size: 1rem;
-      margin-bottom: 0.75rem;
-    }
-
-    .footer__links nav {
-      margin-bottom: 0.5rem;
-    }
-
-    .footer__links li {
-      margin-bottom: 0.5rem;
-    }
-
-    .footer__links a {
-      font-size: 0.9rem;
-      color: var(--text-color);
-      text-decoration: none;
-      padding: 0.25rem 0;
-      display: inline-block;
-    }
-
-    .footer__links a:hover {
-      color: var(--accent);
-    }
-
-    .footer-copyright {
-      border-top: 1px solid rgba(var(--gray), 0.3);
-      padding-top: 1rem;
-      margin-top: 1rem;
-      font-size: 0.8rem;
-      line-height: 1.4;
+    .footer-links {
+      flex-direction: row;
+      justify-content: center;
+      gap: var(--spacing-2xl);
     }
   }
 
   @media (max-width: 480px) {
-    .footer-content p {
-      font-size: 0.85rem;
-      line-height: 1.5;
+    .footer-content {
+      padding: var(--spacing-xl) 0;
+      gap: var(--spacing-lg);
     }
 
-    .footer-copyright {
-      font-size: 0.75rem;
-      padding: 0.75rem 0;
+    .footer-links {
+      flex-direction: column;
+      gap: var(--spacing-lg);
+    }
+
+    .author-name {
+      font-size: var(--font-size-lg);
+    }
+
+    .author-focus {
+      padding: var(--spacing-xs);
     }
   }
 
   @media (max-width: 414px) {
-    .footer-div {
-      padding: 0 0.5rem;
+    .footer-container {
+      padding: 0 var(--spacing-sm);
     }
 
-    .footer-content > div {
-      padding: 0.75rem 0;
-    }
-
-    .footer-content p {
-      font-size: 0.8rem;
+    .bottom-content {
+      padding: var(--spacing-sm);
     }
   }
 </style>
