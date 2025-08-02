@@ -11,7 +11,7 @@ const image = "/favicon.ico";
     <nav>
       <div class="logo">
           <img class="logo-img" src={image} alt="Logo"  />
-          <h2><a href="/">{SITE_TITLE}</a></h2>
+          <div class="logo-text"><a href="/">{SITE_TITLE}</a></div>
       </div>
 
       <button class="mobile-menu-toggle" aria-label="開啟選單" title="點擊開啟選單">
@@ -63,7 +63,7 @@ const image = "/favicon.ico";
     height: 64px;
   }
 
-  .logo h2 {
+  .logo-text {
     margin: 0;
     font-size: 1.5em;
     font-weight: bold;
@@ -78,8 +78,8 @@ const image = "/favicon.ico";
     padding: 0;
   }
 
-  h2 a,
-  h2 a.active {
+  .logo-text a,
+  .logo-text a.active {
     text-decoration: none;
   }
   
@@ -173,7 +173,7 @@ const image = "/favicon.ico";
       height: 40px;
     }
 
-    .logo h2 {
+    .logo-text {
       font-size: 1.1em;
     }
 
@@ -252,7 +252,7 @@ const image = "/favicon.ico";
       padding: 0 0.5rem;
     }
 
-    .logo h2 {
+    .logo-text {
       font-size: 1rem;
     }
     
