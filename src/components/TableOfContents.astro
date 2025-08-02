@@ -9,27 +9,38 @@
 </div>
 
 <script>
+  let tocObserver = null;
+  let isInitialized = false;
+
   function initTOC() {
+    // 防止重複初始化
+    if (isInitialized) {
+      return;
+    }
+
     const tocNav = document.getElementById('toc-nav');
     const articleContent = document.querySelector('.article-content');
 
-    if (!tocNav || !articleContent) return;
+    if (!tocNav || !articleContent) {
+      return;
+    }
 
     const headings = Array.from(
-      articleContent.querySelectorAll<HTMLHeadingElement>('h2, h3, h4')
+      articleContent.querySelectorAll('h2, h3, h4')
     );
-    const tocWrapper = document.querySelector<HTMLElement>('.toc-wrapper');
+    const tocWrapper = document.querySelector('.toc-wrapper');
 
     if (headings.length === 0 && tocWrapper) {
       tocWrapper.style.display = 'none';
       return;
     }
 
+    // 清理之前的內容
     tocNav.innerHTML = '';
     const tocList = document.createElement('ul');
     tocList.className = 'toc-list';
 
-    const tocLinks: HTMLAnchorElement[] = [];
+    const tocLinks = [];
 
     headings.forEach((heading, index) => {
       if (!heading.id) heading.id = `toc-heading-${index}`;
@@ -49,11 +60,16 @@
 
     tocNav.appendChild(tocList);
 
-    let activeHeadingId: string | null = null;
+    let activeHeadingId = null;
 
-    const scrollSpyObserver = new IntersectionObserver(
+    // 清理之前的 observer
+    if (tocObserver) {
+      tocObserver.disconnect();
+    }
+
+    tocObserver = new IntersectionObserver(
       (entries) => {
-        let topmostIntersectingEntry: IntersectionObserverEntry | null = null;
+        let topmostIntersectingEntry = null;
         for (const entry of entries) {
           if (entry.isIntersecting) {
             if (!topmostIntersectingEntry || entry.boundingClientRect.top < topmostIntersectingEntry.boundingClientRect.top) {
@@ -77,73 +93,99 @@
       { rootMargin: '0px 0px -80% 0px', threshold: 0 }
     );
 
-    headings.forEach((heading) => scrollSpyObserver.observe(heading));
-
-    document.addEventListener('astro:before-swap', () => scrollSpyObserver.disconnect(), { once: true });
+    headings.forEach((heading) => tocObserver.observe(heading));
+    isInitialized = true;
   }
 
-  document.addEventListener('astro:page-load', initTOC);
+  function cleanup() {
+    if (tocObserver) {
+      tocObserver.disconnect();
+      tocObserver = null;
+    }
+    isInitialized = false;
+  }
+
+  // 簡化的初始化邏輯
+  document.addEventListener('astro:page-load', () => {
+    cleanup();
+    setTimeout(initTOC, 100); // 小延遲確保 DOM 完全準備好
+  });
+
+  document.addEventListener('astro:before-swap', cleanup);
+
+  // 首次載入
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      setTimeout(initTOC, 100);
+    });
+  } else {
+    setTimeout(initTOC, 100);
+  }
 </script>
 
 <style>
   .toc-wrapper {
     position: sticky;
-    top: 80px;
-    max-height: calc(100vh - 100px);
+    top: calc(var(--spacing-3xl) + var(--spacing-md)); /* 80px */
+    max-height: calc(100vh - calc(var(--spacing-3xl) + var(--spacing-2xl))); /* 100vh - 112px */
     overflow-y: auto;
-    padding-left: 1.5rem;
+    padding-left: var(--spacing-lg);
+    align-self: start;
+    /* 確保有正確的滾動上下文 */
+    will-change: transform;
   }
 
   .toc-header {
-    font-size: 0.9rem;
-    font-weight: 700;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-bold);
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: rgb(var(--gray-dark));
-    margin-bottom: 1rem;
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-md);
   }
 
   :global(.toc-list) {
     list-style: none;
     padding: 0;
     margin: 0;
-    border-left: 1px solid rgba(var(--gray-light), 0.8);
+    border-left: 1px solid var(--color-border-light);
   }
 
   :global(.toc-item a) {
     display: block;
-    color: rgb(var(--gray));
+    color: var(--text-secondary);
     text-decoration: none;
-    font-size: 0.9rem;
-    transition: all 0.2s ease;
-    line-height: 1.5;
-    padding: 0.25rem 0 0.25rem 1rem;
+    font-size: var(--font-size-sm);
+    transition: all var(--transition-normal);
+    line-height: var(--line-height-normal);
+    padding: var(--spacing-xs) 0 var(--spacing-xs) var(--spacing-md);
     border-left: 2px solid transparent;
   }
 
   :global(.toc-item.toc-h2 a) {
-    padding-left: 1rem;
+    padding-left: var(--spacing-md);
   }
 
   :global(.toc-item.toc-h3 a) {
-    padding-left: 2rem;
+    padding-left: var(--spacing-xl);
   }
 
   :global(.toc-item.toc-h4 a) {
-    padding-left: 3rem;
-    font-size: 0.85rem;
+    padding-left: var(--spacing-2xl);
+    font-size: var(--font-size-xs);
   }
 
   :global(.toc-item a:hover) {
-    color: rgb(var(--gray-dark));
-    background-color: rgba(var(--gray-light), 0.5);
+    color: var(--text-primary);
+    background-color: var(--color-bg-muted);
   }
 
   :global(.toc-item a.active) {
-    color: var(--accent);
-    border-left-color: var(--accent);
+    color: var(--color-primary);
+    border-left-color: var(--color-primary);
   }
 
+  /* 使用具體數值避免 CSS 變數在媒體查詢中的相容性問題 */
   @media (max-width: 1024px) {
     .toc-wrapper {
       display: none;
