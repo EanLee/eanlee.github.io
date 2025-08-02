@@ -51,8 +51,9 @@ const authorSchema = {
       <div class="footer-links">
         <div class="link-section">
           <div class="section-title">Projects</div>
-          <a href="https://url-ins.com" title="Url-Insight" target="_blank" rel="noopener">
-            Url-Insight
+          <a href="https://url-ins.com" title="Url-Insight - URL縮短與分析服務，提供點擊統計追蹤" target="_blank" rel="noopener" class="project-link">
+            <span class="project-name">Url-Insight</span>
+            <span class="project-desc">URL縮短與分析服務</span>
           </a>
         </div>
 
@@ -230,6 +231,31 @@ const authorSchema = {
 
   .link-section a:hover {
     color: var(--color-primary);
+  }
+
+  .project-link {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+  }
+
+  .project-name {
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-primary);
+  }
+
+  .project-desc {
+    font-size: var(--font-size-xs);
+    color: var(--text-secondary);
+    font-weight: var(--font-weight-normal);
+  }
+
+  .project-link:hover .project-name {
+    color: var(--color-primary);
+  }
+
+  .project-link:hover .project-desc {
+    color: var(--text-primary);
   }
 
   .social-link {
