@@ -1,0 +1,65 @@
+#!/bin/bash
+
+# Git Hook: Pre-commit
+# 功能：在 commit 之前，自動更新有異動的 .md 檔案的 lastmod front matter
+
+# 取得當前時間戳 (ISO 8601 格式，台北時區)
+current_timestamp=$(date '+%Y-%m-%dT%H:%M:%S+08:00')
+
+# 檢查是否有 .md 檔案被修改或新增
+modified_md_files=$(git diff --cached --name-only --diff-filter=AM | grep -E '\.md$')
+
+if [ -z "$modified_md_files" ]; then
+    echo "✅ 沒有 Markdown 檔案異動，跳過 lastmod 更新"
+    exit 0
+fi
+
+echo "🔍 發現 Markdown 檔案異動，開始更新 lastmod..."
+
+# 處理每個被修改的 .md 檔案
+while IFS= read -r file; do
+    if [ -f "$file" ]; then
+        echo "📝 處理檔案: $file"
+        
+        # 檢查檔案是否有 front matter
+        if head -n 1 "$file" | grep -q "^---$"; then
+            # 使用 PowerShell 腳本來處理 front matter
+            powershell.exe -Command "
+                \$content = Get-Content '$file' -Raw -Encoding UTF8
+                if (\$content -match '^---\r?\n(.*?)\r?\n---\r?\n(.*)$') {
+                    \$frontMatter = \$matches[1]
+                    \$body = \$matches[2]
+                    
+                    # 檢查是否已有 lastmod
+                    if (\$frontMatter -match 'lastmod:\s*.*') {
+                        # 更新現有的 lastmod
+                        \$frontMatter = \$frontMatter -replace 'lastmod:\s*.*', 'lastmod: $current_timestamp'
+                        Write-Host '  ✓ 更新現有的 lastmod'
+                    } else {
+                        # 在 front matter 最後加入 lastmod
+                        \$frontMatter = \$frontMatter + \"`nlastmod: $current_timestamp\"
+                        Write-Host '  ✓ 新增 lastmod 欄位'
+                    }
+                    
+                    # 重新組合檔案內容
+                    \$newContent = \"---`n\" + \$frontMatter + \"`n---`n\" + \$body
+                    
+                    # 寫回檔案
+                    Set-Content '$file' -Value \$newContent -Encoding UTF8 -NoNewline
+                    
+                    Write-Host '  ✅ 檔案已更新'
+                } else {
+                    Write-Host '  ⚠️  檔案沒有有效的 front matter，跳過'
+                }
+            "
+            
+            # 重新加入到 staging area
+            git add "$file"
+        else
+            echo "  ⚠️  檔案沒有 front matter，跳過: $file"
+        fi
+    fi
+done <<< "$modified_md_files"
+
+echo "✅ lastmod 更新完成"
+exit 0
