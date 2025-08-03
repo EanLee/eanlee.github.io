@@ -18,6 +18,9 @@ export interface Props {
 
 const { epicName, epicTitle, epicDescription, accentColor, showSeries = false, source } = Astro.props;
 
+// Configuration
+const POSTS_PER_PAGE = 10;
+
 // Get all posts for this epic
 const epicPosts = source?.sort((a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf()) || [];
 ---
@@ -46,7 +49,7 @@ const epicPosts = source?.sort((a, b) => new Date(b.data.date).valueOf() - new D
           
           <div class="posts-list">
             {epicPosts.length > 0 ? (
-              epicPosts.slice(0, 20).map(post => (
+              epicPosts.slice(0, POSTS_PER_PAGE).map(post => (
                 <article class="post-card">
                   <div class="post-content">
                     <div class="post-meta-row">
@@ -95,7 +98,7 @@ const epicPosts = source?.sort((a, b) => new Date(b.data.date).valueOf() - new D
             )}
           </div>
           
-          {epicPosts.length > 20 && (
+          {epicPosts.length > POSTS_PER_PAGE && (
             <div class="view-more-container">
               <a href="/archives/" class="view-more-link">
                 查看更多文章
