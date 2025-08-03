@@ -1,177 +1,52 @@
 ---
-// 字體載入優化組件
+// 簡化的字體載入組件
 ---
 
 <script>
-  class FontLoader {
-    fonts;
-    
-    constructor() {
-      this.fonts = [
-        { family: 'Atkinson', weight: '400', url: '/fonts/atkinson-regular.woff' },
-        { family: 'Atkinson', weight: '700', url: '/fonts/atkinson-bold.woff' }
-      ];
-      
-      this.init();
-    }
+  // 簡單的字體預載入
+  function loadFonts() {
+    const fonts = [
+      { family: 'Atkinson', weight: '400', url: '/fonts/atkinson-regular.woff' },
+      { family: 'Atkinson', weight: '700', url: '/fonts/atkinson-bold.woff' }
+    ];
 
-    async init() {
-      // 檢查瀏覽器是否支援 Font Loading API
-      if ('fonts' in document) {
-        await this.loadWithFontAPI();
-      } else {
-        // 降級處理：使用傳統方法
-        this.loadWithFallback();
-      }
-    }
-
-    async loadWithFontAPI() {
-      try {
-        // 預載所有字體
-        const fontPromises = this.fonts.map(font => {
-          const fontFace = new FontFace(
-            font.family,
-            `url(${font.url}) format('woff')`,
-            { weight: font.weight, display: 'swap' }
-          );
-          
-          return fontFace.load();
+    // 使用 Font Loading API 如果支援
+    if ('fonts' in document) {
+      fonts.forEach(font => {
+        const fontFace = new FontFace(
+          font.family,
+          `url(${font.url}) format('woff')`,
+          { weight: font.weight, display: 'swap' }
+        );
+        
+        fontFace.load().then(loadedFont => {
+          document.fonts.add(loadedFont);
+          (document as any).documentElement.classList.add('font-loaded');
+        }).catch(error => {
+          console.warn('Font loading failed:', error);
+          (document as any).documentElement.classList.add('font-loaded');
         });
-
-        const loadedFonts = await Promise.all(fontPromises);
-        
-        // 添加到文檔字體集合
-        loadedFonts.forEach(font => {
-          document.fonts.add(font);
-        });
-
-        this.onFontsLoaded();
-        
-      } catch (error) {
-        console.warn('Font loading failed, using fallback:', error);
-        this.loadWithFallback();
-      }
-    }
-
-    loadWithFallback() {
-      // 創建測試元素來檢測字體載入
-      const testElement = document.createElement('span');
-      testElement.style.cssText = `
-        position: absolute;
-        visibility: hidden;
-        font-size: 100px;
-        font-family: 'Atkinson';
-        top: -9999px;
-        left: -9999px;
-      `;
-      testElement.textContent = 'Test';
-      document.body.appendChild(testElement);
-
-      // 檢查字體是否載入完成
-      const checkFont = () => {
-        const computedStyle = window.getComputedStyle(testElement);
-        const actualFontFamily = computedStyle.fontFamily;
-        
-        if (actualFontFamily.includes('Atkinson')) {
-          document.body.removeChild(testElement);
-          this.onFontsLoaded();
-        } else {
-          // 3秒後超時
-          setTimeout(() => {
-            if (document.body.contains(testElement)) {
-              document.body.removeChild(testElement);
-              this.onFontsLoaded();
-            }
-          }, 3000);
-        }
-      };
-
-      // 輪詢檢查
-      const pollInterval = setInterval(() => {
-        checkFont();
-        if (!document.body.contains(testElement)) {
-          clearInterval(pollInterval);
-        }
-      }, 100);
-    }
-
-    onFontsLoaded() {
-      // 移除載入中狀態
-      document.documentElement.classList.remove('font-loading');
-      document.documentElement.classList.add('font-loaded');
-      
-      // 觸發自定義事件
-      const event = new CustomEvent('fontsloaded', {
-        detail: { fonts: this.fonts }
       });
-      document.dispatchEvent(event);
-      
-      // 從 sessionStorage 標記字體已載入，加速後續頁面
-      try {
-        sessionStorage.setItem('fonts-loaded', 'true');
-      } catch (e) {
-        // 忽略 sessionStorage 錯誤
-      }
-    }
-
-    static isLoaded() {
-      try {
-        return sessionStorage.getItem('fonts-loaded') === 'true';
-      } catch (e) {
-        return false;
-      }
+    } else {
+      // 降級：直接標記為載入完成
+      (document as any).documentElement.classList.add('font-loaded');
     }
   }
 
-  // 初始設定載入中狀態
-  if (!FontLoader.isLoaded()) {
-    document.documentElement.classList.add('font-loading');
-  } else {
-    document.documentElement.classList.add('font-loaded');
-  }
-
-  // DOM 載入完成後初始化字體載入器
-  function initFontLoader() {
-    if (!FontLoader.isLoaded()) {
-      new FontLoader();
-    }
-  }
-
+  // 初始化字體載入
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initFontLoader);
+    document.addEventListener('DOMContentLoaded', loadFonts);
   } else {
-    initFontLoader();
+    loadFonts();
   }
 
   // 處理 Astro View Transitions
-  document.addEventListener('astro:page-load', () => {
-    if (!FontLoader.isLoaded()) {
-      new FontLoader();
-    }
-  });
-
-  // 提供給其他組件使用的 API
-  (window as any).FontLoader = FontLoader;
+  document.addEventListener('astro:page-load', loadFonts);
 </script>
 
 <style>
-  /* 字體載入時的備用樣式 */
-  html.font-loading {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-  }
-
-  html.font-loading * {
-    font-family: inherit !important;
-  }
-
-  /* 字體載入完成後的過渡動畫 */
+  /* 字體載入完成後應用 */
   html.font-loaded {
-    transition: font-family var(--transition-fast) ease;
-  }
-
-  /* 防止字體載入時的佈局偏移 */
-  html.font-loading body {
-    font-optical-sizing: auto;
-    font-variant-ligatures: common-ligatures;
+    font-family: 'Atkinson', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
   }
 </style>

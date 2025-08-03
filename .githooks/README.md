@@ -22,11 +22,13 @@
 ### 方法二：手動安裝
 
 1. 複製 hook 檔案到 Git hooks 目錄：
+
    ```powershell
    Copy-Item .githooks/pre-commit.ps1 .git/hooks/pre-commit
    ```
 
 2. 在 Unix-like 系統上設置執行權限：
+
    ```bash
    chmod +x .git/hooks/pre-commit
    ```
@@ -80,29 +82,36 @@ git commit -m "test: 測試 lastmod 自動更新"
 ## 故障排除
 
 ### Hook 沒有執行
+
 - 檢查 `.git/hooks/pre-commit` 檔案是否存在
 - 確認檔案有執行權限
 - 檢查 PowerShell 是否可用
 
 ### lastmod 沒有更新
+
 - 確認檔案有 front matter（以 `---` 開始和結束）
 - 檢查檔案編碼是否為 UTF-8
 - 查看 hook 執行時的輸出訊息
 
 ### 時區問題
+
 - Hook 使用系統時區，確保系統時區設置正確
 - 可以修改 `pre-commit.ps1` 中的時間格式
 
 ## 自定義設置
 
 ### 修改時間格式
+
 在 `pre-commit.ps1` 中修改這一行：
+
 ```powershell
 $currentTimestamp = Get-Date -Format "yyyy-MM-ddTHH:mm:sszzz"
 ```
 
 ### 排除特定檔案
+
 在 PowerShell 腳本中加入過濾條件：
+
 ```powershell
 $modifiedMdFiles = git diff --cached --name-only --diff-filter=AM | 
     Where-Object { $_ -match '\.md$' -and $_ -notmatch 'README\.md' }
