@@ -72,11 +72,17 @@ function highlightText(text, query) {
   <head>
     <BaseHead title={`搜尋 | ${SITE_TITLE}`} description={SITE_DESCRIPTION} />
     <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+      
       .search-page {
         max-width: var(--container-xl);
         margin: 0 auto;
         padding: var(--spacing-xl) var(--spacing-md);
-        min-height: 70vh;
+        flex: 1;
       }
       
       .search-header {

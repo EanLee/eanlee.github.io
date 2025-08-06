@@ -124,10 +124,17 @@ const epicPosts = source?.sort((a, b) => new Date(b.data.date).valueOf() - new D
 </html>
 
 <style define:vars={{ accentColor }}>
+  body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
   .epic-container {
     width: 100%;
     max-width: 100%;
     margin: 0 auto;
+    flex: 1;
   }
   
   .main-content {

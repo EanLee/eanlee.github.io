@@ -17,17 +17,10 @@ import tailwind from "@astrojs/tailwind";
 export default defineConfig({
   site: "https://eandev.com",
   redirects: {
-    "/post/test/淺談單元測試的撰寫/": "/post/test/talking-writing-unit-tests/",
-    "/post/series/message-queue/foreword/":
-      "/post/series/message-queue/build-mq-foreword/",
-    "/post/series/coding-skill/foreword/":
-      "/post/series/coding-skill/coding-skill-foreword/",
-    "/post/container/flexible-opereate-docker-foreword/":
-      "/post/series/flexibly-use-docker/flexibly-use-docker-foreword/",
-    "/post/container/container-vm-difference/":
-      "/post/series/flexibly-use-docker/container-vm-difference/",
-    "/post/projectmanagement/從消除遊戲學到的專案管理二三事/":
-      "/post/projectmanagement/concepts-of-project-management-from-elimination-games/",
+    "/post/security/using-iis-create-and-complete-csr/":
+      "/post/software/using-iis-create-and-complete-csr/",
+      "/post/devops/gitlab-and-runner-on-same-host-using-docker/":
+      "/post/software/gitlab-and-runner-on-same-host-using-docker/"
   },
   integrations: [
     sitemap(),

@@ -18,8 +18,8 @@ keywords:
   - 可觀測性
   - Structured Logging
 slug: log-and-error-handling-the-foundation-of-buildin-observable-systems
+lastmod: 2025-08-07T01:05:28+08:00
 ---
-
 > 🔖 長話短說 🔖
 >
 > - **釐清 Log 目的**：Log 不只是為了抓 Bug。它更是效能分析、使用者行為追蹤、安全稽核的基礎，是打造系統可觀測性的第一步。
@@ -228,6 +228,10 @@ Log 與 Error Handling 是軟體開發中的「基礎建設」。雖然在功能
 透過定義明確的 Log 目的、實施 Log 分級、採用結構化日誌，並結合有效的錯誤處理策略，我們才能在問題發生時，從容不迫地找出原因，快速恢復服務，進而打造出高品質的軟體系統。
 
 ## 補充資料
+
+▶ 站內文章
+
+- [開發雜談 - 淺談 Log 的設計與問題排查的重要性](../the-importance-of-log-design-and-troubleshooting/index.md)
 
 ▶ 外部文章
 

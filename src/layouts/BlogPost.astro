@@ -115,11 +115,18 @@ if (!displayImage && fallbackImages.length > 0) {
     <Footer />
     <BackToTop />
     <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+
       main {
         width: 100%;
         margin: 0;
         padding: 0;
         background-color: var(--color-bg-primary);
+        flex: 1;
       }
 
       article {

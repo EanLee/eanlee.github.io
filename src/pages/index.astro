@@ -111,11 +111,18 @@ const blogStructuredData = {
       keywords={keywords}
     />
     <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
         .home-container {
             width: 100%;
             max-width: var(--container-xl);
             margin: 0 auto;
             padding: 0 var(--spacing-md);
+            flex: 1;
         }
 
         .main-content {

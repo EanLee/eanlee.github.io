@@ -57,19 +57,32 @@
     tocNav.appendChild(tocList);
 
     let activeHeadingId = null;
+    const intersectingHeadings = new Map();
+    const firstHeading = headings[0];
 
     const scrollSpyObserver = new IntersectionObserver(
       (entries) => {
-        let topmostIntersectingEntry = null;
         for (const entry of entries) {
           if (entry.isIntersecting) {
-            if (!topmostIntersectingEntry || entry.boundingClientRect.top < topmostIntersectingEntry.boundingClientRect.top) {
-              topmostIntersectingEntry = entry;
-            }
+            intersectingHeadings.set(entry.target.id, entry);
+          } else {
+            intersectingHeadings.delete(entry.target.id);
           }
         }
 
-        const newActiveId = topmostIntersectingEntry ? topmostIntersectingEntry.target.id : null;
+        let newActiveId = null;
+        if (intersectingHeadings.size > 0) {
+          const topmostEntry = [...intersectingHeadings.values()].reduce(
+            (a, b) => (a.boundingClientRect.top < b.boundingClientRect.top ? a : b)
+          );
+          newActiveId = topmostEntry.target.id;
+        } else if (firstHeading && firstHeading.getBoundingClientRect().top > 80) {
+          // No headings are intersecting, and we are above the first heading.
+          newActiveId = null;
+        } else {
+          // In a gap between headings, do nothing to prevent flicker.
+          return;
+        }
 
         if (newActiveId !== activeHeadingId) {
           activeHeadingId = newActiveId;
