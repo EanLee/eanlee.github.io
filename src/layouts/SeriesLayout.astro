@@ -149,10 +149,17 @@ const seriesGroups = epicSeries.map(series => {
 </html>
 
 <style define:vars={{ accentColor }}>
+  body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
   .series-container {
     width: 100%;
     max-width: 100%;
     margin: 0 auto;
+    flex: 1;
   }
   
   .main-content {

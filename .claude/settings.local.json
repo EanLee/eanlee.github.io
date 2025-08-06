@@ -3,7 +3,8 @@
     "allow": [
       "Bash(git add:*)",
       "Bash(git add:*)",
-      "Bash(rm:*)"
+      "Bash(rm:*)",
+      "Bash(grep:*)"
     ],
     "deny": []
   }
