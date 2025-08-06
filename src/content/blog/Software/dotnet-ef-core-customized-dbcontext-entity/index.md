@@ -2,7 +2,7 @@
 title: EF Core | 使用 T4 CodeTemplate 客制化 EFCore Scaffold 產出內容
 description: 本文探討 EF Core 的 DBContext 與 Entity Type 客制化，透過 CodeTemplate 實現客制化。包含使用 Shadow Properties，以及重寫 DBContext 的 SaveChanges 自動更新欄位。
 date: 2023-06-29T09:22:03+08:00
-lastmod: 2024-03-25T10:26:26+08:00
+lastmod: 2025-08-07T01:05:28+08:00
 categories:
   - 軟體開發
   - EF Core
@@ -17,7 +17,6 @@ keywords:
   - Text Template Transformation Toolkit
 slug: dotnet-ef-core-customized-dbcontext-entity
 ---
-
 接續 DBContext 操作的議題，目前已知現有的資料庫內，所有的表格都有 `CreatedAt`、`UpdatedAt`、`UpdatedUser`、 `IsDeleted` 四個特定字詞結尾的欄位，額外記錄資料異動記錄。
 
 在「[使用 HasQueryFilter 限定 DBContext 查詢內容](../dfcore-dbcontext-hasqueryfilter/index.md)」中，提到如何透過 `HasQueryFilter` 來簡化資料庫查詢的動作。
@@ -393,7 +392,7 @@ entity.Property(e => e.<#= property.Name.Substring(1) #>)<#= code.Fragment(prope
 ▶ 站內文章
 
 - [使用 HasQueryFilter 限定 DBContext 查詢內容](../dfcore-dbcontext-hasqueryfilter/index.md)
-- [在 HasQueryFilter 使用 Shadow Property 的注意事項](../../Ean%20的寫作庫/Software/Develop/EF%20Core%20-%20在%20HasQueryFilter%20使用%20Shadow%20Property%20的注意事項.md)
+- [在 HasQueryFilter 使用 Shadow Property 的注意事項](../use-shadow-property-and-hasqueryfilter-on-ef-core/index.md)
 
 ▶ 站外文章
 
