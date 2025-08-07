@@ -14,12 +14,15 @@ const softwarePosts = allPosts
     return true;
   })
   .sort((a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf());
+
+const description = "在這裡，將會分享軟體開發與探索過程中，學習到的知識、踩到的坑、還有一些個人的看法，若可以幫助到你，那就太好了！這些文章可能會涉及軟體開發的各個方面，包括程式語言、框架、工具和最佳實踐等。";
+
 ---
 
 <EpicLayout
   epicName="軟體開發"
   epicTitle="軟體開發"
-  epicDescription="分享軟體開發經驗和技術分享"
+  epicDescription={description}
   accentColor="#4299e1"
   source={softwarePosts}
   showSeries={true}

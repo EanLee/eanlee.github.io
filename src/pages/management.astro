@@ -17,12 +17,14 @@ const managementPosts = allPosts
     (a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf()
   );
 
+const description = "隨著工作的經驗累積，發現自己無時無刻都在面對各種管理的問題。包含但不限於專案管理、時間管理、任務優先序、自我管理、成本管理還是團隊的管理，這裡將分享一些個人看法。";
+
 ---
 
 <EpicLayout
   epicName="管理經驗"
   epicTitle="管理經驗"
-  epicDescription="關於管理的一些個人看法，包括專案管理、團隊管理、成本管理等等。"
+  epicDescription={description}
   accentColor="#38a169"
   source={managementPosts}
   showSeries={false}
