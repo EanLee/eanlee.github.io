@@ -12,8 +12,8 @@ keywords:
   - authentication
   - jwt
 slug: aspnet-core-authenticaiton-jwt
+lastmod: 2025-08-07T01:05:28+08:00
 ---
-
 > 🔖 長話短說 🔖
 >
 > - 使用 `AddJwtBearar` 加入 JWT 的認證機制時，使用 `JwtBearerOptions.TokenValidationParameters` 來指定驗證條件的設定。
@@ -34,7 +34,7 @@ slug: aspnet-core-authenticaiton-jwt
 
 ### Middleware 設定
 
-在 [淺談 Authentication 與 Authorization 機制](../../Ean%20的寫作庫/Software/Security/淺談%20Authentication%20與%20Authorization%20機制.md) 這篇提到，在 .NET 中，授權與認證的機制，依賴 `AuthenticationMiddleware` 與 `AuthorizationMiddleware` 兩個 Middleware。
+在 .NET 中，授權與認證的機制，依賴 `AuthenticationMiddleware` 與 `AuthorizationMiddleware` 兩個 Middleware。
 
 所以，務必記得在插入兩個 Middleware。
 
@@ -177,8 +177,6 @@ services.AddSwaggerGen(c =>
 ## 延伸閱讀
 
 ▶ 站內文章
-
-- [ASP.NET Core | 淺講 Authentication 與 Authorization 機制](../../Ean%20的寫作庫/Software/Security/淺談%20Authentication%20與%20Authorization%20機制.md)
 
 ▶ JWT Authentication
 

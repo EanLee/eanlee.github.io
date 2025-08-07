@@ -2,7 +2,7 @@
 title: 靈活運用 Docker 打造高效的容器化應用環境
 description: 本系列文章將會介紹如何靈活運用 Docker 來打造高效的容器化應用環境。
 date: 2023-06-28T09:44:39+08:00
-lastmod: 2023-12-05T17:09:14+08:00
+lastmod: 2025-08-07T01:05:28+08:00
 tags:
   - Docker
 categories:
@@ -13,7 +13,6 @@ slug: flexibly-use-docker-foreword
 toc: false
 series: 靈活運用 Docker 打造高效的容器化應用環境
 ---
-
 目前有許多文章的內容，都包含部份的 Docker 操作指令。也因為如此，所有的 Docker 指令與說明散在各處，所以起心動念，整理完整的 Docker 操作與應用的系列文章。
 
 系統文章大綱暫定如下，初期會將現有文章中，提到的內容，進行資燉彙整。後續也會不定期依最近的文章內容，進行增修。
@@ -29,14 +28,14 @@ series: 靈活運用 Docker 打造高效的容器化應用環境
 
 - [靈活運用 Docker - Docker 的安裝](../install-docker/index.md)
 - [靈活運用 Docker - Container 操作與參數](../docker-base-command-and-argument/index.md)
-- [靈活運用 Docker - 使用 Mount 或 Volume 來確保資料的持久性](../../../../Ean%20的寫作庫/Software/Series/flexibly-use-docker/靈活運用%20Docker%20-%20使用%20Mount%20或%20Volume%20來確保資料的持久性.md)
-- [靈活運用 Docker - docker-compose 統一操作 Container Group](../../../../Ean%20的寫作庫/Software/Series/flexibly-use-docker/靈活運用%20Docker%20-%20docker-compose%20統一操作%20Container%20Group.md)
+- 靈活運用 Docker - 使用 Mount 或 Volume 來確保資料的持久性]
+- 靈活運用 Docker - docker-compose 統一操作 Container Group
 - 靈活運用 Docker - 存取公私有的 Registry
 - 靈活運用 Docker - 無法使用 Registry 的 Image 操作
 
 ### IMAGE 的建立
 
-- [靈活運用 Docker - 解讀 docker build 使用 dockerfile 內容指令](../../../../Ean%20的寫作庫/Software/Series/flexibly-use-docker/靈活運用%20Docker%20-%20解讀%20docker%20build%20使用%20dockerfile%20內容指令.md)
+- 靈活運用 Docker - 解讀 docker build 使用 dockerfile 內容指令
 - [靈活運用 Docker - 建置 Docker Image 時，使用 Multi-Stage Build 減少不必要的資料](../docker-build-use-multi-stage-build/index.md)
 - 靈活運用 Docker - 使用 distroless
 - 靈活運用 Docker - 修改現有的 Image

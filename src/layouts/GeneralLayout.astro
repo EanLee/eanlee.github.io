@@ -31,9 +31,11 @@ const { title, coverImage } = Astro.props;
 
       main {
         display: flex;
-        width: 1120px;
+        width: var(--container-xl);
+        max-width: calc(100% - 2em);
         flex: 1;
         margin: 0 auto;
+        min-height: 0;
       }
 
       @media (max-width: 1120px) {

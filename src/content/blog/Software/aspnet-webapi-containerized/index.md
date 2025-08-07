@@ -15,9 +15,8 @@ keywords:
   - 機敏資料
 date: 2023-02-26T14:18:53+08:00
 slug: aspnet-webapi-containerized
-lastmod: 2023-12-03T23:11:49+08:00
+lastmod: 2025-08-07T01:05:28+08:00
 ---
-
 想要使用 Docker 技術將 ASP.NET Web API 應用程式打包成 image 時，需要針對機敏性資料進行特別的處理，以確保這些機密性資料不會外流。
 
 在本文中，將簡單介紹 Dockerfile 的建置方式，以及如何提供連線字串給 Container 內的應用程式使用。雖然內文只介紹連線字串的部份，但是憑證的處理方式，也是類似的作法。

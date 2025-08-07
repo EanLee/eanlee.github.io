@@ -115,19 +115,22 @@ if (!displayImage && fallbackImages.length > 0) {
     <Footer />
     <BackToTop />
     <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+
       main {
         width: 100%;
         margin: 0;
         padding: 0;
         background-color: var(--color-bg-primary);
-        max-width: 100vw;
-        overflow-x: hidden;
+        flex: 1;
       }
 
       article {
         width: 100%;
-        max-width: 100vw;
-        overflow-x: hidden;
       }
 
       .wrapper {
@@ -144,13 +147,11 @@ if (!displayImage && fallbackImages.length > 0) {
         gap: var(--spacing-xl);
         width: 100%;
         max-width: 100%;
-        overflow: hidden;
         box-sizing: border-box;
       }
 
       .prose {
         width: 100%;
-        overflow: hidden;
         box-sizing: border-box;
       }
 
@@ -167,16 +168,21 @@ if (!displayImage && fallbackImages.length > 0) {
         box-sizing: border-box;
       }
 
-      @media (min-width: 1024px) {
+      @media (min-width: 1025px) {
         .content-wrapper {
           grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+          /* 移除 align-items: start 以修復 sticky 定位 */
+        }
+        
+        .sidebar {
+          position: relative;
         }
       }
 
       .sidebar {
         width: 100%;
         max-width: 100%;
-        overflow: hidden;
+        /* 移除 height: fit-content 限制 */
       }
 
       .hero-container {

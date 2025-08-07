@@ -18,6 +18,9 @@ export interface Props {
 
 const { epicName, epicTitle, epicDescription, accentColor, showSeries = false, source } = Astro.props;
 
+// Configuration
+const POSTS_PER_PAGE = 10;
+
 // Get all posts for this epic
 const epicPosts = source?.sort((a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf()) || [];
 ---
@@ -40,13 +43,22 @@ const epicPosts = source?.sort((a, b) => new Date(b.data.date).valueOf() - new D
         
         <div class="content-area">
           <div class="page-header">
-            <h1>{epicTitle}</h1>
+            <div class="title-section">
+              <h1>{epicTitle}</h1>
+              <div class="article-count">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14 2z"/>
+                  <polyline points="14,2 14,8 20,8"/>
+                </svg>
+                共 {epicPosts.length} 篇文章
+              </div>
+            </div>
             <p>{epicDescription}</p>
           </div>
           
           <div class="posts-list">
             {epicPosts.length > 0 ? (
-              epicPosts.slice(0, 20).map(post => (
+              epicPosts.slice(0, POSTS_PER_PAGE).map(post => (
                 <article class="post-card">
                   <div class="post-content">
                     <div class="post-meta-row">
@@ -95,7 +107,7 @@ const epicPosts = source?.sort((a, b) => new Date(b.data.date).valueOf() - new D
             )}
           </div>
           
-          {epicPosts.length > 20 && (
+          {epicPosts.length > POSTS_PER_PAGE && (
             <div class="view-more-container">
               <a href="/archives/" class="view-more-link">
                 查看更多文章
@@ -112,10 +124,17 @@ const epicPosts = source?.sort((a, b) => new Date(b.data.date).valueOf() - new D
 </html>
 
 <style define:vars={{ accentColor }}>
+  body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
   .epic-container {
     width: 100%;
     max-width: 100%;
     margin: 0 auto;
+    flex: 1;
   }
   
   .main-content {
@@ -153,10 +172,33 @@ const epicPosts = source?.sort((a, b) => new Date(b.data.date).valueOf() - new D
     border-bottom: 1px solid var(--color-border-light);
   }
   
+  .title-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--spacing-sm);
+  }
+  
   .page-header h1 {
     font-size: var(--font-size-4xl);
     font-weight: var(--font-weight-bold);
-    margin: 0 0 var(--spacing-sm) 0;
+    margin: 0;
+    color: var(--accentColor);
+  }
+  
+  .article-count {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+    background-color: rgba(var(--accent-rgb), 0.1);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--radius-md);
+    font-weight: var(--font-weight-medium);
+  }
+  
+  .article-count svg {
     color: var(--accentColor);
   }
   
@@ -309,6 +351,19 @@ const epicPosts = source?.sort((a, b) => new Date(b.data.date).valueOf() - new D
     
     .sidebar-area {
       display: none;
+    }
+    
+    .title-section {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--spacing-sm);
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .article-count {
+      font-size: var(--font-size-xs);
+      padding: var(--spacing-xs);
     }
   }
 </style>

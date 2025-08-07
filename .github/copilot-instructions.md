@@ -1,0 +1,1 @@
+- 所有的 commit 依 原子性與 SRP 的原則, 使用 zh-tw 進行 Conventional Commits

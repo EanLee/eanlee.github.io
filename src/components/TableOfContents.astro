@@ -10,18 +10,25 @@
 
 <script>
   function initTOC() {
+    console.log('TOC: Initializing TOC...');
     const tocNav = document.getElementById('toc-nav');
     const articleContent = document.querySelector('.article-content');
 
-    if (!tocNav || !articleContent) return;
+    if (!tocNav || !articleContent) {
+      console.log('TOC: Missing elements - tocNav:', !!tocNav, 'articleContent:', !!articleContent);
+      return;
+    }
 
     const headings = Array.from(
-      articleContent.querySelectorAll<HTMLHeadingElement>('h2, h3, h4')
+      articleContent.querySelectorAll('h2, h3, h4')
     );
-    const tocWrapper = document.querySelector<HTMLElement>('.toc-wrapper');
+    const tocWrapper = document.querySelector('.toc-wrapper');
+
+    console.log('TOC: Found', headings.length, 'headings');
 
     if (headings.length === 0 && tocWrapper) {
-      tocWrapper.style.display = 'none';
+      console.log('TOC: No headings found, hiding TOC');
+      (tocWrapper as HTMLElement).style.display = 'none';
       return;
     }
 
@@ -29,7 +36,7 @@
     const tocList = document.createElement('ul');
     tocList.className = 'toc-list';
 
-    const tocLinks: HTMLAnchorElement[] = [];
+    const tocLinks = [];
 
     headings.forEach((heading, index) => {
       if (!heading.id) heading.id = `toc-heading-${index}`;
@@ -49,20 +56,33 @@
 
     tocNav.appendChild(tocList);
 
-    let activeHeadingId: string | null = null;
+    let activeHeadingId = null;
+    const intersectingHeadings = new Map();
+    const firstHeading = headings[0];
 
     const scrollSpyObserver = new IntersectionObserver(
       (entries) => {
-        let topmostIntersectingEntry: IntersectionObserverEntry | null = null;
         for (const entry of entries) {
           if (entry.isIntersecting) {
-            if (!topmostIntersectingEntry || entry.boundingClientRect.top < topmostIntersectingEntry.boundingClientRect.top) {
-              topmostIntersectingEntry = entry;
-            }
+            intersectingHeadings.set(entry.target.id, entry);
+          } else {
+            intersectingHeadings.delete(entry.target.id);
           }
         }
 
-        const newActiveId = topmostIntersectingEntry ? topmostIntersectingEntry.target.id : null;
+        let newActiveId = null;
+        if (intersectingHeadings.size > 0) {
+          const topmostEntry = [...intersectingHeadings.values()].reduce(
+            (a, b) => (a.boundingClientRect.top < b.boundingClientRect.top ? a : b)
+          );
+          newActiveId = topmostEntry.target.id;
+        } else if (firstHeading && firstHeading.getBoundingClientRect().top > 80) {
+          // No headings are intersecting, and we are above the first heading.
+          newActiveId = null;
+        } else {
+          // In a gap between headings, do nothing to prevent flicker.
+          return;
+        }
 
         if (newActiveId !== activeHeadingId) {
           activeHeadingId = newActiveId;
@@ -83,6 +103,14 @@
   }
 
   document.addEventListener('astro:page-load', initTOC);
+  document.addEventListener('DOMContentLoaded', initTOC);
+  
+  // 如果文檔已經載入完成，直接執行
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initTOC);
+  } else {
+    initTOC();
+  }
 </script>
 
 <style>
@@ -144,7 +172,7 @@
     border-left-color: var(--accent);
   }
 
-  @media (max-width: 1024px) {
+  @media (max-width: 1023px) {
     .toc-wrapper {
       display: none;
     }

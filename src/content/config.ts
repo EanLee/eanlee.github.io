@@ -2,7 +2,7 @@ import { defineCollection, z } from 'astro:content';
 
 const blog = defineCollection({
 	// Type-check frontmatter using a schema
-	schema: z.object({
+	schema: ({ image }) => z.object({
 		title: z.string(),
 		description: z.string().optional(),
 		// Transform string to Date object
@@ -20,7 +20,7 @@ const blog = defineCollection({
 			(val) => (Array.isArray(val) ? val.filter((item) => item !== null) : val),
 			z.array(z.string()).nullable().optional()
 		),
-		coverImage: z.string().nullable().optional(),
+		coverImage: z.union([image(), z.string()]).nullable().optional(),
 		series: z.string().nullable().optional(),
 		epic: z.string().nullable().optional(),
 	}),

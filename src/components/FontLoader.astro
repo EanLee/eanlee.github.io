@@ -1,0 +1,52 @@
+---
+// 簡化的字體載入組件
+---
+
+<script>
+  // 簡單的字體預載入
+  function loadFonts() {
+    const fonts = [
+      { family: 'Atkinson', weight: '400', url: '/fonts/atkinson-regular.woff' },
+      { family: 'Atkinson', weight: '700', url: '/fonts/atkinson-bold.woff' }
+    ];
+
+    // 使用 Font Loading API 如果支援
+    if ('fonts' in document) {
+      fonts.forEach(font => {
+        const fontFace = new FontFace(
+          font.family,
+          `url(${font.url}) format('woff')`,
+          { weight: font.weight, display: 'swap' }
+        );
+        
+        fontFace.load().then(loadedFont => {
+          document.fonts.add(loadedFont);
+          (document as any).documentElement.classList.add('font-loaded');
+        }).catch(error => {
+          console.warn('Font loading failed:', error);
+          (document as any).documentElement.classList.add('font-loaded');
+        });
+      });
+    } else {
+      // 降級：直接標記為載入完成
+      (document as any).documentElement.classList.add('font-loaded');
+    }
+  }
+
+  // 初始化字體載入
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', loadFonts);
+  } else {
+    loadFonts();
+  }
+
+  // 處理 Astro View Transitions
+  document.addEventListener('astro:page-load', loadFonts);
+</script>
+
+<style>
+  /* 字體載入完成後應用 */
+  html.font-loaded {
+    font-family: 'Atkinson', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  }
+</style>
