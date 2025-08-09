@@ -91,14 +91,6 @@ const blogStructuredData = {
     "@type": "WebPage",
     "@id": Astro.url.toString()
   },
-  "potentialAction": {
-    "@type": "SearchAction",
-    "target": {
-      "@type": "EntryPoint",
-      "urlTemplate": new URL("/search/?q={search_term_string}", Astro.url).toString()
-    },
-    "query-input": "required name=search_term_string"
-  }
 };
 ---
 
