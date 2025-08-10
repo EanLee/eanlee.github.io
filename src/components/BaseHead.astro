@@ -10,6 +10,7 @@ interface Props {
 	description?: string;
 	image?: string;
 	keywords?: string[];
+	noindex?: boolean;
 }
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
@@ -18,7 +19,8 @@ const {
   title, 
   description, 
   image = '/blog-placeholder-1.jpg',
-  keywords = [] 
+  keywords = [],
+  noindex = false
 } = Astro.props;
 ---
 
@@ -29,7 +31,8 @@ const {
 <meta name="generator" content={Astro.generator} />
 
 
-<!-- Security & Performance -->
+<!-- SEO & Security -->
+{noindex && <meta name="robots" content="noindex, nofollow" />}
 <meta name="referrer" content="strict-origin-when-cross-origin" />
 
 <!-- DNS Prefetch for better performance -->
