@@ -10,12 +10,10 @@
 
 <script>
   function initTOC() {
-    console.log('TOC: Initializing TOC...');
     const tocNav = document.getElementById('toc-nav');
     const articleContent = document.querySelector('.article-content');
 
     if (!tocNav || !articleContent) {
-      console.log('TOC: Missing elements - tocNav:', !!tocNav, 'articleContent:', !!articleContent);
       return;
     }
 
@@ -24,10 +22,7 @@
     );
     const tocWrapper = document.querySelector('.toc-wrapper');
 
-    console.log('TOC: Found', headings.length, 'headings');
-
     if (headings.length === 0 && tocWrapper) {
-      console.log('TOC: No headings found, hiding TOC');
       (tocWrapper as HTMLElement).style.display = 'none';
       return;
     }
