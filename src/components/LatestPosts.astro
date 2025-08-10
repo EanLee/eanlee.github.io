@@ -60,7 +60,16 @@ const getCoverImage = async (post: CollectionEntry<'blog'>) => {
       const matchingImage = allPostImages.find(img => {
         // 從 glob 結果中提取路徑資訊
         const imgPath = img.default?.default?.src || img.default?.src || img.default;
-        if (typeof imgPath !== 'string') return false;
+        
+        if (typeof imgPath !== 'string') {
+          // 嘗試從 import.meta.glob 的鍵中獲取路徑
+          const moduleKeys = Object.keys(postImageModules);
+          const matchingKey = moduleKeys.find(key => 
+            key.includes(postPath) && key.includes(cleanImagePath)
+          );
+          
+          return !!matchingKey;
+        }
         
         // 檢查圖片路徑是否包含文章路徑和圖片名稱
         return imgPath.includes(postPath) && imgPath.includes(cleanImagePath);
@@ -70,6 +79,34 @@ const getCoverImage = async (post: CollectionEntry<'blog'>) => {
         const imgSrc = matchingImage.default?.default?.src || matchingImage.default?.src || matchingImage.default;
         if (typeof imgSrc === 'string') {
           return imgSrc;
+        }
+        
+        // 如果無法從圖片對象獲取 src，嘗試從模組鍵中直接獲取
+        const moduleKeys = Object.keys(postImageModules);
+        const matchingKey = moduleKeys.find(key => 
+          key.includes(postPath) && key.includes(cleanImagePath)
+        );
+        
+        if (matchingKey) {
+          const moduleImg = postImageModules[matchingKey] as any;
+          const moduleSrc = moduleImg?.default?.default?.src || moduleImg?.default?.src || moduleImg?.default;
+          if (typeof moduleSrc === 'string') {
+            return moduleSrc;
+          }
+        }
+      }
+      
+      // 最後嘗試：直接從所有模組鍵中查找
+      const moduleKeys = Object.keys(postImageModules);
+      const directMatchingKey = moduleKeys.find(key => 
+        key.includes(postPath) && key.includes(cleanImagePath)
+      );
+      
+      if (directMatchingKey) {
+        const directImg = postImageModules[directMatchingKey] as any;
+        const directSrc = directImg?.default?.default?.src || directImg?.default?.src || directImg?.default;
+        if (typeof directSrc === 'string') {
+          return directSrc;
         }
       }
       
