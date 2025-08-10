@@ -13,10 +13,12 @@ const { posts, limit = 6 } = Astro.props;
 const latestPosts = posts.slice(0, limit);
 
 // 獲取 fallback 圖片
-const fallbackImages = await Astro.glob("/public/cover/**/*.{png,jpg,jpeg,webp}");
+const fallbackImageModules = import.meta.glob("/public/cover/**/*.{png,jpg,jpeg,webp}", { eager: true });
+const fallbackImages = Object.values(fallbackImageModules) as any[];
 
 // 預載入所有文章中的圖片
-const allPostImages = await Astro.glob("/src/content/blog/**/images/*.{png,jpg,jpeg,webp}");
+const postImageModules = import.meta.glob("/src/content/blog/**/images/*.{png,jpg,jpeg,webp}", { eager: true });
+const allPostImages = Object.values(postImageModules) as any[];
 
 // 獲取文章的封面圖片
 const getCoverImage = async (post: CollectionEntry<'blog'>) => {

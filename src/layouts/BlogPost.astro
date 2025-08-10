@@ -22,7 +22,8 @@ const {
 } = Astro.props;
 
 // Get all possible cover images from the /public/cover/ directory
-const fallbackImages = await Astro.glob("/public/cover/**/*.{png,jpg,jpeg,webp}");
+const fallbackImageModules = import.meta.glob("/public/cover/**/*.{png,jpg,jpeg,webp}", { eager: true });
+const fallbackImages = Object.values(fallbackImageModules) as any[];
 
 let displayImage = coverImage;
 
