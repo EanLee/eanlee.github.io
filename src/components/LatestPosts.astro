@@ -15,6 +15,9 @@ const latestPosts = posts.slice(0, limit);
 // 獲取 fallback 圖片
 const fallbackImages = await Astro.glob("/public/cover/**/*.{png,jpg,jpeg,webp}");
 
+// 預載入所有文章中的圖片
+const allPostImages = await Astro.glob("/src/content/blog/**/images/*.{png,jpg,jpeg,webp}");
+
 // 獲取文章的封面圖片
 const getCoverImage = async (post: CollectionEntry<'blog'>) => {
   // 1. 優先使用 frontmatter 中的 coverImage
@@ -46,27 +49,37 @@ const getCoverImage = async (post: CollectionEntry<'blog'>) => {
       return imagePath;
     }
     
-    // 對於相對路徑，嘗試動態導入以讓 Astro 處理
+    // 對於相對路徑，使用預載入的圖片映射
     if (imagePath.startsWith('./') || imagePath.startsWith('images/')) {
-      try {
-        const postPath = post.id.slice(0, post.id.lastIndexOf("/"));
-        const cleanImagePath = imagePath.replace('./', '');
+      const postPath = post.id.slice(0, post.id.lastIndexOf("/"));
+      const cleanImagePath = imagePath.replace('./', '');
+      
+      // 在預載入的圖片中尋找匹配的圖片
+      const matchingImage = allPostImages.find(img => {
+        // 從 glob 結果中提取路徑資訊
+        const imgPath = img.default?.default?.src || img.default?.src || img.default;
+        if (typeof imgPath !== 'string') return false;
         
-        // 構建相對於 src/content/blog 的路徑進行動態導入
-        const fullPath = `../content/blog/${postPath}/${cleanImagePath}`;
-        
-        // 使用動態導入讓 Astro 處理圖片，轉換為 webp 並放到 _astro 目錄
-        const imageModule = await import(/* @vite-ignore */ fullPath);
-        return imageModule.default?.src || imageModule.default;
-      } catch (error) {
-        console.warn(`無法載入相對路徑圖片: ${imagePath} in post ${post.id}`, error);
-        // 如果動態導入失敗，使用 fallback 圖片
-        if (fallbackImages.length > 0) {
-          const randomIndex = Math.floor(Math.random() * fallbackImages.length);
-          return fallbackImages[randomIndex].default.src;
+        // 檢查圖片路徑是否包含文章路徑和圖片名稱
+        return imgPath.includes(postPath) && imgPath.includes(cleanImagePath);
+      });
+      
+      if (matchingImage) {
+        const imgSrc = matchingImage.default?.default?.src || matchingImage.default?.src || matchingImage.default;
+        if (typeof imgSrc === 'string') {
+          return imgSrc;
         }
-        return null;
       }
+      
+      // 如果沒找到匹配的圖片，記錄警告並使用 fallback
+      console.warn(`無法找到相對路徑圖片: ${imagePath} in post ${post.id}`);
+      
+      // 使用 fallback 圖片
+      if (fallbackImages.length > 0) {
+        const randomIndex = Math.floor(Math.random() * fallbackImages.length);
+        return fallbackImages[randomIndex].default.src;
+      }
+      return null;
     }
     
     // 其他情況直接返回路徑
