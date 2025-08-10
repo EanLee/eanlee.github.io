@@ -42,9 +42,4 @@ export default defineConfig({
       ],
     ],
   },
-
-  //   build: {
-  //     // 示例：在构建过程中生 成`page.html` 而不是 `page/index.html`。
-  //     format: "directory",
-  //   },
 });
