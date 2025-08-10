@@ -66,6 +66,7 @@ export default defineConfig({
     "/post/develop/dotnet-ef-postgresql-dbcontext/": "/post/software/dotnet-ef-postgresql-dbcontext/",
     "/post/troubleshooting/http-response-status-unexpected-note/": "/post/software/http-response-status-unexpected-note/",
     "/post/develop/dotnet-ef-core-customized-dbcontext-entity/": "/post/software/dotnet-ef-core-customized-dbcontext-entity/",
+    "/post/devops/build-gitlab-on-private-environment/": "/post/software/build-gitlab-on-private-environment/",
     
     // Series overview pages to series URLs
     "/software/series/build-automated-deploy/": "/series/software/series/build-automated-deploy/",
