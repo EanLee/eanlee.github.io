@@ -13,11 +13,11 @@ keywords:
   - dotnet-ef
   - DbContext
 slug: ef-core-series-overview
-lastmod: 2025-08-10T13:54:28+08:00
+lastmod: 2025-08-10T14:04:47+08:00
 ---
 > 本系列文章彙整了在 .NET 環境中使用 Entity Framework  Core 的各種實踐與筆記，從基礎工具的使用、由資料庫優先 (Database-First) 的 DbContext 生成，到進階的查詢過濾與模板客製化，提供一系列的實戰經驗分享。
 
-在目前的的完成與 `EF Core` 不少相關的文章，但是如果要依應用情境個別去尋找的話，有些麻煩。
+目前站內有不少與 `EF Core` 相關的文章，如果要依應用情境個別去尋找的話，有些麻煩。
 所以才會產生這一個文章中，以便快速找到需要的文章內容。
 
 ## 🛠️ 基礎工具與環境設置
@@ -100,8 +100,6 @@ lastmod: 2025-08-10T13:54:28+08:00
     - 需要統一的程式碼風格、Shadow Properties、或自動化業務邏輯
     
     **核心價值：** 透過 T4 模板實現程式碼生成的完全控制，減少重複性工作
-
-**適用情境：** 需要實作多租戶、軟刪除或其他全域性的資料過濾邏輯
 
 -   **[使用 HasQueryFilter 限定 DBContext 查詢內容](../dfcore-dbcontext-hasqueryfilter/index.md)**
     
