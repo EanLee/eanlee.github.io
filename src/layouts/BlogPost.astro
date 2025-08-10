@@ -76,7 +76,7 @@ if (!displayImage && fallbackImages.length > 0) {
                     {tags.slice(0, 5).map((tag: string) => (
                       <li>
                         <a class="tag" href={`/tags/${tag.toLowerCase()}/`}>
-                          {tag.toUpperCase().replace(/-/g, " ")}
+                          {tag}
                         </a>
                       </li>
                     ))}
