@@ -76,7 +76,7 @@ const epicPosts = source?.sort((a, b) => new Date(b.data.date).valueOf() - new D
                           <span class="tag-list">
                             {post.data.tags?.map((tag, index) => (
                               <>
-                                <a href={`/tags/${tag}`} class="tag-link">{tag}</a>
+                                <a href={`/tags/${tag.toLowerCase()}/`} class="tag-link">{tag}</a>
                                 {index < post.data.tags.length - 1 && ", "}
                               </>
                             ))}

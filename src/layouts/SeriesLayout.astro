@@ -3,7 +3,6 @@ import { getCollection } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import Categories from '../components/widget/categories.astro';
 import Series from '../components/widget/series.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 import SeriesBlock from '../components/SeriesBlock.astro';
@@ -95,7 +94,7 @@ const seriesGroups = epicSeries.map(series => {
                           <span class="tag-list">
                             {post.data.tags?.map((tag, index) => (
                               <>
-                                <a href={`/tags/${tag}`} class="tag-link">{tag}</a>
+                                <a href={`/tags/${tag.toLowerCase()}/`} class="tag-link">{tag}</a>
                                 {index < post.data.tags.length - 1 && ", "}
                               </>
                             ))}
