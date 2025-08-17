@@ -2,7 +2,7 @@
 title: 使用 SMTP2GO 與 ImprovMX 打造免費的 Email 寄送與轉發服務
 description: 本文將介紹如何使用免費的 SMTP2GO 服務來發送郵件，並搭配 ImprovMX 實現自訂網域的 Email 反向轉發，在低成本預算下解決個人專案或初期產品的 Email 功能需求。
 date: 2025-08-18T00:00:00+08:00
-lastmod: 2025-08-18T01:54:44+08:00
+lastmod: 2025-08-18T02:03:32+08:00
 tags:
   - SMTP
   - Email
@@ -47,7 +47,7 @@ SMTP2GO 是一個專業的 SMTP 服務平台，它負責將你的電子郵件可
 
 註冊 SMTP2GO 的第一個挑戰是，它要求使用自訂網域的 Email 進行註冊，不接受 Gmail、Yahoo 等公開的免費信箱。
 
-![SMTP2GO 註冊畫面](**../../images**/smtp2go-signup.png)
+![SMTP2GO 註冊畫面](./images/smtp2go-signup.png)
 
 這意味著我必須要有一個能接收 `@url-ins.com` 結尾的信箱。這時，`ImprovMX` 就派上用場了。(細節可以跳到 [ImprovMX](#ImprovMX) 觀看)
 
