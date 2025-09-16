@@ -15,7 +15,7 @@ tags:
   - PowerShell
 date: 2025-09-17
 slug: windows-terminal-powershell-7-oh-my-posh-setup
-lastmod: 2025-09-17T00:58:26+08:00
+lastmod: 2025-09-17T01:21:54+08:00
 ---
 > 🔖 長話短說 🔖
 > 
@@ -64,7 +64,7 @@ Windows Terminal 支援多個 Shell，像是 Windows PowerShell、PowerShell 等
 
 必須到 Windows Terminal 的 Setting\Startup 中指定使用的 Shell。
 
-![Windows Terminal 預設使用的 Shell 設定](images/Pasted%20image%2020250815041936.png)
+![Windows Terminal 預設使用的 Shell 設定](./images/win-terminal-setting.png)
 ### 設定 PowerShell 使用 Oh My Posh
 
 接下來，就是要讓 Powershell 知道，每次啟用時，都要套用 Oh My Posh 的 Theme。
