@@ -330,6 +330,81 @@ hr {
     border-radius: 0.5rem;
     overflow-x: auto;
     margin-bottom: 1.5rem;
+    position: relative;
+}
+
+/* 代碼複製功能樣式 - 使用設計令牌 */
+.code-block-container {
+    position: relative;
+    margin: var(--spacing-lg) 0;
+}
+
+.copy-button {
+    position: absolute;
+    top: var(--spacing-sm);
+    right: var(--spacing-sm);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    background-color: rgba(var(--color-white), 0.9);
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    z-index: 10;
+    opacity: 0;
+    transform: translateY(-2px);
+    backdrop-filter: blur(4px);
+}
+
+.code-block-container:hover .copy-button {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.copy-button:hover {
+    background-color: var(--color-bg-primary);
+    color: var(--text-primary);
+    border-color: var(--color-border-medium);
+    transform: scale(1.02);
+}
+
+.copy-button:active {
+    transform: scale(0.98);
+}
+
+.copy-button.copied {
+    background-color: #10b981;
+    color: white;
+    border-color: #10b981;
+}
+
+.copy-button.copied::before {
+    content: '✓ ';
+}
+
+/* 響應式設計 - 手機版調整 */
+@media (max-width: 768px) {
+    .copy-button {
+        padding: var(--spacing-xs);
+        font-size: var(--font-size-xs);
+        top: var(--spacing-xs);
+        right: var(--spacing-xs);
+    }
+}
+
+/* 極小螢幕適配 */
+@media (max-width: 414px) {
+    .copy-button {
+        padding: 2px var(--spacing-xs);
+        font-size: 10px;
+        transform: translateY(-1px);
+    }
+
+    .code-block-container:hover .copy-button {
+        transform: translateY(0);
+    }
 }
 
 /* 行內程式碼 */

@@ -1,0 +1,312 @@
+---
+// CodeCopy.astro - 代碼複製功能組件
+---
+
+<script>
+/**
+ * 代碼複製功能 - 漸進式增強實作
+ * 符合性能最佳化原則，與現有 AdSense 延遲載入策略相容
+ */
+
+interface LanguageLabels {
+    [key: string]: string;
+}
+
+type FeedbackType = 'success' | 'error';
+
+class CodeCopyEnhancer {
+    private initialized: boolean = false;
+    private copyButtons: Map<HTMLElement, HTMLButtonElement> = new Map();
+
+    // 支援的語言標籤 (可擴展)
+    private readonly languageLabels: LanguageLabels = {
+        'javascript': 'JS',
+        'typescript': 'TS',
+        'python': 'Python',
+        'csharp': 'C#',
+        'bash': 'Shell',
+        'shell': 'Shell',
+        'powershell': 'PowerShell',
+        'pwsh': 'PowerShell',
+        'ps1': 'PowerShell',
+        'sql': 'SQL',
+        'css': 'CSS',
+        'html': 'HTML',
+        'json': 'JSON',
+        'yaml': 'YAML',
+        'dockerfile': 'Docker',
+        'xml': 'XML'
+    };
+
+    constructor() {
+        // TypeScript 類別初始化
+    }
+
+    /**
+     * 初始化代碼複製功能
+     * 使用漸進式增強，確保無 JavaScript 時正常降級
+     */
+    public init(): void {
+        if (this.initialized) return;
+
+        try {
+            // 檢查 Clipboard API 支援
+            if (!navigator.clipboard || !navigator.clipboard.writeText) {
+                console.info('Clipboard API not supported, code copy feature disabled');
+                return;
+            }
+
+            this.setupCodeBlocks();
+            this.initialized = true;
+
+            // 性能監控 (僅開發環境)
+            if (typeof window !== 'undefined' && window.location?.hostname === 'localhost') {
+                console.info('Code copy feature initialized');
+            }
+        } catch (error) {
+            console.warn('Failed to initialize code copy feature:', error);
+        }
+    }
+
+    /**
+     * 設置所有代碼區塊
+     */
+    private setupCodeBlocks(): void {
+        const codeBlocks = document.querySelectorAll<HTMLPreElement>('.prose pre');
+
+        if (codeBlocks.length === 0) return;
+
+        // 使用 DocumentFragment 批量處理 DOM 操作 (性能優化)
+        codeBlocks.forEach(pre => this.enhanceCodeBlock(pre));
+    }
+
+    /**
+     * 增強單個代碼區塊
+     * @param pre - pre 元素
+     */
+    private enhanceCodeBlock(pre: HTMLPreElement): void {
+        // 避免重複處理
+        if (pre.parentElement?.classList.contains('code-block-container')) {
+            return;
+        }
+
+        try {
+            // 創建容器
+            const container = document.createElement('div');
+            container.className = 'code-block-container';
+
+            // 包裝現有的 pre 元素
+            const parent = pre.parentNode;
+            if (!parent) return;
+
+            parent.insertBefore(container, pre);
+            container.appendChild(pre);
+
+            // 創建複製按鈕
+            const copyButton = this.createCopyButton(pre);
+            container.appendChild(copyButton);
+
+            // 儲存按鈕引用以便後續管理
+            this.copyButtons.set(container, copyButton);
+
+            // 添加語言標籤 (如果可識別)
+            this.addLanguageLabel(container, pre);
+
+        } catch (error) {
+            console.warn('Failed to enhance code block:', error);
+        }
+    }
+
+    /**
+     * 創建複製按鈕
+     * @param pre - pre 元素
+     * @returns 複製按鈕
+     */
+    private createCopyButton(pre: HTMLPreElement): HTMLButtonElement {
+        const button = document.createElement('button');
+        button.className = 'copy-button';
+        button.setAttribute('type', 'button');
+        button.setAttribute('aria-label', '複製代碼');
+        button.textContent = '複製';
+
+        // 添加點擊事件
+        button.addEventListener('click', (e: Event) => {
+            e.preventDefault();
+            this.copyCode(pre, button);
+        });
+
+        return button;
+    }
+
+    /**
+     * 複製代碼到剪貼板
+     * @param pre - pre 元素
+     * @param button - 複製按鈕
+     */
+    private async copyCode(pre: HTMLPreElement, button: HTMLButtonElement): Promise<void> {
+        try {
+            // 獲取純文字代碼 (排除行號等額外元素)
+            const codeElement = pre.querySelector('code') || pre;
+            const code = this.extractCleanCode(codeElement);
+
+            if (!code.trim()) {
+                this.showFeedback(button, '無代碼內容', 'error');
+                return;
+            }
+
+            // 複製到剪貼板
+            await navigator.clipboard.writeText(code);
+            this.showFeedback(button, '已複製', 'success');
+
+            // 追踪複製事件 (可選，用於分析)
+            this.trackCopyEvent(code.length);
+
+        } catch (error) {
+            console.warn('Failed to copy code:', error);
+            this.showFeedback(button, '複製失敗', 'error');
+        }
+    }
+
+    /**
+     * 提取純淨的代碼文字
+     * @param element - 代碼元素
+     * @returns 純文字代碼
+     */
+    private extractCleanCode(element: HTMLElement): string {
+        // 創建臨時元素處理 HTML 結構
+        const temp = element.cloneNode(true) as HTMLElement;
+
+        // 移除行號等非代碼元素
+        temp.querySelectorAll('.line-number, .token.comment').forEach((el: Element) => {
+            if (el.textContent?.match(/^\s*\d+\s*$/)) {
+                el.remove();
+            }
+        });
+
+        return temp.textContent || temp.innerText || '';
+    }
+
+    /**
+     * 顯示複製反饋
+     * @param button - 按鈕元素
+     * @param message - 反饋訊息
+     * @param type - 反饋類型
+     */
+    private showFeedback(button: HTMLButtonElement, message: string, type: FeedbackType = 'success'): void {
+        const originalText = button.textContent;
+
+        // 更新按鈕狀態
+        button.textContent = message;
+        button.classList.add(type === 'success' ? 'copied' : 'error');
+
+        // 重置按鈕狀態
+        setTimeout(() => {
+            button.textContent = originalText;
+            button.classList.remove('copied', 'error');
+        }, 2000);
+    }
+
+    /**
+     * 添加語言標籤
+     * @param container - 容器元素
+     * @param pre - pre 元素
+     */
+    private addLanguageLabel(container: HTMLElement, pre: HTMLPreElement): void {
+        try {
+            const codeElement = pre.querySelector('code');
+            if (!codeElement) return;
+
+            // 檢測語言 (從 class 名稱)
+            const classList = Array.from(codeElement.classList);
+            const languageClass = classList.find(cls =>
+                cls.startsWith('language-') || cls.startsWith('lang-')
+            );
+
+            if (!languageClass) return;
+
+            const language = languageClass.replace(/^(language-|lang-)/, '');
+            const label = this.languageLabels[language] || language.toUpperCase();
+
+            // 創建語言標籤
+            const languageTag = document.createElement('span');
+            languageTag.className = 'language-tag';
+            languageTag.textContent = label;
+            languageTag.style.cssText = `
+                position: absolute;
+                top: var(--spacing-sm);
+                left: var(--spacing-sm);
+                padding: 2px var(--spacing-xs);
+                background-color: rgba(var(--color-black), 0.6);
+                color: var(--color-bg-primary);
+                font-size: var(--font-size-xs);
+                border-radius: var(--radius-sm);
+                z-index: 5;
+                opacity: 0.8;
+                font-weight: var(--font-weight-medium);
+            `;
+
+            container.appendChild(languageTag);
+
+        } catch (error) {
+            console.warn('Failed to add language label:', error);
+        }
+    }
+
+    /**
+     * 追踪複製事件 (可選)
+     * @param codeLength - 代碼長度
+     */
+    private trackCopyEvent(codeLength: number): void {
+        // 避免影響性能，使用 requestIdleCallback
+        if (typeof window !== 'undefined' && window.requestIdleCallback) {
+            window.requestIdleCallback(() => {
+                // 這裡可以發送分析數據
+                if (typeof window !== 'undefined' && window.location?.hostname === 'localhost') {
+                    console.info('Code copied:', { length: codeLength });
+                }
+            });
+        }
+    }
+
+    /**
+     * 清理資源
+     */
+    public destroy(): void {
+        this.copyButtons.clear();
+        this.initialized = false;
+    }
+}
+
+// 漸進式增強 - 延遲初始化
+// 符合現有 AdSense 延遲載入策略
+let codeCopyEnhancer: CodeCopyEnhancer | null = null;
+
+function initCodeCopyFeature(): void {
+    if (codeCopyEnhancer) return;
+
+    codeCopyEnhancer = new CodeCopyEnhancer();
+    codeCopyEnhancer.init();
+}
+
+// 多種初始化觸發方式 (漸進式增強)
+if (document.readyState === 'loading') {
+    // 文檔仍在載入
+    document.addEventListener('DOMContentLoaded', initCodeCopyFeature);
+} else {
+    // 文檔已經載入完成
+    setTimeout(initCodeCopyFeature, 100);
+}
+
+// 用戶互動後初始化 (符合 Core Web Vitals 最佳實踐)
+const userInteractionEvents: string[] = ['click', 'scroll', 'touchstart'];
+const initOnInteraction = (): void => {
+    initCodeCopyFeature();
+    userInteractionEvents.forEach(event => {
+        document.removeEventListener(event, initOnInteraction);
+    });
+};
+
+userInteractionEvents.forEach(event => {
+    document.addEventListener(event, initOnInteraction, { passive: true });
+});
+</script>

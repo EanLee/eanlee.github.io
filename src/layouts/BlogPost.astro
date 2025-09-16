@@ -8,6 +8,7 @@ import AdRow from "../components/ad-row.astro";
 import SocialShare from "../components/SocialShare.astro";
 import BackToTop from "../components/BackToTop.astro";
 import TableOfContents from "../components/TableOfContents.astro";
+import CodeCopy from "../components/CodeCopy.astro";
 
 import { SITE_TITLE } from "../consts";
 const {
@@ -115,6 +116,9 @@ if (!displayImage && fallbackImages.length > 0) {
 
     <Footer />
     <BackToTop />
+
+    <!-- 代碼複製功能組件 -->
+    <CodeCopy />
     <style>
       body {
         display: flex;
