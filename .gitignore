@@ -24,3 +24,11 @@ pnpm-debug.log*
 .frontmatter
 .vscode
 .obsidian
+
+# Auto-generated content by GitHub Action
+# 由 GitHub Action 自動生成的內容，不要手動編輯！
+src/content/blog/
+
+# Local test files (optional)
+# 本地測試檔案
+convert.js

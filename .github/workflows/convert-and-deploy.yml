@@ -1,0 +1,146 @@
+#
+# Obsidian 轉 Astro 並部署到 GitHub Pages 的工作流程
+#
+# 當 obsidian-vault/ 目錄有更新時：
+# 1. 轉換 Obsidian 格式文章為 Astro 格式
+# 2. 建置 Astro 網站
+# 3. 部署到 GitHub Pages
+#
+
+name: 轉換並部署
+
+on:
+  # 當推送到 main 分支，且影響 obsidian-vault/ 時觸發
+  push:
+    branches: [main]
+    paths:
+      - 'obsidian-vault/publish/**'
+      - 'obsidian-vault/images/**'
+      - 'converter.ts'
+      - '.github/workflows/convert-and-deploy.yml'
+
+  # 允許手動觸發
+  workflow_dispatch:
+
+# 設定 GITHUB_TOKEN 權限以部署到 GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 只允許一次部署，避免並發
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+env:
+  BUILD_PATH: "."
+
+jobs:
+  # ==================== 轉換並建置 ====================
+  convert-and-build:
+    name: 轉換文章並建置網站
+    runs-on: ubuntu-latest
+
+    steps:
+      # ---------- 1. 檢出代碼 ----------
+      - name: 📥 檢出代碼
+        uses: actions/checkout@v4
+
+      # ---------- 2. 設定 Node.js ----------
+      - name: 🔧 設定 Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      # ---------- 3. 安裝 TypeScript 和 ts-node ----------
+      - name: 📦 安裝 TypeScript 環境
+        run: |
+          npm install -g typescript ts-node @types/node
+          echo "✅ TypeScript 環境已安裝"
+
+      # ---------- 4. 運行轉換工具 ----------
+      - name: 🔄 轉換 Obsidian 文章為 Astro 格式
+        run: |
+          echo "🚀 開始轉換文章..."
+          ts-node converter.ts
+          echo "✅ 轉換完成"
+
+      # ---------- 5. 驗證轉換結果 ----------
+      - name: 🔍 驗證轉換結果
+        run: |
+          if [ ! -d "src/content/blog" ]; then
+            echo "❌ 錯誤：src/content/blog 目錄不存在"
+            exit 1
+          fi
+
+          article_count=$(find src/content/blog -name "index.md" | wc -l)
+          echo "✅ 成功轉換 $article_count 篇文章"
+
+          if [ $article_count -eq 0 ]; then
+            echo "⚠️  警告：沒有找到任何文章"
+            exit 1
+          fi
+
+      # ---------- 6. 偵測套件管理器 ----------
+      - name: 🔎 偵測套件管理器
+        id: detect-package-manager
+        run: |
+          if [ -f "${{ github.workspace }}/yarn.lock" ]; then
+            echo "manager=yarn" >> $GITHUB_OUTPUT
+            echo "command=install" >> $GITHUB_OUTPUT
+            echo "runner=yarn" >> $GITHUB_OUTPUT
+            echo "lockfile=yarn.lock" >> $GITHUB_OUTPUT
+          elif [ -f "${{ github.workspace }}/pnpm-lock.yaml" ]; then
+            echo "manager=pnpm" >> $GITHUB_OUTPUT
+            echo "command=install" >> $GITHUB_OUTPUT
+            echo "runner=pnpm" >> $GITHUB_OUTPUT
+            echo "lockfile=pnpm-lock.yaml" >> $GITHUB_OUTPUT
+          else
+            echo "manager=npm" >> $GITHUB_OUTPUT
+            echo "command=ci" >> $GITHUB_OUTPUT
+            echo "runner=npx --no-install" >> $GITHUB_OUTPUT
+            echo "lockfile=package-lock.json" >> $GITHUB_OUTPUT
+          fi
+
+      # ---------- 7. 設定 Pages ----------
+      - name: ⚙️  設定 GitHub Pages
+        id: pages
+        uses: actions/configure-pages@v5
+
+      # ---------- 8. 安裝 Astro 依賴 ----------
+      - name: 📦 安裝 Astro 依賴
+        run: |
+          ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
+        working-directory: ${{ env.BUILD_PATH }}
+
+      # ---------- 9. 建置 Astro 網站 ----------
+      - name: 🏗️  建置 Astro 網站
+        run: |
+          ${{ steps.detect-package-manager.outputs.runner }} astro build \
+            --site "${{ steps.pages.outputs.origin }}" \
+            --base "${{ steps.pages.outputs.base_path }}"
+        working-directory: ${{ env.BUILD_PATH }}
+
+      # ---------- 10. 上傳建置產物 ----------
+      - name: 📤 上傳建置產物
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ${{ env.BUILD_PATH }}/dist
+
+  # ==================== 部署 ====================
+  deploy:
+    name: 部署到 GitHub Pages
+    needs: convert-and-build
+    runs-on: ubuntu-latest
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      # ---------- 部署到 GitHub Pages ----------
+      - name: 🚀 部署到 GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
