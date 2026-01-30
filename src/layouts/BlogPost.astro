@@ -12,7 +12,6 @@ import MobileTOC from "../components/MobileTOC.astro";
 import CodeCopy from "../components/CodeCopy.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
 import EnhancedAnalytics from "../components/EnhancedAnalytics.astro";
-import RelatedPosts from "../components/RelatedPosts.astro";
 
 import { SITE_TITLE } from "../consts";
 const {
@@ -156,13 +155,6 @@ const jsonLd = {
 
               <!-- Prev/Next 限系列文 -->
               <SeriesArticleNav series={series} title={title} />
-
-              <!-- 相關文章推薦 -->
-              <RelatedPosts
-                currentSlug={entry?.slug || Astro.url.pathname.split('/').pop()?.replace(/\.html?$/, '') || ''}
-                currentTags={tags || []}
-                maxPosts={4}
-              />
             </div>
             <aside class="sidebar">
               <TableOfContents />
