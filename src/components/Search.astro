@@ -205,10 +205,10 @@
   }
 </style>
 
-<script>
+<script is:inline>
   function initSearch() {
     const trigger = document.getElementById('search-trigger');
-    const modal = document.getElementById('search-modal') as HTMLDialogElement;
+    const modal = document.getElementById('search-modal');
     const closeBtn = document.getElementById('close-search');
 
     if (!trigger || !modal || !closeBtn) return;
@@ -222,13 +222,13 @@
       // 只在第一次開啟時載入 Pagefind
       if (!pagefindLoaded) {
         try {
-          // @ts-ignore
-          const pagefind = await import('/pagefind/pagefind.js');
+          // 動態載入 Pagefind (僅在客戶端)
+          const pagefindPath = '/pagefind/pagefind.js';
+          const pagefind = await import(/* @vite-ignore */ pagefindPath);
           await pagefind.options({
             excerptLength: 15
           });
 
-          // @ts-ignore
           new window.PagefindUI({
             element: '#search',
             showSubResults: true,
@@ -252,20 +252,20 @@
 
           // 自動 focus 到搜尋輸入框
           setTimeout(() => {
-            const searchInput = document.querySelector('.pagefind-ui__search-input') as HTMLInputElement;
+            const searchInput = document.querySelector('.pagefind-ui__search-input');
             if (searchInput) searchInput.focus();
           }, 100);
         } catch (error) {
           console.error('Failed to load Pagefind:', error);
           const searchWrapper = document.getElementById('search');
           if (searchWrapper) {
-            searchWrapper.innerHTML = '<p style="padding: 2rem; text-align: center; color: var(--text-muted);">搜尋功能載入失敗，請稍後再試。</p>';
+            searchWrapper.innerHTML = '<p style="padding: 2rem; text-align: center; color: var(--text-muted);">搜尋功能暫時無法使用。請在網站建置完成後重試。</p>';
           }
         }
       } else {
         // 已載入過，直接 focus 到搜尋輸入框
         setTimeout(() => {
-          const searchInput = document.querySelector('.pagefind-ui__search-input') as HTMLInputElement;
+          const searchInput = document.querySelector('.pagefind-ui__search-input');
           if (searchInput) searchInput.focus();
         }, 100);
       }
@@ -293,7 +293,7 @@
 
     // 快捷鍵 "/" 開啟搜尋
     document.addEventListener('keydown', (e) => {
-      if (e.key === '/' && !modal.open && document.activeElement?.tagName !== 'INPUT' && document.activeElement?.tagName !== 'TEXTAREA') {
+      if (e.key === '/' && !modal.open && document.activeElement && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
         e.preventDefault();
         trigger.click();
       }
@@ -301,6 +301,10 @@
   }
 
   // 初始化
-  document.addEventListener('DOMContentLoaded', initSearch);
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initSearch);
+  } else {
+    initSearch();
+  }
   document.addEventListener('astro:page-load', initSearch);
 </script>
