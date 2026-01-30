@@ -1,0 +1,362 @@
+---
+// 增強的 Google Analytics 事件追蹤
+// 追蹤用戶互動行為以優化內容和使用者體驗
+
+interface Props {
+  enabled?: boolean;
+}
+
+const { enabled = true } = Astro.props;
+---
+
+{enabled && (
+  <script is:inline>
+    // 確保 gtag 函數存在
+    function ensureGtag() {
+      return typeof gtag !== 'undefined';
+    }
+
+    // 安全的 gtag 呼叫
+    function trackEvent(eventName, eventParams) {
+      if (ensureGtag()) {
+        gtag('event', eventName, eventParams);
+        console.log('[GA4] Event tracked:', eventName, eventParams);
+      }
+    }
+
+    function initEnhancedAnalytics() {
+      // ============================================
+      // 1. 社交分享追蹤
+      // ============================================
+      const socialButtons = document.querySelectorAll('[data-social-share], .social-share-button, .share-button');
+
+      socialButtons.forEach(button => {
+        button.addEventListener('click', (e) => {
+          const platform =
+            button.dataset.platform ||
+            button.getAttribute('data-social-share') ||
+            button.getAttribute('aria-label') ||
+            'unknown';
+
+          trackEvent('share', {
+            method: platform.toLowerCase(),
+            content_type: 'article',
+            item_id: window.location.pathname,
+            page_title: document.title
+          });
+        });
+      });
+
+      // ============================================
+      // 2. 外部連結點擊追蹤
+      // ============================================
+      const externalLinks = document.querySelectorAll('a[href^="http"]');
+
+      externalLinks.forEach(link => {
+        // 排除自己網站的連結
+        if (!link.href.includes(window.location.hostname)) {
+          link.addEventListener('click', (e) => {
+            const linkUrl = link.href;
+            const linkDomain = new URL(linkUrl).hostname;
+            const linkText = link.textContent?.trim() || link.getAttribute('aria-label') || 'no text';
+
+            trackEvent('outbound_click', {
+              link_url: linkUrl,
+              link_domain: linkDomain,
+              link_text: linkText.substring(0, 100), // 限制長度
+              link_location: window.location.pathname
+            });
+          });
+        }
+      });
+
+      // ============================================
+      // 3. 閱讀深度追蹤
+      // ============================================
+      let scrollDepths = [25, 50, 75, 100];
+      let trackedDepths = [];
+      let maxScrollDepth = 0;
+
+      function trackScrollDepth() {
+        const windowHeight = window.innerHeight;
+        const documentHeight = document.documentElement.scrollHeight;
+        const scrollTop = window.scrollY || window.pageYOffset;
+
+        const scrollPercent = Math.round(
+          ((scrollTop + windowHeight) / documentHeight) * 100
+        );
+
+        // 更新最大滾動深度
+        if (scrollPercent > maxScrollDepth) {
+          maxScrollDepth = scrollPercent;
+        }
+
+        scrollDepths.forEach(depth => {
+          if (scrollPercent >= depth && !trackedDepths.includes(depth)) {
+            trackEvent('scroll_depth', {
+              percent_scrolled: depth,
+              article_title: document.title,
+              page_path: window.location.pathname,
+              scroll_type: 'milestone'
+            });
+            trackedDepths.push(depth);
+          }
+        });
+      }
+
+      // 使用節流避免過度觸發
+      let scrollTimeout;
+      window.addEventListener('scroll', () => {
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(trackScrollDepth, 100);
+      });
+
+      // 頁面離開時追蹤最大滾動深度
+      window.addEventListener('beforeunload', () => {
+        if (maxScrollDepth > 0) {
+          trackEvent('max_scroll_depth', {
+            percent_scrolled: maxScrollDepth,
+            article_title: document.title,
+            page_path: window.location.pathname
+          });
+        }
+      });
+
+      // ============================================
+      // 4. 代碼複製追蹤
+      // ============================================
+      // 監聽代碼複製按鈕（CodeCopy 組件會動態加入）
+      function trackCodeCopy() {
+        const copyButtons = document.querySelectorAll('.copy-button, [data-copy-code]');
+
+        copyButtons.forEach(button => {
+          // 避免重複綁定
+          if (button.dataset.analyticsTracked) return;
+          button.dataset.analyticsTracked = 'true';
+
+          button.addEventListener('click', () => {
+            const codeBlock = button.closest('pre') || button.parentElement?.querySelector('pre');
+            const language =
+              button.dataset.language ||
+              codeBlock?.className.match(/language-(\w+)/)?.[1] ||
+              'unknown';
+
+            trackEvent('code_copy', {
+              language: language,
+              page_path: window.location.pathname,
+              code_location: button.dataset.codeIndex || 'unknown'
+            });
+          });
+        });
+      }
+
+      // 初始追蹤
+      trackCodeCopy();
+
+      // 使用 MutationObserver 追蹤動態加入的複製按鈕
+      const codeObserver = new MutationObserver(() => {
+        trackCodeCopy();
+      });
+
+      const articleContent = document.querySelector('.article-content');
+      if (articleContent) {
+        codeObserver.observe(articleContent, {
+          childList: true,
+          subtree: true
+        });
+      }
+
+      // ============================================
+      // 5. TOC 導航追蹤
+      // ============================================
+      const tocLinks = document.querySelectorAll('.toc-item a, .mobile-toc-item a');
+
+      tocLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+          const sectionTitle = link.textContent?.trim() || 'unknown';
+          const targetId = link.getAttribute('href')?.replace('#', '') || 'unknown';
+
+          trackEvent('toc_navigation', {
+            section_title: sectionTitle,
+            target_id: targetId,
+            toc_type: link.closest('.mobile-toc') ? 'mobile' : 'desktop',
+            page_path: window.location.pathname
+          });
+        });
+      });
+
+      // ============================================
+      // 6. 搜尋使用追蹤
+      // ============================================
+      const searchTrigger = document.getElementById('search-trigger');
+
+      if (searchTrigger) {
+        searchTrigger.addEventListener('click', () => {
+          trackEvent('search_open', {
+            trigger_method: 'button',
+            page_path: window.location.pathname
+          });
+        });
+      }
+
+      // 追蹤搜尋查詢（透過 Pagefind UI）
+      const searchObserver = new MutationObserver(() => {
+        const searchInput = document.querySelector('.pagefind-ui__search-input');
+
+        if (searchInput && !searchInput.dataset.analyticsTracked) {
+          searchInput.dataset.analyticsTracked = 'true';
+
+          let searchTimeout;
+          searchInput.addEventListener('input', (e) => {
+            clearTimeout(searchTimeout);
+            const query = e.target.value.trim();
+
+            // 延遲追蹤以避免每個按鍵都觸發
+            searchTimeout = setTimeout(() => {
+              if (query.length >= 3) {
+                trackEvent('search_query', {
+                  search_term: query.substring(0, 100), // 限制長度
+                  query_length: query.length,
+                  page_path: window.location.pathname
+                });
+              }
+            }, 1000);
+          });
+        }
+
+        // 追蹤搜尋結果點擊
+        const searchResults = document.querySelectorAll('.pagefind-ui__result');
+        searchResults.forEach((result, index) => {
+          if (result.dataset.analyticsTracked) return;
+          result.dataset.analyticsTracked = 'true';
+
+          result.addEventListener('click', () => {
+            const resultTitle = result.querySelector('.pagefind-ui__result-title')?.textContent?.trim() || 'unknown';
+
+            trackEvent('search_result_click', {
+              result_title: resultTitle,
+              result_position: index + 1,
+              page_path: window.location.pathname
+            });
+          });
+        });
+      });
+
+      const searchModal = document.getElementById('search-modal');
+      if (searchModal) {
+        searchObserver.observe(searchModal, {
+          childList: true,
+          subtree: true
+        });
+      }
+
+      // ============================================
+      // 7. 頁面停留時間追蹤
+      // ============================================
+      const pageStartTime = Date.now();
+      let pageEngaged = false;
+      let engagementStartTime = null;
+      let totalEngagementTime = 0;
+
+      // 定義「參與」的事件
+      const engagementEvents = ['scroll', 'click', 'keydown', 'mousemove'];
+
+      function startEngagement() {
+        if (!pageEngaged) {
+          pageEngaged = true;
+          engagementStartTime = Date.now();
+        }
+      }
+
+      function pauseEngagement() {
+        if (pageEngaged && engagementStartTime) {
+          totalEngagementTime += Date.now() - engagementStartTime;
+          pageEngaged = false;
+          engagementStartTime = null;
+        }
+      }
+
+      engagementEvents.forEach(eventType => {
+        window.addEventListener(eventType, startEngagement, { passive: true, once: false });
+      });
+
+      // 頁面隱藏時暫停計時
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+          pauseEngagement();
+        } else {
+          startEngagement();
+        }
+      });
+
+      // 頁面離開時追蹤總停留時間
+      window.addEventListener('beforeunload', () => {
+        pauseEngagement();
+
+        const totalTime = Math.round((Date.now() - pageStartTime) / 1000); // 秒
+        const engagedTime = Math.round(totalEngagementTime / 1000); // 秒
+
+        trackEvent('page_engagement', {
+          engagement_time: engagedTime,
+          total_time: totalTime,
+          engagement_rate: totalTime > 0 ? Math.round((engagedTime / totalTime) * 100) : 0,
+          page_path: window.location.pathname,
+          page_title: document.title
+        });
+      });
+
+      // ============================================
+      // 8. 麵包屑導航點擊追蹤
+      // ============================================
+      const breadcrumbLinks = document.querySelectorAll('.breadcrumb-link');
+
+      breadcrumbLinks.forEach((link, index) => {
+        link.addEventListener('click', () => {
+          const breadcrumbText = link.textContent?.trim() || 'unknown';
+
+          trackEvent('breadcrumb_click', {
+            breadcrumb_text: breadcrumbText,
+            breadcrumb_level: index + 1,
+            target_url: link.getAttribute('href'),
+            page_path: window.location.pathname
+          });
+        });
+      });
+
+      // ============================================
+      // 9. 系列文章導航追蹤
+      // ============================================
+      const seriesNavLinks = document.querySelectorAll('.series-article-nav a');
+
+      seriesNavLinks.forEach(link => {
+        link.addEventListener('click', () => {
+          const direction = link.textContent?.includes('上一篇') || link.textContent?.includes('Previous')
+            ? 'previous'
+            : 'next';
+
+          trackEvent('series_navigation', {
+            direction: direction,
+            target_url: link.getAttribute('href'),
+            page_path: window.location.pathname
+          });
+        });
+      });
+
+      console.log('[GA4] Enhanced Analytics initialized');
+    }
+
+    // 初始化
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initEnhancedAnalytics);
+    } else {
+      initEnhancedAnalytics();
+    }
+
+    // Astro 頁面切換時重新初始化
+    document.addEventListener('astro:page-load', initEnhancedAnalytics);
+  </script>
+)}
+
+<style>
+  /* 無樣式組件 */
+</style>

@@ -11,6 +11,7 @@ import TableOfContents from "../components/TableOfContents.astro";
 import MobileTOC from "../components/MobileTOC.astro";
 import CodeCopy from "../components/CodeCopy.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
+import EnhancedAnalytics from "../components/EnhancedAnalytics.astro";
 
 import { SITE_TITLE } from "../consts";
 const {
@@ -168,6 +169,9 @@ const jsonLd = {
 
     <!-- 代碼複製功能組件 -->
     <CodeCopy />
+
+    <!-- 增強的 GA4 事件追蹤 -->
+    <EnhancedAnalytics enabled={import.meta.env.PROD} />
     <style>
       body {
         display: flex;
