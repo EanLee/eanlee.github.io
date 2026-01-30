@@ -8,7 +8,9 @@ import AdRow from "../components/ad-row.astro";
 import SocialShare from "../components/SocialShare.astro";
 import BackToTop from "../components/BackToTop.astro";
 import TableOfContents from "../components/TableOfContents.astro";
+import MobileTOC from "../components/MobileTOC.astro";
 import CodeCopy from "../components/CodeCopy.astro";
+import Breadcrumbs from "../components/Breadcrumbs.astro";
 
 import { SITE_TITLE } from "../consts";
 const {
@@ -21,6 +23,7 @@ const {
   keywords,
   series,
   categories,
+  epic,
   entry,
 } = Astro.props;
 
@@ -88,6 +91,7 @@ const jsonLd = {
     <main id="main-content">
       <article itemscope itemtype="https://schema.org/BlogPosting">
         <div class="wrapper">
+          <Breadcrumbs epic={epic} categories={categories} series={series} title={title} />
           <AdRow />
 
           <div class="hero-container">
@@ -134,6 +138,9 @@ const jsonLd = {
 
           <div class="content-wrapper">
             <div class="prose">
+              <!-- 行動版目錄 -->
+              <MobileTOC />
+
               <div class="article-content">
                 <slot />
               </div>

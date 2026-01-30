@@ -1,0 +1,306 @@
+---
+// Pagefind 搜尋組件
+---
+
+<div id="search-container">
+  <button id="search-trigger" class="search-trigger" aria-label="搜尋文章" title="搜尋文章 (快捷鍵: /)">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="11" cy="11" r="8"/>
+      <path d="m21 21-4.3-4.3"/>
+    </svg>
+    <span class="search-text">搜尋</span>
+  </button>
+</div>
+
+<dialog id="search-modal" class="search-modal">
+  <div class="search-modal-content">
+    <div class="search-modal-header">
+      <h2>搜尋文章</h2>
+      <button id="close-search" class="close-search" aria-label="關閉搜尋">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 6 6 18"/>
+          <path d="m6 6 12 12"/>
+        </svg>
+      </button>
+    </div>
+    <div id="search" class="search-wrapper"></div>
+    <div class="search-modal-footer">
+      <kbd>ESC</kbd> 關閉 · <kbd>↑↓</kbd> 導航 · <kbd>Enter</kbd> 選擇
+    </div>
+  </div>
+</dialog>
+
+<style>
+  /* 搜尋觸發按鈕 */
+  .search-trigger {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-md);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    font-size: var(--font-size-sm);
+  }
+
+  .search-trigger:hover {
+    background: var(--card-bg);
+    border-color: var(--accent);
+    color: var(--text-primary);
+  }
+
+  .search-trigger:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  .search-trigger svg {
+    flex-shrink: 0;
+  }
+
+  /* 搜尋 Modal */
+  .search-modal {
+    border: none;
+    padding: 0;
+    background: transparent;
+    max-width: 600px;
+    width: calc(100% - 2rem);
+    max-height: 80vh;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+  }
+
+  .search-modal::backdrop {
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+  }
+
+  .search-modal-content {
+    background: var(--color-bg-primary);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .search-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-lg);
+    border-bottom: 1px solid var(--card-border);
+  }
+
+  .search-modal-header h2 {
+    margin: 0;
+    font-size: var(--font-size-xl);
+    color: var(--text-primary);
+  }
+
+  .close-search {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: var(--spacing-xs);
+    border-radius: var(--radius-sm);
+    transition: all var(--transition-normal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .close-search:hover {
+    background: var(--color-bg-muted);
+    color: var(--text-primary);
+  }
+
+  .search-wrapper {
+    flex: 1;
+    overflow: auto;
+    padding: var(--spacing-lg);
+  }
+
+  .search-modal-footer {
+    padding: var(--spacing-md) var(--spacing-lg);
+    border-top: 1px solid var(--card-border);
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+    text-align: center;
+  }
+
+  .search-modal-footer kbd {
+    padding: 0.1em 0.4em;
+    background: var(--color-bg-muted);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-family-mono);
+    font-size: 0.9em;
+  }
+
+  /* Pagefind UI 自定義樣式 */
+  .search-wrapper :global(.pagefind-ui__search-input) {
+    width: 100%;
+    padding: var(--spacing-md);
+    font-size: var(--font-size-base);
+    border: 2px solid var(--card-border);
+    border-radius: var(--radius-md);
+    background: var(--color-bg-primary);
+    color: var(--text-primary);
+    transition: border-color var(--transition-normal);
+  }
+
+  .search-wrapper :global(.pagefind-ui__search-input:focus) {
+    outline: none;
+    border-color: var(--accent);
+  }
+
+  .search-wrapper :global(.pagefind-ui__result) {
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--spacing-sm);
+    border: 1px solid var(--card-border);
+    transition: all var(--transition-normal);
+  }
+
+  .search-wrapper :global(.pagefind-ui__result:hover) {
+    background: var(--color-bg-muted);
+    border-color: var(--accent);
+  }
+
+  .search-wrapper :global(.pagefind-ui__result-title) {
+    color: var(--text-primary);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .search-wrapper :global(.pagefind-ui__result-excerpt) {
+    color: var(--text-secondary);
+    margin-top: var(--spacing-xs);
+  }
+
+  @media (max-width: 768px) {
+    .search-text {
+      display: none;
+    }
+
+    .search-trigger {
+      padding: var(--spacing-sm);
+    }
+
+    .search-modal {
+      width: calc(100% - 1rem);
+      max-height: 90vh;
+    }
+
+    .search-modal-header {
+      padding: var(--spacing-md);
+    }
+
+    .search-wrapper {
+      padding: var(--spacing-md);
+    }
+  }
+</style>
+
+<script>
+  function initSearch() {
+    const trigger = document.getElementById('search-trigger');
+    const modal = document.getElementById('search-modal') as HTMLDialogElement;
+    const closeBtn = document.getElementById('close-search');
+
+    if (!trigger || !modal || !closeBtn) return;
+
+    let pagefindLoaded = false;
+
+    // 開啟搜尋 modal
+    trigger.addEventListener('click', async () => {
+      modal.showModal();
+
+      // 只在第一次開啟時載入 Pagefind
+      if (!pagefindLoaded) {
+        try {
+          // @ts-ignore
+          const pagefind = await import('/pagefind/pagefind.js');
+          await pagefind.options({
+            excerptLength: 15
+          });
+
+          // @ts-ignore
+          new window.PagefindUI({
+            element: '#search',
+            showSubResults: true,
+            showImages: false,
+            translations: {
+              placeholder: '搜尋文章...',
+              clear_search: '清除',
+              load_more: '載入更多結果',
+              search_label: '搜尋',
+              filters_label: '篩選',
+              zero_results: '沒有找到符合 [SEARCH_TERM] 的結果',
+              many_results: '找到 [COUNT] 個結果關於 [SEARCH_TERM]',
+              one_result: '找到 [COUNT] 個結果關於 [SEARCH_TERM]',
+              alt_search: '沒有找到符合 [SEARCH_TERM] 的結果。顯示結果為 [DIFFERENT_TERM]',
+              search_suggestion: '沒有找到符合 [SEARCH_TERM] 的結果。試試以下搜尋：',
+              searching: '搜尋中...'
+            }
+          });
+
+          pagefindLoaded = true;
+
+          // 自動 focus 到搜尋輸入框
+          setTimeout(() => {
+            const searchInput = document.querySelector('.pagefind-ui__search-input') as HTMLInputElement;
+            if (searchInput) searchInput.focus();
+          }, 100);
+        } catch (error) {
+          console.error('Failed to load Pagefind:', error);
+          const searchWrapper = document.getElementById('search');
+          if (searchWrapper) {
+            searchWrapper.innerHTML = '<p style="padding: 2rem; text-align: center; color: var(--text-muted);">搜尋功能載入失敗，請稍後再試。</p>';
+          }
+        }
+      } else {
+        // 已載入過，直接 focus 到搜尋輸入框
+        setTimeout(() => {
+          const searchInput = document.querySelector('.pagefind-ui__search-input') as HTMLInputElement;
+          if (searchInput) searchInput.focus();
+        }, 100);
+      }
+    });
+
+    // 關閉 modal
+    const closeModal = () => {
+      modal.close();
+      trigger.focus();
+    };
+
+    closeBtn.addEventListener('click', closeModal);
+
+    // ESC 鍵關閉（dialog 預設支援，但我們加入焦點管理）
+    modal.addEventListener('close', () => {
+      trigger.focus();
+    });
+
+    // 點擊 backdrop 關閉
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        closeModal();
+      }
+    });
+
+    // 快捷鍵 "/" 開啟搜尋
+    document.addEventListener('keydown', (e) => {
+      if (e.key === '/' && !modal.open && document.activeElement?.tagName !== 'INPUT' && document.activeElement?.tagName !== 'TEXTAREA') {
+        e.preventDefault();
+        trigger.click();
+      }
+    });
+  }
+
+  // 初始化
+  document.addEventListener('DOMContentLoaded', initSearch);
+  document.addEventListener('astro:page-load', initSearch);
+</script>
