@@ -5,6 +5,10 @@ import { SITE_TITLE } from "../consts";
 const image = "/favicon.ico";
 ---
 
+<a href="#main-content" class="skip-link">
+  跳至主要內容
+</a>
+
 <header>
   <div class="header-div">
     <nav>
@@ -13,13 +17,19 @@ const image = "/favicon.ico";
           <div class="logo-text"><a href="/">{SITE_TITLE}</a></div>
       </div>
 
-      <button class="mobile-menu-toggle" aria-label="開啟選單" title="點擊開啟選單">
+      <button
+        class="mobile-menu-toggle"
+        aria-label="選單"
+        aria-expanded="false"
+        aria-controls="mobile-nav"
+        title="點擊開啟選單"
+      >
         <span></span>
         <span></span>
         <span></span>
       </button>
 
-      <div class="nav-right">
+      <div id="mobile-nav" class="nav-right" aria-hidden="true">
         <div class="internal-links">          
           <HeaderLink href="/software/">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
@@ -285,14 +295,26 @@ const image = "/favicon.ico";
       newMobileMenuToggle.addEventListener('click', function(e) {
         e.preventDefault();
         e.stopPropagation();
-        
+
+        const expanded = this.getAttribute('aria-expanded') === 'true';
+        const newState = !expanded;
+
         console.log('Mobile menu toggle clicked');
         (this as HTMLElement).classList.toggle('active');
         navRight.classList.toggle('active');
-        
+
+        // 更新 ARIA 屬性
+        this.setAttribute('aria-expanded', newState.toString());
+        navRight.setAttribute('aria-hidden', (!newState).toString());
+
         // 防止背景滾動
         if (navRight.classList.contains('active')) {
           document.body.style.overflow = 'hidden';
+          // 焦點管理：移動焦點到第一個連結
+          const firstLink = navRight.querySelector('a') as HTMLElement;
+          if (firstLink) {
+            setTimeout(() => firstLink.focus(), 100);
+          }
         } else {
           document.body.style.overflow = '';
         }
@@ -304,8 +326,10 @@ const image = "/favicon.ico";
         link.addEventListener('click', function() {
           if (newMobileMenuToggle) {
             newMobileMenuToggle.classList.remove('active');
+            newMobileMenuToggle.setAttribute('aria-expanded', 'false');
           }
           navRight.classList.remove('active');
+          navRight.setAttribute('aria-hidden', 'true');
           document.body.style.overflow = '';
         });
       });
@@ -314,8 +338,11 @@ const image = "/favicon.ico";
       navRight.addEventListener('click', function(e) {
         if (e.target === navRight && newMobileMenuToggle) {
           newMobileMenuToggle.classList.remove('active');
+          newMobileMenuToggle.setAttribute('aria-expanded', 'false');
           navRight.classList.remove('active');
+          navRight.setAttribute('aria-hidden', 'true');
           document.body.style.overflow = '';
+          newMobileMenuToggle.focus();
         }
       });
 
@@ -323,8 +350,11 @@ const image = "/favicon.ico";
       document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape' && navRight.classList.contains('active') && newMobileMenuToggle) {
           newMobileMenuToggle.classList.remove('active');
+          newMobileMenuToggle.setAttribute('aria-expanded', 'false');
           navRight.classList.remove('active');
+          navRight.setAttribute('aria-hidden', 'true');
           document.body.style.overflow = '';
+          newMobileMenuToggle.focus();
         }
       });
     }

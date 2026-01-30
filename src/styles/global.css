@@ -112,6 +112,53 @@ a {
 a:hover {
 	color: var(--accent);
 }
+
+/* 可訪問性：全域焦點指示器 */
+*:focus-visible {
+	outline: 2px solid var(--accent);
+	outline-offset: 2px;
+	border-radius: 2px;
+}
+
+/* 移除不需要的焦點指示（使用滑鼠點擊時） */
+*:focus:not(:focus-visible) {
+	outline: none;
+}
+
+/* 按鈕和連結焦點樣式 */
+button:focus-visible,
+a:focus-visible {
+	outline: 2px solid var(--accent);
+	outline-offset: 4px;
+}
+
+/* 輸入框焦點樣式 */
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+	outline: 2px solid var(--accent);
+	outline-offset: 0;
+	border-color: var(--accent);
+}
+
+/* Skip to Content 連結樣式 */
+.skip-link {
+	position: absolute;
+	top: -40px;
+	left: 0;
+	background: var(--accent);
+	color: white;
+	padding: var(--spacing-sm) var(--spacing-md);
+	text-decoration: none;
+	border-radius: 0 0 var(--radius-sm) 0;
+	z-index: 100;
+	transition: top var(--transition-normal);
+	font-weight: 500;
+}
+
+.skip-link:focus {
+	top: 0;
+}
 p {
 	/* 區塊內文字左右對齊 */
 	text-align:justify;

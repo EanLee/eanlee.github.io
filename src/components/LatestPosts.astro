@@ -243,7 +243,14 @@ const getEpicName = (epic: string) => {
           {isLatest && showCoverImage && (
             <!-- Featured card with full-width cover image -->
             <div class="card-cover-full">
-              <img src={coverImage} alt={post.data.title} class="cover-image-full" />
+              <img
+                src={coverImage}
+                alt={`${post.data.title} - ${post.data.description || '文章封面'}`}
+                width="1200"
+                height="630"
+                class="cover-image-full"
+                loading="eager"
+              />
               <div class="cover-overlay">
                 <div class="card-category featured-category">
                   <span class="category-icon" set:html={epicIcon}></span>
@@ -272,7 +279,14 @@ const getEpicName = (epic: string) => {
               </div>
               <div class="card-body-horizontal">
                 <div class="card-thumbnail">
-                  <img src={coverImage} alt={post.data.title} class="cover-image-thumb" />
+                  <img
+                    src={coverImage}
+                    alt={`${post.data.title} - ${post.data.description || '文章縮圖'}`}
+                    width="400"
+                    height="300"
+                    class="cover-image-thumb"
+                    loading="lazy"
+                  />
                 </div>
                 <div class="card-content-wrapper">
                 
