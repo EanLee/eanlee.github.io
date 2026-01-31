@@ -24,3 +24,6 @@ pnpm-debug.log*
 .frontmatter
 .vscode
 .obsidian
+
+# git worktrees
+.worktrees/
