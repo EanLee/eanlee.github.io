@@ -27,3 +27,7 @@ pnpm-debug.log*
 
 # git worktrees
 .worktrees/
+
+# Claude Code & Serena
+.claude/settings.local.json
+.serena/
