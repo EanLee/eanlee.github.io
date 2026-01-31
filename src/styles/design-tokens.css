@@ -135,17 +135,6 @@
   --container-lg: 1024px;
   --container-xl: 1120px;
   --container-2xl: 1400px;
-  
-  /* === 舊版相容性 (逐步遷移) === */
-  --accent: var(--color-primary);
-  --accent-dark: var(--color-primary-dark);
-  --text-color: var(--color-text);
-  --black: var(--color-black);
-  --gray: var(--color-gray);
-  --gray-light: var(--color-gray-light);
-  --gray-dark: var(--color-gray-dark);
-  --gray-gradient: var(--gradient-gray);
-  --box-shadow: var(--shadow-lg);
 }
 
 
