@@ -122,7 +122,7 @@
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: rgb(var(--gray-dark));
+    color: var(--text-primary);
     margin-bottom: 1rem;
   }
 
@@ -130,12 +130,12 @@
     list-style: none;
     padding: 0;
     margin: 0;
-    border-left: 1px solid rgba(var(--gray-light), 0.8);
+    border-left: 1px solid var(--color-border-light);
   }
 
   :global(.toc-item a) {
     display: block;
-    color: rgb(var(--gray));
+    color: var(--text-secondary);
     text-decoration: none;
     font-size: 0.9rem;
     transition: all 0.2s ease;
@@ -158,13 +158,13 @@
   }
 
   :global(.toc-item a:hover) {
-    color: rgb(var(--gray-dark));
-    background-color: rgba(var(--gray-light), 0.5);
+    color: var(--text-primary);
+    background-color: var(--color-bg-muted);
   }
 
   :global(.toc-item a.active) {
-    color: var(--accent);
-    border-left-color: var(--accent);
+    color: var(--color-primary);
+    border-left-color: var(--color-primary);
   }
 
   @media (max-width: 1023px) {
