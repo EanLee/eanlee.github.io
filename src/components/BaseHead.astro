@@ -24,25 +24,11 @@ const {
 } = Astro.props;
 ---
 
-<!-- Theme initialization script - 防止閃爍，必須在頁面渲染前執行 -->
+<!-- Theme initialization script - 固定深色主題 -->
 <script is:inline>
   (function() {
-    function getTheme() {
-      try {
-        const stored = localStorage.getItem('theme');
-        if (stored === 'light' || stored === 'dark') {
-          return stored;
-        }
-      } catch (e) {
-        // localStorage 不可用
-      }
-      
-      // 回退到系統偏好
-      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    }
-    
-    // 立即設定主題，防止閃爍
-    document.documentElement.dataset.theme = getTheme();
+    // 固定設定為深色主題
+    document.documentElement.dataset.theme = 'dark';
     
     // 首次載入時添加 no-transition class 防止閃爍動畫
     document.documentElement.classList.add('no-transition');
