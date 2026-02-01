@@ -1,0 +1,233 @@
+---
+import { getCollection } from 'astro:content';
+import FolderOpen from './icons/FolderOpen.astro';
+import ExternalLink from './icons/ExternalLink.astro';
+
+// 直接從 Content Collections 讀取專案
+const projects = await getCollection('projects');
+
+// 按開始日期排序（最新的在前）
+const sortedProjects = projects.sort((a, b) =>
+  b.data.startDate.valueOf() - a.data.startDate.valueOf()
+);
+---
+
+<div class="featured-projects">
+  <div class="section-header">
+    <h2 class="section-title">
+      <FolderOpen size={24} />
+      Side Projects
+    </h2>
+  </div>
+
+  <div class="projects-grid">
+    {sortedProjects.map((project) => (
+      <article class="project-card">
+        <div class="project-header">
+          <h3 class="project-name">{project.data.title}</h3>
+        </div>
+
+        <p class="project-description">{project.data.description}</p>
+
+        <div class="project-tech">
+          {project.data.techStack.map((tech) => (
+            <span class="tech-tag">{tech}</span>
+          ))}
+        </div>
+
+        <div class="project-footer">
+          <a
+            href={`/projects/${project.slug}/`}
+            class="project-link learn-more"
+            title={`了解 ${project.data.title} 的開發過程`}
+          >
+            了解更多
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14"/>
+              <path d="m12 5 7 7-7 7"/>
+            </svg>
+          </a>
+          {project.data.url && (
+            <a
+              href={project.data.url}
+              class="project-link"
+              target="_blank"
+              rel="noopener noreferrer"
+              title={`訪問 ${project.data.title}`}
+            >
+              訪問網站
+              <ExternalLink size={16} />
+            </a>
+          )}
+        </div>
+      </article>
+    ))}
+  </div>
+</div>
+
+<style>
+  .featured-projects {
+    margin-bottom: var(--spacing-2xl);
+  }
+
+  .section-header {
+    margin-bottom: var(--spacing-xl);
+    padding-bottom: var(--spacing-md);
+    border-bottom: 2px solid var(--border-primary);
+  }
+
+  .section-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin: 0;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+  }
+
+  .section-title svg {
+    color: var(--primary-500);
+  }
+
+  /* 專案網格 */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--spacing-lg);
+  }
+
+  /* 專案卡片 - 統一低調風格 */
+  .project-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    transition: all var(--transition-normal);
+    position: relative;
+  }
+
+  /* Hover 效果 - 僅陰影和位移 */
+  .project-card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+  }
+
+  /* 專案標題 */
+  .project-header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+  }
+
+  .project-name {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0;
+    color: var(--text-primary);
+  }
+
+  /* 專案描述 */
+  .project-description {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* 技術棧標籤 - 統一灰色調 */
+  .project-tech {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-xs);
+  }
+
+  .tech-tag {
+    font-size: 0.75rem;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    background-color: var(--color-bg-muted);
+    color: var(--text-muted);
+    border-radius: var(--radius-sm);
+    font-weight: 500;
+    transition: all var(--transition-normal);
+  }
+
+  .project-card:hover .tech-tag {
+    background-color: var(--color-bg-secondary);
+    color: var(--text-secondary);
+  }
+
+  /* 專案連結 */
+  .project-footer {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--spacing-sm);
+    margin-top: auto;
+    padding-top: var(--spacing-sm);
+    border-top: 1px solid var(--border-muted);
+  }
+
+  .project-link {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    transition: all var(--transition-normal);
+  }
+
+  .project-link.learn-more {
+    color: var(--color-primary);
+  }
+
+  .project-link:hover {
+    color: var(--text-primary);
+  }
+
+  .project-link.learn-more:hover {
+    color: var(--color-primary-dark);
+  }
+
+  .project-link svg {
+    transition: transform var(--transition-normal);
+  }
+
+  .project-link:hover svg {
+    transform: translate(2px, -2px);
+  }
+
+  .project-link.learn-more:hover svg {
+    transform: translateX(4px);
+  }
+
+  /* 響應式設計 */
+  @media (max-width: 768px) {
+    .section-title {
+      font-size: 1.5rem;
+    }
+
+    .projects-grid {
+      grid-template-columns: 1fr;
+      gap: var(--spacing-md);
+    }
+
+    .project-card {
+      padding: var(--spacing-md);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .project-name {
+      font-size: 1.1rem;
+    }
+
+    .project-description {
+      font-size: 0.85rem;
+    }
+  }
+</style>
