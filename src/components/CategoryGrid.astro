@@ -82,13 +82,23 @@ const categoryStats = categories.map(category => {
 
   <div class="grid-content">
     {categoryStats.map((category) => (
-      <a href={category.link} class="category-card" style={`--category-color: ${category.color}`}>
+      <a href={category.link} class={`category-card ${category.count === 0 ? 'coming-soon' : ''}`} style={`--category-color: ${category.color}`}>
         <div class="category-icon" set:html={category.icon}></div>
         <div class="category-info">
           <h3 class="category-name">{category.name}</h3>
           <p class="category-description">{category.description}</p>
           <div class="category-stats">
-            <span class="post-count">{category.count} 篇文章</span>
+            {category.count === 0 ? (
+              <span class="coming-soon-badge">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"/>
+                  <polyline points="12 6 12 12 16 14"/>
+                </svg>
+                即將推出
+              </span>
+            ) : (
+              <span class="post-count">{category.count} 篇文章</span>
+            )}
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="arrow-icon">
               <path d="M5 12h14"/>
               <path d="m12 5 7 7-7 7"/>
@@ -173,6 +183,35 @@ const categoryStats = categories.map(category => {
 
   .category-card:hover .arrow-icon {
     transform: translateX(4px);
+  }
+
+  /* 即將推出樣式 */
+  .category-card.coming-soon {
+    opacity: 0.7;
+    cursor: default;
+    pointer-events: none;
+  }
+
+  .category-card.coming-soon::before {
+    background: linear-gradient(90deg, var(--text-muted) 0%, transparent 100%);
+  }
+
+  .category-card.coming-soon .category-icon {
+    opacity: 0.5;
+  }
+
+  .coming-soon-badge {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    font-style: italic;
+  }
+
+  .coming-soon-badge svg {
+    color: var(--text-muted);
   }
 
   .category-icon {
