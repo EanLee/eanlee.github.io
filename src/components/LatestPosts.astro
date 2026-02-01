@@ -1,5 +1,6 @@
 ---
 import FormattedDate from "./FormattedDate.astro";
+import LazyImage from "./LazyImage.astro";
 import type { CollectionEntry } from 'astro:content';
 
 interface Props {
@@ -243,13 +244,12 @@ const getEpicName = (epic: string) => {
           {isLatest && showCoverImage && (
             <!-- Featured card with full-width cover image -->
             <div class="card-cover-full">
-              <img
+              <LazyImage
                 src={coverImage}
                 alt={`${post.data.title} - ${post.data.description || '文章封面'}`}
-                width="1200"
-                height="630"
-                class="cover-image-full"
+                aspectRatio="16/9"
                 loading="eager"
+                class="cover-image-full"
               />
               <div class="cover-overlay">
                 <div class="card-category featured-category">
@@ -279,13 +279,12 @@ const getEpicName = (epic: string) => {
               </div>
               <div class="card-body-horizontal">
                 <div class="card-thumbnail">
-                  <img
+                  <LazyImage
                     src={coverImage}
                     alt={`${post.data.title} - ${post.data.description || '文章縮圖'}`}
-                    width="400"
-                    height="300"
-                    class="cover-image-thumb"
+                    aspectRatio="1/1"
                     loading="lazy"
+                    class="cover-image-thumb"
                   />
                 </div>
                 <div class="card-content-wrapper">

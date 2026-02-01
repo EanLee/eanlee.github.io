@@ -11,6 +11,7 @@ import TableOfContents from "../components/TableOfContents.astro";
 import CodeCopy from "../components/CodeCopy.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
 import EnhancedAnalytics from "../components/EnhancedAnalytics.astro";
+import LazyImage from "../components/LazyImage.astro";
 
 import { SITE_TITLE } from "../consts";
 const {
@@ -96,13 +97,12 @@ const jsonLd = {
 
           <div class="hero-container">
             {displayImage && (
-              <img
+              <LazyImage
                 src={displayImage}
                 alt={`${title} - ${description || '文章封面圖片'}`}
-                width="1200"
-                height="630"
-                class="hero-image-bg"
+                aspectRatio="16/9"
                 loading="eager"
+                class="hero-image-bg"
               />
             )}
             <div class="title-overlay">
