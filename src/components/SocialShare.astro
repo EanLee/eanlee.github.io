@@ -53,9 +53,11 @@ const shareLinks = [
           href={link.url}
           target="_blank"
           rel="noopener noreferrer"
-          class={`social-button ${link.color}`}
+          class={`social-button social-share-button ${link.color}`}
           aria-label={`Share on ${link.name}`}
           title={`Share on ${link.name}`}
+          data-platform={link.name}
+          data-social-share={link.name}
         >
           <span class="icon" set:html={link.icon} />
           <span class="sr-only">{link.name}</span>

@@ -8,6 +8,9 @@ import AdRow from "../components/ad-row.astro";
 import SocialShare from "../components/SocialShare.astro";
 import BackToTop from "../components/BackToTop.astro";
 import TableOfContents from "../components/TableOfContents.astro";
+import CodeCopy from "../components/CodeCopy.astro";
+import Breadcrumbs from "../components/Breadcrumbs.astro";
+import EnhancedAnalytics from "../components/EnhancedAnalytics.astro";
 
 import { SITE_TITLE } from "../consts";
 const {
@@ -19,6 +22,9 @@ const {
   tags,
   keywords,
   series,
+  categories,
+  epic,
+  entry,
 } = Astro.props;
 
 // Get all possible cover images from the /public/cover/ directory
@@ -32,6 +38,41 @@ if (!displayImage && fallbackImages.length > 0) {
   // For files in `public`, the `src` is the direct web path
   displayImage = fallbackImages[randomIndex].default.src;
 }
+
+// 計算字數（中英文混合）
+const wordCount = entry?.body ? entry.body.split(/\s+/).length : 0;
+
+// 準備 JSON-LD 結構化資料
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": title,
+  "description": description || title,
+  "image": displayImage ? new URL(displayImage, Astro.site).href : undefined,
+  "datePublished": date.toISOString(),
+  "dateModified": lastmod ? lastmod.toISOString() : date.toISOString(),
+  "author": {
+    "@type": "Person",
+    "name": "Ean Lee",
+    "url": "https://eandev.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "伊恩的開發狂想",
+    "logo": {
+      "@type": "ImageObject",
+      "url": new URL("/favicon.svg", Astro.site).href
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": Astro.url.href
+  },
+  "keywords": keywords?.join(", ") || tags?.join(", "),
+  "articleSection": categories?.join(", ") || tags?.[0],
+  "wordCount": wordCount,
+  "inLanguage": "zh-TW"
+};
 ---
 
 <html lang="zh-tw">
@@ -41,21 +82,27 @@ if (!displayImage && fallbackImages.length > 0) {
       description={description}
       keywords={keywords}
     />
+    <!-- JSON-LD 結構化資料 for SEO -->
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   </head>
 
   <body>
     <Header />
-    <main>
+    <main id="main-content">
       <article itemscope itemtype="https://schema.org/BlogPosting">
         <div class="wrapper">
+          <Breadcrumbs epic={epic} categories={categories} series={series} title={title} />
           <AdRow />
 
           <div class="hero-container">
             {displayImage && (
               <img
                 src={displayImage}
-                alt={title}
+                alt={`${title} - ${description || '文章封面圖片'}`}
+                width="1200"
+                height="630"
                 class="hero-image-bg"
+                loading="eager"
               />
             )}
             <div class="title-overlay">
@@ -91,6 +138,7 @@ if (!displayImage && fallbackImages.length > 0) {
 
           <div class="content-wrapper">
             <div class="prose">
+
               <div class="article-content">
                 <slot />
               </div>
@@ -115,6 +163,12 @@ if (!displayImage && fallbackImages.length > 0) {
 
     <Footer />
     <BackToTop />
+
+    <!-- 代碼複製功能組件 -->
+    <CodeCopy />
+
+    <!-- 增強的 GA4 事件追蹤 -->
+    <EnhancedAnalytics enabled={import.meta.env.PROD} />
     <style>
       body {
         display: flex;

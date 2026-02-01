@@ -24,6 +24,24 @@ const {
 } = Astro.props;
 ---
 
+<!-- Theme initialization script - 固定深色主題 -->
+<script is:inline>
+  (function() {
+    // 固定設定為深色主題
+    document.documentElement.dataset.theme = 'dark';
+    
+    // 首次載入時添加 no-transition class 防止閃爍動畫
+    document.documentElement.classList.add('no-transition');
+    
+    // 頁面載入後移除 no-transition
+    window.addEventListener('load', function() {
+      setTimeout(function() {
+        document.documentElement.classList.remove('no-transition');
+      }, 0);
+    });
+  })();
+</script>
+
 <!-- Global Metadata -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />

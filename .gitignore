@@ -32,3 +32,9 @@ src/content/blog/
 # Local test files (optional)
 # 本地測試檔案
 convert.js
+# git worktrees
+.worktrees/
+
+# Claude Code & Serena
+.claude/settings.local.json
+.serena/

@@ -6,12 +6,14 @@
 :root {
   /* === 顏色系統 === */
   
-  /* 主要顏色 */
-  --color-primary: #2337ff;
-  --color-primary-dark: #000d8a;
-  --color-text: #000;
-  --color-text-light: #374151;
-  --color-text-muted: #6b7280;
+  /* 主色系 - 深色主題調亮版本 */
+  --color-primary: #6b8aff;
+  --color-primary-dark: #5b7cff;
+  
+  /* 文字色系 */
+  --color-text: #e6edf3;
+  --color-text-light: #adbac7;
+  --color-text-muted: #768390;
   
   /* 灰階系統 (使用 RGB 值便於 rgba() 使用) */
   --color-black: 15, 18, 25;
@@ -20,32 +22,32 @@
   --color-gray-dark: 34, 41, 57;
   --color-white: 255, 255, 255;
   
-  /* 背景顏色 */
-  --color-bg-primary: #ffffff;
-  --color-bg-secondary: #f8fafc;
-  --color-bg-muted: #f1f5f9;
+  /* 背景色系 */
+  --color-bg-primary: #0f1419;
+  --color-bg-secondary: #1c2128;
+  --color-bg-muted: #22272e;
   
-  /* 邊框顏色 */
-  --color-border-light: #e5e7eb;
-  --color-border-medium: #d1d5db;
-  --color-border-dark: #9ca3af;
+  /* 邊框色系 */
+  --color-border-light: #373e47;
+  --color-border-medium: #444c56;
+  --color-border-dark: #545d68;
   
   /* === 卡片系統 === */
-  --card-bg: var(--color-bg-primary);
-  --card-border: var(--color-border-light);
-  --card-shadow: rgba(0, 0, 0, 0.1);
-  --card-shadow-hover: rgba(0, 0, 0, 0.15);
+  --card-bg: #1c2128;
+  --card-border: #373e47;
+  --card-shadow: rgba(0, 0, 0, 0.3);
+  --card-shadow-hover: rgba(0, 0, 0, 0.4);
   
   /* === 文字顏色系統 === */
-  --text-primary: var(--color-text);
-  --text-secondary: var(--color-text-light);
-  --text-muted: var(--color-text-muted);
-  --text-inverse: var(--color-bg-primary);
+  --text-primary: #e6edf3;
+  --text-secondary: #adbac7;
+  --text-muted: #768390;
+  --text-inverse: #0f1419;
   
   /* === 連結系統 === */
-  --link-color: var(--color-primary);
-  --link-hover: var(--color-primary-dark);
-  --link-visited: #6366f1;
+  --link-color: #6b8aff;
+  --link-hover: #8da3ff;
+  --link-visited: #9ca6ff;
   
   /* === 間距系統 === */
   --spacing-xs: 0.25rem;    /* 4px */
@@ -89,24 +91,24 @@
   --radius-full: 9999px;
   
   /* === 陰影系統 === */
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
-  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
-  --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.1);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.5);
+  --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.5);
   
   /* === 社交媒體顏色 === */
   --social-facebook: #1877F2;
   --social-facebook-hover: #0d6efd;
-  --social-twitter: #000000;
-  --social-twitter-hover: #333333;
+  --social-twitter: #ffffff;
+  --social-twitter-hover: #e6e6e6;
   --social-linkedin: #0A66C2;
   --social-linkedin-hover: #0952a0;
-  --social-email: #666666;
-  --social-email-hover: #444444;
+  --social-email: #adbac7;
+  --social-email-hover: #e6edf3;
 
   /* === 漸層系統 === */
   --gradient-primary: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
-  --gradient-gray: linear-gradient(135deg, rgba(var(--color-gray-light), 0.5) 0%, var(--color-bg-primary) 100%);
+  --gradient-gray: linear-gradient(135deg, rgba(55, 62, 71, 0.5) 0%, #0f1419 100%);
   --gradient-hero: linear-gradient(45deg, #34495e, #2c3e50);
   
   /* === 動畫系統 === */
@@ -133,35 +135,17 @@
   --container-lg: 1024px;
   --container-xl: 1120px;
   --container-2xl: 1400px;
-  
-  /* === 舊版相容性 (逐步遷移) === */
-  --accent: var(--color-primary);
-  --accent-dark: var(--color-primary-dark);
-  --text-color: var(--color-text);
-  --black: var(--color-black);
-  --gray: var(--color-gray);
-  --gray-light: var(--color-gray-light);
-  --gray-dark: var(--color-gray-dark);
-  --gray-gradient: var(--gradient-gray);
-  --box-shadow: var(--shadow-lg);
 }
 
-/* === 深色主題準備 === */
-@media (prefers-color-scheme: dark) {
-  :root {
-    /* 未來實作深色主題時使用 */
-    /* --color-bg-primary: #1a1a1a; */
-    /* --color-text: #ffffff; */
-  }
-}
+
 
 /* === prose 系統專用變數 === */
 .prose {
-  --prose-body: var(--text-secondary);
-  --prose-headings: var(--color-text);
-  --prose-links: var(--link-color);
-  --prose-code: var(--color-text);
-  --prose-code-bg: var(--color-bg-muted);
-  --prose-blockquote: var(--text-muted);
-  --prose-blockquote-border: var(--color-border-light);
+  --prose-body: #adbac7;
+  --prose-headings: #e6edf3;
+  --prose-links: #6b8aff;
+  --prose-code: #e6edf3;
+  --prose-code-bg: #22272e;
+  --prose-blockquote: #768390;
+  --prose-blockquote-border: #373e47;
 }

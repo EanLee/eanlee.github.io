@@ -1,0 +1,185 @@
+---
+interface Props {
+  epic?: string;
+  categories?: string[];
+  series?: string;
+  title: string;
+}
+
+const { epic, categories, series, title } = Astro.props;
+
+// Epic 名稱對應
+const epicNames: Record<string, string> = {
+  software: '軟體開發',
+  management: '管理經驗',
+  reading: '閱讀心得',
+  growth: '自我成長'
+};
+
+// 建立麵包屑項目
+const breadcrumbItems = [
+  { name: '首頁', url: '/', position: 1 }
+];
+
+let position = 2;
+
+// 加入 Epic 層級
+if (epic && epicNames[epic]) {
+  breadcrumbItems.push({
+    name: epicNames[epic],
+    url: `/${epic}/`,
+    position: position++
+  });
+}
+
+// 加入 Category 層級（如果有且不同於 epic）
+if (categories && categories.length > 0) {
+  const mainCategory = categories[0];
+  if (!epic || mainCategory !== epic) {
+    breadcrumbItems.push({
+      name: mainCategory,
+      url: `/categories/${mainCategory.toLowerCase()}/`,
+      position: position++
+    });
+  }
+}
+
+// 加入 Series 層級
+if (series) {
+  breadcrumbItems.push({
+    name: series.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
+    url: `/series/${series}/`,
+    position: position++
+  });
+}
+
+// 當前頁面
+breadcrumbItems.push({
+  name: title,
+  url: null,
+  position: position
+});
+
+// JSON-LD 結構化資料
+const breadcrumbListSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": breadcrumbItems.map(item => ({
+    "@type": "ListItem",
+    "position": item.position,
+    "name": item.name,
+    ...(item.url && {
+      "item": new URL(item.url, Astro.site).href
+    })
+  }))
+};
+---
+
+<!-- JSON-LD 結構化資料 -->
+<script type="application/ld+json" set:html={JSON.stringify(breadcrumbListSchema)} />
+
+<!-- 麵包屑導航 -->
+<nav aria-label="Breadcrumb" class="breadcrumb-nav">
+  <ol class="breadcrumb-list">
+    {breadcrumbItems.map((item, index) => (
+      <li class="breadcrumb-item">
+        {item.url ? (
+          <>
+            <a href={item.url} class="breadcrumb-link">
+              {item.name}
+            </a>
+            {index < breadcrumbItems.length - 1 && (
+              <svg class="breadcrumb-separator" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m9 18 6-6-6-6"/>
+              </svg>
+            )}
+          </>
+        ) : (
+          <span class="breadcrumb-current">{item.name}</span>
+        )}
+      </li>
+    ))}
+  </ol>
+</nav>
+
+<style>
+  .breadcrumb-nav {
+    margin: var(--spacing-md) 0;
+    font-size: var(--font-size-sm);
+  }
+
+  .breadcrumb-list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    gap: var(--spacing-xs);
+  }
+
+  .breadcrumb-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+  }
+
+  .breadcrumb-link {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color var(--transition-normal);
+    padding: var(--spacing-xs) 0;
+  }
+
+  .breadcrumb-link:hover {
+    color: var(--color-primary);
+    text-decoration: underline;
+  }
+
+  .breadcrumb-separator {
+    color: var(--text-muted);
+    flex-shrink: 0;
+  }
+
+  .breadcrumb-current {
+    color: var(--text-primary);
+    font-weight: var(--font-weight-medium);
+  }
+
+  @media (max-width: 768px) {
+    .breadcrumb-nav {
+      font-size: var(--font-size-xs);
+      margin: var(--spacing-sm) 0;
+    }
+
+    .breadcrumb-list {
+      gap: var(--spacing-2xs);
+    }
+
+    .breadcrumb-item {
+      gap: var(--spacing-2xs);
+    }
+
+    /* 在小螢幕上縮短過長的麵包屑文字 */
+    .breadcrumb-link,
+    .breadcrumb-current {
+      max-width: 150px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
+  @media (max-width: 480px) {
+    /* 在極小螢幕上只顯示最後兩層 */
+    .breadcrumb-item:not(:nth-last-child(-n+3)) {
+      display: none;
+    }
+
+    .breadcrumb-item:nth-last-child(3)::before {
+      content: '...';
+      margin-right: var(--spacing-xs);
+      color: var(--text-muted);
+    }
+  }
+</style>
