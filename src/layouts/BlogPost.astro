@@ -14,30 +14,40 @@ import EnhancedAnalytics from "../components/EnhancedAnalytics.astro";
 import LazyImage from "../components/LazyImage.astro";
 
 import { SITE_TITLE } from "../consts";
-const {
-  title,
-  description,
-  date,
-  lastmod,
-  coverImage,
-  tags,
-  keywords,
-  series,
-  categories,
-  epic,
-  entry,
-} = Astro.props;
+const { title, description, date, lastmod, coverImage, tags, keywords, series, categories, epic, entry } = Astro.props;
 
-// Get all possible cover images from the /public/cover/ directory
-const fallbackImageModules = import.meta.glob("/public/cover/**/*.{png,jpg,jpeg,webp}", { eager: true });
-const fallbackImages = Object.values(fallbackImageModules) as any[];
+// 預載入共用封面圖片 (fallback)
+const coverModules = import.meta.glob("/src/assets/images/cover/*.{webp,png,jpg,jpeg}", { eager: true });
+const availableCovers = Object.values(coverModules) as any[];
+
+// 安全地提取共用封面的 src
+const getAvailableCoverSrcs = () => {
+  return availableCovers
+    .map((cover) => {
+      // 檢查多種可能的結構
+      if (cover?.default?.src && typeof cover.default.src === "string") {
+        return cover.default.src;
+      }
+      if (typeof cover?.src === "string") {
+        return cover.src;
+      }
+      if (typeof cover?.default === "string") {
+        return cover.default;
+      }
+      return null;
+    })
+    .filter((src) => src !== null) as string[];
+};
 
 let displayImage = coverImage;
 
-if (!displayImage && fallbackImages.length > 0) {
-  const randomIndex = Math.floor(Math.random() * fallbackImages.length);
-  // For files in `public`, the `src` is the direct web path
-  displayImage = fallbackImages[randomIndex].default.src;
+// 如果沒有指定 coverImage，使用共用 cover 作為 fallback
+if (!displayImage) {
+  const coverSrcs = getAvailableCoverSrcs();
+  if (coverSrcs.length > 0) {
+    const randomIndex = Math.floor(Math.random() * coverSrcs.length);
+    displayImage = coverSrcs[randomIndex];
+  }
 }
 
 // 計算字數（中英文混合）
@@ -47,42 +57,38 @@ const wordCount = entry?.body ? entry.body.split(/\s+/).length : 0;
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
-  "headline": title,
-  "description": description || title,
-  "image": displayImage ? new URL(displayImage, Astro.site).href : undefined,
-  "datePublished": date.toISOString(),
-  "dateModified": lastmod ? lastmod.toISOString() : date.toISOString(),
-  "author": {
+  headline: title,
+  description: description || title,
+  image: displayImage ? new URL(displayImage, Astro.site).href : undefined,
+  datePublished: date.toISOString(),
+  dateModified: lastmod ? lastmod.toISOString() : date.toISOString(),
+  author: {
     "@type": "Person",
-    "name": "Ean Lee",
-    "url": "https://eandev.com"
+    name: "Ean Lee",
+    url: "https://eandev.com",
   },
-  "publisher": {
+  publisher: {
     "@type": "Organization",
-    "name": "伊恩的開發狂想",
-    "logo": {
+    name: "伊恩的開發狂想",
+    logo: {
       "@type": "ImageObject",
-      "url": new URL("/favicon.svg", Astro.site).href
-    }
+      url: new URL("/favicon.svg", Astro.site).href,
+    },
   },
-  "mainEntityOfPage": {
+  mainEntityOfPage: {
     "@type": "WebPage",
-    "@id": Astro.url.href
+    "@id": Astro.url.href,
   },
-  "keywords": keywords?.join(", ") || tags?.join(", "),
-  "articleSection": categories?.join(", ") || tags?.[0],
-  "wordCount": wordCount,
-  "inLanguage": "zh-TW"
+  keywords: keywords?.join(", ") || tags?.join(", "),
+  articleSection: categories?.join(", ") || tags?.[0],
+  wordCount: wordCount,
+  inLanguage: "zh-TW",
 };
 ---
 
 <html lang="zh-tw">
   <head>
-    <BaseHead
-      title={title + " - " + SITE_TITLE}
-      description={description}
-      keywords={keywords}
-    />
+    <BaseHead title={title + " - " + SITE_TITLE} description={description} keywords={keywords} />
     <!-- JSON-LD 結構化資料 for SEO -->
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   </head>
@@ -96,59 +102,54 @@ const jsonLd = {
           <AdRow />
 
           <div class="hero-container">
-            {displayImage && (
-              <LazyImage
-                src={displayImage}
-                alt={`${title} - ${description || '文章封面圖片'}`}
-                aspectRatio="16/9"
-                loading="eager"
-                class="hero-image-bg"
-              />
-            )}
+            {
+              displayImage && (
+                <div class="hero-image-bg">
+                  <LazyImage src={displayImage} alt={`${title} - ${description || "文章封面圖片"}`} aspectRatio="16/9" loading="eager" />
+                </div>
+              )
+            }
             <div class="title-overlay">
               <h1 class="article-title" itemprop="headline">
                 {title}
               </h1>
               <div class="date">
                 <FormattedDate date={date} itemprop="datePublished" />
-                {lastmod && (
-                  <div class="last-updated-on">
-                    Last updated on{" "}
-                    <FormattedDate date={lastmod} itemprop="dateModified" />
-                  </div>
-                )}
+                {
+                  lastmod && (
+                    <div class="last-updated-on">
+                      Last updated on <FormattedDate date={lastmod} itemprop="dateModified" />
+                    </div>
+                  )
+                }
               </div>
-              {tags && (
-                <div class="tags">
-                  <ul>
-                    {tags.slice(0, 5).map((tag: string) => (
-                      <li>
-                        <a class="tag" href={`/tags/${tag.toLowerCase()}/`}>
-                          {tag}
-                        </a>
-                      </li>
-                    ))}
-                    {tags.length > 5 && <li class="more-tags">...</li>}
-                  </ul>
-                </div>
-              )}
+              {
+                tags && (
+                  <div class="tags">
+                    <ul>
+                      {tags.slice(0, 5).map((tag: string) => (
+                        <li>
+                          <a class="tag" href={`/tags/${tag.toLowerCase()}/`}>
+                            {tag}
+                          </a>
+                        </li>
+                      ))}
+                      {tags.length > 5 && <li class="more-tags">...</li>}
+                    </ul>
+                  </div>
+                )
+              }
             </div>
-            
           </div>
 
           <div class="content-wrapper">
             <div class="prose">
-
               <div class="article-content">
                 <slot />
               </div>
 
               <!-- 社交分享按鈕 -->
-              <SocialShare
-                title={title}
-                url={Astro.url.href}
-                description={description}
-              />
+              <SocialShare title={title} url={Astro.url.href} description={description} />
 
               <!-- Prev/Next 限系列文 -->
               <SeriesArticleNav series={series} title={title} />
@@ -228,7 +229,7 @@ const jsonLd = {
           grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
           /* 移除 align-items: start 以修復 sticky 定位 */
         }
-        
+
         .sidebar {
           position: relative;
         }
@@ -255,15 +256,19 @@ const jsonLd = {
         box-sizing: border-box;
       }
 
-      .hero-image-bg {
-        width: 100%;
-        height: 100%;
-        max-width: 100%;
-        object-fit: cover;
+      .hero-container > .hero-image-bg {
         position: absolute;
         top: 0;
         left: 0;
         z-index: 1;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+
+      .hero-image-bg :global(.lazy-image) {
+        width: 100%;
+        height: 100%;
       }
 
       .title-overlay {
@@ -439,7 +444,7 @@ const jsonLd = {
         margin: var(--spacing-lg) 0;
         table-layout: auto;
       }
-      
+
       .article-content :global(.table-wrapper) {
         overflow-x: auto;
         margin: var(--spacing-lg) 0;
@@ -472,11 +477,11 @@ const jsonLd = {
         .wrapper {
           padding: 0 var(--spacing-md);
         }
-        
+
         .article-content :global(table) {
           font-size: 0.9rem;
         }
-        
+
         .article-content :global(th),
         .article-content :global(td) {
           padding: var(--spacing-xs) var(--spacing-sm);
@@ -574,11 +579,11 @@ const jsonLd = {
         .wrapper {
           padding: 0 0.75rem;
         }
-        
+
         .article-content :global(table) {
           font-size: 0.85rem;
         }
-        
+
         .article-content :global(th),
         .article-content :global(td) {
           padding: var(--spacing-xs);
@@ -611,15 +616,15 @@ const jsonLd = {
         .wrapper {
           padding: 0 0.5rem;
         }
-        
+
         .article-content :global(.table-wrapper) {
           margin: var(--spacing-md) -0.5rem;
         }
-        
+
         .article-content :global(table) {
           font-size: 0.8rem;
         }
-        
+
         .article-content :global(th),
         .article-content :global(td) {
           padding: var(--spacing-xs);
@@ -717,8 +722,6 @@ const jsonLd = {
       :global(.series-article-nav .text-lg) {
         font-size: 1.125rem;
       }
-
-
 
       :global(.series-article-nav .font-bold) {
         font-weight: 700;
