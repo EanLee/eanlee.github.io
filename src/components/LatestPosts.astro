@@ -25,13 +25,13 @@ const getAvailableCoverSrcs = () => {
   return availableCovers
     .map((cover) => {
       // 檢查多種可能的結構
-      if (cover?.default?.src && typeof cover.default.src === "string") {
+      if (cover?.default?.src && typeof cover.default.src === 'string') {
         return cover.default.src;
       }
-      if (typeof cover?.src === "string") {
+      if (typeof cover?.src === 'string') {
         return cover.src;
       }
-      if (typeof cover?.default === "string") {
+      if (typeof cover?.default === 'string') {
         return cover.default;
       }
       return null;
