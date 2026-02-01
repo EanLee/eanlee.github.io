@@ -10,17 +10,11 @@ const image = "/favicon.ico";
   <div class="header-div">
     <nav>
       <div class="logo">
-          <img class="logo-img" src={image} alt="Logo"  />
-          <div class="logo-text"><a href="/">{SITE_TITLE}</a></div>
+        <img class="logo-img" src={image} alt="Logo" />
+        <div class="logo-text"><a href="/">{SITE_TITLE}</a></div>
       </div>
 
-      <button
-        class="mobile-menu-toggle"
-        aria-label="選單"
-        aria-expanded="false"
-        aria-controls="mobile-nav"
-        title="點擊開啟選單"
-      >
+      <button class="mobile-menu-toggle" aria-label="選單" aria-expanded="false" aria-controls="mobile-nav" title="點擊開啟選單">
         <span></span>
         <span></span>
         <span></span>
@@ -30,23 +24,78 @@ const image = "/favicon.ico";
         <Search />
         <div class="internal-links">
           <HeaderLink href="/software/">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"><path d="m18 16 4-4-4-4"></path><path d="m6 8-4 4 4 4"></path><path d="m14.5 4-5 16"></path></svg
+            >
             軟體開發
           </HeaderLink>
           <HeaderLink href="/management/">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              ><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path
+                d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg
+            >
             管理經驗
           </HeaderLink>
           <HeaderLink href="/reading/">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              ><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg
+            >
             閱讀心得
           </HeaderLink>
           <HeaderLink href="/growth/">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg
+            >
             自我成長
           </HeaderLink>
           <HeaderLink href="/archives/">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1-2-1Z"/><path d="M14 8H8"/><path d="M16 12H8"/><path d="M13 16H8"/></svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              ><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1-2-1Z"></path><path d="M14 8H8"></path><path d="M16 12H8"
+              ></path><path d="M13 16H8"></path></svg
+            >
             所有文章
           </HeaderLink>
         </div>
@@ -55,7 +104,6 @@ const image = "/favicon.ico";
   </div>
 </header>
 <style>
-
   .header-div {
     max-width: var(--container-xl);
     margin: 0 auto;
@@ -115,7 +163,6 @@ const image = "/favicon.ico";
     gap: 1rem;
   }
 
-
   nav a {
     padding: 1em 0.5em;
     color: var(--black);
@@ -136,22 +183,23 @@ const image = "/favicon.ico";
     display: none;
     flex-direction: column;
     background: none;
-    border: none;
+    border: 2px solid var(--color-primary);
     cursor: pointer;
     padding: var(--spacing-sm);
     gap: var(--spacing-xs);
     border-radius: var(--radius-sm);
-    transition: background-color var(--transition-normal);
+    transition: background-color var(--transition-normal), border-color var(--transition-normal);
   }
 
   .mobile-menu-toggle:hover {
-    background-color: rgba(var(--color-gray-light), 0.5);
+    background-color: rgba(var(--color-primary), 0.1);
+    border-color: var(--color-primary);
   }
 
   .mobile-menu-toggle span {
     width: 24px;
     height: 3px;
-    background-color: rgb(var(--color-black));
+    background-color: var(--color-primary);
     border-radius: 2px;
     transition: all var(--transition-slow);
   }
@@ -168,49 +216,28 @@ const image = "/favicon.ico";
     transform: rotate(-45deg) translate(7px, -6px);
   }
 
-  /* 漸進式隱藏導航項目 */
-  @media (max-width: 1350px) {
-    .internal-links a:nth-child(5) {
-      display: none;
-    }
-  }
-
-  @media (max-width: 1200px) {
-    .internal-links a:nth-child(4) {
-      display: none;
-    }
-  }
-
+  /* 響應式設計：1100px 以下切換到漢堡菜單模式 */
   @media (max-width: 1100px) {
-    .internal-links a:nth-child(3) {
-      display: none;
-    }
-  }
-
-  @media (max-width: 1000px) {
-    .internal-links a:nth-child(2) {
-      display: none;
-    }
-  }
-
-  @media (max-width: 900px) {
-    .internal-links a:nth-child(1) {
-      display: none;
-    }
-
     .mobile-menu-toggle {
       display: flex;
       z-index: 1001;
     }
 
-    nav {
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0.5rem 0;
+    /* 隱藏所有導航項目 */
+    .internal-links {
+      display: none !important;
     }
 
+    /* 設定 nav-right 在預設狀態時只顯示搜尋框 */
     .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      position: static;
+    }
+
+    /* 設定漢堡菜單打開時為全屏 */
+    .nav-right.active {
       position: fixed;
       top: 0;
       left: 0;
@@ -221,18 +248,13 @@ const image = "/favicon.ico";
       align-items: center;
       justify-content: center;
       gap: var(--spacing-xl);
-      transform: translateX(-100%);
-      transition: transform var(--transition-slow);
+      transform: translateX(0);
       z-index: 1000;
       backdrop-filter: blur(5px);
     }
 
-    .nav-right.active {
-      transform: translateX(0);
-    }
-
-    .internal-links {
-      display: flex;
+    .nav-right.active .internal-links {
+      display: flex !important;
       flex-direction: column;
       gap: var(--spacing-md);
       align-items: center;
@@ -251,7 +273,6 @@ const image = "/favicon.ico";
       text-decoration: none;
       transition: all var(--transition-normal);
       box-shadow: var(--shadow-sm);
-      display: block;
     }
 
     .internal-links a:hover,
@@ -316,81 +337,81 @@ const image = "/favicon.ico";
 
 <script>
   function initMobileMenu() {
-    const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
-    const navRight = document.querySelector('.nav-right');
+    const mobileMenuToggle = document.querySelector(".mobile-menu-toggle");
+    const navRight = document.querySelector(".nav-right");
 
     if (!mobileMenuToggle || !navRight) {
-      console.warn('Mobile menu elements not found');
+      console.warn("Mobile menu elements not found");
       return;
     }
 
     // 移除之前的事件監聽器（避免重複綁定）
     mobileMenuToggle.replaceWith(mobileMenuToggle.cloneNode(true));
-    const newMobileMenuToggle = document.querySelector('.mobile-menu-toggle') as HTMLElement | null;
+    const newMobileMenuToggle = document.querySelector(".mobile-menu-toggle") as HTMLElement | null;
 
     if (newMobileMenuToggle) {
-      newMobileMenuToggle.addEventListener('click', function(e) {
+      newMobileMenuToggle.addEventListener("click", function (e) {
         e.preventDefault();
         e.stopPropagation();
 
-        const expanded = this.getAttribute('aria-expanded') === 'true';
+        const expanded = this.getAttribute("aria-expanded") === "true";
         const newState = !expanded;
 
-        console.log('Mobile menu toggle clicked');
-        (this as HTMLElement).classList.toggle('active');
-        navRight.classList.toggle('active');
+        console.log("Mobile menu toggle clicked");
+        (this as HTMLElement).classList.toggle("active");
+        navRight.classList.toggle("active");
 
         // 更新 ARIA 屬性
-        this.setAttribute('aria-expanded', newState.toString());
-        navRight.setAttribute('aria-hidden', (!newState).toString());
+        this.setAttribute("aria-expanded", newState.toString());
+        navRight.setAttribute("aria-hidden", (!newState).toString());
 
         // 防止背景滾動
-        if (navRight.classList.contains('active')) {
-          document.body.style.overflow = 'hidden';
+        if (navRight.classList.contains("active")) {
+          document.body.style.overflow = "hidden";
           // 焦點管理：移動焦點到第一個連結
-          const firstLink = navRight.querySelector('a') as HTMLElement;
+          const firstLink = navRight.querySelector("a") as HTMLElement;
           if (firstLink) {
             setTimeout(() => firstLink.focus(), 100);
           }
         } else {
-          document.body.style.overflow = '';
+          document.body.style.overflow = "";
         }
       });
 
       // 點擊連結後關閉選單
-      const navLinks = document.querySelectorAll('.internal-links a');
-      navLinks.forEach(link => {
-        link.addEventListener('click', function() {
+      const navLinks = document.querySelectorAll(".internal-links a");
+      navLinks.forEach((link) => {
+        link.addEventListener("click", function () {
           if (newMobileMenuToggle) {
-            newMobileMenuToggle.classList.remove('active');
-            newMobileMenuToggle.setAttribute('aria-expanded', 'false');
+            newMobileMenuToggle.classList.remove("active");
+            newMobileMenuToggle.setAttribute("aria-expanded", "false");
           }
-          navRight.classList.remove('active');
-          navRight.setAttribute('aria-hidden', 'true');
-          document.body.style.overflow = '';
+          navRight.classList.remove("active");
+          navRight.setAttribute("aria-hidden", "true");
+          document.body.style.overflow = "";
         });
       });
 
       // 點擊背景關閉選單
-      navRight.addEventListener('click', function(e) {
+      navRight.addEventListener("click", function (e) {
         if (e.target === navRight && newMobileMenuToggle) {
-          newMobileMenuToggle.classList.remove('active');
-          newMobileMenuToggle.setAttribute('aria-expanded', 'false');
-          navRight.classList.remove('active');
-          navRight.setAttribute('aria-hidden', 'true');
-          document.body.style.overflow = '';
+          newMobileMenuToggle.classList.remove("active");
+          newMobileMenuToggle.setAttribute("aria-expanded", "false");
+          navRight.classList.remove("active");
+          navRight.setAttribute("aria-hidden", "true");
+          document.body.style.overflow = "";
           newMobileMenuToggle.focus();
         }
       });
 
       // ESC 鍵關閉選單
-      document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && navRight.classList.contains('active') && newMobileMenuToggle) {
-          newMobileMenuToggle.classList.remove('active');
-          newMobileMenuToggle.setAttribute('aria-expanded', 'false');
-          navRight.classList.remove('active');
-          navRight.setAttribute('aria-hidden', 'true');
-          document.body.style.overflow = '';
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape" && navRight.classList.contains("active") && newMobileMenuToggle) {
+          newMobileMenuToggle.classList.remove("active");
+          newMobileMenuToggle.setAttribute("aria-expanded", "false");
+          navRight.classList.remove("active");
+          navRight.setAttribute("aria-hidden", "true");
+          document.body.style.overflow = "";
           newMobileMenuToggle.focus();
         }
       });
@@ -398,6 +419,6 @@ const image = "/favicon.ico";
   }
 
   // 初始化和 Astro 頁面切換時重新初始化
-  document.addEventListener('DOMContentLoaded', initMobileMenu);
-  document.addEventListener('astro:page-load', initMobileMenu);
+  document.addEventListener("DOMContentLoaded", initMobileMenu);
+  document.addEventListener("astro:page-load", initMobileMenu);
 </script>
