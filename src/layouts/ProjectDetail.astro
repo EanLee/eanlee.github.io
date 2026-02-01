@@ -1,0 +1,565 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { getCollection } from 'astro:content';
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+}
+
+const { project } = Astro.props;
+const { Content } = await project.render();
+
+// 獲取相關文章（透過專案的 alias 查找）
+const allPosts = await getCollection('blog');
+
+// 查找所有 relatedProjects 欄位等於此專案 alias 的文章
+const relatedPosts = allPosts.filter(post => 
+  post.data.relatedProjects === project.data.alias
+);
+---
+
+<!doctype html>
+<html lang="zh-TW">
+<head>
+  <BaseHead
+    title={`${project.data.title} | Side Projects`}
+    description={project.data.description}
+  />
+  
+  <!-- Keywords Meta Tag -->
+  {project.data.keywords && project.data.keywords.length > 0 && (
+    <meta name="keywords" content={project.data.keywords.join(', ')} />
+  )}
+  
+  <!-- SoftwareApplication Structured Data -->
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": project.data.title,
+    "description": project.data.description,
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Web",
+    ...(project.data.url && { "url": project.data.url }),
+    ...(project.data.downloadUrl && { "downloadUrl": project.data.downloadUrl }),
+    ...(project.data.license && { "license": project.data.license }),
+    ...(project.data.github && { "codeRepository": project.data.github }),
+    "datePublished": project.data.startDate.toISOString(),
+    "programmingLanguage": project.data.techStack,
+    "author": {
+      "@type": "Person",
+      "name": "Ean Lee"
+    },
+    ...(project.data.keywords && { "keywords": project.data.keywords.join(', ') })
+  })} />
+</head>
+<body>
+  <Header />
+
+  <main class="project-detail-container">
+    <!-- 麵包屑（全寬） -->
+    <div class="project-breadcrumb">
+      <a href="/">首頁</a>
+      <span class="separator">/</span>
+      <a href="/#side-projects">Side Projects</a>
+      <span class="separator">/</span>
+      <span class="current">{project.data.title}</span>
+    </div>
+
+    <div class="project-layout">
+      <!-- 主要內容區 -->
+      <article class="project-main">
+        <header class="project-header">
+          <div class="title-row">
+            <h1 class="project-title">{project.data.title}</h1>
+            <span class={`status-tag status-${project.data.status}`}>
+              {project.data.status === 'active' ? '活躍開發中' :
+               project.data.status === 'maintained' ? '持續維護' :
+               '已封存'}
+            </span>
+          </div>
+          <p class="project-description">{project.data.description}</p>
+        </header>
+
+        <!-- 專案內容 -->
+        <div class="project-content prose">
+          <Content />
+        </div>
+
+        <!-- 相關文章 -->
+        {relatedPosts.length > 0 && (
+          <div class="related-posts">
+            <h2>相關技術文章</h2>
+            <div class="posts-list">
+              {relatedPosts.map((post) => {
+                // 從 post.id 提取路徑（去掉 /index.md）
+                const postPath = post.id.slice(0, post.id.lastIndexOf('/')).toLowerCase();
+                return (
+                <article class="post-card">
+                  <a href={`/post/${postPath}/`} class="post-link">
+                    <h3>{post.data.title}</h3>
+                    {post.data.description && (
+                      <p class="post-description">{post.data.description}</p>
+                    )}
+                    <div class="post-meta">
+                      <FormattedDate date={post.data.date} />
+                      {post.data.tags && post.data.tags.length > 0 && (
+                        <div class="post-tags">
+                          {post.data.tags.slice(0, 3).map((tag) => (
+                            <span class="tag">{tag}</span>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </a>
+                </article>
+                );
+              })}
+            </div>
+          </div>
+        )}
+      </article>
+
+      <!-- 側邊欄 -->
+      <aside class="project-sidebar">
+        <!-- 專案資訊卡片 -->
+        <div class="sidebar-card">
+          <h3 class="sidebar-title">{project.data.title}</h3>
+          
+          <p class="sidebar-description">{project.data.description}</p>
+
+
+          {project.data.license && (
+            <div class="sidebar-section">
+              <span class="sidebar-label">授權</span>
+              <span class="sidebar-value">{project.data.license}</span>
+            </div>
+          )}
+
+          <div class="sidebar-section">
+            <span class="sidebar-label">開始時間</span>
+            <FormattedDate date={project.data.startDate} />
+          </div>
+
+          <div class="sidebar-section">
+            <span class="sidebar-label">技術棧</span>
+            <div class="tech-stack">
+              {project.data.techStack.map((tech) => (
+                <span class="tech-tag">{tech}</span>
+              ))}
+            </div>
+          </div>
+
+          <!-- 連結區塊 -->
+          <div class="sidebar-actions">
+            {project.data.url && (
+              <a href={project.data.url} target="_blank" rel="noopener noreferrer" class="action-btn primary">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                  <polyline points="15 3 21 3 21 9"/>
+                  <line x1="10" x2="21" y1="14" y2="3"/>
+                </svg>
+                訪問網站
+              </a>
+            )}
+
+            {project.data.downloadUrl && (
+              <a href={project.data.downloadUrl} target="_blank" rel="noopener noreferrer" class="action-btn secondary">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                  <polyline points="7 10 12 15 17 10"/>
+                  <line x1="12" y1="15" x2="12" y2="3"/>
+                </svg>
+                下載
+              </a>
+            )}
+
+            {project.data.github && (
+              <a href={project.data.github} target="_blank" rel="noopener noreferrer" class="action-btn secondary">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                </svg>
+                GitHub
+              </a>
+            )}
+          </div>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <Footer />
+</body>
+</html>
+
+<style>
+  .project-detail-container {
+    width: 100%;
+    max-width: var(--container-xl);
+    margin: 0 auto;
+    padding: var(--spacing-xl) var(--spacing-md);
+    box-sizing: border-box;
+  }
+
+  /* 雙欄佈局 */
+  .project-layout {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: var(--spacing-2xl);
+    align-items: start;
+  }
+
+  .project-main {
+    min-width: 0; /* 防止內容溢出 */
+  }
+
+  .project-sidebar {
+    position: sticky;
+    top: calc(var(--spacing-xl) + 60px); /* Header 高度 */
+  }
+
+  /* 麵包屑 */
+  .project-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .project-breadcrumb a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color var(--transition-normal);
+  }
+
+  .project-breadcrumb a:hover {
+    color: var(--color-primary);
+  }
+
+  .separator {
+    color: var(--text-muted);
+  }
+
+  .current {
+    color: var(--text-primary);
+  }
+
+  /* 專案頭部 */
+  .project-header {
+    margin-bottom: var(--spacing-2xl);
+  }
+
+  .title-row {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+    flex-wrap: wrap;
+  }
+
+  .project-title {
+    font-size: var(--font-size-4xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--text-primary);
+    margin: 0;
+    line-height: var(--line-height-tight);
+  }
+
+  .status-tag {
+    display: inline-block;
+    padding: var(--spacing-xs) var(--spacing-md);
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    white-space: nowrap;
+  }
+
+  .status-tag.status-active {
+    background-color: rgba(34, 197, 94, 0.1);
+    color: #22c55e;
+    border: 1px solid rgba(34, 197, 94, 0.3);
+  }
+
+  .status-tag.status-maintained {
+    background-color: rgba(251, 191, 36, 0.1);
+    color: #fbbf24;
+    border: 1px solid rgba(251, 191, 36, 0.3);
+  }
+
+  .status-tag.status-archived {
+    background-color: var(--color-bg-muted);
+    color: var(--text-muted);
+    border: 1px solid var(--border-muted);
+  }
+
+  .project-description {
+    font-size: var(--font-size-xl);
+    color: var(--text-secondary);
+    margin: 0;
+    line-height: var(--line-height-relaxed);
+  }
+
+  /* 側邊欄 */
+  .sidebar-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+  }
+
+  .sidebar-title {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-primary);
+    margin: 0 0 var(--spacing-md) 0;
+  }
+
+  .sidebar-description {
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+    line-height: var(--line-height-relaxed);
+    margin: 0 0 var(--spacing-lg) 0;
+    padding-bottom: var(--spacing-md);
+    border-bottom: 1px solid var(--border-muted);
+  }
+
+  .sidebar-section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+    margin-bottom: var(--spacing-md);
+  }
+
+  .sidebar-label {
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+    font-weight: var(--font-weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .sidebar-value {
+    font-size: var(--font-size-sm);
+    color: var(--text-primary);
+    font-weight: var(--font-weight-medium);
+  }
+
+  /* 狀態標籤 */
+  .status-badge {
+    display: inline-block;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    background-color: var(--color-bg-muted);
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+  }
+
+  .status-active {
+    background-color: rgba(34, 197, 94, 0.1);
+    color: #22c55e;
+  }
+
+  .status-maintained {
+    background-color: rgba(251, 191, 36, 0.1);
+    color: #fbbf24;
+  }
+
+  .status-archived {
+    background-color: var(--color-bg-muted);
+    color: var(--text-muted);
+  }
+
+  /* 技術棧 */
+  .tech-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-xs);
+  }
+
+  .tech-tag {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    background-color: var(--color-bg-muted);
+    color: var(--text-primary);
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+  }
+
+  /* 行動按鈕 */
+  .sidebar-actions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-lg);
+    padding-top: var(--spacing-lg);
+    border-top: 1px solid var(--border-muted);
+  }
+
+  .action-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border-radius: var(--radius-md);
+    font-weight: var(--font-weight-medium);
+    text-decoration: none;
+    transition: all var(--transition-normal);
+    width: 100%;
+  }
+
+  .action-btn.primary {
+    background-color: var(--color-primary);
+    color: var(--text-inverse);
+  }
+
+  .action-btn.primary:hover {
+    background-color: var(--color-primary-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+
+  .action-btn.secondary {
+    background-color: var(--card-bg);
+    color: var(--text-primary);
+    border: 1px solid var(--card-border);
+  }
+
+  .action-btn.secondary:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+
+  /* 專案內容 */
+  .project-content {
+    /* 不設定 max-width，讓它填滿可用空間 */
+  }
+
+  /* 相關文章 */
+  .related-posts {
+    margin-top: var(--spacing-3xl);
+    padding-top: var(--spacing-2xl);
+    border-top: 2px solid var(--border-primary);
+  }
+
+  .related-posts h2 {
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--text-primary);
+    margin: 0 0 var(--spacing-xl) 0;
+  }
+
+  .posts-list {
+    display: grid;
+    gap: var(--spacing-lg);
+  }
+
+  .post-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    transition: all var(--transition-normal);
+  }
+
+  .post-card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+    border-color: var(--color-primary);
+  }
+
+  .post-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+
+  .post-card h3 {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-primary);
+    margin: 0 0 var(--spacing-sm) 0;
+    line-height: var(--line-height-tight);
+  }
+
+  .post-card:hover h3 {
+    color: var(--color-primary);
+  }
+
+  .post-description {
+    font-size: var(--font-size-base);
+    color: var(--text-secondary);
+    margin: 0 0 var(--spacing-md) 0;
+    line-height: var(--line-height-relaxed);
+  }
+
+  .post-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    flex-wrap: wrap;
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+  }
+
+  .post-tags {
+    display: flex;
+    gap: var(--spacing-xs);
+    flex-wrap: wrap;
+  }
+
+  .post-tags .tag {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    background-color: var(--color-bg-muted);
+    color: var(--text-secondary);
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+  }
+
+  /* 響應式設計 */
+  @media (max-width: 1024px) {
+    .project-layout {
+      grid-template-columns: 1fr;
+      gap: var(--spacing-xl);
+    }
+
+    .project-sidebar {
+      position: static;
+      order: -1; /* 側邊欄移到上方 */
+    }
+
+    .sidebar-actions {
+      flex-direction: row;
+    }
+
+    .action-btn {
+      flex: 1;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .project-title {
+      font-size: var(--font-size-3xl);
+    }
+
+    .project-description {
+      font-size: var(--font-size-lg);
+    }
+
+    .sidebar-actions {
+      flex-direction: column;
+    }
+
+    .action-btn {
+      width: 100%;
+    }
+  }
+</style>
