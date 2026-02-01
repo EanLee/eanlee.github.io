@@ -124,6 +124,12 @@ const blogStructuredData = {
             gap: var(--spacing-2xl);
         }
 
+        /* 優化非首屏內容渲染 */
+        .below-fold {
+            content-visibility: auto;
+            contain-intrinsic-size: auto 500px;
+        }
+
         @media (max-width: 768px) {
             .home-container {
                 padding: 0 var(--spacing-sm);
@@ -151,8 +157,10 @@ const blogStructuredData = {
         <!-- Category Grid -->
         <CategoryGrid allPosts={allPosts} />
 
-        <!-- Featured Projects -->
-        <FeaturedProjects />
+        <!-- Featured Projects - 延遲渲染 -->
+        <div class="below-fold">
+            <FeaturedProjects />
+        </div>
     </div>
 </div>
 
