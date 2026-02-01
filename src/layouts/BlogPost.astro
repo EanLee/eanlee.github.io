@@ -14,8 +14,6 @@ import EnhancedAnalytics from "../components/EnhancedAnalytics.astro";
 import LazyImage from "../components/LazyImage.astro";
 
 import { SITE_TITLE } from "../consts";
-import { getCollection } from 'astro:content';
-
 const {
   title,
   description,
@@ -27,18 +25,8 @@ const {
   series,
   categories,
   epic,
-  relatedProjects,
   entry,
 } = Astro.props;
-
-// 獲取相關專案
-let relatedProjectsData = [];
-if (relatedProjects && relatedProjects.length > 0) {
-  const allProjects = await getCollection('projects');
-  relatedProjectsData = allProjects.filter(project => 
-    relatedProjects.includes(project.data.alias) || relatedProjects.includes(project.slug)
-  );
-}
 
 // Get all possible cover images from the /public/cover/ directory
 const fallbackImageModules = import.meta.glob("/public/cover/**/*.{png,jpg,jpeg,webp}", { eager: true });
@@ -154,47 +142,6 @@ const jsonLd = {
               <div class="article-content">
                 <slot />
               </div>
-
-              <!-- 相關專案 -->
-              {relatedProjectsData.length > 0 && (
-                <div class="related-projects">
-                  <h2>相關專案</h2>
-                  <div class="projects-list">
-                    {relatedProjectsData.map((project) => (
-                      <article class="project-card">
-                        <div class="project-header">
-                          <h3>
-                            <a href={`/projects/${project.slug}/`}>
-                              {project.data.title}
-                            </a>
-                          </h3>
-                          <span class={`status-badge status-${project.data.status}`}>
-                            {project.data.status === 'active' ? '活躍開發中' :
-                             project.data.status === 'maintained' ? '持續維護' :
-                             '已封存'}
-                          </span>
-                        </div>
-                        <p class="project-description">{project.data.description}</p>
-                        <div class="project-tech">
-                          {project.data.techStack.map((tech) => (
-                            <span class="tech-tag">{tech}</span>
-                          ))}
-                        </div>
-                        <div class="project-links">
-                          <a href={`/projects/${project.slug}/`} class="project-link">
-                            了解更多 →
-                          </a>
-                          {project.data.url && (
-                            <a href={project.data.url} target="_blank" rel="noopener noreferrer" class="project-link external">
-                              訪問網站 ↗
-                            </a>
-                          )}
-                        </div>
-                      </article>
-                    ))}
-                  </div>
-                </div>
-              )}
 
               <!-- 社交分享按鈕 -->
               <SocialShare
