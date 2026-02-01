@@ -439,6 +439,7 @@ const jsonLd = {
         margin: var(--spacing-lg) 0;
         padding: var(--spacing-lg);
         padding-top: 3em;
+        padding-bottom: 0;
         border-radius: var(--radius-md);
         overflow-x: auto !important;
         background-color: rgba(107, 138, 255, 0.05) !important;
@@ -471,7 +472,7 @@ const jsonLd = {
 
       /* 頂部工具列 - COPY 按鈕 */
       .article-content :global(pre::after) {
-        content: 'COPY';
+        content: "複製";
         position: absolute;
         top: 0;
         right: 0;
@@ -830,25 +831,25 @@ const jsonLd = {
         }
       }
     </style>
-    
+
     <script is:inline>
       // 代碼塊複製功能
       function setupCodeCopy() {
-        const preElements = document.querySelectorAll('.article-content pre');
-        
-        preElements.forEach(pre => {
+        const preElements = document.querySelectorAll(".article-content pre");
+
+        preElements.forEach((pre) => {
           // 為 ::after 偽元素添加點擊事件
           // 由於偽元素無法直接綁定事件，我們偵聽 pre 元素的點擊
-          pre.addEventListener('click', (e) => {
+          pre.addEventListener("click", (e) => {
             // 檢查點擊是否在右上角（COPY 按鈕區域）
             const rect = pre.getBoundingClientRect();
             const clickX = e.clientX - rect.left;
             const clickY = e.clientY - rect.top;
-            
+
             // COPY 按鈕區域判定（右上角，約 50px 寬，25px 高）
             const topBarHeight = 25; // ::after 的高度
-            const buttonWidth = 50;  // 按鈕寬度
-            
+            const buttonWidth = 50; // 按鈕寬度
+
             if (clickY < topBarHeight && clickX > rect.width - buttonWidth) {
               e.preventDefault();
               copyCode(pre);
@@ -856,44 +857,44 @@ const jsonLd = {
           });
         });
       }
-      
+
       // 複製代碼內容
       async function copyCode(pre) {
         try {
-          const code = pre.querySelector('code');
+          const code = pre.querySelector("code");
           if (!code) return;
-          
+
           // 取得代碼文本
-          const text = code.textContent || '';
-          
+          const text = code.textContent || "";
+
           // 複製到剪貼板
           await navigator.clipboard.writeText(text);
-          
+
           // 顯示反饋
           showCopyFeedback(pre);
         } catch (error) {
-          console.error('複製失敗:', error);
+          console.error("複製失敗:", error);
         }
       }
-      
+
       // 顯示複製成功反饋
       function showCopyFeedback(pre) {
         // 暫存原始樣式
         const originalColor = pre.style.borderColor;
         const originalBg = pre.style.backgroundColor;
-        
+
         // 變更樣式表示複製成功
-        pre.style.borderColor = 'rgba(16, 185, 129, 0.5)';
-        
+        pre.style.borderColor = "rgba(16, 185, 129, 0.5)";
+
         // 1 秒後恢復
         setTimeout(() => {
           pre.style.borderColor = originalColor;
         }, 1000);
       }
-      
+
       // DOMContentLoaded 且 CodeCopy 初始化後執行
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', () => {
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", () => {
           setTimeout(setupCodeCopy, 100);
         });
       } else {
