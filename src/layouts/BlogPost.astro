@@ -8,7 +8,6 @@ import AdRow from "../components/ad-row.astro";
 import SocialShare from "../components/SocialShare.astro";
 import BackToTop from "../components/BackToTop.astro";
 import TableOfContents from "../components/TableOfContents.astro";
-import CodeCopy from "../components/CodeCopy.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
 import EnhancedAnalytics from "../components/EnhancedAnalytics.astro";
 import LazyImage from "../components/LazyImage.astro";
@@ -164,9 +163,6 @@ const jsonLd = {
 
     <Footer />
     <BackToTop />
-
-    <!-- 代碼複製功能組件 -->
-    <CodeCopy />
 
     <!-- 增強的 GA4 事件追蹤 -->
     <EnhancedAnalytics enabled={import.meta.env.PROD} />
@@ -440,13 +436,14 @@ const jsonLd = {
       }
 
       .article-content :global(pre) {
-        margin: 2.5em 0 var(--spacing-lg) 0;
+        margin: var(--spacing-lg) 0;
         padding: var(--spacing-lg);
+        padding-top: 3em;
         border-radius: var(--radius-md);
         overflow-x: auto !important;
         background-color: rgba(107, 138, 255, 0.05) !important;
         color: #e8e8e8 !important;
-        border: none !important;
+        border: 1px solid rgba(107, 138, 255, 0.2) !important;
         box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
         line-height: 1.6;
         position: relative;
@@ -454,16 +451,50 @@ const jsonLd = {
         overflow-wrap: break-word !important;
       }
 
-      /* 語言徽標由 CodeCopy.astro 組件處理 */
+      /* 頂部工具列 - 語言徽標 */
       .article-content :global(pre::before) {
-        content: '';
-        display: none;
+        content: attr(data-language);
+        position: absolute;
+        top: 0;
+        left: 0;
+        padding: 0.5em 0.75em;
+        background-color: rgba(107, 138, 255, 0.1);
+        color: #6b8aff;
+        font-size: 0.75em;
+        font-weight: 600;
+        border-right: 1px solid rgba(107, 138, 255, 0.2);
+        border-bottom: 1px solid rgba(107, 138, 255, 0.2);
+        font-family: var(--font-family-primary);
+        text-transform: lowercase;
+        letter-spacing: 0.5px;
       }
 
-      /* 複製按鈕由 JavaScript CodeCopy 組件處理 */
+      /* 頂部工具列 - COPY 按鈕 */
       .article-content :global(pre::after) {
-        content: '';
-        display: none;
+        content: 'COPY';
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 0.5em 0.75em;
+        background-color: rgba(107, 138, 255, 0.1);
+        color: #6b8aff;
+        font-size: 0.7em;
+        font-weight: 600;
+        border-left: 1px solid rgba(107, 138, 255, 0.2);
+        border-bottom: 1px solid rgba(107, 138, 255, 0.2);
+        cursor: pointer;
+        letter-spacing: 1px;
+        transition: all 0.2s ease;
+        font-family: var(--font-family-primary);
+      }
+
+      .article-content :global(pre:hover::after) {
+        background-color: rgba(107, 138, 255, 0.15);
+        color: #8da3ff;
+      }
+
+      .article-content :global(pre:active::after) {
+        background-color: rgba(107, 138, 255, 0.2);
       }
 
       .article-content :global(pre code) {
@@ -799,5 +830,75 @@ const jsonLd = {
         }
       }
     </style>
+    
+    <script is:inline>
+      // 代碼塊複製功能
+      function setupCodeCopy() {
+        const preElements = document.querySelectorAll('.article-content pre');
+        
+        preElements.forEach(pre => {
+          // 為 ::after 偽元素添加點擊事件
+          // 由於偽元素無法直接綁定事件，我們偵聽 pre 元素的點擊
+          pre.addEventListener('click', (e) => {
+            // 檢查點擊是否在右上角（COPY 按鈕區域）
+            const rect = pre.getBoundingClientRect();
+            const clickX = e.clientX - rect.left;
+            const clickY = e.clientY - rect.top;
+            
+            // COPY 按鈕區域判定（右上角，約 50px 寬，25px 高）
+            const topBarHeight = 25; // ::after 的高度
+            const buttonWidth = 50;  // 按鈕寬度
+            
+            if (clickY < topBarHeight && clickX > rect.width - buttonWidth) {
+              e.preventDefault();
+              copyCode(pre);
+            }
+          });
+        });
+      }
+      
+      // 複製代碼內容
+      async function copyCode(pre) {
+        try {
+          const code = pre.querySelector('code');
+          if (!code) return;
+          
+          // 取得代碼文本
+          const text = code.textContent || '';
+          
+          // 複製到剪貼板
+          await navigator.clipboard.writeText(text);
+          
+          // 顯示反饋
+          showCopyFeedback(pre);
+        } catch (error) {
+          console.error('複製失敗:', error);
+        }
+      }
+      
+      // 顯示複製成功反饋
+      function showCopyFeedback(pre) {
+        // 暫存原始樣式
+        const originalColor = pre.style.borderColor;
+        const originalBg = pre.style.backgroundColor;
+        
+        // 變更樣式表示複製成功
+        pre.style.borderColor = 'rgba(16, 185, 129, 0.5)';
+        
+        // 1 秒後恢復
+        setTimeout(() => {
+          pre.style.borderColor = originalColor;
+        }, 1000);
+      }
+      
+      // DOMContentLoaded 且 CodeCopy 初始化後執行
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => {
+          setTimeout(setupCodeCopy, 100);
+        });
+      } else {
+        setTimeout(setupCodeCopy, 100);
+      }
+    </script>
   </body>
 </html>
