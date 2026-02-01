@@ -1,5 +1,10 @@
 ---
+import { getCollection } from 'astro:content';
+
 const today = new Date();
+
+// 從 Content Collections 讀取專案
+const projects = await getCollection('projects');
 
 // SEO 優化：作者結構化資料
 const authorSchema = {
@@ -53,26 +58,18 @@ const authorSchema = {
       <div class="footer-links">
         <div class="link-section">
           <div class="section-title">Projects</div>
-          <a
-            href="https://url-ins.com"
-            title="Url-Insight - URL縮短與分析服務，提供點擊統計追蹤"
-            target="_blank"
-            rel="noopener"
-            class="project-link"
-          >
-            <span class="project-name">Url-Insight</span>
-            <span class="project-desc">URL縮短與分析服務</span>
-          </a>
-          <a
-            href="https://lucid-guard.vercel.app/"
-            title="LucidGuard - 協助撰寫異常事故報告的平台"
-            target="_blank"
-            rel="noopener"
-            class="project-link"
-          >
-            <span class="project-name">LucidGuard</span>
-            <span class="project-desc">異常事故報告撰寫平台</span>
-          </a>
+          {projects.map((project) => (
+            <a
+              href={project.data.url || `/projects/${project.slug}/`}
+              title={`${project.data.title} - ${project.data.description}`}
+              target={project.data.url ? "_blank" : undefined}
+              rel={project.data.url ? "noopener" : undefined}
+              class="project-link"
+            >
+              <span class="project-name">{project.data.title}</span>
+              <span class="project-desc">{project.data.description}</span>
+            </a>
+          ))}
         </div>
 
         <div class="link-section social-links">
