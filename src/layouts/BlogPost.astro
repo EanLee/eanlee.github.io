@@ -10,7 +10,7 @@ import BackToTop from "../components/BackToTop.astro";
 import TableOfContents from "../components/TableOfContents.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
 import EnhancedAnalytics from "../components/EnhancedAnalytics.astro";
-import LazyImage from "../components/LazyImage.astro";
+import { Image } from 'astro:assets';
 
 import { SITE_TITLE } from "../consts";
 const { title, description, date, lastmod, coverImage, tags, keywords, series, categories, epic, entry } = Astro.props;
@@ -40,13 +40,11 @@ const getAvailableCoverSrcs = () => {
 
 let displayImage = coverImage;
 
-// 如果沒有指定 coverImage，使用共用 cover 作為 fallback
-if (!displayImage) {
-  const coverSrcs = getAvailableCoverSrcs();
-  if (coverSrcs.length > 0) {
-    const randomIndex = Math.floor(Math.random() * coverSrcs.length);
-    displayImage = coverSrcs[randomIndex];
-  }
+// 如果沒有指定 coverImage，使用共用 cover 作為 fallback（返回圖片對象）
+if (!displayImage && availableCovers.length > 0) {
+  const randomIndex = Math.floor(Math.random() * availableCovers.length);
+  const randomCover = availableCovers[randomIndex] as any;
+  displayImage = randomCover?.default || null;
 }
 
 // 計算字數（中英文混合）
@@ -104,7 +102,19 @@ const jsonLd = {
             {
               displayImage && (
                 <div class="hero-image-bg">
-                  <LazyImage src={displayImage} alt={`${title} - ${description || "文章封面圖片"}`} aspectRatio="16/9" loading="eager" />
+                  {typeof displayImage === 'string' ? (
+                    <img src={displayImage} alt={`${title} - ${description || "文章封面圖片"}`} loading="eager" class="hero-cover-img" />
+                  ) : (
+                    <Image 
+                      src={displayImage} 
+                      alt={`${title} - ${description || "文章封面圖片"}`} 
+                      widths={[400, 800, 1200]} 
+                      sizes="100vw"
+                      loading="eager"
+                      class="hero-cover-img"
+                      format="webp"
+                    />
+                  )}
                 </div>
               )
             }
@@ -262,9 +272,11 @@ const jsonLd = {
         overflow: hidden;
       }
 
-      .hero-image-bg :global(.lazy-image) {
+      .hero-image-bg :global(.hero-cover-img),
+      .hero-image-bg :global(img) {
         width: 100%;
         height: 100%;
+        object-fit: cover;
       }
 
       .title-overlay {
