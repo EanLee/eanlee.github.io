@@ -13,7 +13,7 @@
   /* 文字色系 */
   --color-text: #e6edf3;
   --color-text-light: #adbac7;
-  --color-text-muted: #768390;
+  --color-text-muted: #8694a3;
   
   /* 灰階系統 (使用 RGB 值便於 rgba() 使用) */
   --color-black: 15, 18, 25;
@@ -28,9 +28,9 @@
   --color-bg-muted: #22272e;
   
   /* 邊框色系 */
-  --color-border-light: #373e47;
-  --color-border-medium: #444c56;
-  --color-border-dark: #545d68;
+  --color-border-light: #5c6470;
+  --color-border-medium: #6c7580;
+  --color-border-dark: #7c8590;
   
   /* === 卡片系統 === */
   --card-bg: #1c2128;
@@ -41,7 +41,7 @@
   /* === 文字顏色系統 === */
   --text-primary: #e6edf3;
   --text-secondary: #adbac7;
-  --text-muted: #768390;
+  --text-muted: #8694a3;
   --text-inverse: #0f1419;
   
   /* === 連結系統 === */
@@ -146,6 +146,6 @@
   --prose-links: #6b8aff;
   --prose-code: #e6edf3;
   --prose-code-bg: #22272e;
-  --prose-blockquote: #768390;
-  --prose-blockquote-border: #373e47;
+  --prose-blockquote: #8694a3;
+  --prose-blockquote-border: #5c6470;
 }
