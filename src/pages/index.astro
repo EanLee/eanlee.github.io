@@ -4,7 +4,6 @@ import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
 import { getCollection } from "astro:content";
-import MiniHero from "../components/MiniHero.astro";
 import LatestPosts from "../components/LatestPosts.astro";
 import FeaturedProjects from "../components/FeaturedProjects.astro";
 import CategoryGrid from "../components/CategoryGrid.astro";
@@ -146,9 +145,6 @@ const blogStructuredData = {
 
 <div class="home-container">
     <div class="main-content">
-        <!-- Mini Hero Section -->
-        <MiniHero />
-
         <!-- Latest Articles -->
         <LatestPosts posts={latestPosts} limit={6} />
 
