@@ -38,3 +38,4 @@ convert.js
 # Claude Code & Serena
 .claude/settings.local.json
 .serena/
+.playwright-mcp
