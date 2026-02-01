@@ -4,22 +4,31 @@ interface Props {
   alt: string;
   width?: number;
   height?: number;
+  aspectRatio?: string;
   class?: string;
   loading?: 'lazy' | 'eager';
   sizes?: string;
   quality?: number;
 }
 
-const { 
-  src, 
-  alt, 
-  width, 
-  height, 
-  class: className = '', 
+const {
+  src,
+  alt,
+  width,
+  height,
+  aspectRatio,
+  class: className = '',
   loading = 'lazy',
   sizes = '(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw',
   quality = 80
 } = Astro.props;
+
+// 計算容器樣式 - 優先級：明確指定的 aspectRatio > width/height 計算 > fallback
+const containerStyle = aspectRatio
+  ? `aspect-ratio: ${aspectRatio};`
+  : (width && height)
+    ? `aspect-ratio: ${width} / ${height};`
+    : 'min-height: 200px;';
 
 // WebP 版本的圖片路徑
 const webpSrc = src.replace(/\.(jpg|jpeg|png)$/i, '.webp');
@@ -39,7 +48,7 @@ const webpSrcSet = width ? [
 ].join(', ') : undefined;
 ---
 
-<picture class={`lazy-image ${className}`}>
+<picture class={`lazy-image ${className}`} style={containerStyle}>
   <!-- AVIF format for best compression -->
   {avifSrc && (
     <source 
@@ -81,10 +90,13 @@ const webpSrcSet = width ? [
   }
 
   .lazy-img {
+    position: absolute;
+    inset: 0;
     width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit: cover;
     border-radius: var(--radius-md);
-    transition: opacity var(--transition-normal), transform var(--transition-normal);
+    transition: opacity var(--transition-normal);
     opacity: 0;
   }
 
