@@ -168,9 +168,39 @@ const image = "/favicon.ico";
     transform: rotate(-45deg) translate(7px, -6px);
   }
 
+  /* 漸進式隱藏導航項目 */
+  @media (max-width: 1350px) {
+    .internal-links a:nth-child(5) {
+      display: none;
+    }
+  }
+
   @media (max-width: 1200px) {
-    .header-div {
-      padding: 0 1rem;
+    .internal-links a:nth-child(4) {
+      display: none;
+    }
+  }
+
+  @media (max-width: 1100px) {
+    .internal-links a:nth-child(3) {
+      display: none;
+    }
+  }
+
+  @media (max-width: 1000px) {
+    .internal-links a:nth-child(2) {
+      display: none;
+    }
+  }
+
+  @media (max-width: 900px) {
+    .internal-links a:nth-child(1) {
+      display: none;
+    }
+
+    .mobile-menu-toggle {
+      display: flex;
+      z-index: 1001;
     }
 
     nav {
@@ -178,24 +208,6 @@ const image = "/favicon.ico";
       align-items: center;
       justify-content: space-between;
       padding: 0.5rem 0;
-    }
-
-    .logo {
-      justify-content: flex-start;
-    }
-
-    .logo-img {
-      width: 40px;
-      height: 40px;
-    }
-
-    .logo-text {
-      font-size: 1.1em;
-    }
-
-    .mobile-menu-toggle {
-      display: flex;
-      z-index: 1001;
     }
 
     .nav-right {
@@ -219,7 +231,6 @@ const image = "/favicon.ico";
       transform: translateX(0);
     }
 
-
     .internal-links {
       display: flex;
       flex-direction: column;
@@ -240,6 +251,7 @@ const image = "/favicon.ico";
       text-decoration: none;
       transition: all var(--transition-normal);
       box-shadow: var(--shadow-sm);
+      display: block;
     }
 
     .internal-links a:hover,
@@ -249,6 +261,32 @@ const image = "/favicon.ico";
       border-bottom-color: var(--color-primary);
       transform: translateY(-2px);
       box-shadow: var(--shadow-md);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .header-div {
+      padding: 0 1rem;
+    }
+
+    nav {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.5rem 0;
+    }
+
+    .logo {
+      justify-content: flex-start;
+    }
+
+    .logo-img {
+      width: 40px;
+      height: 40px;
+    }
+
+    .logo-text {
+      font-size: 1.1em;
     }
   }
 
