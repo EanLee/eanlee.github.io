@@ -439,7 +439,7 @@ const jsonLd = {
         margin: var(--spacing-lg) 0;
         padding: var(--spacing-lg);
         padding-top: 3em;
-        padding-bottom: 0;
+        padding-bottom: 4px;
         border-radius: var(--radius-md);
         overflow-x: auto !important;
         background-color: rgba(107, 138, 255, 0.05) !important;
@@ -496,6 +496,14 @@ const jsonLd = {
 
       .article-content :global(pre:active::after) {
         background-color: rgba(107, 138, 255, 0.2);
+      }
+
+      /* 複製成功狀態 */
+      .article-content :global(pre.copied::after) {
+        content: "已複製 ✓";
+        background-color: rgba(16, 185, 129, 0.2);
+        color: #10b981;
+        border-color: rgba(16, 185, 129, 0.3);
       }
 
       .article-content :global(pre code) {
@@ -879,17 +887,13 @@ const jsonLd = {
 
       // 顯示複製成功反饋
       function showCopyFeedback(pre) {
-        // 暫存原始樣式
-        const originalColor = pre.style.borderColor;
-        const originalBg = pre.style.backgroundColor;
+        // 添加 copied 類別以改變樣式
+        pre.classList.add("copied");
 
-        // 變更樣式表示複製成功
-        pre.style.borderColor = "rgba(16, 185, 129, 0.5)";
-
-        // 1 秒後恢復
+        // 3 秒後移除反饋
         setTimeout(() => {
-          pre.style.borderColor = originalColor;
-        }, 1000);
+          pre.classList.remove("copied");
+        }, 3000);
       }
 
       // DOMContentLoaded 且 CodeCopy 初始化後執行
