@@ -13,21 +13,44 @@ const { posts, limit = 6 } = Astro.props;
 // 取得最新文章，限制數量
 const latestPosts = posts.slice(0, limit);
 
-// 獲取 fallback 圖片
-const fallbackImageModules = import.meta.glob("/public/cover/**/*.{png,jpg,jpeg,webp}", { eager: true });
-const fallbackImages = Object.values(fallbackImageModules) as any[];
-
 // 預載入所有文章中的圖片
 const postImageModules = import.meta.glob("/src/content/blog/**/images/*.{png,jpg,jpeg,webp}", { eager: true });
-const allPostImages = Object.values(postImageModules) as any[];
+
+// 預載入共用封面圖片 (fallback)
+const coverModules = import.meta.glob("/src/assets/images/cover/*.{webp,png,jpg,jpeg}", { eager: true });
+const availableCovers = Object.values(coverModules) as any[];
+
+// 安全地提取共用封面的 src
+const getAvailableCoverSrcs = () => {
+  return availableCovers
+    .map((cover) => {
+      // 檢查多種可能的結構
+      if (cover?.default?.src && typeof cover.default.src === "string") {
+        return cover.default.src;
+      }
+      if (typeof cover?.src === "string") {
+        return cover.src;
+      }
+      if (typeof cover?.default === "string") {
+        return cover.default;
+      }
+      return null;
+    })
+    .filter((src) => src !== null) as string[];
+};
+
+const coverSrcs = getAvailableCoverSrcs();
 
 // 獲取文章的封面圖片
 const getCoverImage = async (post: CollectionEntry<'blog'>) => {
   // 1. 優先使用 frontmatter 中的 coverImage
   if (post.data.coverImage) {
-    // 如果是 image() helper 處理過的圖片，會有 src 屬性
-    if (typeof post.data.coverImage === 'object' && post.data.coverImage.src) {
-      return post.data.coverImage.src;
+    // 如果是圖片對象，先安全地檢查是否有 src 屬性
+    if (typeof post.data.coverImage === 'object' && post.data.coverImage !== null) {
+      const coverImageObj = post.data.coverImage as Record<string, any>;
+      if (coverImageObj.src && typeof coverImageObj.src === 'string') {
+        return coverImageObj.src;
+      }
     }
     // 如果是字串（URL），直接返回
     if (typeof post.data.coverImage === 'string') {
@@ -56,69 +79,38 @@ const getCoverImage = async (post: CollectionEntry<'blog'>) => {
     if (imagePath.startsWith('./') || imagePath.startsWith('images/')) {
       const postPath = post.id.slice(0, post.id.lastIndexOf("/"));
       const cleanImagePath = imagePath.replace('./', '');
-      
-      // 在預載入的圖片中尋找匹配的圖片
-      const matchingImage = allPostImages.find(img => {
-        // 從 glob 結果中提取路徑資訊
-        const imgPath = img.default?.default?.src || img.default?.src || img.default;
-        
-        if (typeof imgPath !== 'string') {
-          // 嘗試從 import.meta.glob 的鍵中獲取路徑
-          const moduleKeys = Object.keys(postImageModules);
-          const matchingKey = moduleKeys.find(key => 
-            key.includes(postPath) && key.includes(cleanImagePath)
-          );
-          
-          return !!matchingKey;
-        }
-        
-        // 檢查圖片路徑是否包含文章路徑和圖片名稱
-        return imgPath.includes(postPath) && imgPath.includes(cleanImagePath);
-      });
-      
-      if (matchingImage) {
-        const imgSrc = matchingImage.default?.default?.src || matchingImage.default?.src || matchingImage.default;
-        if (typeof imgSrc === 'string') {
-          return imgSrc;
-        }
-        
-        // 如果無法從圖片對象獲取 src，嘗試從模組鍵中直接獲取
-        const moduleKeys = Object.keys(postImageModules);
-        const matchingKey = moduleKeys.find(key => 
-          key.includes(postPath) && key.includes(cleanImagePath)
-        );
-        
-        if (matchingKey) {
-          const moduleImg = postImageModules[matchingKey] as any;
-          const moduleSrc = moduleImg?.default?.default?.src || moduleImg?.default?.src || moduleImg?.default;
-          if (typeof moduleSrc === 'string') {
-            return moduleSrc;
-          }
-        }
-      }
-      
-      // 最後嘗試：直接從所有模組鍵中查找
       const moduleKeys = Object.keys(postImageModules);
-      const directMatchingKey = moduleKeys.find(key => 
+      
+      // 從 import.meta.glob 的鍵中查找匹配的圖片
+      const matchingKey = moduleKeys.find(key => 
         key.includes(postPath) && key.includes(cleanImagePath)
       );
       
-      if (directMatchingKey) {
-        const directImg = postImageModules[directMatchingKey] as any;
-        const directSrc = directImg?.default?.default?.src || directImg?.default?.src || directImg?.default;
-        if (typeof directSrc === 'string') {
-          return directSrc;
+      if (matchingKey) {
+        const moduleImg = postImageModules[matchingKey] as any;
+        // 安全地提取 src 屬性
+        let imgSrc: string | null = null;
+        
+        if (moduleImg?.default && typeof moduleImg.default === 'object') {
+          imgSrc = moduleImg.default.src || 
+                   (moduleImg.default.default?.src) || 
+                   (typeof moduleImg.default === 'string' ? moduleImg.default : null);
+        }
+        
+        if (imgSrc && typeof imgSrc === 'string') {
+          return imgSrc;
         }
       }
       
-      // 如果沒找到匹配的圖片，記錄警告並使用 fallback
+      // 如果沒找到匹配的圖片，記錄警告
       console.warn(`無法找到相對路徑圖片: ${imagePath} in post ${post.id}`);
       
-      // 使用 fallback 圖片
-      if (fallbackImages.length > 0) {
-        const randomIndex = Math.floor(Math.random() * fallbackImages.length);
-        return fallbackImages[randomIndex].default.src;
+      // 使用共用 cover 作為 fallback
+      if (coverSrcs.length > 0) {
+        const randomIndex = Math.floor(Math.random() * coverSrcs.length);
+        return coverSrcs[randomIndex];
       }
+      
       return null;
     }
     
@@ -126,13 +118,12 @@ const getCoverImage = async (post: CollectionEntry<'blog'>) => {
     return imagePath;
   }
   
-  // 3. 如果都沒有可用的圖片，使用隨機的 fallback 圖片
-  if (fallbackImages.length > 0) {
-    const randomIndex = Math.floor(Math.random() * fallbackImages.length);
-    return fallbackImages[randomIndex].default.src;
+  // 3. 如果都沒有可用的圖片，使用共用 cover 作為 fallback
+  if (coverSrcs.length > 0) {
+    const randomIndex = Math.floor(Math.random() * coverSrcs.length);
+    return coverSrcs[randomIndex];
   }
   
-  // 4. 如果都沒有，返回 null
   return null;
 };
 
