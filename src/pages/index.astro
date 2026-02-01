@@ -6,6 +6,7 @@ import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
 import { getCollection } from "astro:content";
 import MiniHero from "../components/MiniHero.astro";
 import LatestPosts from "../components/LatestPosts.astro";
+import FeaturedProjects from "../components/FeaturedProjects.astro";
 import CategoryGrid from "../components/CategoryGrid.astro";
 
 // 獲取所有文章
@@ -147,12 +148,15 @@ const blogStructuredData = {
     <div class="main-content">
         <!-- Mini Hero Section -->
         <MiniHero />
-        
+
         <!-- Latest Articles -->
         <LatestPosts posts={latestPosts} limit={6} />
-        
+
         <!-- Category Grid -->
         <CategoryGrid allPosts={allPosts} />
+
+        <!-- Featured Projects -->
+        <FeaturedProjects />
     </div>
 </div>
 
