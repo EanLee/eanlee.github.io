@@ -1,6 +1,6 @@
 ---
 import FormattedDate from "./FormattedDate.astro";
-import LazyImage from "./LazyImage.astro";
+import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import { calculateReadingTime, formatReadingTime } from '../utils/readingTime';
 
@@ -42,16 +42,13 @@ const getAvailableCoverSrcs = () => {
 
 const coverSrcs = getAvailableCoverSrcs();
 
-// 獲取文章的封面圖片
+// 獲取文章的封面圖片（返回圖片對象或字符串）
 const getCoverImage = async (post: CollectionEntry<'blog'>) => {
   // 1. 優先使用 frontmatter 中的 coverImage
   if (post.data.coverImage) {
-    // 如果是圖片對象，先安全地檢查是否有 src 屬性
+    // 如果是圖片對象，直接返回
     if (typeof post.data.coverImage === 'object' && post.data.coverImage !== null) {
-      const coverImageObj = post.data.coverImage as Record<string, any>;
-      if (coverImageObj.src && typeof coverImageObj.src === 'string') {
-        return coverImageObj.src;
-      }
+      return post.data.coverImage;
     }
     // 如果是字串（URL），直接返回
     if (typeof post.data.coverImage === 'string') {
@@ -66,17 +63,17 @@ const getCoverImage = async (post: CollectionEntry<'blog'>) => {
   if (match && match[1]) {
     const imagePath = match[1];
     
-    // 如果是 HTTP/HTTPS URL，直接返回
+    // 如果是 HTTP/HTTPS URL，直接返回字符串
     if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
       return imagePath;
     }
     
-    // 如果是絕對路徑（以 / 開頭），直接返回
+    // 如果是絕對路徑（以 / 開頭），直接返回字符串
     if (imagePath.startsWith('/')) {
       return imagePath;
     }
     
-    // 對於相對路徑，使用預載入的圖片映射
+    // 對於相對路徑，使用預載入的圖片映射，返回圖片對象
     if (imagePath.startsWith('./') || imagePath.startsWith('images/')) {
       const postPath = post.id.slice(0, post.id.lastIndexOf("/"));
       const cleanImagePath = imagePath.replace('./', '');
@@ -89,40 +86,34 @@ const getCoverImage = async (post: CollectionEntry<'blog'>) => {
       
       if (matchingKey) {
         const moduleImg = postImageModules[matchingKey] as any;
-        // 安全地提取 src 屬性
-        let imgSrc: string | null = null;
-        
-        if (moduleImg?.default && typeof moduleImg.default === 'object') {
-          imgSrc = moduleImg.default.src || 
-                   (moduleImg.default.default?.src) || 
-                   (typeof moduleImg.default === 'string' ? moduleImg.default : null);
-        }
-        
-        if (imgSrc && typeof imgSrc === 'string') {
-          return imgSrc;
+        // 返回圖片對象的 default（這是 Astro Image 組件需要的）
+        if (moduleImg?.default) {
+          return moduleImg.default;
         }
       }
       
       // 如果沒找到匹配的圖片，記錄警告
       console.warn(`無法找到相對路徑圖片: ${imagePath} in post ${post.id}`);
       
-      // 使用共用 cover 作為 fallback
-      if (coverSrcs.length > 0) {
-        const randomIndex = Math.floor(Math.random() * coverSrcs.length);
-        return coverSrcs[randomIndex];
+      // 使用共用 cover 作為 fallback（返回圖片對象）
+      if (availableCovers.length > 0) {
+        const randomIndex = Math.floor(Math.random() * availableCovers.length);
+        const randomCover = availableCovers[randomIndex] as any;
+        return randomCover?.default || null;
       }
       
       return null;
     }
     
-    // 其他情況直接返回路徑
+    // 其他情況直接返回路徑字符串
     return imagePath;
   }
   
-  // 3. 如果都沒有可用的圖片，使用共用 cover 作為 fallback
-  if (coverSrcs.length > 0) {
-    const randomIndex = Math.floor(Math.random() * coverSrcs.length);
-    return coverSrcs[randomIndex];
+  // 3. 如果都沒有可用的圖片，使用共用 cover 作為 fallback（返回圖片對象）
+  if (availableCovers.length > 0) {
+    const randomIndex = Math.floor(Math.random() * availableCovers.length);
+    const randomCover = availableCovers[randomIndex] as any;
+    return randomCover?.default || null;
   }
   
   return null;
@@ -238,13 +229,24 @@ const getEpicName = (epic: string) => {
           {isLatest && showCoverImage && (
             <!-- Featured card with full-width cover image -->
             <div class="card-cover-full">
-              <LazyImage
-                src={coverImage}
-                alt={`${post.data.title} - ${post.data.description || '文章封面'}`}
-                aspectRatio="16/9"
-                loading="eager"
-                class="cover-image-full"
-              />
+              {typeof coverImage === 'string' ? (
+                <img 
+                  src={coverImage} 
+                  alt={`${post.data.title} - ${post.data.description || '文章封面'}`}
+                  loading="eager"
+                  class="cover-image-full"
+                />
+              ) : (
+                <Image
+                  src={coverImage}
+                  alt={`${post.data.title} - ${post.data.description || '文章封面'}`}
+                  widths={[400, 800, 1200]}
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
+                  loading="eager"
+                  class="cover-image-full"
+                  format="webp"
+                />
+              )}
               <div class="cover-overlay">
                 <div class="card-category featured-category">
                   <span class="category-icon" set:html={epicIcon}></span>
@@ -282,13 +284,24 @@ const getEpicName = (epic: string) => {
               </div>
               <div class="card-body-horizontal">
                 <div class="card-thumbnail">
-                  <LazyImage
-                    src={coverImage}
-                    alt={`${post.data.title} - ${post.data.description || '文章縮圖'}`}
-                    aspectRatio="1/1"
-                    loading="lazy"
-                    class="cover-image-thumb"
-                  />
+                  {typeof coverImage === 'string' ? (
+                    <img 
+                      src={coverImage} 
+                      alt={`${post.data.title} - ${post.data.description || '文章縮圖'}`}
+                      loading="lazy"
+                      class="cover-image-thumb"
+                    />
+                  ) : (
+                    <Image
+                      src={coverImage}
+                      alt={`${post.data.title} - ${post.data.description || '文章縮圖'}`}
+                      width={120}
+                      height={120}
+                      loading="lazy"
+                      class="cover-image-thumb"
+                      format="webp"
+                    />
+                  )}
                 </div>
                 <div class="card-content-wrapper">
                 
