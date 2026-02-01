@@ -1,6 +1,5 @@
 ---
 import HeaderLink from "./HeaderLink.astro";
-import Search from "./Search.astro";
 import { SITE_TITLE } from "../consts";
 
 const image = "/favicon.ico";
@@ -21,7 +20,6 @@ const image = "/favicon.ico";
       </button>
 
       <div id="mobile-nav" class="nav-right" aria-hidden="true">
-        <Search />
         <div class="internal-links">
           <HeaderLink href="/software/">
             <svg
@@ -218,6 +216,10 @@ const image = "/favicon.ico";
 
   /* 響應式設計：1100px 以下切換到漢堡菜單模式 */
   @media (max-width: 1100px) {
+    header {
+      position: relative;
+    }
+
     .mobile-menu-toggle {
       display: flex;
       z-index: 1001;
@@ -228,60 +230,49 @@ const image = "/favicon.ico";
       display: none !important;
     }
 
-    /* 設定 nav-right 在預設狀態時只顯示搜尋框 */
+    /* 設定 nav-right 在預設狀態 */
     .nav-right {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      position: static;
+      display: none;
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background-color: var(--color-bg-primary);
+      box-shadow: var(--shadow-lg);
+      border-radius: var(--radius-md);
+      margin-top: 0.5rem;
+      min-width: 200px;
     }
 
-    /* 設定漢堡菜單打開時為全屏 */
+    /* 設定漢堡菜單打開時為下拉選單 */
     .nav-right.active {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background-color: var(--color-bg-primary);
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: var(--spacing-xl);
-      transform: translateX(0);
-      z-index: 1000;
-      backdrop-filter: blur(5px);
+      display: block;
     }
 
     .nav-right.active .internal-links {
       display: flex !important;
       flex-direction: column;
-      gap: var(--spacing-md);
-      align-items: center;
+      gap: 0;
+      padding: var(--spacing-sm) 0;
     }
 
     .internal-links a {
-      padding: var(--spacing-md) var(--spacing-xl);
-      text-align: center;
-      border-radius: var(--radius-md);
-      background-color: rgba(var(--color-primary), 0.1);
-      border-bottom: 2px solid transparent;
-      font-size: var(--font-size-lg);
-      min-width: 200px;
-      font-weight: var(--font-weight-medium);
-      color: var(--text-primary);
+      padding: var(--spacing-md) var(--spacing-lg);
+      color: var(--black);
+      border-bottom: none;
       text-decoration: none;
-      transition: all var(--transition-normal);
-      box-shadow: var(--shadow-sm);
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-sm);
+      transition: background-color var(--transition-normal);
     }
 
-    .internal-links a:hover,
+    .internal-links a:hover {
+      background-color: rgba(var(--color-primary), 0.1);
+    }
+
     .internal-links a.active {
-      background-color: var(--color-primary);
-      color: var(--color-bg-primary);
-      border-bottom-color: var(--color-primary);
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-md);
+      background-color: rgba(var(--color-primary), 0.15);
+      color: var(--color-primary);
     }
   }
 
