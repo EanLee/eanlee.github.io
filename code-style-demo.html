@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>程式碼塊設計方案對比</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #0f1419;
+            color: #e6edf3;
+            font-family: 'Atkinson', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            padding: 3rem 2rem;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .demo-card {
+            background: #1c2128;
+            border: 1px solid #373e47;
+            border-radius: 12px;
+            padding: 2rem;
+        }
+
+        .demo-card h2 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: #6b8aff;
+        }
+
+        .demo-card .description {
+            color: #8694a3;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+
+        /* ========== 方案 A：極簡主義 ========== */
+        .pre-a {
+            margin: var(--spacing-lg) 0;
+            padding: 1.5rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            background-color: rgba(107, 138, 255, 0.05);
+            color: #e8e8e8;
+            border: none;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+            line-height: 1.6;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+        }
+
+        /* ========== 方案 B：卡片式 ========== */
+        .pre-b {
+            margin: var(--spacing-lg) 0;
+            padding: 1.5rem;
+            border-radius: 12px;
+            overflow-x: auto;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            color: #e8e8e8;
+            border: 1px solid rgba(107, 138, 255, 0.2);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+            line-height: 1.6;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            position: relative;
+            padding-top: 2.5rem;
+        }
+
+        .pre-b::before {
+            content: 'Code';
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            font-size: 0.75rem;
+            color: rgba(107, 138, 255, 0.6);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* ========== 方案 C：高對比徽標式 ========== */
+        .pre-c {
+            margin: var(--spacing-lg) 0;
+            padding: 1.5rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            background-color: #0d1117;
+            color: #c9d1d9;
+            border: 1px solid #30363d;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.6);
+            line-height: 1.6;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            position: relative;
+            padding-top: 2.5rem;
+        }
+
+        .pre-c::before {
+            content: 'javascript';
+            position: absolute;
+            top: 1rem;
+            left: 1.5rem;
+            background-color: rgba(79, 193, 233, 0.15);
+            color: #79c0ff;
+            padding: 0.25rem 0.6rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            border: 1px solid rgba(79, 193, 233, 0.3);
+        }
+
+        /* 程式碼樣本 */
+        .code-sample {
+            display: block;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 3rem;
+            background: #1c2128;
+            border: 1px solid #373e47;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .comparison-table thead {
+            background-color: rgba(107, 138, 255, 0.1);
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 1rem;
+            border: 1px solid #373e47;
+            text-align: left;
+        }
+
+        .comparison-table th {
+            color: #6b8aff;
+            font-weight: 600;
+        }
+
+        .comparison-table td {
+            color: #adbac7;
+        }
+
+        .comparison-table tr:hover {
+            background-color: rgba(107, 138, 255, 0.05);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-right: 0.5rem;
+        }
+
+        .badge-low {
+            background-color: rgba(76, 175, 80, 0.2);
+            color: #7cfc00;
+        }
+
+        .badge-medium {
+            background-color: rgba(255, 193, 7, 0.2);
+            color: #ffd700;
+        }
+
+        .badge-high {
+            background-color: rgba(244, 67, 54, 0.2);
+            color: #ff6b6b;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📊 程式碼塊設計方案對比</h1>
+
+        <div class="demo-grid">
+            <!-- 方案 A -->
+            <div class="demo-card">
+                <h2>A. 極簡主義</h2>
+                <p class="description">
+                    無邊框，乾淨簡潔。微妙的主色背景配合內陰影，最小化視覺干擾。適合技術向、大量代碼的博客。
+                </p>
+                <pre class="pre-a"><span class="code-sample">const message = "Hello World!";
+console.log(message);
+// 極簡風格，專注於代碼本身</span></pre>
+            </div>
+
+            <!-- 方案 B -->
+            <div class="demo-card">
+                <h2>B. 卡片式</h2>
+                <p class="description">
+                    漸層背景增加視覺層級。微妙的主色邊框和更大的陰影，打造卡片效果。適合混合內容的文章。
+                </p>
+                <pre class="pre-b"><span class="code-sample">function greet(name) {
+  return `Hello, ${name}!`;
+}
+// 卡片式設計，略有視覺重點</span></pre>
+            </div>
+
+            <!-- 方案 C -->
+            <div class="demo-card">
+                <h2>C. 高對比徽標式</h2>
+                <p class="description">
+                    GitHub 風格深黑背景，左上角語言徽標。高對比度，專業感十足。適合展示向的精選代碼。
+                </p>
+                <pre class="pre-c"><span class="code-sample">async function fetchData(url) {
+  const response = await fetch(url);
+  return response.json();
+}</span></pre>
+            </div>
+        </div>
+
+        <!-- 對比表 -->
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>特性</th>
+                    <th>方案 A（極簡）</th>
+                    <th>方案 B（卡片）</th>
+                    <th>方案 C（徽標）</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>視覺複雜度</strong></td>
+                    <td><span class="badge badge-low">低</span></td>
+                    <td><span class="badge badge-medium">中</span></td>
+                    <td><span class="badge badge-high">高</span></td>
+                </tr>
+                <tr>
+                    <td><strong>視覺焦點</strong></td>
+                    <td>弱</td>
+                    <td>中</td>
+                    <td>強</td>
+                </tr>
+                <tr>
+                    <td><strong>邊框</strong></td>
+                    <td>無</td>
+                    <td>微妙藍邊</td>
+                    <td>灰邊</td>
+                </tr>
+                <tr>
+                    <td><strong>背景</strong></td>
+                    <td>微妙藍底 5%</td>
+                    <td>黑色漸層</td>
+                    <td>深黑色</td>
+                </tr>
+                <tr>
+                    <td><strong>陰影</strong></td>
+                    <td>內陰影</td>
+                    <td>外陰影大</td>
+                    <td>外陰影中</td>
+                </tr>
+                <tr>
+                    <td><strong>語言標籤</strong></td>
+                    <td>無</td>
+                    <td>右上角</td>
+                    <td>左上角藍牌</td>
+                </tr>
+                <tr>
+                    <td><strong>適合場景</strong></td>
+                    <td>技術向、大量代碼</td>
+                    <td>混合內容多元化</td>
+                    <td>展示向精選代碼</td>
+                </tr>
+                <tr>
+                    <td><strong>視覺層級感</strong></td>
+                    <td>弱</td>
+                    <td>中</td>
+                    <td>強</td>
+                </tr>
+                <tr>
+                    <td><strong>與正文融合度</strong></td>
+                    <td>高</td>
+                    <td>中</td>
+                    <td>低（獨立感強）</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
