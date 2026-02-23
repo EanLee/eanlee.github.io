@@ -45,4 +45,12 @@ const projects = defineCollection({
 	}),
 });
 
-export const collections = { blog, projects };
+const pages = defineCollection({
+	schema: z.object({
+		title: z.string(),
+		description: z.string(),
+		lastmod: z.coerce.date().optional(),
+	}),
+});
+
+export const collections = { blog, projects, pages };
