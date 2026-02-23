@@ -27,38 +27,6 @@ lastmod: 2026-02-23T00:00:00+08:00
 - ⚡ **效能優化** - 使用 yield return 和非同步 I/O 提升效能
 - 🎛️ **靈活參數** - 支援掃描深度限制、最小尺寸篩選
 
-## 使用方式
-
-### 掃描模式（僅顯示，不刪除）
-```bash
-node-cleaner scan <路徑>
-
-# 範例
-node-cleaner scan C:\Projects
-node-cleaner scan ~/projects
-```
-
-### 清理模式（掃描 + 互動式刪除）
-```bash
-node-cleaner clean <路徑>
-
-# 範例
-node-cleaner clean C:\Projects
-node-cleaner clean ~/projects
-```
-
-### 選項參數
-- `--depth <數字>` - 限制掃描深度
-- `--min-size <位元組>` - 只顯示大於指定大小的資料夾
-
-```bash
-# 只掃描 2 層深度
-node-cleaner scan C:\Projects --depth 2
-
-# 只顯示大於 100MB 的資料夾
-node-cleaner scan C:\Projects --min-size 104857600
-```
-
 ## 技術架構
 
 - **.NET 9** - 最新的 .NET 版本，性能優化
@@ -70,16 +38,9 @@ node-cleaner scan C:\Projects --min-size 104857600
 
 - ✅ **交互式清理**：可視化選擇要刪除的資料夾，安全可控
 - ✅ **效能優化**：非同步 I/O 和高效搜尋演算法
-- ✅ **跨平台支援**：Windows、macOS、Linux
+- ✅ **Windows 最佳化**：針對 Windows 環境優化
 - ✅ **完整測試**：xUnit 單元測試
 - ✅ 已清理超過 **10GB+** 的累積 node_modules 檔案
-
-## 開發過程中的學習
-
-1. **AI 輔助開發**：使用 Claude Code 快速完成工具開發
-2. **.NET CLI 最佳實踐**：深入了解 System.CommandLine 和 Spectre.Console
-3. **交互式 UI 設計**：使用 Spectre.Console 提供現代化的使用者體驗
-4. **真實問題的解決**：這個工具解決的是真實存在的、困擾多數 Node.js 開發者的問題
 
 ## 注意事項
 
