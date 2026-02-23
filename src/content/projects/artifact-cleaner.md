@@ -1,72 +1,95 @@
 ---
-title: "Artifact Cleaner"
+title: "Node Modules Cleaner"
 alias: "artifact-cleaner"
-description: "輕量級磁碟清理工具，快速清理 node_modules、obj、package 等大型中間檔案"
-techStack: ["TypeScript", "Node.js", "CLI"]
+description: "快速、簡單的 .NET CLI 工具，用於掃描、統計和清理專案目錄下的 node_modules 資料夾"
+techStack: [".NET 9", "C#", "System.CommandLine", "Spectre.Console"]
 status: "active"
 startDate: 2025-02-01
 github: "https://github.com/EanLee/artifact-cleaner"
-keywords: ["node_modules", "清理工具", "磁碟優化", "TypeScript", "CLI"]
+keywords: ["node_modules", "清理工具", ".NET", "CLI", "C#"]
 lastmod: 2026-02-23T00:00:00+08:00
 ---
 
 ## 專案背景
 
-隨著開發的專案越來越多，特別是在使用 AI Agent（Claude Code）快速開發前端或 TypeScript 程式後，才發現一個隱藏的成本問題：**磁碟空間被無形中吃掉了**。
+在成長為使用 AI Agent（Claude Code）快速開發多個前端或 Node.js 專案後，才發現一個隱藏的成本問題：**磁碟空間被無形中吃掉了**。
 
-某一天檢查硬碟空間，才驚覺竟然滿了。一查才發現，分散在各個專案中的 `node_modules` 資料夾竟然佔用了將近 **10GB** 的空間！
+某一天檢查硬碟空間發現滿了。一查才發現，分散在各個專案中的 `node_modules` 資料夾竟然佔用了將近 **10GB** 的空間！想找一個簡單易用的工具來統一清理，卻發現市面上的要嘛太複雜，要嘛功能不齊全。
 
-## 問題描述
+於過年期間，使用 **Claude Code** 快速完成了這個 .NET CLI 工具的開發。
 
-- 📁 **多個專案累積**：每個 npm 專案都有自己的 `node_modules`，重複的依賴包堆積成巨大的存儲浪費
-- 🤔 **沒有好工具**：想找一個簡單易用的工具來統一清理，但市面上的要嘛太複雜，要嘛功能不齊全
-- ⚠️ **不只是 npm**：後來發現 C# 專案的 `obj` 和 `packages` 資料夾也有同樣的問題
+## 功能特色
 
-## 解決方案
+- 🔍 **快速掃描** - 遞迴搜尋指定目錄下的所有 node_modules
+- 📊 **詳細統計** - 顯示每個資料夾的大小和最後修改時間
+- 🎯 **互動式選擇** - 使用方向鍵和空白鍵選擇要刪除的資料夾
+- 🎨 **美觀的介面** - 使用 Spectre.Console 提供現代化 CLI 體驗
+- ⚡ **效能優化** - 使用 yield return 和非同步 I/O 提升效能
+- 🎛️ **靈活參數** - 支援掃描深度限制、最小尺寸篩選
 
-在 2025 年過年期間，使用 **Claude Code** 快速完成了這個小工具的開發：
+## 使用方式
 
-### 核心功能
+### 掃描模式（僅顯示，不刪除）
+```bash
+node-cleaner scan <路徑>
 
-- 🧹 **快速掃描和清理**：一行命令清理所有 node_modules
-- 🔍 **智能識別**：自動尋找並清理大型中間檔案
-- ⚙️ **可自訂**：支援自訂資料夾名稱，不只限於 node_modules
-- 📊 **空間統計**：顯示清理前後的磁碟空間節省量
-- 🛡️ **安全操作**：確認清理操作前進行提示
+# 範例
+node-cleaner scan C:\Projects
+node-cleaner scan ~/projects
+```
 
-### 技術特點
+### 清理模式（掃描 + 互動式刪除）
+```bash
+node-cleaner clean <路徑>
 
-- **TypeScript** 開發，型別安全
-- **CLI 工具**，輕量級無依賴
-- 支援多平台（Windows、macOS、Linux）
-- 高效的遞迴搜尋演算法
+# 範例
+node-cleaner clean C:\Projects
+node-cleaner clean ~/projects
+```
+
+### 選項參數
+- `--depth <數字>` - 限制掃描深度
+- `--min-size <位元組>` - 只顯示大於指定大小的資料夾
+
+```bash
+# 只掃描 2 層深度
+node-cleaner scan C:\Projects --depth 2
+
+# 只顯示大於 100MB 的資料夾
+node-cleaner scan C:\Projects --min-size 104857600
+```
+
+## 技術架構
+
+- **.NET 9** - 最新的 .NET 版本，性能優化
+- **System.CommandLine** - 官方命令列框架
+- **Spectre.Console** - 現代化 CLI UI 框架
+- **xUnit** - 單元測試框架
+
+## 專案成果
+
+- ✅ **交互式清理**：可視化選擇要刪除的資料夾，安全可控
+- ✅ **效能優化**：非同步 I/O 和高效搜尋演算法
+- ✅ **跨平台支援**：Windows、macOS、Linux
+- ✅ **完整測試**：xUnit 單元測試
+- ✅ 已清理超過 **10GB+** 的累積 node_modules 檔案
 
 ## 開發過程中的學習
 
-1. **AI 輔助開發**：使用 Claude Code 大幅加速開發流程，從概念到完成不到一天
-2. **需求迭代**：初版完成後才想到可以泛用化，支援自訂資料夾名稱
-3. **真實問題的解決**：這個工具解決的是真實存在的、困擾多數開發者的問題
-4. **TypeScript CLI 開發**：學習 CLI 工具開發的最佳實踐
+1. **AI 輔助開發**：使用 Claude Code 快速完成工具開發
+2. **.NET CLI 最佳實踐**：深入了解 System.CommandLine 和 Spectre.Console
+3. **交互式 UI 設計**：使用 Spectre.Console 提供現代化的使用者體驗
+4. **真實問題的解決**：這個工具解決的是真實存在的、困擾多數 Node.js 開發者的問題
 
-## 使用場景
+## 注意事項
 
-- 🧹 清理過期的 node_modules（節省數 GB 空間）
-- 🔧 清理 C# 專案的 build artifacts（obj、bin、packages）
-- 📦 重新整理磁碟空間前的預準備
-- 🤖 自動化磁碟維護腳本
+⚠️ **重要警告**
+- 刪除操作是**永久性的**，不會移到回收桶
+- 刪除前請確認選擇的資料夾
+- 建議先使用 `scan` 命令檢視，確認無誤後再使用 `clean` 命令
 
 ## GitHub 倉庫
 
 https://github.com/EanLee/artifact-cleaner
 
-## 相關技術文章
-
-- 預計撰寫：「為什麼 node_modules 這麼大？如何高效管理」
-- 預計撰寫：「使用 Claude Code 快速開發 CLI 工具」
-
-## 專案成果
-
-- ✅ 已清理超過 **50GB** 的累積垃圾檔案
-- ✅ 支援 node_modules、obj、packages、bin 等多種型別
-- ✅ 開源供社群使用
-- ✅ 啟發更多關於磁碟管理的思考
+提供完整的原始碼、測試和發布構建。
