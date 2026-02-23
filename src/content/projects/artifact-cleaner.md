@@ -1,10 +1,10 @@
 ---
-title: "Node Modules Cleaner"
+title: "Artifact Cleaner"
 alias: "artifact-cleaner"
-description: "快速、簡單的 .NET CLI 工具，用於掃描、統計和清理專案目錄下的 node_modules 資料夾"
+description: "快速、簡單的 .NET CLI 工具，用於掃描、統計和清理專案目錄下的 node_modules 與指定的資料夾"
 techStack: [".NET 9", "C#", "System.CommandLine", "Spectre.Console"]
 status: "active"
-startDate: 2025-02-01
+startDate: 2026-02-20
 github: "https://github.com/EanLee/artifact-cleaner"
 keywords: ["node_modules", "清理工具", ".NET", "CLI", "C#"]
 lastmod: 2026-02-23T00:00:00+08:00
@@ -14,9 +14,11 @@ lastmod: 2026-02-23T00:00:00+08:00
 
 在成長為使用 AI Agent（Claude Code）快速開發多個前端或 Node.js 專案後，才發現一個隱藏的成本問題：**磁碟空間被無形中吃掉了**。
 
-某一天檢查硬碟空間發現滿了。一查才發現，分散在各個專案中的 `node_modules` 資料夾竟然佔用了將近 **10GB** 的空間！想找一個簡單易用的工具來統一清理，卻發現市面上的要嘛太複雜，要嘛功能不齊全。
+某一天檢查硬碟空間發現滿了。一查才發現，分散在各個專案中的 `node_modules` 資料夾竟然佔用了將近 **10GB** 的空間！
 
-於過年期間，使用 **Claude Code** 快速完成了這個 .NET CLI 工具的開發。
+雖然使用配合經常使用的 [Everything](https://www.voidtools.com/) 工具，快速找到這些 `node_modules` 的位置，但是要手動刪除這些資料夾，還是很麻煩。
+
+在過年期間，使用 **Claude Code** 快速完成了這個 .NET CLI 工具的開發。
 
 ## 功能特色
 
@@ -49,8 +51,4 @@ lastmod: 2026-02-23T00:00:00+08:00
 - 刪除前請確認選擇的資料夾
 - 建議先使用 `scan` 命令檢視，確認無誤後再使用 `clean` 命令
 
-## GitHub 倉庫
-
-https://github.com/EanLee/artifact-cleaner
-
-提供完整的原始碼、測試和發布構建。
+有任何問題或建議，歡迎在 GitHub 上提出 Issue 或 Pull Request！
