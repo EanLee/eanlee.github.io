@@ -85,7 +85,14 @@ const jsonLd = {
 
 <html lang="zh-tw">
   <head>
-    <BaseHead title={title + " - " + SITE_TITLE} description={description} keywords={keywords} />
+    <BaseHead 
+      title={title + " - " + SITE_TITLE} 
+      description={description} 
+      keywords={keywords}
+      ogType="article"
+      publishedTime={date}
+      modifiedTime={lastmod}
+    />
     <!-- JSON-LD 結構化資料 for SEO -->
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   </head>

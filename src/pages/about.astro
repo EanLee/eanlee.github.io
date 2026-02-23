@@ -1,0 +1,98 @@
+---
+import GeneralLayout from "../layouts/GeneralLayout.astro";
+import { SITE_TITLE } from "../consts";
+import { getEntry } from "astro:content";
+
+// 獲取 about 頁面內容
+const aboutPage = await getEntry("pages", "about");
+const { Content } = await aboutPage.render();
+
+const title = aboutPage.data.title;
+const description = aboutPage.data.description;
+
+// About 頁面結構化資料
+const aboutStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  "mainEntity": {
+    "@type": "Person",
+    "name": "Ean Lee",
+    "description": "資深軟體開發者，專注於 .NET、Cloud Native 與系統架構設計",
+    "url": Astro.url.toString(),
+    "sameAs": [
+      "https://github.com/EanLee"
+    ],
+    "jobTitle": "軟體開發者",
+    "knowsAbout": [".NET", "Cloud Native", "DevOps", "系統架構", "容器化技術"]
+  }
+};
+---
+
+<GeneralLayout title={title}>
+  <script type="application/ld+json" set:html={JSON.stringify(aboutStructuredData)} />
+  
+  <article class="about-page">
+    <header class="page-header">
+      <h1>{title}</h1>
+    </header>
+
+    <div class="content-wrapper prose">
+      <Content />
+    </div>
+  </article>
+</GeneralLayout>
+
+<style>
+  .about-page {
+    width: 100%;
+    max-width: var(--container-md);
+    margin: 0 auto;
+    padding: var(--spacing-xl) var(--spacing-md);
+  }
+
+  .page-header {
+    text-align: center;
+    margin-bottom: var(--spacing-2xl);
+    padding-bottom: var(--spacing-lg);
+    border-bottom: 2px solid var(--color-border);
+  }
+
+  .page-header h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: 0;
+    line-height: 1.2;
+  }
+
+  .content-wrapper {
+    max-width: 100%;
+  }
+
+  /* Markdown 內容樣式交由 prose 處理 */
+  .prose {
+    font-size: var(--font-size-lg);
+    line-height: 1.8;
+  }
+
+  /* 響應式設計 */
+  @media (max-width: 768px) {
+    .about-page {
+      padding: var(--spacing-lg) var(--spacing-sm);
+    }
+
+    .page-header {
+      margin-bottom: var(--spacing-xl);
+    }
+
+    .page-header h1 {
+      font-size: 2rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .about-page {
+      padding: var(--spacing-md) var(--spacing-sm);
+    }
+  }
+</style>
