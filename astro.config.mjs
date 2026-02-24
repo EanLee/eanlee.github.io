@@ -67,7 +67,7 @@ export default defineConfig({
     "/post/troubleshooting/http-response-status-unexpected-note/": "/post/software/http-response-status-unexpected-note/",
     "/post/develop/dotnet-ef-core-customized-dbcontext-entity/": "/post/software/dotnet-ef-core-customized-dbcontext-entity/",
     "/post/devops/build-gitlab-on-private-environment/": "/post/software/build-gitlab-on-private-environment/",
-    
+
     // Series overview pages to series URLs
     "/software/series/build-automated-deploy/": "/series/software/series/build-automated-deploy/",
     "/software/series/side-project/": "/series/software/series/side-project/"
