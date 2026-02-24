@@ -4,15 +4,16 @@ import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import BackToTop from "../components/BackToTop.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
-const { title, coverImage } = Astro.props;
+const { title, description, noindex = false } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="zh-TW">
   <head>
     <BaseHead
       title={title ? title + " - " + SITE_TITLE : SITE_TITLE}
-      description={SITE_DESCRIPTION}
+      description={description || SITE_DESCRIPTION}
+      noindex={noindex}
     />
   </head>
   <body>

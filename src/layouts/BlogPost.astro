@@ -10,6 +10,7 @@ import BackToTop from "../components/BackToTop.astro";
 import TableOfContents from "../components/TableOfContents.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
 import EnhancedAnalytics from "../components/EnhancedAnalytics.astro";
+import Giscus from "../components/Giscus.astro";
 import { Image } from 'astro:assets';
 
 import { SITE_TITLE } from "../consts";
@@ -169,6 +170,9 @@ const jsonLd = {
 
               <!-- Prev/Next 限系列文 -->
               <SeriesArticleNav series={series} title={title} />
+
+              <!-- 留言系統 -->
+              <Giscus />
             </div>
             <aside class="sidebar">
               <TableOfContents />

@@ -1,0 +1,54 @@
+---
+/**
+ * Giscus 留言元件
+ *
+ * 設定步驟（只需做一次）：
+ * 1. 確認 GitHub repo 已開啟 Discussions 功能
+ *    → GitHub repo → Settings → Features → Discussions ✅
+ *
+ * 2. 安裝 Giscus GitHub App：
+ *    → https://github.com/apps/giscus → Install → 選擇你的 repo
+ *
+ * 3. 前往 https://giscus.app/zh-TW 填入以下資訊：
+ *    - Repository: eanlee/eanlee.github.io
+ *    - Discussion Category: 建議選 "General" 或新增 "Comments" 分類
+ *    - Mapping: pathname（每篇文章對應一個 Discussion）
+ *
+ * 4. 複製 giscus.app 產生的 repo-id 和 category-id，填入下方 TODO 處
+ */
+
+// TODO: 從 https://giscus.app/zh-TW 取得以下兩個值後填入
+const REPO_ID = "R_kgDORXTkCg";
+const CATEGORY_ID = "DIC_kwDORXTkCs4C3FZb";
+
+const REPO = "EanLee/blog-discussions";
+const CATEGORY = "Comments";
+---
+
+<section class="giscus-container">
+  <script
+    src="https://giscus.app/client.js"
+    data-repo={REPO}
+    data-repo-id={REPO_ID}
+    data-category={CATEGORY}
+    data-category-id={CATEGORY_ID}
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="bottom"
+    data-theme="preferred_color_scheme"
+    data-lang="zh-TW"
+    data-loading="lazy"
+    crossorigin="anonymous"
+    async
+  ></script>
+</section>
+
+<style>
+  .giscus-container {
+    margin-top: var(--spacing-xl, 3rem);
+    padding-top: var(--spacing-lg, 2rem);
+    border-top: 1px solid var(--color-border, #e5e7eb);
+  }
+</style>
