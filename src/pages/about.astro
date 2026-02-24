@@ -16,19 +16,21 @@ const aboutStructuredData = {
   "@type": "AboutPage",
   "mainEntity": {
     "@type": "Person",
-    "name": "Ean Lee",
-    "description": "資深軟體開發者，專注於 .NET、Cloud Native 與系統架構設計",
+    "name": "Ean Lee (伊恩)",
+    "description": "以 .NET 為主力的軟體工程師，同時涉獵 Cloud Native、容器化技術、監控整合與 SRE 實踐。橫跨醫療、金融、電商多年實戰，持續探索 AI Agent 協作的開發新模式。",
     "url": Astro.url.toString(),
     "sameAs": [
-      "https://github.com/EanLee"
+      "https://github.com/EanLee",
+      "https://www.linkedin.com/in/eanlee/",
+      "https://x.com/wosilee"
     ],
-    "jobTitle": "軟體開發者",
-    "knowsAbout": [".NET", "Cloud Native", "DevOps", "系統架構", "容器化技術"]
+    "jobTitle": ".NET & Cloud Native 工程師",
+    "knowsAbout": [".NET", "Cloud Native", "Docker", "Kubernetes", "SRE", "監控整合", "技術管理", "AI Agent"]
   }
 };
 ---
 
-<GeneralLayout title={title}>
+<GeneralLayout title={title} description={description}>
   <script type="application/ld+json" set:html={JSON.stringify(aboutStructuredData)} />
   
   <article class="about-page">
