@@ -1,0 +1,182 @@
+---
+---
+
+<section class="hero">
+  <div class="hero-content">
+    <p class="hero-greeting">Hi，我是</p>
+    <h1 class="hero-name">伊恩 <span class="hero-name-en">Ean Lee</span></h1>
+    <p class="hero-role">資深 .NET／Cloud Native 工程師</p>
+    <p class="hero-desc">
+      資深 .NET 工程師，正在探索 AI Agent 協作的開發新模式。<br />
+      橫跨醫療、金融、電商的實戰背景，<br />
+      從架構設計到技術管理，寫下每個值得記錄的決策。
+    </p>
+    <ul class="hero-tags">
+      <li>.NET 8</li>
+      <li>Cloud Native</li>
+      <li>SRE 涉獵</li>
+      <li>技術管理</li>
+      <li>AI Agent 協作</li>
+    </ul>
+    <div class="hero-cta">
+      <a href="/about/" class="btn btn-primary">關於我</a>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <img src="/hero.webp" alt="伊恩的開發狂想" class="hero-img" />
+  </div>
+</section>
+
+<style>
+  /* ── Hero Layout ── */
+  .hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-2xl);
+    align-items: center;
+    padding: var(--spacing-xl) 0 var(--spacing-2xl);
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: var(--spacing-xl);
+  }
+
+  /* ── Left: Text Content ── */
+  .hero-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+
+  .hero-greeting {
+    font-size: var(--font-size-lg);
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+
+  .hero-name {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 700;
+    color: var(--color-text);
+    margin: 0;
+    line-height: 1.2;
+  }
+
+  .hero-name-en {
+    color: var(--color-primary, #4299e1);
+    font-weight: 400;
+    font-size: 0.7em;
+  }
+
+  .hero-role {
+    font-size: var(--font-size-lg);
+    color: var(--color-text-muted);
+    margin: 0;
+    font-weight: 500;
+  }
+
+  .hero-desc {
+    font-size: var(--font-size-base);
+    color: var(--color-text-muted);
+    margin: var(--spacing-xs) 0 var(--spacing-sm);
+    line-height: 1.8;
+    border-left: 3px solid var(--color-primary, #4299e1);
+    padding-left: var(--spacing-md);
+  }
+
+  .hero-desc em {
+    color: var(--color-primary, #4299e1);
+    font-style: normal;
+    font-weight: 600;
+  }
+
+  .hero-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-xs);
+    list-style: none;
+    padding: 0;
+    margin: 0 0 var(--spacing-md);
+  }
+
+  .hero-tags li {
+    font-size: 0.75rem;
+    font-weight: 500;
+    padding: 2px 10px;
+    border-radius: 999px;
+    background-color: color-mix(in srgb, var(--color-primary, #4299e1) 12%, transparent);
+    color: var(--color-primary, #4299e1);
+    border: 1px solid color-mix(in srgb, var(--color-primary, #4299e1) 30%, transparent);
+    white-space: nowrap;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: var(--spacing-md);
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.6rem 1.4rem;
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-base);
+    font-weight: 500;
+    text-decoration: none;
+    transition: opacity var(--transition-fast, 0.15s ease);
+  }
+
+  .btn:hover {
+    opacity: 0.85;
+  }
+
+  .btn-primary {
+    background-color: var(--color-primary, #4299e1);
+    color: #fff;
+  }
+
+  /* ── Right: Visual Card / Image ── */
+  .hero-visual {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .hero-img {
+    width: 100%;
+    max-width: 420px;
+    border-radius: var(--radius-lg, 12px);
+    box-shadow: var(--shadow-lg);
+    object-fit: cover;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 768px) {
+    .hero {
+      grid-template-columns: 1fr;
+      gap: var(--spacing-xl);
+    }
+
+    .hero-visual {
+      order: -1; /* 手機版：圖在上、文字在下 */
+    }
+
+    .hero-card {
+      max-width: 100%;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .hero-cta {
+      flex-direction: column;
+    }
+
+    .btn {
+      justify-content: center;
+    }
+
+    .hero-card {
+      font-size: 0.75rem;
+    }
+  }
+</style>
