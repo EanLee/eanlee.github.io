@@ -1,0 +1,155 @@
+---
+import { getCollection } from "astro:content";
+
+interface Props {
+  currentSlug: string;
+  tags?: string[];
+  categories?: string[];
+  series?: string;
+}
+
+const { currentSlug, tags = [], categories = [], series } = Astro.props;
+
+const allPosts = await getCollection("blog");
+
+// 排除目前這篇
+const otherPosts = allPosts.filter(
+  (p) => p.id.slice(0, p.id.lastIndexOf("/")).toLowerCase() !== currentSlug
+);
+
+let related: typeof otherPosts = [];
+
+// 優先：同系列
+if (series) {
+  const seriesPosts = otherPosts.filter((p) => p.data.series === series);
+  related = seriesPosts.slice(0, 4);
+}
+
+// 其次：共同 tag 最多的文章
+if (related.length < 3 && tags.length > 0) {
+  const lowerTags = tags.map((t) => t.toLowerCase());
+  const byTags = otherPosts
+    .filter((p) => !related.some((r) => r.id === p.id))
+    .filter((p) => p.data.tags?.some((t) => lowerTags.includes(t.toLowerCase())))
+    .sort((a, b) => {
+      const aMatch = a.data.tags?.filter((t) => lowerTags.includes(t.toLowerCase())).length ?? 0;
+      const bMatch = b.data.tags?.filter((t) => lowerTags.includes(t.toLowerCase())).length ?? 0;
+      return bMatch - aMatch;
+    });
+  related = [...related, ...byTags].slice(0, 4);
+}
+
+// 最後：同分類最新
+if (related.length < 3 && categories.length > 0) {
+  const lowerCats = categories.map((c) => c.toLowerCase());
+  const byCat = otherPosts
+    .filter((p) => !related.some((r) => r.id === p.id))
+    .filter((p) => p.data.categories?.some((c) => lowerCats.includes(c.toLowerCase())))
+    .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+  related = [...related, ...byCat].slice(0, 4);
+}
+
+related = related.slice(0, 3);
+---
+
+{related.length > 0 && (
+  <section class="related-posts">
+    <h2 class="related-title">延伸閱讀</h2>
+    <div class="related-grid">
+      {related.map((post) => {
+        const path = post.id.slice(0, post.id.lastIndexOf("/")).toLowerCase();
+        return (
+          <a href={`/post/${path}/`} class="related-card">
+            <div class="related-meta">
+              {post.data.tags?.slice(0, 2).map((tag) => (
+                <span class="related-tag">{tag}</span>
+              ))}
+            </div>
+            <h3 class="related-card-title">{post.data.title}</h3>
+            {post.data.description && (
+              <p class="related-card-desc">
+                {post.data.description.length > 80
+                  ? post.data.description.slice(0, 80) + "..."
+                  : post.data.description}
+              </p>
+            )}
+          </a>
+        );
+      })}
+    </div>
+  </section>
+)}
+
+<style>
+  .related-posts {
+    margin: var(--spacing-2xl) 0 var(--spacing-xl);
+    padding-top: var(--spacing-xl);
+    border-top: 1px solid rgba(var(--gray-light), 0.5);
+  }
+
+  .related-title {
+    font-size: 0.9rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-lg);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .related-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: var(--spacing-md);
+  }
+
+  .related-card {
+    display: block;
+    padding: var(--spacing-md);
+    border: 1px solid rgba(var(--gray-light), 0.3);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    background-color: var(--color-bg-secondary);
+    transition: border-color var(--transition-normal), transform var(--transition-normal);
+  }
+
+  .related-card:hover {
+    border-color: var(--color-primary);
+    transform: translateY(-2px);
+  }
+
+  .related-meta {
+    display: flex;
+    gap: var(--spacing-xs);
+    flex-wrap: wrap;
+    margin-bottom: var(--spacing-xs);
+  }
+
+  .related-tag {
+    font-size: 0.7rem;
+    color: var(--color-primary);
+    background-color: rgba(var(--accent-rgb), 0.1);
+    padding: 0.1em 0.4em;
+    border-radius: var(--radius-sm);
+  }
+
+  .related-card-title {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-primary);
+    margin: 0 0 var(--spacing-xs);
+    line-height: 1.4;
+  }
+
+  .related-card-desc {
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  @media (max-width: 768px) {
+    .related-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

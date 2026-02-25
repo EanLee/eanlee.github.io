@@ -11,6 +11,7 @@ import TableOfContents from "../components/TableOfContents.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
 import EnhancedAnalytics from "../components/EnhancedAnalytics.astro";
 import Giscus from "../components/Giscus.astro";
+import RelatedPosts from "../components/RelatedPosts.astro";
 import { Image } from 'astro:assets';
 
 import { SITE_TITLE } from "../consts";
@@ -170,6 +171,14 @@ const jsonLd = {
 
               <!-- Prev/Next 限系列文 -->
               <SeriesArticleNav series={series} title={title} />
+
+              <!-- 延伸閱讀 -->
+              <RelatedPosts
+                currentSlug={Astro.url.pathname.replace(/^\/post\//, "").replace(/\/$/, "")}
+                tags={tags}
+                categories={categories}
+                series={series}
+              />
 
               <!-- 留言系統 -->
               <Giscus />
