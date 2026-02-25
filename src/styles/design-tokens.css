@@ -12,8 +12,8 @@
 
   /* 警示色系 */
   --color-warning: #ed8936;
-  --color-warning-bg: rgba(237, 137, 54, 0.2);
-  --color-warning-border: rgba(237, 137, 54, 0.5);
+  --color-bg-warning: rgba(237, 137, 54, 0.2);
+  --color-border-warning: rgba(237, 137, 54, 0.5);
 
   /* 文字色系 */
   --color-text: #e6edf3;
