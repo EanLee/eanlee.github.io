@@ -193,7 +193,7 @@ const seriesGroups = epicSeries.map(series => {
   .page-header {
     margin-bottom: 2rem;
     padding-bottom: 1rem;
-    border-bottom: 1px solid #eaeaea;
+    border-bottom: 1px solid var(--color-border-light);
   }
   
   .page-header h1 {
@@ -205,7 +205,7 @@ const seriesGroups = epicSeries.map(series => {
   
   .page-header p {
     font-size: 1rem;
-    color: #666;
+    color: var(--text-muted);
     margin: 0;
   }
   
@@ -231,12 +231,12 @@ const seriesGroups = epicSeries.map(series => {
     align-items: center;
     margin-bottom: 0.75rem;
     padding-bottom: 0.75rem;
-    border-bottom: 1px dashed #e2e8f0;
+    border-bottom: 1px dashed var(--card-border);
   }
   
   .post-date {
     font-size: 0.875rem;
-    color: #718096;
+    color: var(--text-muted);
   }
   
   .post-tags {
@@ -250,7 +250,7 @@ const seriesGroups = epicSeries.map(series => {
   }
   
   .tag-link {
-    color: #4682b4;
+    color: var(--link-color);
     text-decoration: none;
     transition: color 0.2s ease;
   }
@@ -266,7 +266,7 @@ const seriesGroups = epicSeries.map(series => {
   }
   
   .post-title a {
-    color: #333;
+    color: var(--text-primary);
     text-decoration: none;
     transition: color 0.2s ease;
   }
@@ -277,7 +277,7 @@ const seriesGroups = epicSeries.map(series => {
   
   .post-description {
     font-size: 0.95rem;
-    color: #555;
+    color: var(--text-secondary);
     margin-bottom: 1rem;
     line-height: 1.5;
   }
@@ -299,8 +299,8 @@ const seriesGroups = epicSeries.map(series => {
   .no-posts {
     padding: 2rem;
     text-align: center;
-    color: #666;
-    background-color: #f9f9f9;
+    color: var(--text-muted);
+    background-color: var(--color-bg-secondary);
     border-radius: 8px;
   }
   
@@ -314,7 +314,7 @@ const seriesGroups = epicSeries.map(series => {
     margin: 0 0 1.5rem 0;
     padding-bottom: 0.75rem;
     border-bottom: 2px solid var(--accentColor);
-    color: #333;
+    color: var(--text-primary);
   }
   
   @media (max-width: 1200px) {
