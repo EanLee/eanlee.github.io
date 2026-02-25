@@ -103,13 +103,13 @@ const sortedYears = Object.keys(postsByYear).sort(
   .archives-title {
     font-size: 2rem;
     font-weight: 700;
-    color: var(--title-color, #333);
+    color: var(--text-primary);
     margin: 0;
   }
 
   .archives-meta {
     font-size: 1rem;
-    color: var(--meta-color, #666);
+    color: var(--text-muted);
     background-color: rgba(var(--accent-light), 0.2);
     padding: 0.3rem 0.8rem;
     border-radius: 20px;
@@ -127,7 +127,7 @@ const sortedYears = Object.keys(postsByYear).sort(
     display: flex;
     align-items: baseline;
     margin-bottom: 1rem;
-    border-bottom: 1px dashed rgba(var(--gray-light), 0.5);
+    border-bottom: 1px dashed rgba(var(--color-gray-light), 0.5);
     padding-bottom: 0.5rem;
   }
 
@@ -141,7 +141,7 @@ const sortedYears = Object.keys(postsByYear).sort(
 
   .year-count {
     font-size: 0.9rem;
-    color: var(--meta-color, #666);
+    color: var(--text-muted);
   }
 
   .year-posts {
@@ -166,13 +166,13 @@ const sortedYears = Object.keys(postsByYear).sort(
     text-align: right;
     margin-right: 1.5rem;
     font-size: 0.9rem;
-    color: var(--meta-color, #666);
+    color: var(--text-muted);
     flex-shrink: 0;
   }
 
   .post-link {
     text-decoration: none;
-    color: var(--text-color, #333);
+    color: var(--text-primary);
     transition: color 0.2s ease;
   }
 
