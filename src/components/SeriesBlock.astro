@@ -105,7 +105,7 @@ const displayCount = Math.min(5, posts.length);
     font-size: 1.5rem;
     font-weight: 700;
     margin: 0;
-    color: var(--title-color);
+    color: var(--text-primary);
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -170,7 +170,7 @@ const displayCount = Math.min(5, posts.length);
     align-items: center;
     gap: 0.5rem;
     font-size: 0.85rem;
-    color: var(--meta-color);
+    color: var(--text-muted);
   }
 
   .post-tags {
@@ -208,7 +208,7 @@ const displayCount = Math.min(5, posts.length);
   }
 
   .post-title a {
-    color: var(--title-color);
+    color: var(--text-primary);
     text-decoration: none;
     transition: color 0.2s ease;
   }
@@ -219,7 +219,7 @@ const displayCount = Math.min(5, posts.length);
 
   .post-excerpt {
     font-size: 0.95rem;
-    color: var(--text-color);
+    color: var(--text-primary);
     margin-bottom: 1rem;
     line-height: 1.5;
   }
@@ -246,8 +246,8 @@ const displayCount = Math.min(5, posts.length);
   .no-posts {
     padding: 2rem;
     text-align: center;
-    color: var(--meta-color);
-    background-color: #f9f9f9;
+    color: var(--text-muted);
+    background-color: var(--color-bg-secondary);
     border-radius: 8px;
   }
 
