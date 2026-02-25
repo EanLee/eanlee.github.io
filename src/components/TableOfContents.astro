@@ -112,7 +112,6 @@
   }
 
   document.addEventListener('astro:page-load', initTOC);
-  document.addEventListener('DOMContentLoaded', initTOC);
 
   // 如果文檔已經載入完成，直接執行
   if (document.readyState === 'loading') {
@@ -128,7 +127,7 @@
     top: 80px;
     max-height: calc(100vh - 100px);
     overflow-y: auto;
-    padding-left: 1.5rem;
+    padding-left: var(--spacing-lg);
   }
 
   .toc-header {
@@ -137,7 +136,7 @@
     text-transform: uppercase;
     letter-spacing: 0.05em;
     color: var(--text-primary);
-    margin-bottom: 1rem;
+    margin-bottom: var(--spacing-md);
   }
 
   /* 桌面版：隱藏 toggle 按鈕 */
@@ -158,21 +157,21 @@
     text-decoration: none;
     font-size: 0.9rem;
     transition: all 0.2s ease;
-    line-height: 1.5;
-    padding: 0.25rem 0 0.25rem 1rem;
+    line-height: var(--line-height-normal);
+    padding: var(--spacing-xs) 0 var(--spacing-xs) var(--spacing-md);
     border-left: 2px solid transparent;
   }
 
   :global(.toc-item.toc-h2 a) {
-    padding-left: 1rem;
+    padding-left: var(--spacing-md);
   }
 
   :global(.toc-item.toc-h3 a) {
-    padding-left: 2rem;
+    padding-left: var(--spacing-xl);
   }
 
   :global(.toc-item.toc-h4 a) {
-    padding-left: 3rem;
+    padding-left: var(--spacing-2xl);
     font-size: 0.85rem;
   }
 
@@ -186,7 +185,7 @@
     border-left-color: var(--color-primary);
   }
 
-  @media (max-width: 1023px) {
+  @media (max-width: 1024px) {
     .toc-wrapper {
       position: static;
       max-height: none;
@@ -220,7 +219,7 @@
 
     .toc-toggle-arrow {
       transition: transform var(--transition-normal);
-      font-size: 1rem;
+      font-size: var(--font-size-base);
     }
 
     .toc-toggle[aria-expanded="true"] .toc-toggle-arrow {
