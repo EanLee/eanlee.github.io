@@ -86,8 +86,8 @@ const jsonLd = {
 
 // 文章新鮮度警示：超過 2 年顯示提示
 const TWO_YEARS_MS = 730 * 24 * 60 * 60 * 1000;
-const isStale = Date.now() - date.getTime() > TWO_YEARS_MS;
-const staleYear = date.getFullYear();
+const isStale = date instanceof Date && Date.now() - date.getTime() > TWO_YEARS_MS;
+const staleYear = date instanceof Date ? date.getFullYear() : 0;
 ---
 
 <html lang="zh-tw">
