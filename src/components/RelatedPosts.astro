@@ -8,7 +8,14 @@ interface Props {
   series?: string;
 }
 
-const { currentSlug, tags = [], categories = [], series } = Astro.props;
+const {
+  currentSlug,
+  tags: rawTags = [],
+  categories: rawCategories = [],
+  series,
+} = Astro.props;
+const tags = rawTags ?? [];
+const categories = rawCategories ?? [];
 
 const allPosts = await getCollection("blog");
 
@@ -84,7 +91,7 @@ related = related.slice(0, 3);
   .related-posts {
     margin: var(--spacing-2xl) 0 var(--spacing-xl);
     padding-top: var(--spacing-xl);
-    border-top: 1px solid rgba(var(--gray-light), 0.5);
+    border-top: 1px solid rgba(var(--color-gray-light), 0.5);
   }
 
   .related-title {
@@ -105,7 +112,7 @@ related = related.slice(0, 3);
   .related-card {
     display: block;
     padding: var(--spacing-md);
-    border: 1px solid rgba(var(--gray-light), 0.3);
+    border: 1px solid rgba(var(--color-gray-light), 0.3);
     border-radius: var(--radius-md);
     text-decoration: none;
     background-color: var(--color-bg-secondary);
@@ -127,7 +134,7 @@ related = related.slice(0, 3);
   .related-tag {
     font-size: 0.7rem;
     color: var(--color-primary);
-    background-color: rgba(var(--accent-rgb), 0.1);
+    background-color: rgba(107, 138, 255, 0.1);
     padding: 0.1em 0.4em;
     border-radius: var(--radius-sm);
   }
