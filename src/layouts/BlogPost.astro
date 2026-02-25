@@ -11,6 +11,7 @@ import TableOfContents from "../components/TableOfContents.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
 import EnhancedAnalytics from "../components/EnhancedAnalytics.astro";
 import Giscus from "../components/Giscus.astro";
+import RelatedPosts from "../components/RelatedPosts.astro";
 import { Image } from 'astro:assets';
 
 import { SITE_TITLE } from "../consts";
@@ -82,6 +83,12 @@ const jsonLd = {
   wordCount: wordCount,
   inLanguage: "zh-TW",
 };
+
+// 文章新鮮度警示：以 lastmod（若有）或 date 判斷，超過 2 年顯示提示
+const TWO_YEARS_MS = 730 * 24 * 60 * 60 * 1000;
+const freshnessDate = (lastmod instanceof Date ? lastmod : null) ?? (date instanceof Date ? date : null);
+const isStale = freshnessDate !== null && Date.now() - freshnessDate.getTime() > TWO_YEARS_MS;
+const staleYear = date instanceof Date ? date.getFullYear() : 0;
 ---
 
 <html lang="zh-tw">
@@ -156,6 +163,11 @@ const jsonLd = {
                   </div>
                 )
               }
+              {isStale && (
+                <div class="stale-warning">
+                  ⚠️ 此文章發布於 {staleYear} 年，部分工具版本或語法可能已更新，建議對照官方文檔確認。
+                </div>
+              )}
             </div>
           </div>
 
@@ -170,6 +182,14 @@ const jsonLd = {
 
               <!-- Prev/Next 限系列文 -->
               <SeriesArticleNav series={series} title={title} />
+
+              <!-- 延伸閱讀 -->
+              <RelatedPosts
+                currentSlug={Astro.url.pathname.replace(/^\/post\//, "").replace(/\/$/, "")}
+                tags={tags}
+                categories={categories}
+                series={series}
+              />
 
               <!-- 留言系統 -->
               <Giscus />
@@ -365,6 +385,19 @@ const jsonLd = {
         margin: 0 var(--spacing-xs) 0.6em;
         padding: 0.2em var(--spacing-sm);
         display: inline-block;
+      }
+
+      .stale-warning {
+        margin-top: var(--spacing-sm);
+        padding: 0.4em 0.8em;
+        background-color: rgba(237, 137, 54, 0.2);
+        border: 1px solid rgba(237, 137, 54, 0.5);
+        border-radius: var(--radius-sm);
+        color: #ed8936;
+        font-size: 0.8em;
+        line-height: 1.5;
+        text-align: center;
+        max-width: 600px;
       }
 
       .tags a:hover {

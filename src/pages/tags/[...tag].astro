@@ -45,12 +45,32 @@ const pageTitle = `${originalTag} (${filteredPosts.length})`;
 
 // 標籤主題色（橙紅色系）
 const accentColor = "#ff6b6b";
+
+// CollectionPage 結構化資料
+const tagJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: `${originalTag} - 伊恩的開發狂想`,
+  description: `探索所有標記為「${originalTag}」的文章，共 ${filteredPosts.length} 篇`,
+  url: new URL(`/tags/${tag}/`, Astro.site).href,
+  numberOfItems: filteredPosts.length,
+  itemListElement: filteredPosts.slice(0, 10).map((post, index) => {
+    const path = post.id.slice(0, post.id.lastIndexOf("/")).toLowerCase();
+    return {
+      "@type": "ListItem",
+      position: index + 1,
+      url: new URL(`/post/${path}/`, Astro.site).href,
+      name: post.data.title,
+    };
+  }),
+};
 ---
 
 <!doctype html>
 <html lang="zh-TW">
   <head>
     <BaseHead title={pageTitle + " - " + SITE_TITLE} description={SITE_DESCRIPTION} />
+    <script type="application/ld+json" set:html={JSON.stringify(tagJsonLd)} />
   </head>
   <body>
     <Header />

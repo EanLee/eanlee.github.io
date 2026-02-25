@@ -68,12 +68,32 @@ switch(category) {
   default:
     accentColor = "#4299e1"; // 默認藍色
 }
+
+// CollectionPage 結構化資料
+const categoryJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: `${formattedCategory} - 伊恩的開發狂想`,
+  description: `探索「${formattedCategory}」分類下的 ${categoryCount} 篇文章`,
+  url: new URL(`/categories/${category}/`, Astro.site).href,
+  numberOfItems: categoryCount,
+  itemListElement: filteredPosts.slice(0, 10).map((post, index) => {
+    const path = post.id.slice(0, post.id.lastIndexOf("/")).toLowerCase();
+    return {
+      "@type": "ListItem",
+      position: index + 1,
+      url: new URL(`/post/${path}/`, Astro.site).href,
+      name: post.data.title,
+    };
+  }),
+};
 ---
 
 <!doctype html>
 <html lang="zh-TW">
   <head>
     <BaseHead title={pageTitle + " - " + SITE_TITLE} description={SITE_DESCRIPTION} />
+    <script type="application/ld+json" set:html={JSON.stringify(categoryJsonLd)} />
   </head>
   <body>
     <Header />

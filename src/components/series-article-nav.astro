@@ -51,7 +51,7 @@ const nextPost =
         <div class="flex justify-between space-x-10">
           {previousPost ? (
             <div class="flex-1 flex flex-col items-center p-4 bg-gray-100 rounded-lg">
-              <a class="no-underline" href={getPostPath(previousPost)}>
+              <a class="no-underline" rel="prev" href={getPostPath(previousPost)}>
                 <div class="uppercase text-xs text-gray-500">Previous</div>
                 <div class="text-lg font-medium">{previousPost.data.title}</div>
               </a>
@@ -62,7 +62,7 @@ const nextPost =
 
           {nextPost ? (
             <div class="flex-1 flex flex-col items-center p-4 bg-gray-100 rounded-lg">
-              <a class="no-underline" href={getPostPath(nextPost)}>
+              <a class="no-underline" rel="next" href={getPostPath(nextPost)}>
                 <div class="uppercase text-xs text-gray-500">Next</div>
                 <div class="text-lg font-medium">{nextPost.data.title}</div>
               </a>
