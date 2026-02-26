@@ -390,10 +390,10 @@ const staleYear = date instanceof Date ? date.getFullYear() : 0;
       .stale-warning {
         margin-top: var(--spacing-sm);
         padding: 0.4em 0.8em;
-        background-color: rgba(237, 137, 54, 0.2);
-        border: 1px solid rgba(237, 137, 54, 0.5);
+        background-color: var(--color-bg-warning);
+        border: 1px solid var(--color-border-warning);
         border-radius: var(--radius-sm);
-        color: #ed8936;
+        color: var(--color-warning);
         font-size: 0.8em;
         line-height: 1.5;
         text-align: center;
@@ -428,7 +428,7 @@ const staleYear = date instanceof Date ? date.getFullYear() : 0;
         font-size: 1.8em;
         font-weight: var(--font-weight-bold);
         color: var(--color-text);
-        border-bottom: 1px solid rgba(var(--gray-light), 0.8);
+        border-bottom: 1px solid rgba(var(--color-gray-light), 0.8);
         padding-bottom: 0.3em;
         word-wrap: break-word;
         overflow-wrap: break-word;
@@ -473,7 +473,7 @@ const staleYear = date instanceof Date ? date.getFullYear() : 0;
       }
 
       .article-content :global(blockquote) {
-        background-color: rgba(var(--gray-light), 0.3);
+        background-color: rgba(var(--color-gray-light), 0.3);
         border-left: 4px solid var(--accent);
         padding: 1em var(--spacing-lg);
         margin: var(--spacing-lg) 0;
@@ -587,7 +587,7 @@ const staleYear = date instanceof Date ? date.getFullYear() : 0;
       .article-content :global(th),
       .article-content :global(td) {
         padding: var(--spacing-sm) var(--spacing-md);
-        border: 1px solid rgba(var(--gray-light), 0.8);
+        border: 1px solid rgba(var(--color-gray-light), 0.8);
         text-align: left;
         word-wrap: break-word;
         overflow-wrap: break-word;
@@ -597,7 +597,7 @@ const staleYear = date instanceof Date ? date.getFullYear() : 0;
       }
 
       .article-content :global(th) {
-        background-color: rgba(var(--gray-light), 0.3);
+        background-color: rgba(var(--color-gray-light), 0.3);
         font-weight: var(--font-weight-semibold);
       }
 
@@ -788,12 +788,12 @@ const staleYear = date instanceof Date ? date.getFullYear() : 0;
       :global(.series-article-nav hr) {
         margin: 2em 0;
         border: 0;
-        border-top: 1px solid rgba(var(--gray-light), 0.5);
+        border-top: 1px solid rgba(var(--color-gray-light), 0.5);
       }
 
       :global(.series-article-nav a) {
         text-decoration: none;
-        color: var(--text-color);
+        color: var(--text-primary);
         transition: color 0.2s;
       }
 
@@ -830,7 +830,7 @@ const staleYear = date instanceof Date ? date.getFullYear() : 0;
       }
 
       :global(.series-article-nav .bg-gray-100) {
-        background-color: rgba(var(--gray-light), 0.2);
+        background-color: rgba(var(--color-gray-light), 0.2);
       }
 
       :global(.series-article-nav .rounded-lg) {

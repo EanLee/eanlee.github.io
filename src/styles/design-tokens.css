@@ -9,7 +9,12 @@
   /* 主色系 - 深色主題調亮版本 */
   --color-primary: #6b8aff;
   --color-primary-dark: #5b7cff;
-  
+
+  /* 警示色系 */
+  --color-warning: #ed8936;
+  --color-bg-warning: rgba(237, 137, 54, 0.2);
+  --color-border-warning: rgba(237, 137, 54, 0.5);
+
   /* 文字色系 */
   --color-text: #e6edf3;
   --color-text-light: #adbac7;
