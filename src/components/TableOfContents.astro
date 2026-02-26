@@ -1,9 +1,13 @@
---- 
+---
 // src/components/TableOfContents.astro
 // A sticky sidebar table of contents that appears when the main title is scrolled past.
 ---
 
 <div class="toc-wrapper">
+  <button class="toc-toggle" aria-expanded="false" aria-controls="toc-nav" id="toc-toggle-btn">
+    <span class="toc-toggle-label">目錄</span>
+    <span class="toc-toggle-arrow" aria-hidden="true">▾</span>
+  </button>
   <h3 class="toc-header">目錄</h3>
   <nav id="toc-nav" class="toc-nav"></nav>
 </div>
@@ -94,12 +98,21 @@
 
     headings.forEach((heading) => scrollSpyObserver.observe(heading));
 
+    // 手機版折疊按鈕
+    const toggleBtn = document.getElementById('toc-toggle-btn');
+    if (toggleBtn) {
+      toggleBtn.addEventListener('click', () => {
+        const isExpanded = toggleBtn.getAttribute('aria-expanded') === 'true';
+        toggleBtn.setAttribute('aria-expanded', String(!isExpanded));
+        tocNav.classList.toggle('toc-nav--open', !isExpanded);
+      });
+    }
+
     document.addEventListener('astro:before-swap', () => scrollSpyObserver.disconnect(), { once: true });
   }
 
   document.addEventListener('astro:page-load', initTOC);
-  document.addEventListener('DOMContentLoaded', initTOC);
-  
+
   // 如果文檔已經載入完成，直接執行
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initTOC);
@@ -114,7 +127,7 @@
     top: 80px;
     max-height: calc(100vh - 100px);
     overflow-y: auto;
-    padding-left: 1.5rem;
+    padding-left: var(--spacing-lg);
   }
 
   .toc-header {
@@ -123,7 +136,12 @@
     text-transform: uppercase;
     letter-spacing: 0.05em;
     color: var(--text-primary);
-    margin-bottom: 1rem;
+    margin-bottom: var(--spacing-md);
+  }
+
+  /* 桌面版：隱藏 toggle 按鈕 */
+  .toc-toggle {
+    display: none;
   }
 
   :global(.toc-list) {
@@ -139,21 +157,21 @@
     text-decoration: none;
     font-size: 0.9rem;
     transition: all 0.2s ease;
-    line-height: 1.5;
-    padding: 0.25rem 0 0.25rem 1rem;
+    line-height: var(--line-height-normal);
+    padding: var(--spacing-xs) 0 var(--spacing-xs) var(--spacing-md);
     border-left: 2px solid transparent;
   }
 
   :global(.toc-item.toc-h2 a) {
-    padding-left: 1rem;
+    padding-left: var(--spacing-md);
   }
 
   :global(.toc-item.toc-h3 a) {
-    padding-left: 2rem;
+    padding-left: var(--spacing-xl);
   }
 
   :global(.toc-item.toc-h4 a) {
-    padding-left: 3rem;
+    padding-left: var(--spacing-2xl);
     font-size: 0.85rem;
   }
 
@@ -167,9 +185,61 @@
     border-left-color: var(--color-primary);
   }
 
-  @media (max-width: 1023px) {
+  @media (max-width: 1024px) {
     .toc-wrapper {
+      position: static;
+      max-height: none;
+      overflow-y: visible;
+      padding-left: 0;
+      margin: var(--spacing-md) 0;
+      border: 1px solid rgba(var(--color-gray-light), 0.3);
+      border-radius: var(--radius-md);
+      background-color: var(--color-bg-secondary);
+    }
+
+    .toc-header {
       display: none;
+    }
+
+    .toc-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding: var(--spacing-sm) var(--spacing-md);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text-primary);
+      font-size: 0.9rem;
+      font-weight: var(--font-weight-semibold);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .toc-toggle-arrow {
+      transition: transform var(--transition-normal);
+      font-size: var(--font-size-base);
+    }
+
+    .toc-toggle[aria-expanded="true"] .toc-toggle-arrow {
+      transform: rotate(180deg);
+    }
+
+    #toc-nav {
+      display: none;
+      padding: 0 var(--spacing-md) var(--spacing-md);
+    }
+
+    #toc-nav.toc-nav--open {
+      display: block;
+    }
+  }
+
+  /* 桌面版：確保 toc-nav 一定顯示 */
+  @media (min-width: 1024px) {
+    #toc-nav {
+      display: block;
     }
   }
 </style>

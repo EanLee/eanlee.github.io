@@ -11,6 +11,7 @@ import TableOfContents from "../components/TableOfContents.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
 import EnhancedAnalytics from "../components/EnhancedAnalytics.astro";
 import Giscus from "../components/Giscus.astro";
+import RelatedPosts from "../components/RelatedPosts.astro";
 import { Image } from 'astro:assets';
 
 import { SITE_TITLE } from "../consts";
@@ -82,6 +83,12 @@ const jsonLd = {
   wordCount: wordCount,
   inLanguage: "zh-TW",
 };
+
+// 文章新鮮度警示：以 lastmod（若有）或 date 判斷，超過 2 年顯示提示
+const TWO_YEARS_MS = 730 * 24 * 60 * 60 * 1000;
+const freshnessDate = (lastmod instanceof Date ? lastmod : null) ?? (date instanceof Date ? date : null);
+const isStale = freshnessDate !== null && Date.now() - freshnessDate.getTime() > TWO_YEARS_MS;
+const staleYear = date instanceof Date ? date.getFullYear() : 0;
 ---
 
 <html lang="zh-tw">
@@ -156,6 +163,11 @@ const jsonLd = {
                   </div>
                 )
               }
+              {isStale && (
+                <div class="stale-warning">
+                  ⚠️ 此文章發布於 {staleYear} 年，部分工具版本或語法可能已更新，建議對照官方文檔確認。
+                </div>
+              )}
             </div>
           </div>
 
@@ -170,6 +182,14 @@ const jsonLd = {
 
               <!-- Prev/Next 限系列文 -->
               <SeriesArticleNav series={series} title={title} />
+
+              <!-- 延伸閱讀 -->
+              <RelatedPosts
+                currentSlug={Astro.url.pathname.replace(/^\/post\//, "").replace(/\/$/, "")}
+                tags={tags}
+                categories={categories}
+                series={series}
+              />
 
               <!-- 留言系統 -->
               <Giscus />
@@ -367,6 +387,19 @@ const jsonLd = {
         display: inline-block;
       }
 
+      .stale-warning {
+        margin-top: var(--spacing-sm);
+        padding: 0.4em 0.8em;
+        background-color: var(--color-bg-warning);
+        border: 1px solid var(--color-border-warning);
+        border-radius: var(--radius-sm);
+        color: var(--color-warning);
+        font-size: 0.8em;
+        line-height: 1.5;
+        text-align: center;
+        max-width: 600px;
+      }
+
       .tags a:hover {
         background-color: rgba(var(--color-white), 0.3);
       }
@@ -395,7 +428,7 @@ const jsonLd = {
         font-size: 1.8em;
         font-weight: var(--font-weight-bold);
         color: var(--color-text);
-        border-bottom: 1px solid rgba(var(--gray-light), 0.8);
+        border-bottom: 1px solid rgba(var(--color-gray-light), 0.8);
         padding-bottom: 0.3em;
         word-wrap: break-word;
         overflow-wrap: break-word;
@@ -440,7 +473,7 @@ const jsonLd = {
       }
 
       .article-content :global(blockquote) {
-        background-color: rgba(var(--gray-light), 0.3);
+        background-color: rgba(var(--color-gray-light), 0.3);
         border-left: 4px solid var(--accent);
         padding: 1em var(--spacing-lg);
         margin: var(--spacing-lg) 0;
@@ -554,7 +587,7 @@ const jsonLd = {
       .article-content :global(th),
       .article-content :global(td) {
         padding: var(--spacing-sm) var(--spacing-md);
-        border: 1px solid rgba(var(--gray-light), 0.8);
+        border: 1px solid rgba(var(--color-gray-light), 0.8);
         text-align: left;
         word-wrap: break-word;
         overflow-wrap: break-word;
@@ -564,7 +597,7 @@ const jsonLd = {
       }
 
       .article-content :global(th) {
-        background-color: rgba(var(--gray-light), 0.3);
+        background-color: rgba(var(--color-gray-light), 0.3);
         font-weight: var(--font-weight-semibold);
       }
 
@@ -755,12 +788,12 @@ const jsonLd = {
       :global(.series-article-nav hr) {
         margin: 2em 0;
         border: 0;
-        border-top: 1px solid rgba(var(--gray-light), 0.5);
+        border-top: 1px solid rgba(var(--color-gray-light), 0.5);
       }
 
       :global(.series-article-nav a) {
         text-decoration: none;
-        color: var(--text-color);
+        color: var(--text-primary);
         transition: color 0.2s;
       }
 
@@ -797,7 +830,7 @@ const jsonLd = {
       }
 
       :global(.series-article-nav .bg-gray-100) {
-        background-color: rgba(var(--gray-light), 0.2);
+        background-color: rgba(var(--color-gray-light), 0.2);
       }
 
       :global(.series-article-nav .rounded-lg) {
