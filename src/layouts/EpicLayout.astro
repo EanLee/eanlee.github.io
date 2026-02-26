@@ -5,7 +5,7 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import Categories from '../components/widget/categories.astro';
 import Series from '../components/widget/series.astro';
-import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+import { SITE_TITLE } from '../consts';
 
 export interface Props {
   epicName: string;
@@ -27,7 +27,7 @@ const epicPosts = source?.sort((a, b) => new Date(b.data.date).valueOf() - new D
 
 <html lang="zh-TW">
   <head>
-    <BaseHead title={`${epicTitle} | ${SITE_TITLE}`} description={SITE_DESCRIPTION} />
+    <BaseHead title={`${epicTitle} | ${SITE_TITLE}`} description={epicDescription} />
   </head>
   <body>
     <Header />
