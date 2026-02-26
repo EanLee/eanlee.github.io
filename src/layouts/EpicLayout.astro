@@ -1,5 +1,4 @@
 ---
-import { getCollection } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
@@ -318,17 +317,16 @@ const epicPosts = source?.sort((a, b) => new Date(b.data.date).valueOf() - new D
   
   .view-more-link:hover {
     background-color: var(--accentColor);
-    color: white;
+    color: var(--color-bg-primary);
   }
-  
+
   .view-more-link:hover svg {
-    color: white;
+    color: var(--color-bg-primary);
   }
   
   .no-posts {
     width: 100%;
     text-align: center;
-    /* padding: 2rem; */
     background-color: var(--color-bg-secondary);
     border-radius: var(--radius-md);
     color: var(--text-muted);
