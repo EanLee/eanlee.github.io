@@ -1,11 +1,10 @@
 ---
-import { getCollection } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import Categories from '../components/widget/categories.astro';
 import Series from '../components/widget/series.astro';
-import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+import { SITE_TITLE } from '../consts';
 
 export interface Props {
   epicName: string;
@@ -27,7 +26,7 @@ const epicPosts = source?.sort((a, b) => new Date(b.data.date).valueOf() - new D
 
 <html lang="zh-TW">
   <head>
-    <BaseHead title={`${epicTitle} | ${SITE_TITLE}`} description={SITE_DESCRIPTION} />
+    <BaseHead title={`${epicTitle} | ${SITE_TITLE}`} description={epicDescription} />
   </head>
   <body>
     <Header />
@@ -102,7 +101,11 @@ const epicPosts = source?.sort((a, b) => new Date(b.data.date).valueOf() - new D
               ))
             ) : (
               <div class="no-posts">
-                <p>暫無{epicTitle}相關文章</p>
+                <p class="no-posts-main">✍️ 這個分類的文章正在整理中，敬請期待！</p>
+                <p class="no-posts-sub">
+                  可以先到 <a href="/about/">關於我</a> 了解這個部落格的方向，
+                  或透過 <a href="https://www.facebook.com/276561129952456" target="_blank" rel="noopener noreferrer">Facebook</a> 追蹤最新動態。
+                </p>
               </div>
             )}
           </div>
@@ -318,20 +321,42 @@ const epicPosts = source?.sort((a, b) => new Date(b.data.date).valueOf() - new D
   
   .view-more-link:hover {
     background-color: var(--accentColor);
-    color: white;
+    color: var(--color-bg-primary);
   }
-  
+
   .view-more-link:hover svg {
-    color: white;
+    color: var(--color-bg-primary);
   }
   
   .no-posts {
     width: 100%;
     text-align: center;
-    /* padding: 2rem; */
+    padding: var(--spacing-3xl) var(--spacing-xl);
     background-color: var(--color-bg-secondary);
     border-radius: var(--radius-md);
     color: var(--text-muted);
+  }
+
+  .no-posts-main {
+    font-size: var(--font-size-lg);
+    font-weight: 500;
+    margin: 0 0 var(--spacing-md);
+  }
+
+  .no-posts-sub {
+    font-size: var(--font-size-base);
+    margin: 0;
+    line-height: 1.7;
+  }
+
+  .no-posts-sub a {
+    color: var(--color-primary, #4299e1);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .no-posts-sub a:hover {
+    opacity: 0.8;
   }
   
   @media (max-width: 1200px) {

@@ -11,9 +11,10 @@ export async function getStaticPaths() {
       posts
         .filter((post) => post.data.series)
         .map((post) => {
-          return post.id
-            .slice(post.id.indexOf("/") + 1, post.id.lastIndexOf(post.slug) - 1)
-            .toLowerCase();
+          // 取系列目錄名（倒數第 3 個 path segment），例：
+          // "Software/series/build-automated-deploy/cicd_concept/index.md" → "build-automated-deploy"
+          const segments = post.id.split('/');
+          return segments[segments.length - 3].toLowerCase();
         })
     ),
   ];
@@ -30,11 +31,9 @@ export async function getStaticPaths() {
 const posts = await getCollection("blog");
 const filteredPosts = posts
   .filter((post) => {
-    const postPath = post.id
-      .slice(post.id.indexOf("/") + 1, post.id.lastIndexOf(post.slug) - 1)
-      .toLowerCase();
-
-    return post.data.series && postPath === Astro.params.slug;
+    const segments = post.id.split('/');
+    const seriesDir = segments[segments.length - 3].toLowerCase();
+    return post.data.series && seriesDir === Astro.params.slug;
   })
   .sort((a, b) => a.data.date.valueOf() - b.data.date.valueOf());
 

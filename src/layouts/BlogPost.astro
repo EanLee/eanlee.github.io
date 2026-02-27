@@ -17,6 +17,19 @@ import { Image } from 'astro:assets';
 import { SITE_TITLE } from "../consts";
 const { title, description, date, lastmod, coverImage, tags, keywords, series, categories, epic, entry } = Astro.props;
 
+// 從 URL 路徑推導 epic 與 seriesPath（彌補系列文缺少 epic 欄位的問題）
+// URL 格式：/post/{epic}/{rest}/ 或 /post/{epic}/series/{series-dir}/{article}/
+const _urlParts = Astro.url.pathname.replace(/^\/post\//, '').split('/').filter(Boolean);
+const epicFromUrl = _urlParts[0] as string | undefined;
+const resolvedEpic = epic || epicFromUrl;
+
+// 系列文：/post/{epic}/series/{series-dir}/{article}/ → seriesPath = {series-dir}
+// 例：/post/software/series/build-automated-deploy/cicd_concept/ → "build-automated-deploy"
+let seriesPath: string | undefined;
+if (series && _urlParts.length >= 3 && _urlParts[1] === 'series') {
+  seriesPath = _urlParts[2];
+}
+
 // 預載入共用封面圖片 (fallback)
 const coverModules = import.meta.glob("/src/assets/images/cover/*.{webp,png,jpg,jpeg}", { eager: true });
 const availableCovers = Object.values(coverModules) as any[];
@@ -110,7 +123,7 @@ const staleYear = date instanceof Date ? date.getFullYear() : 0;
     <main id="main-content">
       <article itemscope itemtype="https://schema.org/BlogPosting">
         <div class="wrapper">
-          <Breadcrumbs epic={epic} categories={categories} series={series} title={title} />
+          <Breadcrumbs epic={resolvedEpic} series={series} seriesPath={seriesPath} title={title} />
           <AdRow />
 
           <div class="hero-container">
@@ -190,6 +203,12 @@ const staleYear = date instanceof Date ? date.getFullYear() : 0;
                 categories={categories}
                 series={series}
               />
+
+              <!-- 留言互動提示 -->
+              <div class="comment-cta">
+                <h2 class="comment-cta-title">💬 留下你的想法</h2>
+                <p class="comment-cta-desc">有問題、不同看法，或是你踩過類似的坑？歡迎留言討論，我會盡量回覆。</p>
+              </div>
 
               <!-- 留言系統 -->
               <Giscus />
@@ -778,6 +797,29 @@ const staleYear = date instanceof Date ? date.getFullYear() : 0;
           font-size: 1.5em;
         }
       }
+
+  /* 留言互動提示 */
+  .comment-cta {
+    margin: var(--spacing-2xl) 0 var(--spacing-lg);
+    padding: var(--spacing-lg);
+    border-left: 3px solid var(--color-primary, #4299e1);
+    background: color-mix(in srgb, var(--color-primary, #4299e1) 6%, transparent);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  }
+
+  .comment-cta-title {
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    margin: 0 0 var(--spacing-xs);
+    color: var(--color-text);
+  }
+
+  .comment-cta-desc {
+    font-size: var(--font-size-base);
+    color: var(--color-text-muted);
+    margin: 0;
+    line-height: 1.6;
+  }
 
       /* Series Article Navigation Styling */
       :global(.series-article-nav) {
