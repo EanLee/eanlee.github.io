@@ -1,12 +1,12 @@
 ---
 interface Props {
   epic?: string;
-  categories?: string[];
   series?: string;
+  seriesPath?: string;
   title: string;
 }
 
-const { epic, categories, series, title } = Astro.props;
+const { epic, series, seriesPath, title } = Astro.props;
 
 // Epic 名稱對應
 const epicNames: Record<string, string> = {
@@ -32,23 +32,11 @@ if (epic && epicNames[epic]) {
   });
 }
 
-// 加入 Category 層級（如果有且不同於 epic）
-if (categories && categories.length > 0) {
-  const mainCategory = categories[0];
-  if (!epic || mainCategory !== epic) {
-    breadcrumbItems.push({
-      name: mainCategory,
-      url: `/categories/${mainCategory.toLowerCase()}/`,
-      position: position++
-    });
-  }
-}
-
-// 加入 Series 層級
+// 加入 Series 層級（使用正確的 path-based URL，避免中文 title 造成 404）
 if (series) {
   breadcrumbItems.push({
-    name: series.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
-    url: `/series/${series}/`,
+    name: series,
+    url: seriesPath ? `/series/${seriesPath}/` : null,
     position: position++
   });
 }
