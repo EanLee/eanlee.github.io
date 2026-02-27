@@ -1,0 +1,151 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { EPIC_LABELS } from "../consts";
+import { getSeriesData, groupSeriesByEpic } from "../utils/series";
+
+interface Props {
+  posts: CollectionEntry<"blog">[];
+}
+
+const { posts } = Astro.props;
+const seriesList = getSeriesData(posts);
+const groupedSeries = groupSeriesByEpic(seriesList);
+
+const formatDate = (date: Date) =>
+  date.toLocaleDateString("zh-TW", { year: "numeric", month: "2-digit" });
+---
+
+<section class="series-showcase">
+  <div class="section-header">
+    <h2 class="section-title">系列文章</h2>
+    <a href="/series/" class="view-all">全部系列 →</a>
+  </div>
+
+  {groupedSeries.map(([epic, series]) => (
+    <div class="epic-group">
+      <h3 class="epic-label">{EPIC_LABELS[epic] ?? epic}</h3>
+      <div class="series-grid">
+        {series.map((s) => (
+          <a href={`/series/${s.seriesPath}/`} class="series-card">
+            <span class="card-title">{s.seriesTitle}</span>
+            <div class="card-meta">
+              <span>{s.count} 篇</span>
+              <span>更新於 {formatDate(s.latestDate)}</span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  ))}
+
+  <p class="tags-entry">
+    也可以用 <a href="/tags/">標籤</a> 探索文章
+  </p>
+</section>
+
+<style>
+  .series-showcase {
+    width: 100%;
+  }
+
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .section-title {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+    margin: 0;
+  }
+
+  .view-all {
+    font-size: var(--font-size-sm);
+    color: var(--color-primary);
+    text-decoration: none;
+  }
+
+  .view-all:hover {
+    text-decoration: underline;
+  }
+
+  .epic-group {
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .epic-label {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: var(--spacing-xs);
+    margin-bottom: var(--spacing-md);
+  }
+
+  .series-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-md);
+  }
+
+  .series-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md) var(--spacing-lg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    color: var(--color-text);
+    background: var(--color-bg-secondary);
+    transition:
+      box-shadow var(--transition-normal),
+      transform var(--transition-normal);
+  }
+
+  .series-card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+  }
+
+  .card-title {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text);
+    line-height: 1.4;
+  }
+
+  .card-meta {
+    display: flex;
+    gap: var(--spacing-md);
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+  }
+
+  .tags-entry {
+    margin-top: var(--spacing-md);
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+    text-align: right;
+  }
+
+  .tags-entry a {
+    color: var(--color-primary);
+  }
+
+  @media (max-width: 768px) {
+    .series-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .series-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
