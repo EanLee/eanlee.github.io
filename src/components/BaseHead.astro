@@ -88,14 +88,14 @@ const {
 <script type="module">
   // 延遲載入 AdSense，避免阻塞初始渲染
   function loadAdSense() {
-    if (window.adsbygoogle) return; // 避免重複載入
+    if (window.adsbygoogle_loaded) return; // 避免重複載入
+    window.adsbygoogle_loaded = true;
     
     const script = document.createElement('script');
     script.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7903108559996033';
     script.async = true;
     script.crossOrigin = 'anonymous';
     script.onload = () => {
-      console.log('AdSense loaded');
       // 初始化已存在的廣告
       document.querySelectorAll('.adsbygoogle').forEach(ad => {
         if (!ad.dataset.adsbygoogleStatus) {
@@ -111,14 +111,22 @@ const {
     document.head.appendChild(script);
   }
 
-  // 等待 DOM 載入完成後再載入 AdSense
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-      setTimeout(loadAdSense, 1000); // 延遲 1 秒載入
+  // 用戶互動後再載入 AdSense，符合 Core Web Vitals 最佳實踐
+  function initAdSense() {
+    loadAdSense();
+    // 移除事件監聽器
+    ['mousedown', 'keydown', 'scroll', 'touchstart'].forEach(event => {
+      document.removeEventListener(event, initAdSense, { passive: true });
     });
-  } else {
-    setTimeout(loadAdSense, 1000);
   }
+
+  // 監聽用戶互動
+  ['mousedown', 'keydown', 'scroll', 'touchstart'].forEach(event => {
+    document.addEventListener(event, initAdSense, { passive: true });
+  });
+
+  // 備用：5秒後自動載入 (確保即使沒互動也能顯示廣告)
+  setTimeout(loadAdSense, 5000);
 </script>
 
 <!-- Google Analytics - 優化載入 -->

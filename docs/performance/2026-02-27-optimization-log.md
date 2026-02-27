@@ -19,6 +19,7 @@
 - **CSS 內聯化**：修改 `astro.config.mjs`，設定 `build.inlineStylesheets: 'always'`，將關鍵樣式直接嵌入 HTML，消除外部 CSS 的渲染阻塞。
 - **HTML 壓縮**：啟用 `compressHTML: true`，縮減最終部署的檔案體積。
 - **字體非同步優化**：微調 `src/components/FontLoader.astro`，移除 `DOMContentLoaded` 事件鎖定，讓字體儘早開始請求。
+- **AdSense 懶加載 (Interaction-Driven)**：將原本固定 1 秒的延遲載入改為「使用者互動驅動」。腳本僅在使用者產生 `scroll`、`mousedown` 或 `touchstart` 等行為時才開始加載廣告資源，大幅降低初始 TBT (Total Blocking Time) 與資源爭搶。
 
 ## 📊 預期成效
 
