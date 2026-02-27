@@ -235,6 +235,9 @@ const getEpicName = (epic: string) => {
                   alt={`${post.data.title} - ${post.data.description || '文章封面'}`}
                   loading="eager"
                   class="cover-image-full"
+                  width={1200}
+                  height={300}
+                  fetchpriority="high"
                 />
               ) : (
                 <Image
@@ -245,6 +248,7 @@ const getEpicName = (epic: string) => {
                   loading="eager"
                   class="cover-image-full"
                   format="webp"
+                  fetchpriority="high"
                 />
               )}
               <div class="cover-overlay">
@@ -290,6 +294,8 @@ const getEpicName = (epic: string) => {
                       alt={`${post.data.title} - ${post.data.description || '文章縮圖'}`}
                       loading="lazy"
                       class="cover-image-thumb"
+                      width={120}
+                      height={120}
                     />
                   ) : (
                     <Image

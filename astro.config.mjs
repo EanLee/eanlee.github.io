@@ -128,6 +128,10 @@ export default defineConfig({
     robotsTxt(),
     tailwind({ applyBaseStyles: false }),
   ],
+  compressHTML: true,
+  build: {
+    inlineStylesheets: 'always',
+  },
   markdown: {
     remarkPlugins: [remarkRemoveMd],
     rehypePlugins: [

@@ -34,11 +34,7 @@
   }
 
   // 初始化字體載入
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', loadFonts);
-  } else {
-    loadFonts();
-  }
+  loadFonts();
 
   // 處理 Astro View Transitions
   document.addEventListener('astro:page-load', loadFonts);

@@ -131,7 +131,15 @@ const staleYear = date instanceof Date ? date.getFullYear() : 0;
               displayImage && (
                 <div class="hero-image-bg">
                   {typeof displayImage === 'string' ? (
-                    <img src={displayImage} alt={`${title} - ${description || "文章封面圖片"}`} loading="eager" class="hero-cover-img" />
+                    <img 
+                      src={displayImage} 
+                      alt={`${title} - ${description || "文章封面圖片"}`} 
+                      loading="eager" 
+                      class="hero-cover-img" 
+                      width="1200" 
+                      height="630"
+                      fetchpriority="high"
+                    />
                   ) : (
                     <Image 
                       src={displayImage} 
