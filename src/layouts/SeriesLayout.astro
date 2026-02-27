@@ -42,7 +42,8 @@ const seriesGroups = epicSeries.map(series => {
   
   if (posts.length > 0) {
     const firstPost = posts[0];
-    const path = firstPost.id.slice(0, firstPost.id.lastIndexOf(firstPost.slug) - 1).toLowerCase();
+    const segments = firstPost.id.split('/');
+    const path = segments[segments.length - 3].toLowerCase();
     return {
       series,
       posts,

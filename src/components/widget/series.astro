@@ -15,13 +15,11 @@ const series: seriesModel[] = posts
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
   .filter((p) => p.data.series)
   .map((p) => {
-    // 使用與 series/[...slug].astro 相同的邏輯
-    const seriesPath = p.id
-      .slice(p.id.indexOf("/") + 1, p.id.lastIndexOf(p.slug) - 1)
-      .toLowerCase();
-    
+    // 取系列目錄名（倒數第 3 個 path segment），與 series/[...slug].astro 保持一致
+    const segments = p.id.split('/');
+    const seriesDir = segments[segments.length - 3].toLowerCase();
     return {
-      id: seriesPath,
+      id: seriesDir,
       series: p.data.series ? p.data.series.toLowerCase() : "",
     };
   })

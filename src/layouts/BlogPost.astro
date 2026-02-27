@@ -23,10 +23,11 @@ const _urlParts = Astro.url.pathname.replace(/^\/post\//, '').split('/').filter(
 const epicFromUrl = _urlParts[0] as string | undefined;
 const resolvedEpic = epic || epicFromUrl;
 
-// 系列文：/post/{epic}/series/{series-dir}/{article}/ → seriesPath = {epic}/series/{series-dir}
+// 系列文：/post/{epic}/series/{series-dir}/{article}/ → seriesPath = {series-dir}
+// 例：/post/software/series/build-automated-deploy/cicd_concept/ → "build-automated-deploy"
 let seriesPath: string | undefined;
 if (series && _urlParts.length >= 3 && _urlParts[1] === 'series') {
-  seriesPath = `${_urlParts[0]}/series/${_urlParts[2]}`;
+  seriesPath = _urlParts[2];
 }
 
 // 預載入共用封面圖片 (fallback)
