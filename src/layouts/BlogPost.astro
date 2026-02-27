@@ -95,6 +95,13 @@ const jsonLd = {
   articleSection: categories?.join(", ") || tags?.[0],
   wordCount: wordCount,
   inLanguage: "zh-TW",
+  ...(series && seriesPath && {
+    isPartOf: {
+      "@type": "CollectionPage",
+      "@id": new URL(`/series/${seriesPath}/`, Astro.site).href,
+      name: series,
+    },
+  }),
 };
 
 // 文章新鮮度警示：以 lastmod（若有）或 date 判斷，超過 2 年顯示提示
