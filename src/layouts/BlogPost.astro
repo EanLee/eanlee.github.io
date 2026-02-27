@@ -492,11 +492,26 @@ const staleYear = date instanceof Date ? date.getFullYear() : 0;
       }
 
       .article-content :global(blockquote) {
-        background-color: rgba(var(--color-gray-light), 0.3);
-        border-left: 4px solid var(--accent);
-        padding: 1em var(--spacing-lg);
+        border-left: 3px solid var(--color-primary, #6b8aff);
+        background: color-mix(in srgb, var(--color-primary, #6b8aff) 5%, transparent);
+        padding: 0.875rem 1.25rem;
         margin: var(--spacing-lg) 0;
-        border-radius: 0 var(--radius-md) var(--radius-md) 0;
+        border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+        color: var(--text-secondary);
+        font-style: italic;
+        box-shadow: none;
+        transition: none;
+      }
+
+      /* 取消 .prose blockquote 的大引號裝飾 */
+      .article-content :global(blockquote::before) {
+        display: none;
+      }
+
+      /* 取消 .prose blockquote 的 hover 浮起動畫 */
+      .article-content :global(blockquote:hover) {
+        transform: none;
+        box-shadow: none;
       }
 
       .article-content :global(code) {
@@ -718,8 +733,8 @@ const staleYear = date instanceof Date ? date.getFullYear() : 0;
         }
 
         .article-content :global(blockquote) {
-          padding: 0.8em 1em;
-          margin: 1em 0;
+          padding: 0.7rem 1rem;
+          margin: 1rem 0;
         }
 
         .article-content :global(ul),
