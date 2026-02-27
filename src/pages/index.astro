@@ -8,6 +8,7 @@ import LatestPosts from "../components/LatestPosts.astro";
 import FeaturedProjects from "../components/FeaturedProjects.astro";
 import CategoryGrid from "../components/CategoryGrid.astro";
 import HomeHero from "../components/HomeHero.astro";
+import FollowCTA from "../components/FollowCTA.astro";
 
 // 獲取所有文章
 const allPosts = await getCollection("blog");
@@ -161,6 +162,9 @@ const blogStructuredData = {
 
         <!-- Category Grid -->
         <CategoryGrid allPosts={allPosts} />
+
+        <!-- Follow CTA -->
+        <FollowCTA />
 
         <!-- Featured Projects - 延遲渲染 -->
         <div class="below-fold">
