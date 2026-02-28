@@ -2,6 +2,7 @@
 import GeneralLayout from "../layouts/GeneralLayout.astro";
 import { getCollection } from "astro:content";
 import FormattedDate from "../components/FormattedDate.astro";
+import { SITE_TITLE } from "../consts";
 
 const posts = (await getCollection("blog")).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
@@ -24,9 +25,34 @@ const postsByYear = posts.reduce((acc: PostsByYear, post) => {
 const sortedYears = Object.keys(postsByYear).sort(
   (a, b) => Number(b) - Number(a)
 );
+
+// CollectionPage Schema
+const archivesSchema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": `所有文章 - ${SITE_TITLE}`,
+  "description": `共 ${posts.length} 篇文章，依發布年份排列`,
+  "url": new URL("/archives/", Astro.site).href,
+  "numberOfItems": posts.length,
+  "itemListElement": posts.map((post, i) => {
+    const path = post.id.slice(0, post.id.lastIndexOf("/")).toLowerCase();
+    return {
+      "@type": "ListItem",
+      "position": i + 1,
+      "url": new URL(`/post/${path}/`, Astro.site).href,
+      "name": post.data.title,
+    };
+  }),
+};
 ---
 
-<GeneralLayout>
+<GeneralLayout
+  title="所有文章"
+  description={`共 ${posts.length} 篇文章，依發布年份排列`}
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(archivesSchema)} />
+  </Fragment>
   <div class="archives-container">
     <header class="archives-header">
       <div class="archives-title-wrapper">
