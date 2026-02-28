@@ -80,22 +80,71 @@ const image = "/favicon.ico";
             >
             自我成長
           </HeaderLink>
-          <HeaderLink href="/archives/">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="18"
-              height="18"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              ><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1-2-1Z"></path><path d="M14 8H8"></path><path d="M16 12H8"
-              ></path><path d="M13 16H8"></path></svg
+
+          <!-- 桌面版「探索」下拉選單 -->
+          <div class="nav-dropdown desktop-only">
+            <button
+              class="nav-dropdown-trigger"
+              aria-haspopup="true"
+              aria-expanded="false"
+              aria-controls="explore-dropdown"
             >
-            所有文章
-          </HeaderLink>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path><path d="M11 8v6"></path><path d="M8 11h6"></path></svg>
+              探索
+              <svg class="dropdown-chevron" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg>
+            </button>
+            <ul id="explore-dropdown" class="dropdown-menu" role="menu">
+              <li role="none">
+                <a href="/archives/" role="menuitem">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1-2-1Z"></path><path d="M14 8H8"></path><path d="M16 12H8"></path><path d="M13 16H8"></path></svg>
+                  所有文章
+                </a>
+              </li>
+              <li role="none">
+                <a href="/series/" role="menuitem">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="7" x="3" y="3" rx="1"></rect><rect width="7" height="7" x="14" y="3" rx="1"></rect><rect width="7" height="7" x="14" y="14" rx="1"></rect><rect width="7" height="7" x="3" y="14" rx="1"></rect></svg>
+                  系列文章
+                </a>
+              </li>
+              <li role="none">
+                <a href="/tags/" role="menuitem">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"></path><path d="M7 7h.01"></path></svg>
+                  標籤
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <!-- 行動版：平鋪「探索」子項目（直接顯示，不需要巢狀展開） -->
+          <div class="mobile-explore-group mobile-only">
+            <div class="mobile-explore-label">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path><path d="M11 8v6"></path><path d="M8 11h6"></path></svg>
+              探索
+            </div>
+            <a href="/archives/" class="mobile-explore-item">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1-2-1Z"></path><path d="M14 8H8"></path><path d="M16 12H8"></path><path d="M13 16H8"></path></svg>
+              所有文章
+            </a>
+            <a href="/series/" class="mobile-explore-item">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="7" x="3" y="3" rx="1"></rect><rect width="7" height="7" x="14" y="3" rx="1"></rect><rect width="7" height="7" x="14" y="14" rx="1"></rect><rect width="7" height="7" x="3" y="14" rx="1"></rect></svg>
+              系列文章
+            </a>
+            <a href="/tags/" class="mobile-explore-item">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"></path><path d="M7 7h.01"></path></svg>
+              標籤
+            </a>
+          </div>
+
           <HeaderLink href="/about/">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -190,7 +239,121 @@ const image = "/favicon.ico";
   .internal-links {
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
   }
+
+  /* ===========================
+     桌面版下拉選單
+     =========================== */
+
+  .nav-dropdown {
+    position: relative;
+  }
+
+  .nav-dropdown-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 1em 0.5em;
+    color: var(--color-text);
+    background: none;
+    border: none;
+    border-bottom: 4px solid transparent;
+    cursor: pointer;
+    font-size: inherit;
+    font-family: inherit;
+    font-weight: inherit;
+    transition:
+      color var(--transition-normal),
+      border-bottom-color var(--transition-normal);
+    white-space: nowrap;
+  }
+
+  .nav-dropdown-trigger:hover {
+    color: var(--color-primary);
+  }
+
+  .dropdown-chevron {
+    transition: transform var(--transition-normal);
+  }
+
+  /* hover 展開下拉（桌面版純 CSS） */
+  .nav-dropdown:hover .nav-dropdown-trigger,
+  .nav-dropdown:focus-within .nav-dropdown-trigger {
+    color: var(--color-primary);
+    border-bottom-color: var(--color-primary);
+  }
+
+  .nav-dropdown:hover .dropdown-chevron,
+  .nav-dropdown:focus-within .dropdown-chevron {
+    transform: rotate(180deg);
+  }
+
+  .dropdown-menu {
+    display: none;
+    position: absolute;
+    top: calc(100% + 2px);
+    right: 0;
+    min-width: 160px;
+    background-color: var(--color-bg-primary);
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    list-style: none;
+    margin: 0;
+    padding: var(--spacing-xs) 0;
+    z-index: 200;
+  }
+
+  .nav-dropdown:hover .dropdown-menu,
+  .nav-dropdown:focus-within .dropdown-menu {
+    display: block;
+  }
+
+  /* aria-expanded 狀態（JS 控制鍵盤導覽用） */
+  .nav-dropdown-trigger[aria-expanded="true"] ~ .dropdown-menu {
+    display: block;
+  }
+
+  .nav-dropdown-trigger[aria-expanded="true"] .dropdown-chevron {
+    transform: rotate(180deg);
+  }
+
+  .dropdown-menu li {
+    margin: 0;
+    padding: 0;
+  }
+
+  .dropdown-menu a {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm) var(--spacing-md);
+    color: var(--color-text);
+    border-bottom: none;
+    text-decoration: none;
+    transition: background-color var(--transition-normal), color var(--transition-normal);
+    white-space: nowrap;
+    font-size: var(--font-size-sm);
+  }
+
+  .dropdown-menu a:hover {
+    background-color: var(--color-bg-muted);
+    color: var(--color-primary);
+  }
+
+  /* 行動版顯示控制 */
+  .mobile-only {
+    display: none;
+  }
+
+  .desktop-only {
+    display: block;
+  }
+
+  /* ===========================
+     漢堡選單（行動版）
+     =========================== */
 
   .mobile-menu-toggle {
     display: none;
@@ -231,7 +394,9 @@ const image = "/favicon.ico";
     transform: rotate(-45deg) translate(7px, -6px);
   }
 
-  /* 響應式設計：768px 以下切換到漢堡菜單模式 */
+  /* ===========================
+     響應式：768px 以下
+     =========================== */
   @media (max-width: 768px) {
     header {
       position: relative;
@@ -242,12 +407,22 @@ const image = "/favicon.ico";
       z-index: 1001;
     }
 
-    /* 隱藏所有導航項目 */
+    /* 桌面版下拉在行動版隱藏 */
+    .desktop-only {
+      display: none !important;
+    }
+
+    /* 行動版探索群組顯示 */
+    .mobile-only {
+      display: block;
+    }
+
+    /* 隱藏所有導航項目（預設） */
     .internal-links {
       display: none !important;
     }
 
-    /* 設定 nav-right 在預設狀態 */
+    /* nav-right 預設隱藏 */
     .nav-right {
       display: none;
       position: absolute;
@@ -260,7 +435,7 @@ const image = "/favicon.ico";
       min-width: 200px;
     }
 
-    /* 設定漢堡菜單打開時為下拉選單 */
+    /* 漢堡選單打開時顯示 */
     .nav-right.active {
       display: block;
     }
@@ -290,6 +465,41 @@ const image = "/favicon.ico";
     .internal-links a.active {
       background-color: rgba(var(--color-primary), 0.15);
       color: var(--color-primary);
+    }
+
+    /* 行動版探索群組樣式 */
+    .mobile-explore-group {
+      width: 100%;
+    }
+
+    .mobile-explore-label {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-sm);
+      padding: var(--spacing-xs) var(--spacing-lg);
+      color: var(--color-text-muted, var(--text-muted));
+      font-size: var(--font-size-xs, 0.75rem);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      border-top: 1px solid var(--color-border-light);
+      margin-top: var(--spacing-xs);
+    }
+
+    .mobile-explore-item {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-sm);
+      padding: var(--spacing-md) var(--spacing-lg) var(--spacing-md) calc(var(--spacing-lg) + 1.25rem);
+      color: var(--color-text);
+      text-decoration: none;
+      border-bottom: none;
+      transition: background-color var(--transition-normal);
+      font-size: var(--font-size-base);
+    }
+
+    .mobile-explore-item:hover {
+      background-color: rgba(var(--color-primary), 0.1);
     }
   }
 
@@ -324,6 +534,10 @@ const image = "/favicon.ico";
       padding: var(--spacing-sm) var(--spacing-md);
       font-size: var(--font-size-base);
       min-width: 180px;
+    }
+
+    .mobile-explore-item {
+      padding: var(--spacing-sm) var(--spacing-md) var(--spacing-sm) calc(var(--spacing-md) + 1.25rem);
     }
   }
 
@@ -386,8 +600,8 @@ const image = "/favicon.ico";
         }
       });
 
-      // 點擊連結後關閉選單
-      const navLinks = document.querySelectorAll(".internal-links a");
+      // 點擊連結後關閉選單（包含行動版探索子項目）
+      const navLinks = document.querySelectorAll(".internal-links a, .mobile-explore-item");
       navLinks.forEach((link) => {
         link.addEventListener("click", function () {
           if (newMobileMenuToggle) {
@@ -426,7 +640,106 @@ const image = "/favicon.ico";
     }
   }
 
+  // 桌面版下拉：鍵盤導覽支援
+  function initDropdownKeyboard() {
+    const triggers = document.querySelectorAll<HTMLButtonElement>(".nav-dropdown-trigger");
+
+    triggers.forEach((trigger) => {
+      // 移除舊監聽器
+      const newTrigger = trigger.cloneNode(true) as HTMLButtonElement;
+      trigger.replaceWith(newTrigger);
+
+      newTrigger.addEventListener("keydown", function (e) {
+        const dropdown = this.closest(".nav-dropdown");
+        const menu = dropdown?.querySelector<HTMLElement>(".dropdown-menu");
+        if (!menu) return;
+
+        if (e.key === "Enter" || e.key === " " || e.key === "ArrowDown") {
+          e.preventDefault();
+          const isOpen = this.getAttribute("aria-expanded") === "true";
+          if (!isOpen) {
+            // 開啟
+            this.setAttribute("aria-expanded", "true");
+            menu.style.display = "block";
+            const firstItem = menu.querySelector<HTMLElement>("a");
+            firstItem?.focus();
+          }
+        }
+
+        if (e.key === "Escape") {
+          this.setAttribute("aria-expanded", "false");
+          menu.style.display = "";
+          this.focus();
+        }
+      });
+
+      // 失去焦點時關閉（若焦點離開整個 dropdown）
+      newTrigger.addEventListener("blur", function () {
+        const dropdown = this.closest(".nav-dropdown");
+        setTimeout(() => {
+          if (!dropdown?.contains(document.activeElement)) {
+            this.setAttribute("aria-expanded", "false");
+            const menu = dropdown?.querySelector<HTMLElement>(".dropdown-menu");
+            if (menu) menu.style.display = "";
+          }
+        }, 150);
+      });
+    });
+
+    // 下拉選單內鍵盤導覽
+    const dropdownMenus = document.querySelectorAll<HTMLElement>(".dropdown-menu");
+    dropdownMenus.forEach((menu) => {
+      const newMenu = menu.cloneNode(true) as HTMLElement;
+      menu.replaceWith(newMenu);
+
+      newMenu.addEventListener("keydown", function (e) {
+        const items = Array.from(this.querySelectorAll<HTMLElement>("a"));
+        const current = document.activeElement as HTMLElement;
+        const idx = items.indexOf(current);
+
+        if (e.key === "ArrowDown") {
+          e.preventDefault();
+          items[(idx + 1) % items.length]?.focus();
+        } else if (e.key === "ArrowUp") {
+          e.preventDefault();
+          items[(idx - 1 + items.length) % items.length]?.focus();
+        } else if (e.key === "Escape" || e.key === "Tab") {
+          const dropdown = this.closest(".nav-dropdown");
+          const trigger = dropdown?.querySelector<HTMLElement>(".nav-dropdown-trigger");
+          if (trigger) {
+            trigger.setAttribute("aria-expanded", "false");
+            this.style.display = "";
+            trigger.focus();
+          }
+          if (e.key === "Tab") return; // Tab 鍵允許正常行為
+          e.preventDefault();
+        }
+      });
+
+      // 焦點離開選單時關閉
+      newMenu.addEventListener("focusout", function (e) {
+        const dropdown = this.closest(".nav-dropdown");
+        const related = (e as FocusEvent).relatedTarget as HTMLElement | null;
+        setTimeout(() => {
+          if (!dropdown?.contains(document.activeElement) && !dropdown?.contains(related)) {
+            const trigger = dropdown?.querySelector<HTMLButtonElement>(".nav-dropdown-trigger");
+            if (trigger) {
+              trigger.setAttribute("aria-expanded", "false");
+              this.style.display = "";
+            }
+          }
+        }, 150);
+      });
+    });
+  }
+
   // 初始化和 Astro 頁面切換時重新初始化
-  document.addEventListener("DOMContentLoaded", initMobileMenu);
-  document.addEventListener("astro:page-load", initMobileMenu);
+  document.addEventListener("DOMContentLoaded", () => {
+    initMobileMenu();
+    initDropdownKeyboard();
+  });
+  document.addEventListener("astro:page-load", () => {
+    initMobileMenu();
+    initDropdownKeyboard();
+  });
 </script>
