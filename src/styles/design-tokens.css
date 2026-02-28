@@ -144,6 +144,9 @@
 
 
 
+/* === 品牌 / 服務顏色 === */
+--color-rss: #f26522;
+
 /* === prose 系統專用變數 === */
 .prose {
   --prose-body: #adbac7;
