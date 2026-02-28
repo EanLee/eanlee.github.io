@@ -15,6 +15,7 @@ const { title, description, noindex = false } = Astro.props;
       description={description || SITE_DESCRIPTION}
       noindex={noindex}
     />
+    <slot name="head" />
   </head>
   <body>
     <Header />

@@ -11,20 +11,22 @@
 
 | ID | 項目 | 工作量 |
 |----|------|--------|
-| **H1** | Newsletter 啟動（Email 訂閱入口 + 每月一封） | 2–4 hrs |
-| **H2** | Header 加「探索」下拉（/series/、/tags/） | 60 min |
-| **H3** | FollowCTA 調整（RSS 升主、Email 副、Facebook 降次） | 20 min |
-| **H4** | 首頁 Author sameAs 補齊（X、LinkedIn、Facebook） | 5 min |
+| **H1** | Newsletter 啟動（Email 收集表單先行，發信頻率後決定） | 2–4 hrs |
+| **H5** | 文章頁加精簡 FollowCTA（RSS + 預留 Email 框位置） | 30 min |
 | **M1** | BlogPosting Author 豐富化（sameAs、jobTitle） | 15 min |
-| **M2** | Giscus 改 `client:visible` 延遲載入（CLS -0.20） | 10 min |
-| **M3** | EnhancedAnalytics 改 `requestIdleCallback`（TBT -100ms） | 20 min |
 | **M4** | LatestPosts 加 `featured` 精選機制 | 45 min |
 | **M5** | 搜尋框行動版文字恢復 | 10 min |
+| **M8** | 系列卡片加描述文字（render `description` 欄位） | 20 min |
+| **M9** | 空分類殼空態體驗改善（reading、growth） | 30 min |
 | **L1** | 文章底部「同系列推薦」卡片 | 60 min |
 | **L2** | .NET 工程師學習路徑入口 | 90 min |
 | **L3** | 全域 `* { transition }` 改選擇性應用 | 25 min |
 | **L4** | 標籤命名規則統一 | 30 min |
 | **L5** | CategoryGrid / SeriesShowcase 加提示說明 | 15 min |
+| **L6** | logo 改 WebP + `fetchpriority="high"` | 20 min |
+| **L7** | giscus.app preconnect 補齊 | 5 min |
+| **L8** | About 頁加「下一步」CTA | 20 min |
+| **L9** | `article:author` 改指向 URL | 10 min |
 
 ---
 
@@ -32,79 +34,42 @@
 
 ### H1 · Newsletter 啟動
 
-**首次提出：** 2026-02-27 · **反覆出現：** 3 次
+**首次提出：** 2026-02-27 · **反覆出現：** 4 次
 
-**要做什麼：** 選擇 Email 平台（Substack / Brevo）、首頁加訂閱表單、每月發一封摘要整理當月最好的 2–3 篇文章
+**要做什麼：** 選擇 Email 平台（Brevo 免費方案起步）、生成嵌入式表單代碼、放入文章頁 FollowCTA 區域；首頁可同步加訂閱框。發信頻率問題等名單達 50 人再決定。
 
 **預期優點：**
-- 唯一真正屬於自己的讀者管道，不受 Facebook 演算法控制
-- Email 開信率 30–40%，遠高於社群觸及率 1–5%
+- 唯一真正屬於自己的讀者管道，不受演算法控制
+- Email 開信率 30–40%，遠高於社群觸及率
 - 累積 Email 名單是三年後諮詢服務的種子受眾
-- 讓讀者形成「定期回訪」習慣，而不是靠演算法偶遇
+- Google 觀察「回訪行為」，Newsletter 推播的老讀者回訪對 EEAT 有加分
 
 **預期缺點 / 風險：**
 - 需要持續維護，若中斷比沒有更傷品牌形象
-- 每月一封也是額外的時間承諾（估計 1–2 小時）
 - 初期訂閱者極少，可能讓人覺得做了也沒什麼用
 
 **不做的理由：** 創作精力有限，寧可把時間用在寫文章而不是發信
-**建議決策點：** 先選平台、加表單，不強制發信頻率；「有訂閱者但沒發信」優於「沒有任何機制」
+**建議決策點：** 第一步只是「放一個表單」，不強制發信頻率；先有名單，再決定頻率
 
 ---
 
-### H2 · Header 加「探索」下拉
+### H5 · 文章頁加精簡 FollowCTA
 
-**首次提出：** 2026-02-27 · **反覆出現：** 3 次 · **代碼位置：** `src/components/Header.astro`
+**首次提出：** 2026-02-28 · **代碼位置：** `src/layouts/BlogPost.astro`（Giscus 留言區上方） · **工作量：** 30 min
 
-**要做什麼：** 加一個「探索」下拉選單，放入系列文章（/series/）和標籤（/tags/）的連結
+**要做什麼：** 在每篇文章底部、Giscus 留言區上方，加一個精簡的訂閱行動——不需要完整的 FollowCTA 元件，一行「訂閱 RSS 不錯過新文章 →」加上（未來）Email 輸入框的預留位置即可
 
 **預期優點：**
-- 讀者在任何頁面都能找到系列入口，不需滾到首頁 SeriesShowcase
-- Googlebot 爬取路徑更清晰（內部連結強化）
-- 把「系列文章」這個核心資產提升到全站導覽層級
+- 搜尋進入文章頁的讀者（佔大多數）現在也能看到訂閱入口
+- 讀完文章時轉換意願最高，這是最佳呼籲時機
+- 預留 Email 框位置，H1（Newsletter）完成後可直接插入，無需重構
 
 **預期缺點 / 風險：**
-- Header 目前已有 6 個項目，再加一個接近視覺過載臨界點
-- 下拉選單需要 JS 或 CSS 實作，增加複雜度
-- 行動版下拉選單體驗需要額外處理
+- 文章底部已有三層（RelatedPosts、留言呼籲、Giscus），再加一層可能過密
+- 若 Newsletter 啟動前只有 RSS CTA，效果有限
 
-**不做的理由：** 認為現有 SeriesShowcase 的入口已足夠，Header 保持精簡
-**建議決策點：** 可評估「探索」能否合併取代現有「所有文章」，而非純粹新增
-
----
-
-### H3 · FollowCTA 調整
-
-**首次提出：** 2026-02-28 · **代碼位置：** `src/components/FollowCTA.astro` · **工作量：** 20 min
-
-**要做什麼：** 主按鈕從 Facebook 改為 RSS（或 Email 訂閱），Facebook 降為次要連結
-
-**預期優點：**
-- RSS 更符合台灣技術讀者（25–40 歲 .NET 工程師）的習慣
-- 減少對 Facebook 演算法的依賴
-
-**預期缺點 / 風險：**
-- Facebook 粉絲頁仍有既有受眾，降序可能減少粉絲頁新追蹤
-- 若 Newsletter（H1）尚未啟動，「Email 副 CTA」會導向不存在的東西
-
-**不做的理由：** Facebook 粉絲頁已有既有受眾，不想打亂現有管道
-**建議決策點：** H1 完成後再做；或先把 Facebook 改為「同等權重」而非絕對主 CTA
-
----
-
-### H4 · 首頁 Author sameAs 補齊
-
-**首次提出：** 2026-02-28 · **代碼位置：** `src/pages/index.astro` L78-80 · **工作量：** 5 min
-
-**要做什麼：** 首頁 JSON-LD 的 Author sameAs 從只有 GitHub，補上 X、LinkedIn、Facebook（與 Footer.astro 對齊）
-
-**預期優點：**
-- Google 建立 Author Entity 時，全站說法一致，EEAT 信號更強
-- 零風險，純正向的低工作量修正
-
-**預期缺點 / 風險：** 無實質缺點
-
-**不做的理由：** 幾乎沒有。
+**不做的理由：** 認為首頁 FollowCTA 已足夠，讀者會自己去首頁找
+**建議決策點：** 精簡版（一行文字 + 連結）風險最低，先做輕量版、後續補全
 
 ---
 
@@ -123,40 +88,6 @@
 - 未來作者資訊有變，需記得同步更新
 
 **不做的理由：** 效益難量化，優先做有直接讀者感知的改善
-
----
-
-### M2 · Giscus 改 `client:visible` 延遲載入
-
-**首次提出：** 2026-02-28 · **代碼位置：** `src/components/Giscus.astro` · **工作量：** 10 min
-
-**要做什麼：** Giscus 從頁面載入時立即初始化，改為讀者滾動到留言區時才載入
-
-**預期優點：**
-- CLS 預期改善約 0.20（目前 ~0.25，目標 < 0.1）
-- Google Core Web Vitals 分數提升
-
-**預期缺點 / 風險：**
-- 讀者滾到留言區後有短暫的載入延遲（約 1–2 秒）
-
-**建議決策點：** 加 loading placeholder 骨架屏，讓「正在載入」有視覺反饋
-
----
-
-### M3 · EnhancedAnalytics 改 `requestIdleCallback`
-
-**首次提出：** 2026-02-28 · **代碼位置：** `src/components/EnhancedAnalytics.astro` L349-356 · **工作量：** 20 min
-
-**要做什麼：** 363 行分析代碼從同步執行改為瀏覽器空閒時初始化
-
-**預期優點：**
-- TBT 預期改善 80–150ms
-
-**預期缺點 / 風險：**
-- 可能漏掉頁面載入後「極早期」的使用者互動事件
-- `requestIdleCallback` 舊瀏覽器需要 fallback
-
-**建議決策點：** 主要事件（外部連結點擊）維持即時監聽，只把「初始化選取器」延遲
 
 ---
 
@@ -189,6 +120,41 @@
 **預期缺點 / 風險：** 行動版 Header 空間有限，加文字可能擠壓其他元素排版
 
 **不做的理由：** 放大鏡圖示可識別性高，且空間限制是實際問題
+
+---
+
+### M8 · 系列卡片加描述文字
+
+**首次提出：** 2026-02-28 · **代碼位置：** `src/components/SeriesShowcase.astro`（或系列卡片元件） · **工作量：** 20 min
+
+**要做什麼：** 系列首頁和系列卡片目前只顯示系列名稱。`description` 欄位在 series frontmatter 中已有資料，需要讓卡片元件 render 出來（一行說明文字）
+
+**預期優點：**
+- 讀者在點進系列前就能判斷這個系列是否適合自己
+- 降低「進去又出來」的跳出率
+
+**預期缺點 / 風險：**
+- 若部分系列的 `description` 欄位是空的，需要先補資料
+
+**建議決策點：** 先確認所有系列都有 `description`，再改元件
+
+---
+
+### M9 · 空分類殼空態體驗改善
+
+**首次提出：** 2026-02-28 · **代碼位置：** reading/growth 分類頁的 layout · **工作量：** 30 min
+
+**要做什麼：** /categories/reading/（0 篇）和 /categories/growth/（1 篇）目前點進去體驗很差。選項 A：空態頁加引導文字（如「這個分類正在建立中，先看看技術文章？→」），選項 B：在首頁 CategoryGrid 暫時隱藏文章數為 0 的分類
+
+**預期優點：**
+- 消除「空白頁」的負面第一印象
+- 引導讀者去有內容的地方，減少離站
+
+**預期缺點 / 風險：**
+- 隱藏分類需要判斷邊界（幾篇才顯示？），可能造成未來維護混亂
+- 空態文字若寫得不好反而尷尬
+
+**建議決策點：** 短期選 A（加引導文字），長期等文章累積到 3–5 篇再開放正式入口
 
 ---
 
@@ -248,7 +214,7 @@
 
 **首次提出：** 2026-02-28 · **工作量：** 30 min
 
-**要做什麼：** 審查現有標籤，建立命名規範，對不一致的標籤進行統一修正
+**要做什麼：** 審查現有標籤，建立命名規範（如：EF Core 還是 EF-Core？），對不一致的標籤進行統一修正
 
 **預期優點：** 標籤導覽效果更好（同一主題不會有多個標籤頁）
 
@@ -274,6 +240,70 @@
 
 ---
 
+### L6 · logo 改 WebP + `fetchpriority="high"`
+
+**首次提出：** 2026-02-28 · **代碼位置：** `src/components/Header.astro`（logo img 標籤） · **工作量：** 20 min
+
+**要做什麼：** 將 Header 的 logo 圖片：(1) 轉為 WebP 格式縮小體積，(2) 加上 `fetchpriority="high"` 提示瀏覽器優先載入，改善 LCP
+
+**預期優點：**
+- WebP 體積比 PNG 小約 30–50%
+- `fetchpriority="high"` 讓 LCP 元素（若 logo 是 LCP）更快出現
+
+**預期缺點 / 風險：**
+- 需要確認 logo 是否真的是 LCP 元素（用 Lighthouse 確認）
+- 若 logo 不是 LCP，`fetchpriority="high"` 效益有限
+
+**建議決策點：** 先用 Lighthouse 確認 LCP 元素再決定
+
+---
+
+### L7 · giscus.app preconnect 補齊
+
+**首次提出：** 2026-02-28 · **代碼位置：** `src/components/BaseHead.astro` · **工作量：** 5 min
+
+**要做什麼：** 在 BaseHead 加上 `<link rel="preconnect" href="https://giscus.app">` 和 `<link rel="dns-prefetch" href="https://giscus.app">`
+
+**預期優點：** 讀者滾動到留言區時，Giscus 的 DNS 解析已完成，縮短初始化時間約 100–200ms
+
+**預期缺點 / 風險：** 幾乎無風險，純加快載入
+
+**不做的理由：** Giscus 已改為延遲載入，preconnect 效益相對降低
+
+---
+
+### L8 · About 頁加「下一步」CTA
+
+**首次提出：** 2026-02-28 · **代碼位置：** `src/pages/about.astro`（或對應路徑） · **工作量：** 20 min
+
+**要做什麼：** About 頁讀完後，讀者不知道下一步要去哪裡。加一個明確的行動呼籲：「看看系列文章 →」或「訂閱 RSS →」
+
+**預期優點：**
+- About 頁通常是讀者想進一步了解作者時的停留點，轉換意願高
+- 引導至系列文章可增加深度閱讀機率
+
+**預期缺點 / 風險：** About 頁本身不是高流量頁面，效益有限
+
+**不做的理由：** 優先做文章頁（H5）效益更高
+
+---
+
+### L9 · `article:author` 改指向 URL
+
+**首次提出：** 2026-02-28 · **代碼位置：** `src/layouts/BlogPost.astro`（Open Graph meta tags） · **工作量：** 10 min
+
+**要做什麼：** `<meta property="article:author">` 目前值為作者姓名字串，改為作者個人頁面 URL（如 `https://eandev.com/about/`）
+
+**預期優點：**
+- Facebook 和 LinkedIn 解析時能建立作者 Entity 關聯
+- LinkedIn 分享卡片有機會顯示作者 profile 連結
+
+**預期缺點 / 風險：** 效果取決於社群平台的爬取邏輯，難以量化
+
+**不做的理由：** 對一般讀者不可見，優先順序低
+
+---
+
 ## 已完成
 
 | 項目 | 完成日期 | commit / 備註 |
@@ -290,3 +320,11 @@
 | 系列文章總覽頁 /series/ 建立 | 2026-02-28 | src/pages/series/index.astro |
 | AdSense 延遲載入（互動後載入，5 秒備用） | 2026-02-28 | src/components/BaseHead.astro |
 | SectionHeader 共用元件抽取（首頁區塊標頭樣式統一） | 2026-02-28 | commit `872bdc7b` |
+| H4 · 首頁 Author sameAs 補齊（X、LinkedIn、Facebook） | 2026-02-28 | commit `819b29eb` |
+| H3 · FollowCTA 調整（RSS 升主、Facebook 降次、aria-label） | 2026-02-28 | commit `f7f95278`、`13dc1f84` |
+| M2 · Giscus 改 IntersectionObserver 延遲載入（CLS 改善） | 2026-02-28 | commit `686b66f6`、`30124167` |
+| M3 · EnhancedAnalytics 改 requestIdleCallback（TBT 改善） | 2026-02-28 | commit `dd66a2f7` |
+| H2 · Header 加「探索」下拉選單（/series/、/tags/） | 2026-02-28 | commit `b6f61d2c`、`a67c3495` |
+| H6 · EnhancedAnalytics listener 洩漏修復 + 移除 console.log | 2026-02-28 | commit `2448d77a`，AbortController + signal 模式 |
+| M6 · SiteNavigationElement Schema 補上 /series/ 和 /tags/ | 2026-02-28 | commit `6a37028e`，index.astro |
+| M7 · /archives/ 補 CollectionPage Schema | 2026-02-28 | commit `302c667d`，archives.astro + GeneralLayout head slot |

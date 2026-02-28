@@ -14,6 +14,10 @@ const { enabled = true } = Astro.props;
     // requestIdleCallback polyfill（iOS Safari / 舊版 Edge 不支援）
     var _ric = window.requestIdleCallback || function(cb) { setTimeout(cb, 1); };
 
+    // 跨頁追蹤：記錄上一次的 AbortController 和 MutationObservers
+    var _analyticsController = null;
+    var _analyticsObservers = [];
+
     // 確保 gtag 函數存在
     function ensureGtag() {
       return typeof gtag !== 'undefined';
@@ -23,7 +27,6 @@ const { enabled = true } = Astro.props;
     function trackEvent(eventName, eventParams) {
       if (ensureGtag()) {
         gtag('event', eventName, eventParams);
-        console.log('[GA4] Event tracked:', eventName, eventParams);
       }
     }
 
@@ -32,7 +35,7 @@ const { enabled = true } = Astro.props;
     // 原因：用戶可能在頁面載入後立刻點擊連結，
     //       若延遲設定 listener 會漏掉早期點擊事件。
     // ============================================
-    function initExternalLinkTracking() {
+    function initExternalLinkTracking(signal) {
       var externalLinks = document.querySelectorAll('a[href^="http"]');
 
       externalLinks.forEach(function(link) {
@@ -49,65 +52,10 @@ const { enabled = true } = Astro.props;
               link_text: linkText.substring(0, 100), // 限制長度
               link_location: window.location.pathname
             });
-          });
+          }, { signal: signal });
         }
       });
     }
-
-    // ============================================
-    // 即時執行：頁面停留時間追蹤（engagement 基準計時）
-    // 原因：engagement 從頁面一開始就需要記錄，
-    //       延遲初始化會造成計時不準確。
-    // ============================================
-    var pageStartTime = Date.now();
-    var pageEngaged = false;
-    var engagementStartTime = null;
-    var totalEngagementTime = 0;
-
-    function startEngagement() {
-      if (!pageEngaged) {
-        pageEngaged = true;
-        engagementStartTime = Date.now();
-      }
-    }
-
-    function pauseEngagement() {
-      if (pageEngaged && engagementStartTime) {
-        totalEngagementTime += Date.now() - engagementStartTime;
-        pageEngaged = false;
-        engagementStartTime = null;
-      }
-    }
-
-    var engagementEvents = ['scroll', 'click', 'keydown', 'mousemove'];
-    engagementEvents.forEach(function(eventType) {
-      window.addEventListener(eventType, startEngagement, { passive: true, once: false });
-    });
-
-    // 頁面隱藏時暫停計時
-    document.addEventListener('visibilitychange', function() {
-      if (document.hidden) {
-        pauseEngagement();
-      } else {
-        startEngagement();
-      }
-    });
-
-    // 頁面離開時追蹤總停留時間（須即時，beforeunload 容錯時間極短）
-    window.addEventListener('beforeunload', function() {
-      pauseEngagement();
-
-      var totalTime = Math.round((Date.now() - pageStartTime) / 1000); // 秒
-      var engagedTime = Math.round(totalEngagementTime / 1000); // 秒
-
-      trackEvent('page_engagement', {
-        engagement_time: engagedTime,
-        total_time: totalTime,
-        engagement_rate: totalTime > 0 ? Math.round((engagedTime / totalTime) * 100) : 0,
-        page_path: window.location.pathname,
-        page_title: document.title
-      });
-    });
 
     // ============================================
     // 非關鍵初始化：放入 requestIdleCallback
@@ -115,7 +63,7 @@ const { enabled = true } = Astro.props;
     //       不影響首次渲染，可在瀏覽器空閒時執行，
     //       改善 TBT（Total Blocking Time）約 80–150ms。
     // ============================================
-    function initNonCriticalAnalytics() {
+    function initNonCriticalAnalytics(signal) {
       // ==========================================
       // 1. 社交分享追蹤
       // ==========================================
@@ -135,7 +83,7 @@ const { enabled = true } = Astro.props;
             item_id: window.location.pathname,
             page_title: document.title
           });
-        });
+        }, { signal: signal });
       });
 
       // ==========================================
@@ -177,7 +125,7 @@ const { enabled = true } = Astro.props;
       window.addEventListener('scroll', function() {
         clearTimeout(scrollTimeout);
         scrollTimeout = setTimeout(trackScrollDepth, 100);
-      });
+      }, { signal: signal });
 
       // 頁面離開時追蹤最大滾動深度
       window.addEventListener('beforeunload', function() {
@@ -188,7 +136,7 @@ const { enabled = true } = Astro.props;
             page_path: window.location.pathname
           });
         }
-      });
+      }, { signal: signal });
 
       // ==========================================
       // 3. 代碼複製追蹤
@@ -213,7 +161,7 @@ const { enabled = true } = Astro.props;
               page_path: window.location.pathname,
               code_location: button.dataset.codeIndex || 'unknown'
             });
-          });
+          }, { signal: signal });
         });
       }
 
@@ -232,6 +180,7 @@ const { enabled = true } = Astro.props;
           subtree: true
         });
       }
+      _analyticsObservers.push(codeObserver);
 
       // ==========================================
       // 4. TOC 導航追蹤
@@ -249,7 +198,7 @@ const { enabled = true } = Astro.props;
             toc_type: link.closest('.mobile-toc') ? 'mobile' : 'desktop',
             page_path: window.location.pathname
           });
-        });
+        }, { signal: signal });
       });
 
       // ==========================================
@@ -263,7 +212,7 @@ const { enabled = true } = Astro.props;
             trigger_method: 'button',
             page_path: window.location.pathname
           });
-        });
+        }, { signal: signal });
       }
 
       // 追蹤搜尋查詢（透過 Pagefind UI）
@@ -288,7 +237,7 @@ const { enabled = true } = Astro.props;
                 });
               }
             }, 1000);
-          });
+          }, { signal: signal });
         }
 
         // 追蹤搜尋結果點擊
@@ -305,7 +254,7 @@ const { enabled = true } = Astro.props;
               result_position: index + 1,
               page_path: window.location.pathname
             });
-          });
+          }, { signal: signal });
         });
       });
 
@@ -316,6 +265,7 @@ const { enabled = true } = Astro.props;
           subtree: true
         });
       }
+      _analyticsObservers.push(searchObserver);
 
       // ==========================================
       // 6. 麵包屑導航點擊追蹤
@@ -332,7 +282,7 @@ const { enabled = true } = Astro.props;
             target_url: link.getAttribute('href'),
             page_path: window.location.pathname
           });
-        });
+        }, { signal: signal });
       });
 
       // ==========================================
@@ -351,18 +301,79 @@ const { enabled = true } = Astro.props;
             target_url: link.getAttribute('href'),
             page_path: window.location.pathname
           });
-        });
+        }, { signal: signal });
       });
-
-      console.log('[GA4] Enhanced Analytics initialized');
     }
 
     function initEnhancedAnalytics() {
+      // 清理上一頁的所有監聽器（解決 Astro SPA 換頁累積問題）
+      if (_analyticsController) {
+        _analyticsController.abort();
+      }
+      _analyticsObservers.forEach(function(obs) { obs.disconnect(); });
+      _analyticsObservers = [];
+
+      _analyticsController = new AbortController();
+      var signal = _analyticsController.signal;
+
+      // ============================================
+      // 頁面停留時間追蹤（重置至當前頁面）
+      // ============================================
+      var pageStartTime = Date.now();
+      var pageEngaged = false;
+      var engagementStartTime = null;
+      var totalEngagementTime = 0;
+
+      function startEngagement() {
+        if (!pageEngaged) {
+          pageEngaged = true;
+          engagementStartTime = Date.now();
+        }
+      }
+
+      function pauseEngagement() {
+        if (pageEngaged && engagementStartTime) {
+          totalEngagementTime += Date.now() - engagementStartTime;
+          pageEngaged = false;
+          engagementStartTime = null;
+        }
+      }
+
+      var engagementEvents = ['scroll', 'click', 'keydown', 'mousemove'];
+      engagementEvents.forEach(function(eventType) {
+        window.addEventListener(eventType, startEngagement, { passive: true, signal: signal });
+      });
+
+      // 頁面隱藏時暫停計時
+      document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+          pauseEngagement();
+        } else {
+          startEngagement();
+        }
+      }, { signal: signal });
+
+      // 頁面離開時追蹤總停留時間（須即時，beforeunload 容錯時間極短）
+      window.addEventListener('beforeunload', function() {
+        pauseEngagement();
+
+        var totalTime = Math.round((Date.now() - pageStartTime) / 1000); // 秒
+        var engagedTime = Math.round(totalEngagementTime / 1000); // 秒
+
+        trackEvent('page_engagement', {
+          engagement_time: engagedTime,
+          total_time: totalTime,
+          engagement_rate: totalTime > 0 ? Math.round((engagedTime / totalTime) * 100) : 0,
+          page_path: window.location.pathname,
+          page_title: document.title
+        });
+      }, { signal: signal });
+
       // 外部連結追蹤：立即執行，確保不漏掉早期點擊
-      initExternalLinkTracking();
+      initExternalLinkTracking(signal);
 
       // 非關鍵初始化：等瀏覽器空閒再執行，改善 TBT
-      _ric(initNonCriticalAnalytics);
+      _ric(function() { initNonCriticalAnalytics(signal); });
     }
 
     // 初始化
@@ -372,7 +383,7 @@ const { enabled = true } = Astro.props;
       initEnhancedAnalytics();
     }
 
-    // Astro 頁面切換時重新初始化
+    // Astro 頁面切換時重新初始化（initEnhancedAnalytics 會先清理上一頁的 listeners）
     document.addEventListener('astro:page-load', initEnhancedAnalytics);
   </script>
 )}
