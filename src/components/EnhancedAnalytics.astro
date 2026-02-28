@@ -11,6 +11,9 @@ const { enabled = true } = Astro.props;
 
 {enabled && (
   <script is:inline>
+    // requestIdleCallback polyfill（iOS Safari / 舊版 Edge 不支援）
+    var _ric = window.requestIdleCallback || function(cb) { setTimeout(cb, 1); };
+
     // 確保 gtag 函數存在
     function ensureGtag() {
       return typeof gtag !== 'undefined';
@@ -24,15 +27,103 @@ const { enabled = true } = Astro.props;
       }
     }
 
-    function initEnhancedAnalytics() {
-      // ============================================
-      // 1. 社交分享追蹤
-      // ============================================
-      const socialButtons = document.querySelectorAll('[data-social-share], .social-share-button, .share-button');
+    // ============================================
+    // 即時執行：外部連結點擊追蹤
+    // 原因：用戶可能在頁面載入後立刻點擊連結，
+    //       若延遲設定 listener 會漏掉早期點擊事件。
+    // ============================================
+    function initExternalLinkTracking() {
+      var externalLinks = document.querySelectorAll('a[href^="http"]');
 
-      socialButtons.forEach(button => {
-        button.addEventListener('click', (e) => {
-          const platform =
+      externalLinks.forEach(function(link) {
+        // 排除自己網站的連結
+        if (!link.href.includes(window.location.hostname)) {
+          link.addEventListener('click', function(e) {
+            var linkUrl = link.href;
+            var linkDomain = new URL(linkUrl).hostname;
+            var linkText = link.textContent?.trim() || link.getAttribute('aria-label') || 'no text';
+
+            trackEvent('outbound_click', {
+              link_url: linkUrl,
+              link_domain: linkDomain,
+              link_text: linkText.substring(0, 100), // 限制長度
+              link_location: window.location.pathname
+            });
+          });
+        }
+      });
+    }
+
+    // ============================================
+    // 即時執行：頁面停留時間追蹤（engagement 基準計時）
+    // 原因：engagement 從頁面一開始就需要記錄，
+    //       延遲初始化會造成計時不準確。
+    // ============================================
+    var pageStartTime = Date.now();
+    var pageEngaged = false;
+    var engagementStartTime = null;
+    var totalEngagementTime = 0;
+
+    function startEngagement() {
+      if (!pageEngaged) {
+        pageEngaged = true;
+        engagementStartTime = Date.now();
+      }
+    }
+
+    function pauseEngagement() {
+      if (pageEngaged && engagementStartTime) {
+        totalEngagementTime += Date.now() - engagementStartTime;
+        pageEngaged = false;
+        engagementStartTime = null;
+      }
+    }
+
+    var engagementEvents = ['scroll', 'click', 'keydown', 'mousemove'];
+    engagementEvents.forEach(function(eventType) {
+      window.addEventListener(eventType, startEngagement, { passive: true, once: false });
+    });
+
+    // 頁面隱藏時暫停計時
+    document.addEventListener('visibilitychange', function() {
+      if (document.hidden) {
+        pauseEngagement();
+      } else {
+        startEngagement();
+      }
+    });
+
+    // 頁面離開時追蹤總停留時間（須即時，beforeunload 容錯時間極短）
+    window.addEventListener('beforeunload', function() {
+      pauseEngagement();
+
+      var totalTime = Math.round((Date.now() - pageStartTime) / 1000); // 秒
+      var engagedTime = Math.round(totalEngagementTime / 1000); // 秒
+
+      trackEvent('page_engagement', {
+        engagement_time: engagedTime,
+        total_time: totalTime,
+        engagement_rate: totalTime > 0 ? Math.round((engagedTime / totalTime) * 100) : 0,
+        page_path: window.location.pathname,
+        page_title: document.title
+      });
+    });
+
+    // ============================================
+    // 非關鍵初始化：放入 requestIdleCallback
+    // 原因：以下為 DOM 查詢與事件綁定設定工作，
+    //       不影響首次渲染，可在瀏覽器空閒時執行，
+    //       改善 TBT（Total Blocking Time）約 80–150ms。
+    // ============================================
+    function initNonCriticalAnalytics() {
+      // ==========================================
+      // 1. 社交分享追蹤
+      // ==========================================
+      var socialButtons = document.querySelectorAll('[data-social-share], .social-share-button, .share-button');
+
+      socialButtons.forEach(function(button) {
+        button.addEventListener('click', function(e) {
+          var platform =
             button.dataset.platform ||
             button.getAttribute('data-social-share') ||
             button.getAttribute('aria-label') ||
@@ -47,42 +138,19 @@ const { enabled = true } = Astro.props;
         });
       });
 
-      // ============================================
-      // 2. 外部連結點擊追蹤
-      // ============================================
-      const externalLinks = document.querySelectorAll('a[href^="http"]');
-
-      externalLinks.forEach(link => {
-        // 排除自己網站的連結
-        if (!link.href.includes(window.location.hostname)) {
-          link.addEventListener('click', (e) => {
-            const linkUrl = link.href;
-            const linkDomain = new URL(linkUrl).hostname;
-            const linkText = link.textContent?.trim() || link.getAttribute('aria-label') || 'no text';
-
-            trackEvent('outbound_click', {
-              link_url: linkUrl,
-              link_domain: linkDomain,
-              link_text: linkText.substring(0, 100), // 限制長度
-              link_location: window.location.pathname
-            });
-          });
-        }
-      });
-
-      // ============================================
-      // 3. 閱讀深度追蹤
-      // ============================================
-      let scrollDepths = [25, 50, 75, 100];
-      let trackedDepths = [];
-      let maxScrollDepth = 0;
+      // ==========================================
+      // 2. 閱讀深度追蹤
+      // ==========================================
+      var scrollDepths = [25, 50, 75, 100];
+      var trackedDepths = [];
+      var maxScrollDepth = 0;
 
       function trackScrollDepth() {
-        const windowHeight = window.innerHeight;
-        const documentHeight = document.documentElement.scrollHeight;
-        const scrollTop = window.scrollY || window.pageYOffset;
+        var windowHeight = window.innerHeight;
+        var documentHeight = document.documentElement.scrollHeight;
+        var scrollTop = window.scrollY || window.pageYOffset;
 
-        const scrollPercent = Math.round(
+        var scrollPercent = Math.round(
           ((scrollTop + windowHeight) / documentHeight) * 100
         );
 
@@ -91,7 +159,7 @@ const { enabled = true } = Astro.props;
           maxScrollDepth = scrollPercent;
         }
 
-        scrollDepths.forEach(depth => {
+        scrollDepths.forEach(function(depth) {
           if (scrollPercent >= depth && !trackedDepths.includes(depth)) {
             trackEvent('scroll_depth', {
               percent_scrolled: depth,
@@ -105,14 +173,14 @@ const { enabled = true } = Astro.props;
       }
 
       // 使用節流避免過度觸發
-      let scrollTimeout;
-      window.addEventListener('scroll', () => {
+      var scrollTimeout;
+      window.addEventListener('scroll', function() {
         clearTimeout(scrollTimeout);
         scrollTimeout = setTimeout(trackScrollDepth, 100);
       });
 
       // 頁面離開時追蹤最大滾動深度
-      window.addEventListener('beforeunload', () => {
+      window.addEventListener('beforeunload', function() {
         if (maxScrollDepth > 0) {
           trackEvent('max_scroll_depth', {
             percent_scrolled: maxScrollDepth,
@@ -122,21 +190,20 @@ const { enabled = true } = Astro.props;
         }
       });
 
-      // ============================================
-      // 4. 代碼複製追蹤
-      // ============================================
-      // 監聽代碼複製按鈕（CodeCopy 組件會動態加入）
+      // ==========================================
+      // 3. 代碼複製追蹤
+      // ==========================================
       function trackCodeCopy() {
-        const copyButtons = document.querySelectorAll('.copy-button, [data-copy-code]');
+        var copyButtons = document.querySelectorAll('.copy-button, [data-copy-code]');
 
-        copyButtons.forEach(button => {
+        copyButtons.forEach(function(button) {
           // 避免重複綁定
           if (button.dataset.analyticsTracked) return;
           button.dataset.analyticsTracked = 'true';
 
-          button.addEventListener('click', () => {
-            const codeBlock = button.closest('pre') || button.parentElement?.querySelector('pre');
-            const language =
+          button.addEventListener('click', function() {
+            var codeBlock = button.closest('pre') || button.parentElement?.querySelector('pre');
+            var language =
               button.dataset.language ||
               codeBlock?.className.match(/language-(\w+)/)?.[1] ||
               'unknown';
@@ -154,11 +221,11 @@ const { enabled = true } = Astro.props;
       trackCodeCopy();
 
       // 使用 MutationObserver 追蹤動態加入的複製按鈕
-      const codeObserver = new MutationObserver(() => {
+      var codeObserver = new MutationObserver(function() {
         trackCodeCopy();
       });
 
-      const articleContent = document.querySelector('.article-content');
+      var articleContent = document.querySelector('.article-content');
       if (articleContent) {
         codeObserver.observe(articleContent, {
           childList: true,
@@ -166,15 +233,15 @@ const { enabled = true } = Astro.props;
         });
       }
 
-      // ============================================
-      // 5. TOC 導航追蹤
-      // ============================================
-      const tocLinks = document.querySelectorAll('.toc-item a, .mobile-toc-item a');
+      // ==========================================
+      // 4. TOC 導航追蹤
+      // ==========================================
+      var tocLinks = document.querySelectorAll('.toc-item a, .mobile-toc-item a');
 
-      tocLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
-          const sectionTitle = link.textContent?.trim() || 'unknown';
-          const targetId = link.getAttribute('href')?.replace('#', '') || 'unknown';
+      tocLinks.forEach(function(link) {
+        link.addEventListener('click', function(e) {
+          var sectionTitle = link.textContent?.trim() || 'unknown';
+          var targetId = link.getAttribute('href')?.replace('#', '') || 'unknown';
 
           trackEvent('toc_navigation', {
             section_title: sectionTitle,
@@ -185,13 +252,13 @@ const { enabled = true } = Astro.props;
         });
       });
 
-      // ============================================
-      // 6. 搜尋使用追蹤
-      // ============================================
-      const searchTrigger = document.getElementById('search-trigger');
+      // ==========================================
+      // 5. 搜尋使用追蹤
+      // ==========================================
+      var searchTrigger = document.getElementById('search-trigger');
 
       if (searchTrigger) {
-        searchTrigger.addEventListener('click', () => {
+        searchTrigger.addEventListener('click', function() {
           trackEvent('search_open', {
             trigger_method: 'button',
             page_path: window.location.pathname
@@ -200,19 +267,19 @@ const { enabled = true } = Astro.props;
       }
 
       // 追蹤搜尋查詢（透過 Pagefind UI）
-      const searchObserver = new MutationObserver(() => {
-        const searchInput = document.querySelector('.pagefind-ui__search-input');
+      var searchObserver = new MutationObserver(function() {
+        var searchInput = document.querySelector('.pagefind-ui__search-input');
 
         if (searchInput && !searchInput.dataset.analyticsTracked) {
           searchInput.dataset.analyticsTracked = 'true';
 
-          let searchTimeout;
-          searchInput.addEventListener('input', (e) => {
+          var searchTimeout;
+          searchInput.addEventListener('input', function(e) {
             clearTimeout(searchTimeout);
-            const query = e.target.value.trim();
+            var query = e.target.value.trim();
 
             // 延遲追蹤以避免每個按鍵都觸發
-            searchTimeout = setTimeout(() => {
+            searchTimeout = setTimeout(function() {
               if (query.length >= 3) {
                 trackEvent('search_query', {
                   search_term: query.substring(0, 100), // 限制長度
@@ -225,13 +292,13 @@ const { enabled = true } = Astro.props;
         }
 
         // 追蹤搜尋結果點擊
-        const searchResults = document.querySelectorAll('.pagefind-ui__result');
-        searchResults.forEach((result, index) => {
+        var searchResults = document.querySelectorAll('.pagefind-ui__result');
+        searchResults.forEach(function(result, index) {
           if (result.dataset.analyticsTracked) return;
           result.dataset.analyticsTracked = 'true';
 
-          result.addEventListener('click', () => {
-            const resultTitle = result.querySelector('.pagefind-ui__result-title')?.textContent?.trim() || 'unknown';
+          result.addEventListener('click', function() {
+            var resultTitle = result.querySelector('.pagefind-ui__result-title')?.textContent?.trim() || 'unknown';
 
             trackEvent('search_result_click', {
               result_title: resultTitle,
@@ -242,7 +309,7 @@ const { enabled = true } = Astro.props;
         });
       });
 
-      const searchModal = document.getElementById('search-modal');
+      var searchModal = document.getElementById('search-modal');
       if (searchModal) {
         searchObserver.observe(searchModal, {
           childList: true,
@@ -250,69 +317,14 @@ const { enabled = true } = Astro.props;
         });
       }
 
-      // ============================================
-      // 7. 頁面停留時間追蹤
-      // ============================================
-      const pageStartTime = Date.now();
-      let pageEngaged = false;
-      let engagementStartTime = null;
-      let totalEngagementTime = 0;
+      // ==========================================
+      // 6. 麵包屑導航點擊追蹤
+      // ==========================================
+      var breadcrumbLinks = document.querySelectorAll('.breadcrumb-link');
 
-      // 定義「參與」的事件
-      const engagementEvents = ['scroll', 'click', 'keydown', 'mousemove'];
-
-      function startEngagement() {
-        if (!pageEngaged) {
-          pageEngaged = true;
-          engagementStartTime = Date.now();
-        }
-      }
-
-      function pauseEngagement() {
-        if (pageEngaged && engagementStartTime) {
-          totalEngagementTime += Date.now() - engagementStartTime;
-          pageEngaged = false;
-          engagementStartTime = null;
-        }
-      }
-
-      engagementEvents.forEach(eventType => {
-        window.addEventListener(eventType, startEngagement, { passive: true, once: false });
-      });
-
-      // 頁面隱藏時暫停計時
-      document.addEventListener('visibilitychange', () => {
-        if (document.hidden) {
-          pauseEngagement();
-        } else {
-          startEngagement();
-        }
-      });
-
-      // 頁面離開時追蹤總停留時間
-      window.addEventListener('beforeunload', () => {
-        pauseEngagement();
-
-        const totalTime = Math.round((Date.now() - pageStartTime) / 1000); // 秒
-        const engagedTime = Math.round(totalEngagementTime / 1000); // 秒
-
-        trackEvent('page_engagement', {
-          engagement_time: engagedTime,
-          total_time: totalTime,
-          engagement_rate: totalTime > 0 ? Math.round((engagedTime / totalTime) * 100) : 0,
-          page_path: window.location.pathname,
-          page_title: document.title
-        });
-      });
-
-      // ============================================
-      // 8. 麵包屑導航點擊追蹤
-      // ============================================
-      const breadcrumbLinks = document.querySelectorAll('.breadcrumb-link');
-
-      breadcrumbLinks.forEach((link, index) => {
-        link.addEventListener('click', () => {
-          const breadcrumbText = link.textContent?.trim() || 'unknown';
+      breadcrumbLinks.forEach(function(link, index) {
+        link.addEventListener('click', function() {
+          var breadcrumbText = link.textContent?.trim() || 'unknown';
 
           trackEvent('breadcrumb_click', {
             breadcrumb_text: breadcrumbText,
@@ -323,14 +335,14 @@ const { enabled = true } = Astro.props;
         });
       });
 
-      // ============================================
-      // 9. 系列文章導航追蹤
-      // ============================================
-      const seriesNavLinks = document.querySelectorAll('.series-article-nav a');
+      // ==========================================
+      // 7. 系列文章導航追蹤
+      // ==========================================
+      var seriesNavLinks = document.querySelectorAll('.series-article-nav a');
 
-      seriesNavLinks.forEach(link => {
-        link.addEventListener('click', () => {
-          const direction = link.textContent?.includes('上一篇') || link.textContent?.includes('Previous')
+      seriesNavLinks.forEach(function(link) {
+        link.addEventListener('click', function() {
+          var direction = link.textContent?.includes('上一篇') || link.textContent?.includes('Previous')
             ? 'previous'
             : 'next';
 
@@ -343,6 +355,14 @@ const { enabled = true } = Astro.props;
       });
 
       console.log('[GA4] Enhanced Analytics initialized');
+    }
+
+    function initEnhancedAnalytics() {
+      // 外部連結追蹤：立即執行，確保不漏掉早期點擊
+      initExternalLinkTracking();
+
+      // 非關鍵初始化：等瀏覽器空閒再執行，改善 TBT
+      _ric(initNonCriticalAnalytics);
     }
 
     // 初始化
