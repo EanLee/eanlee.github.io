@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import { FolderOpen, ExternalLink } from '@lucide/astro';
+import SectionHeader from './SectionHeader.astro';
 
 // 直接從 Content Collections 讀取專案
 const projects = await getCollection('projects');
@@ -12,12 +13,9 @@ const sortedProjects = projects.sort((a, b) =>
 ---
 
 <div class="featured-projects">
-  <div class="section-header">
-    <h2 class="section-title">
-      <FolderOpen size={24} />
-      Side Projects
-    </h2>
-  </div>
+  <SectionHeader title="Side Projects">
+    <FolderOpen slot="icon" size={24} />
+  </SectionHeader>
 
   <div class="projects-grid">
     {sortedProjects.map((project) => (
@@ -67,26 +65,6 @@ const sortedProjects = projects.sort((a, b) =>
 <style>
   .featured-projects {
     margin-bottom: var(--spacing-2xl);
-  }
-
-  .section-header {
-    margin-bottom: var(--spacing-xl);
-    padding-bottom: var(--spacing-md);
-    border-bottom: 2px solid var(--color-border-light);
-  }
-
-  .section-title {
-    font-size: 1.75rem;
-    font-weight: 700;
-    margin: 0;
-    color: var(--text-primary);
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-sm);
-  }
-
-  .section-title svg {
-    color: var(--color-primary);
   }
 
   /* 專案網格 */
