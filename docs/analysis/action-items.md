@@ -13,12 +13,9 @@
 |----|------|--------|
 | **H1** | Newsletter 啟動（Email 收集表單先行，發信頻率後決定） | 2–4 hrs |
 | **H5** | 文章頁加精簡 FollowCTA（RSS + 預留 Email 框位置） | 30 min |
-| **H6** | EnhancedAnalytics listener 洩漏修復 + 移除 console.log | 30 min |
 | **M1** | BlogPosting Author 豐富化（sameAs、jobTitle） | 15 min |
 | **M4** | LatestPosts 加 `featured` 精選機制 | 45 min |
 | **M5** | 搜尋框行動版文字恢復 | 10 min |
-| **M6** | SiteNavigationElement Schema 補上 /series/ 和 /tags/ | 10 min |
-| **M7** | /archives/ 補 CollectionPage Schema | 15 min |
 | **M8** | 系列卡片加描述文字（render `description` 欄位） | 20 min |
 | **M9** | 空分類殼空態體驗改善（reading、growth） | 30 min |
 | **L1** | 文章底部「同系列推薦」卡片 | 60 min |
@@ -76,28 +73,6 @@
 
 ---
 
-### H6 · EnhancedAnalytics listener 洩漏修復
-
-**首次提出：** 2026-02-28 · **代碼位置：** `src/components/EnhancedAnalytics.astro` L349–L360 · **工作量：** 30 min
-
-**要做什麼：**
-1. 移除所有 `console.log` 除錯輸出（生產版本不應有）
-2. 在 `astro:before-swap` 清理所有 `scroll`、`click`、`copy` 等事件監聽器，或改用 `AbortController` 統一管理（參考 Header.astro 的既有模式）
-
-**預期優點：**
-- 消除 Astro SPA 換頁時的記憶體洩漏
-- GA4 分析數據正確（scroll depth、點擊事件不重複觸發）
-- 移除 console.log 避免讀者看到除錯輸出
-
-**預期缺點 / 風險：**
-- 清理邏輯需要仔細對應每個監聽器的掛載和移除，容易漏掉
-- 若 cleanup 時機不對，可能在合法的跨頁事件被攔截前就清理
-
-**不做的理由：** 影響僅限分析數據，不影響讀者直接體驗
-**建議決策點：** 這是生產 bug，應優先處理；使用 AbortController 模式最簡潔
-
----
-
 ### M1 · BlogPosting Author 豐富化
 
 **首次提出：** 2026-02-28 · **代碼位置：** `src/layouts/BlogPost.astro` L77-81 · **工作量：** 15 min
@@ -145,38 +120,6 @@
 **預期缺點 / 風險：** 行動版 Header 空間有限，加文字可能擠壓其他元素排版
 
 **不做的理由：** 放大鏡圖示可識別性高，且空間限制是實際問題
-
----
-
-### M6 · SiteNavigationElement Schema 補上 /series/ 和 /tags/
-
-**首次提出：** 2026-02-28 · **代碼位置：** `src/pages/index.astro`（SiteNavigationElement JSON-LD） · **工作量：** 10 min
-
-**要做什麼：** 在首頁 JSON-LD 的 `SiteNavigationElement` 陣列中，新增 /series/ 和 /tags/ 兩個 `ListItem`，讓 Googlebot 知道這兩個頁面是網站的導覽入口
-
-**預期優點：**
-- Googlebot 能語意理解新的導覽結構（與 Header 的「探索」連結對齊）
-- /series/ 和 /tags/ 頁面的 SEO 效益不會延遲
-
-**預期缺點 / 風險：** 幾乎無風險，純新增
-
-**不做的理由：** Schema 效果難以直接量化
-
----
-
-### M7 · /archives/ 補 CollectionPage Schema
-
-**首次提出：** 2026-02-28 · **代碼位置：** `src/pages/archives.astro`（或對應路徑） · **工作量：** 15 min
-
-**要做什麼：** /archives/ 頁面有完整文章列表，但沒有 `CollectionPage` + `ItemList` Schema，補齊讓 Google 理解這是一個「集合頁」
-
-**預期優點：**
-- 與 /series/ 和 /tags/ 已有的 CollectionPage Schema 一致
-- 潛在的 Rich Results 機會
-
-**預期缺點 / 風險：** 工作量低，風險幾乎為零
-
-**不做的理由：** 效益難量化，/archives/ 的搜尋流量有限
 
 ---
 
@@ -382,3 +325,6 @@
 | M2 · Giscus 改 IntersectionObserver 延遲載入（CLS 改善） | 2026-02-28 | commit `686b66f6`、`30124167` |
 | M3 · EnhancedAnalytics 改 requestIdleCallback（TBT 改善） | 2026-02-28 | commit `dd66a2f7` |
 | H2 · Header 加「探索」下拉選單（/series/、/tags/） | 2026-02-28 | commit `b6f61d2c`、`a67c3495` |
+| H6 · EnhancedAnalytics listener 洩漏修復 + 移除 console.log | 2026-02-28 | commit `2448d77a`，AbortController + signal 模式 |
+| M6 · SiteNavigationElement Schema 補上 /series/ 和 /tags/ | 2026-02-28 | commit `6a37028e`，index.astro |
+| M7 · /archives/ 補 CollectionPage Schema | 2026-02-28 | commit `302c667d`，archives.astro + GeneralLayout head slot |
