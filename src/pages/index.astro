@@ -9,6 +9,7 @@ import FeaturedProjects from "../components/FeaturedProjects.astro";
 import CategoryGrid from "../components/CategoryGrid.astro";
 import HomeHero from "../components/HomeHero.astro";
 import FollowCTA from "../components/FollowCTA.astro";
+import SeriesShowcase from "../components/SeriesShowcase.astro";
 
 // 獲取所有文章
 const allPosts = await getCollection("blog");
@@ -162,6 +163,9 @@ const blogStructuredData = {
 
         <!-- Category Grid -->
         <CategoryGrid allPosts={allPosts} />
+
+        <!-- Series Showcase -->
+        <SeriesShowcase posts={allPosts} />
 
         <!-- Follow CTA -->
         <FollowCTA />
