@@ -85,7 +85,7 @@ const image = "/favicon.ico";
           <div class="nav-dropdown desktop-only">
             <button
               class="nav-dropdown-trigger"
-              aria-haspopup="true"
+              aria-haspopup="menu"
               aria-expanded="false"
               aria-controls="explore-dropdown"
             >
@@ -408,8 +408,8 @@ const image = "/favicon.ico";
     }
 
     /* 桌面版下拉在行動版隱藏 */
-    .desktop-only {
-      display: none !important;
+    header .desktop-only {
+      display: none;
     }
 
     /* 行動版探索群組顯示 */
@@ -418,8 +418,8 @@ const image = "/favicon.ico";
     }
 
     /* 隱藏所有導航項目（預設） */
-    .internal-links {
-      display: none !important;
+    header .internal-links {
+      display: none;
     }
 
     /* nav-right 預設隱藏 */
@@ -441,7 +441,7 @@ const image = "/favicon.ico";
     }
 
     .nav-right.active .internal-links {
-      display: flex !important;
+      display: flex;
       flex-direction: column;
       gap: 0;
       padding: var(--spacing-sm) 0;
@@ -459,11 +459,11 @@ const image = "/favicon.ico";
     }
 
     .internal-links a:hover {
-      background-color: rgba(var(--color-primary), 0.1);
+      background-color: rgba(var(--color-primary-rgb), 0.1);
     }
 
     .internal-links a.active {
-      background-color: rgba(var(--color-primary), 0.15);
+      background-color: rgba(var(--color-primary-rgb), 0.15);
       color: var(--color-primary);
     }
 
@@ -477,8 +477,8 @@ const image = "/favicon.ico";
       align-items: center;
       gap: var(--spacing-sm);
       padding: var(--spacing-xs) var(--spacing-lg);
-      color: var(--color-text-muted, var(--text-muted));
-      font-size: var(--font-size-xs, 0.75rem);
+      color: var(--color-text-muted);
+      font-size: var(--font-size-xs);
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.08em;
@@ -499,7 +499,7 @@ const image = "/favicon.ico";
     }
 
     .mobile-explore-item:hover {
-      background-color: rgba(var(--color-primary), 0.1);
+      background-color: rgba(var(--color-primary-rgb), 0.1);
     }
   }
 
@@ -558,12 +558,14 @@ const image = "/favicon.ico";
 </style>
 
 <script>
+  // AbortController 用於清理跨頁切換殘留的 document 事件監聽器
+  let keydownAbortController: AbortController | null = null;
+
   function initMobileMenu() {
     const mobileMenuToggle = document.querySelector(".mobile-menu-toggle");
     const navRight = document.querySelector(".nav-right");
 
     if (!mobileMenuToggle || !navRight) {
-      console.warn("Mobile menu elements not found");
       return;
     }
 
@@ -579,7 +581,6 @@ const image = "/favicon.ico";
         const expanded = this.getAttribute("aria-expanded") === "true";
         const newState = !expanded;
 
-        console.log("Mobile menu toggle clicked");
         (this as HTMLElement).classList.toggle("active");
         navRight.classList.toggle("active");
 
@@ -626,21 +627,27 @@ const image = "/favicon.ico";
         }
       });
 
-      // ESC 鍵關閉選單
-      document.addEventListener("keydown", function (e) {
-        if (e.key === "Escape" && navRight.classList.contains("active") && newMobileMenuToggle) {
-          newMobileMenuToggle.classList.remove("active");
-          newMobileMenuToggle.setAttribute("aria-expanded", "false");
-          navRight.classList.remove("active");
-          navRight.setAttribute("aria-hidden", "true");
-          document.body.style.overflow = "";
-          newMobileMenuToggle.focus();
-        }
-      });
+      // ESC 鍵關閉選單（使用 AbortController 避免跨頁累積）
+      keydownAbortController?.abort();
+      keydownAbortController = new AbortController();
+      document.addEventListener(
+        "keydown",
+        function (e) {
+          if (e.key === "Escape" && navRight.classList.contains("active") && newMobileMenuToggle) {
+            newMobileMenuToggle.classList.remove("active");
+            newMobileMenuToggle.setAttribute("aria-expanded", "false");
+            navRight.classList.remove("active");
+            navRight.setAttribute("aria-hidden", "true");
+            document.body.style.overflow = "";
+            newMobileMenuToggle.focus();
+          }
+        },
+        { signal: keydownAbortController.signal }
+      );
     }
   }
 
-  // 桌面版下拉：鍵盤導覽支援
+  // 桌面版下拉：鍵盤導覽支援 + hover aria-expanded 同步
   function initDropdownKeyboard() {
     const triggers = document.querySelectorAll<HTMLButtonElement>(".nav-dropdown-trigger");
 
@@ -649,9 +656,24 @@ const image = "/favicon.ico";
       const newTrigger = trigger.cloneNode(true) as HTMLButtonElement;
       trigger.replaceWith(newTrigger);
 
+      // hover 展開時同步 aria-expanded（無障礙輔助技術需要）
+      const dropdown = newTrigger.closest(".nav-dropdown");
+      if (dropdown) {
+        dropdown.addEventListener("mouseenter", () => {
+          newTrigger.setAttribute("aria-expanded", "true");
+        });
+        dropdown.addEventListener("mouseleave", () => {
+          // 若非透過鍵盤開啟（style.display 未被 JS 覆寫），才重設
+          const menu = dropdown.querySelector<HTMLElement>(".dropdown-menu");
+          if (!menu || menu.style.display !== "block") {
+            newTrigger.setAttribute("aria-expanded", "false");
+          }
+        });
+      }
+
       newTrigger.addEventListener("keydown", function (e) {
-        const dropdown = this.closest(".nav-dropdown");
-        const menu = dropdown?.querySelector<HTMLElement>(".dropdown-menu");
+        const dropdownEl = this.closest(".nav-dropdown");
+        const menu = dropdownEl?.querySelector<HTMLElement>(".dropdown-menu");
         if (!menu) return;
 
         if (e.key === "Enter" || e.key === " " || e.key === "ArrowDown") {
@@ -675,11 +697,11 @@ const image = "/favicon.ico";
 
       // 失去焦點時關閉（若焦點離開整個 dropdown）
       newTrigger.addEventListener("blur", function () {
-        const dropdown = this.closest(".nav-dropdown");
+        const dropdownEl = this.closest(".nav-dropdown");
         setTimeout(() => {
-          if (!dropdown?.contains(document.activeElement)) {
+          if (!dropdownEl?.contains(document.activeElement)) {
             this.setAttribute("aria-expanded", "false");
-            const menu = dropdown?.querySelector<HTMLElement>(".dropdown-menu");
+            const menu = dropdownEl?.querySelector<HTMLElement>(".dropdown-menu");
             if (menu) menu.style.display = "";
           }
         }, 150);
@@ -704,12 +726,12 @@ const image = "/favicon.ico";
           e.preventDefault();
           items[(idx - 1 + items.length) % items.length]?.focus();
         } else if (e.key === "Escape" || e.key === "Tab") {
-          const dropdown = this.closest(".nav-dropdown");
-          const trigger = dropdown?.querySelector<HTMLElement>(".nav-dropdown-trigger");
-          if (trigger) {
-            trigger.setAttribute("aria-expanded", "false");
+          const dropdownEl = this.closest(".nav-dropdown");
+          const triggerEl = dropdownEl?.querySelector<HTMLElement>(".nav-dropdown-trigger");
+          if (triggerEl) {
+            triggerEl.setAttribute("aria-expanded", "false");
             this.style.display = "";
-            trigger.focus();
+            triggerEl.focus();
           }
           if (e.key === "Tab") return; // Tab 鍵允許正常行為
           e.preventDefault();
@@ -718,13 +740,13 @@ const image = "/favicon.ico";
 
       // 焦點離開選單時關閉
       newMenu.addEventListener("focusout", function (e) {
-        const dropdown = this.closest(".nav-dropdown");
+        const dropdownEl = this.closest(".nav-dropdown");
         const related = (e as FocusEvent).relatedTarget as HTMLElement | null;
         setTimeout(() => {
-          if (!dropdown?.contains(document.activeElement) && !dropdown?.contains(related)) {
-            const trigger = dropdown?.querySelector<HTMLButtonElement>(".nav-dropdown-trigger");
-            if (trigger) {
-              trigger.setAttribute("aria-expanded", "false");
+          if (!dropdownEl?.contains(document.activeElement) && !dropdownEl?.contains(related)) {
+            const triggerEl = dropdownEl?.querySelector<HTMLButtonElement>(".nav-dropdown-trigger");
+            if (triggerEl) {
+              triggerEl.setAttribute("aria-expanded", "false");
               this.style.display = "";
             }
           }
