@@ -1,0 +1,148 @@
+---
+import { getCollection } from "astro:content";
+import BaseHead from "../../components/BaseHead.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import { SITE_TITLE } from "../../consts";
+
+const posts = await getCollection("blog");
+
+// 統計每個標籤的文章數（保留原始大小寫用於顯示）
+const tagMap = new Map<string, { display: string; count: number }>();
+for (const post of posts) {
+  for (const tag of post.data.tags ?? []) {
+    const key = tag.toLowerCase();
+    if (!tagMap.has(key)) {
+      tagMap.set(key, { display: tag, count: 0 });
+    }
+    tagMap.get(key)!.count++;
+  }
+}
+
+// 按文章數降序排列
+const tags = [...tagMap.entries()]
+  .sort((a, b) => b[1].count - a[1].count)
+  .map(([key, val]) => ({ key, ...val }));
+
+const collectionPageSchema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: `標籤 - ${SITE_TITLE}`,
+  description: `以標籤瀏覽所有文章，共 ${tags.length} 個標籤`,
+  url: new URL("/tags/", Astro.site).href,
+  numberOfItems: tags.length,
+  itemListElement: tags.map((tag, i) => ({
+    "@type": "ListItem",
+    position: i + 1,
+    url: new URL(`/tags/${tag.key}/`, Astro.site).href,
+    name: tag.display,
+  })),
+};
+---
+
+<!doctype html>
+<html lang="zh-TW">
+  <head>
+    <BaseHead
+      title={`標籤 - ${SITE_TITLE}`}
+      description={`以標籤瀏覽所有文章，共 ${tags.length} 個標籤`}
+    />
+    <script type="application/ld+json" set:html={JSON.stringify(collectionPageSchema)} />
+  </head>
+  <body>
+    <Header />
+    <main class="tags-index">
+      <div class="container">
+        <h1>標籤</h1>
+        <p class="subtitle">共 {tags.length} 個標籤</p>
+
+        <div class="tags-cloud">
+          {tags.map((tag) => (
+            <a href={`/tags/${tag.key}/`} class="tag-chip">
+              {tag.display}
+              <span class="tag-count">{tag.count}</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </main>
+    <Footer />
+  </body>
+</html>
+
+<style>
+  body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  .tags-index {
+    flex: 1;
+  }
+
+  .container {
+    max-width: var(--container-xl);
+    margin: 0 auto;
+    padding: var(--spacing-xl) var(--spacing-md);
+  }
+
+  h1 {
+    font-size: var(--font-size-2xl);
+    margin-bottom: var(--spacing-xs);
+  }
+
+  .subtitle {
+    color: var(--color-text-muted);
+    margin-bottom: var(--spacing-2xl);
+  }
+
+  .tags-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+  }
+
+  .tag-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-xs) var(--spacing-md);
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-full);
+    text-decoration: none;
+    color: var(--color-text);
+    background: var(--color-bg-secondary);
+    font-size: var(--font-size-sm);
+    transition:
+      border-color var(--transition-normal),
+      background var(--transition-normal),
+      transform var(--transition-normal);
+  }
+
+  .tag-chip:hover {
+    border-color: var(--color-primary);
+    background: var(--color-bg-muted);
+    transform: translateY(-1px);
+  }
+
+  .tag-count {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+    background: var(--color-bg-muted);
+    border-radius: var(--radius-full);
+    padding: 0 var(--spacing-xs);
+    min-width: 1.25rem;
+    text-align: center;
+  }
+
+  .tag-chip:hover .tag-count {
+    background: var(--color-bg-primary);
+  }
+
+  @media (max-width: 480px) {
+    .tag-chip {
+      font-size: var(--font-size-xs);
+    }
+  }
+</style>
