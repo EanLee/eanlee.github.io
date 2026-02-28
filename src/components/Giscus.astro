@@ -15,6 +15,9 @@
  *    - Mapping: pathname（每篇文章對應一個 Discussion）
  *
  * 4. 複製 giscus.app 產生的 repo-id 和 category-id，填入下方 TODO 處
+ *
+ * 效能優化：使用 IntersectionObserver 延遲載入，只在留言區進入視口時
+ * 才動態注入 giscus script，減少 CLS 並改善初始渲染效能。
  */
 
 // TODO: 從 https://giscus.app/zh-TW 取得以下兩個值後填入
@@ -25,30 +28,173 @@ const REPO = "EanLee/blog-discussions";
 const CATEGORY = "Comments";
 ---
 
-<section class="giscus-container">
-  <script
-    src="https://giscus.app/client.js"
-    data-repo={REPO}
-    data-repo-id={REPO_ID}
-    data-category={CATEGORY}
-    data-category-id={CATEGORY_ID}
-    data-mapping="pathname"
-    data-strict="0"
-    data-reactions-enabled="1"
-    data-emit-metadata="0"
-    data-input-position="bottom"
-    data-theme="preferred_color_scheme"
-    data-lang="zh-TW"
-    data-loading="lazy"
-    crossorigin="anonymous"
-    async
-  ></script>
+<section
+  id="giscus-comments"
+  class="giscus-container"
+  data-repo={REPO}
+  data-repo-id={REPO_ID}
+  data-category={CATEGORY}
+  data-category-id={CATEGORY_ID}
+>
+  <!-- 骨架屏佔位符：在 giscus 載入前顯示，避免 CLS -->
+  <div id="giscus-placeholder" class="giscus-placeholder" aria-hidden="true">
+    <div class="giscus-placeholder-inner">
+      <div class="skeleton-avatar"></div>
+      <div class="skeleton-lines">
+        <div class="skeleton-line skeleton-line--wide"></div>
+        <div class="skeleton-line skeleton-line--medium"></div>
+      </div>
+    </div>
+    <p class="giscus-placeholder-text">留言載入中...</p>
+  </div>
 </section>
 
 <style>
   .giscus-container {
     margin-top: var(--spacing-xl, 3rem);
     padding-top: var(--spacing-lg, 2rem);
-    border-top: 1px solid var(--color-border, #e5e7eb);
+    border-top: 1px solid var(--color-border-light, #e5e7eb);
+    min-height: 200px;
+  }
+
+  /* 骨架屏佔位符 */
+  .giscus-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-md, 1rem);
+    padding: var(--spacing-lg, 2rem) 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .giscus-placeholder.hidden {
+    display: none;
+  }
+
+  .giscus-placeholder-inner {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md, 1rem);
+    width: 100%;
+    max-width: 480px;
+  }
+
+  .skeleton-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(
+      90deg,
+      var(--color-bg-muted, #f3f4f6) 25%,
+      var(--color-border-light, #e5e7eb) 50%,
+      var(--color-bg-muted, #f3f4f6) 75%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    flex-shrink: 0;
+  }
+
+  .skeleton-lines {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs, 0.5rem);
+  }
+
+  .skeleton-line {
+    height: 12px;
+    border-radius: var(--radius-sm, 4px);
+    background: linear-gradient(
+      90deg,
+      var(--color-bg-muted, #f3f4f6) 25%,
+      var(--color-border-light, #e5e7eb) 50%,
+      var(--color-bg-muted, #f3f4f6) 75%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+  }
+
+  .skeleton-line--wide {
+    width: 100%;
+  }
+
+  .skeleton-line--medium {
+    width: 65%;
+  }
+
+  .giscus-placeholder-text {
+    font-size: var(--font-size-sm, 0.875rem);
+    color: var(--color-text-muted, #9ca3af);
+    margin: 0;
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
   }
 </style>
+
+<script>
+  const container = document.getElementById('giscus-comments');
+  const placeholder = document.getElementById('giscus-placeholder');
+
+  if (container) {
+    function loadGiscus() {
+      const repo = container.dataset.repo ?? '';
+      const repoId = container.dataset.repoId ?? '';
+      const category = container.dataset.category ?? '';
+      const categoryId = container.dataset.categoryId ?? '';
+
+      const script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      script.setAttribute('data-repo', repo);
+      script.setAttribute('data-repo-id', repoId);
+      script.setAttribute('data-category', category);
+      script.setAttribute('data-category-id', categoryId);
+      script.setAttribute('data-mapping', 'pathname');
+      script.setAttribute('data-strict', '0');
+      script.setAttribute('data-reactions-enabled', '1');
+      script.setAttribute('data-emit-metadata', '0');
+      script.setAttribute('data-input-position', 'bottom');
+      script.setAttribute('data-theme', 'preferred_color_scheme');
+      script.setAttribute('data-lang', 'zh-TW');
+      script.setAttribute('data-loading', 'lazy');
+      script.setAttribute('crossorigin', 'anonymous');
+      script.async = true;
+
+      // 當 giscus iframe 傳送訊息後，隱藏骨架屏
+      window.addEventListener('message', function onGiscusFrame(event) {
+        if (event.origin !== 'https://giscus.app') return;
+        if (placeholder) {
+          placeholder.classList.add('hidden');
+        }
+        window.removeEventListener('message', onGiscusFrame);
+      });
+
+      container.appendChild(script);
+    }
+
+    if (!('IntersectionObserver' in window)) {
+      // 降級處理：瀏覽器不支援 IntersectionObserver 時直接載入
+      loadGiscus();
+    } else {
+      const observer = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              observer.disconnect();
+              loadGiscus();
+            }
+          });
+        },
+        { rootMargin: '200px 0px' }
+      );
+
+      observer.observe(container);
+    }
+  }
+</script>
