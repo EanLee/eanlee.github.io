@@ -1,20 +1,21 @@
 ---
-title: ASP.NET Core | 問題排除隨手記 - API 回應 HTTP Status 415 Unsupported Media Type
-description: 本篇文章探討在呼叫 API 時遇到非預期的 HTTP Status 狀況，並針對 415 Unsupported Media Type 錯誤，說明錯誤原因與其解法。如果遇到類似的問題，這篇文章或許可以提供參考。
+title: API 故障排除：解決 HTTP Status 415 Unsupported Media Type 的常見原因與解法
+description: 遇到 HTTP 415 錯誤？詳細分析 Content-Type 設定錯誤、資料格式不符等導致 Unsupported Media Type 的原因，並提供 ASP.NET Core 中的正確處理範例。
 date: 2023-03-09T16:19:47+08:00
-lastmod: 2023-11-28T10:22:17+08:00
+lastmod: 2026-03-05T00:20:44+08:00
 tags:
   - aspnet-core
 categories:
   - 開發雜談
 keywords:
+  - HTTP 415 錯誤
   - Unsupported Media Type
-  - HTTP Status
+  - API 調試
+  - Content-Type 錯誤
   - ASP.NET Core
 slug: http-response-status-unexpected-note
 epic: software
 ---
-
 有時呼叫 API 時，對方回應的 `HTTP Status` 與我們所預期的不同。剛好最近有遇到，就順手記錄下來。
 
 > 🔖 長話短說 🔖

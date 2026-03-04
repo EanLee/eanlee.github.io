@@ -2,7 +2,7 @@
 title: 靈活運用 Docker - Container 觀念與 VM 的差異
 description: 「靈活運用 Docker 打造高效的容器化應用環境」系列的文章之一。本文探討虛擬機器 (Virtual Machine, VM) 與容器 (Container) 技術的差異。 VM 是從操作系統層虛擬化，建立 Guest OS 環境；Container 則從應用程序層入手，將應用程序打包成映像檔，共用 Host OS。
 date: 2023-11-30T07:28:30.651Z
-lastmod: 2023-12-05T17:08:56+08:00
+lastmod: 2026-03-05T00:20:44+08:00
 tags:
   - Docker
 categories:
@@ -13,8 +13,8 @@ keywords:
   - Guest OS
 slug: container-vm-difference
 series: 靈活運用 Docker 打造高效的容器化應用環境
+epic: software
 ---
-
 ![What's the Diff: Containers vs VMs](https://www.backblaze.com/blog/wp-content/uploads/2018/06/whats-the-diff-container-vs-vm.jpg)
 (圖片來源: [What’s the Diff: VMs vs Containers](https://www.backblaze.com/blog/vm-vs-containers/))
 

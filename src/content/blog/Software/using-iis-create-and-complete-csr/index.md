@@ -1,6 +1,6 @@
 ---
-title: 使用 IIS 進行 SSL 憑證的申請與更新的步驟與注意事項
-description: 日前在使用 IIS 10 進行 SSL 伺服器憑證的申請與更新作業時，發生 F5 重整時，伺服器憑證消失的問題。在排查過程中，發現一些有趣的地方，所以將其特別記錄下來。
+title: Windows Server 維運指南：在 IIS 中申請、安裝與自動更新 SSL 憑證全流程
+description: 手把手教你如何在 IIS (Internet Information Services) 中處理 SSL 憑證。包含憑證申請 (CSR)、安裝步驟及如何有效自動化更新流程，確保網站安全不中斷。
 date: 2023-02-03T11:43:18+08:00
 categories:
   - 軟體開發
@@ -9,13 +9,15 @@ tags:
   - 資安
   - IIS
 keywords:
-  - IIS
-  - CSR
-  - SSL
+  - IIS SSL 憑證
+  - 申請 SSL 指南
+  - Windows Server 維運
+  - CSR 產製
+  - 網站安全
 slug: using-iis-create-and-complete-csr
-lastmod: 2023-06-28T10:10:47+08:00
+lastmod: 2026-03-05T00:20:44+08:00
+epic: software
 ---
-
 日前在使用 IIS 10 進行 SSL 伺服器憑證的申請與更新作業時，發生 IIS `完成憑證請求` 後，進行 F5 重整時，憑證消失的問題。在排查過程中，發現一些有趣的地方，所以將其特別記錄下來。
 
 在這篇文章中，主要使用 IIS 來進行操作，在實務上，也可選擇使用 `openssl` 指令的方式來建立 `csr` 與 `pfx` 檔案。

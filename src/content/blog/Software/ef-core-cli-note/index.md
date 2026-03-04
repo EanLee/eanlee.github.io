@@ -12,9 +12,9 @@ keywords:
   - dotnetef
   - dbcontext scaffold
 slug: ef-core-cli-note
-lastmod: 2024-01-15T11:03:36+08:00
+lastmod: 2026-03-05T00:20:44+08:00
+epic: software
 ---
-
 將之前使用 dotnet ef 相關的指令整理在這篇，以便後續快速盤查資料使用。
 
 ## EF Tools 安裝
@@ -30,7 +30,7 @@ dotnet tool install --global dotnet-ef
 
 若曾經安裝過 dotnet-ef 的工具，但後續專案使用最新版本的 EF Core，在執行 `dotnet ef` 相關指令時，會出現以下的提示訊息。
 
-`The Entity Framework tools version '6.0.8' is older than that of the runtime '7.0.1'. Update the tools for the latest features and bug fixes. See https://aka.ms/AAc1fbw for more information.`
+> The Entity Framework tools version '6.0.8' is older than that of the runtime '7.0.1'. Update the tools for the latest features and bug fixes. See https://aka.ms/AAc1fbw for more information.
 
 當發生上述的訊息時，可以使用以下的指令來更新本機內的 EF Core 的 Tools 工具版本。
 

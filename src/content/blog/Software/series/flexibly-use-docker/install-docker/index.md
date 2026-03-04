@@ -2,7 +2,7 @@
 title: 靈活運用 Docker - Docker 的安裝
 description: 「靈活運用 Docker 打造高效的容器化應用環境」系列的文章之一。記錄了如何在 Ubuntu 之中，進行 Docker 的安裝設定。後續不定期更新內容。
 date: 2023-12-01T11:14:30+08:00
-lastmod: 2023-12-05T17:12:27+08:00
+lastmod: 2026-03-05T00:20:44+08:00
 tags:
   - Docker
 categories:
@@ -11,8 +11,8 @@ keywords:
   - Docker
 slug: install-docker
 series: 靈活運用 Docker 打造高效的容器化應用環境
+epic: software
 ---
-
 > 本篇為 [靈活運用 Docker 打造高效的容器化應用環境](../flexibly-use-docker-foreword/index.md) 系列的文章之一。內容由現有的文章中，將相關的內容整理於此。後續不定期編修與更新內容。
 
 ## 各 OS 安裝 Docker

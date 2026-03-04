@@ -1,19 +1,21 @@
 ---
-title: 運用 ChapGpt 以 Pair-programing 輔助程式開發
-description: 如何運用 ChatGPT 進行 Pair-Programming，並以使用 Flutter 撰寫 APP 為例，如何利用 ChatGPT 協助程式設計、概念詢問、程式碼修改與實作等方面，並提供注意事項。並提到 ChatGPT 在回答問題時有時會回答與問題無關的內容，使用者需要在 prompt 中加入回答的限制。
+title: AI 賦能開發：如何將 ChatGPT 作為 Pair Programming 夥伴提升編程效率
+description: ChatGPT 不只是聊天機器人！教你如何透過精確的 Prompt 工程，讓 AI 輔助程式碼重構、Bug 單元測試與架構諮詢，開啟高效的 AI 協作開發模式。
 date: 2023-03-15T14:00:03+08:00
 categories:
   - 軟體開發
 tags:
   - OpenAI
 keywords:
-  - chatGPT
-  - flutter
-  - Pair-Programming
-lastmod: 2023-12-01T16:44:28+08:00
+  - ChatGPT 開發
+  - AI Pair Programming
+  - Prompt 工程
+  - 提升開發效率
+  - AI 工具推薦
+lastmod: 2026-03-05T00:20:44+08:00
 slug: develop-assistant-chatgpt
+epic: software
 ---
-
 最近在寫 Side Project 時，使用之前完全沒有接觸過的 Futter 來撰寫 APP，同時配合 ChapGPT 一同 Pair-Programming。
 
 順手記錄與分享，在這過程中，學習到如何運用 ChatGPT 協同開發的使用方式。若是使用 ChapGPT 方式沒抓對，造成回答被中斷或答非所問，就會事倍功半。

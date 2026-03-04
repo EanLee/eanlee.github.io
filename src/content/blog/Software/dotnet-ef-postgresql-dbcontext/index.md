@@ -2,7 +2,7 @@
 title: EF Core | 使用 dotnet-ef 建立 PostgreSQL 的 DBContext
 description: 當 .NET Core 要使用 EF Core 去存取 PostgreSQL 時，可以先使用 dotnet-ef 的工具，協助產生對應 PostgreSQL schema 的 DBContext
 date: 2023-06-26T10:29:37+08:00
-lastmod: 2023-12-05T09:05:10+08:00
+lastmod: 2026-03-05T00:20:44+08:00
 categories:
   - 軟體開發
   - EF Core
@@ -14,8 +14,8 @@ keywords:
   - Postgresql
   - user-secrets
 slug: dotnet-ef-postgresql-dbcontext
+epic: software
 ---
-
 若是有使用過 Entity Framework, EF 的經驗，必然對 `DBContext` 類別有所了解。在 EF 時可以使用 Visual Studo 的 UI 工具，以 Database-First 的方式建立 DBContext。
 
 本篇文章則是記錄 Database-First 的開發方式下，EF Core 如何使用 CLI 來產生 DBContext。

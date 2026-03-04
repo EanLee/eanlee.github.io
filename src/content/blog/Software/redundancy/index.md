@@ -1,18 +1,21 @@
 ---
-title: 聊聊名詞 | 冗餘 | Redundancy
-description: 試著簡單說明接觸過的名詞，再次加深自己的印象，另一方面也作為備查用的資訊。
+title: 架構設計核心：什麼是冗餘 (Redundancy)？提升系統穩定性與可靠性的關鍵設計
+description: 「多做一點」反而更安全？解析冗餘 (Redundancy) 在系統架構中的作用，如 Load Balancer 與 BDD 實踐，並權衡其在成本與風險間的平衡。
 date: 2022-06-09T17:15:15+08:00
 categories:
   - 聊聊名詞
 slug: redundancy
 keywords:
-  - 冗餘
-  - Redundancy
+  - 冗餘設計
+  - Redundancy 觀念
+  - 系統可靠性
+  - 備援機制
+  - 架構設計模式
 tags:
   - 思維模式
-lastmod: 2023-06-28T13:23:11+08:00
+lastmod: 2026-03-05T00:20:44+08:00
+epic: software
 ---
-
 冗餘(Redundancy)是指為提昇系統的穩定性與可靠性，刻意配置重複的零件或機能。此動作主要是為避免單一環節失效，對系統的衝擊。
 
 <!--more-->

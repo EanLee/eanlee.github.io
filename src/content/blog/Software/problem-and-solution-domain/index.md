@@ -1,21 +1,22 @@
 ---
-title: 聊聊名詞 | 問題領域與解決方案領域 | Problem & Solution Domain
-description: 將以特定知識或專案為前提條件，需要處理或解決的問題，將其稱為問題域，而問題域的集合則稱為問題空間。相同的。解決特定問題域的解決方案，被稱為解決方案域，而解決方案的集合被稱為解決方案空間。
+title: 釐清需求的第一步：理解問題領域 (Problem Domain) 與解決方案領域 (Solution Domain)
+description: 為什麼開發出的軟體不符合使用者需求？探討如何區分「問題」與「解法」，在進行軟體設計前精確捕捉業務核心，避免進入無謂的技術過度開發。
 date: 2023-02-02T15:21:30+08:00
 keywords:
-  - Problem Domain
-  - Solution Domain
-  - 問題域
-  - 解決方案
+  - 問題領域
+  - DDD 基礎
+  - 需求分析
+  - 軟體設計思維
+  - 業務邏輯
 tags:
   - Domain
   - DDD
 slug: problem-and-solution-domain
 categories:
   - 聊聊名詞
-lastmod: 2023-06-28T10:10:47+08:00
+lastmod: 2026-03-05T00:20:44+08:00
+epic: software
 ---
-
 當開始接解 Domain-Driven Desgin, DDD 時，一定會接觸到 `Problem Domain`、`Solution Domain` 、`Context`、`Problem Space` 與 `Solution Space` 這些名詞。
 
 而 `Problem Domain` 與 `Soltion Domain` 的概念，用在釐清問題的切入面，現有資訊的評估，都可以帶來許多的幫助。

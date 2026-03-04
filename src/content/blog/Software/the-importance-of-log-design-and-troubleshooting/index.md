@@ -1,8 +1,8 @@
 ---
-title: 開發雜談 - 淺談 Log 的設計與問題排查的重要性
-description: Log 寫太多怕影響效能，寫太少又怕資訊不足。本文將探討如何設計有效的 Log，從 Log 的目的、分級、內容到結構化日誌，協助你找到 Log 設計的最佳平衡點。
+title: 問題排除的救星：如何設計具備「可檢索性」的結構化日誌 (Structured Log)
+description: Log 不是印出來就好！分享如何設計具備脈絡、易於搜尋的 Log 結構，助你在系統故障時快速定位 root cause，縮短 Maintance 的陣痛期。
 date: 2023-01-16T07:43:34+08:00
-lastmod: 2025-08-07T01:05:28+08:00
+lastmod: 2026-03-05T00:20:44+08:00
 tags:
   - Logging
   - 系統架構
@@ -11,10 +11,13 @@ categories:
   - 軟體開發
   - 開發雜談
 keywords:
-  - Log
-  - Troubleshooting
-  - 系統設計
+  - Log 設計
+  - 結構化日誌
+  - 問題排除
+  - ELK 應用
+  - 維運管理
 slug: the-importance-of-log-design-and-troubleshooting
+epic: software
 ---
 這篇文章的草稿，在 2023 年寫了一半，一放又是兩年過去了。趁著前幾天寫了 [系統開發實務對談記錄：Log 與 Error Handling](../log-and-error-handling-the-foundation-of-buildin-observable-systems/index.md) 後，打鐵趁熱，一口氣把這一篇也補完。
 

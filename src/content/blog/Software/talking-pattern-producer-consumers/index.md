@@ -1,18 +1,21 @@
 ---
-title: 淺談 Pattern | 生產者與消費者模型
-description: 佇列常見用於生產者與消費者模型之中，作為兩者之間的緩沖區。將雙方的直接關係進行解耦，並減少雙方效率不均的問題。
+title: 非同步處理基礎：淺談 Producer-Consumer (生產者與消費者) 模型的理論與應用
+description: 如何在高併發場景下平衡速度不一的任務？解析生產者與消費者模型的核心概念、緩衝區邏輯，以及在處理後台工作或訊息佇列時的應用實例。
 date: 2023-02-02T15:58:59+08:00
 categories:
   - Pattern
 tags:
   - 系統架構
 keywords:
-  - producer-consumers
-  - pattern
+  - 生產者消費者模型
+  - Design Pattern
+  - 非同步開發
+  - 訊息佇列原理
+  - 負載平衡
 slug: talking-pattern-producer-consumers
-lastmod: 2023-12-05T14:58:40+08:00
+lastmod: 2026-03-05T00:20:44+08:00
+epic: software
 ---
-
 佇列常見用於生產者與消費者模型之中，作為兩者之間的緩沖區。將雙方的直接關係進行解耦，並減少雙方效率不均的問題。
 
 而在併發的架構下，必須使用鎖定機制與同步機制，確保佇列中的之資源被正確的存取，避免重覆使用或錯誤覆寫的情況。

@@ -1,8 +1,8 @@
 ---
-title: 從消除遊戲學到的專案管理二三事
-description: 管理無所不在，就連消除遊戲之中，也可以看到專案管理。遊戲中的每一關都像一個全新的專案，在專案進行的過程中，確認目標、交付內容，可用資源、影響專案的難點。
+title: 專案管理就像消除遊戲？從 Candy Crush 學會排定優先權與解決依賴關係
+description: 專案管理與消除遊戲（Match-3）有何共同點？本文透過遊戲對比，分享如何識別專案瓶頸、處理任務依賴關係，並提升專案執行效率的心法。
 date: 2022-04-28T11:50:27+08:00
-lastmod: 2025-08-07T01:05:28+08:00
+lastmod: 2026-03-05T00:20:44+08:00
 tags:
   - 自我修練
   - 刻意練習
@@ -11,7 +11,10 @@ categories:
   - 專案管理
 keywords:
   - 專案管理
-  - 以終為始
+  - 優先順序
+  - 任務依賴
+  - 專案瓶頸
+  - 敏捷開發
 slug: concepts-of-project-management-from-elimination-games
 epic: management
 ---

@@ -1,6 +1,6 @@
 ---
-title: Log 與 Error Handling：打造可觀測系統的基石
-description: 在系統開發中，有效的 Log 與 Error Handling 是快速定位問題的關鍵。本文將分享從 Log 分級、結構化日誌到錯誤處理策略的最佳實踐，協助你打造更穩健、更具可觀測性的系統。
+title: 開發實務對談：日誌 (Log) 記錄與錯誤處理 (Error Handling) 的最佳實踐
+description: 發生問題卻查不到原因？透過技術對談，探討如何設計具備追蹤價值的 Log 系統與優雅的 Exception 處理策略，打造易於維護的高可用系統。
 date: 2025-07-30T10:00:00+08:00
 categories:
   - 軟體開發
@@ -11,14 +11,14 @@ tags:
   - 系統架構
   - 可觀測性
 keywords:
-  - Log
-  - Error Handling
-  - Exception
-  - 系統監控
-  - 可觀測性
-  - Structured Logging
+  - Log 設計
+  - Error Handling 策略
+  - 例外處理
+  - 統開發實務
+  - 故障排除
 slug: log-and-error-handling-the-foundation-of-buildin-observable-systems
-lastmod: 2025-08-07T01:05:28+08:00
+lastmod: 2026-03-05T00:20:44+08:00
+epic: software
 ---
 > 🔖 長話短說 🔖
 >
