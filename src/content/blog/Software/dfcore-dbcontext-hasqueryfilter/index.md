@@ -1,6 +1,6 @@
 ---
-title: EF Core | 使用 HasQueryFilter 限定 DBContext 查詢內容
-description: 分享三種在 EF Core 2.0 後的查詢過濾資料的方法。並著重說明 EFCore 2.0 後提供的 Global Query Filter 功能，它可以讓開發人員在模型建立期間設定預設的查詢過濾條件，這樣在所有的查詢中都會自動套用這個過濾條件，簡化查詢程式碼並避免查詢錯誤。
+title: EF Core 全域過濾器：使用 HasQueryFilter 輕鬆實現軟刪除與資料權限控管
+description: 學習如何使用 EF Core 的 HasQueryFilter 功能。透過全域過濾器自動排除已刪除資料 (Soft Delete) 或根據組織進行權限過濾，簡化開發流程並提升資料安全性。
 date: 2023-06-19T03:17:17+08:00
 categories:
   - 軟體開發
@@ -8,13 +8,15 @@ categories:
 tags:
   - EF-Core
 keywords:
-  - EF Core
-  - HasQueryFilter
-  - Entity Framework
+  - EF Core HasQueryFilter
+  - 全域過濾器
+  - 軟刪除實作
+  - DbContext 查詢優化
+  - .NET 資料控管
 slug: dfcore-dbcontext-hasqueryfilter
-lastmod: 2023-06-29T09:43:17+08:00
+lastmod: 2026-03-05T00:20:44+08:00
+epic: software
 ---
-
 前些時間，在幫朋友改造現有倉儲系統時，發現現有資料庫內，所有的表格都有四個作為異動記錄使用的固定欄位。
 
 導致查詢這些資料時，需要針對這些欄位內的數值，去做進行過濾的動作。

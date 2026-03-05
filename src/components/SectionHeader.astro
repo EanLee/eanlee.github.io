@@ -1,0 +1,80 @@
+---
+interface Props {
+  title: string;
+  viewAllHref?: string;
+  viewAllText?: string;
+}
+
+const { title, viewAllHref, viewAllText = "查看全部" } = Astro.props;
+---
+
+<div class="section-header">
+  <h2 class="section-title">
+    <slot name="icon" />
+    {title}
+  </h2>
+  {viewAllHref && (
+    <a href={viewAllHref} class="view-all">
+      {viewAllText}
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 12h14"/>
+        <path d="m12 5 7 7-7 7"/>
+      </svg>
+    </a>
+  )}
+</div>
+
+<style>
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-xl);
+    padding-bottom: var(--spacing-md);
+    border-bottom: 2px solid var(--color-border-light);
+  }
+
+  .section-title {
+    font-size: 1.75rem;
+    font-weight: var(--font-weight-bold);
+    margin: 0;
+    color: var(--color-text);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+  }
+
+  /* slot 內容由父元件渲染，需用 :global() 穿透 scope */
+  .section-title :global(svg) {
+    color: var(--color-primary);
+    flex-shrink: 0;
+  }
+
+  .view-all {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-primary);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    flex-shrink: 0;
+    transition: opacity var(--transition-normal);
+  }
+
+  .view-all:hover {
+    opacity: 0.8;
+  }
+
+  @media (max-width: 768px) {
+    .section-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--spacing-sm);
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+    }
+  }
+</style>

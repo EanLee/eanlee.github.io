@@ -2,7 +2,7 @@
 title: 從零開始土炮 MQ (持續更新中)
 description: 從零開始土炮 Message Queue 序言
 date: 2022-06-14T07:12:18.564Z
-lastmod: 2023-11-28T09:19:26+08:00
+lastmod: 2026-03-05T00:20:44+08:00
 keywords:
   - Message Queue
   - Queue
@@ -10,8 +10,8 @@ categories:
   - 軟體開發
 slug: build-mq-foreword
 series: 從零開始土炮 Message Queue
+epic: software
 ---
-
 > 將原本參與 [第 11 屆(2020) iThome 鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/2172) 的文章，再加以整理與補充。
 
 近幾年參與開發的軟體之中，大量使用到佇列(Queue)的技術與觀念。從同步與非同步存取 Queue；利用 Queue 與 Dispatch 組合，進行備援處理的機制；大量資料的接收與轉發等等。另一方面，微服務與服務解耦的議題，訊息佇列（Message Queue）的使用頻率也逐年提升。

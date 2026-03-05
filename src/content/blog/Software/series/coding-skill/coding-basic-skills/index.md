@@ -11,11 +11,11 @@ categories:
   - 開發雜談
 tags:
   - Refactor
-lastmod: 2023-12-02T02:09:46+08:00
+lastmod: 2026-03-05T00:20:44+08:00
 slug: coding-basic-skills
 series: 持續優化程式碼品質
+epic: software
 ---
-
 > [2018 iT 邦幫忙鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/1430)文章補完計劃，[持續優化程式碼品質-總覽](../coding-skill-foreword/index.md)基礎篇
 
 在開發時，為了快速或是避免麻煩，可能會用簡單的代號，例如 `aa` 這種名稱，來暫時做為變數的名稱。這無可厚非，但是...假若在完成該功能後，未能進行程式的整理。

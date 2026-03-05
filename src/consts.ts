@@ -13,3 +13,10 @@ export const ABOUT_ME = `
 
 歡迎你與我交流、討論任何技術話題，讓我們一起在這條路上持續進步。
 `;
+
+export const EPIC_LABELS: Record<string, string> = {
+  software:   "軟體開發",
+  management: "管理經驗",
+  reading:    "閱讀心得",
+  growth:     "自我成長",
+};

@@ -1,18 +1,21 @@
 ---
-title: "[Fluent Assertions] Object graph comparison"
-description: 使用 FluentAssertions 4.13.1 版進行單元測試時，發現使用 Should().BeEquivalentTo() 比對失敗，在物件內容相同的情況下，仍報告資料不符合。此問題並非資料有誤，而是該方法本身有問題。解決方向為換為 ShouldBeEquivalentTo() 或升級到 5.0 版本以上。
+title: Unit Test 技巧：解決 Fluent Assertions BeEquivalentTo 集合比對失敗與異常處理
+description: 為什麼 BeEquivalentTo 測試會失敗？分析 Fluent Assertions 在比對複雜物件或集合時的常見陷阱，並提供對應的排除建議與程式碼範例。
 tags:
   - 單元測試
 date: 2021-02-11 14:00:22
 categories:
   - 測試
 keywords:
-  - Fluent Assertion
+  - Fluent Assertions
+  - BeEquivalentTo 錯誤
+  - 單元測試
+  - .NET Unit Test
+  - 集合比對
 slug: fluent-assertions-object-graph-comparison
-lastmod: 2023-01-11T08:52:19.233Z
+lastmod: 2026-03-05T00:20:44+08:00
 epic: software
 ---
-
 日前在撰寫單元測試時，發生測試失敗，使用 `Should().BeEquivalentTo(expected)` 進行物件比對，已確認 `待測物件` 與 `期望物件` 內的資料相同，但卻出現 `be it misses` 造成的測試結果`失敗`。
 
 所使用的 FlunentAssertion Nuget 版本為 `4.13.1` 。

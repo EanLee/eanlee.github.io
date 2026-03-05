@@ -1,15 +1,15 @@
 ---
-title: 開發雜談 - API Server 有非預期的請求的原因釐清
+title: API 安全通報：為什麼你的 Server 會收到非預期的請求？常見掃描行為與防範對策
 tags: []
 categories:
   - 開發雜談
 keywords: []
-description: 分享排除 API Server 有非預期請求的原因釐清過程
+description: 伺服器 Log 出現奇怪的 404 或請求？解析自動化掃描器 (Scanner) 與惡意請求的行為特徵，掌握如何透過 WAF、IP 封鎖與安全配置保護你的 Web API。
 date: 2022-06-10T12:00:00+08:00
-lastmod: 2023-06-28T10:10:47+08:00
+lastmod: 2026-03-05T00:20:44+08:00
 slug: unexpected-request
+epic: software
 ---
-
 某天 Infra 人員發現還沒對外正式開放的環境，API Server 內的硬碟空間，在短短半個月內，被 IIS Log 吃掉近 20GB 的空間，協同開發人員一同釐清這現象的原因。
 
 <!--more-->

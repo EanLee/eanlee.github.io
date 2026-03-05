@@ -1,21 +1,20 @@
 ---
-title: 透過 CLI 的方式，來安裝 Windows Terminal + PowerShell 7 + Oh My Posh
-description: 本教學引導您完整安裝與設定 Windows Terminal、PowerShell 7 和 Oh My Posh，搭配 Nerd Fonts。涵蓋 winget、PowerShell Profile 與字型配置，打造功能強大且美觀的命令提示字元環境，並提供自動化安裝腳本。
+title: 打造極致美觀的 Windows 開發環境：Windows Terminal + PowerShell 7 + Oh My Posh 完全攻略
+description: 覺得終端機太醜？手把手教你配置 Windows Terminal、升級 PowerShell 7，並使用 Oh My Posh 自訂美酷外觀，提升你的開發幸福感與生產力。
 keywords:
-  - Windows Terminal
-  - PowerShell 7
-  - Oh My Posh
-  - Nerd Fonts
-  - winget
-  - CLI
-  - 開發環境
+  - Windows Terminal 教學
+  - PowerShell 7 配置
+  - Oh My Posh 安裝
+  - 開發環境美化
+  - Windows 終端機
 tags:
   - Windows
   - Terminal
   - PowerShell
 date: 2025-09-17
 slug: windows-terminal-powershell-7-oh-my-posh-setup
-lastmod: 2025-09-17T01:21:54+08:00
+lastmod: 2026-03-05T00:20:44+08:00
+epic: software
 ---
 > 🔖 長話短說 🔖
 > 
@@ -237,8 +236,6 @@ Write-Host "`n✅ 安裝完成！" -ForegroundColor Green
 在完成上述的設定作業後，就可以有一個美觀的 Terminal。
 
 若對 Oh My Posh 的主題、Ferd Font 字型，想再進行更改，都有很大的自由發揮空間。
-
----
 
 ## 參考資料
 

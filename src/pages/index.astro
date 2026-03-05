@@ -9,6 +9,7 @@ import FeaturedProjects from "../components/FeaturedProjects.astro";
 import CategoryGrid from "../components/CategoryGrid.astro";
 import HomeHero from "../components/HomeHero.astro";
 import FollowCTA from "../components/FollowCTA.astro";
+import SeriesShowcase from "../components/SeriesShowcase.astro";
 
 // 獲取所有文章
 const allPosts = await getCollection("blog");
@@ -57,6 +58,8 @@ const siteNavigationData = {
     new URL("/reading/", Astro.url).toString(),
     new URL("/growth/", Astro.url).toString(),
     new URL("/archives/", Astro.url).toString(),
+    new URL("/series/", Astro.url).toString(),
+    new URL("/tags/", Astro.url).toString(),
     new URL("/about/", Astro.url).toString()
   ]
 };
@@ -75,7 +78,10 @@ const blogStructuredData = {
     "description": "資深軟體開發者，專注於 .NET、Cloud Native 與系統架構設計",
     "url": Astro.url.toString(),
     "sameAs": [
-      "https://github.com/EanLee"
+      "https://github.com/EanLee",
+      "https://x.com/wosilee",
+      "https://www.linkedin.com/in/eanlee/",
+      "https://facebook.com/276561129952456"
     ]
   },
   "publisher": {
@@ -162,6 +168,9 @@ const blogStructuredData = {
 
         <!-- Category Grid -->
         <CategoryGrid allPosts={allPosts} />
+
+        <!-- Series Showcase -->
+        <SeriesShowcase posts={allPosts} />
 
         <!-- Follow CTA -->
         <FollowCTA />

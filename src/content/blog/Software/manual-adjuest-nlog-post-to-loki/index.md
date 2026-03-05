@@ -1,19 +1,22 @@
 ---
-title: NLog | 奇淫怪招 | 在不異動程式本體的前提下，手動讓 NLog post log 到 Loki
+title: 零侵入整合：免改程式碼，手動將 NLog 日誌推送到 Grafana Loki 的配置實戰
 tags:
   - LOG
 categories:
   - DevOps
   - Telemetry
 keywords:
-  - NLog
-  - Loki
+  - NLog Loki 整合
+  - Grafana Loki 教學
+  - 日誌管理
+  - 零侵入配置
+  - 運維自動化
 date: 2023-03-23T15:23:19+08:00
-description: 在大多的情況下，服務都是把 Log 存到檔案之中，若是要收集 Log 資料，一是直接改寫程式的 Log 的方式，不然就是使用 agent 來收集 Log 資料。分享一個奇淫怪招，在不使用 agent 與調整程式主體的前提下，讓 NLog POST Log 到 Loki。
+description: 想要在不更動原始碼的情況下導出日誌？教你如何透過 NLog 配置檔與 Loki 整合，實現低成本、高效率的集中化日誌管理系統。
 slug: manual-adjuest-nlog-post-to-loki
-lastmod: 2023-12-03T23:20:35+08:00
+lastmod: 2026-03-05T00:20:44+08:00
+epic: software
 ---
-
 想要收集現有的服務 Log 資料到 Grafana Loki 之中。而該服務使用 .NET Core 撰寫，並使用 NLog 套件輸出 Log 資料到檔案之中。
 
 基於好奇，研究了一下，在沒有服務的 Source Code, 也未使用 Fluent-Bit / Promtail 的前提下，能否借由調整 `NLog.config` 的設定，直接讓 NLog 把 Log 打到 Loki 之中？

@@ -33,7 +33,16 @@
       "WebFetch(domain:lucid-guard.vercel.app)",
       "Bash(npm run dev:*)",
       "Bash(test:*)",
-      "mcp__plugin_context7_context7__query-docs"
+      "mcp__plugin_context7_context7__query-docs",
+      "mcp__plugin_serena_serena__list_memories",
+      "Bash(npx astro:*)",
+      "Bash(git:*)",
+      "Bash(# Check if series posts have epic in frontmatter \\(the series articles themselves\\) grep -l \"\"^series:\"\" \"\"C:/Repos/eanlee.github.io/src/content/blog/software/series/build-automated-deploy/\"\"*.md)",
+      "Bash(echo Exit: $?:*)",
+      "Bash(xargs bash:*)",
+      "mcp__plugin_playwright_playwright__browser_navigate",
+      "mcp__plugin_playwright_playwright__browser_take_screenshot",
+      "mcp__plugin_playwright_playwright__browser_evaluate"
     ],
     "deny": []
   }

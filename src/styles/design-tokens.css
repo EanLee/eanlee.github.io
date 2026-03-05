@@ -8,6 +8,7 @@
   
   /* 主色系 - 深色主題調亮版本 */
   --color-primary: #6b8aff;
+  --color-primary-rgb: 107, 138, 255;
   --color-primary-dark: #5b7cff;
 
   /* 警示色系 */
@@ -143,6 +144,9 @@
 }
 
 
+
+/* === 品牌 / 服務顏色 === */
+--color-rss: #f26522;
 
 /* === prose 系統專用變數 === */
 .prose {
