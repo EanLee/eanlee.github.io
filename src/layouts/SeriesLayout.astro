@@ -84,8 +84,9 @@ const seriesGroups = epicSeries.map(series => {
           
           <div class="posts-list">
             {seriesPosts.length > 0 ? (
-              seriesPosts.map(post => (
+              seriesPosts.map((post, index) => (
                 <article class="post-card">
+                  <div class="post-sequence">{String(index + 1).padStart(2, '0')}</div>
                   <div class="post-content">
                     <div class="post-meta-row">
                       <time class="post-date" datetime={post.data.date.toISOString()}>
