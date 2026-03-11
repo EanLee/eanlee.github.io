@@ -1,10 +1,10 @@
 ---
-title: EF Core | 使用 dotnet-ef 建立 PostgreSQL 的 DBContext
+title: EF Core 實戰指引：使用 dotnet-ef 建立 PostgreSQL DbContext
 description: 當 .NET Core 要使用 EF Core 去存取 PostgreSQL 時，可以先使用 dotnet-ef 的工具，協助產生對應 PostgreSQL schema 的 DBContext
+cover: ./images/ef_core_postgresql_cover.png
 date: 2023-06-26T10:29:37+08:00
-lastmod: 2026-03-05T00:20:44+08:00
+lastmod: 2026-03-11T21:23:41+08:00
 categories:
-  - 軟體開發
   - EF Core
 tags:
   - Postgresql
@@ -21,6 +21,8 @@ epic: software
 本篇文章則是記錄 Database-First 的開發方式下，EF Core 如何使用 CLI 來產生 DBContext。
 
 > 🔖 長話短說 🔖
+>
+> ℹ️ **系列導讀**：本文屬於「EF Core 實戰系列」，完整系統性教學請參見 [EF Core 實戰系列從指令到進階應用總整理](../ef-core-series-overview/index.md)。
 >
 > - EF Core 要操作 PostgreSQL 的話，可使用 `Npgsql.EntityFrameworkCore.PostgreSQL`
 > - 可使用 `dotnet tool update --global dotnet-ef` 進行 `dotnet-ef` 版本更新
@@ -108,24 +110,7 @@ dotnet add package Microsoft.EntityFrameworkCore.Design
 
 ## Entity Framework Core Tools
 
-### EF Tool 的安裝與更新
-
-使用 EF Core Tools 之前，需先進行安裝。
-
-```shell
-# 將 dotnet ef 安裝為全域工具
-dotnet tool install --global dotnet-ef
-```
-
-若曾經安裝過 dotnet-ef 的工具，但後續專案使用最新版本的 EF Core，在執行 `dotnet ef` 相關指令時，會出現以下的提示訊息。
-
-`The Entity Framework tools version '6.0.8' is older than that of the runtime '7.0.1'. Update the tools for the latest features and bug fixes. See https://aka.ms/AAc1fbw for more information.`
-
-當發生上述的訊息時，可以使用以下的指令來更新本機內的 EF Core 的 Tools 工具版本。
-
-```shell
- dotnet tool update --global dotnet-ef
-```
+若您尚未安裝 EF Core 的全域工具 (`dotnet-ef`)，或是不熟悉如何更新工具版本，請先參考 [EF Core CLI Tool 操作筆記](../ef-core-cli-note/index.md) 進行環境設置。
 
 ### 產生 DBContext
 
@@ -149,7 +134,7 @@ dotnet ef dbcontext scaffold <connection_string> Npgsql.EntityFrameworkCore.Post
 
 ### 異常排除
 
-#### 狀況一、資料庫不存在 
+#### 狀況一、資料庫不存在
 
 若是連線字串內的 `Database` 名稱與實際資料庫名稱大小寫不同，會發生找不到資料庫的錯誤。要特別注意。
 
@@ -201,6 +186,14 @@ dotnet ef dbcontext scaffold Name=ConnectionStrings:lab Npgsql.EntityFrameworkCo
 ![使用 user-secrets 產生出來的 PostgresContext](./images/postregs-dbcontext-context-user-secrets.png)
 
 ## 延伸閱讀
+
+▶ 站內文章
+
+- [使用 dotnet-ef 建立 SQL Server on Docker 的 DBContext](../dotnet-ef-sqlserver/index.md)  — 適用 SQL Server 的資料庫相同步驟
+- [EF Core CLI Tool 操作筆記](../ef-core-cli-note/index.md)  — `dotnet ef dbcontext scaffold` 完整指令參數速查
+- [使用 T4 CodeTemplate 客制化 EFCore Scaffold 產出內容](../dotnet-ef-core-customized-dbcontext-entity/index.md)  — DBContext 建立完後，進一步客製化輸出內容
+
+▶ 站外文章
 
 - [Npgsql Entity Framework Core Provider | Npgsql Documentation](https://www.npgsql.org/efcore/)
 - [Entity Framework Core 工具參考 - EF Core | Microsoft Learn](https://learn.microsoft.com/zh-tw/ef/core/cli/)

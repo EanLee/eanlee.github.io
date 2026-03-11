@@ -1,9 +1,9 @@
 ---
 title: EF Core 全域過濾器：使用 HasQueryFilter 輕鬆實現軟刪除與資料權限控管
 description: 學習如何使用 EF Core 的 HasQueryFilter 功能。透過全域過濾器自動排除已刪除資料 (Soft Delete) 或根據組織進行權限過濾，簡化開發流程並提升資料安全性。
+cover: ./images/ef_core_queryfilter_cover.png
 date: 2023-06-19T03:17:17+08:00
 categories:
-  - 軟體開發
   - EF Core
 tags:
   - EF-Core
@@ -14,7 +14,7 @@ keywords:
   - DbContext 查詢優化
   - .NET 資料控管
 slug: dfcore-dbcontext-hasqueryfilter
-lastmod: 2026-03-05T00:20:44+08:00
+lastmod: 2026-03-11T21:23:41+08:00
 epic: software
 ---
 前些時間，在幫朋友改造現有倉儲系統時，發現現有資料庫內，所有的表格都有四個作為異動記錄使用的固定欄位。
@@ -26,6 +26,8 @@ epic: software
 就順便把實驗過程與踩到的坑，順手記錄下來。
 
 > 🔖 長話短說 🔖
+>
+> ℹ️ **系列導讀**：本文屬於「EF Core 實戰系列」，完整系統性教學請參見 [EF Core 實戰系列從指令到進階應用總整理](../ef-core-series-overview/index.md)。
 >
 > - Entity Framework 常見過濾查詢資料作法有 `Where` 與自定義的 `IQueryable Extension Methods` 。
 > - EF Core 2.0 之後提供 `HasQueryFilter` 的方法，可針對 Entity 的任何查詢，進行套用 Linq 運算式。
@@ -283,7 +285,8 @@ modelBuilder.Entity(entityType.ClrType).HasQueryFilter(lambda);
 
 ▶ 站內文章
 
-- [使用 T4 CodeTemplate 客制化 EFCore Scaffold 產出內容](../dotnet-ef-core-customized-dbcontext-entity/index.md)
+- [使用 T4 CodeTemplate 客制化 EFCore Scaffold 產出內容](../dotnet-ef-core-customized-dbcontext-entity/index.md)  — 如何讓 Shadow Property 自動化結合 T4 模板
+- [EF Core 實戰：當 HasQueryFilter 遇上 Shadow Property](../use-shadow-property-and-hasqueryfilter-on-ef-core/index.md)  — 本篇的進階篇，解決用 Shadow Property 實作過濾時的技術難題
 
 ▶ 站外文章
 

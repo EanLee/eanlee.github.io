@@ -1,10 +1,10 @@
 ---
-title: EF Core | 使用 dotnet-ef 建立 SQL Server on Docker 的 DBContext
+title: EF Core 實戰指引：使用 dotnet-ef 建立 SQL Server 容器化 DbContext
 description: 建立 SQL Server on Docker 時，有一些持久性的議題必須特別注意。同時，使用 EF Core 連接 SQL Server 時，連線字串設定不當，也會造成連線失敗。
+cover: ./images/ef_core_sqlserver_cover.png
 date: 2023-02-14T18:12:33+08:00
-lastmod: 2026-03-05T00:20:44+08:00
+lastmod: 2026-03-11T21:23:41+08:00
 categories:
-  - 軟體開發
   - EF Core
 tags:
   - SQL-Server
@@ -20,6 +20,8 @@ epic: software
 在 [使用 dotnet-ef 建立 PostgreSQL 的 DBContext](../dotnet-ef-postgresql-dbcontext/index.md) 之後，也嘗試從 SQL Server on Docker 建立 DBContext，就順手把過程中遇到的小問題記錄下來。
 
 > 🔖 長話短說 🔖
+>
+> ℹ️ **系列導讀**：本文屬於「EF Core 實戰系列」，完整系統性教學請參見 [EF Core 實戰系列從指令到進階應用總整理](../ef-core-series-overview/index.md)。
 >
 > - 使用 Docker 建立的 SQL Server，若需要進行 bak 的備份與還原時，在執行 Container 時，別忘了 mount 資料夾。
 > - 使用 `dotnet ef dbcontext scaffold` 時，發生 `此憑證鏈結是由不受信任的授權單位發出的` 的差異，請在連線字串內加入 `TrustServerCertificate=true`。
@@ -128,7 +130,9 @@ docker run -e "ACCEPT_EULA=Y" \
 
 ### 套件與指令
 
-在使用 dotnet-ef 之前，別忘了先為專案增加以下兩個套件。
+在開始建立 DBContext 之前，若您尚未安裝 EF Core 的全域工具 (`dotnet-ef`)，請先參考 [EF Core CLI Tool 操作筆記](../ef-core-cli-note/index.md) 進行環境設置。
+
+在使用 dotnet-ef 指令之前，別忘了先為專案增加以下兩個套件。
 
 ```shell
 dotnet add package Microsoft.EntityFrameworkCore.Design
@@ -189,11 +193,12 @@ Server=localhost;Database=Lab;User Id=sa;Password=!QAZxsw23edc;Trusted_Connectio
 
 ▶ 站內文章
 
-- [Docker 操作簡介](../series/build-automated-deploy/docker-operate/index.md)[使用 dotnet-ef 建立 PostgreSQL 的 DBContext](../dotnet-ef-postgresql-dbcontext/index.md)
+- [使用 dotnet-ef 建立 PostgreSQL 的 DBContext](../dotnet-ef-postgresql-dbcontext/index.md)  — 第一篇 Database-First 建立指南
+- [EF Core CLI Tool 操作筆記](../ef-core-cli-note/index.md)  — `dotnet ef dbcontext scaffold` 完整指令參數速查
+- [使用 T4 CodeTemplate 客制化 EFCore Scaffold 產出內容](../dotnet-ef-core-customized-dbcontext-entity/index.md)  — DBContext 建立完後，進一步客製化輸出內容
 
-▶ 外部文章
+▶ 站外文章
 
-- [憑證鏈結是由不受信任的授權單位所發行 - SQL Server | Microsoft Learn](https://learn.microsoft.com/zh-tw/troubleshoot/sql/database-engine/connect/certificate-chain-not-trusted?source=recommendations&tabs=ole-db-driver-19)
 - [設定和自訂 SQL Server Docker 容器 - SQL Server | Microsoft Learn](https://learn.microsoft.com/zh-tw/sql/linux/sql-server-linux-docker-container-configure?view=sql-server-ver16&pivots=cs1-bash)
 - [使用 Docker 執行 SQL Server on Linux 容器之常用工具與命令 | The Will Will Web (miniasp.com)](https://blog.miniasp.com/post/2020/08/04/Docker-SQL-Server-on-Linux)
 - [連接字串語法 - ADO.NET | Microsoft Learn](https://learn.microsoft.com/zh-tw/dotnet/framework/data/adonet/connection-string-syntax)

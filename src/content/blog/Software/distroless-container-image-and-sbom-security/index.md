@@ -15,8 +15,8 @@ keywords:
   - 軟體供應鏈安全
   - Docker 安全最佳實務
 slug: distroless-container-image-and-sbom-security
-lastmod: 2026-03-05T00:20:44+08:00
-coverImage: 
+lastmod: 2026-03-11T21:23:41+08:00
+cover: 
 epic: software
 ---
 ## Distroless Contaier Image

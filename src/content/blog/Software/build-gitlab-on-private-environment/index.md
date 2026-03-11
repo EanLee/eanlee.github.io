@@ -2,7 +2,7 @@
 title: GitLab CI 實作記錄(2) - Gitlab CI 的私有環境建置
 description: 在上一篇文章，已經成功在本機建立好 GitLab CI 的環境了，接下來，改在私用的環境，將 GitLab CI 與 Runner 分別建立，並讓 GitLab CI 順利運行。
 date: 2022-09-12T10:16:34+08:00
-lastmod: 2026-03-05T00:20:44+08:00
+lastmod: 2026-03-11T21:23:41+08:00
 tags:
   - GitLab
 categories:

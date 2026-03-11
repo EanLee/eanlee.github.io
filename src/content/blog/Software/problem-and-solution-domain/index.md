@@ -14,7 +14,7 @@ tags:
 slug: problem-and-solution-domain
 categories:
   - 聊聊名詞
-lastmod: 2026-03-05T00:20:44+08:00
+lastmod: 2026-03-11T21:23:41+08:00
 epic: software
 ---
 當開始接解 Domain-Driven Desgin, DDD 時，一定會接觸到 `Problem Domain`、`Solution Domain` 、`Context`、`Problem Space` 與 `Solution Space` 這些名詞。

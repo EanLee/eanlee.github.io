@@ -13,8 +13,8 @@ tags:
   - PowerShell
 date: 2025-09-17
 slug: windows-terminal-powershell-7-oh-my-posh-setup
-lastmod: 2026-03-05T00:20:44+08:00
 epic: software
+lastmod: 2026-03-11T21:23:41+08:00
 ---
 > 🔖 長話短說 🔖
 > 

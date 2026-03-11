@@ -17,8 +17,8 @@ keywords:
   - 統開發實務
   - 故障排除
 slug: log-and-error-handling-the-foundation-of-buildin-observable-systems
-lastmod: 2026-03-05T00:20:44+08:00
 epic: software
+lastmod: 2026-03-11T21:23:41+08:00
 ---
 > 🔖 長話短說 🔖
 >
@@ -231,7 +231,7 @@ Log 與 Error Handling 是軟體開發中的「基礎建設」。雖然在功能
 
 ▶ 站內文章
 
-- [開發雜談 - 淺談 Log 的設計與問題排查的重要性](../the-importance-of-log-design-and-troubleshooting/index.md)
+- [開發雜談 - 淺談 Log 的設計與問題排查的重要性](../from-logging-to-telemetry-observability/index.md)
 
 ▶ 外部文章
 

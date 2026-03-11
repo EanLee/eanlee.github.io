@@ -14,7 +14,7 @@ keywords:
   - 壓測數據解讀
   - 軟體測試實務
 slug: talking-testing-report
-lastmod: 2026-03-05T00:20:44+08:00
+lastmod: 2026-03-11T21:23:41+08:00
 epic: software
 ---
 當我們好不容易完成了系統的壓力測試，這時候，我們可能需要整理測試數據給相關人員查看，或是報告。

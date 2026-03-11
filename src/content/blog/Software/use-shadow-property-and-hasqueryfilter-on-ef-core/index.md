@@ -1,6 +1,7 @@
 ---
 title: EF Core 進階實戰：利用 HasQueryFilter 與 Shadow Property 實作軟刪除與多租戶過濾
 description: 深入探討 EF Core 的 HasQueryFilter 功能。結合 Shadow Property (陰影屬性)，優雅地在資料庫層級實作全域過濾器，如軟刪除 (Soft Delete) 與租戶隔離。
+cover: ./images/ef_core_shadowprop_cover.png
 date: 2025-08-06T11:15:00+08:00
 tags:
   - EF-Core
@@ -15,10 +16,12 @@ keywords:
   - 多租戶實作
   - Entity Framework 實戰
 slug: use-shadow-property-and-hasqueryfilter-on-ef-core
-lastmod: 2026-03-05T00:20:44+08:00
 epic: software
+lastmod: 2026-03-11T21:23:41+08:00
 ---
 > 🔖 長話短說 🔖
+>
+> ℹ️ **系列導讀**：本文屬於「EF Core 實戰系列」，完整系統性教學請參見 [EF Core 實戰系列從指令到進階應用總整理](../ef-core-series-overview/index.md)。
 >
 > - 使用 `Expression.Property` 取得 Shadow Property 資料時，會發生找不到 property 的錯誤。請改用 `Expression.Call`
 

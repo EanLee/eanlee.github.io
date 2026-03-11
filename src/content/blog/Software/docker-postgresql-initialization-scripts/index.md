@@ -12,7 +12,7 @@ keywords:
   - dockerfile
 date: 2023-02-21T00:13:07+08:00
 slug: docker-postgresql-initialization-scripts
-lastmod: 2026-03-05T00:20:44+08:00
+lastmod: 2026-03-11T21:23:41+08:00
 epic: software
 ---
 現在都可以使用 Container 的方式來運行資料庫，那麼。是否有辦法在 Image 建立 Container 的當下，就一併完成資料庫 schema 的設定？

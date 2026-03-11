@@ -1,10 +1,10 @@
 ---
 title: EF Core 腳本自動化：使用 T4 CodeTemplate 自定義 Scaffolding 模型生成規則
 description: 不滿意 EF Core 自動生成的代碼？透過 T4 CodeTemplate 深入客製化 DbContext 與 Entity 的生成規則，實現符合專案架構規範的自動化代碼產出。
+cover: ./images/ef_core_t4_cover.png
 date: 2023-06-29T09:22:03+08:00
-lastmod: 2026-03-05T00:20:44+08:00
+lastmod: 2026-03-11T21:23:41+08:00
 categories:
-  - 軟體開發
   - EF Core
 tags:
   - EF-Core
@@ -26,6 +26,8 @@ epic: software
 針對客制化 EFCore 的 DBContext 與 Entity Type，將相關的實作內容記錄下來。
 
 > 🔖 長話短說 🔖
+>
+> ℹ️ **系列導讀**：本文屬於「EF Core 實戰系列」，完整系統性教學請參見 [EF Core 實戰系列從指令到進階應用總整理](../ef-core-series-overview/index.md)。
 >
 > - 若是覺得用 `dotnet ef dbcontext scaffold` 的指令來建立 DBContext 不方便，在 Visual Studo 可以安裝 [`EF Core Power Tool`](https://marketplace.visualstudio.com/items?itemName=ErikEJ.EFCorePowerTools) Extension 套件，以 GUI 進階設定 DBContext 的建立內容。
 > - 針對 DBContext 的查詢要進行過濾，可在 DBContext 內的 `OnModelCreatingPartial(ModelBuilder modelBuilder)` 進行過濾。

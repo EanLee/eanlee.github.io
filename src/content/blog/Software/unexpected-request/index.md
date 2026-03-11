@@ -6,7 +6,7 @@ categories:
 keywords: []
 description: 伺服器 Log 出現奇怪的 404 或請求？解析自動化掃描器 (Scanner) 與惡意請求的行為特徵，掌握如何透過 WAF、IP 封鎖與安全配置保護你的 Web API。
 date: 2022-06-10T12:00:00+08:00
-lastmod: 2026-03-05T00:20:44+08:00
+lastmod: 2026-03-11T21:23:41+08:00
 slug: unexpected-request
 epic: software
 ---

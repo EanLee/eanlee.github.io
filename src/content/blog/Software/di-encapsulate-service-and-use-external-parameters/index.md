@@ -14,7 +14,7 @@ keywords:
   - 物件工廠
   - 代碼整潔
 slug: di-encapsulate-service-and-use-external-parameters
-lastmod: 2026-03-05T00:20:44+08:00
+lastmod: 2026-03-11T21:23:41+08:00
 epic: software
 ---
 當發現一個 .NET Core 的類別，其所有方法均需要相同的參數資料，這時，我們就會想到從 DI 下手，在建立物件時，一併把參數傳入。這樣就不需要在調用方式時，還要重複的傳入參數。

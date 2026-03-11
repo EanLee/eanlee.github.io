@@ -1,6 +1,7 @@
 ---
-title: EF Core | CLI Tools 操作筆記
+title: EF Core CLI 工具操作指南：指令速查與常見雷區排除
 description: 記錄 EF Core Tools 相關操作重點摘要。內容包含 EF Tool 的安裝、DbContext Scaffold 與 code template 的 CLI 指令。
+cover: ./images/ef_core_cli_cover.png
 date: 2023-08-17T01:29:27.194Z
 tags:
   - 軟體開發
@@ -12,9 +13,18 @@ keywords:
   - dotnetef
   - dbcontext scaffold
 slug: ef-core-cli-note
-lastmod: 2026-03-05T00:20:44+08:00
+lastmod: 2026-03-11T21:23:41+08:00
 epic: software
 ---
+> 🔖 長話短說 🔖
+>
+> ℹ️ **系列導讀**：本文屬於「EF Core 實戰系列」，完整系統性教學請參見 [EF Core 實戰系列從指令到進階應用總整理](../ef-core-series-overview/index.md)。
+>
+> - **安裝工具**：`dotnet tool install --global dotnet-ef`
+> - **更新工具**：`dotnet tool update --global dotnet-ef`
+> - **專案套件**：需安裝 `Microsoft.EntityFrameworkCore.Design` 加上對應的 Provider (如 `.SqlServer` 或 `.PostgreSQL`)。
+> - **Scaffold 指令**：`dotnet ef dbcontext scaffold <連線字串> <Provider> -o <輸出目錄>` (加上 `-f` 可強制覆寫檔案)
+
 將之前使用 dotnet ef 相關的指令整理在這篇，以便後續快速盤查資料使用。
 
 ## EF Tools 安裝
@@ -30,7 +40,7 @@ dotnet tool install --global dotnet-ef
 
 若曾經安裝過 dotnet-ef 的工具，但後續專案使用最新版本的 EF Core，在執行 `dotnet ef` 相關指令時，會出現以下的提示訊息。
 
-> The Entity Framework tools version '6.0.8' is older than that of the runtime '7.0.1'. Update the tools for the latest features and bug fixes. See https://aka.ms/AAc1fbw for more information.
+> The Entity Framework tools version '6.0.8' is older than that of the runtime '7.0.1'. Update the tools for the latest features and bug fixes. See <https://aka.ms/AAc1fbw> for more information.
 
 當發生上述的訊息時，可以使用以下的指令來更新本機內的 EF Core 的 Tools 工具版本。
 
@@ -46,7 +56,7 @@ dotnet tool install --global dotnet-ef
 dotnet add package Microsoft.EntityFrameworkCore.Design
 ```
 
-資料庫來源不同，要安裝的不同的 `<EFCore-PROVIDER>。
+資料庫來源不同，要安裝的不同的 [EF Core Provider](https://learn.microsoft.com/en-us/ef/core/providers/)
 
 ```shell
 # 使用 MS SQL Server

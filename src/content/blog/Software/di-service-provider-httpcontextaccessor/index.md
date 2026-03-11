@@ -14,7 +14,7 @@ keywords:
   - 物件工廠
   - Request 參數
 slug: di-service-provider-httpcontextaccessor
-lastmod: 2026-03-05T00:20:44+08:00
+lastmod: 2026-03-11T21:23:41+08:00
 epic: software
 ---
 > 🔖 長話短說 🔖

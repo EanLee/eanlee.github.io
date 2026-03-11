@@ -14,7 +14,7 @@ tags:
   - 網路
   - 資安
 slug: https-and-ssl-tls
-lastmod: 2026-03-05T00:20:44+08:00
+lastmod: 2026-03-11T21:23:41+08:00
 epic: software
 ---
 在開始之前，先提一下 OSI，它是由國際標準化組織(ISO)針對開放式網路架構所制定的電腦互連標準，全名是開放式通訊系統互連參考模型（Open System Interconnection Reference Model, OSI），簡稱 OSI 模型。依網路通訊的運作，依不同的傳輸模式、定義的規範與標準，從實體到抽象，將劃分為七層。

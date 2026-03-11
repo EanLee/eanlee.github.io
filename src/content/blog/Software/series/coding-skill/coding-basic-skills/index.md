@@ -11,7 +11,7 @@ categories:
   - 開發雜談
 tags:
   - Refactor
-lastmod: 2026-03-05T00:20:44+08:00
+lastmod: 2026-03-11T21:23:41+08:00
 slug: coding-basic-skills
 series: 持續優化程式碼品質
 epic: software

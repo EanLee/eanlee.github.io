@@ -11,7 +11,7 @@ keywords:
 date: 2023-01-09T09:47:58+08:00
 slug: docker-operate
 description: 在順利完成 Docker 的安裝後，接下來就是進一步了解如何操作 Docker 的指令了。但是這樣還不夠，我們還想要一鍵同時啟用多個 container，以及自行建立 Docker Image。
-lastmod: 2026-03-05T00:20:44+08:00
+lastmod: 2026-03-11T21:23:41+08:00
 series: 從零開始建立自動化發佈的流水線
 epic: software
 ---

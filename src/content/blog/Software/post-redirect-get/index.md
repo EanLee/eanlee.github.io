@@ -10,7 +10,7 @@ keywords:
   - Postman
   - .NET Core
 date: 2023-01-05T10:42:57+08:00
-lastmod: 2026-03-05T00:20:44+08:00
+lastmod: 2026-03-11T21:23:41+08:00
 slug: post-redirect-get
 epic: software
 ---

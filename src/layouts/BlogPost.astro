@@ -15,7 +15,7 @@ import RelatedPosts from "../components/RelatedPosts.astro";
 import { Image } from 'astro:assets';
 
 import { SITE_TITLE } from "../consts";
-const { title, description, date, lastmod, coverImage, tags, keywords, series, categories, epic, entry } = Astro.props;
+const { title, description, date, lastmod, coverImage, tags, keywords, series, categories, epic, toc, entry } = Astro.props;
 
 // 從 URL 路徑推導 epic 與 seriesPath（彌補系列文缺少 epic 欄位的問題）
 // URL 格式：/post/{epic}/{rest}/ 或 /post/{epic}/series/{series-dir}/{article}/
@@ -199,7 +199,7 @@ const staleYear = date instanceof Date ? date.getFullYear() : 0;
             </div>
           </div>
 
-          <div class="content-wrapper">
+          <div class={`content-wrapper${toc === false ? ' no-sidebar' : ''}`}>
             <div class="prose">
               <div class="article-content">
                 <slot />
@@ -228,9 +228,11 @@ const staleYear = date instanceof Date ? date.getFullYear() : 0;
               <!-- 留言系統 -->
               <Giscus />
             </div>
-            <aside class="sidebar">
-              <TableOfContents />
-            </aside>
+            {toc !== false && (
+              <aside class="sidebar">
+                <TableOfContents />
+              </aside>
+            )}
           </div>
         </div>
       </article>
@@ -296,9 +298,8 @@ const staleYear = date instanceof Date ? date.getFullYear() : 0;
       }
 
       @media (min-width: 1025px) {
-        .content-wrapper {
+        .content-wrapper:not(.no-sidebar) {
           grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
-          /* 移除 align-items: start 以修復 sticky 定位 */
         }
 
         .sidebar {

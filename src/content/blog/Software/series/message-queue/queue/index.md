@@ -2,7 +2,7 @@
 title: Queue 佇列的概念
 description: 回顧 Queue 的概念與用法
 date: 2022-06-14T15:46:41+08:00
-lastmod: 2026-03-05T00:20:44+08:00
+lastmod: 2026-03-11T21:23:41+08:00
 keywords:
   - Queue
   - 佇列

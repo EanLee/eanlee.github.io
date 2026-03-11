@@ -12,7 +12,7 @@ keywords:
   - Prompt 工程
   - 提升開發效率
   - AI 工具推薦
-lastmod: 2026-03-05T00:20:44+08:00
+lastmod: 2026-03-11T21:23:41+08:00
 slug: develop-assistant-chatgpt
 epic: software
 ---

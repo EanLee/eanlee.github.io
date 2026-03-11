@@ -6,7 +6,7 @@ categories:
   - 開發雜談
 tags:
   - 負載測試
-lastmod: 2026-03-05T00:20:44+08:00
+lastmod: 2026-03-11T21:23:41+08:00
 description: 你的網站能承載多少用戶？深入分析效能測試 (Performance)、負載測試 (Load) 與壓力測試 (Stress) 的定義與應用場景，助你預先識別系統瓶頸。
 keywords:
   - 壓力測試
