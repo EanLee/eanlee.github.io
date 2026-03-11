@@ -18,7 +18,8 @@ keywords:
   - 故障排除
 slug: log-and-error-handling-the-foundation-of-buildin-observable-systems
 epic: software
-lastmod: 2026-03-11T21:23:41+08:00
+cover: ./images/log-error-handling-cover.png
+lastmod: 2026-03-11T22:05:21+08:00
 ---
 > 🔖 長話短說 🔖
 >
