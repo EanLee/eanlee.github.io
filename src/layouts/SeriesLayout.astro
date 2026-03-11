@@ -56,7 +56,10 @@ const seriesGroups = epicSeries.map(series => {
 
 <html lang="zh-TW">
   <head>
-    <BaseHead title={`${seriesTitle} | ${SITE_TITLE}`} description={SITE_DESCRIPTION} />
+    <BaseHead
+      title={`${seriesTitle} | ${SITE_TITLE}`}
+      description={`${seriesTitle} 系列文章，共 ${seriesPosts.length} 篇。${seriesPosts[0]?.data.description ?? ''}`}
+    />
   </head>
   <body>
     <Header />
