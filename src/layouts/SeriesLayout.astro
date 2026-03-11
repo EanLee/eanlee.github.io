@@ -212,15 +212,23 @@ const seriesJsonLd = Astro.site ? {
           {seriesGroups.length > 0 && (
             <div class="series-blocks">
               <h2 class="other-series-title">其他系列文章</h2>
-              {seriesGroups.map(group => (
-                <SeriesBlock 
-                  title={group.series} 
+              {seriesGroups.slice(0, 3).map(group => (
+                <SeriesBlock
+                  title={group.series}
                   seriesName={group.series}
-                  posts={group.posts} 
+                  posts={group.posts}
                   viewAllLink={`/series/${group.path}/`}
                   epicColor={accentColor}
                 />
               ))}
+              {seriesGroups.length > 3 && (
+                <div class="view-all-series">
+                  <a href="/series/" class="view-all-link">
+                    查看所有系列文章
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                  </a>
+                </div>
+              )}
             </div>
           )}
         </div>
@@ -441,6 +449,29 @@ const seriesJsonLd = Astro.site ? {
 
   .series-blocks {
     margin-top: var(--spacing-xl);
+  }
+
+  .view-all-series {
+    text-align: center;
+    margin-top: var(--spacing-lg);
+  }
+
+  .view-all-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--accentColor);
+    text-decoration: none;
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border: 1px solid var(--accentColor);
+    border-radius: var(--radius-md);
+  }
+
+  .view-all-link:hover {
+    background-color: var(--accentColor);
+    color: var(--color-bg-primary);
   }
 
   .other-series-title {
