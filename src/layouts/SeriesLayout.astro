@@ -2,6 +2,8 @@
 import { getCollection } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
 import FileText from '@lucide/astro/icons/file-text';
+import ArrowRight from '@lucide/astro/icons/arrow-right';
+import Tag from '@lucide/astro/icons/tag';
 import { Image } from 'astro:assets';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
@@ -173,7 +175,7 @@ const seriesJsonLd = Astro.site ? {
                       
                       {post.data.tags && post.data.tags.length > 0 && (
                         <div class="post-tags">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"/><path d="M7 7h.01"/></svg>
+                          <Tag size={16} />
                           <span class="tag-list">
                             {post.data.tags?.map((tag, index) => (
                               <>
@@ -196,7 +198,7 @@ const seriesJsonLd = Astro.site ? {
                     
                     <a href={`/post/${post.id.slice(0, post.id.lastIndexOf("/")).toLowerCase()}/`} class="read-more">
                       閱讀更多
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                      <ArrowRight size={16} />
                     </a>
                   </div>
                 </article>
@@ -225,7 +227,7 @@ const seriesJsonLd = Astro.site ? {
                 <div class="view-all-series">
                   <a href="/series/" class="view-all-link">
                     查看所有系列文章
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                    <ArrowRight size={16} />
                   </a>
                 </div>
               )}
