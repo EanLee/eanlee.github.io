@@ -7,6 +7,7 @@ import Categories from "../../components/widget/categories.astro";
 import FormattedDate from "../../components/FormattedDate.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../../consts";
 import FileText from "@lucide/astro/icons/file-text";
+import { Image } from "astro:assets";
 
 export async function getStaticPaths() {
   const posts = await getCollection("blog");
@@ -70,7 +71,11 @@ switch(category) {
     accentColor = "#4299e1"; // 默認藍色
 }
 
-// 輔助：取得 cover image URL
+// Fallback covers (same as BlogPost)
+const coverModules = import.meta.glob('/src/assets/images/cover/*.{webp,png,jpg,jpeg}', { eager: true });
+const availableCovers = Object.values(coverModules) as any[];
+
+// 輔助：取得 cover image URL（用於 JSON-LD，需要字串）
 function getCoverUrl(post: any, site: URL): string | null {
   const cover = post.data.coverImage ?? post.data.cover;
   if (!cover) return null;
@@ -158,14 +163,20 @@ const categoryJsonLd = Astro.site ? {
           
           <div class="posts-list">
             {filteredPosts.length > 0 ? (
-              filteredPosts.map((post) => {
+              filteredPosts.map((post, index) => {
                 const path = post.id.slice(0, post.id.lastIndexOf("/")).toLowerCase();
-                const coverUrl = Astro.site ? getCoverUrl(post, Astro.site) : null;
+                const rawCover = post.data.coverImage ?? post.data.cover;
+                const fallbackCover = availableCovers.length > 0
+                  ? (availableCovers[index % availableCovers.length] as any)?.default || null
+                  : null;
+                const displayCover = rawCover || fallbackCover;
                 return (
                   <article class="post-card">
                     <div class="post-cover">
-                      {coverUrl
-                        ? <img src={coverUrl} alt={post.data.title} loading="lazy" />
+                      {displayCover
+                        ? typeof displayCover === 'string'
+                          ? <img src={displayCover} alt={post.data.title} loading="lazy" />
+                          : <Image src={displayCover} alt={post.data.title} loading="lazy" widths={[320]} sizes="160px" format="webp" />
                         : <div class="post-cover-placeholder">
                             <FileText size={40} />
                           </div>

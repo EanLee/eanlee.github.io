@@ -1,6 +1,7 @@
 ---
 import BaseHead from '../components/BaseHead.astro';
 import FileText from '@lucide/astro/icons/file-text';
+import { Image } from 'astro:assets';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import Categories from '../components/widget/categories.astro';
@@ -20,6 +21,10 @@ const { epicName, epicTitle, epicDescription, accentColor, showSeries = false, s
 
 // Configuration
 const POSTS_PER_PAGE = 10;
+
+// Fallback covers (same as BlogPost)
+const coverModules = import.meta.glob('/src/assets/images/cover/*.{webp,png,jpg,jpeg}', { eager: true });
+const availableCovers = Object.values(coverModules) as any[];
 
 // Get all posts for this epic
 const epicPosts = source?.sort((a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf()) || [];
@@ -109,13 +114,19 @@ const epicJsonLd = Astro.site ? {
           
           <div class="posts-list">
             {epicPosts.length > 0 ? (
-              epicPosts.slice(0, POSTS_PER_PAGE).map(post => {
-                const coverUrl = Astro.site ? getCoverUrl(post, Astro.site) : null;
+              epicPosts.slice(0, POSTS_PER_PAGE).map((post, index) => {
+                const rawCover = post.data.coverImage ?? post.data.cover;
+                const fallbackCover = availableCovers.length > 0
+                  ? (availableCovers[index % availableCovers.length] as any)?.default || null
+                  : null;
+                const displayCover = rawCover || fallbackCover;
                 return (
                 <article class="post-card">
                   <div class="post-cover">
-                    {coverUrl
-                      ? <img src={coverUrl} alt={post.data.title} loading="lazy" />
+                    {displayCover
+                      ? typeof displayCover === 'string'
+                        ? <img src={displayCover} alt={post.data.title} loading="lazy" />
+                        : <Image src={displayCover} alt={post.data.title} loading="lazy" widths={[320]} sizes="160px" format="webp" />
                       : <div class="post-cover-placeholder">
                           <FileText size={40} />
                         </div>

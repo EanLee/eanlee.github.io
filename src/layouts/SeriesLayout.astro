@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
 import FileText from '@lucide/astro/icons/file-text';
+import { Image } from 'astro:assets';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import Series from '../components/widget/series.astro';
@@ -17,6 +18,10 @@ export interface Props {
 }
 
 const { seriesName, seriesTitle, epicFilter, accentColor, source } = Astro.props;
+
+// Fallback covers (same as BlogPost)
+const coverModules = import.meta.glob('/src/assets/images/cover/*.{webp,png,jpg,jpeg}', { eager: true });
+const availableCovers = Object.values(coverModules) as any[];
 
 // Get all posts for this series
 const seriesPosts = source?.sort((a, b) => new Date(a.data.date).valueOf() - new Date(b.data.date).valueOf()) || [];
@@ -138,12 +143,18 @@ const seriesJsonLd = Astro.site ? {
           <div class="posts-list">
             {seriesPosts.length > 0 ? (
               seriesPosts.map((post, index) => {
-                const coverUrl = Astro.site ? getCoverUrl(post, Astro.site) : null;
+                const rawCover = post.data.coverImage ?? post.data.cover;
+                const fallbackCover = availableCovers.length > 0
+                  ? (availableCovers[index % availableCovers.length] as any)?.default || null
+                  : null;
+                const displayCover = rawCover || fallbackCover;
                 return (
                 <article class="post-card">
                   <div class="post-cover">
-                    {coverUrl
-                      ? <img src={coverUrl} alt={post.data.title} loading="lazy" />
+                    {displayCover
+                      ? typeof displayCover === 'string'
+                        ? <img src={displayCover} alt={post.data.title} loading="lazy" />
+                        : <Image src={displayCover} alt={post.data.title} loading="lazy" widths={[320]} sizes="160px" format="webp" />
                       : <div class="post-cover-placeholder">
                           <FileText size={40} />
                         </div>
