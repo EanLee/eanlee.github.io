@@ -92,7 +92,10 @@ const categoryJsonLd = {
 <!doctype html>
 <html lang="zh-TW">
   <head>
-    <BaseHead title={pageTitle + " - " + SITE_TITLE} description={SITE_DESCRIPTION} />
+    <BaseHead
+      title={`${formattedCategory} | ${SITE_TITLE}`}
+      description={`探索「${formattedCategory}」分類下的 ${categoryCount} 篇技術文章，涵蓋實作經驗與深度分析。`}
+    />
     <script type="application/ld+json" set:html={JSON.stringify(categoryJsonLd)} />
   </head>
   <body>
