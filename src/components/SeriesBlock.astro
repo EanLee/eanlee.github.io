@@ -1,15 +1,15 @@
 ---
 import FormattedDate from "./FormattedDate.astro";
-import type { CollectionEntry } from 'astro:content';
-import BookOpen from '@lucide/astro/icons/book-open';
-import ArrowRight from '@lucide/astro/icons/arrow-right';
-import Calendar from '@lucide/astro/icons/calendar';
-import Tags from '@lucide/astro/icons/tags';
+import type { CollectionEntry } from "astro:content";
+import BookOpen from "@lucide/astro/icons/book-open";
+import ArrowRight from "@lucide/astro/icons/arrow-right";
+import Calendar from "@lucide/astro/icons/calendar";
+import Tags from "@lucide/astro/icons/tags";
 
 interface Props {
   title: string;
   seriesName: string;
-  posts: CollectionEntry<'blog'>[];
+  posts: CollectionEntry<"blog">[];
   viewAllLink: string;
   epicColor: string;
 }
@@ -26,78 +26,81 @@ const displayCount = Math.min(2, posts.length);
       <BookOpen size={24} />
       {title}
     </h2>
-    {posts.length > 0 && (
-      <a href={viewAllLink} class="view-all">
-        查看全部
-        <ArrowRight size={16} />
-      </a>
-    )}
-  </div>
-  
-  {posts.length > 0 ? (
-    <>
-    <div class="posts-list">
-      {posts.slice(0, displayCount).map((post) => {
-        const path = post.id.slice(0, post.id.lastIndexOf("/")).toLowerCase();
-        return (
-          <article class="post-card">
-            <div class="post-content-wrapper">
-              <div class="post-meta-row">
-                <div class="post-date">
-                  <Calendar size={16} />
-                  <FormattedDate date={post.data.date} />
-                </div>
-                
-                {post.data.tags && post.data.tags.length > 0 && (
-                  <div class="post-tags">
-                    <Tags size={16} />
-                    <div class="tag-wrapper">
-                      {post.data.tags?.map((tag: string) => (
-                        <a href={`/tags/${tag.toLowerCase()}/`} class="tag-link">
-                          {tag}
-                        </a>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-              
-              <h3 class="post-title">
-                <a href={`/post/${path}/`}>{post.data.title}</a>
-              </h3>
-              
-              {post.data.description && (
-                <div class="post-excerpt">
-                  {post.data.description}
-                </div>
-              )}
-              
-              <div class="post-actions">
-                <a href={`/post/${path}/`} class="read-more">
-                  繼續閱讀
-                  <ArrowRight size={14} />
-                </a>
-              </div>
-            </div>
-          </article>
-        );
-      })}
-    </div>
-    {posts.length > 2 && (
-      <div class="more-hint">
-        <span>還有 {posts.length - 2} 篇文章</span>
-        <a href={viewAllLink} class="more-link">
-          查看全部系列
-          <ArrowRight size={14} />
+    {
+      posts.length > 0 && (
+        <a href={viewAllLink} class="view-all">
+          查看全部
+          <ArrowRight size={16} />
         </a>
+      )
+    }
+  </div>
+
+  {
+    posts.length > 0 ? (
+      <>
+        {/* Fragment 必要：ternary true branch 只能是單一表達式，
+            此處同時有 posts-list 與 more-hint 兩個節點，
+            需用 <> </> 包成一個單位，否則 parser 會報錯。*/}
+        <div class="posts-list">
+          {posts.slice(0, displayCount).map((post) => {
+            const path = post.id.slice(0, post.id.lastIndexOf("/")).toLowerCase();
+            return (
+              <article class="post-card">
+                <div class="post-content-wrapper">
+                  <div class="post-meta-row">
+                    <div class="post-date">
+                      <Calendar size={16} />
+                      <FormattedDate date={post.data.date} />
+                    </div>
+
+                    {post.data.tags && post.data.tags.length > 0 && (
+                      <div class="post-tags">
+                        <Tags size={16} />
+                        <div class="tag-wrapper">
+                          {post.data.tags?.map((tag: string) => (
+                            <a href={`/tags/${tag.toLowerCase()}/`} class="tag-link">
+                              {tag}
+                            </a>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  <h3 class="post-title">
+                    <a href={`/post/${path}/`}>{post.data.title}</a>
+                  </h3>
+
+                  {post.data.description && <div class="post-excerpt">{post.data.description}</div>}
+
+                  <div class="post-actions">
+                    <a href={`/post/${path}/`} class="read-more">
+                      繼續閱讀
+                      <ArrowRight size={14} />
+                    </a>
+                  </div>
+                </div>
+              </article>
+            );
+          })}
+        </div>
+        {posts.length > 2 && (
+          <div class="more-hint">
+            <span>還有 {posts.length - 2} 篇文章</span>
+            <a href={viewAllLink} class="more-link">
+              查看全部系列
+              <ArrowRight size={14} />
+            </a>
+          </div>
+        )}
+      </>
+    ) : (
+      <div class="no-posts">
+        <p>暫無相關文章</p>
       </div>
-    )}
-    </>
-  ) : (
-    <div class="no-posts">
-      <p>暫無相關文章</p>
-    </div>
-  )}
+    )
+  }
 </div>
 
 <style>
@@ -207,7 +210,9 @@ const displayCount = Math.min(2, posts.length);
     padding: 0.2rem 0.5rem;
     border-radius: 4px;
     text-decoration: none;
-    transition: background-color 0.2s ease, color 0.2s ease;
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease;
   }
 
   .tag-link:hover {

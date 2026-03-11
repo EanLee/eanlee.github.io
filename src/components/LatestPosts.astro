@@ -45,15 +45,16 @@ const coverSrcs = getAvailableCoverSrcs();
 
 // 獲取文章的封面圖片（返回圖片對象或字符串）
 const getCoverImage = async (post: CollectionEntry<'blog'>) => {
-  // 1. 優先使用 frontmatter 中的 coverImage
-  if (post.data.coverImage) {
+  // 1. 優先使用 frontmatter 中的 coverImage，fallback 到舊欄位 cover
+  const coverData = post.data.coverImage ?? post.data.cover;
+  if (coverData) {
     // 如果是圖片對象，直接返回
-    if (typeof post.data.coverImage === 'object' && post.data.coverImage !== null) {
-      return post.data.coverImage;
+    if (typeof coverData === 'object' && coverData !== null) {
+      return coverData;
     }
     // 如果是字串（URL），直接返回
-    if (typeof post.data.coverImage === 'string') {
-      return post.data.coverImage;
+    if (typeof coverData === 'string') {
+      return coverData;
     }
   }
   
@@ -218,7 +219,6 @@ const getEpicName = (epic: string) => {
       return (
         <article class={`post-card ${isLatest ? 'featured-card' : 'regular-card'} ${!showCoverImage ? 'no-image' : ''}`} style={`--epic-color: ${epicColor}`}>
           {isLatest && showCoverImage && (
-            <!-- Featured card with full-width cover image -->
             <div class="card-cover-full">
               {typeof coverImage === 'string' ? (
                 <img 
