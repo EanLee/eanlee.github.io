@@ -14,15 +14,17 @@ tags:
 date: 2025-09-17
 slug: windows-terminal-powershell-7-oh-my-posh-setup
 epic: software
-lastmod: 2026-03-11T21:23:41+08:00
+lastmod: 2026-03-11T21:50:51+08:00
+cover: ./images/windows-terminal-oh-my-posh-cover.png
 ---
 > 🔖 長話短說 🔖
-> 
+>
 > 本文將引導你完成以下設定，快速打造現代化的 PowerShell 環境：
-> 1.  使用 `winget` 一次性安裝 PowerShell 7、Windows Terminal、Oh My Posh 與 Nerd Font。
-> 2.  設定 PowerShell 的 `$PROFILE`，讓終端機啟動時自動載入 Oh My Posh。
-> 3.  在 Windows Terminal 中設定 Nerd Font 字型以正確顯示主題圖示。
-> 4.  文末提供一個全自動安裝腳本，讓你一鍵完成所有設定。
+>
+> 1. 使用 `winget` 一次性安裝 PowerShell 7、Windows Terminal、Oh My Posh 與 Nerd Font。
+> 2. 設定 PowerShell 的 `$PROFILE`，讓終端機啟動時自動載入 Oh My Posh。
+> 3. 在 Windows Terminal 中設定 Nerd Font 字型以正確顯示主題圖示。
+> 4. 文末提供一個全自動安裝腳本，讓你一鍵完成所有設定。
 
 以前看到使用 Mac 的同事的 Terminal 時，總覺得他們的視窗畫面很漂亮。
 
@@ -64,6 +66,7 @@ Windows Terminal 支援多個 Shell，像是 Windows PowerShell、PowerShell 等
 必須到 Windows Terminal 的 Setting\Startup 中指定使用的 Shell。
 
 ![Windows Terminal 預設使用的 Shell 設定](./images/win-terminal-setting.png)
+
 ### 設定 PowerShell 使用 Oh My Posh
 
 接下來，就是要讓 Powershell 知道，每次啟用時，都要套用 Oh My Posh 的 Theme。
@@ -114,13 +117,13 @@ Remove-Item "$env:TEMP\CascadiaCode-2407.24.zip", "$env:TEMP\cc" -Recurse -Force
 
 ### Windows Terminal 設定使用 Nerd Font
 
-安裝完成 Cascadia Code 的 Nerd Font 
+安裝完成 Cascadia Code 的 Nerd Font
 
-1.  開啟 Windows Terminal，點擊頂部標籤列右側的 **向下箭頭 (v)**，然後選擇 **「設定」** (或按 `Ctrl + ,`)。
-2.  在左側的設定檔清單中，選擇 **「PowerShell」** (或是你預設的設定檔)。
-3.  點擊 **「外觀」** 標籤頁。
-4.  在 **「字型」** 的下拉選單中，找到並選擇 `CaskaydiaCove Nerd Font`。
-5.  儲存設定後，重新開啟一個 PowerShell 分頁，你應該就能看到全新的提示符了！
+1. 開啟 Windows Terminal，點擊頂部標籤列右側的 **向下箭頭 (v)**，然後選擇 **「設定」** (或按 `Ctrl + ,`)。
+2. 在左側的設定檔清單中，選擇 **「PowerShell」** (或是你預設的設定檔)。
+3. 點擊 **「外觀」** 標籤頁。
+4. 在 **「字型」** 的下拉選單中，找到並選擇 `CaskaydiaCove Nerd Font`。
+5. 儲存設定後，重新開啟一個 PowerShell 分頁，你應該就能看到全新的提示符了！
 
 ![Windows Terminal Profiles 中，Powershell 設定畫面](./images/win-terminal-profile-powershell.png)
 
@@ -221,12 +224,15 @@ Write-Host "`n✅ 安裝完成！" -ForegroundColor Green
 
 ### 使用方式
 
-1.  將腳本儲存為 `install-ohmyposh.ps1`。
-2.  在 PowerShell 中，先執行以下指令來允許執行本地腳本：
+1. 將腳本儲存為 `install-ohmyposh.ps1`。
+2. 在 PowerShell 中，先執行以下指令來允許執行本地腳本：
+
     ```powershell
     Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
     ```
-3.  執行腳本：
+
+3. 執行腳本：
+
     ```powershell
     .\install-ohmyposh.ps1
     ```
@@ -240,7 +246,8 @@ Write-Host "`n✅ 安裝完成！" -ForegroundColor Green
 ## 參考資料
 
 ▶ **外部文章**
-*   [Nerd Fonts 官方網站](https://www.nerdfonts.com/font-downloads)
-*   [在 Windows 終端機中設定 Powerline](https://learn.microsoft.com/zh-tw/windows/terminal/tutorials/custom-prompt-setup)
-*   [Oh My Posh 官方文件](https://ohmyposh.dev/)
+
+* [Nerd Fonts 官方網站](https://www.nerdfonts.com/font-downloads)
+* [在 Windows 終端機中設定 Powerline](https://learn.microsoft.com/zh-tw/windows/terminal/tutorials/custom-prompt-setup)
+* [Oh My Posh 官方文件](https://ohmyposh.dev/)
 * [How to Install Nerd Fonts and Icons in PowerShell 7 on Windows 11 \| Blog](https://ardalis.com/install-nerd-fonts-terminal-icons-pwsh-7-win-11/)
