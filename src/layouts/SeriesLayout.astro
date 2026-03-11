@@ -159,9 +159,9 @@ const seriesJsonLd = Astro.site ? {
                           <FileText size={40} />
                         </div>
                     }
+                    <div class="post-sequence">{index + 1}</div>
                   </div>
                   <div class="post-content">
-                    <div class="post-sequence">{String(index + 1).padStart(2, '0')}</div>
                     <div class="post-meta-row">
                       <time class="post-date" datetime={post.data.date.toISOString()}>
                         {new Date(post.data.date).toLocaleDateString('zh-TW', {
@@ -309,6 +309,7 @@ const seriesJsonLd = Astro.site ? {
   .post-cover {
     flex-shrink: 0;
     width: 160px;
+    position: relative;
   }
 
   .post-cover img {
@@ -334,25 +335,21 @@ const seriesJsonLd = Astro.site ? {
 
   .post-sequence {
     position: absolute;
-    top: var(--spacing-sm);
-    left: var(--spacing-sm);
-    min-width: var(--spacing-xl);
-    height: var(--spacing-xl);
-    padding: 0 var(--spacing-xs);
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: var(--spacing-xs) 0;
     background-color: var(--accentColor);
     color: var(--color-bg-primary);
-    border-radius: var(--radius-sm);
     font-weight: var(--font-weight-bold);
-    font-size: var(--font-size-sm);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    font-size: var(--font-size-lg);
+    text-align: center;
     z-index: 1;
+    line-height: 1;
   }
 
   .post-content {
     flex: 1;
-    position: relative;
     padding: var(--spacing-md) var(--spacing-lg);
   }
 
