@@ -35,6 +35,7 @@ const displayCount = Math.min(2, posts.length);
   </div>
   
   {posts.length > 0 ? (
+    <>
     <div class="posts-list">
       {posts.slice(0, displayCount).map((post) => {
         const path = post.id.slice(0, post.id.lastIndexOf("/")).toLowerCase();
@@ -91,6 +92,7 @@ const displayCount = Math.min(2, posts.length);
         </a>
       </div>
     )}
+    </>
   ) : (
     <div class="no-posts">
       <p>暫無相關文章</p>
