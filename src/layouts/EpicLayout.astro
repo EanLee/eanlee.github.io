@@ -1,5 +1,6 @@
 ---
 import BaseHead from '../components/BaseHead.astro';
+import FileText from '@lucide/astro/icons/file-text';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import Categories from '../components/widget/categories.astro';
@@ -112,11 +113,14 @@ const epicJsonLd = Astro.site ? {
                 const coverUrl = Astro.site ? getCoverUrl(post, Astro.site) : null;
                 return (
                 <article class="post-card">
-                  {coverUrl && (
-                    <div class="post-cover">
-                      <img src={coverUrl} alt={post.data.title} loading="lazy" />
-                    </div>
-                  )}
+                  <div class="post-cover">
+                    {coverUrl
+                      ? <img src={coverUrl} alt={post.data.title} loading="lazy" />
+                      : <div class="post-cover-placeholder">
+                          <FileText size={40} />
+                        </div>
+                    }
+                  </div>
                   <div class="post-content">
                     <div class="post-meta-row">
                       <time class="post-date" datetime={post.data.date.toISOString()}>
@@ -292,6 +296,20 @@ const epicJsonLd = Astro.site ? {
     height: 100%;
     object-fit: cover;
     display: block;
+  }
+
+  .post-cover-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-bg-secondary);
+  }
+
+  .post-cover-placeholder svg {
+    color: var(--accentColor);
+    opacity: 0.35;
   }
 
   .post-content {
