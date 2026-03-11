@@ -2,7 +2,7 @@
 title: 靈活運用 Docker - 建置 Docker Image 時，使用 Multi-Stage Build 減少不必要的資料
 description: 「靈活運用 Docker 打造高效的容器化應用環境」系列的文章之一。記錄在建置 Docker Image 時，如何使用 Multi-Stage build 的方式，有效的減少產出 Artfact 的大小。後續不定期更新內容。
 date: 2023-12-02T09:09:31+08:00
-lastmod: 2024-02-27T10:55:37+08:00
+lastmod: 2026-03-11T21:23:41+08:00
 tags:
   - Docker
 categories:
@@ -14,8 +14,8 @@ keywords:
   - Multi-Stage Build
 slug: docker-build-use-multi-stage-build
 series: 靈活運用 Docker 打造高效的容器化應用環境
+epic: software
 ---
-
 > 本篇為 [靈活運用 Docker 打造高效的容器化應用環境](../flexibly-use-docker-foreword/index.md) 系列的文章之一。內容由現有的文章中，將相關的內容整理於此。後續不定期編修與更新內容。
 
 > 🔖 長話短說 🔖

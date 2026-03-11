@@ -1,21 +1,21 @@
 ---
-title: EF Core | 使用 T4 CodeTemplate 客制化 EFCore Scaffold 產出內容
-description: 本文探討 EF Core 的 DBContext 與 Entity Type 客制化，透過 CodeTemplate 實現客制化。包含使用 Shadow Properties，以及重寫 DBContext 的 SaveChanges 自動更新欄位。
+title: EF Core 腳本自動化：使用 T4 CodeTemplate 自定義 Scaffolding 模型生成規則
+description: 不滿意 EF Core 自動生成的代碼？透過 T4 CodeTemplate 深入客製化 DbContext 與 Entity 的生成規則，實現符合專案架構規範的自動化代碼產出。
+cover: ./images/ef_core_t4_cover.png
 date: 2023-06-29T09:22:03+08:00
-lastmod: 2025-08-07T01:05:28+08:00
+lastmod: 2026-03-11T21:23:41+08:00
 categories:
-  - 軟體開發
   - EF Core
 tags:
   - EF-Core
 keywords:
-  - EF Core
-  - EF Core Power Tool
-  - DbContext
-  - Shadow Property
-  - T4
-  - Text Template Transformation Toolkit
+  - EF Core T4 Template
+  - Scaffolding 客製化
+  - Codegen 自動化
+  - DbContext 生成
+  - .NET 腳本實戰
 slug: dotnet-ef-core-customized-dbcontext-entity
+epic: software
 ---
 接續 DBContext 操作的議題，目前已知現有的資料庫內，所有的表格都有 `CreatedAt`、`UpdatedAt`、`UpdatedUser`、 `IsDeleted` 四個特定字詞結尾的欄位，額外記錄資料異動記錄。
 
@@ -26,6 +26,8 @@ slug: dotnet-ef-core-customized-dbcontext-entity
 針對客制化 EFCore 的 DBContext 與 Entity Type，將相關的實作內容記錄下來。
 
 > 🔖 長話短說 🔖
+>
+> ℹ️ **系列導讀**：本文屬於「EF Core 實戰系列」，完整系統性教學請參見 [EF Core 實戰系列從指令到進階應用總整理](../ef-core-series-overview/index.md)。
 >
 > - 若是覺得用 `dotnet ef dbcontext scaffold` 的指令來建立 DBContext 不方便，在 Visual Studo 可以安裝 [`EF Core Power Tool`](https://marketplace.visualstudio.com/items?itemName=ErikEJ.EFCorePowerTools) Extension 套件，以 GUI 進階設定 DBContext 的建立內容。
 > - 針對 DBContext 的查詢要進行過濾，可在 DBContext 內的 `OnModelCreatingPartial(ModelBuilder modelBuilder)` 進行過濾。
@@ -55,10 +57,29 @@ slug: dotnet-ef-core-customized-dbcontext-entity
 
 ```shell
 dotnet new install Microsoft.EntityFrameworkCore.Templates
+```
 
+```shell
 # 若上述指令無法執行，可將 install 改為 -i
 dotnet new -i Microsoft.EntityFrameworkCore.Templates
 ```
+
+執行後，會自行更新到最新的版本。若已有安裝舊版本，也會先移除，再安裝。
+
+![安裝 EF Core Template](./images/install-efcore-template.png)
+
+若是要指定特定的版本，就需要知道有那些版本，我們可以使用以下的指令，或是直接到 [Nuget](https://www.nuget.org/packages/Microsoft.EntityFrameworkCore.Templates) 官網查詢。
+
+```shell
+dotnet package search Microsoft.EntityFrameworkCore.Templates
+```
+
+後續安裝時，只要加入 `<版本號>` 就可以了。
+
+```shell
+dotnet new install Microsoft.EntityFrameworkCore.Templates:<版本號>
+```
+
 
 接著到要新增 CodeTemplate 的專案目錄下，執行下述指令。
 

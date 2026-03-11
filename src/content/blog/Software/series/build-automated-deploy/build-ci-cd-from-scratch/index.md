@@ -10,12 +10,12 @@ categories:
   - DevOps
   - 軟體開發
 date: 2022-06-20T14:58:08+08:00
-lastmod: 2023-11-29T11:27:27+08:00
+lastmod: 2026-03-11T21:23:41+08:00
 slug: build-ci-cd-from-scratch
 toc: false
 series: 從零開始建立自動化發佈的流水線
+epic: software
 ---
-
 > 將 [2019 iT 邦幫忙鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/1906) 的文章搬遷到此，同時有些內部可能已經過時，在搬移的過程中，會重新針對內容加以整併與補充。
 
 以一位 SOHO 族從無到有、一步一步建立自己的 CI/CD 的故事。伴隨著故事的發展，逐一建構一條從版控到發佈的自動化作業，會逐一帶出四個階段的主題。

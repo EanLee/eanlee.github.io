@@ -1,6 +1,6 @@
 ---
-title: Docker | 初探 Distroless Container Image 與 SBOM 資訊安全
-description: Distroless Container 去除非必要工具，只留應用運行所需元件，實現輕量、安全的目的。本文以 .NET 和 Ubuntu Chiseled Image 為例，比較一般與 Distroless Image 的差異。並利用 Trivy、Syft、Grype 等工具，檢視 Image 的 SBOM 和漏洞。
+title: 容器安全新境界：深度解析 Distroless Image 與 SBOM 在軟體供應鏈安全中的應用
+description: 如何打造極小化且安全的容器映像檔？探討 Distroless 技術如何降低攻擊面，並透過 SBOM (軟體清單) 強化軟體供應鏈的透明度與安全性。
 date: 2023-12-13
 categories:
   - 資訊安全
@@ -9,15 +9,16 @@ tags:
   - 資安
   - Docker
 keywords:
-  - SBOM
-  - Container
-  - Distroless
-  - vulnerabilities
+  - Distroless Image
+  - SBOM 教學
+  - 容器安全
+  - 軟體供應鏈安全
+  - Docker 安全最佳實務
 slug: distroless-container-image-and-sbom-security
-lastmod: 2024-01-16T09:01:49+08:00
-coverImage: 
+lastmod: 2026-03-11T21:23:41+08:00
+cover: 
+epic: software
 ---
-
 ## Distroless Contaier Image
 
 自從 .NET 8 在 2023.11.14 發佈後，因為 Native AOT 的原因，注意到 Distroless Container Image 這個名詞，就花了一些時間，好好的去了解了一下。

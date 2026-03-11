@@ -1,6 +1,6 @@
 ---
-title: ASP.NET Core | 使用 DI 注入時，使用 Request 的參數，建立不同參數的物件
-description: 當開發多租戶的 API 時，已知 API 的 Route 中必定含有 tenantId。因此希望在建立服務的時候，可以根據 tenantId 直接建立對應的服務。那要如何從 DI 的角度切入，讓它協助創建不同參數的物件。
+title: ASP.NET Core DI 進階技巧：如何根據 Request 參數動態注入不同實作物件
+description: 探討如何在相依性注入 (DI) 流程中，動態讀取 HTTP Request 參數並決定實作類別。解決 API 開發中彈性物件生成的常見難題。
 date: 2023-02-19T11:19:21+08:00
 categories:
   - 軟體開發
@@ -8,15 +8,15 @@ tags:
   - aspnet-core
   - DI
 keywords:
-  - Microsoft.Extensions.DependencyInjection
-  - DI
-  - IServiceProvider
-  - HttpContextAccessor
-  - ASP.NET Core
+  - ASP.NET Core DI
+  - 動態注入
+  - Dependency Injection 技巧
+  - 物件工廠
+  - Request 參數
 slug: di-service-provider-httpcontextaccessor
-lastmod: 2023-06-28T11:32:17+08:00
+lastmod: 2026-03-11T21:23:41+08:00
+epic: software
 ---
-
 > 🔖 長話短說 🔖
 >
 > - 使用 .NET 內建的 [Microsoft.Extensions.DependencyInjection](https://github.com/aspnet/DependencyInjection) 時，若想要額外設定加初始動作，可使用 `IServiceProvider` 或 `IServiceProviderFactory`

@@ -10,10 +10,10 @@ keywords:
   - Postman
   - .NET Core
 date: 2023-01-05T10:42:57+08:00
-lastmod: 2023-12-04T21:47:21+08:00
+lastmod: 2026-03-11T21:23:41+08:00
 slug: post-redirect-get
+epic: software
 ---
-
 最近因為工作需求，需要提供一支使用  `POST`  方法的 Web API，並在處理完成任務後，轉導到其他的網頁。
 
 但在使用 Postman 測試的過程，因為 POC 轉導到 google 時，回應  `405 Method Not Allow` 的狀態，所以研究的過程特別記錄下來。

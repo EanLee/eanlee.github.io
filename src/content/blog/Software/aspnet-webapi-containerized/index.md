@@ -1,6 +1,6 @@
 ---
-title: Docker | 使用 Docker 建置 ASP.NET Webapi 的 Image
-description: 在使用 Docker 封裝應用程式時，有時因為程式需要使用一些機敏性資料，例如連線字串及憑證資料等，就需要額外處理。在接下來的內文中，以 ASP.NET Webapi 為例，簡述如何在確保使用容器技術的同時，又能保護機密性資料不被外人所知道。
+title: ASP.NET Core Docker 化教學：從撰寫 Dockerfile 到建置高效 Web API 映像檔
+description: 學習如何將 ASP.NET Core Web API 容器化。包含最佳實務 Dockerfile 撰寫、層級優化 (Layer Optimization) 與映像檔建置完整流程。
 tags:
   - aspnet-core
   - Docker
@@ -8,14 +8,15 @@ tags:
 categories:
   - Container
 keywords:
-  - Docker
-  - ASP.NET Core
-  - Dockerfile
-  - Multi-Stage Build
-  - 機敏資料
+  - ASP.NET Core Docker
+  - Dockerfile 教學
+  - 容器化 Web API
+  - .NET Docker Image
+  - 雲端部署
 date: 2023-02-26T14:18:53+08:00
 slug: aspnet-webapi-containerized
-lastmod: 2025-08-07T01:05:28+08:00
+lastmod: 2026-03-11T21:23:41+08:00
+epic: software
 ---
 想要使用 Docker 技術將 ASP.NET Web API 應用程式打包成 image 時，需要針對機敏性資料進行特別的處理，以確保這些機密性資料不會外流。
 

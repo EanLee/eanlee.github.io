@@ -1,5 +1,10 @@
 ---
 import BaseHead from '../components/BaseHead.astro';
+import FileText from '@lucide/astro/icons/file-text';
+import Tag from '@lucide/astro/icons/tag';
+import ArrowRight from '@lucide/astro/icons/arrow-right';
+import ChevronRight from '@lucide/astro/icons/chevron-right';
+import { Image } from 'astro:assets';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import Categories from '../components/widget/categories.astro';
@@ -20,13 +25,68 @@ const { epicName, epicTitle, epicDescription, accentColor, showSeries = false, s
 // Configuration
 const POSTS_PER_PAGE = 10;
 
+// Fallback covers (same as BlogPost)
+const coverModules = import.meta.glob('/src/assets/images/cover/*.{webp,png,jpg,jpeg}', { eager: true });
+const availableCovers = Object.values(coverModules) as any[];
+
 // Get all posts for this epic
 const epicPosts = source?.sort((a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf()) || [];
+
+// 輔助：取得 cover image URL
+function getCoverUrl(post: any, site: URL): string | null {
+  const cover = post.data.coverImage ?? post.data.cover;
+  if (!cover) return null;
+  if (typeof cover === 'string') return new URL(cover, site).href;
+  if (cover?.src) return new URL(cover.src, site).href;
+  return null;
+}
+
+const epicJsonLd = Astro.site ? {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "CollectionPage",
+      "@id": new URL(`/${epicName}/`, Astro.site).href,
+      "name": `${epicTitle} | ${SITE_TITLE}`,
+      "description": epicDescription,
+      "url": new URL(`/${epicName}/`, Astro.site).href,
+      "inLanguage": "zh-TW",
+      "numberOfItems": epicPosts.length,
+      "itemListElement": epicPosts.slice(0, 10).map((post: any, index: number) => {
+        const path = post.id.slice(0, post.id.lastIndexOf("/")).toLowerCase();
+        const coverUrl = getCoverUrl(post, Astro.site!);
+        return {
+          "@type": "ListItem",
+          "position": index + 1,
+          "item": {
+            "@type": "Article",
+            "@id": new URL(`/post/${path}/`, Astro.site).href,
+            "url": new URL(`/post/${path}/`, Astro.site).href,
+            "name": post.data.title,
+            "description": post.data.description,
+            "datePublished": post.data.date.toISOString(),
+            ...(coverUrl ? { "image": { "@type": "ImageObject", "url": coverUrl } } : {})
+          }
+        };
+      })
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "首頁", "item": Astro.site.href },
+        { "@type": "ListItem", "position": 2, "name": epicTitle, "item": new URL(`/${epicName}/`, Astro.site).href }
+      ]
+    }
+  ]
+} : null;
 ---
 
 <html lang="zh-TW">
   <head>
     <BaseHead title={`${epicTitle} | ${SITE_TITLE}`} description={epicDescription} />
+    {epicJsonLd && (
+      <script type="application/ld+json" set:html={JSON.stringify(epicJsonLd)} />
+    )}
   </head>
   <body>
     <Header />
@@ -45,10 +105,7 @@ const epicPosts = source?.sort((a, b) => new Date(b.data.date).valueOf() - new D
             <div class="title-section">
               <h1>{epicTitle}</h1>
               <div class="article-count">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14 2z"/>
-                  <polyline points="14,2 14,8 20,8"/>
-                </svg>
+                <FileText size={16} />
                 共 {epicPosts.length} 篇文章
               </div>
             </div>
@@ -57,8 +114,24 @@ const epicPosts = source?.sort((a, b) => new Date(b.data.date).valueOf() - new D
           
           <div class="posts-list">
             {epicPosts.length > 0 ? (
-              epicPosts.slice(0, POSTS_PER_PAGE).map(post => (
+              epicPosts.slice(0, POSTS_PER_PAGE).map((post, index) => {
+                const rawCover = post.data.coverImage ?? post.data.cover;
+                const fallbackCover = availableCovers.length > 0
+                  ? (availableCovers[index % availableCovers.length] as any)?.default || null
+                  : null;
+                const displayCover = rawCover || fallbackCover;
+                return (
                 <article class="post-card">
+                  <div class="post-cover">
+                    {displayCover
+                      ? typeof displayCover === 'string'
+                        ? <img src={displayCover} alt={post.data.title} loading="lazy" />
+                        : <Image src={displayCover} alt={post.data.title} loading="lazy" widths={[320]} sizes="160px" format="webp" />
+                      : <div class="post-cover-placeholder">
+                          <FileText size={40} />
+                        </div>
+                    }
+                  </div>
                   <div class="post-content">
                     <div class="post-meta-row">
                       <time class="post-date" datetime={post.data.date.toISOString()}>
@@ -71,7 +144,7 @@ const epicPosts = source?.sort((a, b) => new Date(b.data.date).valueOf() - new D
                       
                       {post.data.tags && post.data.tags.length > 0 && (
                         <div class="post-tags">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"/><path d="M7 7h.01"/></svg>
+                          <Tag size={16} />
                           <span class="tag-list">
                             {post.data.tags?.map((tag, index) => (
                               <>
@@ -94,11 +167,12 @@ const epicPosts = source?.sort((a, b) => new Date(b.data.date).valueOf() - new D
                     
                     <a href={`/post/${post.id.slice(0, post.id.lastIndexOf("/")).toLowerCase()}/`} class="read-more">
                       閱讀更多
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                      <ArrowRight size={16} />
                     </a>
                   </div>
                 </article>
-              ))
+                );
+              })
             ) : (
               <div class="no-posts">
                 <p class="no-posts-main">✍️ 這個分類的文章正在整理中，敬請期待！</p>
@@ -114,7 +188,7 @@ const epicPosts = source?.sort((a, b) => new Date(b.data.date).valueOf() - new D
             <div class="view-more-container">
               <a href="/archives/" class="view-more-link">
                 查看更多文章
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                <ChevronRight size={16} />
               </a>
             </div>
           )}
@@ -218,11 +292,39 @@ const epicPosts = source?.sort((a, b) => new Date(b.data.date).valueOf() - new D
   .post-card {
     border-radius: var(--radius-lg);
     overflow: hidden;
-    transition: transform var(--transition-slow);
     margin-bottom: var(--spacing-lg);
+    display: flex;
+    align-items: stretch;
   }
-  
+
+  .post-cover {
+    flex-shrink: 0;
+    width: 160px;
+  }
+
+  .post-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .post-cover-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-bg-secondary);
+  }
+
+  .post-cover-placeholder svg {
+    color: var(--accentColor);
+    opacity: 0.35;
+  }
+
   .post-content {
+    flex: 1;
     padding: var(--spacing-md) var(--spacing-lg);
   }
   
@@ -359,36 +461,45 @@ const epicPosts = source?.sort((a, b) => new Date(b.data.date).valueOf() - new D
     opacity: 0.8;
   }
   
-  @media (max-width: 1200px) {
+  @media (max-width: 1024px) {
     .main-content {
       grid-template-columns: 250px minmax(0, 1fr);
     }
-    
     .sidebar-area {
       width: 250px;
     }
   }
-  
-  @media (max-width: 992px) {
+
+  @media (max-width: 768px) {
     .main-content {
       grid-template-columns: 1fr;
     }
-    
     .sidebar-area {
       display: none;
     }
-    
+    .post-cover {
+      display: none;
+    }
     .title-section {
       flex-direction: column;
       align-items: flex-start;
       gap: var(--spacing-sm);
     }
-  }
-  
-  @media (max-width: 768px) {
     .article-count {
       font-size: var(--font-size-xs);
       padding: var(--spacing-xs);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .post-content {
+      padding: var(--spacing-md);
+    }
+  }
+
+  @media (max-width: 414px) {
+    .post-content {
+      padding: var(--spacing-sm) var(--spacing-md);
     }
   }
 </style>

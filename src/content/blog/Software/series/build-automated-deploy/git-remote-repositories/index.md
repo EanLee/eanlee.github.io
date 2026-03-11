@@ -15,10 +15,10 @@ keywords:
   - Azure DevOps
   - Azure Repos
 slug: git-remote-repositories
-lastmod: 2023-12-02T02:11:00+08:00
+lastmod: 2026-03-11T21:23:41+08:00
 series: 從零開始建立自動化發佈的流水線
+epic: software
 ---
-
 > [2019 iT 邦幫忙鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/1906)文章補完計劃，[從零開始建立自動化發佈的流水線](../build-ci-cd-from-scratch/index.md) 版控篇
 
 在[程式碼版控 - 觀念與 Git 簡述](../version_control/index.md)介紹了版控的概念與 Git 的操作方式。接著，就必須找一個 Remote Repositories 來進行程式碼的托管，達到異地備份的效果。

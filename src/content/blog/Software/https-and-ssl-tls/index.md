@@ -1,19 +1,22 @@
 ---
-title: 淺談 HTTPS 與 SSL/TLS 的關係
+title: 網路安全基礎：一文搞懂 HTTPS 與 SSL/TLS 加密傳輸的運作原理
 keywords:
-  - TLS
-  - HTTPS
+  - HTTPS 原理
+  - SSL TLS 差異
+  - 網路安全
+  - 加密傳輸
+  - 資訊安全基礎
 categories:
   - 資訊安全
 date: 2022-05-24T07:52:24+08:00
-description: 在資訊安全的討論上，常常提到要使用 HTTPS 與 SSL/TLS，但一直沒有好好的釐清背後的原理與概念。就來讓借這個機會來了解 OSI、HTTP/HTTPS 的通訊方式、SSL/TLS 的用途。
+description: HTTPS 跟 SSL 有什麼差別？深入解析網路加密傳輸的發展史、握手協議 (Handshake) 與憑證機制，讓你全面掌握現代 Web 安全的核心技術細節。
 tags:
   - 網路
   - 資安
 slug: https-and-ssl-tls
-lastmod: 2023-11-30T09:12:32+08:00
+lastmod: 2026-03-11T21:23:41+08:00
+epic: software
 ---
-
 在開始之前，先提一下 OSI，它是由國際標準化組織(ISO)針對開放式網路架構所制定的電腦互連標準，全名是開放式通訊系統互連參考模型（Open System Interconnection Reference Model, OSI），簡稱 OSI 模型。依網路通訊的運作，依不同的傳輸模式、定義的規範與標準，從實體到抽象，將劃分為七層。
 
 <!--more-->

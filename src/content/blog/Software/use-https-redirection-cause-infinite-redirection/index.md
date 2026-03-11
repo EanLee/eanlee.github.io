@@ -1,23 +1,22 @@
 ---
-title: ASP.NET Core | 問題排除隨手記 - UseHttpsRedirection 造成的無限重定向異常
-description: 排除 ASP.NET Core 無限重定向的問題。因系統架構限制 Web API 只能透過反向代理 (Reverse Proxy) 訪問，而反向代理使用 HTTP 訪問 Web API，但因為 Web API 中，使用 UseHttpsRedirection 強制重定向到 HTTPS。最終造成重定向次數過多的情形。
+title: 解決 ASP.NET Core 無限轉址：UseHttpsRedirection 與 Proxy/Load Balancer 的衝突排除
+description: 為什麼網站會出現「重新導向次數過多」？解析 UseHttpsRedirection 在負載平衡或代理伺服器環境下的無限迴圈原因，並教你如何正確配置轉發標頭。
 date: 2023-11-22T14:54:54+08:00
-lastmod: 2023-12-03T23:20:35+08:00
+lastmod: 2026-03-11T21:23:41+08:00
 tags:
   - aspnet-core
 categories:
   - 開發雜談
   - 軟體開發
 keywords:
-  - ASP.NET Core
-  - UseHttpsRedirection
-  - "307"
-  - ERR_TOO_MANY_REDIRECTS
-  - 重定向
+  - 無限重導向
+  - UseHttpsRedirection 錯誤
+  - ASP.NET Core HTTPS
+  - Proxy 轉址
+  - 負載平衡配置
 slug: use-https-redirection-cause-infinite-redirection
 epic: software
 ---
-
 > 🔖 長話短說 🔖
 > 
 > 在 Reverse Proxy 與 Web API 的架構，若發生無限重定向的問題。請確認 Reverse Proxy 是否固定使用 HTTP 導向 Web API；或 Web API 強制將 HTTP 重定向到 HTTPS。

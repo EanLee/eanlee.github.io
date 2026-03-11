@@ -1,6 +1,10 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
+import FileText from '@lucide/astro/icons/file-text';
+import ArrowRight from '@lucide/astro/icons/arrow-right';
+import Tag from '@lucide/astro/icons/tag';
+import { Image } from 'astro:assets';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import Series from '../components/widget/series.astro';
@@ -16,6 +20,10 @@ export interface Props {
 }
 
 const { seriesName, seriesTitle, epicFilter, accentColor, source } = Astro.props;
+
+// Fallback covers (same as BlogPost)
+const coverModules = import.meta.glob('/src/assets/images/cover/*.{webp,png,jpg,jpeg}', { eager: true });
+const availableCovers = Object.values(coverModules) as any[];
 
 // Get all posts for this series
 const seriesPosts = source?.sort((a, b) => new Date(a.data.date).valueOf() - new Date(b.data.date).valueOf()) || [];
@@ -52,11 +60,70 @@ const seriesGroups = epicSeries.map(series => {
   }
   return null;
 }).filter(Boolean);
+
+// 輔助：取得 cover image URL
+function getCoverUrl(post: any, site: URL): string | null {
+  const cover = post.data.coverImage ?? post.data.cover;
+  if (!cover) return null;
+  if (typeof cover === 'string') return new URL(cover, site).href;
+  if (cover?.src) return new URL(cover.src, site).href;
+  return null;
+}
+
+const seriesJsonLd = Astro.site ? {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "ItemList",
+      "@id": new URL(`/series/${seriesName}/`, Astro.site).href,
+      "name": seriesTitle,
+      "url": new URL(`/series/${seriesName}/`, Astro.site).href,
+      "inLanguage": "zh-TW",
+      "numberOfItems": seriesPosts.length,
+      "itemListOrder": "https://schema.org/ItemListOrderAscending",
+      "itemListElement": seriesPosts.map((post: any, index: number) => {
+        const path = post.id.slice(0, post.id.lastIndexOf("/")).toLowerCase();
+        const coverUrl = getCoverUrl(post, Astro.site!);
+        return {
+          "@type": "ListItem",
+          "position": index + 1,
+          "item": {
+            "@type": "Article",
+            "@id": new URL(`/post/${path}/`, Astro.site).href,
+            "url": new URL(`/post/${path}/`, Astro.site).href,
+            "name": post.data.title,
+            "description": post.data.description,
+            "datePublished": post.data.date.toISOString(),
+            ...(coverUrl ? { "image": { "@type": "ImageObject", "url": coverUrl } } : {})
+          }
+        };
+      })
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "首頁", "item": Astro.site.href },
+        { "@type": "ListItem", "position": 2, "name": "系列文章", "item": new URL("/series/", Astro.site).href },
+        { "@type": "ListItem", "position": 3, "name": seriesTitle, "item": new URL(`/series/${seriesName}/`, Astro.site).href }
+      ]
+    }
+  ]
+} : null;
 ---
 
 <html lang="zh-TW">
   <head>
-    <BaseHead title={`${seriesTitle} | ${SITE_TITLE}`} description={SITE_DESCRIPTION} />
+    <BaseHead
+      title={`${seriesTitle} | ${SITE_TITLE}`}
+      description={
+        seriesPosts.length > 0
+          ? `${seriesTitle} 系列文章，共 ${seriesPosts.length} 篇。${seriesPosts[0]?.data.description?.slice(0, 80) ?? ''}`
+          : `${seriesTitle} 系列文章`
+      }
+    />
+    {seriesJsonLd && (
+      <script type="application/ld+json" set:html={JSON.stringify(seriesJsonLd)} />
+    )}
   </head>
   <body>
     <Header />
@@ -77,8 +144,25 @@ const seriesGroups = epicSeries.map(series => {
           
           <div class="posts-list">
             {seriesPosts.length > 0 ? (
-              seriesPosts.map(post => (
+              seriesPosts.map((post, index) => {
+                const rawCover = post.data.coverImage ?? post.data.cover;
+                const fallbackCover = availableCovers.length > 0
+                  ? (availableCovers[index % availableCovers.length] as any)?.default || null
+                  : null;
+                const displayCover = rawCover || fallbackCover;
+                return (
                 <article class="post-card">
+                  <div class="post-cover">
+                    {displayCover
+                      ? typeof displayCover === 'string'
+                        ? <img src={displayCover} alt={post.data.title} loading="lazy" />
+                        : <Image src={displayCover} alt={post.data.title} loading="lazy" widths={[320]} sizes="160px" format="webp" />
+                      : <div class="post-cover-placeholder">
+                          <FileText size={40} />
+                        </div>
+                    }
+                    <div class="post-sequence">{index + 1}</div>
+                  </div>
                   <div class="post-content">
                     <div class="post-meta-row">
                       <time class="post-date" datetime={post.data.date.toISOString()}>
@@ -91,7 +175,7 @@ const seriesGroups = epicSeries.map(series => {
                       
                       {post.data.tags && post.data.tags.length > 0 && (
                         <div class="post-tags">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"/><path d="M7 7h.01"/></svg>
+                          <Tag size={16} />
                           <span class="tag-list">
                             {post.data.tags?.map((tag, index) => (
                               <>
@@ -114,11 +198,12 @@ const seriesGroups = epicSeries.map(series => {
                     
                     <a href={`/post/${post.id.slice(0, post.id.lastIndexOf("/")).toLowerCase()}/`} class="read-more">
                       閱讀更多
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                      <ArrowRight size={16} />
                     </a>
                   </div>
                 </article>
-              ))
+                );
+              })
             ) : (
               <div class="no-posts">
                 <p>暫無相關文章</p>
@@ -129,15 +214,23 @@ const seriesGroups = epicSeries.map(series => {
           {seriesGroups.length > 0 && (
             <div class="series-blocks">
               <h2 class="other-series-title">其他系列文章</h2>
-              {seriesGroups.map(group => (
-                <SeriesBlock 
-                  title={group.series} 
+              {seriesGroups.slice(0, 3).map(group => (
+                <SeriesBlock
+                  title={group.series}
                   seriesName={group.series}
-                  posts={group.posts} 
+                  posts={group.posts}
                   viewAllLink={`/series/${group.path}/`}
                   epicColor={accentColor}
                 />
               ))}
+              {seriesGroups.length > 3 && (
+                <div class="view-all-series">
+                  <a href="/series/" class="view-all-link">
+                    查看所有系列文章
+                    <ArrowRight size={16} />
+                  </a>
+                </div>
+              )}
             </div>
           )}
         </div>
@@ -161,177 +254,267 @@ const seriesGroups = epicSeries.map(series => {
     margin: 0 auto;
     flex: 1;
   }
-  
+
   .main-content {
     display: grid;
     grid-template-columns: 300px minmax(0, 1fr);
-    gap: 2rem;
-    margin: 2rem 0 3rem;
-    max-width: 1120px;
+    gap: var(--spacing-xl);
+    margin: var(--spacing-xl) 0 var(--spacing-2xl);
+    max-width: var(--container-xl);
     margin-left: auto;
     margin-right: auto;
-    padding-left: 1rem;
-    padding-right: 1rem;
+    padding-left: var(--spacing-md);
+    padding-right: var(--spacing-md);
   }
-  
+
   .sidebar-area {
     width: 300px;
   }
-  
+
   .widget-container {
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: var(--spacing-xl);
   }
-  
+
   .content-area {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: var(--spacing-md);
     width: 100%;
   }
-  
+
   .page-header {
-    margin-bottom: 2rem;
-    padding-bottom: 1rem;
+    margin-bottom: var(--spacing-xl);
+    padding-bottom: var(--spacing-md);
     border-bottom: 1px solid var(--color-border-light);
   }
-  
+
   .page-header h1 {
-    font-size: 2rem;
-    font-weight: 700;
-    margin: 0 0 0.5rem 0;
+    font-size: var(--font-size-4xl);
+    font-weight: var(--font-weight-bold);
+    margin: 0 0 var(--spacing-sm) 0;
     color: var(--accentColor);
   }
-  
+
   .page-header p {
-    font-size: 1rem;
+    font-size: var(--font-size-base);
     color: var(--text-muted);
     margin: 0;
   }
-  
+
   .posts-list {
     width: 100%;
-    margin-bottom: 2rem;
+    margin-bottom: var(--spacing-xl);
   }
-  
+
   .post-card {
-    border-radius: 12px;
+    border-radius: var(--radius-lg);
     overflow: hidden;
-    transition: transform 0.3s ease;
-    margin-bottom: 1.5rem;
+    margin-bottom: var(--spacing-lg);
+    display: flex;
+    align-items: stretch;
   }
-  
+
+  .post-cover {
+    flex-shrink: 0;
+    width: 160px;
+    position: relative;
+  }
+
+  .post-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .post-cover-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-bg-secondary);
+  }
+
+  .post-cover-placeholder svg {
+    color: var(--accentColor);
+    opacity: 0.35;
+  }
+
+  .post-sequence {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: var(--spacing-xs) 0;
+    background-color: var(--accentColor);
+    color: var(--color-bg-primary);
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-lg);
+    text-align: center;
+    z-index: 1;
+    line-height: 1;
+  }
+
   .post-content {
-    padding: 1rem 1.5rem;
+    flex: 1;
+    padding: var(--spacing-md) var(--spacing-lg);
   }
-  
+
   .post-meta-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 0.75rem;
-    padding-bottom: 0.75rem;
+    margin-bottom: calc(var(--spacing-md) - var(--spacing-xs));
+    padding-bottom: calc(var(--spacing-md) - var(--spacing-xs));
     border-bottom: 1px dashed var(--card-border);
   }
-  
+
   .post-date {
-    font-size: 0.875rem;
+    font-size: var(--font-size-sm);
     color: var(--text-muted);
   }
-  
+
   .post-tags {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: var(--spacing-sm);
+    font-size: var(--font-size-sm);
   }
-  
+
+  .post-tags svg {
+    color: var(--accentColor);
+  }
+
   .tag-list {
-    font-size: 0.8rem;
+    font-size: var(--font-size-xs);
   }
-  
+
   .tag-link {
-    color: var(--link-color);
+    color: var(--text-secondary);
     text-decoration: none;
-    transition: color 0.2s ease;
+    transition: color var(--transition-normal);
   }
-  
+
   .tag-link:hover {
     color: var(--accentColor);
   }
-  
+
   .post-title {
-    font-size: 1.25rem;
-    font-weight: 600;
-    margin: 0 0 0.75rem 0;
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-semibold);
+    margin: calc(var(--spacing-md) - var(--spacing-xs)) 0;
   }
-  
+
   .post-title a {
     color: var(--text-primary);
     text-decoration: none;
-    transition: color 0.2s ease;
+    transition: color var(--transition-normal);
   }
-  
+
   .post-title a:hover {
     color: var(--accentColor);
   }
-  
+
   .post-description {
-    font-size: 0.95rem;
+    font-size: var(--font-size-base);
+    line-height: 1.6;
     color: var(--text-secondary);
-    margin-bottom: 1rem;
-    line-height: 1.5;
+    margin-bottom: calc(var(--spacing-md) + var(--spacing-xs));
   }
-  
+
   .read-more {
     display: inline-flex;
     align-items: center;
-    gap: 0.3rem;
-    font-size: 0.9rem;
+    gap: var(--spacing-sm);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
     color: var(--accentColor);
     text-decoration: none;
-    font-weight: 500;
+    transition: color var(--transition-normal);
   }
-  
+
   .read-more:hover {
     opacity: 0.8;
   }
-  
+
   .no-posts {
-    padding: 2rem;
+    width: 100%;
     text-align: center;
-    color: var(--text-muted);
+    padding: var(--spacing-2xl) var(--spacing-xl);
     background-color: var(--color-bg-secondary);
-    border-radius: 8px;
+    border-radius: var(--radius-md);
+    color: var(--text-muted);
   }
-  
+
   .series-blocks {
-    margin-top: 2rem;
+    margin-top: var(--spacing-xl);
   }
-  
+
+  .view-all-series {
+    text-align: center;
+    margin-top: var(--spacing-lg);
+  }
+
+  .view-all-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--accentColor);
+    text-decoration: none;
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border: 1px solid var(--accentColor);
+    border-radius: var(--radius-md);
+  }
+
+  .view-all-link:hover {
+    background-color: var(--accentColor);
+    color: var(--color-bg-primary);
+  }
+
   .other-series-title {
-    font-size: 1.5rem;
-    font-weight: 700;
-    margin: 0 0 1.5rem 0;
-    padding-bottom: 0.75rem;
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-bold);
+    margin: 0 0 var(--spacing-lg) 0;
+    padding-bottom: calc(var(--spacing-sm) + var(--spacing-xs));
     border-bottom: 2px solid var(--accentColor);
     color: var(--text-primary);
   }
-  
-  @media (max-width: 1200px) {
+
+  @media (max-width: 1024px) {
     .main-content {
-      gap: 1.5rem;
+      grid-template-columns: 250px minmax(0, 1fr);
+    }
+    .sidebar-area {
+      width: 250px;
     }
   }
-  
-  @media (max-width: 992px) {
+
+  @media (max-width: 768px) {
     .main-content {
       grid-template-columns: 1fr;
     }
-    
     .sidebar-area {
-      width: 100%;
-      margin-bottom: 2rem;
+      display: none;
+    }
+    .post-cover {
+      display: none;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .post-content {
+      padding: var(--spacing-md);
+    }
+  }
+
+  @media (max-width: 414px) {
+    .post-content {
+      padding: var(--spacing-sm) var(--spacing-md);
     }
   }
 </style>

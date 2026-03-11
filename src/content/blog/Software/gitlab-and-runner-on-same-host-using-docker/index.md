@@ -11,11 +11,11 @@ keywords:
   - GitLab Runner
   - DevOps
 date: 2022-08-31T23:58:45+08:00
-lastmod: 2023-11-30T09:12:49+08:00
+lastmod: 2026-03-11T21:23:41+08:00
 description: 在本機同時使用 Docker 建立 GitLab 與 GitLab Runner 時，在設定上遇到很多小眉腳。特別記錄下來，減少其他人撞牆的情況。
 slug: gitlab-and-runner-on-same-host-using-docker
+epic: software
 ---
-
 最近因為業務需求，必需在私有環境架設版控平台，並需要 CI/CD 的功能。
 
 在朋友的推薦下，開始初次使用 GitLab。因為對 GitLab 的架設與設定還不熟悉，所以先在本機進行 POC 測試。

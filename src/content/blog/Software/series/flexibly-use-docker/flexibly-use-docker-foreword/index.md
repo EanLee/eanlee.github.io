@@ -2,7 +2,7 @@
 title: 靈活運用 Docker 打造高效的容器化應用環境
 description: 本系列文章將會介紹如何靈活運用 Docker 來打造高效的容器化應用環境。
 date: 2023-06-28T09:44:39+08:00
-lastmod: 2025-08-11T02:36:55+08:00
+lastmod: 2026-03-11T21:23:41+08:00
 tags:
   - Docker
 categories:
@@ -10,8 +10,8 @@ categories:
 keywords:
   - Docker
 slug: flexibly-use-docker-foreword
-toc: false
 series: 靈活運用 Docker 打造高效的容器化應用環境
+epic: software
 ---
 目前有許多文章的內容，都包含部份的 Docker 操作指令。也因為如此，所有的 Docker 指令與說明散在各處，所以起心動念，整理完整的 Docker 操作與應用的系列文章。
 

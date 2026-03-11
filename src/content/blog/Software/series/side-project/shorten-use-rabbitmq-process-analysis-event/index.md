@@ -16,8 +16,9 @@ keywords:
   - Docker
 slug: shorten-use-rabbitmq-process-analysis-event
 series: 縮網址服務實作記錄
+epic: software
+lastmod: 2026-03-11T21:23:41+08:00
 ---
-
 > 縮網址服務為 https://url-ins.com/shorten/ ，有任何想法或回饋，可以在 [SurveyCake](https://www.surveycake.com/s/wgveX) 留下寶貴的意見。(為了維持主機的維運，在頁面內放入 Google Adsense 廣告。)
 
 在完成短網址的轉址服務，接下來，就要開始針對轉址的請求來源與動作，進行數據的統計。

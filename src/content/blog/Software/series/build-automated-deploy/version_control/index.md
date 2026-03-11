@@ -10,11 +10,11 @@ keywords:
   - Git Flow
 tags:
   - 版控
-lastmod: 2023-12-02T02:11:08+08:00
+lastmod: 2026-03-11T21:23:41+08:00
 slug: version_control
 series: 從零開始建立自動化發佈的流水線
+epic: software
 ---
-
 > [2019 iT 邦幫忙鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/1906)文章補完計劃，[從零開始建立自動化發佈的流水線](../build-ci-cd-from-scratch/index.md) 版控篇
 
 當軟體持續發展，難免出現客制化需求，或是要求針對特定版本進行功能異動，尤其是團隊協作的情況下，有沒有那種方式可以提供有效的統整現有的程式碼，讓協作開發人員，都可以取得最新的開發版本。也可以快速的調出過往的程式異動版本，以便追查問題或調整。

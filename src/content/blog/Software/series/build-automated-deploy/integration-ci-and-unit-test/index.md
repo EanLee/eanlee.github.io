@@ -11,10 +11,10 @@ keywords:
   - unit test
   - 單元測試
 slug: integration-ci-and-unit-test
-lastmod: 2023-12-02T02:10:27+08:00
+lastmod: 2026-03-11T21:23:41+08:00
 series: 從零開始建立自動化發佈的流水線
+epic: software
 ---
-
 > [2019 iT 邦幫忙鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/1906)文章補完計劃，[從零開始建立自動化發佈的流水線](../build-ci-cd-from-scratch/index.md) 持續整合篇
 
 想達成持續整合(Continuous Integration, CI)的目標，只有單純進行版本控制與建置，就太可惜了。CI 可視為是自動化管控軟體品質的第一道防線，在這個階段，可以整合自動化測試、程式碼掃描分析、資安掃描等動作。

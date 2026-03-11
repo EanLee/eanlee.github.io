@@ -2,7 +2,7 @@
 title: Queue 佇列的概念
 description: 回顧 Queue 的概念與用法
 date: 2022-06-14T15:46:41+08:00
-lastmod: 2023-12-02T02:09:01+08:00
+lastmod: 2026-03-11T21:23:41+08:00
 keywords:
   - Queue
   - 佇列
@@ -12,8 +12,8 @@ categories:
   - 軟體開發
 slug: queue
 series: 從零開始土炮 Message Queue
+epic: software
 ---
-
 > [第 11 屆(2020) iThome 鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/2172)文章補完計劃，[從零開始土炮 MQ](../build-mq-foreword/index.md) 基礎篇
 
 個人認為佇列(Queue)的本質，就是做為資料載體的暫存與緩衝區，同時，它具備 **先進先出(First In First Out, FIFO)** 的特性。

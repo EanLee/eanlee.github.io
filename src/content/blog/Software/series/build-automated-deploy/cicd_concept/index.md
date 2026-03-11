@@ -1,17 +1,20 @@
 ---
-title: 踏入 CI/CD 的世界 - 觀念篇
+title: CI/CD 基礎觀念：軟體自動化發佈入門，提升開發效率的關鍵第一步
 date: 2022-06-23T00:00:19+08:00
-description: 簡述 CI/CD 的觀念
+description: 什麼是 CI/CD？本文深入淺出介紹持續整合 (CI) 與持續部署 (CD) 的核心價值、運作流程，如何幫助團隊擺脫手動部署的惡夢並提升軟體品質。
 categories:
   - DevOps
 keywords:
-  - CI
-  - CD
-lastmod: 2023-06-28T10:10:47+08:00
+  - CI/CD 觀念
+  - 持續整合
+  - 持續部署
+  - DevOps 入門
+  - 自動化發佈
+lastmod: 2026-03-11T21:23:41+08:00
 slug: cicd_concept
 series: 從零開始建立自動化發佈的流水線
+epic: software
 ---
-
 > [2019 iT 邦幫忙鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/1906)文章補完計劃，[從零開始建立自動化發佈的流水線](../build-ci-cd-from-scratch/index.md)合篇
 
 當程式碼已經進入版控系統後，就會想要有個服務可以自動去建置、驗證 source code 的完整性與安全性，最好還可以自行部屬。而 CI/CD 就是為了滿足這個希望，而誕生出來的機制。

@@ -1,6 +1,6 @@
 ---
-title: ASP.NET Core | 封裝 DI 的註冊行為時，同時使用外部參數來建立不同物件
-description: 在 ASP.NET Core 中，當封裝依賴注入（DI）的註冊行為時，同時使用外部參數來建立不同的對象，本文介紹了兩種方法：直接使用 IHttpContextAccessor 和封裝 DI 所需的參數。並推薦使用後者，在不公開服務實作的前提下，通過介面獲取外部參數，以提高程式碼的可維護性和彈性。
+title: 設計模式實戰：如何在封裝 DI 註冊邏輯時傳入動態參數生成不同物件
+description: 解決 ASP.NET Core DI 封裝時的靈活性難題。探討如何結合 Factory 模式與相依性注入，讓你的服務註冊更具擴充性與彈性。
 date: 2023-06-14T12:56:50+08:00
 categories:
   - 軟體開發
@@ -8,15 +8,15 @@ tags:
   - aspnet-core
   - DI
 keywords:
-  - Microsoft.Extensions.DependencyInjection
-  - DI
-  - IServiceProvider
-  - HttpContextAccessor
-  - ASP.NET Core
+  - DI 封裝技巧
+  - ASP.NET Core DI 進階
+  - 依賴注入模式
+  - 物件工廠
+  - 代碼整潔
 slug: di-encapsulate-service-and-use-external-parameters
-lastmod: 2023-06-29T09:45:58+08:00
+lastmod: 2026-03-11T21:23:41+08:00
+epic: software
 ---
-
 當發現一個 .NET Core 的類別，其所有方法均需要相同的參數資料，這時，我們就會想到從 DI 下手，在建立物件時，一併把參數傳入。這樣就不需要在調用方式時，還要重複的傳入參數。
 
 為了隱藏服務的實現細節，將 DI 的服務註冊行為加以封裝，但又需要 WebApi 的 HttpContext 內的參數，建立對應的物件。

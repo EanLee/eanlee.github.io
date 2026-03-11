@@ -1,15 +1,21 @@
 ---
-title: 聊聊名詞 | 單點故障 | Single point of failure, SPOF
-description: 試著簡單說明單點故障背後的意思
+title: 系統架構的死穴：什麼是單點故障 (SPOF)？如何識別並排除脆弱節點
+description: 一個零件壞掉，全部服務停擺？深入解析單點故障 (Single Point of Failure) 的風險，並透過實際 API 架構案例，教你如何利用冗餘與備援機制提升系統韌性。
 date: 2022-06-23T11:25:10+08:00
 categories:
   - 聊聊名詞
 tags:
   - 思維模式
-lastmod: 2023-06-28T10:10:47+08:00
+lastmod: 2026-03-11T21:23:41+08:00
 slug: spof
+keywords:
+  - 單點故障
+  - SPOF
+  - 系統韌性
+  - 高可用架構
+  - 風險評估
+epic: software
 ---
-
 單點故障(Single point of failure, SPOF)，指的是系統上的某一個物理節點故障，而導致整個系統無法運作的現象。
 
 當進行系統風險評估時，必需將單點故障造成的影響，列入評估的範圍。依單點故障發生，會造成服務中止或系統全面性故障，[冗餘機制](../redundancy/index.md)的設定就必定列入考量。

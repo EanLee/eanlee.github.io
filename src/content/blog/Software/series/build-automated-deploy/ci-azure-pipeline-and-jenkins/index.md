@@ -13,10 +13,10 @@ keywords:
 tags:
   - Azure
 slug: ci-azure-pipeline-and-jenkins
-lastmod: 2023-12-02T02:11:16+08:00
+lastmod: 2026-03-11T21:23:41+08:00
 series: 從零開始建立自動化發佈的流水線
+epic: software
 ---
-
 > [2019 iT 邦幫忙鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/1906)文章補完計劃，[從零開始建立自動化發佈的流水線](../build-ci-cd-from-scratch/index.md)合篇
 
 上一篇 [使用 Travis CI/GitHub Action 進行持續整合](../github-action-travis-ci/index.md) 已經介紹 Travis CI 與 GitHub Actions。

@@ -21,6 +21,8 @@ const blog = defineCollection({
 			z.array(z.string()).nullable().optional()
 		),
 		coverImage: z.union([image(), z.string()]).nullable().optional(),
+		cover: z.union([image(), z.string()]).nullable().optional(), // 舊欄位名稱，fallback 用
+		toc: z.boolean().optional(), // 設為 false 可關閉目錄
 		series: z.string().nullable().optional(),
 		epic: z.string().nullable().optional(),
 	relatedProjects: z.string().optional(), // 相關專案 alias（單一專案）

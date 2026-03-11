@@ -8,8 +8,9 @@ categories:
   - 軟體開發
   - DevOps
 slug: yaml
-lastmod: 2025-08-11T02:36:55+08:00
+lastmod: 2026-03-11T21:23:41+08:00
 series: 從零開始建立自動化發佈的流水線
+epic: software
 ---
 > [2019 iT 邦幫忙鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/1906)文章補完計劃，[從零開始建立自動化發佈的流水線](../build-ci-cd-from-scratch/index.md) 額外補充
 
@@ -20,13 +21,17 @@ P
 ```
 Eric:
   在 Travis CI 與 Azure Pipelines 的設定時，都有提到 `.yml` 的檔案。
+
 吉米:
   對啊！而且它的內容很直覺，不用想太多，就可以明白它的意思。
+
 Eric:
   沒錯，也是因為這個特性，越來越多系統採用 YAML 格式，作為「部署」、「設定」、「管理」的組態文件撰寫格式。
   就目前而言，YAML 在 DevOps 中，己經成為不可缺少的一部份。 
+
 吉米:
   那 YAML 與 JSON 的差異在那呢？
+
 Eric:
   在 YAML 的官網中，指出 YAML 是 JSON 的超集，因此，YAML 支援 JSON 的格式。實務上，JSON 與 YAML 應用的場景不盡相同。
   JSON 大多用於資料傳輸，YAML 大多用於組態設定，所以不用刻意去區分兩者間的差異。

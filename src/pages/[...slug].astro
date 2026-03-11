@@ -18,6 +18,6 @@ const post = Astro.props;
 const { Content } = await post.render();
 ---
 
-<BlogPost {...post.data}>
+<BlogPost entry={post} {...post.data} coverImage={post.data.coverImage ?? post.data.cover}>
   <Content />
 </BlogPost>

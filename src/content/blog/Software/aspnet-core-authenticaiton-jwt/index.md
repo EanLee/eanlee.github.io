@@ -12,7 +12,8 @@ keywords:
   - authentication
   - jwt
 slug: aspnet-core-authenticaiton-jwt
-lastmod: 2025-08-07T01:05:28+08:00
+epic: software
+lastmod: 2026-03-11T21:23:41+08:00
 ---
 > 🔖 長話短說 🔖
 >
@@ -105,7 +106,7 @@ private string GenerateToken(string userId)
     // 將 Secret Key 轉換為 byte 陣列
     var key = Encoding.ASCII.GetBytes(secret);
 
-var credentials=
+    var credentials=
  new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature);
 
     // 建立 JWT Security Token Handler

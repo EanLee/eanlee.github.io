@@ -1,8 +1,8 @@
 ---
-title: 使用 SMTP2GO 與 ImprovMX 打造免費的 Email 寄送與轉發服務
-description: 本文將介紹如何使用免費的 SMTP2GO 服務來發送郵件，並搭配 ImprovMX 實現自訂網域的 Email 反向轉發，在低成本預算下解決個人專案或初期產品的 Email 功能需求。
+title: Side Project 必備：使用 SMTP2GO 與 ImprovMX 打造 0 元專業企業信箱寄送與轉發
+description: 還在付費買企業信箱？教你組合 SMTP2GO (寄信) 與 ImprovMX (轉發) 服務，免成本擁有專業域名信箱，非常適合個人網站與 Side Project 使用。
 date: 2025-08-18T00:00:00+08:00
-lastmod: 2025-08-18T02:03:32+08:00
+lastmod: 2026-03-11T22:05:21+08:00
 tags:
   - SMTP
   - Email
@@ -12,14 +12,14 @@ categories:
   - DevOps
   - Side Project
 keywords:
-  - SMTP
-  - Email
-  - SMTP2GO
-  - ImprovMX
-  - Godaddy
-  - DNS
-  - Email Forwarding
+  - 免費企業信箱
+  - SMTP2GO 教學
+  - ImprovMX 轉發
+  - Email 寄送服務
+  - Side Project 工具
 slug: setup-free-email-service-with-smtp2go-and-improvmx
+epic: software
+cover: ./images/smtp-email-service-cover.png
 ---
 > 🔖 長話短說 🔖
 > 

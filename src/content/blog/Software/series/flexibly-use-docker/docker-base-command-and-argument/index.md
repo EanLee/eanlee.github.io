@@ -2,7 +2,7 @@
 title: 靈活運用 Docker - 操作 Docker 與 Container 常用指令
 description: 「靈活運用 Docker 打造高效的容器化應用環境」系列的文章之一。本篇文章整理使用 Docker 時，Image 與 Container 常用的基本指令，內容包含查詢、啟動、停止、移除等等。
 date: 2023-11-30T18:46:44+08:00
-lastmod: 2023-12-03T22:19:03+08:00
+lastmod: 2026-03-11T21:23:41+08:00
 tags:
   - Docker
 categories:
@@ -11,8 +11,8 @@ keywords:
   - Docker
 slug: docker-base-command-and-argument
 series: 靈活運用 Docker 打造高效的容器化應用環境
+epic: software
 ---
-
 > 本篇為 [靈活運用 Docker 打造高效的容器化應用環境](../flexibly-use-docker-foreword/index.md) 系列的文章之一。內容由現有的文章中，將相關的內容整理於此。後續不定期編修與更新內容。
 
 ## Docker command

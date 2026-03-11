@@ -15,10 +15,10 @@ keywords:
   - jenkins
 date: 2023-01-11T00:15:41+08:00
 slug: container-build-execution-environment-required-ci
-lastmod: 2023-12-04T21:49:10+08:00
+lastmod: 2026-03-11T21:23:41+08:00
 series: 從零開始建立自動化發佈的流水線
+epic: software
 ---
-
 > [2019 iT 邦幫忙鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/1906) 文章補完計劃，[從零開始建立自動化發佈的流水線](../build-ci-cd-from-scratch/index.md) Container 篇
 
 在 [Docker 操作簡介](../docker-operate/index.md) 中，初步了解 Docker、dockerfile、docker-compose 的操作方法。
