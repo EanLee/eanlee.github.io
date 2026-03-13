@@ -2,13 +2,16 @@
 title: 靈活運用 Docker 打造高效的容器化應用環境
 description: 本系列文章將會介紹如何靈活運用 Docker 來打造高效的容器化應用環境。
 date: 2023-06-28T09:44:39+08:00
-lastmod: 2026-03-11T21:23:41+08:00
+lastmod: 2026-03-14T02:07:03+08:00
 tags:
   - Docker
 categories:
   - Container
 keywords:
-  - Docker
+  - Docker 教學系列
+  - Docker 實戰指南
+  - 容器化架構
+  - Docker 入門與進階
 slug: flexibly-use-docker-foreword
 series: 靈活運用 Docker 打造高效的容器化應用環境
 epic: software
@@ -69,3 +72,8 @@ epic: software
 - [使用 Docker 建置 ASP.NET Webapi 的 Image](../../../aspnet-webapi-containerized/index.md)
 - [Docker 操作簡介 - command / dockerfile / docker-compose](../../build-automated-deploy/docker-operate/index.md)
 - [部署新境界 - 使用 Container 簡化流程](../../build-automated-deploy/container-intro/index.md)
+
+---
+
+💬 **參與討論**
+在這份系列大綱裡，你最期待看到哪一篇文章的產出呢？或者有沒有什麼你很想學的 Docker 技巧還沒被列上去的？歡迎直接留言點菜！

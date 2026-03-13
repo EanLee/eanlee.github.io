@@ -8,17 +8,24 @@ tags:
   - Authentication
   - aspnet-core
 keywords:
-  - cookies
+  - ASP.NET Core JWT
+  - AddJwtBearer
+  - .NET 7 認證
+  - TokenValidationParameters
+  - Swagger JWT 設定
   - authentication
   - jwt
+  - JWT 驗證失敗
+  - 401 Unauthorized
+  - AuthenticationBuilder
 slug: aspnet-core-authenticaiton-jwt
 epic: software
-lastmod: 2026-03-11T21:23:41+08:00
+lastmod: 2026-03-14T02:07:03+08:00
 ---
 > 🔖 長話短說 🔖
 >
-> - 使用 `AddJwtBearar` 加入 JWT 的認證機制時，使用 `JwtBearerOptions.TokenValidationParameters` 來指定驗證條件的設定。
-> - 使用 `TokenValidationParameters` 時，務必指定 `IssureSignKey` ，否則，呼叫 API 時，都會收到 `401 Unauthorized` 的回應。
+> - 使用 `AddJwtBearer` 加入 JWT 的認證機制時，使用 `JwtBearerOptions.TokenValidationParameters` 來指定驗證條件的設定。
+> - 使用 `TokenValidationParameters` 時，務必指定 `IssuerSigningKey` ，否則，呼叫 API 時，都會收到 `401 Unauthorized` 的回應。
 
 我們知道 .NET Core 支援多種的 Authentication 的認證方式，今天就來聊聊 JWT 的設定與處理方式。
 
@@ -26,7 +33,7 @@ lastmod: 2026-03-11T21:23:41+08:00
 
 操作環境
 
-- Windwos 11
+- Windows 11
 - .NET 7
 - Nuget package
   - Serilog
@@ -37,11 +44,11 @@ lastmod: 2026-03-11T21:23:41+08:00
 
 在 .NET 中，授權與認證的機制，依賴 `AuthenticationMiddleware` 與 `AuthorizationMiddleware` 兩個 Middleware。
 
-所以，務必記得在插入兩個 Middleware。
+所以，務必記得要插入這兩個 Middleware。
 
 ```csharp
 app.UseAuthentication();
-app.UseAuthorication();
+app.UseAuthorization();
 ```
 
 接著，要讓 `AuthenticationMiddleware` 知道有那些 AuthenticationSchema 可以使用。
@@ -82,7 +89,7 @@ dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer
  }
 ```
 
-順帶一提，若沒有定 `IssureSigningKey` 時，使用 curl 或 postman 呼叫 API 時，會收到 `401 Unauthorized` 的回應。
+順帶一提，若沒有定 `IssuerSigningKey` 時，使用 curl 或 postman 呼叫 API 時，會收到 `401 Unauthorized` 的回應。
 
 簡單的查看 `JwtBearerHandler` 的程式，在驗證過程中，若找不到任何的 `SigningKey` 時，會丟出 `SecurityTokenSignatureKeyNotFoundException`。
 
@@ -106,8 +113,10 @@ private string GenerateToken(string userId)
     // 將 Secret Key 轉換為 byte 陣列
     var key = Encoding.ASCII.GetBytes(secret);
 
-    var credentials=
- new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature);
+    var credentials = new SigningCredentials(
+        new SymmetricSecurityKey(key),
+        SecurityAlgorithms.HmacSha256Signature
+    );
 
     // 建立 JWT Security Token Handler
     var tokenHandler = new JwtSecurityTokenHandler();
@@ -116,7 +125,7 @@ private string GenerateToken(string userId)
         audience: "test", // 設定接收者
         subject: new ClaimsIdentity(claims), // 設定 Claim
         expires: DateTime.UtcNow.AddMinutes(30), // 設定過期時間
-        signingCredentials:credentials
+        signingCredentials: credentials
     );
 
     return tokenHandler.WriteToken(securityToken);
@@ -183,3 +192,8 @@ services.AddSwaggerGen(c =>
 
 - [c# - How do I log authorization attempts in .net core - Stack Overflow](https://stackoverflow.com/questions/48889771/how-do-i-log-authorization-attempts-in-net-core)
 - [JWT and Refresh Tokens in ASP.NET Core | by Levan Revazashvili | Medium](https://medium.com/@levanrevazashvili/jwt-and-refresh-tokens-in-asp-net-core-11a877575147)
+
+---
+
+💬 **參與討論**
+你在設定 JWT 驗證時，有沒有碰過什麼「明明 Key 都對但就是 401」的靈異事件？這篇文章有幫助你解決這個困擾嗎？歡迎在底下留言交流你的 debug 經驗與心得！

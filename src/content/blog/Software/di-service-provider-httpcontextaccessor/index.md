@@ -1,6 +1,6 @@
 ---
 title: ASP.NET Core DI 進階技巧：如何根據 Request 參數動態注入不同實作物件
-description: 探討如何在相依性注入 (DI) 流程中，動態讀取 HTTP Request 參數並決定實作類別。解決 API 開發中彈性物件生成的常見難題。
+description: 探討如何在相依性注入 (DI) 流程中，動態讀取 HTTP Request 參數並決定實作類別。解決 API 開發中多租戶等彈性物件生成的常見難題。
 date: 2023-02-19T11:19:21+08:00
 categories:
   - 軟體開發
@@ -13,8 +13,13 @@ keywords:
   - Dependency Injection 技巧
   - 物件工廠
   - Request 參數
+  - IHttpContextAccessor
+  - IServiceProviderFactory
+  - 多租戶架構
+  - Multi-tenant
+  - ServiceCollection
 slug: di-service-provider-httpcontextaccessor
-lastmod: 2026-03-11T21:23:41+08:00
+lastmod: 2026-03-14T02:07:03+08:00
 epic: software
 ---
 > 🔖 長話短說 🔖
@@ -43,7 +48,7 @@ epic: software
 
 在實驗之前，有幾個地方必須先調整，
 
-- ControllerBase 的 `[Rotue]` ，指定一個變數 `{id}`。
+- ControllerBase 的 `[Route]` ，指定一個變數 `{id}`。
 - 要使用 DI 注入的服務，在 constructor 指定傳入一個參數。
 
 ```csharp
@@ -105,7 +110,7 @@ builder.Services.AddHttpContextAccessor();
 
 #### 使用 Lambda 指定 IServiceProvider
 
-在指定設定 Service LifeCircle 時，運用 `IServiceProvider` 來調整建立物件的細部設定。
+在指定設定 Service Lifecycle 時，運用 `IServiceProvider` 來調整建立物件的細部設定。
 
 在 `AddScoped<ITenantService>` 時，配合 IServiceProvider 與 HttpContextAccessor，就可以達到，在每一個請求的過程中，都是使用請求 `Route` 之中的 `id` 參數所建立的 TenantService。
 
@@ -115,7 +120,7 @@ builder.Services.AddScoped<ITenantService>(provider =>
 {
 	// 使用 HttpContextAccessor 取得 Route 資料
     var accessor = provider.GetService<IHttpContextAccessor>();
-    var id = (string)httpContextAccessor.HttpContext.GetRouteData().Values["id"];
+    var id = (string)accessor.HttpContext.GetRouteData().Values["id"];
 
 	// 建立物件
     return new TenantService(id);
@@ -128,10 +133,10 @@ builder.Services.AddScoped<ITenantService>(provider =>
 
 首先，實作繼承 `IServiceProviderFactory<IServiceCollection>` 的類別，`IServiceProviderFactory` 。
 
-接著，把之前取 HttpContextAccessor 與 ISeviceProvider 的程式碼，在 `CreateBuilder` 之中，再重新實作一次。
+接著，把之前取 HttpContextAccessor 與 IServiceProvider 的程式碼，在 `CreateBuilder` 之中，再重新實作一次。
 
 ```csharp
-public class TenatntServiceProviderFactory : IServiceProviderFactory<IServiceCollection>  
+public class TenantServiceProviderFactory : IServiceProviderFactory<IServiceCollection>  
 {  
     public IServiceCollection CreateBuilder(IServiceCollection services)  
     {  
@@ -143,9 +148,9 @@ public class TenatntServiceProviderFactory : IServiceProviderFactory<IServiceCol
         {  
 			// 使用 HttpContextAccessor 取得 Route 資料
 		    var accessor = provider.GetService<IHttpContextAccessor>();
-		    var id = (string)httpContextAccessor.HttpContext.GetRouteData().Values["id"];
+		    var id = (string)accessor.HttpContext.GetRouteData().Values["id"];
 
-            return new TenantService(tenantId);  
+            return new TenantService(id);  
         });  
   
         return services;  
@@ -166,9 +171,14 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Host.UseServiceProviderFactory(new TenantServiceProviderFactory());
 ```
 
-這就樣完成 ServiceProiderFactory 的實作了。
+這就樣完成 ServiceProviderFactory 的實作了。
 
 ## 延伸閱讀
 
 - [在 6.0 中移轉至新的最小裝載模型的程式碼範例 | Microsoft Learn](https://learn.microsoft.com/zh-tw/aspnet/core/migration/50-to-60-samples?view=aspnetcore-7.0)
 - [New dependency injection features in .NET 6](https://andrewlock.net/exploring-dotnet-6-part-10-new-dependency-injection-features-in-dotnet-6/)
+
+---
+
+💬 **參與討論**
+處理多租戶架構時，DI 的動態注入簡直是減少重複程式碼的救星。你現在的專案裡，DI 還有用過什麼神奇的寫法或黑魔法嗎？歡迎在發佈文章底下留言，跟我們分享你的架構巧思！

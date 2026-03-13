@@ -10,18 +10,22 @@ tags:
 keywords:
   - EF Core HasQueryFilter
   - 全域過濾器
+  - Global Query Filter
   - 軟刪除實作
   - DbContext 查詢優化
+  - IgnoreQueryFilters
   - .NET 資料控管
-slug: dfcore-dbcontext-hasqueryfilter
-lastmod: 2026-03-11T21:23:41+08:00
+  - Entity Framework Core
+  - 多條件過濾
+slug: efcore-dbcontext-hasqueryfilter
+lastmod: 2026-03-11T19:47:21+08:00
 epic: software
 ---
 前些時間，在幫朋友改造現有倉儲系統時，發現現有資料庫內，所有的表格都有四個作為異動記錄使用的固定欄位。
 
 導致查詢這些資料時，需要針對這些欄位內的數值，去做進行過濾的動作。
 
-雖然以前經常使用 `Where` 與自定義的 `IQueryable Extension Methods` 來過濾資料，但是總會想要再更精簡開發要寫的程式碼。剛好發現 Entity Framework Core 在 2.0 版之後，提供了一個 Gobal Query Filter 的作法。
+雖然以前經常使用 `Where` 與自定義的 `IQueryable Extension Methods` 來過濾資料，但是總會想要再更精簡開發要寫的程式碼。剛好發現 Entity Framework Core 在 2.0 版之後，提供了一個 Global Query Filter 的作法。
 
 就順便把實驗過程與踩到的坑，順手記錄下來。
 
@@ -49,7 +53,7 @@ epic: software
 
 在查詢資料的時候，只要加入過濾 `租戶 Id` 與 `未刪除` 的條件，就可以取得有效資料內容。
 
-假設下述的 `Store` 是使用 EFCore Scffold 產生來的 Entity Type 與 DbContext。
+假設下述的 `Store` 是使用 EF Core Scaffold 產生來的 Entity Type 與 DbContext。
 
 ```csharp
 public partial class LabContext : DBContext
@@ -128,7 +132,7 @@ internal static class DbExtension
 }
 ```
 
-### Gobal Query Filter: HasQueryFilter
+### Global Query Filter: HasQueryFilter
 
 在 EFCore 2.0 之後，可以在通過 `partial void OnModelCreatingPartial(ModelBuilder modelBuilder)` 中，對 ModelBuilder 內的 Entity 進行 Query Filter。
 
@@ -165,9 +169,9 @@ public partical class LabContext
 
 注意：在上述範例中，因為所有 Entity 都存在 `IsDeleted`，所以沒有加上 `IsDeleted` 欄位不存在的判斷。若其中一個 Entity 不存在 IsDeleted 欄位，執行到 `.HasQueryFilter()` 會直接丟出異常例外。
 
-#### 個別排除使用 Gobal Query Filter
+#### 個別排除使用 Global Query Filter
 
-若是查詢時，想要排除已經設定在 Gobal Query Filter 的過濾條件，可以在查詢時，加入 `.IgnoreQueryFilters()`，告知不要使用 Query Filter。
+若是查詢時，想要排除已經設定在 Global Query Filter 的過濾條件，可以在查詢時，加入 `.IgnoreQueryFilters()`，告知不要使用 Query Filter。
 
 ```csharp
 var context = new LabContext;
@@ -176,7 +180,7 @@ var context = new LabContext;
 var stories = LabContext.Stories.IgnoreQueryFilters().ToList();
 ```
 
-## Gobal Query Filter 多條件過濾
+## Global Query Filter 多條件過濾
 
 假設多租戶系統的資料庫表格中，所有的表格都有存在 `StoreId` 與 `IsDeleted` 的欄位，所以我們希望可以同時過濾這 2 個欄位的資訊。
 
@@ -219,7 +223,7 @@ public partical class LabContext
 }
 ```
 
-首先，先分別產生 isDeletedFilter 與 tenantIdFitler 兩個 `BinaryExpress`
+首先，先分別產生 isDeletedFilter 與 storeIdFilter 兩個 `BinaryExpression`
 
 ```csharp
 var parameter = Expression.Parameter(entityType.ClrType);
@@ -241,7 +245,7 @@ var storeIdFilter =
 		Expression.Constant(storeId));
 ```
 
-在這邊，我們使用 `Express.AndAlso` 來合併兩個以上的 `BinaryExpress` 後，以便後續使用 `Expression.Lambda` 產出 `.HasQueryFilter()` 所需的 `LamdaExpression`。
+在這邊，我們使用 `Expression.AndAlso` 來合併兩個以上的 `BinaryExpression` 後，以便後續使用 `Expression.Lambda` 產出 `.HasQueryFilter()` 所需的 `LamdaExpression`。
 
 ```csharp
 var combine = Expression.AndAlso(isDeletedFilter, storeIdFilter);
@@ -292,3 +296,8 @@ modelBuilder.Entity(entityType.ClrType).HasQueryFilter(lambda);
 
 - [How to Use Global Query Filters in EF Core](https://www.milanjovanovic.tech/blog/how-to-use-global-query-filters-in-ef-core)
 - [EntityTypeBuilder.HasQueryFilter(LambdaExpression) 方法 ](https://learn.microsoft.com/zh-tw/dotnet/api/microsoft.entityframeworkcore.metadata.builders.entitytypebuilder.hasqueryfilter?view=efcore-7.0)
+
+---
+
+💬 **參與討論**
+你現在的專案是用 Global Query Filter 還是手動擴充 IQueryable 呢？有遇過什麼雷區，或是曾經不小心查詢出已被軟刪除的資料嗎？歡迎留言與我們分享你的實作經驗與踩坑心得！
