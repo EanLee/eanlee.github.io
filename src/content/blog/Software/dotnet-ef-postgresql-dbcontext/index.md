@@ -3,7 +3,7 @@ title: EF Core 實戰指引：使用 dotnet-ef 建立 PostgreSQL DbContext
 description: 當 .NET Core 要使用 EF Core 去存取 PostgreSQL 時，可以先使用 dotnet-ef 的工具，協助產生對應 PostgreSQL schema 的 DBContext
 cover: ./images/ef_core_postgresql_cover.png
 date: 2023-06-26T10:29:37+08:00
-lastmod: 2026-03-11T21:23:41+08:00
+lastmod: 2026-03-14T02:23:33+08:00
 categories:
   - EF Core
 tags:
@@ -13,6 +13,10 @@ keywords:
   - EF Core
   - Postgresql
   - user-secrets
+  - dotnet ef dbcontext scaffold
+  - Database-First
+  - Entity Framework Core
+  - Npgsql
 slug: dotnet-ef-postgresql-dbcontext
 epic: software
 ---
@@ -26,8 +30,8 @@ epic: software
 >
 > - EF Core 要操作 PostgreSQL 的話，可使用 `Npgsql.EntityFrameworkCore.PostgreSQL`
 > - 可使用 `dotnet tool update --global dotnet-ef` 進行 `dotnet-ef` 版本更新
-> - 可使用 `dotnet ef dbcontext scffold` 的指令，協助從資料庫已存在的 Schema 產生對應的 dbcontext。
-> - 若專案內未參考 `Microsoft.EntityFrameworkCore.Design` 的話，`dotnet ef dbcontext scffold` 無法順利動作。
+> - 可使用 `dotnet ef dbcontext scaffold` 的指令，協助從資料庫已存在的 Schema 產生對應的 dbcontext。
+> - 若專案內未參考 `Microsoft.EntityFrameworkCore.Design` 的話，`dotnet ef dbcontext scaffold` 無法順利動作。
 > - 機敏性資料，可使用 `user-secrets` 工具。
 
 <!--more-->
@@ -104,7 +108,7 @@ dotnet add package Microsoft.EntityFrameworkCore.Design
 
 `Npgsql.EntityFrameworkCore.PostgreSQL` 是 postgreSQL 的 DB Provider。
 
-若是沒有安裝 `Microsoft.EntityFrameworkCore.Design`，後續執行 `dotnet ef dbcontext scffold ...` 的指令時，會出現錯誤提示。
+若是沒有安裝 `Microsoft.EntityFrameworkCore.Design`，後續執行 `dotnet ef dbcontext scaffold ...` 的指令時，會出現錯誤提示。
 
 ![未安裝 Microsoft.EntityFrameworkCore.Design 的錯誤提示](./images/uninstall-efcore-design-result.png)
 
@@ -139,8 +143,7 @@ dotnet ef dbcontext scaffold <connection_string> Npgsql.EntityFrameworkCore.Post
 若是連線字串內的 `Database` 名稱與實際資料庫名稱大小寫不同，會發生找不到資料庫的錯誤。要特別注意。
 
 在這邊，刻意將連線字串內的 Database 名稱，由 `postgres` 改為 `Postgres`，會看到下述的錯誤訊息。
-
-![資料庫名稱大小寫不同，回應資料庫不存在](./images/failed-dbcontext-scffold-dbname-differice.png)
+![資料庫名稱大小寫不同，回應資料庫不存在](./images/failed-dbcontext-scaffold-dbname-differice.png)
 
 #### 狀況二、已存在檔案
 
@@ -198,3 +201,8 @@ dotnet ef dbcontext scaffold Name=ConnectionStrings:lab Npgsql.EntityFrameworkCo
 - [Npgsql Entity Framework Core Provider | Npgsql Documentation](https://www.npgsql.org/efcore/)
 - [Entity Framework Core 工具參考 - EF Core | Microsoft Learn](https://learn.microsoft.com/zh-tw/ef/core/cli/)
 - [在開發中安全儲存應用程式密碼，ASP.NET Core | Microsoft Learn](https://learn.microsoft.com/zh-tw/aspnet/core/security/app-secrets?view=aspnetcore-7.0&tabs=windows#enable-secret-storage)
+
+---
+
+💬 **參與討論**
+你現在開發 EF Core 時，是習慣先寫 Code (Code-First) 還是先建 Database (Database-First) 呢？這兩種流派各有擁護者，歡迎在底下留言分享你的看法與實戰經驗！

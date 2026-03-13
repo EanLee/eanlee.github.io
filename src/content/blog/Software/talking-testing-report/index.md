@@ -1,12 +1,13 @@
 ---
 title: 如何撰寫專業的效能測試報告？關鍵數據指標與圖表分析實戰
+description: 測試完之後呢？教你如何整理效能測試報告，解讀 Response Time、Throughput 與 Error Rate 等關鍵指標，並提供具備說服力的優化建議。
 date: 2023-01-06T13:36:16+08:00
+lastmod: 2026-03-14T02:23:33+08:00
 categories:
   - 測試
   - 開發雜談
 tags:
   - 負載測試
-description: 測試完之後呢？教你如何整理效能測試報告，解讀 Response Time、Throughput 與 Error Rate 等關鍵指標，並提供具備說服力的優化建議。
 keywords:
   - 測試報告範本
   - 效能指標分析
@@ -18,7 +19,6 @@ keywords:
   - K6 報告
   - JMeter 報告
 slug: talking-testing-report
-lastmod: 2026-03-14T02:07:03+08:00
 epic: software
 ---
 當我們好不容易完成了系統的壓力測試，這時候，我們可能需要整理測試數據給相關人員查看，或是報告。

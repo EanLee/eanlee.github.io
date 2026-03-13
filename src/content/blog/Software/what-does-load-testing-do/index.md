@@ -1,13 +1,11 @@
 ---
 title: 系統極限在哪？淺談效能測試、壓力測試與負載測試的目的與差異
+description: 你的網站能承載多少用戶？深入分析效能測試 (Performance)、負載測試 (Load) 與壓力測試 (Stress) 的定義與應用場景，助你預先識別系統瓶頸。
 date: 2022-04-03T15:30:13+08:00
+lastmod: 2026-03-14T02:23:33+08:00
 categories:
   - 測試
   - 開發雜談
-tags:
-  - 負載測試
-lastmod: 2026-03-14T02:07:03+08:00
-description: 你的網站能承載多少用戶？深入分析效能測試 (Performance)、負載測試 (Load) 與壓力測試 (Stress) 的定義與應用場景，助你預先識別系統瓶頸。
 keywords:
   - 壓力測試
   - 負載測試
@@ -16,6 +14,8 @@ keywords:
   - 擴充性規劃
   - k6
   - JMeter
+tags:
+  - 負載測試
 slug: what-does-load-testing-do
 epic: software
 ---
