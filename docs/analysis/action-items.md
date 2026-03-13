@@ -13,11 +13,17 @@
 |----|------|--------|
 | **H1** | Newsletter 啟動（Email 收集表單先行，發信頻率後決定） | 2–4 hrs |
 | **H5** | 文章頁加精簡 FollowCTA（RSS + 預留 Email 框位置） | 30 min |
+| **H7** | og:image 傳遞修正（BlogPost.astro 傳 displayImage 至 BaseHead） | 10 min |
+| **H8** | About 頁加聯絡 CTA（email / Calendly 接觸入口） | 30 min |
 | **M1** | BlogPosting Author 豐富化（sameAs、jobTitle） | 15 min |
 | **M4** | LatestPosts 加 `featured` 精選機制 | 45 min |
 | **M5** | 搜尋框行動版文字恢復 | 10 min |
 | **M8** | 系列卡片加描述文字（render `description` 欄位） | 20 min |
-| **M9** | 空分類殼空態體驗改善（reading、growth） | 30 min |
+| **M10** | 系列最後一篇加「完結儀式」引導（訂閱 / 繼續探索） | 30 min |
+| **M11** | 標籤頁加主題對應系列推薦（精準留存） | 45 min |
+| **M12** | 字體 woff → woff2 格式升級（節省 ~18KB） | 30 min |
+| **M13** | 系列 vs 獨立文章在卡片層級視覺區分 | 45 min |
+| **M14** | /software/ 分類頁加 tag 篩選或次分類過濾器 | 90 min |
 | **L1** | 文章底部「同系列推薦」卡片 | 60 min |
 | **L2** | .NET 工程師學習路徑入口 | 90 min |
 | **L3** | 全域 `* { transition }` 改選擇性應用 | 25 min |
@@ -27,6 +33,12 @@
 | **L7** | giscus.app preconnect 補齊 | 5 min |
 | **L8** | About 頁加「下一步」CTA | 20 min |
 | **L9** | `article:author` 改指向 URL | 10 min |
+| **L10** | `og:site_name` meta tag 補充 | 5 min |
+| **L11** | HomeHero 加「從這裡開始」引導 CTA | 20 min |
+| **L12** | .NET 版本 badge（frontmatter `dotnetVersion` + 文章 Hero） | 60 min |
+| **L13** | LatestPosts fallback 封面改用 Astro `<Image />` 組件 | 20 min |
+| **L14** | `categories` 欄位廢棄宣告或整併至 epic/tags | 30 min |
+| **L15** | EF Core PDF Lead Magnet 製作（現有文章重新包裝） | 2–3 wks |
 
 ---
 
@@ -140,21 +152,138 @@
 
 ---
 
-### M9 · 空分類殼空態體驗改善
 
-**首次提出：** 2026-02-28 · **代碼位置：** reading/growth 分類頁的 layout · **工作量：** 30 min
+### H7 · og:image 傳遞修正
 
-**要做什麼：** /categories/reading/（0 篇）和 /categories/growth/（1 篇）目前點進去體驗很差。選項 A：空態頁加引導文字（如「這個分類正在建立中，先看看技術文章？→」），選項 B：在首頁 CategoryGrid 暫時隱藏文章數為 0 的分類
+**首次提出：** 2026-03-14 · **代碼位置：** `src/layouts/BlogPost.astro`（BaseHead 呼叫） · **工作量：** 10 min
+
+**要做什麼：** `BlogPost.astro` 呼叫 `<BaseHead>` 時未傳入 `image` prop，導致每篇文章的社群分享預覽（Facebook、LinkedIn、Twitter）顯示佔位符 `/blog-placeholder-1.jpg`，而非文章封面圖。將 `displayImage` 的字串 URL 傳入 BaseHead 的 `image` prop 即可修正。
 
 **預期優點：**
-- 消除「空白頁」的負面第一印象
-- 引導讀者去有內容的地方，減少離站
+- 每篇文章的社群分享卡片顯示正確封面，點擊率預期提升 30–50%
+- 修復 JSON-LD `image` 與 og:image 指向不一致的語意矛盾
+- 消除潛在的 og:image 尺寸不符造成的 CLS
 
 **預期缺點 / 風險：**
-- 隱藏分類需要判斷邊界（幾篇才顯示？），可能造成未來維護混亂
-- 空態文字若寫得不好反而尷尬
+- 需確認 `displayImage` 傳入時為絕對 URL 字串而非 import 物件
 
-**建議決策點：** 短期選 A（加引導文字），長期等文章累積到 3–5 篇再開放正式入口
+**不做的理由：** 認為佔位符作為 fallback 是可接受的品牌策略
+**建議決策點：** 這是已部署的 bug，影響每一篇文章的所有社群分享；建議本週內修正
+
+---
+
+### H8 · About 頁加聯絡 CTA
+
+**首次提出：** 2026-03-14 · **代碼位置：** `src/content/pages/about.md`（或 about.astro） · **工作量：** 30 min
+
+**要做什麼：** About 頁讀完後完全無行動號召——no email、no Calendly、no 聯絡按鈕。加入「有演講邀約、技術顧問或審稿需求，歡迎聯絡 →」CTA，搭配 email 或 Calendly 連結。
+
+**預期優點：**
+- About 頁是高意圖讀者的停留點，轉換意願高
+- 開啟 B2B 接觸路徑（企業顧問、演講邀約）
+- 對可觀測性 / 系統架構主題的 Senior 讀者有直接效益
+
+**預期缺點 / 風險：**
+- 若無法及時回覆聯絡，可能造成負面印象
+- 需備好接觸後的回應流程
+
+**不做的理由：** 目前尚未準備好承接顧問工作
+**建議決策點：** 即使只是一個 email 連結，先讓有需要的讀者找到入口
+
+---
+
+### M10 · 系列最後一篇加「完結儀式」引導
+
+**首次提出：** 2026-03-14 · **代碼位置：** `src/layouts/BlogPost.astro`（SeriesArticleNav 最後一篇邏輯） · **工作量：** 30 min
+
+**要做什麼：** 當 `SeriesArticleNav` 偵測到「最後一篇」時，插入完結訊息：「你完成了這個系列！想繼續？→ 探索其他系列 / 訂閱 RSS 不錯過下一系列」。這是 Email 名單建立的最佳時機點。
+
+**預期優點：**
+- 讀完整個系列的讀者是投入度最高的訂閱候選人
+- 提供自然的引導出口，避免讀者在系列結尾茫然離開
+- 預留 Newsletter 訂閱框位置，H1 完成後可直接插入
+
+**預期缺點 / 風險：**
+- 若設計不好可能打破閱讀的沉浸感
+- 需要確認「最後一篇」的判斷邏輯是否已存在
+
+**建議決策點：** 精簡文字版（兩行 + 連結）風險最低，先做輕量版
+
+---
+
+### M11 · 標籤頁加主題對應系列推薦
+
+**首次提出：** 2026-03-14 · **代碼位置：** `src/pages/tags/[...tag].astro` · **工作量：** 45 min
+
+**要做什麼：** 標籤頁底部加入「對 [Tag] 感興趣？這個系列從頭帶你走完 →」的精準引導，連結至對應的系列頁面。例如 `/tags/Docker` 底部引導至「靈活使用 Docker」系列。
+
+**預期優點：**
+- 標籤頁訪客通常是主題精準讀者，轉換意願高
+- 從單篇文章導流至完整學習路徑，增加深度閱讀
+- 不同於首頁的廣泛推薦，這是主題比對式的精準留存
+
+**預期缺點 / 風險：**
+- 需要維護「標籤 → 系列」的對應關係
+- 不是所有標籤都有對應系列
+
+**建議決策點：** 只對有明確對應系列的主要標籤（Docker、EF Core、ASP.NET Core）實作
+
+---
+
+### M12 · 字體 woff → woff2 格式升級
+
+**首次提出：** 2026-03-14 · **代碼位置：** `/public/fonts/`、`global.css`、`BaseHead.astro`、`FontLoader.astro` · **工作量：** 30 min
+
+**要做什麼：** 將 `atkinson-regular.woff`（23.8KB）和 `atkinson-bold.woff`（23.0KB）轉換為 woff2 格式（預計壓縮至約 29KB，節省 ~18KB）。同步修改 global.css `@font-face src`、BaseHead preload `type`、FontLoader 的 format 字串。
+
+**預期優點：**
+- 字體傳輸體積減少 ~38%（18KB）
+- 縮短 FOUT（字體替換閃爍）期間，改善感知效能
+- LCP 改善預估 50–100ms
+
+**預期缺點 / 風險：**
+- 需要確認轉換工具（Fonttools 或線上轉換）的授權相容性
+- 需同步更新三個檔案，遺漏任一個會導致字體載入失敗
+
+**建議決策點：** 先在本地確認轉換後字體渲染無異，再替換線上版本
+
+---
+
+### M13 · 系列 vs 獨立文章在卡片層級視覺區分
+
+**首次提出：** 2026-03-14 · **代碼位置：** `src/components/LatestPosts.astro`（卡片） · **工作量：** 45 min
+
+**要做什麼：** 系列文章在列表卡片顯示時，加入「系列」標籤徽章或「第 N 篇 / 共 M 篇」提示，讓讀者在點進文章前就能判斷時間投入。
+
+**預期優點：**
+- 讀者可在列表層就決定「現在有沒有時間讀一個系列」
+- 減少「點進去才發現是連載的一部分」的失落感
+- 系列文章的「學習路徑」定位更清晰
+
+**預期缺點 / 風險：**
+- 若系列徽章設計不好，視覺會過於擁擠
+- 需確認文章是否有 series 欄位來源
+
+**建議決策點：** 先在 LatestPosts 的非 featured 卡片小縮圖旁加一個小 badge
+
+---
+
+### M14 · /software/ 分類頁加 tag 篩選或次分類過濾器
+
+**首次提出：** 2026-03-14 · **代碼位置：** `/software/` 分類對應 layout · **工作量：** 90 min
+
+**要做什麼：** `/software/` 分類目前有 60+ 篇文章平鋪在同一個列表，無任何次分類。加入 tag 篩選按鈕（Docker、EF Core、ASP.NET Core、系統架構等），讓讀者可以快速縮小範圍。
+
+**預期優點：**
+- 解決 /software/ 的「資訊過載」問題
+- 讀者能找到聚焦的學習切入點
+- 為未來文章數量繼續增長做好架構準備
+
+**預期缺點 / 風險：**
+- 實作需要 client-side 過濾 JS 或多個靜態子頁面，工作量非線性
+- 標籤命名不統一（L4 未修）會讓過濾器效果打折
+
+**建議決策點：** 先修 L4 標籤統一，再做 M14 過濾器；否則過濾器先天不足
 
 ---
 
@@ -304,6 +433,91 @@
 
 ---
 
+### L10 · `og:site_name` meta tag 補充
+
+**首次提出：** 2026-03-14 · **代碼位置：** `src/components/BaseHead.astro` · **工作量：** 5 min
+
+**要做什麼：** 在 BaseHead 加入 `<meta property="og:site_name" content="伊恩的開發狂想" />`
+
+**預期優點：** Facebook/LinkedIn 分享卡片顯示來源站台名稱，提升品牌識別度
+**預期缺點 / 風險：** 幾乎無風險
+**不做的理由：** 效益不顯著
+
+---
+
+### L11 · HomeHero 加「從這裡開始」引導 CTA
+
+**首次提出：** 2026-03-14 · **代碼位置：** `src/components/HomeHero.astro` · **工作量：** 20 min
+
+**要做什麼：** 在 HomeHero 加一個明確的 CTA 按鈕，指向最具代表性的入門系列，文案強調「這是給 .NET 工程師的」，幫助首次訪客在 5 秒內決定是否繼續。
+
+**預期優點：** 提升首次訪客的點擊深度，減少直接離站率
+**預期缺點 / 風險：** 明確定位句可能讓非目標讀者感覺不適合，但這是可接受的篩選
+**建議決策點：** 搭配 A/B 測試最佳，但直接推出也可觀察流量變化
+
+---
+
+### L12 · .NET 版本 badge
+
+**首次提出：** 2026-03-14 · **代碼位置：** frontmatter schema + 文章 Hero 組件 · **工作量：** 60 min
+
+**要做什麼：** 新增 frontmatter 欄位 `dotnetVersion: "8.0"`，在文章 Hero 區顯示小 badge（如「.NET 8 適用」）。讓讀者在讀文章前就知道版本相容性。
+
+**預期優點：**
+- 消除「找到好文章但版本不對」的常見痛點
+- 建立「版本資訊可信」的差異化印象
+
+**預期缺點 / 風險：**
+- 需為現有 60+ 篇文章補 `dotnetVersion` 欄位，工作量不小
+- 欄位不填時需要有 fallback 處理
+
+**建議決策點：** 先實作欄位和顯示邏輯，新文章開始填；舊文章分批補齊
+
+---
+
+### L13 · LatestPosts fallback 封面改用 Astro `<Image />` 組件
+
+**首次提出：** 2026-03-14 · **代碼位置：** `src/components/LatestPosts.astro`（L102-118 fallback 分支） · **工作量：** 20 min
+
+**要做什麼：** 目前 fallback 封面圖（無封面時的預設圖）走 `typeof coverImage === 'string'` 分支，輸出 raw `<img>` 標籤，不會自動產生 WebP 和 srcset。改為使用 Astro `<Image />` 組件。
+
+**預期優點：** fallback 圖片也能享有 WebP 轉換和 srcset 的效能優化
+**預期缺點 / 風險：** 需確認 Astro `<Image />` 對 `/public/` 路徑的靜態圖片的處理方式
+
+---
+
+### L14 · `categories` 欄位廢棄宣告或整併
+
+**首次提出：** 2026-03-14 · **代碼位置：** 文章 frontmatter schema · **工作量：** 30 min
+
+**要做什麼：** 確認 `categories` 欄位是否有任何頁面在讀取和展示。若無，在 frontmatter schema 中標記為廢棄，並從新文章的模板中移除；若有，統一整併至 `epic` 或 `tags`。
+
+**預期優點：** 消除三維分類系統（epic / categories / tags）的語意混淆
+**預期缺點 / 風險：** 若 categories 在某些地方有 SEO 效益（被 Googlebot 讀到），直接廢棄可能影響搜尋結果
+**建議決策點：** 先確認 categories 欄位的實際影響範圍，再決定廢棄或整併
+
+---
+
+### L15 · EF Core PDF Lead Magnet 製作
+
+**首次提出：** 2026-03-14 · **代碼位置：** `src/content/blog/Software/dotnet-ef-*`、`ef-core-*` 相關文章 · **工作量：** 2–3 週
+
+**要做什麼：** 將現有 EF Core 系列文章（CLI 操作、SQL Server/PostgreSQL DbContext、T4 CodeTemplate、HasQueryFilter + Shadow Property）重新包裝為「EF Core .NET 8 工程師實戰手冊」PDF 電子書，作為 Newsletter 訂閱的 Lead Magnet。
+
+**預期優點：**
+- Newsletter 有了明確的訂閱誘因，轉換率預期提升 3–5 倍
+- 不需新寫內容，主要是重新編排和補足缺口
+- 建立可貨幣化的內容資產（未來可作為課程腳本）
+
+**預期缺點 / 風險：**
+- PDF 有版本時效性，需標明適用版本和最後更新日期
+- 製作品質影響品牌形象，不能草率
+
+**不做的理由：** 目前沒有 Newsletter 平台，PDF 無法發送
+**建議決策點：** H1（Newsletter 框）完成後，L15 是下一個最高槓桿動作
+
+---
+
 ## 已完成
 
 | 項目 | 完成日期 | commit / 備註 |
@@ -328,3 +542,4 @@
 | H6 · EnhancedAnalytics listener 洩漏修復 + 移除 console.log | 2026-02-28 | commit `2448d77a`，AbortController + signal 模式 |
 | M6 · SiteNavigationElement Schema 補上 /series/ 和 /tags/ | 2026-02-28 | commit `6a37028e`，index.astro |
 | M7 · /archives/ 補 CollectionPage Schema | 2026-02-28 | commit `302c667d`，archives.astro + GeneralLayout head slot |
+| M9 · 空分類殼空態體驗 | 2026-03-14 | 不適用：動態路由不生成空殼頁；/reading/ 已 `return false` 隱藏，/growth/ 有 1 篇文章存在 |
