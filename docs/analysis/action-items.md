@@ -13,7 +13,6 @@
 |----|------|--------|
 | **H1** | Newsletter 啟動（Email 收集表單先行，發信頻率後決定） | 2–4 hrs |
 | **H5** | 文章頁加精簡 FollowCTA（RSS + 預留 Email 框位置） | 30 min |
-| **H7** | og:image 傳遞修正（BlogPost.astro 傳 displayImage 至 BaseHead） | 10 min |
 | **H8** | About 頁加聯絡 CTA（email / Calendly 接觸入口） | 30 min |
 | **M1** | BlogPosting Author 豐富化（sameAs、jobTitle） | 15 min |
 | **M4** | LatestPosts 加 `featured` 精選機制 | 45 min |
@@ -36,7 +35,6 @@
 | **L10** | `og:site_name` meta tag 補充 | 5 min |
 | **L11** | HomeHero 加「從這裡開始」引導 CTA | 20 min |
 | **L12** | .NET 版本 badge（frontmatter `dotnetVersion` + 文章 Hero） | 60 min |
-| **L13** | LatestPosts fallback 封面改用 Astro `<Image />` 組件 | 20 min |
 | **L14** | `categories` 欄位廢棄宣告或整併至 epic/tags | 30 min |
 | **L15** | EF Core PDF Lead Magnet 製作（現有文章重新包裝） | 2–3 wks |
 
@@ -543,3 +541,7 @@
 | M6 · SiteNavigationElement Schema 補上 /series/ 和 /tags/ | 2026-02-28 | commit `6a37028e`，index.astro |
 | M7 · /archives/ 補 CollectionPage Schema | 2026-02-28 | commit `302c667d`，archives.astro + GeneralLayout head slot |
 | M9 · 空分類殼空態體驗 | 2026-03-14 | 不適用：動態路由不生成空殼頁；/reading/ 已 `return false` 隱藏，/growth/ 有 1 篇文章存在 |
+| H7 · og:image 傳遞修正 | 2026-03-14 | commit `a6198291`，BlogPost.astro 加 ogImageUrl，傳入 BaseHead image prop |
+| L10 · og:site_name 補充 | 2026-03-14 | commit `a6198291`，BaseHead.astro L191 |
+| M12 · 字體 woff → woff2 | 2026-03-14 | commit `a6198291`，新增 woff2 檔案（-12KB），global.css / FontLoader / BaseHead 同步更新，保留 woff fallback |
+| L13 · LatestPosts fallback 改 Astro Image | 2026-03-14 | 不適用：public/ 路徑無法被 Astro Image 優化；現有 `<img>` 已有 width/height 防 CLS，無需修改 |
