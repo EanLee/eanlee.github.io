@@ -14,7 +14,7 @@ keywords:
 date: 2023-03-23T15:23:19+08:00
 description: 想要在不更動原始碼的情況下導出日誌？教你如何透過 NLog 配置檔與 Loki 整合，實現低成本、高效率的集中化日誌管理系統。
 slug: manual-adjuest-nlog-post-to-loki
-lastmod: 2026-03-11T21:23:41+08:00
+lastmod: 2026-03-14T02:31:34+08:00
 epic: software
 ---
 想要收集現有的服務 Log 資料到 Grafana Loki 之中。而該服務使用 .NET Core 撰寫，並使用 NLog 套件輸出 Log 資料到檔案之中。
