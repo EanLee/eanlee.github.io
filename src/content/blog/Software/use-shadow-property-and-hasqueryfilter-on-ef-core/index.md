@@ -17,7 +17,7 @@ keywords:
   - Entity Framework 實戰
 slug: use-shadow-property-and-hasqueryfilter-on-ef-core
 epic: software
-lastmod: 2026-03-11T21:23:41+08:00
+lastmod: 2026-03-14T02:40:25+08:00
 ---
 > 🔖 長話短說 🔖
 >
@@ -25,7 +25,7 @@ lastmod: 2026-03-11T21:23:41+08:00
 >
 > - 使用 `Expression.Property` 取得 Shadow Property 資料時，會發生找不到 property 的錯誤。請改用 `Expression.Call`
 
-前面 [使用 T4 CodeTemplate 客制化 EFCore Scaffold 產出內容](../dotnet-ef-core-customized-dbcontext-entity/index.md) 與 [使用 HasQueryFilter 限定 DBContext 查詢內容](../dfcore-dbcontext-hasqueryfilter/index.md) 兩篇文章，提到限制 Scaffold 生成 Entry 欄位，以及使用 `HasQueryFilter` 與改寫 SaveChange 機制。
+前面 [使用 T4 CodeTemplate 客制化 EFCore Scaffold 產出內容](../dotnet-ef-core-customized-dbcontext-entity/index.md) 與 [使用 HasQueryFilter 限定 DBContext 查詢內容](../efcore-dbcontext-hasqueryfilter/index.md) 兩篇文章，提到限制 Scaffold 生成 Entry 欄位，以及使用 `HasQueryFilter` 與改寫 SaveChange 機制。
 
 若 `HasQueryFilter` 使用的欄位資訊，在調整 [T4 CodeTemplate](../dotnet-ef-core-customized-dbcontext-entity/index.md) 後，將查詢的必要欄位隱藏，調整為 `Shadow Property` 後，在運行程式時，發生查無欄位資訊的問題。
 
@@ -196,7 +196,7 @@ private void UpdateShadowProperties()
 ▶ 延伸閱讀
 
 - [使用 T4 CodeTemplate 客制化 EFCore Scaffold 產出內容](../dotnet-ef-core-customized-dbcontext-entity/index.md)
-- [使用 HasQueryFilter 限定 DBContext 查詢內容](../dfcore-dbcontext-hasqueryfilter/index.md)
+- [使用 HasQueryFilter 限定 DBContext 查詢內容](../efcore-dbcontext-hasqueryfilter/index.md)
 
 ▶ 外部文章
 

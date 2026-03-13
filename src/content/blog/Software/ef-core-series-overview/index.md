@@ -15,7 +15,7 @@ keywords:
   - EF Core 總整理
 slug: ef-core-series-overview
 epic: software
-lastmod: 2026-03-11T21:23:41+08:00
+lastmod: 2026-03-14T02:40:25+08:00
 ---
 > ⚠️ **版本適用說明**：
 >
@@ -123,7 +123,7 @@ lastmod: 2026-03-11T21:23:41+08:00
 
 **核心價值：** 透過 T4 模板實現程式碼生成的完全控制，減少重複性工作
 
-### [使用 HasQueryFilter 限定 DBContext 查詢內容](../dfcore-dbcontext-hasqueryfilter/index.md)
+### [使用 HasQueryFilter 限定 DBContext 查詢內容](../efcore-dbcontext-hasqueryfilter/index.md)
 
 **實際情境：**
 

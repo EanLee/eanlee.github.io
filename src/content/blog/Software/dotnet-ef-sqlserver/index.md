@@ -3,7 +3,7 @@ title: EF Core 實戰指引：使用 dotnet-ef 建立 SQL Server 容器化 DbCon
 description: 建立 SQL Server on Docker 時，有一些持久性的議題必須特別注意。同時，使用 EF Core 連接 SQL Server 時，連線字串設定不當，也會造成連線失敗。
 cover: ./images/ef_core_sqlserver_cover.png
 date: 2023-02-14T18:12:33+08:00
-lastmod: 2026-03-11T21:23:41+08:00
+lastmod: 2026-03-14T02:40:25+08:00
 categories:
   - EF Core
 tags:
@@ -14,6 +14,10 @@ keywords:
   - EF Core
   - SQL Server
   - dotnet-ef
+  - TrustServerCertificate
+  - 此憑證鏈結是由不受信任的授權單位發出的
+  - Login failed for user
+  - Database-First
 slug: dotnet-ef-sqlserver
 epic: software
 ---
@@ -206,3 +210,8 @@ Server=localhost;Database=Lab;User Id=sa;Password=!QAZxsw23edc;Trusted_Connectio
 - [SQL 連線加密觀察及加密憑證檢查 - 黑暗執行緒 (darkthread.net)](https://blog.darkthread.net/blog/view-sql-encrypt-certificate/)
 - [Using Entity Framework for .NET 6 with SQL Server in a Docker Container | no dogma blog (bryanhogan.net)](https://nodogmablog.bryanhogan.net/2021/08/using-entity-framework-for-net-6-with-sql-server-in-a-docker-container/)
 - [使用 Microsoft.Data.SqlClient 連線資料庫發生憑證錯誤 (poychang.net)](https://blog.poychang.net/the-certificate-chain-was-issued-by-an-authority-that-is-not-trusted/)
+
+---
+
+💬 **參與討論**
+自從微軟驅動更新後預設開啟加密，真的坑殺了無數開發者！你也曾經被這個「此憑證鏈結是由不受信任的授權單位發出的」或「Login failed for user」錯誤卡住過嗎？在底下留言簽到，分享你當時花了多久才找到原因！

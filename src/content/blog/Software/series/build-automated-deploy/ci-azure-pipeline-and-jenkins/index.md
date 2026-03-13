@@ -13,7 +13,7 @@ keywords:
 tags:
   - Azure
 slug: ci-azure-pipeline-and-jenkins
-lastmod: 2026-03-11T21:23:41+08:00
+lastmod: 2026-03-14T02:40:25+08:00
 series: 從零開始建立自動化發佈的流水線
 epic: software
 ---

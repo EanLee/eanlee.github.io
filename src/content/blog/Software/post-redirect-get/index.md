@@ -1,27 +1,35 @@
 ---
 title: ASP.NET Core | Web API 的 Post-Redirect-Get 實作與注意事項
-description: 在進行 Post-Redirect-Get 實作時，301 redirect 到目標的網址時，發生回應 405。其問題的原因與 Postman 的設定及目標網址允許的 HTTP 方法有關。
+description: 實作 Post-Redirect-Get (PRG) Pattern 時，遇到 301 Redirect 回應 405 Method Not Allowed？本文解析了導致 405 的原因，以及如何正確設定 Postman 以避免被前端工具行為干擾。
+date: 2023-01-05T10:42:57+08:00
+slug: post-redirect-get
 tags:
   - aspnet-core
 categories:
   - 軟體開發
 keywords:
   - Post-Redirect-Get
+  - PRG Pattern
   - Postman
   - .NET Core
-date: 2023-01-05T10:42:57+08:00
-lastmod: 2026-03-11T21:23:41+08:00
-slug: post-redirect-get
+  - 301 Redirect 405 Method Not Allowed
+  - HTTP 狀態碼
+  - API 轉址
+  - HTTP 301
+  - HTTP 307
+  - Postman 預設行為
+  - API 測試坑
+lastmod: 2026-03-14T02:40:25+08:00
 epic: software
 ---
 最近因為工作需求，需要提供一支使用  `POST`  方法的 Web API，並在處理完成任務後，轉導到其他的網頁。
 
-但在使用 Postman 測試的過程，因為 POC 轉導到 google 時，回應  `405 Method Not Allow` 的狀態，所以研究的過程特別記錄下來。
+但在使用 Postman 測試的過程，因為 POC 轉導到 google 時，回應  `405 Method Not Allowed` 的狀態，所以研究的過程特別記錄下來。
 
 > 🔖 長話短說 🔖
 >
 > - 使用 Postman 測試 Redirect 時，要注意 `Follow original HTTP Method` 的選項是否開啟。
-> - 要確認被轉導的 Url 允許的 HTTP 方法有那些。否則會被回 `405 Method Not Allow`
+> - 要確認被轉導的 Url 允許的 HTTP 方法有那些。否則會被回 `405 Method Not Allowed`
 
 <!--more-->
 
@@ -38,7 +46,7 @@ epic: software
 - OS: Windows 11
 - SDK: .NET Core 3.1
 
-首先，先建立一個測試用 的 WebAPI 的專案。
+首先，先建立一個測試用的 WebAPI 的專案。
 
 ``` bash
 dotnet new webapi -n test -f  netcoreapp3.1
@@ -70,11 +78,11 @@ public void PostRedirectGet([FromBody] TestEntity entity)
 
 ## Postman 測試注意事項
 
-我們直接使用 Postman 測試 API，會發現回應 `Statue: 405 Method Not Allowed` 。
+我們直接使用 Postman 測試 API，會發現回應 `Status: 405 Method Not Allowed` 。
 
 ![Postman response 405](./images/RedirectPermanent_Postman_405.png)
 
-但觀察 Console 的記錄，發現 API 回應 `301 Move Permanently`，並持續原本的  `POST`  Method 去呼叫 <http://www.google.com> ，然後就收到 `405 Method Not Allow` 的錯誤。
+但觀察 Console 的記錄，發現 API 回應 `301 Move Permanently`，並持續原本的  `POST`  Method 去呼叫 <http://www.google.com> ，然後就收到 `405 Method Not Allowed` 的錯誤。
 
 回頭查看 <http://www.google.com> 回應的標題，它就很明確的告知，只允許 `GET`、`HEAD` 兩種方式。
 
@@ -101,3 +109,8 @@ public void PostRedirectGet([FromBody] TestEntity entity)
 1. [Various ways of redirecting a request in ASP.NET Core | BinaryIntellect Knowledge Base](http://binaryintellect.net/articles/2cde4c7c-b43d-4c67-acc2-614ae9b0fcf5.aspx)
 2. [Post/Redirect/Get (PRG) Design Pattern - GeeksforGeeks](https://www.geeksforgeeks.org/post-redirect-get-prg-design-pattern/)
 3. [Redirections in HTTP - HTTP | MDN (mozilla.org)](https://developer.mozilla.org/en-US/docs/Web/HTTP/Redirections)
+
+---
+
+💬 **參與討論**
+其實很多 API 開發的玄學，最後查出來都是 Client 工具(像 Postman 等)的預設行為導致的。你有被 Postman 或瀏覽器快取坑過的經驗嗎？歡迎留言跟我們取暖！

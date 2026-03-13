@@ -12,13 +12,17 @@ keywords:
   - 單元測試
   - .NET Unit Test
   - 集合比對
+  - C#
+  - xUnit
 slug: fluent-assertions-object-graph-comparison
-lastmod: 2026-03-11T21:23:41+08:00
+lastmod: 2026-03-14T02:40:25+08:00
 epic: software
 ---
 日前在撰寫單元測試時，發生測試失敗，使用 `Should().BeEquivalentTo(expected)` 進行物件比對，已確認 `待測物件` 與 `期望物件` 內的資料相同，但卻出現 `be it misses` 造成的測試結果`失敗`。
 
-所使用的 FlunentAssertion Nuget 版本為 `4.13.1` 。
+所使用的 FluentAssertion Nuget 版本為 `4.13.1` 。
+
+> 💡 **版本註記**：本文問題主要發生在 4.13.x 升級 5.0 之間，若您使用 v6 以上版本此問題已原生解決。若是測試觀念還不夠清晰，建議可以先參考這篇：[單元測試實戰：從 Legacy Code 保護到解除過多依賴的重構技巧](../talking-writing-unit-tests/index.md)。
 
 <!--more-->
 
@@ -156,6 +160,11 @@ public void Test()
 | .Should().ShouldBeEquivalentTo() |         V          |         V         |
 |          .ShouldBeEquivalentTo() |         V          |                   |
 |      .ShouldAllBeEquivalentTo () |         V          |                   |
+
+---
+
+> 💡 **互動時間**
+> 隨著 Fluent Assertions 版本推進到 v6、v7，你在寫單元測試時還有遇過其他框架升級的雷點或坑嗎？歡迎在下方留言交流你的除錯經驗！
 
 ## 參考資訊
 

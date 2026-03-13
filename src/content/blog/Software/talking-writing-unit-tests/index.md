@@ -1,19 +1,22 @@
 ---
-title: 單元測試入門指南：為什麼你該寫測試，以及如何撰寫第一個 Test Case
-description: 覺得寫測試是在浪費時間？本文分享單元測試的核心價值、3A 原則 (Arrange, Act, Assert) 與基礎實作邏輯，幫你建立防爆程式碼的第一道屏障。
+title: 單元測試實戰：從 Legacy Code 保護到解除過多依賴的重構技巧
+description: 不知從何開始寫測試？本文直擊單元測試核心價值，分享如何為缺乏保護的 Legacy Code 加上測試，並探討過多相依物件時的 Mock 策略與重構解法。
 date: 2022-08-04T06:22:43.518Z
 keywords:
   - 單元測試入門
   - Unit Testing 教學
-  - 3A 原則
   - 軟體測試價值
   - 程式碼品質控制
+  - C#
+  - 單元測試 Mock
+  - NSubstitute
+  - 重構
 categories:
   - 測試
   - 開發雜談
 tags:
   - 單元測試
-lastmod: 2026-03-11T21:23:41+08:00
+lastmod: 2026-03-14T02:40:25+08:00
 slug: talking-writing-unit-tests
 epic: software
 ---
@@ -252,6 +255,13 @@ public class CalculateDiscountService
 }
 
 ```
+
+---
+
+> 💡 **互動時間**
+> 寫測試最痛苦的地方往往不是語法，而是接手缺乏保護的 Legacy Code 或面對過度肥大的相依。
+> 如果遇到第三方斷言套件升級踩坑，可參考我的除錯紀錄：[解決 Fluent Assertions BeEquivalentTo 異常](../fluent-assertions-object-graph-comparison/index.md)。另外，在 BDD 與 TDD 的發展中，我們又該如何看待軟體的「[冗餘](../redundancy/index.md)」思維呢？
+> 歡迎在下方留言分享你拯救 Legacy Code 的血淚歷程！
 
 ## 延伸閱讀
 

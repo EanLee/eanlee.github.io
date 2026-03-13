@@ -14,8 +14,8 @@ tags:
 date: 2025-09-17
 slug: windows-terminal-powershell-7-oh-my-posh-setup
 epic: software
-lastmod: 2026-03-11T21:50:51+08:00
 cover: ./images/windows-terminal-oh-my-posh-cover.png
+lastmod: 2026-03-14T02:40:25+08:00
 ---
 > 🔖 長話短說 🔖
 >

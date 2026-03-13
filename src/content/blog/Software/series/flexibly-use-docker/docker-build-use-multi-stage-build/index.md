@@ -2,16 +2,18 @@
 title: 靈活運用 Docker - 建置 Docker Image 時，使用 Multi-Stage Build 減少不必要的資料
 description: 「靈活運用 Docker 打造高效的容器化應用環境」系列的文章之一。記錄在建置 Docker Image 時，如何使用 Multi-Stage build 的方式，有效的減少產出 Artfact 的大小。後續不定期更新內容。
 date: 2023-12-02T09:09:31+08:00
-lastmod: 2026-03-11T21:23:41+08:00
+lastmod: 2026-03-14T02:40:25+08:00
 tags:
   - Docker
 categories:
   - Container
 keywords:
-  - Container
-  - Docker
-  - docker build
   - Multi-Stage Build
+  - 減少 Docker Image 大小
+  - Docker 最佳實踐
+  - .NET Docker 教學
+  - Docker 安全性
+  - docker build
 slug: docker-build-use-multi-stage-build
 series: 靈活運用 Docker 打造高效的容器化應用環境
 epic: software
@@ -20,6 +22,7 @@ epic: software
 
 > 🔖 長話短說 🔖
 > Multi-Stage Build 分階段建置 Image,可以減少 Image 大小,也降低資料外洩的風險。
+>
 ### Multi-Stage Build
 
 在 Visual studio 建立 .NET 專案時，若有勾選 support Docker 的選項。在建立專案的同時，一併建立 `Dockerfile` 的檔案，其內容的編排，就是使用 `Multi-stage` 的方式。
@@ -73,3 +76,8 @@ ENTRYPOINT ["dotnet", "demo.dll"]
 - [构建多系统架构支持的 Docker 镜像 - 徐靖峰|个人博客](https://www.cnkirito.moe/docker-multi-arch/)
 - [使用 buildx 构建跨平台镜像 - 知乎](https://zhuanlan.zhihu.com/p/622399482)
 - [[教學] 用 Docker 的 buildx 輕鬆多架構編譯 (multi-architecture build) - 清新下午茶](https://blog.jks.coffee/docker-multi-architecture-build/)
+
+---
+
+💬 **參與討論**
+你曾經包過多肥胖的 Docker Image 呢？引入 Multi-Stage Build 後又幫你瘦身了多少？留言跟我們分享你的瘦身成果或踩坑經驗吧！

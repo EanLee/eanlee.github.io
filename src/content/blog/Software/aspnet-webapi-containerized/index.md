@@ -1,6 +1,8 @@
 ---
 title: ASP.NET Core Docker 化教學：從撰寫 Dockerfile 到建置高效 Web API 映像檔
-description: 學習如何將 ASP.NET Core Web API 容器化。包含最佳實務 Dockerfile 撰寫、層級優化 (Layer Optimization) 與映像檔建置完整流程。
+description: 學習如何將 ASP.NET Core Web API 容器化。包含最佳實務 Dockerfile 撰寫、參數化傳遞機敏資料 (如連線字串)，以及排解 Container 間的網路連線問題。
+date: 2023-02-26T14:18:53+08:00
+lastmod: 2026-03-14T02:40:25+08:00
 tags:
   - aspnet-core
   - Docker
@@ -10,12 +12,12 @@ categories:
 keywords:
   - ASP.NET Core Docker
   - Dockerfile 教學
-  - 容器化 Web API
   - .NET Docker Image
-  - 雲端部署
-date: 2023-02-26T14:18:53+08:00
+  - Multi-Stage Build
+  - 機敏資料保護
+  - Docker Network
+  - 環境變數
 slug: aspnet-webapi-containerized
-lastmod: 2026-03-11T21:23:41+08:00
 epic: software
 ---
 想要使用 Docker 技術將 ASP.NET Web API 應用程式打包成 image 時，需要針對機敏性資料進行特別的處理，以確保這些機密性資料不會外流。
@@ -351,9 +353,11 @@ $ docker run -it -v lab-volume:/data alpine
 
 ### 為何 Webapi Container 無法連線本機另一個 Container 的資料庫？
 
-原因如同 [GitLab CI 實作記錄(1) - 使用 Docker 在同台主機運行 GitLab 與 GitLab-Runner](../gitlab-and-runner-on-same-host-using-docker/index.md) 中提到的 Docker Network 的觀念問題。
-
-在同一台主機上，啟動 Container 卻不指定 Network 的情況下，會使用名為 `bridge` 的預設 Network。
+> [!IMPORTANT]
+> **Docker Network 新手常見地雷區！**
+> 原因如同 [GitLab CI 實作記錄(1) - 使用 Docker 在同台主機運行 GitLab 與 GitLab-Runner](../gitlab-and-runner-on-same-host-using-docker/index.md) 中提到的 Docker Network 觀念問題。
+> 
+> 在同一台主機上，啟動 Container 卻不指定 Network 的情況下，會使用名為 `bridge` 的預設 Network。此時 `localhost` 會指向 Container 自己，而不是你的主機或是資料庫 Container。
 
 而加預設 Network 內的 Container ，會被自動分配一個網段為 `172.17.0.0/16` 的 IP 位置，此時要連線到其他 Container，必須要知道對方的 IP 位置。
 
@@ -411,3 +415,9 @@ docker run -d --name -e host={db_container_name} -e database=demo -e user_id=tes
 
 - [ConnectionStrings.com](https://www.connectionstrings.com/)
 - [為 EF 連線字串加密的簡單範例-黑暗執行緒](https://blog.darkthread.net/blog/encrypt-ef-connstring/)
+
+---
+
+💬 **參與討論**
+你在將 ASP.NET 打包進 Docker 時，最習慣用哪種方式傳遞密碼與機敏資料呢？還是你在設定 Docker Network 連線時遇過什麼深坑？
+歡迎在底下留言跟我交流分享！

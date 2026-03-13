@@ -13,8 +13,12 @@ keywords:
   - 依賴注入模式
   - 物件工廠
   - 代碼整潔
+  - IServiceCollection
+  - AddScoped
+  - IHttpContextAccessor
+  - Clean Architecture DI
 slug: di-encapsulate-service-and-use-external-parameters
-lastmod: 2026-03-11T21:23:41+08:00
+lastmod: 2026-03-14T02:40:25+08:00
 epic: software
 ---
 當發現一個 .NET Core 的類別，其所有方法均需要相同的參數資料，這時，我們就會想到從 DI 下手，在建立物件時，一併把參數傳入。這樣就不需要在調用方式時，還要重複的傳入參數。
@@ -37,7 +41,7 @@ epic: software
 
 ## 目的
 
-若我們開發 ASP.NET Core 程式時，在特定的架構(ex. 三層式架構、洋蔥架構、Clean Archecture) 時，會把商業邏輯獨立在另一個 `dll` 專案內。但在使用 .NET DI 注入服務時，又希望 Service 的實作不公開，在 ASP.NET Core 的專案內無法查看 Service 的實作內容。
+若我們開發 ASP.NET Core 程式時，在特定的架構(ex. 三層式架構、洋蔥架構、Clean Architecture) 時，會把商業邏輯獨立在另一個 `dll` 專案內。但在使用 .NET DI 注入服務時，又希望 Service 的實作不公開，在 ASP.NET Core 的專案內無法查看 Service 的實作內容。
 
 架構如下
 
@@ -47,7 +51,7 @@ Solution
 └─ BusinessLogic (Library)
 ```
 
-這時，我們可能會在 `BussinessLogic` 的專案內，建立一個 DI 使用的 Extnesion
+這時，我們可能會在 `BusinessLogic` 的專案內，建立一個 DI 使用的 Extension
 
 ```csharp
 public static class DiExtension  
@@ -241,7 +245,7 @@ public interface IParameterService
 }
 ```
 
-接著，在 WebApi 內，進行 `IParamterService` 的實作
+接著，在 WebApi 內，進行 `IParameterService` 的實作
 
 ```csharp
 public class ParameterService : IParameterService  
@@ -282,3 +286,8 @@ public static class DiExtension
 ## 延伸閱讀
 
 - [使用 DI 注入時，使用 Request 的參數，建立不同參數的物件](../di-service-provider-httpcontextaccessor/index.md)
+
+---
+
+💬 **參與討論**
+為了保持架構的乾淨（Clean Architecture），DI 的封裝真的需要一點巧思。這種透過 Interface 隔離取參數邏輯的作法，你也常用嗎？歡迎在底下留言與我們交流你的架構設計心得！

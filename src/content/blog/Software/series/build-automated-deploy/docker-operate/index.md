@@ -1,17 +1,19 @@
 ---
-title: Docker 操作簡介 - command / dockerfile / docker-compose
+title: 新手必備的 Docker 操作簡介：Command、Dockerfile 與 Docker Compose 實戰
 tags:
   - Docker
 categories:
   - Container
 keywords:
-  - Docker
-  - dockerfile
-  - docker-compose
+  - Docker 教學
+  - Docker 常用指令
+  - Dockerfile 語法
+  - Docker Compose 教學
+  - 容器化實戰
 date: 2023-01-09T09:47:58+08:00
 slug: docker-operate
-description: 在順利完成 Docker 的安裝後，接下來就是進一步了解如何操作 Docker 的指令了。但是這樣還不夠，我們還想要一鍵同時啟用多個 container，以及自行建立 Docker Image。
-lastmod: 2026-03-11T21:23:41+08:00
+description: 為初學者準備的 Docker 入門手冊！一文掌握最常用的 Docker 啟動指令，解析 Dockerfile 的四大階段語法，並教你如何用 Docker Compose 一鍵啟動多個容器。
+lastmod: 2026-03-14T02:40:25+08:00
 series: 從零開始建立自動化發佈的流水線
 epic: software
 ---
@@ -344,7 +346,8 @@ volumes:
 
 從這個範例中，可以看到 **docker-compose.yml 的內容，是以 [YAML](../yaml/index.md) 格式撰寫。** 包含 compose file 格式的版本、服務內的 container 設定，以及執行環境的設制。
 
-> 2023.12.05 補充
+> [!WARNING]
+> **2023.12.05 補充：`links` 指令已過時**
 >
 > 在 docker-compose.yml 中，所使用的 `links` 的指令，與 docker command `--link` flag，因為在網路隔離的部份，有安全與架構上的疑慮，官方不建議使用，也明白表示後續可能會移除。([Legacy container links](https://docs.docker.com/network/links/))
 
@@ -367,20 +370,25 @@ Eric:
 
 ▶ Docker Command
 
-1.  [全面易懂的 Docker 指令大全](https://legacy.gitbook.com/book/joshhu/dockercommands/details)
-2.  [Docker —— 从入门到实践](https://legacy.gitbook.com/book/yeasy/docker_practice)
-3.  [《Docker —— 從入門到實踐 ­》正體中文版 (gitbook.io)](https://philipzheng.gitbook.io/docker_practice/)
+1. [全面易懂的 Docker 指令大全](https://legacy.gitbook.com/book/joshhu/dockercommands/details)
+2. [Docker —— 从入门到实践](https://legacy.gitbook.com/book/yeasy/docker_practice)
+3. [《Docker —— 從入門到實踐 ­》正體中文版 (gitbook.io)](https://philipzheng.gitbook.io/docker_practice/)
 
 ▶ Dockerfile
 
-1.  [正確撰寫 Dockerfile 　製作最好用容器映像檔](https://www.netadmin.com.tw/article_content.aspx?sn=1710020002&jump=3)
-2.  Docker Document, [Dockerfile reference](https://docs.docker.com/engine/reference/builder/)
-3.  Docker Document, [Best practices for writing Dockerfiles](https://docs.docker.com/develop/develop-images/dockerfile_best-practices/)
-4.  peihsinsu, [Docker 學習筆記](https://legacy.gitbook.com/read/book/peihsinsu/docker-note-book)
+1. [正確撰寫 Dockerfile 　製作最好用容器映像檔](https://www.netadmin.com.tw/article_content.aspx?sn=1710020002&jump=3)
+2. Docker Document, [Dockerfile reference](https://docs.docker.com/engine/reference/builder/)
+3. Docker Document, [Best practices for writing Dockerfiles](https://docs.docker.com/develop/develop-images/dockerfile_best-practices/)
+4. peihsinsu, [Docker 學習筆記](https://legacy.gitbook.com/read/book/peihsinsu/docker-note-book)
 
 ▶ Docker Compose
 
-1.  akira.ohio, [5. Using Docker Compose](https://www.penflip.com/akira.ohio/appcatalyst-hands-on-lab-en/blob/master/docker-compose.txt)
-2.  Docker Document, [Overview of Docker Compose](https://docs.docker.com/compose/overview/)
-3.  Docker Document, [Compose file version 3 reference](https://docs.docker.com/compose/compose-file/)
-4.  TechBridge 技術共筆部落格, [Docker Compose 建置 Web service 起步走入門教學](https://blog.techbridge.cc/2018/09/07/docker-compose-tutorial-intro/)
+1. akira.ohio, [5. Using Docker Compose](https://www.penflip.com/akira.ohio/appcatalyst-hands-on-lab-en/blob/master/docker-compose.txt)
+2. Docker Document, [Overview of Docker Compose](https://docs.docker.com/compose/overview/)
+3. Docker Document, [Compose file version 3 reference](https://docs.docker.com/compose/compose-file/)
+4. TechBridge 技術共筆部落格, [Docker Compose 建置 Web service 起步走入門教學](https://blog.techbridge.cc/2018/09/07/docker-compose-tutorial-intro/)
+
+---
+
+💬 **參與討論**
+Docker 指令百百種，你最常用的是哪幾個呢？或者有哪個參數總是讓你翻說明書？在底下留言分享你的 Docker 小抄吧！

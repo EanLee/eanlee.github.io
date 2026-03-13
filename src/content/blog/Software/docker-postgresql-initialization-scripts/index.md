@@ -1,6 +1,6 @@
 ---
-title: Docker | 建立 PostgreSQL 的 container 時，同時完成資料庫的初始化
-description: 在使用 PostgreSQL Docker 的時候，其實可以配合官方提供的 initdb 機制，在建立 container 的同時，一併完成資料庫的初始化。這篇文章將會描述使用 dockerfile 的方式，來使用 initdb 的機制。
+title: Docker 實戰：建立 PostgreSQL Container 的同時，自動完成 Schema 初始化與測試資料匯入
+description: 不想每次重啟 Docker 都要手動建 Schema？本文教你善用 PostgreSQL 官方的 initdb 機制，在建立 Container 時透過腳本自動完成資料庫初始化與測試資料寫入。
 tags:
   - Postgresql
   - Docker
@@ -9,10 +9,14 @@ categories:
 keywords:
   - Docker
   - Postgresql
-  - dockerfile
+  - docker-entrypoint-initdb.d
+  - 資料庫初始化
+  - 自動化測試
+  - Schema 建置
+  - 測試資料匯入
 date: 2023-02-21T00:13:07+08:00
 slug: docker-postgresql-initialization-scripts
-lastmod: 2026-03-11T21:23:41+08:00
+lastmod: 2026-03-14T02:40:25+08:00
 epic: software
 ---
 現在都可以使用 Container 的方式來運行資料庫，那麼。是否有辦法在 Image 建立 Container 的當下，就一併完成資料庫 schema 的設定？
@@ -244,3 +248,8 @@ docker run --name lab-postgres-init -e POSTGRES_PASSWORD=mysecretpassword lab/po
 - [Docker 操作簡介](../series/build-automated-deploy/docker-operate/index.md) 外部文章
 
 - [Creating and filling a Postgres DB with Docker compose | by José David Arévalo | Level Up Coding](https://levelup.gitconnected.com/creating-and-filling-a-postgres-db-with-docker-compose-e1607f6f882f)
+
+---
+
+💬 **參與討論**
+你平常在開發或跑自動化測試時，都是怎麼確保 Database 保持在一個乾淨的初始狀態呢？會使用這種 `initdb` 的技巧嗎？歡迎在底下留言分享你的懶人自動化秘訣！

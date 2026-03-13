@@ -1,12 +1,20 @@
 ---
-title: API 安全通報：為什麼你的 Server 會收到非預期的請求？常見掃描行為與防範對策
+title: API 流量異常暴增？從 20GB 的 IIS Log 抽絲剝繭找出現代軟體架構的「隱形殺手」
 tags: []
 categories:
   - 開發雜談
-keywords: []
-description: 伺服器 Log 出現奇怪的 404 或請求？解析自動化掃描器 (Scanner) 與惡意請求的行為特徵，掌握如何透過 WAF、IP 封鎖與安全配置保護你的 Web API。
+keywords: 
+  - IIS Log 分析
+  - Load Balancer Health Check
+  - API Gateway
+  - Token 驗證架構
+  - 效能排查
+  - 系統架構設計
+  - 微服務維運
+  - 線上除錯實戰
+description: 伺服器 Log 突然暴增 20GB？完整解析一場因為 Load Balancer Health Check 結合微服務 Token 驗證架構所引發的系統效能懸案，帶你實戰線上破案過程。
 date: 2022-06-10T12:00:00+08:00
-lastmod: 2026-03-11T21:23:41+08:00
+lastmod: 2026-03-14T02:40:25+08:00
 slug: unexpected-request
 epic: software
 ---
@@ -65,20 +73,28 @@ epic: software
 
 > 問題一: Load Balancer 的 Health Check 指向會呼叫 API 的頁面，導致 API 所在主機有預期外的連線請求。
 
-Load Balaner 的 Health Check 指向站台的靜態頁面，即可滿足檢查站台是否存活的目的。並減少對 API 的無意義呼叫。
+Load Balancer 的 Health Check 指向站台的靜態頁面，即可滿足檢查站台是否存活的目的。並減少對 API 的無意義呼叫。
 
 > 問題二: 同一頁面需使用 Token 呼叫多支 API，但每支 API 均進行 Token 的驗證，造成的大量 Log。
 
 無最佳的解法，需評估看待 API 服務的層面。若僅供內部系統使用，或許有再次優化空間。若提供外部與第三方系統使用，此種作法應為合理的作法。
 
-服務面向不同，其作法也所不同，需依實際環境決策。對於這個議題，在 [開發雜談 - 對於系統架構的多維度思考能力](../thinking-multi-dimensional-thinking-for-system-architecture/index.md) 有進一步的自我探討。
+服務面向不同，其作法也有所不同，需依實際環境決策。對於這個議題，在 [開發雜談 - 對於系統架構的多維度思考能力](../thinking-multi-dimensional-thinking-for-system-architecture/index.md) 有進一步的自我探討。
 
 ## 小結
 
-在問題釐清的過程中，個人的原則與作法
+在這場從 20GB Log 裡找內鬼的釐清過程中，我總結了三個線上辦案的核心原則：
 
-- 由大而小、由粗而細，鎖定問題的範圍。
-- 列出可能的情境，並逐一切斷可能的影響。
-- 從數據反推原因
+> 🔍 **找問題的 3 大心法**
+>
+> 1. **由大而小、由粗而細**：先鎖定問題的範圍（例如從網路邊界查到 API Server）。
+> 2. **列出情境，切斷影響**：逐一關閉不必要的服務，以控制變數並釐清根本原因。
+> 3. **從數據反推原因**：Log 出現的頻率、時間點，往往就是解答的鑰匙（如 10 秒一次的規律）。
 
 若有更好的作法，也歡迎分享。
+
+---
+
+> 💡 **互動時間**
+> 微服務架構雖然好，但驗證設計沒考量全局，很容易變成自己打爆自己的慘劇！
+> 你的微服務架構中，Token 驗證是像這樣放在每一支 API 內重複驗證，還是統一由 Gateway 處理呢？歡迎留言分享你們團隊的架構與解法！

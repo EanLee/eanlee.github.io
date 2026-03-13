@@ -2,7 +2,7 @@
 title: 問題排除的下一階段：從單一 Log 到建立 Telemetry (遙測) 的可觀測性思維
 description: 系統出問題只看 Log 夠嗎？當微服務架構越來越複雜，我們需要建立完整的 Telemetry (遙測) 思維。本文帶你認識可觀測性三大基石：Logs, Metrics, Traces，以及實務上的使用情境。
 date: 2023-01-16T07:43:34+08:00
-lastmod: 2026-03-11T21:23:41+08:00
+lastmod: 2026-03-14T02:40:25+08:00
 tags:
   - Logging
   - 系統架構
@@ -18,16 +18,18 @@ keywords:
   - Metrics
   - Traces
   - 問題排除
+  - Observability
+  - 分散式追蹤 (Distributed Tracing)
+  - 系統監控
+  - 微服務維運
 slug: from-logging-to-telemetry-observability
 epic: software
 ---
-```
-這篇文章的草稿在 2023 年寫了一半，一放又是兩年。
-
-2025 年 7 月，在完成 [系統開發實務對談記錄：Log 與 Error Handling](../log-and-error-handling-the-foundation-of-buildin-observable-systems/index.md) 後，打鐵趁熱，重新把這篇文章補完。
-
-2026 年，但回顧文章是否要調整時，發現這篇內容與上一篇的內容大量重複，因此決定調整方向，將原本的內容精簡，並進一步補充關於 Telemetry (遙測) 的思維。
-```
+>這篇文章的草稿在 2023 年寫了一半，一放又是兩年。
+>
+>2025 年 7 月，在完成 [系統開發實務對談記錄：Log 與 Error Handling](../log-and-error-handling-the-foundation-of-buildin-observable-systems/index.md) 後，打鐵趁熱，重新把這篇文章補完。
+>
+>2026 年，但回顧文章是否要調整時，發現這篇內容與上一篇的內容大量重複，因此決定調整方向，將原本的內容精簡，並進一步補充關於 Telemetry (遙測) 的思維。
 
 若想了解實務上 Log 該怎麼分級、該記錄哪些欄位，以及 Error Handling 的最佳實踐，建議先去閱讀上面提過的那篇對談紀錄，確保對 Log 有足夠的認識後，再繼續往下閱讀。
 
@@ -155,3 +157,8 @@ Metrics 的重點在於**趨勢與告警**。
 
 - [What is OpenTelemetry? | OpenTelemetry](https://opentelemetry.io/docs/what-is-opentelemetry/)
 - [The Three Pillars of Observability](https://www.oreilly.com/library/view/distributed-systems-observability/9781492033431/ch04.html)
+
+---
+
+💬 **參與討論**
+從寫 Log 到建立完整的 Telemetry，你的團隊走到哪一步了呢？是還在單機看 TXT 檔，還是已經有了帥氣的 Grafana 看板？留言分享你們家的監控大招吧！

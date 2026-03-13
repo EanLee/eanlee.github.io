@@ -2,6 +2,7 @@
 title: 開發實務對談：日誌 (Log) 記錄與錯誤處理 (Error Handling) 的最佳實踐
 description: 發生問題卻查不到原因？透過技術對談，探討如何設計具備追蹤價值的 Log 系統與優雅的 Exception 處理策略，打造易於維護的高可用系統。
 date: 2025-07-30T10:00:00+08:00
+cover: ./images/log-error-handling-cover.png
 categories:
   - 軟體開發
   - 開發雜談
@@ -14,12 +15,15 @@ keywords:
   - Log 設計
   - Error Handling 策略
   - 例外處理
-  - 統開發實務
+  - 系統開發實務
   - 故障排除
+  - Structured Logging
+  - Global Exception Handler
+  - Exception 處理
+  - 系統基礎建設
 slug: log-and-error-handling-the-foundation-of-buildin-observable-systems
 epic: software
-cover: ./images/log-error-handling-cover.png
-lastmod: 2026-03-11T22:05:21+08:00
+lastmod: 2026-03-14T02:40:25+08:00
 ---
 > 🔖 長話短說 🔖
 >
@@ -238,3 +242,8 @@ Log 與 Error Handling 是軟體開發中的「基礎建設」。雖然在功能
 
 - [Serilog - simple .NET logging with a clean API](https://serilog.net/)
 - [Grafana Loki](https://grafana.com/oss/loki/)
+
+---
+
+💬 **參與討論**
+「好的 Log 讓你快速找到問題，不好的 Log 只能通靈。」這句話真的是血淚教訓！你在專案中遇過哪些最瞎的 Log，或是被吞掉的 Exception 給雷過嗎？來留言區分享你的踩坑經驗！

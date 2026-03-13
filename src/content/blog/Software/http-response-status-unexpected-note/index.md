@@ -2,7 +2,7 @@
 title: API 故障排除：解決 HTTP Status 415 Unsupported Media Type 的常見原因與解法
 description: 遇到 HTTP 415 錯誤？詳細分析 Content-Type 設定錯誤、資料格式不符等導致 Unsupported Media Type 的原因，並提供 ASP.NET Core 中的正確處理範例。
 date: 2023-03-09T16:19:47+08:00
-lastmod: 2026-03-11T21:23:41+08:00
+lastmod: 2026-03-14T02:39:10+08:00
 tags:
   - aspnet-core
 categories:
@@ -13,6 +13,12 @@ keywords:
   - API 調試
   - Content-Type 錯誤
   - ASP.NET Core
+  - FromBody
+  - FromForm
+  - C# API 錯誤
+  - API 故障排除
+  - Web API 錯誤
+  - Request Headers
 slug: http-response-status-unexpected-note
 epic: software
 ---
@@ -38,18 +44,18 @@ epic: software
 
 這個情況，有兩種可能:
 
-要嘛就是 Content 內的資料格式，與 `Content-Type` 設定的不符。API 要求 Josn 的資格格式，但是發送的內容卻是 a=1&b=2 的格式，就會發生這個錯誤。
+要麼就是 Content 內的資料格式，與 `Content-Type` 設定的不符。API 要求 Json 的資料格式，但是發送的內容卻是 a=1&b=2 的格式，就會發生這個錯誤。
 
-再不然，就是 Content 內的資料格式，與 API 要求的不符。若 API 要求的資料格式為數字，但是發送的內容卻是字串，就會發生這個錯誤。
+> ⚠️ **注意**：若 API 要求的資料格式為數字，但是發送的內容卻是字串，在 ASP.NET Core 中通常會因為 Model Binding 失敗而回傳 **400 Bad Request**，而非 415。415 專指 Media Type (如 Header 的 Content-Type) 無法被 Server 識別或處理。
 
-若 API 是要開發給自已使用，可以自行設定 `Content-Type` 與 `Content` 的格式。但若是提供第三方的服務 `callback` 呼叫，就要配合第三方的發送格式。
+若 API 是要開發給自已使用，可以自行設定 `Content-Type` 與 `Content` 的格式。但若是提供給第三方的服務 `callback` 呼叫，就要配合第三方的發送格式。
 
 #### `application/x-www-form-urlencoded`
 
 ```csharp
 [HttpPost("Verify")]
 [Consumes("application/x-www-form-urlencoded")]
-public async Task<IActionResult> callback(
+public async Task<IActionResult> Callback(
 	[FromQuery] RedirectParameters parameters,
     [FromForm] VerifyResult result)
 {
@@ -63,7 +69,7 @@ public async Task<IActionResult> callback(
 
 ```csharp
 [HttpPost("Verify")]
-public async Task<IActionResult> callback(
+public async Task<IActionResult> Callback(
 	[FromQuery] RedirectParameters parameters,
 	[FromBody] VerifyResult result)
 {
@@ -79,3 +85,8 @@ public async Task<IActionResult> callback(
 
 - [問題排除隨手記 - UseHttpsRedirection 造成的無限 Redirection](../use-https-redirection-cause-infinite-redirection/index.md)
 - [開發雜談 - API Server 有非預期的請求的原因釐清](../unexpected-request/index.md)
+
+---
+
+> 💡 **互動時間**
+> 處理 API 串接時最怕遇到含糊不清的 Status Code！你最近開發 API 有遇過什麼奇怪或難纏的 HTTP 錯誤代碼嗎？歡迎在留言區分享你的踩坑經驗，一起討論交流！

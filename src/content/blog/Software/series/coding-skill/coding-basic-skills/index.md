@@ -1,17 +1,21 @@
 ---
-title: 簡述程式碼品質與優化方向
-description: 程式碼的品質大多情況下，由開發人員的基礎功來決定。這些基本功包含了 Comment 的撰寫、程式碼的易讀性、重構的技巧等。
+title: 拒絕寫出雷 Code！從命名、重構到註解的程式碼品質提升實戰
+description: 總是看不懂幾個月前自己寫的程式？探討開發者必備的 Clean Code 基本功，從命名原則、Code Smell 到註解的最佳實踐。
 date: 2022-06-21T15:06:43.144Z
 keywords:
-  - Code small
+  - Code smell
   - Refactoring
   - 程式碼品質
   - Comment
+  - Clean Code
+  - 程式碼重構
+  - IDE 快捷鍵
+  - 命名原則
 categories:
   - 開發雜談
 tags:
   - Refactor
-lastmod: 2026-03-11T21:23:41+08:00
+lastmod: 2026-03-14T02:40:25+08:00
 slug: coding-basic-skills
 series: 持續優化程式碼品質
 epic: software
@@ -74,75 +78,14 @@ public int[,] ga(int[,,] im_1, int[,,] im2_1)
 
             if (rrr > rrr_1){
                 k[0, a1] = k[0, a2];
-                k[1, a1] = k[1, a2];
-                k1[a2] = Convert.ToInt32(rrr_1);
-                k1[a1] = Convert.ToInt32(rrr_1);
+                // ...
             }
-            else if (rrr <= rrr_1){
-                k[0, a2] = k[0, a1];
-                k[1, a2] = k[1, a1];
-                k1[a1] = Convert.ToInt32(rrr);
-                k1[a2] = Convert.ToInt32(rrr);
-            }
-
-            /***********************************
-            //  略過部份程式碼內容
-            ***********************************/
-
-            for (iu = 0; iu < ggg; iu++)
-            {
-                for (ju = 1; ju < ggg; ju++)
-                {
-                    if (k2[2, ju - 1] > k2[2, ju])
-                    {
-                        temp = k2[2, ju - 1];
-                        temp1 = k2[0, ju - 1];
-                        temp2 = k2[1, ju - 1];
-
-                        k2[2, ju - 1] = k2[2, ju];
-                        k2[0, ju - 1] = k2[0, ju];
-                        k2[1, ju - 1] = k2[1, ju];
-
-                        k2[2, ju] = temp;
-                        k2[0, ju] = temp1;
-                        k2[1, ju] = temp2;
-                    }
-                }
-            }
-
-            int ddd1 = 0;
-            for (iu = 0; iu < gggzz; iu++){
-                ddd1 = ddd1 + (k2[2, iu]);
-            }
-
-            int ddd_1 = Convert.ToInt16(ddd1 / gggzz);
-            dddd_2 = 0;
-
-            for (iu = 0; iu < gggzz; iu++)
-            {
-                dddd_2 = dddd_2 + Math.Abs(ddd_1 - k2[2, iu]);
-            }
-        }
-
-        if (Math.Sqrt(dddd_2) <= 0.005 && k2[2, 0] <= 5){
-            score = 26;
-            progressBar1.Value = 26;
+            
+            // ...省略大量難以閱讀的 if-else、多維陣列位移與複雜資料處理迴圈邏輯...
         }
     }
 
-    int gg = 0;
-    int gg1 = 0;
-    int[,] good = new int[2, ggg];
-
-    for (int j111 = 0; j111 < gggzz; j111++){
-        gg = gg + k2[0, j111];
-        gg1 = gg1 + k2[1, j111];
-    }
-
-    int x_new = Convert.ToInt16(gg / gggzz);
-    int y_new = Convert.ToInt16(gg1 / gggzz);
-
-    int[,] x_y = new int[2, 1];
+    // ...省略計算結束的複雜座標轉換與封裝邏輯...
 
     x_y[0, 0] = x_new;
     x_y[1, 0] = y_new;
@@ -157,7 +100,7 @@ public int[,] ga(int[,,] im_1, int[,,] im2_1)
 - 程式的邏輯與介面高耦合性
 - 函數名稱與實際動作內容有差異
 
-### 程式的壞味道(Code small)與改善
+### 程式的壞味道(Code smell)與改善
 
 造成程式碼不易閱讀的因素有很多，但最常見的就是**命名行為不確實**。
 
@@ -366,8 +309,15 @@ public int StatisticCostAmount(...)
 - 將**相同職責**的函數，全部封裝於同一個類別之中。
 - 開發功能中，以**實現功能為最優先事項**。完成一個函數功能後，立即確認是否有要重構的部份。
 - 相近的功能，評估是否可以合併、重構為獨立的函數。盡可能的達到**重覆使用程式碼**的目標。
-- 針對**高使用性**、**高重要性**的的函數功能，撰寫對應的**單元測試**。
+- 針對**高使用性**、**高重要性**的的函數功能，撰寫對應的**單元測試**。(../../../talking-writing-unit-tests/index.md))
 - 完成程式開發後，再 **Code review**。
+
+---
+
+> 💡 **互動時間**
+> 
+> 回想一下這篇文章裡的角色，你是習慣使用神兵利器的「小偉」，還是土法煉鋼的「小刀」呢？
+> 打磨基本功是軟體開發長遠的必經之路。除了快捷鍵，還有哪些你覺得是「必備」的 IDE 擴充插件？歡迎在底下留言推薦給大家！
 
 ## 延伸閱讀
 
