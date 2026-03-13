@@ -41,7 +41,8 @@ html {
 /* CSS 變數已移至 design-tokens.css 統一管理 */
 @font-face {
 	font-family: 'Atkinson';
-	src: url('/fonts/atkinson-regular.woff') format('woff');
+	src: url('/fonts/atkinson-regular.woff2') format('woff2'),
+	     url('/fonts/atkinson-regular.woff') format('woff');
 	font-weight: 400;
 	font-style: normal;
 	font-display: swap;
@@ -49,7 +50,8 @@ html {
 }
 @font-face {
 	font-family: 'Atkinson';
-	src: url('/fonts/atkinson-bold.woff') format('woff');
+	src: url('/fonts/atkinson-bold.woff2') format('woff2'),
+	     url('/fonts/atkinson-bold.woff') format('woff');
 	font-weight: 700;
 	font-style: normal;
 	font-display: swap;

@@ -104,6 +104,11 @@ const jsonLd = {
   }),
 };
 
+// 提取 og:image URL（支援 ImageMetadata 對象與字串路徑）
+const ogImageUrl: string | undefined = displayImage
+  ? (typeof displayImage === 'string' ? displayImage : (displayImage as any).src)
+  : undefined;
+
 // 文章新鮮度警示：以 lastmod（若有）或 date 判斷，超過 2 年顯示提示
 const TWO_YEARS_MS = 730 * 24 * 60 * 60 * 1000;
 const freshnessDate = (lastmod instanceof Date ? lastmod : null) ?? (date instanceof Date ? date : null);
@@ -113,13 +118,14 @@ const staleYear = date instanceof Date ? date.getFullYear() : 0;
 
 <html lang="zh-tw">
   <head>
-    <BaseHead 
-      title={title + " - " + SITE_TITLE} 
-      description={description} 
+    <BaseHead
+      title={title + " - " + SITE_TITLE}
+      description={description}
       keywords={keywords}
       ogType="article"
       publishedTime={date}
       modifiedTime={lastmod}
+      image={ogImageUrl}
     />
     <!-- JSON-LD 結構化資料 for SEO -->
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
