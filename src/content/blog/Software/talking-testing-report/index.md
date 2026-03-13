@@ -2,7 +2,7 @@
 title: 如何撰寫專業的效能測試報告？關鍵數據指標與圖表分析實戰
 description: 測試完之後呢？教你如何整理效能測試報告，解讀 Response Time、Throughput 與 Error Rate 等關鍵指標，並提供具備說服力的優化建議。
 date: 2023-01-06T13:36:16+08:00
-lastmod: 2026-03-14T02:23:33+08:00
+lastmod: 2026-03-14T02:40:25+08:00
 categories:
   - 測試
   - 開發雜談

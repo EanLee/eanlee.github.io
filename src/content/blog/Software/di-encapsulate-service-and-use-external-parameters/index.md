@@ -18,7 +18,7 @@ keywords:
   - IHttpContextAccessor
   - Clean Architecture DI
 slug: di-encapsulate-service-and-use-external-parameters
-lastmod: 2026-03-14T02:07:03+08:00
+lastmod: 2026-03-14T02:40:25+08:00
 epic: software
 ---
 當發現一個 .NET Core 的類別，其所有方法均需要相同的參數資料，這時，我們就會想到從 DI 下手，在建立物件時，一併把參數傳入。這樣就不需要在調用方式時，還要重複的傳入參數。

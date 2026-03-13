@@ -15,7 +15,7 @@ keywords:
   - jenkins
 date: 2023-01-11T00:15:41+08:00
 slug: container-build-execution-environment-required-ci
-lastmod: 2026-03-11T21:23:41+08:00
+lastmod: 2026-03-14T02:40:25+08:00
 series: 從零開始建立自動化發佈的流水線
 epic: software
 ---

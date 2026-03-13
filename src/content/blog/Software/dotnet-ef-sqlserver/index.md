@@ -3,7 +3,7 @@ title: EF Core 實戰指引：使用 dotnet-ef 建立 SQL Server 容器化 DbCon
 description: 建立 SQL Server on Docker 時，有一些持久性的議題必須特別注意。同時，使用 EF Core 連接 SQL Server 時，連線字串設定不當，也會造成連線失敗。
 cover: ./images/ef_core_sqlserver_cover.png
 date: 2023-02-14T18:12:33+08:00
-lastmod: 2026-03-14T02:31:34+08:00
+lastmod: 2026-03-14T02:40:25+08:00
 categories:
   - EF Core
 tags:

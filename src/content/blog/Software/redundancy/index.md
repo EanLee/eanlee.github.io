@@ -2,7 +2,7 @@
 title: 架構設計核心：什麼是冗餘 (Redundancy)？提升系統穩定性與可靠性的關鍵設計
 description: 「多做一點」反而更安全？解析冗餘 (Redundancy) 在系統架構中的作用，如 Load Balancer 與 BDD 實踐，並權衡其在成本與風險間的平衡。
 date: 2022-06-09T17:15:15+08:00
-lastmod: 2026-03-14T02:31:34+08:00
+lastmod: 2026-03-14T02:40:25+08:00
 categories:
   - 聊聊名詞
 slug: redundancy

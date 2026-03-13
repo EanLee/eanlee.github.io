@@ -2,7 +2,7 @@
 title: AI 賦能開發：如何將 ChatGPT 作為 Pair Programming 夥伴提升編程效率
 description: ChatGPT 不只是聊天機器人！教你如何透過精確的 Prompt 工程，讓 AI 輔助程式碼重構、Bug 單元測試與架構諮詢，開啟高效的 AI 協作開發模式。
 date: 2023-03-15T14:00:03+08:00
-lastmod: 2026-03-14T02:23:33+08:00
+lastmod: 2026-03-14T02:40:25+08:00
 categories:
   - 軟體開發
 tags:

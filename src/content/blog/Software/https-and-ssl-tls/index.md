@@ -16,7 +16,7 @@ keywords:
 categories:
   - 資訊安全
 date: 2022-05-24T07:52:24+08:00
-lastmod: 2026-03-14T02:31:34+08:00
+lastmod: 2026-03-14T02:40:25+08:00
 description: HTTPS 跟 SSL 有什麼差別？深入解析網路加密傳輸的發展史、握手協議 (Handshake) 與憑證機制，讓你全面掌握現代 Web 安全的核心技術細節。
 tags:
   - 網路

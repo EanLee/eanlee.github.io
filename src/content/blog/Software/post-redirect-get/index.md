@@ -19,7 +19,7 @@ keywords:
   - HTTP 307
   - Postman 預設行為
   - API 測試坑
-lastmod: 2026-03-14T02:31:34+08:00
+lastmod: 2026-03-14T02:40:25+08:00
 epic: software
 ---
 最近因為工作需求，需要提供一支使用  `POST`  方法的 Web API，並在處理完成任務後，轉導到其他的網頁。

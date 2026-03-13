@@ -14,7 +14,7 @@ keywords:
   - 線上除錯實戰
 description: 伺服器 Log 突然暴增 20GB？完整解析一場因為 Load Balancer Health Check 結合微服務 Token 驗證架構所引發的系統效能懸案，帶你實戰線上破案過程。
 date: 2022-06-10T12:00:00+08:00
-lastmod: 2026-03-14T02:07:03+08:00
+lastmod: 2026-03-14T02:40:25+08:00
 slug: unexpected-request
 epic: software
 ---

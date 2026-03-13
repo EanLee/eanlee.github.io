@@ -2,7 +2,7 @@
 title: 問題排除的下一階段：從單一 Log 到建立 Telemetry (遙測) 的可觀測性思維
 description: 系統出問題只看 Log 夠嗎？當微服務架構越來越複雜，我們需要建立完整的 Telemetry (遙測) 思維。本文帶你認識可觀測性三大基石：Logs, Metrics, Traces，以及實務上的使用情境。
 date: 2023-01-16T07:43:34+08:00
-lastmod: 2026-03-14T02:31:34+08:00
+lastmod: 2026-03-14T02:40:25+08:00
 tags:
   - Logging
   - 系統架構

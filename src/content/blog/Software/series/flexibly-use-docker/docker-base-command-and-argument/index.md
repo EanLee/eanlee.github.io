@@ -2,7 +2,7 @@
 title: 靈活運用 Docker - 操作 Docker 與 Container 常用指令 (速查手冊)
 description: 「靈活運用 Docker 打造高效的容器化應用環境」系列的文章之一。本篇文章整理使用 Docker 時，Image 與 Container 常用的基本指令，內容包含查詢、啟動、停止、移除等等。
 date: 2023-11-30T18:46:44+08:00
-lastmod: 2026-03-14T02:07:03+08:00
+lastmod: 2026-03-14T02:40:25+08:00
 tags:
   - Docker
 categories:

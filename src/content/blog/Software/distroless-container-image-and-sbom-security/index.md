@@ -14,8 +14,11 @@ keywords:
   - 容器安全
   - 軟體供應鏈安全
   - Docker 安全最佳實務
+  - Trivy
+  - Syft
+  - 容器掃描工具
 slug: distroless-container-image-and-sbom-security
-lastmod: 2026-03-11T21:23:41+08:00
+lastmod: 2026-03-14T02:40:25+08:00
 cover: 
 epic: software
 ---

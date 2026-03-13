@@ -15,7 +15,7 @@ keywords:
   - CSR 產製
   - 網站安全
 slug: using-iis-create-and-complete-csr
-lastmod: 2026-03-11T21:23:41+08:00
+lastmod: 2026-03-14T02:40:25+08:00
 epic: software
 ---
 日前在使用 IIS 10 進行 SSL 伺服器憑證的申請與更新作業時，發生 IIS `完成憑證請求` 後，進行 F5 重整時，憑證消失的問題。在排查過程中，發現一些有趣的地方，所以將其特別記錄下來。
