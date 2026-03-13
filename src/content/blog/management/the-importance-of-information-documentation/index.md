@@ -2,7 +2,7 @@
 title: 為什麼系統文件化很重要？從一次「找不到 IP 主機」的網路維運故障談文件價值
 description: 網路斷線卻找不到對應主機？透過真實故障案例，探討資訊文件化在維運與知識傳承中的必要性，助你建立穩定的專業團隊與系統架構。
 date: 2025-08-06T11:15:00+08:00
-lastmod: 2026-03-14T02:23:33+08:00
+lastmod: 2026-03-14T02:39:10+08:00
 tags:
   - 文件化
   - 知識管理
@@ -22,6 +22,7 @@ keywords:
   - 系統架構圖
 slug: the-importance-of-information-documentation
 epic: management
+cover: ./images/system-documentation-importance-cover.png
 ---
 資訊文件化真的很重要。
 

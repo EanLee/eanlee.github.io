@@ -2,7 +2,8 @@
 title: 專案管理就像消除遊戲？圖解如何排定任務優先權與突破專案瓶頸
 description: 專案管理與消除遊戲（Match-3）有何共同點？本文透過實例圖解，分享如何識別專案瓶頸、盤點可用資源，並提升專案執行效率的實戰心法。
 date: 2022-04-28T11:50:27+08:00
-lastmod: 2026-03-14T02:23:33+08:00
+lastmod: 2026-03-14T02:39:10+08:00
+cover: ./images/project-management-elimination-game-cover.png
 tags:
   - 自我修練
   - 刻意練習
