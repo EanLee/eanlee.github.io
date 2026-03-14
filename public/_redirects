@@ -1,0 +1,106 @@
+# ── 舊分頁路由（純數字）→ 首頁 ──────────────────────────────────────
+/2 / 301
+/3 / 301
+/4 / 301
+/5 / 301
+/6 / 301
+/7 / 301
+
+# ── 舊搜尋端點 ────────────────────────────────────────────────────────
+/search-index.json / 301
+
+# ── 文章：/post/{舊分類}/{slug}/ → /post/software/{slug}/ ────────────
+# test
+/post/test/talking-testing-report/ /post/software/talking-testing-report/ 301
+/post/test/what-does-load-testing-do/ /post/software/what-does-load-testing-do/ 301
+/post/test/fluent-assertions-object-graph-comparison/ /post/software/fluent-assertions-object-graph-comparison/ 301
+# develop
+/post/develop/di-service-provider-httpcontextaccessor/ /post/software/di-service-provider-httpcontextaccessor/ 301
+/post/develop/ef-core-cli-note/ /post/software/ef-core-cli-note/ 301
+/post/develop/di-encapsulate-service-and-use-external-parameters/ /post/software/di-encapsulate-service-and-use-external-parameters/ 301
+/post/develop/dfcore-dbcontext-hasqueryfilter/ /post/software/dfcore-dbcontext-hasqueryfilter/ 301
+/post/develop/develop-assistant-chatgpt/ /post/software/develop-assistant-chatgpt/ 301
+/post/develop/dotnet-ef-sqlserver/ /post/software/dotnet-ef-sqlserver/ 301
+/post/develop/post-redirect-get/ /post/software/post-redirect-get/ 301
+/post/develop/dotnet-ef-postgresql-dbcontext/ /post/software/dotnet-ef-postgresql-dbcontext/ 301
+/post/develop/dotnet-ef-core-customized-dbcontext-entity/ /post/software/dotnet-ef-core-customized-dbcontext-entity/ 301
+# security
+/post/security/aspnet-core-authenticaiton-jwt/ /post/software/aspnet-core-authenticaiton-jwt/ 301
+/post/security/https-and-ssl-tls/ /post/software/https-and-ssl-tls/ 301
+/post/security/using-iis-create-and-complete-csr/ /post/software/using-iis-create-and-complete-csr/ 301
+# container
+/post/container/aspnet-webapi-containerized/ /post/software/aspnet-webapi-containerized/ 301
+/post/container/distroless-container-image-and-sbom-security/ /post/software/distroless-container-image-and-sbom-security/ 301
+/post/container/docker-postgresql-initialization-scripts/ /post/software/docker-postgresql-initialization-scripts/ 301
+# devops
+/post/devops/manual-adjuest-nlog-post-to-loki/ /post/software/manual-adjuest-nlog-post-to-loki/ 301
+/post/devops/gitlab-and-runner-on-same-host-using-docker/ /post/software/gitlab-and-runner-on-same-host-using-docker/ 301
+/post/devops/build-gitlab-on-private-environment/ /post/software/build-gitlab-on-private-environment/ 301
+# architecture
+/post/architecture/system-loading-limit-reroute/ /post/software/system-loading-limit-reroute/ 301
+/post/architecture/cloud/mvp-vaification/ /post/software/series/cloud/mvp-vaification/ 301
+# troubleshooting
+/post/troubleshooting/use-https-redirection-cause-infinite-redirection/ /post/software/use-https-redirection-cause-infinite-redirection/ 301
+/post/troubleshooting/http-response-status-unexpected-note/ /post/software/http-response-status-unexpected-note/ 301
+# nouns
+/post/nouns/problem-and-solution-domain/ /post/software/problem-and-solution-domain/ 301
+/post/nouns/redundancy/ /post/software/redundancy/ 301
+# pattern
+/post/pattern/producer-consumers/ /post/software/talking-pattern-producer-consumers/ 301
+# experiences
+/post/experiences/multi-dimensional-thinking-for-system-architecture/ /post/software/thinking-multi-dimensional-thinking-for-system-architecture/ 301
+/post/experiences/unexpected-request/ /post/software/unexpected-request/ 301
+# projectmanagement → management
+/post/projectmanagement/concepts-of-project-management-from-elimination-games/ /post/management/concepts-of-project-management-from-elimination-games/ 301
+# 特殊：含 .md 副檔名
+/post/software/the-importance-of-log-design-and-troubleshooting/log-and-error-handling-the-foundation-of-buildin-observable-systems.md /post/software/log-and-error-handling-the-foundation-of-buildin-observable-systems/ 301
+# 舊命名修正
+/post/software/dfcore-dbcontext-hasqueryfilter/ /post/software/efcore-dbcontext-hasqueryfilter/ 301
+
+# ── Series 頁面 ───────────────────────────────────────────────────────
+/series/持續優化程式碼品質/ / 301
+/series/縮網址服務實作記錄/ /series/side-project/ 301
+/series/series/build-automated-deploy/ /series/build-automated-deploy/ 301
+/series/series/flexibly-use-docker /series/flexibly-use-docker/ 301
+/series/series/flexibly-use-docker/ /series/flexibly-use-docker/ 301
+/software/series/message-queue/ /series/message-queue/ 301
+/software/series/build-automated-deploy/ /series/build-automated-deploy/ 301
+/software/series/side-project/ /series/side-project/ 301
+
+# ── 舊 /post/series/{slug} 路徑 ──────────────────────────────────────
+/post/series/build_automated_deploy/build-ci-cd-from-scratch /post/software/series/build-automated-deploy/build-ci-cd-from-scratch/ 301
+/post/series/message-queue/foreword/ /post/software/series/message-queue/build-mq-foreword/ 301
+
+# ── 舊 Series 文章 ────────────────────────────────────────────────────
+# coding-skill
+/post/series/coding-skill/oop-practice/ /post/software/series/coding-skill/oop-practice/ 301
+/post/series/coding-skill/coding-basic-skills/ /post/software/series/coding-skill/coding-basic-skills/ 301
+# build-automated-deploy
+/post/series/build-automated-deploy/cicd_concept/ /post/software/series/build-automated-deploy/cicd_concept/ 301
+/post/series/build_automated_deploy/cicd_concept/ /post/software/series/build-automated-deploy/cicd_concept/ 301
+/post/series/build-automated-deploy/yaml/ /post/software/series/build-automated-deploy/yaml/ 301
+/post/series/build-automated-deploy/ci-azure-pipeline-and-jenkins/ /post/software/series/build-automated-deploy/ci-azure-pipeline-and-jenkins/ 301
+/post/series/build-automated-deploy/version_control/ /post/software/series/build-automated-deploy/version_control/ 301
+/post/series/build-automated-deploy/docker-operate/ /post/software/series/build-automated-deploy/docker-operate/ 301
+/post/series/build-automated-deploy/github-action-travis-ci/ /post/software/series/build-automated-deploy/github-action-travis-ci/ 301
+/post/series/build-automated-deploy/container-intro/ /post/software/series/build-automated-deploy/container-intro/ 301
+/post/series/build_automated_deploy/container_intro/ /post/software/series/build-automated-deploy/container-intro/ 301
+/post/series/build-automated-deploy/build-docker-image/ /post/software/series/build-automated-deploy/build-docker-image/ 301
+/post/series/build-automated-deploy/integration-ci-and-unit-test/ /post/software/series/build-automated-deploy/integration-ci-and-unit-test/ 301
+/post/series/build-automated-deploy/git-remote-repositories/ /post/software/series/build-automated-deploy/git-remote-repositories/ 301
+/post/series/build-automated-deploy/build-ci-cd-from-scratch/ /post/software/series/build-automated-deploy/build-ci-cd-from-scratch/ 301
+/post/series/build-automated-deploy/container-build-execution-environment-required-ci/ /post/software/series/build-automated-deploy/container-build-execution-environment-required-ci/ 301
+/post/series/build-automated-deploy/cd-dropbox/ /post/software/series/build-automated-deploy/cd-dropbox/ 301
+# flexibly-use-docker
+/post/series/flexibly-use-docker/container-vm-difference/ /post/software/series/flexibly-use-docker/container-vm-difference/ 301
+/post/series/flexibly-use-docker/install-docker/ /post/software/series/flexibly-use-docker/install-docker/ 301
+/post/series/flexibly-use-docker/flexibly-use-docker-foreword/ /post/software/series/flexibly-use-docker/flexibly-use-docker-foreword/ 301
+/post/series/flexibly-use-docker/docker-base-command-and-argument/ /post/software/series/flexibly-use-docker/docker-base-command-and-argument/ 301
+/post/series/flexibly-use-docker/docker-build-use-multi-stage-build/ /post/software/series/flexibly-use-docker/docker-build-use-multi-stage-build/ 301
+# side-project
+/post/series/side-project/shorten-2-lets-encrypt-setting/ /post/software/series/side-project/shorten-2-lets-encrypt-setting/ 301
+/post/series/side-project/shorten-use-rabbitmq-process-analysis-event/ /post/software/series/side-project/shorten-use-rabbitmq-process-analysis-event/ 301
+/post/series/side-project/shorten-1-build-service-base-on-container/ /post/software/series/side-project/shorten-1-build-service-base-on-container/ 301
+# message-queue
+/post/series/message-queue/queue/ /post/software/series/message-queue/queue/ 301
+/post/series/message-queue/build-mq-foreword/ /post/software/series/message-queue/build-mq-foreword/ 301
