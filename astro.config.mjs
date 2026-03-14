@@ -16,6 +16,7 @@ import tailwind from "@astrojs/tailwind";
 // https://astro.build/config
 export default defineConfig({
   site: "https://eandev.com",
+  output: "static",
   // redirects 已移至 public/_redirects（Cloudflare Pages 原生 HTTP 301）
   integrations: [sitemap(), robotsTxt(), tailwind({ applyBaseStyles: false })],
   compressHTML: true,
