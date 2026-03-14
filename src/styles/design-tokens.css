@@ -141,12 +141,11 @@
   --container-lg: 1024px;
   --container-xl: 1120px;
   --container-2xl: 1400px;
+
+
+  /* === 品牌 / 服務顏色 === */
+  --color-rss: #f26522;
 }
-
-
-
-/* === 品牌 / 服務顏色 === */
---color-rss: #f26522;
 
 /* === prose 系統專用變數 === */
 .prose {

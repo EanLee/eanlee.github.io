@@ -4,8 +4,7 @@ import BaseHead from "../../components/BaseHead.astro";
 import Header from "../../components/Header.astro";
 import Footer from "../../components/Footer.astro";
 import Categories from "../../components/widget/categories.astro";
-import FormattedDate from "../../components/FormattedDate.astro";
-import { SITE_TITLE, SITE_DESCRIPTION } from "../../consts";
+import { SITE_TITLE } from "../../consts";
 import FileText from "@lucide/astro/icons/file-text";
 import Tag from "@lucide/astro/icons/tag";
 import ArrowRight from "@lucide/astro/icons/arrow-right";
@@ -51,8 +50,6 @@ const categoryCount = filteredPosts.length;
 // 格式化分類名稱（首字母大寫）
 const formattedCategory = category ? category.charAt(0).toUpperCase() + category.slice(1) : "";
 
-// 頁面標題
-const pageTitle = `${formattedCategory} (${categoryCount})`;
 
 // 根據分類設置主題色
 let accentColor = "#4299e1"; // 默認藍色
@@ -135,7 +132,7 @@ const categoryJsonLd = Astro.site ? {
       title={`${formattedCategory} | ${SITE_TITLE}`}
       description={`探索「${formattedCategory}」分類下的 ${categoryCount} 篇技術文章，涵蓋實作經驗與深度分析。`}
     />
-    {categoryJsonLd && (<script type="application/ld+json" set:html={JSON.stringify(categoryJsonLd)} />)}
+    {categoryJsonLd && (<script is:inline type="application/ld+json" set:html={JSON.stringify(categoryJsonLd)} />)}
   </head>
   <body>
     <Header />

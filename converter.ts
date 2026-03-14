@@ -174,7 +174,6 @@ function parseFrontMatter(content: string): ParsedMarkdown {
   const bodyContent = match[2];
 
   const frontMatter: FrontMatter = {};
-  let currentKey: string | null = null;
   let currentArray: string[] | null = null;
 
   frontMatterText.split('\n').forEach(line => {
@@ -195,11 +194,9 @@ function parseFrontMatter(content: string): ParsedMarkdown {
 
       // 檢查是否為多行陣列開始
       if (value === '' && line.endsWith(':')) {
-        currentKey = key;
         currentArray = [];
         frontMatter[key] = currentArray;
       } else {
-        currentKey = null;
         currentArray = null;
 
         // 處理單行陣列 [item1, item2]
@@ -391,7 +388,7 @@ function convertFile(sourceFile: string): ConversionResult {
     // 5.2 轉換 Wiki 圖片: ![[pic.png]] -> ![pic.png](./images/pic.png)
     newContent = newContent.replace(
       /!\[\[([^\]]+\.(?:png|jpg|jpeg|gif|webp|svg|bmp))\]\]/gi,
-      (match: string, filename: string) => {
+      (_match: string, filename: string) => {
         const basename = path.basename(filename);
         const alt = path.parse(basename).name; // 使用檔名作為 alt
         return `![${alt}](./images/${basename})`;
@@ -401,7 +398,7 @@ function convertFile(sourceFile: string): ConversionResult {
     // 5.3 轉換 Wiki 連結: [[link]] 或 [[link|display]] -> [display](../link/)
     newContent = newContent.replace(
       /\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g,
-      (match: string, link: string, display?: string) => {
+      (_match: string, link: string, display?: string) => {
         const label = display || link;
         // 移除 .md 副檔名（如果有）
         const cleanLink = link.replace(/\.md$/, '');

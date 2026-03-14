@@ -85,7 +85,7 @@ const epicJsonLd = Astro.site ? {
   <head>
     <BaseHead title={`${epicTitle} | ${SITE_TITLE}`} description={epicDescription} />
     {epicJsonLd && (
-      <script type="application/ld+json" set:html={JSON.stringify(epicJsonLd)} />
+      <script is:inline type="application/ld+json" set:html={JSON.stringify(epicJsonLd)} />
     )}
   </head>
   <body>
@@ -146,7 +146,7 @@ const epicJsonLd = Astro.site ? {
                         <div class="post-tags">
                           <Tag size={16} />
                           <span class="tag-list">
-                            {post.data.tags?.map((tag, index) => (
+                            {post.data.tags?.map((tag: string, index: number) => (
                               <>
                                 <a href={`/tags/${tag.toLowerCase()}/`} class="tag-link">{tag}</a>
                                 {index < post.data.tags.length - 1 && ", "}

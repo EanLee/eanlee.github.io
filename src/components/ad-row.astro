@@ -33,7 +33,7 @@ const {
   </ins>
 </div>
 
-<script type="module" define:vars={{ slot }}>
+<script is:inline type="module" define:vars={{ slot }}>
   function initAd() {
     const adElement = document.querySelector(`[data-ad-slot="${slot}"]`);
     const placeholder = document.getElementById(`ad-placeholder-${slot}`);
