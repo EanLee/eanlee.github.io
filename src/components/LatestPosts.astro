@@ -22,26 +22,6 @@ const postImageModules = import.meta.glob("/src/content/blog/**/images/*.{png,jp
 const coverModules = import.meta.glob("/src/assets/images/cover/*.{webp,png,jpg,jpeg}", { eager: true });
 const availableCovers = Object.values(coverModules) as any[];
 
-// 安全地提取共用封面的 src
-const getAvailableCoverSrcs = () => {
-  return availableCovers
-    .map((cover) => {
-      // 檢查多種可能的結構
-      if (cover?.default?.src && typeof cover.default.src === 'string') {
-        return cover.default.src;
-      }
-      if (typeof cover?.src === 'string') {
-        return cover.src;
-      }
-      if (typeof cover?.default === 'string') {
-        return cover.default;
-      }
-      return null;
-    })
-    .filter((src) => src !== null) as string[];
-};
-
-const coverSrcs = getAvailableCoverSrcs();
 
 // 獲取文章的封面圖片（返回圖片對象或字符串）
 const getCoverImage = async (post: CollectionEntry<'blog'>) => {

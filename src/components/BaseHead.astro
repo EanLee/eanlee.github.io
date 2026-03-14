@@ -1,7 +1,7 @@
 ---
 // Import the global.css file here so that it is included on
 // all pages through the use of the <BaseHead /> component.
-import { ViewTransitions } from 'astro:transitions';
+import { ClientRouter } from 'astro:transitions';
 import '../styles/global.css';
 import FontLoader from './FontLoader.astro';
 
@@ -65,7 +65,7 @@ const {
 <link rel="dns-prefetch" href="//fonts.googleapis.com">
 <link rel="dns-prefetch" href="//fonts.gstatic.com">
 
-<ViewTransitions />
+<ClientRouter />
 
 <!-- Preconnect to external domains -->
 <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
@@ -85,7 +85,7 @@ const {
 </style>
 
 <!-- Google AdSense - 延遲載入以提升效能 -->
-<script type="module">
+<script is:inline type="module">
   // 延遲載入 AdSense，避免阻塞初始渲染
   function loadAdSense() {
     if (window.adsbygoogle_loaded) return; // 避免重複載入
@@ -130,7 +130,7 @@ const {
 </script>
 
 <!-- Google Analytics - 優化載入 -->
-<script type="module">
+<script is:inline type="module">
   function loadGoogleAnalytics() {
     // 載入 gtag.js
     const script = document.createElement('script');

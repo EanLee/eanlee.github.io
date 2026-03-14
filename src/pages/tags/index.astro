@@ -49,7 +49,7 @@ const collectionPageSchema = {
       title={`標籤 - ${SITE_TITLE}`}
       description={`以標籤瀏覽所有文章，共 ${tags.length} 個標籤`}
     />
-    <script type="application/ld+json" set:html={JSON.stringify(collectionPageSchema)} />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(collectionPageSchema)} />
   </head>
   <body>
     <Header />

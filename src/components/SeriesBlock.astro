@@ -14,7 +14,7 @@ interface Props {
   epicColor: string;
 }
 
-const { title, seriesName, posts, viewAllLink, epicColor } = Astro.props;
+const { title, posts, viewAllLink, epicColor } = Astro.props;
 
 // 計算顯示的文章數量 - 最多顯示5篇文章
 const displayCount = Math.min(2, posts.length);
