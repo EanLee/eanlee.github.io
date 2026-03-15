@@ -13,7 +13,7 @@ keywords:
   - dotnetef
   - dbcontext scaffold
 slug: ef-core-cli-note
-lastmod: 2026-03-14T02:40:25+08:00
+lastmod: 2026-03-16T01:16:13+08:00
 epic: software
 ---
 > 🔖 長話短說 🔖
