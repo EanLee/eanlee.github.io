@@ -13,7 +13,7 @@ keywords:
 date: 2023-01-09T09:47:58+08:00
 slug: docker-operate
 description: 為初學者準備的 Docker 入門手冊！一文掌握最常用的 Docker 啟動指令，解析 Dockerfile 的四大階段語法，並教你如何用 Docker Compose 一鍵啟動多個容器。
-lastmod: 2026-03-16T01:16:13+08:00
+lastmod: 2026-03-16T01:32:16+08:00
 series: 從零開始建立自動化發佈的流水線
 epic: software
 ---

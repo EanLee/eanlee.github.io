@@ -17,7 +17,7 @@ keywords:
   - Entity Framework 實戰
 slug: use-shadow-property-and-hasqueryfilter-on-ef-core
 epic: software
-lastmod: 2026-03-16T01:16:13+08:00
+lastmod: 2026-03-16T01:32:16+08:00
 ---
 > 🔖 長話短說 🔖
 >

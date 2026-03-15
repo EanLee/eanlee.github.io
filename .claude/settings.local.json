@@ -42,7 +42,24 @@
       "Bash(xargs bash:*)",
       "mcp__plugin_playwright_playwright__browser_navigate",
       "mcp__plugin_playwright_playwright__browser_take_screenshot",
-      "mcp__plugin_playwright_playwright__browser_evaluate"
+      "mcp__plugin_playwright_playwright__browser_evaluate",
+      "Bash(grep -h \"^[a-zA-Z].*:\" src/content/blog/**/*.md | sed 's/:.*$//' | sort | uniq -c | sort -rn)",
+      "Bash(find /c/Repos/eanlee.github.io/src/content/blog -name \"*.md\" -type f -exec grep -h \"^[a-zA-Z].*:\" {} \\\\; | sed 's/:.*$//' | sort | uniq -c | sort -rn)",
+      "Bash(while read:*)",
+      "Bash(do echo:*)",
+      "Read(//c/Repos/eanlee.github.io/**)",
+      "Bash(sed 's/:.*$//')",
+      "Bash(done)",
+      "Bash(find /c/Repos/eanlee.github.io/src/content/blog -type f -name \"index.md\" | head -5 | xargs grep -l \"^series:\" | head -2 | xargs head -20)",
+      "mcp__plugin_serena_serena__execute_shell_command",
+      "Skill(commit-commands:commit)",
+      "Bash(gh pr:*)",
+      "WebFetch(domain:docs.astro.build)",
+      "WebFetch(domain:developers.cloudflare.com)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:community.cloudflare.com)",
+      "Skill(commit-commands:commit-push-pr)",
+      "mcp__claude_ai_Mermaid_Chart__validate_and_render_mermaid_diagram"
     ],
     "deny": []
   }

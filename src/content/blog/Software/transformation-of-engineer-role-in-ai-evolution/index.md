@@ -26,7 +26,7 @@ keywords:
 slug: transformation-of-engineer-role-in-ai-evolution
 cover: ./images/ai-engineer-transformation-cover.png
 epic: software
-lastmod: 2026-03-16T01:16:13+08:00
+lastmod: 2026-03-16T01:32:16+08:00
 ---
 > 🔖 長話短說 🔖
 >
@@ -309,7 +309,7 @@ AI 從不缺生成功能的能力，但它需要正確的方向。工程師提�
 
 這些發展意味著變動速度會越來越快，但也正因如此，**心反而要慢下來**。  
 
-![Vibe Coding be like ](../../images/Pasted%20image%2020260316005626.png)
+![Vibe Coding be like ](./images/vibe-coding-be-like.png)
 圖片來源: <https://www.reddit.com/r/vibecodingmemes/comments/1l5j2lt/vibe_coding_be_like/>
 
 如果沒有良好的全面思考，很容易看到一種情況：網路上許多看似玩笑式的 AI 開發案例，一開始像跑車，最後卻變成腳踏車。  

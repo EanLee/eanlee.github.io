@@ -23,7 +23,7 @@ keywords:
   - 系統基礎建設
 slug: log-and-error-handling-the-foundation-of-buildin-observable-systems
 epic: software
-lastmod: 2026-03-16T01:16:13+08:00
+lastmod: 2026-03-16T01:32:16+08:00
 ---
 > 🔖 長話短說 🔖
 >
