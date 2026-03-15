@@ -19,7 +19,7 @@ keywords:
   - Multi-tenant
   - ServiceCollection
 slug: di-service-provider-httpcontextaccessor
-lastmod: 2026-03-16T01:16:13+08:00
+lastmod: 2026-03-16T01:32:16+08:00
 epic: software
 ---
 > 🔖 長話短說 🔖
