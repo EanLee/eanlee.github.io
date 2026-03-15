@@ -67,40 +67,14 @@
 /software/series/build-automated-deploy/ /series/build-automated-deploy/ 301
 /software/series/side-project/ /series/side-project/ 301
 
-# ── 舊 /post/series/{slug} 路徑 ──────────────────────────────────────
-/post/series/build_automated_deploy/build-ci-cd-from-scratch /post/software/series/build-automated-deploy/build-ci-cd-from-scratch/ 301
-/post/series/message-queue/foreword/ /post/software/series/message-queue/build-mq-foreword/ 301
-
-# ── 舊 Series 文章 ────────────────────────────────────────────────────
-# coding-skill
-/post/series/coding-skill/oop-practice/ /post/software/series/coding-skill/oop-practice/ 301
-/post/series/coding-skill/coding-basic-skills/ /post/software/series/coding-skill/coding-basic-skills/ 301
-# build-automated-deploy
-/post/series/build-automated-deploy/cicd_concept/ /post/software/series/build-automated-deploy/cicd_concept/ 301
-/post/series/build_automated_deploy/cicd_concept/ /post/software/series/build-automated-deploy/cicd_concept/ 301
-/post/series/build-automated-deploy/yaml/ /post/software/series/build-automated-deploy/yaml/ 301
-/post/series/build-automated-deploy/ci-azure-pipeline-and-jenkins/ /post/software/series/build-automated-deploy/ci-azure-pipeline-and-jenkins/ 301
-/post/series/build-automated-deploy/version_control/ /post/software/series/build-automated-deploy/version_control/ 301
-/post/series/build-automated-deploy/docker-operate/ /post/software/series/build-automated-deploy/docker-operate/ 301
-/post/series/build-automated-deploy/github-action-travis-ci/ /post/software/series/build-automated-deploy/github-action-travis-ci/ 301
-/post/series/build-automated-deploy/container-intro/ /post/software/series/build-automated-deploy/container-intro/ 301
-/post/series/build_automated_deploy/container_intro/ /post/software/series/build-automated-deploy/container-intro/ 301
-/post/series/build-automated-deploy/build-docker-image/ /post/software/series/build-automated-deploy/build-docker-image/ 301
-/post/series/build-automated-deploy/integration-ci-and-unit-test/ /post/software/series/build-automated-deploy/integration-ci-and-unit-test/ 301
-/post/series/build-automated-deploy/git-remote-repositories/ /post/software/series/build-automated-deploy/git-remote-repositories/ 301
-/post/series/build-automated-deploy/build-ci-cd-from-scratch/ /post/software/series/build-automated-deploy/build-ci-cd-from-scratch/ 301
-/post/series/build-automated-deploy/container-build-execution-environment-required-ci/ /post/software/series/build-automated-deploy/container-build-execution-environment-required-ci/ 301
-/post/series/build-automated-deploy/cd-dropbox/ /post/software/series/build-automated-deploy/cd-dropbox/ 301
-# flexibly-use-docker
-/post/series/flexibly-use-docker/container-vm-difference/ /post/software/series/flexibly-use-docker/container-vm-difference/ 301
-/post/series/flexibly-use-docker/install-docker/ /post/software/series/flexibly-use-docker/install-docker/ 301
-/post/series/flexibly-use-docker/flexibly-use-docker-foreword/ /post/software/series/flexibly-use-docker/flexibly-use-docker-foreword/ 301
-/post/series/flexibly-use-docker/docker-base-command-and-argument/ /post/software/series/flexibly-use-docker/docker-base-command-and-argument/ 301
-/post/series/flexibly-use-docker/docker-build-use-multi-stage-build/ /post/software/series/flexibly-use-docker/docker-build-use-multi-stage-build/ 301
-# side-project
-/post/series/side-project/shorten-2-lets-encrypt-setting/ /post/software/series/side-project/shorten-2-lets-encrypt-setting/ 301
-/post/series/side-project/shorten-use-rabbitmq-process-analysis-event/ /post/software/series/side-project/shorten-use-rabbitmq-process-analysis-event/ 301
-/post/series/side-project/shorten-1-build-service-base-on-container/ /post/software/series/side-project/shorten-1-build-service-base-on-container/ 301
-# message-queue
-/post/series/message-queue/queue/ /post/software/series/message-queue/queue/ 301
-/post/series/message-queue/build-mq-foreword/ /post/software/series/message-queue/build-mq-foreword/ 301
+# ── 舊 /post/series/* 路徑（含有無 trailing slash）────────────────────
+# 特殊：slug 已重命名，須在 wildcard 之前
+/post/series/build_automated_deploy/build-ci-cd-from-scratch  /post/software/series/build-automated-deploy/build-ci-cd-from-scratch/ 301
+/post/series/build_automated_deploy/cicd_concept/             /post/software/series/build-automated-deploy/cicd_concept/ 301
+/post/series/build_automated_deploy/cicd_concept              /post/software/series/build-automated-deploy/cicd_concept/ 301
+/post/series/build_automated_deploy/container_intro/          /post/software/series/build-automated-deploy/container-intro/ 301
+/post/series/build_automated_deploy/container_intro           /post/software/series/build-automated-deploy/container-intro/ 301
+/post/series/message-queue/foreword/                          /post/software/series/message-queue/build-mq-foreword/ 301
+/post/series/message-queue/foreword                           /post/software/series/message-queue/build-mq-foreword/ 301
+# 通用 wildcard：/post/series/* → /post/software/series/*（含有無 trailing slash）
+/post/series/*  /post/software/series/:splat  301
