@@ -1,16 +1,19 @@
 ---
-title: 部署新境界 - 使用 Container 簡化流程
+title: Container 與 Docker 入門簡介：與傳統虛擬機 (VM) 的差異及基礎觀念
 tags:
   - Docker
 categories:
   - Container
 keywords:
-  - Container
-  - Docker
+  - Docker 教學
+  - 容器化技術
+  - VM 比較
+  - 虛擬機差異
+  - Docker Desktop 安裝
 date: 2022-08-19T22:15:18+08:00
-description: 從零開始建立自動化發佈的流水線的系列文中，開始進入 Container 的概念討論。
+description: 常常遇到「在我的電腦上會動，你的不行」？本文以圖文對話深入淺出介紹 Container 容器化技術，解析其與傳統 VM 虛擬機的差異，並帶你入門 Docker 基礎。
 slug: container-intro
-lastmod: 2026-03-05T00:20:44+08:00
+lastmod: 2026-03-16T01:32:16+08:00
 series: 從零開始建立自動化發佈的流水線
 epic: software
 ---
@@ -174,7 +177,9 @@ Docker Store 必需登入帳戶，才能進行下載動作。如果沒有帳戶�
 
 ~~在啟動後，Docker 會要求使用者登入。~~
 
-**[2022.08 補充] 目前 Docker for Windows version 20.10 之後，不會直接出現使用登入的畫面，改為 Docker Desktop Dashboard 的畫面。**
+> [!NOTE]
+> **[2022.08 補充] 關於 Docker Desktop Dashboard**
+> 目前 Docker for Windows version 20.10 之後，不會直接出現要求登入的畫面，而是改為 Docker Desktop Dashboard 的主視窗畫面。
 
 實際上，登入與否的差異，只差在能否存取 Docker Hub 的 Repositories。本機 Docker 還是可以正常操作。
 
@@ -196,3 +201,8 @@ Docker Store 必需登入帳戶，才能進行下載動作。如果沒有帳戶�
 2. [Docker Documentatin](https://docs.docker.com/)
 3. [【從Docker到Moby】Docker如何將容器平臺變成一門好生意？](https://www.ithome.com.tw/news/113899)
 4. [【Docker通吃全平臺秘密武器】容器專屬超迷你OS包LinuxKit登場](https://www.ithome.com.tw/news/113898)
+
+---
+
+💬 **參與討論**
+看懂了 Docker 是什麼，接下來我們就要實際下指令操作了！前往下一篇 **[Docker 操作簡介](../docker-operate/index.md)** 看實戰教學。或者... 先留言告訴我，你當初是因為什麼原因，才開始接觸 Docker 的？

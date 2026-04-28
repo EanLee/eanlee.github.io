@@ -1,14 +1,17 @@
 ---
 title: 靈活運用 Docker - Docker 的安裝
-description: 「靈活運用 Docker 打造高效的容器化應用環境」系列的文章之一。記錄了如何在 Ubuntu 之中，進行 Docker 的安裝設定。後續不定期更新內容。
+description: 「靈活運用 Docker 打造高效的容器化應用環境」系列的文章之一。記錄了如何在 Windows 與 Ubuntu 之中，進行 Docker 的安裝設定。
 date: 2023-12-01T11:14:30+08:00
-lastmod: 2026-03-05T00:20:44+08:00
+lastmod: 2026-03-16T01:32:16+08:00
 tags:
   - Docker
 categories:
   - Container
 keywords:
-  - Docker
+  - Docker Ubuntu 安裝
+  - Docker Windows 安裝
+  - Hyper-V
+  - Docker Desktop 教學
 slug: install-docker
 series: 靈活運用 Docker 打造高效的容器化應用環境
 epic: software
@@ -27,7 +30,11 @@ Docker Store 必需登入帳戶，才能進行下載動作。如果沒有帳戶�
 
 安裝時，不用額外設定，只要順著指示步驟進行安裝，就能完成設定。
 
-要注意的是，如果準備安裝 Docker for Windows 的作業系統，不是 **Windows 10 Pro** 、 **Enterprise** 、**Windows Server 2016**，會出現以下的畫面，然後就停止安裝動作。
+要注意的是，在早期的版本中，如果準備安裝 Docker for Windows 的作業系統不是 **Windows 10 Pro**、**Enterprise** 或 **Windows Server 2016**，可能會出現以下的畫面並停止安裝。
+
+> [!NOTE]
+> **Windows 10 Home 現在也能安裝 Docker Desktop 了！**
+> 隨著 WSL 2 (Windows Subsystem for Linux 2) 的推出，只要確保作業系統已安裝並啟用 WSL 2 功能，現在 Windows 10 Home Edition 也能順暢運行 Docker Desktop 了。
 
 ![無法安裝 Docker for windows](./images/docker_cannot_install.png)
 
@@ -39,7 +46,7 @@ Docker Store 必需登入帳戶，才能進行下載動作。如果沒有帳戶�
 
 ~~在啟動後，Docker 會要求使用者登入。~~
 
-> [2022.08 補充] 
+> [2022.08 補充]
 > 目前 Docker for Windows version 20.10 之後，不會直接出現使用登入的畫面，改為 Docker Desktop Dashboard 的畫面。
 
 實際上，登入與否的差異，只差在能否存取 Docker Hub 的 Repositories。本機 Docker 還是可以正常操作。
@@ -104,3 +111,8 @@ sudo systemctl restart docker
 
 - [靈活運用 Docker - 打造高效的容器化應用環境](../flexibly-use-docker-foreword/index.md)
 - [縮網址服務實作記錄(1) - 基於 Docker 容器技術的網站服務架構實踐](../../side-project/shorten-1-build-service-base-on-container/index.md)
+
+---
+
+💬 **參與討論**
+你在哪一個 OS 系統上安裝 Docker 時碰過最大的坑呢？是早期的 Windows Hyper-V 衝突還是 Linux 套件問題？歡迎在留言區分享你被各種環境折磨的經驗！

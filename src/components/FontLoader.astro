@@ -6,8 +6,8 @@
   // 簡單的字體預載入
   function loadFonts() {
     const fonts = [
-      { family: 'Atkinson', weight: '400', url: '/fonts/atkinson-regular.woff' },
-      { family: 'Atkinson', weight: '700', url: '/fonts/atkinson-bold.woff' }
+      { family: 'Atkinson', weight: '400', url: '/fonts/atkinson-regular.woff2' },
+      { family: 'Atkinson', weight: '700', url: '/fonts/atkinson-bold.woff2' }
     ];
 
     // 使用 Font Loading API 如果支援
@@ -15,7 +15,7 @@
       fonts.forEach(font => {
         const fontFace = new FontFace(
           font.family,
-          `url(${font.url}) format('woff')`,
+          `url(${font.url}) format('woff2')`,
           { weight: font.weight, display: 'swap' }
         );
         

@@ -70,7 +70,7 @@ const tagJsonLd = {
 <html lang="zh-TW">
   <head>
     <BaseHead title={pageTitle + " - " + SITE_TITLE} description={SITE_DESCRIPTION} />
-    <script type="application/ld+json" set:html={JSON.stringify(tagJsonLd)} />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(tagJsonLd)} />
   </head>
   <body>
     <Header />

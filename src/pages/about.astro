@@ -1,6 +1,5 @@
 ---
 import GeneralLayout from "../layouts/GeneralLayout.astro";
-import { SITE_TITLE } from "../consts";
 import { getEntry } from "astro:content";
 
 // 獲取 about 頁面內容
@@ -31,7 +30,7 @@ const aboutStructuredData = {
 ---
 
 <GeneralLayout title={title} description={description}>
-  <script type="application/ld+json" set:html={JSON.stringify(aboutStructuredData)} />
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(aboutStructuredData)} />
   
   <article class="about-page">
     <header class="page-header">

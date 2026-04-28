@@ -41,7 +41,7 @@ const { enabled = true } = Astro.props;
       externalLinks.forEach(function(link) {
         // 排除自己網站的連結
         if (!link.href.includes(window.location.hostname)) {
-          link.addEventListener('click', function(e) {
+          link.addEventListener('click', function(_e) {
             var linkUrl = link.href;
             var linkDomain = new URL(linkUrl).hostname;
             var linkText = link.textContent?.trim() || link.getAttribute('aria-label') || 'no text';
@@ -70,7 +70,7 @@ const { enabled = true } = Astro.props;
       var socialButtons = document.querySelectorAll('[data-social-share], .social-share-button, .share-button');
 
       socialButtons.forEach(function(button) {
-        button.addEventListener('click', function(e) {
+        button.addEventListener('click', function(_e) {
           var platform =
             button.dataset.platform ||
             button.getAttribute('data-social-share') ||
@@ -188,7 +188,7 @@ const { enabled = true } = Astro.props;
       var tocLinks = document.querySelectorAll('.toc-item a, .mobile-toc-item a');
 
       tocLinks.forEach(function(link) {
-        link.addEventListener('click', function(e) {
+        link.addEventListener('click', function(_e) {
           var sectionTitle = link.textContent?.trim() || 'unknown';
           var targetId = link.getAttribute('href')?.replace('#', '') || 'unknown';
 

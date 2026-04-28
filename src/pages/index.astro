@@ -151,9 +151,9 @@ const blogStructuredData = {
     </style>
 
     <!-- Structured Data for SEO -->
-    <script type="application/ld+json" set:html={JSON.stringify(blogStructuredData)} />
-    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbData)} />
-    <script type="application/ld+json" set:html={JSON.stringify(siteNavigationData)} />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(blogStructuredData)} />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(breadcrumbData)} />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(siteNavigationData)} />
 </head>
 <body>
 <Header />

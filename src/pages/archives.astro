@@ -51,7 +51,7 @@ const archivesSchema = {
   description={`共 ${posts.length} 篇文章，依發布年份排列`}
 >
   <Fragment slot="head">
-    <script type="application/ld+json" set:html={JSON.stringify(archivesSchema)} />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(archivesSchema)} />
   </Fragment>
   <div class="archives-container">
     <header class="archives-header">

@@ -1,10 +1,10 @@
 ---
 title: EF Core 腳本自動化：使用 T4 CodeTemplate 自定義 Scaffolding 模型生成規則
 description: 不滿意 EF Core 自動生成的代碼？透過 T4 CodeTemplate 深入客製化 DbContext 與 Entity 的生成規則，實現符合專案架構規範的自動化代碼產出。
+cover: ./images/ef_core_t4_cover.png
 date: 2023-06-29T09:22:03+08:00
-lastmod: 2026-03-05T00:20:44+08:00
+lastmod: 2026-03-16T01:32:16+08:00
 categories:
-  - 軟體開發
   - EF Core
 tags:
   - EF-Core
@@ -13,19 +13,24 @@ keywords:
   - Scaffolding 客製化
   - Codegen 自動化
   - DbContext 生成
+  - Reverse Engineering
+  - EF Core Power Tools
+  - Shadow Properties
   - .NET 腳本實戰
 slug: dotnet-ef-core-customized-dbcontext-entity
 epic: software
 ---
 接續 DBContext 操作的議題，目前已知現有的資料庫內，所有的表格都有 `CreatedAt`、`UpdatedAt`、`UpdatedUser`、 `IsDeleted` 四個特定字詞結尾的欄位，額外記錄資料異動記錄。
 
-在「[使用 HasQueryFilter 限定 DBContext 查詢內容](../dfcore-dbcontext-hasqueryfilter/index.md)」中，提到如何透過 `HasQueryFilter` 來簡化資料庫查詢的動作。
+在「[使用 HasQueryFilter 限定 DBContext 查詢內容](../efcore-dbcontext-hasqueryfilter/index.md)」中，提到如何透過 `HasQueryFilter` 來簡化資料庫查詢的動作。
 
 接下來，想要再進一步的封裝 EFCore 所使用的 Entity，讓這四個欄位的資訊，不要曝露於 DBContext 的操作中。
 
-針對客制化 EFCore 的 DBContext 與 Entity Type，將相關的實作內容記錄下來。
+針對客製化 EF Core 的 DBContext 與 Entity Type，將相關的實作內容記錄下來。
 
 > 🔖 長話短說 🔖
+>
+> ℹ️ **系列導讀**：本文屬於「EF Core 實戰系列」，完整系統性教學請參見 [EF Core 實戰系列從指令到進階應用總整理](../ef-core-series-overview/index.md)。
 >
 > - 若是覺得用 `dotnet ef dbcontext scaffold` 的指令來建立 DBContext 不方便，在 Visual Studo 可以安裝 [`EF Core Power Tool`](https://marketplace.visualstudio.com/items?itemName=ErikEJ.EFCorePowerTools) Extension 套件，以 GUI 進階設定 DBContext 的建立內容。
 > - 針對 DBContext 的查詢要進行過濾，可在 DBContext 內的 `OnModelCreatingPartial(ModelBuilder modelBuilder)` 進行過濾。
@@ -43,11 +48,11 @@ epic: software
 
 `EFCore Power Tools` 是 Visual Studio 的 Extension，所以在使用前，需要先進行安裝。
 
-在安裝完成後，我們可以在專案項目，按下滑鼠右鍵的選單中，選擇 `EFCore Power Tools > Reverse Enginerring`，以 GUI 的方式進行 EFCore Scaffold 產出想要的 DBContext。
+在安裝完成後，我們可以在專案項目，按下滑鼠右鍵的選單中，選擇 `EFCore Power Tools > Reverse Engineering`，以 GUI 的方式進行 EFCore Scaffold 產出想要的 DBContext。
 
 可以在不調整 CodeTemplate 的前提下，配合勾選 GUI 內的選項,就可以達到進階 DbContext 生成設定。若需要調整 CodeTemplate，也可以利用 `EFCore Power Tools > Add CodeTemplate`，它會自動在專案的目錄下，建立一個名稱 `CodeTemplate/EFCore` 的資料夾。
 
-順帶一提，`Reverse Enginerring` 內，勾選的設定，都會存在 `efpt.config.json` 之中。
+順帶一提，`Reverse Engineering` 內，勾選的設定，都會存在 `efpt.config.json` 之中。
 
 ## 使用 CodeTemplate 自訂產出的 DBContext 與 Entity
 
@@ -87,15 +92,15 @@ dotnet new ef-templates
 
 會在專案目錄下，建立 `CodeTemplate\EFCore` 資料夾，資料夾內有 `DbContext.t4` 與 `EntityType.t4` 兩個檔案，分別對應產出的 DBContext 與 Entity Type。
 
-不管是使用 `EFCore Power Tools > Reverse Enginerring`，或是使用 CLI `dotnet ef dbcontext scaffold`，都會套用 CodeTemplate 內的設定。
+不管是使用 `EFCore Power Tools > Reverse Engineering`，或是使用 CLI `dotnet ef dbcontext scaffold`，都會套用 CodeTemplate 內的設定。
 
-可以使用 CodeTemplate 的 T4([Text Template Transformation Toolkit](https://en.wikipedia.org/wiki/Text_Template_Transformation_Toolkit)) 來客制化產出 DBContext 與 Entity Type ，來達成以下的需求。
+可以使用 CodeTemplate 的 T4([Text Template Transformation Toolkit](https://en.wikipedia.org/wiki/Text_Template_Transformation_Toolkit)) 來客製化產出 DBContext 與 Entity Type ，來達成以下的需求。
 
 - 要想限制建立出來的類型不公開，為 `private` 或 `internal` 的存取層級。。
 - 變更 Entity Type 內的欄位名稱。
 - 排除特定的 Entity Type 欄位。
 
-個人建議，若需要調整 `DbContext.t4` 或 `EntityType.t4` 進行客制化，建議使用 CLI 的方式來執行，因為這樣可以更直接查看 `.t4` 調整後執行階段的錯誤訊息。
+個人建議，若需要調整 `DbContext.t4` 或 `EntityType.t4` 進行客製化，建議使用 CLI 的方式來執行，因為這樣可以更直接查看 `.t4` 調整後執行階段的錯誤訊息。
 
 ## 實作 Lab
 
@@ -410,7 +415,7 @@ entity.Property(e => e.<#= property.Name.Substring(1) #>)<#= code.Fragment(prope
 
 ▶ 站內文章
 
-- [使用 HasQueryFilter 限定 DBContext 查詢內容](../dfcore-dbcontext-hasqueryfilter/index.md)
+- [使用 HasQueryFilter 限定 DBContext 查詢內容](../efcore-dbcontext-hasqueryfilter/index.md)
 - [在 HasQueryFilter 使用 Shadow Property 的注意事項](../use-shadow-property-and-hasqueryfilter-on-ef-core/index.md)
 
 ▶ 站外文章
@@ -418,3 +423,8 @@ entity.Property(e => e.<#= property.Name.Substring(1) #>)<#= code.Fragment(prope
 - [Reverse Engineering · ErikEJ/EFCorePowerTools Wiki · GitHub](https://github.com/ErikEJ/EFCorePowerTools/wiki/Reverse-Engineering)
 - [自訂反向工程範本 - EF Core | Microsoft Learn](https://learn.microsoft.com/zh-tw/ef/core/managing-schemas/scaffolding/templates?tabs=dotnet-core-cli)
 - [陰影和索引子屬性 - EF Core | Microsoft Learn](https://learn.microsoft.com/zh-tw/ef/core/modeling/shadow-properties)
+
+---
+
+💬 **參與討論**
+自訂 T4 Template 能省下大量整理 DbContext 與 Entity 的重複苦力活！你的團隊也有自己專屬的 Code Generator 或 T4 範本嗎？歡迎在底下留言與我們交流你的客製化經驗！

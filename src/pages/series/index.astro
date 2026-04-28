@@ -37,7 +37,7 @@ const collectionPageSchema = {
       title={`系列文章 - ${SITE_TITLE}`}
       description="按主題組織的完整學習路徑，從 CI/CD、Docker 到系統架構設計"
     />
-    <script type="application/ld+json" set:html={JSON.stringify(collectionPageSchema)} />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(collectionPageSchema)} />
   </head>
   <body>
     <Header />

@@ -8,17 +8,17 @@ const posts = providedPosts || await getCollection("blog");
 
 // 提取標籤
 const categories = posts
-  .map((p) =>
-    p.data.categories ? p.data.categories.map((t) => t.toLowerCase()) : []
+  .map((p: { data: { categories?: string[] } }) =>
+    p.data.categories ? p.data.categories.map((t: string) => t.toLowerCase()) : []
   )
   .flat()
-  .filter((tag) => tag);
+  .filter((tag: string) => tag);
 
 interface CategoryCount {
   [category: string]: number;
 }
 // 統計數量
-const AllCounts = categories.reduce((acc: CategoryCount, category) => {
+const AllCounts = categories.reduce((acc: CategoryCount, category: string) => {
   if (!acc[category]) {
     acc[category] = 0;
   }
