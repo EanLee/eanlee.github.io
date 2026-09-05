@@ -9,6 +9,7 @@ import rehypeAutolinkHeadings from "rehype-autolink-headings";
 
 import remarkRemoveMd from "./remark-adjust-md-link.mjs";
 import { remarkReadingTime } from "./remark-reading-time.mjs";
+import { customLanguages } from "./shiki-languages.mjs";
 
 import robotsTxt from "astro-robots-txt";
 
@@ -52,6 +53,7 @@ export default defineConfig({
     ],
     shikiConfig: {
       theme: "github-dark",
+      langs: customLanguages,
     },
   },
 });
