@@ -9,8 +9,8 @@ import { toString } from "mdast-util-to-string";
 export function remarkReadingTime() {
   return function (tree, { data }) {
     const textOnPage = toString(tree);
-    // 中文默認默讀速度約 350-500 字/分鐘，以 350 WPM 估算避免時間偏長
-    const readingTime = getReadingTime(textOnPage, { wordsPerMinute: 350 });
+    // 中文默認默讀速度約 400-500 字/分鐘，以 420 WPM 估算
+    const readingTime = getReadingTime(textOnPage, { wordsPerMinute: 420 });
     const roundedMinutes = Math.max(1, Math.round(readingTime.minutes));
 
     // 格式化為中文友善字串，例如「約 5 分鐘閱讀」
