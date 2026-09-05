@@ -2,6 +2,7 @@
 import BaseHead from '../components/BaseHead.astro';
 import FileText from '@lucide/astro/icons/file-text';
 import Tag from '@lucide/astro/icons/tag';
+import Clock from '@lucide/astro/icons/clock';
 import ArrowRight from '@lucide/astro/icons/arrow-right';
 import ChevronRight from '@lucide/astro/icons/chevron-right';
 import { Image } from 'astro:assets';
@@ -9,6 +10,7 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import Categories from '../components/widget/categories.astro';
 import Series from '../components/widget/series.astro';
+import { calculateReadingTime, formatReadingTime } from '../utils/readingTime';
 import { SITE_TITLE } from '../consts';
 
 export interface Props {
@@ -134,13 +136,20 @@ const epicJsonLd = Astro.site ? {
                   </div>
                   <div class="post-content">
                     <div class="post-meta-row">
-                      <time class="post-date" datetime={post.data.date.toISOString()}>
-                        {new Date(post.data.date).toLocaleDateString('zh-TW', {
-                          year: 'numeric',
-                          month: 'short',
-                          day: 'numeric',
-                        })}
-                      </time>
+                      <div class="post-meta-left">
+                        <time class="post-date" datetime={post.data.date.toISOString()}>
+                          {new Date(post.data.date).toLocaleDateString('zh-TW', {
+                            year: 'numeric',
+                            month: 'short',
+                            day: 'numeric',
+                          })}
+                        </time>
+                        <span class="meta-dot">·</span>
+                        <span class="card-reading-time">
+                          <Clock size={13} aria-hidden="true" />
+                          <span>{formatReadingTime(calculateReadingTime(post.body))}</span>
+                        </span>
+                      </div>
                       
                       {post.data.tags && post.data.tags.length > 0 && (
                         <div class="post-tags">
@@ -340,6 +349,32 @@ const epicJsonLd = Astro.site ? {
   .post-date {
     font-size: var(--font-size-sm);
     color: var(--text-muted);
+  }
+
+  .post-meta-left {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    flex-wrap: wrap;
+  }
+
+  .meta-dot {
+    color: var(--text-muted);
+    user-select: none;
+    font-size: var(--font-size-sm);
+  }
+
+  .card-reading-time {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+  }
+
+  .card-reading-time svg {
+    color: var(--text-muted);
+    flex-shrink: 0;
   }
   
   .post-tags {

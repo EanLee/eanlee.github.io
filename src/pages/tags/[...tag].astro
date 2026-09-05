@@ -4,6 +4,8 @@ import BaseHead from "../../components/BaseHead.astro";
 import Header from "../../components/Header.astro";
 import Footer from "../../components/Footer.astro";
 import Tags from "../../components/widget/tags.astro";
+import Clock from "@lucide/astro/icons/clock";
+import { calculateReadingTime, formatReadingTime } from "../../utils/readingTime";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../../consts";
 
 export async function getStaticPaths() {
@@ -106,13 +108,20 @@ const tagJsonLd = {
                   <article class="post-card">
                     <div class="post-content">
                       <div class="post-meta-row">
-                        <time class="post-date" datetime={post.data.date.toISOString()}>
-                          {new Date(post.data.date).toLocaleDateString('zh-TW', {
-                            year: 'numeric',
-                            month: 'short',
-                            day: 'numeric',
-                          })}
-                        </time>
+                        <div class="post-meta-left">
+                          <time class="post-date" datetime={post.data.date.toISOString()}>
+                            {new Date(post.data.date).toLocaleDateString('zh-TW', {
+                              year: 'numeric',
+                              month: 'short',
+                              day: 'numeric',
+                            })}
+                          </time>
+                          <span class="meta-dot">·</span>
+                          <span class="card-reading-time">
+                            <Clock size={13} aria-hidden="true" />
+                            <span>{formatReadingTime(calculateReadingTime(post.body))}</span>
+                          </span>
+                        </div>
                         {post.data.tags && post.data.tags.length > 0 && (
                           <div class="post-tags">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -281,6 +290,32 @@ const tagJsonLd = {
   .post-date {
     font-size: 0.875rem;
     color: var(--text-muted);
+  }
+
+  .post-meta-left {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .meta-dot {
+    color: var(--text-muted);
+    user-select: none;
+    font-size: 0.875rem;
+  }
+
+  .card-reading-time {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.875rem;
+    color: var(--text-muted);
+  }
+
+  .card-reading-time svg {
+    color: var(--text-muted);
+    flex-shrink: 0;
   }
   
   .post-tags {

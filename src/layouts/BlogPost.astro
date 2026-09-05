@@ -13,9 +13,11 @@ import EnhancedAnalytics from "../components/EnhancedAnalytics.astro";
 import Giscus from "../components/Giscus.astro";
 import RelatedPosts from "../components/RelatedPosts.astro";
 import { Image } from 'astro:assets';
+import Clock from "@lucide/astro/icons/clock";
+import { getReadingTimeDetails, type ReadingTimeResult } from "../utils/readingTime";
 
 import { SITE_TITLE } from "../consts";
-const { title, description, date, lastmod, coverImage, tags, keywords, series, categories, epic, toc, entry } = Astro.props;
+const { title, description, date, lastmod, coverImage, tags, keywords, series, categories, epic, toc, entry, minutesRead, readingTime } = Astro.props;
 
 // 從 URL 路徑推導 epic 與 seriesPath（彌補系列文缺少 epic 欄位的問題）
 // URL 格式：/post/{epic}/{rest}/ 或 /post/{epic}/series/{series-dir}/{article}/
@@ -43,8 +45,15 @@ if (!displayImage && availableCovers.length > 0) {
   displayImage = randomCover?.default || null;
 }
 
-// 計算字數（中英文混合）
-const wordCount = entry?.body ? entry.body.split(/\s+/).length : 0;
+// 預估閱讀時間與字數計算（優先使用 Remark 外掛注入結果，無注入則使用 entry.body 計算）
+const resolvedReadingTime: ReadingTimeResult = readingTime || (entry?.body ? getReadingTimeDetails(entry.body) : {
+  text: minutesRead || '約 1 分鐘閱讀',
+  minutes: 1,
+  time: 60000,
+  words: 0
+});
+const displayMinutesRead = minutesRead || resolvedReadingTime.text;
+const resolvedWordCount = resolvedReadingTime.words > 0 ? resolvedReadingTime.words : (entry?.body ? entry.body.length : 0);
 
 // 準備 JSON-LD 結構化資料
 const jsonLd = {
@@ -84,7 +93,8 @@ const jsonLd = {
   },
   keywords: keywords?.join(", ") || tags?.join(", "),
   articleSection: categories?.join(", ") || tags?.[0],
-  wordCount: wordCount,
+  wordCount: resolvedWordCount,
+  timeRequired: `PT${resolvedReadingTime.minutes}M`,
   inLanguage: "zh-TW",
   ...(series && seriesPath && {
     isPartOf: {
@@ -162,15 +172,23 @@ const staleYear = date instanceof Date ? date.getFullYear() : 0;
               <h1 class="article-title" itemprop="headline">
                 {title}
               </h1>
-              <div class="date">
-                <FormattedDate date={date} itemprop="datePublished" />
-                {
-                  lastmod && (
-                    <div class="last-updated-on">
-                      Last updated on <FormattedDate date={lastmod} itemprop="dateModified" />
-                    </div>
-                  )
-                }
+              <div class="article-meta">
+                <div class="date">
+                  <FormattedDate date={date} itemprop="datePublished" />
+                  {
+                    lastmod && (
+                      <span class="last-updated-on">
+                        （更新於 <FormattedDate date={lastmod} itemprop="dateModified" />）
+                      </span>
+                    )
+                  }
+                </div>
+                <span class="meta-divider" aria-hidden="true">·</span>
+                <div class="reading-time" title={`預估閱讀時間約 ${resolvedReadingTime.minutes} 分鐘，全篇約 ${resolvedWordCount.toLocaleString()} 字`}>
+                  <Clock size={15} aria-hidden="true" />
+                  <span>{displayMinutesRead}</span>
+                  <span class="word-count-badge">（{resolvedWordCount.toLocaleString()} 字）</span>
+                </div>
               </div>
               {
                 tags && (
@@ -364,16 +382,49 @@ const staleYear = date instanceof Date ? date.getFullYear() : 0;
         font-weight: var(--font-weight-bold);
       }
 
-      .date {
+      .article-meta {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: var(--spacing-xs) var(--spacing-sm);
         font-size: var(--font-size-sm);
-        color: #ffffff;
+        color: rgba(255, 255, 255, 0.9);
         margin-bottom: var(--spacing-lg);
+      }
+
+      .article-meta .date {
+        margin-bottom: 0;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+      }
+
+      .meta-divider {
+        color: rgba(255, 255, 255, 0.5);
+      }
+
+      .reading-time {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        color: rgba(255, 255, 255, 0.9);
+      }
+
+      .reading-time svg {
+        color: var(--color-primary, #4299e1);
+        flex-shrink: 0;
+      }
+
+      .word-count-badge {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.9em;
       }
 
       .last-updated-on {
         font-style: italic;
         font-size: 0.9em;
-        margin-top: 0.25em;
+        opacity: 0.85;
       }
 
       .tags {
