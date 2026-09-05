@@ -57,8 +57,18 @@ const jsonLd = {
   dateModified: lastmod ? lastmod.toISOString() : date.toISOString(),
   author: {
     "@type": "Person",
-    name: "Ean Lee",
-    url: "https://eandev.com",
+    name: "Ean Lee (伊恩)",
+    url: new URL("/about/", Astro.site).href,
+    sameAs: [
+      "https://github.com/EanLee",
+      "https://x.com/wosilee",
+      "https://www.linkedin.com/in/eanlee/",
+      "https://www.facebook.com/people/%E4%BC%8A%E6%81%A9%E8%BB%9F%E9%AB%94%E9%96%8B%E7%99%BC%E8%B6%A3/100064064679045/"
+    ],
+  },
+  speakable: {
+    "@type": "SpeakableSpecification",
+    cssSelector: [".article-summary", ".lead-paragraph", "[itemprop='description']"],
   },
   publisher: {
     "@type": "Organization",

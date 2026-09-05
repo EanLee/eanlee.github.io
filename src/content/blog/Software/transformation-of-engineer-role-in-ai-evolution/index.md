@@ -26,14 +26,18 @@ keywords:
 slug: transformation-of-engineer-role-in-ai-evolution
 cover: ./images/ai-engineer-transformation-cover.png
 epic: software
-lastmod: 2026-03-16T01:32:16+08:00
+lastmod: 2026-09-06T06:06:51+08:00
 ---
+<div class="article-summary lead-paragraph">
+
 > 🔖 長話短說 🔖
 >
 > - **AI 的演進階段**：從 Copilot 的輔助補全，到 Vibe Coding 的規範驅動，再到現在多專職分工的 Sub Agent 團隊協作。
 > - **Token 運用效能**：AI 真正的 Token 成本往往耗費在反覆的指令與限制上，因此 Skill 與 Tool 的索引機制成為 Token 使用效率最大化的關鍵。
 > - **角色的根本性轉變**：工程師不再只是撰寫程式碼，而是要像架構師或監控者一樣，全面判斷 AI 團隊產出的商業價值與開發品質。
 > - **慢下來思考**：面對每週更新的技術浪潮，應具備良好的全面思考與開發規範（如異動追蹤、文檔錄），避免系統在缺乏管控下胡亂發展。
+
+</div>
 
 <!--more-->
 
@@ -84,14 +88,11 @@ GitHub Copilot 的出現對工程師來說，更像是一個「超級自動補�
 
 現行使用的主力，還是以 VS Code + GitHub Copilot 與 Claude Code 兩者搭配使用。
 
-## Vibe Coding 興起：從指令驅動到意圖導向
+## 什麼是 Vibe Coding？從指令驅動走向意圖導向
 
-> 📝 **補充說明：Vibe Coding 的原始定義** 📝
+> 📝 **定義直答：Vibe Coding 的核心概念** 📝
 >
-> Vibe Coding 是 OpenAI 共同創辦人 Andrej Karpathy 在 2025 年 2 月 提出的概念。
-> 透過向自然語言描述意圖（Intent），讓 AI 負責生成、測試與除錯。
->
-> 開發者的核心價值轉變為「Vibe Director」，負責引導系統的最終呈現（Vibe），這要求開發者具備極強的功能拆解與邏輯驗證能力，而非僅是語法熟練度。
+> **Vibe Coding** 是由 OpenAI 共同創辦人 Andrej Karpathy 於 2025 年初提出的 AI 開發模式：開發者不再逐行手寫語法，而是以自然語言精確描述系統意圖（Intent），交由 AI 自動生成程式碼、執行測試與除錯，工程師轉型為引導系統架構與驗證品質的「導演（Vibe Director）」。開發者的核心價值從程式碼語法熟練度，轉化為功能拆解、系統架構把關與邏輯驗證能力。
 
 後來進入所謂的 **Vibe Coding** 階段。
 

@@ -76,12 +76,12 @@ const blogStructuredData = {
     "@type": "Person",
     "name": "Ean Lee",
     "description": "資深軟體開發者，專注於 .NET、Cloud Native 與系統架構設計",
-    "url": Astro.url.toString(),
+    "url": new URL("/about/", Astro.url).toString(),
     "sameAs": [
       "https://github.com/EanLee",
       "https://x.com/wosilee",
       "https://www.linkedin.com/in/eanlee/",
-      "https://facebook.com/276561129952456"
+      "https://www.facebook.com/people/%E4%BC%8A%E6%81%A9%E8%BB%9F%E9%AB%94%E9%96%8B%E7%99%BC%E8%B6%A3/100064064679045/"
     ]
   },
   "publisher": {
@@ -101,13 +101,14 @@ const blogStructuredData = {
     "@id": Astro.url.toString()
   },
 };
+const pageTitle = `${SITE_TITLE} | .NET、Cloud Native 與系統架構技術隨筆`;
 ---
 
 <!doctype html>
 <html lang="zh-TW" itemscope itemtype="https://schema.org/Blog">
 <head>
     <BaseHead 
-      title={SITE_TITLE} 
+      title={pageTitle} 
       description={enhancedDescription} 
       keywords={keywords}
     />
