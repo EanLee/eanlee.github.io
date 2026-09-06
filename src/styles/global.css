@@ -497,6 +497,7 @@ hr {
 
 /* === 現場技術對談專欄組件 (面對面交流 / 無黑底框簡約風格) === */
 .chat-dialogue-container {
+  width: 100%;
   margin: 2rem 0;
   padding: 0.25rem 0;
   background: transparent;
