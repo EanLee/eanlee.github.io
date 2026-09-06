@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
+import BackToTop from './BackToTop.astro';
 
 const today = new Date();
 
@@ -187,6 +188,9 @@ const authorSchema = {
 
 <!-- SEO 優化：作者結構化資料 -->
 <script is:inline type="application/ld+json" set:html={JSON.stringify(authorSchema)} />
+
+<!-- 全站返回頂部懸浮按鈕 -->
+<BackToTop />
 
 <style>
   footer {

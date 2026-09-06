@@ -6,7 +6,6 @@ import FormattedDate from "../components/FormattedDate.astro";
 import SeriesArticleNav from "../components/series-article-nav.astro";
 import AdRow from "../components/ad-row.astro";
 import SocialShare from "../components/SocialShare.astro";
-import BackToTop from "../components/BackToTop.astro";
 import TableOfContents from "../components/TableOfContents.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
 import EnhancedAnalytics from "../components/EnhancedAnalytics.astro";
@@ -254,7 +253,6 @@ const staleYear = date instanceof Date ? date.getFullYear() : 0;
     </main>
 
     <Footer />
-    <BackToTop />
 
     <!-- 增強的 GA4 事件追蹤 -->
     <EnhancedAnalytics enabled={import.meta.env.PROD} />

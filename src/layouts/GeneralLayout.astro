@@ -2,7 +2,6 @@
 import BaseHead from "../components/BaseHead.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
-import BackToTop from "../components/BackToTop.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
 const { title, description, noindex = false } = Astro.props;
 ---
@@ -23,7 +22,6 @@ const { title, description, noindex = false } = Astro.props;
       <slot />
     </main>
     <Footer />
-    <BackToTop />
     <style>
       body {
         display: flex;
