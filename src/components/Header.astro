@@ -4,7 +4,7 @@ import { SITE_TITLE } from "../consts";
 import { getCollection } from "astro:content";
 import { getSeriesData } from "../utils/series";
 
-const image = "/favicon.ico";
+const image = "/favicon.webp";
 
 // 檢查各分類是否已有發布文章，無文章時自動隱藏導航連結
 const allPosts = await getCollection("blog");
@@ -18,7 +18,7 @@ const featuredSeries = getSeriesData(allPosts).slice(0, 4);
   <div class="header-div">
     <nav>
       <a href="/" class="logo" data-astro-prefetch aria-label={`${SITE_TITLE} 首頁`}>
-        <img class="logo-img" src={image} alt="Logo" />
+        <img class="logo-img" src={image} alt="Logo" width="64" height="64" fetchpriority="high" />
         <span class="logo-text">{SITE_TITLE}</span>
       </a>
 

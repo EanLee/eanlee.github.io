@@ -18,15 +18,14 @@ const { enabled = true } = Astro.props;
     var _analyticsController = null;
     var _analyticsObservers = [];
 
-    // 確保 gtag 函數存在
-    function ensureGtag() {
-      return typeof gtag !== 'undefined';
-    }
-
     // 安全的 gtag 呼叫
     function trackEvent(eventName, eventParams) {
-      if (ensureGtag()) {
+      if (typeof gtag === 'function') {
         gtag('event', eventName, eventParams);
+      } else if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
+        window.gtag('event', eventName, eventParams);
+      } else if (typeof window !== 'undefined' && window.dataLayer) {
+        window.dataLayer.push(['event', eventName, eventParams]);
       }
     }
 
@@ -278,15 +277,44 @@ const { enabled = true } = Astro.props;
       _ric(function() { initNonCriticalAnalytics(signal); });
     }
 
-    // 初始化
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initEnhancedAnalytics);
-    } else {
+    // 初始化與 SPA 換頁處理
+    var _hasInitialPageLoaded = false;
+
+    function handleAstroPageLoad() {
       initEnhancedAnalytics();
+
+      // SPA 換頁時向 GA4 發送頁面瀏覽事件（初次載入由 BaseHead 處理，避免重複計算）
+      if (!_hasInitialPageLoaded) {
+        _hasInitialPageLoaded = true;
+        return;
+      }
+
+      var fn = typeof gtag === 'function' ? gtag : (typeof window !== 'undefined' && typeof window.gtag === 'function' ? window.gtag : null);
+      if (fn) {
+        fn('config', 'G-4HXSCXTZKZ', {
+          page_title: document.title,
+          page_location: window.location.href
+        });
+      } else if (typeof window !== 'undefined' && window.dataLayer) {
+        window.dataLayer.push(['config', 'G-4HXSCXTZKZ', {
+          page_title: document.title,
+          page_location: window.location.href
+        }]);
+      }
     }
 
-    // Astro 頁面切換時重新初始化（initEnhancedAnalytics 會先清理上一頁的 listeners）
-    document.addEventListener('astro:page-load', initEnhancedAnalytics);
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() {
+        initEnhancedAnalytics();
+        _hasInitialPageLoaded = true;
+      });
+    } else {
+      initEnhancedAnalytics();
+      _hasInitialPageLoaded = true;
+    }
+
+    // Astro 頁面切換時重新初始化並記錄 page_view
+    document.addEventListener('astro:page-load', handleAstroPageLoad);
   </script>
 )}
 

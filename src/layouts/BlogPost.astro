@@ -5,12 +5,12 @@ import Footer from "../components/Footer.astro";
 import FormattedDate from "../components/FormattedDate.astro";
 import SeriesArticleNav from "../components/series-article-nav.astro";
 import AdRow from "../components/ad-row.astro";
-import SocialShare from "../components/SocialShare.astro";
 import TableOfContents from "../components/TableOfContents.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
 import EnhancedAnalytics from "../components/EnhancedAnalytics.astro";
 import Giscus from "../components/Giscus.astro";
 import RelatedPosts from "../components/RelatedPosts.astro";
+import FollowCTA from "../components/FollowCTA.astro";
 import { Image } from 'astro:assets';
 import Clock from "@lucide/astro/icons/clock";
 import { getReadingTimeDetails, type ReadingTimeResult } from "../utils/readingTime";
@@ -54,13 +54,18 @@ const resolvedReadingTime: ReadingTimeResult = readingTime || (entry?.body ? get
 const displayMinutesRead = minutesRead || resolvedReadingTime.text;
 const resolvedWordCount = resolvedReadingTime.words > 0 ? resolvedReadingTime.words : (entry?.body ? entry.body.length : 0);
 
+// 提取 og:image URL（支援 ImageMetadata 對象與字串路徑）
+const ogImageUrl: string | undefined = displayImage
+  ? (typeof displayImage === 'string' ? displayImage : (displayImage as any).src)
+  : undefined;
+
 // 準備 JSON-LD 結構化資料
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
   headline: title,
   description: description || title,
-  image: displayImage ? new URL(displayImage, Astro.site).href : undefined,
+  image: ogImageUrl ? new URL(ogImageUrl, Astro.site).href : undefined,
   datePublished: date.toISOString(),
   dateModified: lastmod ? lastmod.toISOString() : date.toISOString(),
   author: {
@@ -83,7 +88,7 @@ const jsonLd = {
     name: "伊恩的開發狂想",
     logo: {
       "@type": "ImageObject",
-      url: new URL("/favicon.svg", Astro.site).href,
+      url: new URL("/favicon.ico", Astro.site).href,
     },
   },
   mainEntityOfPage: {
@@ -103,11 +108,6 @@ const jsonLd = {
     },
   }),
 };
-
-// 提取 og:image URL（支援 ImageMetadata 對象與字串路徑）
-const ogImageUrl: string | undefined = displayImage
-  ? (typeof displayImage === 'string' ? displayImage : (displayImage as any).src)
-  : undefined;
 
 // 文章新鮮度警示：以 lastmod（若有）或 date 判斷，超過 2 年顯示提示
 const TWO_YEARS_MS = 730 * 24 * 60 * 60 * 1000;
@@ -233,12 +233,20 @@ const staleYear = date instanceof Date ? date.getFullYear() : 0;
                   <span>內容創作與審核聲明</span>
                 </div>
                 <p class="ai-disclosure-text">
-                  本站部分文章在撰寫完成後，會藉助 AI 進行潤飾、論述補強或結構梳理；所有技術觀點、實戰經驗與架構決策，均由<strong>伊恩</strong>親自審核、實測驗證並承擔最終責任。詳見 <a href="/about/#ai-policy">AI 協作原則</a>。
+                  本站部分文章會藉助 AI 進行潤飾、結構梳理或輔助補強；所有技術觀點與踩坑實務，均由<strong>伊恩</strong>親自構思並在當下脈絡實測驗證。技術持續演進且個人視角有限，若有疏漏或不同解法，歡迎留言交流！詳見 <a href="/about/#ai-policy">AI 協作原則</a>。
                 </p>
               </aside>
 
-              <!-- 社交分享按鈕 -->
-              <SocialShare title={title} url={Astro.url.href} description={description} />
+              <!-- 讀者行動區：高度整合的訂閱留存與社群分享卡片 -->
+              <FollowCTA
+                headline="喜歡這篇的實戰分享？"
+                sub="訂閱 RSS，第一時間收到最新的系統架構、.NET 與踩坑經驗"
+                share={{
+                  title: title,
+                  url: Astro.url.href,
+                  description: description,
+                }}
+              />
 
               <!-- Prev/Next 限系列文 -->
               <SeriesArticleNav series={series} title={title} />
@@ -1076,6 +1084,29 @@ const staleYear = date instanceof Date ? date.getFullYear() : 0;
         :global(.series-article-nav .p-4) {
           padding: 0.75rem;
         }
+      }
+
+      .article-follow-cta {
+        margin: var(--spacing-2xl) 0 var(--spacing-xl);
+      }
+
+      .comment-cta {
+        margin: var(--spacing-2xl) 0 var(--spacing-md);
+        padding-top: var(--spacing-lg);
+        border-top: 1px solid var(--color-border-light);
+      }
+
+      .comment-cta-title {
+        font-size: var(--font-size-lg);
+        font-weight: var(--font-weight-semibold);
+        color: var(--text-primary);
+        margin: 0 0 var(--spacing-xs);
+      }
+
+      .comment-cta-desc {
+        font-size: var(--font-size-sm);
+        color: var(--text-secondary);
+        margin: 0;
       }
     </style>
 

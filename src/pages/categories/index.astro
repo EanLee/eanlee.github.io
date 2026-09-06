@@ -1,0 +1,256 @@
+---
+import { getCollection } from "astro:content";
+import BaseHead from "../../components/BaseHead.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import { SITE_TITLE } from "../../consts";
+
+const posts = await getCollection("blog");
+
+// 統計每個次分類的文章數
+const categoryMap = new Map<string, { display: string; count: number }>();
+for (const post of posts) {
+  for (const cat of post.data.categories ?? []) {
+    if (!cat) continue;
+    const key = cat.toLowerCase();
+    if (!categoryMap.has(key)) {
+      categoryMap.set(key, { display: cat, count: 0 });
+    }
+    categoryMap.get(key)!.count++;
+  }
+}
+
+// 按文章數降序排列
+const categories = [...categoryMap.entries()]
+  .sort((a, b) => b[1].count - a[1].count)
+  .map(([key, val]) => ({ key, ...val }));
+
+const maxCount = categories[0]?.count ?? 1;
+
+const collectionPageSchema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: `文章分類 - ${SITE_TITLE}`,
+  description: `以分類主題瀏覽所有文章，共 ${categories.length} 個分類主題`,
+  url: new URL("/categories/", Astro.site).href,
+  numberOfItems: categories.length,
+  itemListElement: categories.map((cat, i) => ({
+    "@type": "ListItem",
+    position: i + 1,
+    url: new URL(`/categories/${cat.key}/`, Astro.site).href,
+    name: cat.display,
+  })),
+};
+---
+
+<!doctype html>
+<html lang="zh-TW">
+  <head>
+    <BaseHead
+      title={`文章分類 - ${SITE_TITLE}`}
+      description={`以分類主題瀏覽所有文章，共 ${categories.length} 個分類主題`}
+    />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(collectionPageSchema)} />
+  </head>
+  <body>
+    <Header />
+    <main class="categories-index">
+      <div class="container">
+        <div class="page-header">
+          <div class="header-text">
+            <h1>
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1-2-1Z"/>
+                <path d="M14 8H8"/>
+                <path d="M16 12H8"/>
+                <path d="M13 16H8"/>
+              </svg>
+              文章分類
+            </h1>
+            <p class="subtitle">依主題分類瀏覽實務踩坑記錄、架構思維與技術專欄</p>
+          </div>
+          <div class="header-stat">
+            <span class="stat-number">{categories.length}</span>
+            <span class="stat-label">個分類</span>
+          </div>
+        </div>
+
+        <div class="categories-grid">
+          {categories.map((cat) => {
+            const ratio = cat.count / maxCount;
+            const isTop = ratio > 0.4;
+            return (
+              <a href={`/categories/${cat.key}/`} class={`category-card ${isTop ? "featured" : ""}`}>
+                <div class="card-content">
+                  <span class="category-name">{cat.display}</span>
+                  <span class="category-count">{cat.count} 篇</span>
+                </div>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="arrow-icon" aria-hidden="true">
+                  <path d="m9 18 6-6-6-6"/>
+                </svg>
+              </a>
+            );
+          })}
+        </div>
+
+        <p class="hint">
+          也可以透過 <a href="/tags/">標籤總覽</a>、<a href="/series/">系列專欄</a> 或 <a href="/archives/">所有文章</a> 進行探索
+        </p>
+      </div>
+    </main>
+    <Footer />
+  </body>
+</html>
+
+<style>
+  body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  .categories-index {
+    flex: 1;
+  }
+
+  .container {
+    max-width: var(--container-xl);
+    margin: 0 auto;
+    padding: var(--spacing-xl) var(--spacing-md);
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: var(--spacing-xl);
+    padding-bottom: var(--spacing-md);
+    border-bottom: 2px solid var(--color-border-light);
+  }
+
+  h1 {
+    font-size: 1.75rem;
+    font-weight: var(--font-weight-bold);
+    margin: 0 0 var(--spacing-sm);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    color: var(--text-primary);
+  }
+
+  h1 svg {
+    color: var(--color-primary);
+  }
+
+  .subtitle {
+    color: var(--text-muted);
+    margin: 0;
+    font-size: var(--font-size-sm);
+  }
+
+  .header-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    flex-shrink: 0;
+  }
+
+  .stat-number {
+    font-size: 2rem;
+    font-weight: var(--font-weight-bold);
+    color: var(--color-primary);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+    margin-top: var(--spacing-xs);
+  }
+
+  .categories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-2xl);
+  }
+
+  .category-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--spacing-md) var(--spacing-lg);
+    background-color: var(--color-bg-secondary);
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: all var(--transition-normal);
+  }
+
+  .category-card:hover {
+    border-color: var(--color-primary);
+    background-color: var(--color-bg-muted);
+    transform: translateY(-2px);
+  }
+
+  .card-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .category-name {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-primary);
+  }
+
+  .category-count {
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+  }
+
+  .category-card.featured {
+    border-left: 3px solid var(--color-primary);
+  }
+
+  .arrow-icon {
+    color: var(--text-muted);
+    transition: transform var(--transition-normal), color var(--transition-normal);
+  }
+
+  .category-card:hover .arrow-icon {
+    color: var(--color-primary);
+    transform: translateX(4px);
+  }
+
+  .hint {
+    margin-top: var(--spacing-2xl);
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+    text-align: center;
+  }
+
+  .hint a {
+    color: var(--color-primary);
+    text-decoration: underline;
+  }
+
+  @media (max-width: 768px) {
+    .page-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--spacing-md);
+    }
+
+    .header-stat {
+      align-items: flex-start;
+    }
+
+    .categories-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
