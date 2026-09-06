@@ -13,7 +13,7 @@ keywords:
 date: 2023-01-09T09:47:58+08:00
 slug: docker-operate
 description: 梳理 Docker 開發與維運必備的核心指令與實務操作。筆記整合 Dockerfile 撰寫原則、Image 建置流程，以及運用 Docker Compose 定義並編排多容器服務的實用範例與參數說明。
-lastmod: 2026-09-06T22:47:04+08:00
+lastmod: 2026-09-07T01:14:48+08:00
 series: 從零開始建立自動化發佈的流水線
 epic: software
 ---

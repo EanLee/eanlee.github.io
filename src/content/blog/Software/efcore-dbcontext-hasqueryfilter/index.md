@@ -18,7 +18,7 @@ keywords:
   - Entity Framework Core
   - 多條件過濾
 slug: efcore-dbcontext-hasqueryfilter
-lastmod: 2026-09-06T22:47:04+08:00
+lastmod: 2026-09-07T01:14:48+08:00
 epic: software
 ---
 前些時間，在幫朋友改造現有倉儲系統時，發現現有資料庫內，所有的表格都有四個作為異動記錄使用的固定欄位。

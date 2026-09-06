@@ -6,7 +6,7 @@ categories:
   - 聊聊名詞
 tags:
   - 思維模式
-lastmod: 2026-09-06T22:47:04+08:00
+lastmod: 2026-09-07T01:14:48+08:00
 slug: spof
 keywords:
   - 單點故障

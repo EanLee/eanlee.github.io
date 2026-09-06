@@ -10,7 +10,7 @@ keywords:
   - Git Flow
 tags:
   - 版控
-lastmod: 2026-09-06T22:47:04+08:00
+lastmod: 2026-09-07T01:14:48+08:00
 slug: version_control
 series: 從零開始建立自動化發佈的流水線
 epic: software
