@@ -10,6 +10,7 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
+import { fileURLToPath } from 'url';
 
 // ==================== 型別定義 ====================
 
@@ -536,7 +537,7 @@ function main(): void {
  * 如果直接執行此檔案，則執行主程式
  * 否則導出函數供其他模組使用
  */
-if (require.main === module) {
+if (fileURLToPath(import.meta.url) === process.argv[1]) {
   main();
 }
 
