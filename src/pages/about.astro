@@ -55,7 +55,7 @@ const aboutStructuredData = {
   }
 
   .page-header {
-    text-align: center;
+    text-align: left;
     margin-bottom: var(--spacing-2xl);
     padding-bottom: var(--spacing-lg);
     border-bottom: 2px solid var(--color-border-light);
@@ -72,22 +72,25 @@ const aboutStructuredData = {
   .subtitle {
     font-size: var(--font-size-base);
     color: var(--color-text-muted);
-    max-width: 680px;
-    margin: 0 auto;
+    margin: 0;
     line-height: var(--line-height-relaxed);
   }
 
   .content-wrapper {
-    max-width: 860px;
-    margin: 0 auto;
     width: 100%;
+    max-width: 100%;
     box-sizing: border-box;
   }
 
-  /* Markdown 內容樣式交由 prose 處理 */
+  /* 覆蓋 global.css 的 max-width: 80ch 與居中 margin，確保完全齊平全站 1120px 網格 */
   .prose {
+    width: 100%;
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
     font-size: var(--font-size-lg);
     line-height: 1.8;
+    box-sizing: border-box;
   }
 
   /* 響應式設計 */
