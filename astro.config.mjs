@@ -9,6 +9,7 @@ import rehypeAutolinkHeadings from "rehype-autolink-headings";
 
 import remarkRemoveMd from "./remark-adjust-md-link.mjs";
 import { remarkReadingTime } from "./remark-reading-time.mjs";
+import { remarkChatDialogue } from "./remark-chat-dialogue.mjs";
 import { customLanguages } from "./shiki-languages.mjs";
 
 import robotsTxt from "astro-robots-txt";
@@ -39,7 +40,7 @@ export default defineConfig({
     inlineStylesheets: "always",
   },
   markdown: {
-    remarkPlugins: [remarkRemoveMd, remarkReadingTime],
+    remarkPlugins: [remarkRemoveMd, remarkReadingTime, remarkChatDialogue],
     rehypePlugins: [
       [rehypeFigure, { className: "my-figure" }],
       rehypeSlug,

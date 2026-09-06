@@ -494,3 +494,187 @@ hr {
     border-radius: 0.5rem;
     margin: 2rem 0;
 }
+
+/* === 對話軟體 (LINE 風格) 聊天氣泡組件 === */
+.chat-dialogue-container {
+  margin: 2rem 0;
+  padding: 1.5rem 1.25rem;
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-xl);
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+  box-shadow: var(--shadow-sm);
+}
+
+/* 旁白 / 場景描述膠囊 */
+.chat-narrator {
+  align-self: center;
+  max-width: 92%;
+  padding: 0.45rem 1rem;
+  background: rgba(var(--color-gray), 0.12);
+  border: 1px dashed var(--color-border-light);
+  border-radius: 9999px;
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+  text-align: center;
+  line-height: var(--line-height-relaxed);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.chat-narrator-badge {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+.chat-narrator-text {
+  font-style: normal;
+}
+
+/* 單則對話訊息 */
+.chat-message {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  max-width: 86%;
+}
+
+/* 左側發言者（提問者/夥伴） */
+.chat-msg-left {
+  align-self: flex-start;
+  flex-direction: row;
+}
+
+/* 右側發言者（Eric/作者/顧問） */
+.chat-msg-right {
+  align-self: flex-end;
+  flex-direction: row-reverse;
+}
+
+/* 大頭貼圓形標籤 */
+.chat-avatar {
+  width: 38px;
+  height: 38px;
+  min-width: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-sm);
+  color: #ffffff;
+  user-select: none;
+  box-shadow: var(--shadow-sm);
+}
+
+.chat-msg-left .chat-avatar {
+  background: linear-gradient(135deg, #0d9488 0%, #14b8a6 100%);
+}
+
+.chat-msg-right .chat-avatar {
+  background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
+}
+
+/* 對話文字與名稱包裹層 */
+.chat-content-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.chat-msg-left .chat-content-wrap {
+  align-items: flex-start;
+}
+
+.chat-msg-right .chat-content-wrap {
+  align-items: flex-end;
+}
+
+/* 發言者名稱 */
+.chat-speaker-name {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  font-weight: var(--font-weight-medium);
+  padding: 0 4px;
+}
+
+/* 對話氣泡 */
+.chat-bubble {
+  padding: 0.7rem 1.05rem;
+  border-radius: var(--radius-lg);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-relaxed);
+  word-break: break-word;
+  position: relative;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+
+.chat-bubble-text {
+  margin: 0;
+}
+
+/* 左側氣泡樣式（卡片灰白/次要背景） */
+.chat-msg-left .chat-bubble {
+  background: var(--color-bg-muted);
+  color: var(--text-primary);
+  border: 1px solid var(--card-border);
+  border-top-left-radius: 3px;
+}
+
+/* 右側氣泡樣式（LINE 經典綠 / 翡翠綠氣泡） */
+.chat-msg-right .chat-bubble {
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-top-right-radius: 3px;
+}
+
+/* 氣泡內行內代碼 */
+.chat-inline-code {
+  background: rgba(0, 0, 0, 0.25);
+  color: inherit;
+  padding: 0.15em 0.4em;
+  border-radius: var(--radius-sm);
+  font-size: 0.88em;
+  font-family: var(--font-mono, monospace);
+}
+
+.chat-msg-left .chat-inline-code {
+  background: rgba(0, 0, 0, 0.2);
+  color: var(--color-primary);
+}
+
+.chat-msg-right .chat-inline-code {
+  background: rgba(0, 0, 0, 0.28);
+  color: #e6fffa;
+}
+
+/* 手機版 RWD 適應 */
+@media (max-width: 640px) {
+  .chat-dialogue-container {
+    padding: 1rem 0.75rem;
+    margin: 1.5rem 0;
+  }
+
+  .chat-message {
+    max-width: 94%;
+    gap: 0.5rem;
+  }
+
+  .chat-avatar {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    font-size: var(--font-size-xs);
+  }
+
+  .chat-bubble {
+    padding: 0.6rem 0.85rem;
+    font-size: 0.875rem;
+  }
+}
