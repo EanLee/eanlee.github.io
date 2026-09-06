@@ -219,6 +219,24 @@ const staleYear = date instanceof Date ? date.getFullYear() : 0;
                 <slot />
               </div>
 
+              <!-- AI 協作與內容審核聲明 -->
+              <aside class="ai-disclosure" aria-label="內容創作與審核聲明">
+                <div class="ai-disclosure-header">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M12 8V4H8"></path>
+                    <rect width="16" height="12" x="4" y="8" rx="2"></rect>
+                    <path d="M2 14h2"></path>
+                    <path d="M20 14h2"></path>
+                    <path d="M15 13v2"></path>
+                    <path d="M9 13v2"></path>
+                  </svg>
+                  <span>內容創作與審核聲明</span>
+                </div>
+                <p class="ai-disclosure-text">
+                  本站部分文章在撰寫完成後，會藉助 AI 進行潤飾、論述補強或結構梳理；所有技術觀點、實戰經驗與架構決策，均由<strong>伊恩</strong>親自審核、實測驗證並承擔最終責任。詳見 <a href="/about/#ai-policy">AI 協作原則</a>。
+                </p>
+              </aside>
+
               <!-- 社交分享按鈕 -->
               <SocialShare title={title} url={Astro.url.href} description={description} />
 
@@ -874,6 +892,52 @@ const staleYear = date instanceof Date ? date.getFullYear() : 0;
           font-size: 1.5em;
         }
       }
+
+  /* AI 協作與內容審核聲明 */
+  .ai-disclosure {
+    margin: var(--spacing-2xl) 0 var(--spacing-xl);
+    padding: var(--spacing-md) var(--spacing-lg);
+    background-color: var(--color-bg-secondary);
+    border: 1px solid var(--color-border-light);
+    border-left: 3px solid var(--color-primary);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    font-size: var(--font-size-sm);
+    line-height: 1.6;
+  }
+
+  .ai-disclosure-header {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: 0.35rem;
+    font-size: 0.88rem;
+  }
+
+  .ai-disclosure-header svg {
+    color: var(--color-primary);
+    flex-shrink: 0;
+  }
+
+  .ai-disclosure-text {
+    margin: 0;
+    color: var(--color-text-muted);
+  }
+
+  .ai-disclosure-text strong {
+    color: var(--color-text);
+  }
+
+  .ai-disclosure-text a {
+    color: var(--color-primary);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .ai-disclosure-text a:hover {
+    color: var(--link-hover);
+  }
 
   /* 留言互動提示 */
   .comment-cta {
