@@ -787,16 +787,19 @@ const featuredSeries = getSeriesData(allPosts).slice(0, 4);
       trigger.replaceWith(newTrigger);
 
       // hover 展開時同步 aria-expanded（無障礙輔助技術需要）
-      const dropdown = newTrigger.closest(".nav-dropdown");
-      if (dropdown) {
+      const dropdown = newTrigger.closest<HTMLElement>(".nav-dropdown");
+      if (dropdown && !dropdown.dataset.hoverInitialized) {
+        dropdown.dataset.hoverInitialized = "true";
         dropdown.addEventListener("mouseenter", () => {
-          newTrigger.setAttribute("aria-expanded", "true");
+          const currentTrigger = dropdown.querySelector<HTMLButtonElement>(".nav-dropdown-trigger");
+          currentTrigger?.setAttribute("aria-expanded", "true");
         });
         dropdown.addEventListener("mouseleave", () => {
           // 若非透過鍵盤開啟（style.display 未被 JS 覆寫），才重設
+          const currentTrigger = dropdown.querySelector<HTMLButtonElement>(".nav-dropdown-trigger");
           const menu = dropdown.querySelector<HTMLElement>(".dropdown-menu");
           if (!menu || menu.style.display !== "block") {
-            newTrigger.setAttribute("aria-expanded", "false");
+            currentTrigger?.setAttribute("aria-expanded", "false");
           }
         });
       }

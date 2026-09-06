@@ -194,13 +194,13 @@ const tagJsonLd = {
   .main-content {
     display: grid;
     grid-template-columns: 300px minmax(0, 1fr);
-    gap: 2rem;
-    margin: 2rem 0 3rem;
-    max-width: 1120px;
+    gap: var(--spacing-xl);
+    margin: var(--spacing-xl) 0 var(--spacing-2xl);
+    max-width: var(--container-xl);
     margin-left: auto;
     margin-right: auto;
-    padding-left: 1rem;
-    padding-right: 1rem;
+    padding-left: var(--spacing-md);
+    padding-right: var(--spacing-md);
   }
   
   .sidebar-area {
@@ -210,7 +210,7 @@ const tagJsonLd = {
   .widget-container {
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: var(--spacing-xl);
   }
   
   .content-area {
@@ -395,20 +395,27 @@ const tagJsonLd = {
     border-radius: 8px;
   }
   
-  @media (max-width: 1200px) {
+  @media (max-width: 1024px) {
     .main-content {
-      gap: 1.5rem;
+      grid-template-columns: 250px minmax(0, 1fr);
+      gap: var(--spacing-lg);
+    }
+
+    .sidebar-area {
+      width: 250px;
     }
   }
   
-  @media (max-width: 992px) {
+  @media (max-width: 768px) {
     .main-content {
       grid-template-columns: 1fr;
+      gap: var(--spacing-lg);
+      margin-top: var(--spacing-md);
     }
     
     .sidebar-area {
       width: 100%;
-      margin-bottom: 2rem;
+      margin-bottom: var(--spacing-xl);
     }
     
     .title-section {

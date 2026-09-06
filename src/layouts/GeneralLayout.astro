@@ -30,18 +30,10 @@ const { title, description, noindex = false } = Astro.props;
       }
 
       main {
-        display: flex;
-        width: var(--container-xl);
-        max-width: calc(100% - 2em);
+        width: 100%;
         flex: 1;
-        margin: 0 auto;
-        min-height: 0;
-      }
-
-      @media (max-width: 1120px) {
-        main {
-          width: 100%;
-        }
+        display: flex;
+        flex-direction: column;
       }
     </style>
   </body>

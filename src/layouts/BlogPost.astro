@@ -1085,6 +1085,9 @@ const staleYear = date instanceof Date ? date.getFullYear() : 0;
         const preElements = document.querySelectorAll(".article-content pre");
 
         preElements.forEach((pre) => {
+          if (pre.dataset.copyInitialized === "true") return;
+          pre.dataset.copyInitialized = "true";
+
           // 為 ::after 偽元素添加點擊事件
           // 由於偽元素無法直接綁定事件，我們偵聽 pre 元素的點擊
           pre.addEventListener("click", (e) => {
@@ -1093,9 +1096,9 @@ const staleYear = date instanceof Date ? date.getFullYear() : 0;
             const clickX = e.clientX - rect.left;
             const clickY = e.clientY - rect.top;
 
-            // COPY 按鈕區域判定（右上角，約 50px 寬，25px 高）
-            const topBarHeight = 25; // ::after 的高度
-            const buttonWidth = 50; // 按鈕寬度
+            // COPY 按鈕區域判定（右上角，約 60px 寬，30px 高）
+            const topBarHeight = 30;
+            const buttonWidth = 60;
 
             if (clickY < topBarHeight && clickX > rect.width - buttonWidth) {
               e.preventDefault();
@@ -1117,6 +1120,14 @@ const staleYear = date instanceof Date ? date.getFullYear() : 0;
           // 複製到剪貼板
           await navigator.clipboard.writeText(text);
 
+          // 觸發自定義分析事件
+          window.dispatchEvent(new CustomEvent('blog:code-copy', {
+            detail: {
+              language: pre.getAttribute('data-language') || 'text',
+              length: text.length
+            }
+          }));
+
           // 顯示反饋
           showCopyFeedback(pre);
         } catch (error) {
@@ -1135,13 +1146,14 @@ const staleYear = date instanceof Date ? date.getFullYear() : 0;
         }, 3000);
       }
 
-      // DOMContentLoaded 且 CodeCopy 初始化後執行
+      // 支援 Astro 視圖切換生命週期與常規 DOM 載入
+      document.addEventListener("astro:page-load", setupCodeCopy);
       if (document.readyState === "loading") {
         document.addEventListener("DOMContentLoaded", () => {
           setTimeout(setupCodeCopy, 100);
         });
       } else {
-        setTimeout(setupCodeCopy, 100);
+        setupCodeCopy();
       }
     </script>
   </body>
