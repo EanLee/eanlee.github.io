@@ -2,7 +2,7 @@
 title: AI 高速開發時代的治理挑戰：真正的瓶頸不是 AI 速度，而是人類的認知極限
 description: 當 AI 開發速度遠超人類審查能力時，如何透過 AI 開發治理 (AI Development Governance) 建立一套「需求單一化契約、執行三層制約、註解 Current Truth 與 Context 治理」的工程閉環？探討降低團隊認知負載 (Cognitive Load) 與審查瓶頸的核心軟體工程思維。
 date: 2026-09-05T23:25:00+08:00
-lastmod: 2026-09-06T22:47:04+08:00
+lastmod: 2026-09-07T01:14:48+08:00
 cover: ./images/ai-development-governance-and-context-hygiene-cover.png
 tags:
   - AI

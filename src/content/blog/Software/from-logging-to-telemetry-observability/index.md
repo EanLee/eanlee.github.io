@@ -2,7 +2,7 @@
 title: 問題排除的下一階段：從單一 Log 到建立 Telemetry (遙測) 的可觀測性思維
 description: 當單一文字 Log 無法應對複雜微服務時，系統需要更宏觀的可觀測性視野。探討 Logs、Metrics、Traces 三大支柱的協作定位，分享從單純查錯邁向主動遙測 (Telemetry) 監控的轉型思維與落地心法。
 date: 2023-01-16T07:43:34+08:00
-lastmod: 2026-09-06T22:47:04+08:00
+lastmod: 2026-09-07T01:14:48+08:00
 tags:
   - Logging
   - 系統架構

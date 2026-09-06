@@ -16,7 +16,7 @@ categories:
   - 開發雜談
 tags:
   - 單元測試
-lastmod: 2026-09-06T22:47:04+08:00
+lastmod: 2026-09-07T01:14:48+08:00
 slug: talking-writing-unit-tests
 epic: software
 ---
