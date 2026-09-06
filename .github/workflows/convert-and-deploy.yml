@@ -54,17 +54,11 @@ jobs:
           node-version: '20'
           cache: 'npm'
 
-      # ---------- 3. 安裝 TypeScript 和 ts-node ----------
-      - name: 📦 安裝 TypeScript 環境
-        run: |
-          npm install -g typescript ts-node @types/node
-          echo "✅ TypeScript 環境已安裝"
-
       # ---------- 4. 運行轉換工具 ----------
       - name: 🔄 轉換 Obsidian 文章為 Astro 格式
         run: |
           echo "🚀 開始轉換文章..."
-          ts-node converter.ts
+          npx --yes tsx converter.ts
           echo "✅ 轉換完成"
 
       # ---------- 5. 驗證轉換結果 ----------
