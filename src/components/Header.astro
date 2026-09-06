@@ -17,10 +17,10 @@ const featuredSeries = getSeriesData(allPosts).slice(0, 4);
 <header>
   <div class="header-div">
     <nav>
-      <div class="logo">
+      <a href="/" class="logo" data-astro-prefetch aria-label={`${SITE_TITLE} 首頁`}>
         <img class="logo-img" src={image} alt="Logo" />
-        <div class="logo-text"><a href="/">{SITE_TITLE}</a></div>
-      </div>
+        <span class="logo-text">{SITE_TITLE}</span>
+      </a>
 
       <button class="mobile-menu-toggle" aria-label="選單" aria-expanded="false" aria-controls="mobile-nav" title="點擊開啟選單">
         <span></span>
@@ -218,6 +218,12 @@ const featuredSeries = getSeriesData(allPosts).slice(0, 4);
     align-items: center;
     flex-direction: row;
     gap: var(--spacing-sm);
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .logo:hover .logo-text {
+    color: var(--color-primary);
   }
 
   .logo-img {
@@ -230,19 +236,8 @@ const featuredSeries = getSeriesData(allPosts).slice(0, 4);
     font-size: 1.5em;
     font-weight: bold;
     display: inline-block;
-  }
-
-  .logo a {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    margin: 0;
-    padding: 0;
-  }
-
-  .logo-text a,
-  .logo-text a.active {
-    text-decoration: none;
+    color: var(--color-text);
+    transition: color var(--transition-fast);
   }
 
   nav {

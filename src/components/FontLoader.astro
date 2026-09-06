@@ -3,8 +3,13 @@
 ---
 
 <script>
+  let fontsLoaded = false;
+
   // 簡單的字體預載入
   function loadFonts() {
+    if (fontsLoaded) return;
+    fontsLoaded = true;
+
     const fonts = [
       { family: 'Atkinson', weight: '400', url: '/fonts/atkinson-regular.woff2' },
       { family: 'Atkinson', weight: '700', url: '/fonts/atkinson-bold.woff2' }

@@ -20,6 +20,10 @@ import tailwind from "@astrojs/tailwind";
 export default defineConfig({
   site: "https://eandev.com",
   output: "static",
+  prefetch: {
+    prefetchAll: true,
+    defaultStrategy: "hover",
+  },
   integrations: [
     sitemap(),
     robotsTxt({
