@@ -1,6 +1,6 @@
 ---
 title: 拒絕寫出雷 Code！從命名、重構到註解的程式碼品質提升實戰
-description: 總是看不懂幾個月前自己寫的程式？探討開發者必備的 Clean Code 基本功，從命名原則、Code Smell 到註解的最佳實踐。
+description: 回顧軟體可讀性與維護性對專案生命週期的重要影響。梳理 Clean Code 實踐心法，從語意命名、壞味道 (Code Smell) 識別到有效註解原則，分享讓程式碼自帶說服力與易讀性的重構思考。
 date: 2022-06-21T15:06:43.144Z
 keywords:
   - Code smell
@@ -15,7 +15,7 @@ categories:
   - 開發雜談
 tags:
   - Refactor
-lastmod: 2026-03-16T01:32:16+08:00
+lastmod: 2026-09-06T22:47:04+08:00
 slug: coding-basic-skills
 series: 持續優化程式碼品質
 epic: software

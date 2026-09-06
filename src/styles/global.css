@@ -12,8 +12,24 @@
   box-sizing: border-box;
 }
 
-/* === 主題切換平滑過渡 === */
-* {
+/* === 主題切換平滑過渡（收斂於核心容器與主要可互動元件，避免全域 * 效能負擔） === */
+body,
+header,
+footer,
+nav,
+main,
+article,
+section,
+aside,
+button,
+input,
+select,
+textarea,
+a,
+.card,
+.surface-panel,
+.dropdown-menu,
+.nav-dropdown-trigger {
   transition: 
     background-color var(--transition-normal),
     color var(--transition-normal),
@@ -64,11 +80,11 @@ html {
 }
 
 .font-loaded {
-	font-family: 'Atkinson', sans-serif;
+	font-family: var(--font-family-primary);
 }
 
 body {
-	font-family: 'Atkinson', sans-serif;
+	font-family: var(--font-family-primary);
 	margin: 0;
 	padding: 0;
 	text-align: left;
@@ -212,6 +228,12 @@ img {
 	max-width: 100%;
 	height: auto;
 	border-radius: 8px;
+}
+code,
+kbd,
+samp,
+pre {
+	font-family: var(--font-family-mono);
 }
 code {
 	padding: 2px 5px;
@@ -493,4 +515,210 @@ hr {
     height: auto;
     border-radius: 0.5rem;
     margin: 2rem 0;
+}
+
+/* === 現場技術對談專欄組件 (面對面交流 / 無黑底框簡約風格) === */
+.chat-dialogue-container {
+  width: 100%;
+  margin: 2rem 0;
+  padding: 0.25rem 0;
+  background: transparent;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* 現場情境 / 側寫描述（無黑底，極簡引言風格） */
+.chat-narrator {
+  align-self: stretch;
+  margin: 0.25rem 0 0.5rem 0;
+  padding: 0.55rem 0.85rem;
+  background: transparent;
+  border-left: 3px solid var(--color-primary);
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  line-height: var(--line-height-relaxed);
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+}
+
+.chat-narrator-badge {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-primary);
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+}
+
+.chat-narrator-text {
+  font-style: italic;
+  color: var(--text-secondary);
+}
+
+/* 對談資訊列（選配：當有設定 title 時顯示） */
+.chat-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.4rem 0.25rem 0.65rem 0.25rem;
+  margin-bottom: 0.25rem;
+  border-bottom: 1px solid var(--card-border);
+  font-size: var(--font-size-xs);
+}
+
+.chat-header-title {
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.chat-header-members {
+  color: var(--text-muted);
+  font-size: var(--font-size-xs);
+  background: rgba(var(--color-gray), 0.12);
+  padding: 0.15rem 0.6rem;
+  border-radius: 9999px;
+  border: 1px solid var(--card-border);
+}
+
+/* 單則對談發言 */
+.chat-message {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  max-width: 88%;
+}
+
+/* 左側發言者（提問者/夥伴） */
+.chat-msg-left {
+  align-self: flex-start;
+  flex-direction: row;
+}
+
+/* 右側發言者（Eric/作者/顧問端） */
+.chat-msg-right {
+  align-self: flex-end;
+  flex-direction: row-reverse;
+}
+
+/* 角色大頭貼圓徽章 */
+.chat-avatar {
+  width: 34px;
+  height: 34px;
+  min-width: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-xs);
+  color: #ffffff;
+  user-select: none;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  margin-top: 2px;
+}
+
+/* 發言內容與名稱包裹層 */
+.chat-content-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.chat-msg-left .chat-content-wrap {
+  align-items: flex-start;
+}
+
+.chat-msg-right .chat-content-wrap {
+  align-items: flex-end;
+}
+
+/* 發言者名稱 */
+.chat-speaker-name {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 0.02em;
+  padding: 0 2px;
+}
+
+/* 對談內容卡片（徹底告別黑底框，回歸純淨自然閱讀） */
+.chat-bubble {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0.2rem 0.25rem;
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-relaxed);
+  word-break: break-word;
+  color: var(--text-primary);
+  text-align: left;
+}
+
+.chat-bubble-text {
+  margin: 0;
+}
+
+/* 左側卡片：無黑底，微帶左導讀邊線 */
+.chat-msg-left .chat-bubble {
+  background: transparent;
+  border-left: 2px solid rgba(var(--color-gray), 0.35);
+  padding-left: 0.75rem;
+}
+
+/* 右側卡片：無黑底，微帶右主題色導讀邊線 */
+.chat-msg-right .chat-bubble {
+  background: transparent;
+  border-right: 2px solid rgba(var(--color-primary-rgb), 0.45);
+  padding-right: 0.75rem;
+}
+
+/* 卡片內行內代碼 */
+.chat-inline-code {
+  background: rgba(var(--color-black), 0.25);
+  color: var(--color-primary);
+  padding: 0.15em 0.4em;
+  border-radius: var(--radius-sm);
+  font-size: 0.88em;
+  font-family: var(--font-mono, monospace);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.chat-msg-right .chat-inline-code {
+  background: rgba(var(--color-primary-rgb), 0.15);
+  color: #bfdbfe;
+}
+
+/* 手機版 RWD 適應 */
+@media (max-width: 640px) {
+  .chat-dialogue-container {
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+
+  .chat-message {
+    max-width: 96%;
+    gap: 0.6rem;
+  }
+
+  .chat-avatar {
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+    font-size: 11px;
+  }
+
+  .chat-bubble {
+    font-size: 0.875rem;
+  }
+
+  .chat-narrator {
+    padding: 0.5rem 0.65rem;
+    font-size: 0.825rem;
+  }
 }

@@ -20,7 +20,7 @@ keywords:
   - AuthenticationBuilder
 slug: aspnet-core-authenticaiton-jwt
 epic: software
-lastmod: 2026-03-16T01:32:16+08:00
+lastmod: 2026-09-06T22:47:04+08:00
 ---
 > 🔖 長話短說 🔖
 >

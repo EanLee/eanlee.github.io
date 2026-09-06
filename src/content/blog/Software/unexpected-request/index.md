@@ -12,9 +12,9 @@ keywords:
   - 系統架構設計
   - 微服務維運
   - 線上除錯實戰
-description: 伺服器 Log 突然暴增 20GB？完整解析一場因為 Load Balancer Health Check 結合微服務 Token 驗證架構所引發的系統效能懸案，帶你實戰線上破案過程。
+description: 記錄一次 IIS 伺服器 Log 突然暴增 20GB 的線上事故排查實錄。抽絲剝繭還原 Load Balancer 頻繁健康檢查結合微服務 Token 鑑權時產生的連鎖風暴，分享日誌分析思路與架構防禦策略。
 date: 2022-06-10T12:00:00+08:00
-lastmod: 2026-03-16T01:32:16+08:00
+lastmod: 2026-09-06T22:47:04+08:00
 slug: unexpected-request
 epic: software
 ---

@@ -146,11 +146,19 @@ const CATEGORY = "Comments";
 </style>
 
 <script>
-  const container = document.getElementById('giscus-comments');
-  const placeholder = document.getElementById('giscus-placeholder');
+  let giscusObserver: IntersectionObserver | null = null;
 
-  if (container) {
+  function initGiscus() {
+    const container = document.getElementById('giscus-comments');
+    const placeholder = document.getElementById('giscus-placeholder');
+
+    if (!container) return;
+    if (container.dataset.giscusLoaded === 'true') return;
+
     function loadGiscus() {
+      if (!container || container.dataset.giscusLoaded === 'true') return;
+      container.dataset.giscusLoaded = 'true';
+
       const repo = container.dataset.repo ?? '';
       const repoId = container.dataset.repoId ?? '';
       const category = container.dataset.category ?? '';
@@ -186,14 +194,14 @@ const CATEGORY = "Comments";
     }
 
     if (!('IntersectionObserver' in window)) {
-      // 降級處理：瀏覽器不支援 IntersectionObserver 時直接載入
       loadGiscus();
     } else {
-      const observer = new IntersectionObserver(
+      giscusObserver?.disconnect();
+      giscusObserver = new IntersectionObserver(
         function (entries) {
           entries.forEach(function (entry) {
             if (entry.isIntersecting) {
-              observer.disconnect();
+              giscusObserver?.disconnect();
               loadGiscus();
             }
           });
@@ -201,7 +209,18 @@ const CATEGORY = "Comments";
         { rootMargin: '200px 0px' }
       );
 
-      observer.observe(container);
+      giscusObserver.observe(container);
     }
+  }
+
+  document.addEventListener('astro:page-load', initGiscus);
+  document.addEventListener('astro:before-swap', () => {
+    giscusObserver?.disconnect();
+  });
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initGiscus);
+  } else {
+    initGiscus();
   }
 </script>

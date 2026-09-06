@@ -1,8 +1,8 @@
 ---
 title: 解決 ASP.NET Core 無限轉址：UseHttpsRedirection 與 Proxy/Load Balancer 的衝突排除
-description: 為什麼網站會出現「重新導向次數過多」？解析 UseHttpsRedirection 在負載平衡或代理伺服器環境下的無限迴圈原因，並教你如何正確配置轉發標頭。
+description: 記錄 ASP.NET Core 部署在反向代理或負載平衡器後端時，因 UseHttpsRedirection 引發「重新導向次數過多」的排查過程。詳細拆解 SSL 終結盲點，並整理 ForwardedHeadersMiddleware 的正確配置細節。
 date: 2023-11-22T14:54:54+08:00
-lastmod: 2026-03-16T01:32:16+08:00
+lastmod: 2026-09-06T22:47:04+08:00
 tags:
   - aspnet-core
 categories:

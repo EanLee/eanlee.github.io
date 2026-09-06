@@ -1,6 +1,6 @@
 ---
 title: Entity Framework Core (EF Core) 實戰系列：從指令工具到進階應用總整理
-description: EF Core 系列教學文章導讀。涵蓋 CLI 工具使用、資料庫連線、查詢過濾、CodeTemplate 客製化與多種實務技巧，助你快速掌握 EF Core 開發核心。
+description: 整理 Entity Framework Core (EF Core) 開發歷程與實戰系列文章導讀。內容涵蓋 dotnet-ef CLI 工具、連線設定、全域查詢過濾、CodeTemplate 程式碼產生客製化等實務筆記，作為後端日常踩坑與設計參考。
 cover: ./images/ef_core_overview_cover.png
 date: 2025-08-10
 tags:
@@ -15,7 +15,7 @@ keywords:
   - EF Core 總整理
 slug: ef-core-series-overview
 epic: software
-lastmod: 2026-03-16T01:32:16+08:00
+lastmod: 2026-09-06T22:47:04+08:00
 ---
 > ⚠️ **版本適用說明**：
 >

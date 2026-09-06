@@ -1,11 +1,61 @@
 ---
+interface Props {
+  headline?: string;
+  sub?: string;
+  share?: {
+    title: string;
+    url: string;
+    description?: string;
+  };
+}
+
+const {
+  headline = "喜歡這裡的內容？",
+  sub = "訂閱 RSS，文章更新直接送到你的閱讀器，不受演算法干擾",
+  share,
+} = Astro.props;
+
+// 預先編碼分享連結
+const shareTitle = share ? encodeURIComponent(share.title) : "";
+const shareUrl = share ? encodeURIComponent(share.url) : "";
+const shareDesc = share ? encodeURIComponent(share.description || "") : "";
+
+const shareLinks = share
+  ? [
+      {
+        name: "Facebook",
+        url: `https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`,
+        colorClass: "share-fb",
+        icon: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"/></svg>`,
+      },
+      {
+        name: "X",
+        url: `https://x.com/intent/tweet?url=${shareUrl}&text=${shareTitle}`,
+        colorClass: "share-x",
+        icon: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>`,
+      },
+      {
+        name: "LinkedIn",
+        url: `https://www.linkedin.com/shareArticle?mini=true&url=${shareUrl}&title=${shareTitle}&summary=${shareDesc}`,
+        colorClass: "share-li",
+        icon: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5s-2.48-1.119-2.48-2.5c0-1.38 1.11-2.5 2.48-2.5s2.48 1.12 2.48 2.5zm.02 4.5h-5v16h5v-16zm7.982 0h-4.968v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0v8.399h4.988v-10.131c0-7.88-8.922-7.593-11.018-3.714v-2.155z"/></svg>`,
+      },
+      {
+        name: "Email",
+        url: `mailto:?subject=${shareTitle}&body=${shareDesc}%0A%0A${shareUrl}`,
+        colorClass: "share-email",
+        icon: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M0 3v18h24v-18h-24zm6.623 7.929l-4.623 5.712v-9.458l4.623 3.746zm-4.141-5.929h19.035l-9.517 7.713-9.518-7.713zm5.694 7.188l3.824 3.099 3.83-3.104 5.612 6.817h-18.779l5.513-6.812zm9.208-1.264l4.616-3.741v9.348l-4.616-5.607z"/></svg>`,
+      },
+    ]
+  : [];
 ---
 
-<section class="follow-cta">
+<section class="follow-cta" aria-label="讀者行動與訂閱區">
+  <!-- 上半部：留存與訂閱 -->
   <div class="cta-inner">
     <div class="cta-text">
-      <p class="cta-headline">喜歡這裡的內容？</p>
-      <p class="cta-sub">訂閱 RSS，文章更新直接送到你的閱讀器，不受演算法干擾</p>
+      <p class="cta-headline">{headline}</p>
+      <p class="cta-sub">{sub}</p>
     </div>
 
     <div class="cta-actions">
@@ -22,7 +72,7 @@
           <path d="M4 4a16 16 0 0 1 16 16"/>
           <circle cx="5" cy="19" r="1"/>
         </svg>
-        訂閱 RSS Feed
+        <span>訂閱 RSS Feed</span>
       </a>
 
       <!-- 次要連結 -->
@@ -41,7 +91,7 @@
           GitHub
         </a>
         <a
-          href="https://www.facebook.com/276561129952456"
+          href="https://www.facebook.com/people/%E4%BC%8A%E6%81%A9%E8%BB%9F%E9%AB%94%E9%96%8B%E7%99%BC%E8%B6%A3/100064064679045/"
           target="_blank"
           rel="noopener noreferrer"
           class="secondary-link"
@@ -56,15 +106,112 @@
       </div>
     </div>
   </div>
+
+  <!-- 下半部：社群分享與一鍵複製（僅在有傳入 share 時渲染） -->
+  {share && (
+    <div class="cta-share-section">
+      <div class="cta-divider" role="separator" />
+      <div class="cta-share-inner">
+        <div class="share-prompt">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="18" cy="5" r="3"/>
+            <circle cx="6" cy="12" r="3"/>
+            <circle cx="18" cy="19" r="3"/>
+            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+            <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+          </svg>
+          <span>覺得這篇有幫助？分享給更多開發夥伴：</span>
+        </div>
+
+        <div class="share-buttons">
+          {shareLinks.map((link) => (
+            <a
+              href={link.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class={`share-btn social-share-button ${link.colorClass}`}
+              aria-label={`分享到 ${link.name}`}
+              title={`分享到 ${link.name}`}
+              data-platform={link.name}
+              data-social-share={link.name}
+            >
+              <span class="icon" set:html={link.icon} />
+              <span class="sr-only">{link.name}</span>
+            </a>
+          ))}
+
+          <button
+            type="button"
+            class="share-btn share-btn-copy social-share-button"
+            title="複製文章連結"
+            aria-label="複製文章連結"
+            data-social-share="CopyLink"
+            data-url={share.url}
+          >
+            <span class="copy-icon-wrapper">
+              <svg class="icon-copy" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
+                <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
+              </svg>
+              <svg class="icon-check" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+            </span>
+            <span class="sr-only">複製文章連結</span>
+            <span class="copy-tooltip" aria-live="polite">已複製！</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  )}
 </section>
+
+{share && (
+  <script>
+    function setupShareCopy() {
+      const copyBtns = document.querySelectorAll('.share-btn-copy');
+      copyBtns.forEach((btn) => {
+        if (btn.hasAttribute('data-copy-init')) return;
+        btn.setAttribute('data-copy-init', 'true');
+
+        btn.addEventListener('click', async () => {
+          const url = btn.getAttribute('data-url') || window.location.href;
+          try {
+            await navigator.clipboard.writeText(url);
+            btn.classList.add('copied');
+
+            // 觸發自定義分析事件
+            window.dispatchEvent(new CustomEvent('blog:share-copy', {
+              detail: { url }
+            }));
+
+            setTimeout(() => {
+              btn.classList.remove('copied');
+            }, 2000);
+          } catch (err) {
+            console.error('複製文章連結失敗:', err);
+          }
+        });
+      });
+    }
+
+    setupShareCopy();
+    document.addEventListener('astro:page-load', setupShareCopy);
+  </script>
+)}
 
 <style>
   .follow-cta {
     border: 1px solid var(--color-border-light);
     border-radius: var(--radius-lg);
     padding: var(--spacing-xl);
-    background: var(--color-bg-secondary);
-    background: color-mix(in srgb, var(--color-primary, #4299e1) 4%, var(--color-bg-secondary));
+    background: color-mix(in srgb, var(--color-primary, #6b8aff) 4%, var(--color-bg-secondary));
+    margin: var(--spacing-2xl) 0;
+    transition: border-color var(--transition-normal);
+  }
+
+  .follow-cta:hover {
+    border-color: var(--color-border-medium);
   }
 
   .cta-inner {
@@ -75,17 +222,23 @@
     flex-wrap: wrap;
   }
 
+  .cta-text {
+    flex: 1 1 300px;
+  }
+
   .cta-headline {
     font-size: var(--font-size-xl);
     font-weight: 700;
     color: var(--color-text);
     margin: 0 0 var(--spacing-xs);
+    letter-spacing: -0.01em;
   }
 
   .cta-sub {
     font-size: var(--font-size-base);
     color: var(--color-text-muted);
     margin: 0;
+    line-height: var(--line-height-relaxed, 1.6);
   }
 
   .cta-actions {
@@ -102,18 +255,21 @@
     align-items: center;
     gap: var(--spacing-sm);
     padding: 0.65rem 1.4rem;
-    background-color: var(--color-rss);
+    background-color: var(--color-rss, #f26522);
     color: white;
     border-radius: var(--radius-md);
     font-size: var(--font-size-base);
     font-weight: 600;
     text-decoration: none;
-    transition: opacity var(--transition-fast, 0.15s ease);
+    transition: transform var(--transition-fast, 0.15s ease), opacity var(--transition-fast, 0.15s ease), box-shadow var(--transition-fast, 0.15s ease);
     white-space: nowrap;
+    box-shadow: 0 2px 8px rgba(242, 101, 34, 0.25);
   }
 
   .btn-rss:hover {
-    opacity: 0.88;
+    opacity: 0.95;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(242, 101, 34, 0.35);
   }
 
   /* 次要連結列 */
@@ -145,11 +301,178 @@
     color: var(--color-text);
   }
 
-  /* 行動版 */
+  /* 分隔線 */
+  .cta-divider {
+    height: 1px;
+    background: var(--color-border-light);
+    opacity: 0.4;
+    margin: var(--spacing-lg) 0 var(--spacing-md);
+  }
+
+  /* 下半部：社群分享整合區 */
+  .cta-share-section {
+    width: 100%;
+  }
+
+  .cta-share-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-md);
+    flex-wrap: wrap;
+  }
+
+  .share-prompt {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    color: var(--color-text-muted);
+  }
+
+  .share-buttons {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .share-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    color: #ffffff;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: transform var(--transition-fast, 0.15s ease), opacity var(--transition-fast, 0.15s ease), background-color var(--transition-fast, 0.15s ease);
+    outline: none;
+  }
+
+  .share-btn:hover {
+    transform: translateY(-2px);
+    opacity: 0.92;
+  }
+
+  .share-fb {
+    background-color: #1877f2;
+  }
+
+  .share-x {
+    background-color: #0f1419;
+    border: 1px solid var(--color-border-light);
+    color: #f7f9f9;
+  }
+
+  .share-li {
+    background-color: #0a66c2;
+  }
+
+  .share-email {
+    background-color: #4b5563;
+  }
+
+  /* 複製按鈕 */
+  .share-btn-copy {
+    background-color: var(--color-bg-muted);
+    border: 1px solid var(--color-border-light);
+    color: var(--color-text);
+  }
+
+  .share-btn-copy:hover {
+    background-color: var(--color-bg-secondary);
+    border-color: var(--color-border-medium);
+    color: var(--color-primary);
+  }
+
+  .copy-icon-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .share-btn-copy .icon-check {
+    display: none;
+    color: #10b981;
+  }
+
+  .share-btn-copy.copied {
+    border-color: #10b981;
+    background-color: rgba(16, 185, 129, 0.15);
+  }
+
+  .share-btn-copy.copied .icon-copy {
+    display: none;
+  }
+
+  .share-btn-copy.copied .icon-check {
+    display: inline-block;
+  }
+
+  /* 複製提示 Tooltip */
+  .copy-tooltip {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%) translateY(4px);
+    padding: 3px 8px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #ffffff;
+    background-color: #10b981;
+    border-radius: 4px;
+    pointer-events: none;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  .copy-tooltip::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 4px;
+    border-style: solid;
+    border-color: #10b981 transparent transparent transparent;
+  }
+
+  .share-btn-copy.copied .copy-tooltip {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  .icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+
+  /* 行動版適應 */
   @media (max-width: 768px) {
     .cta-inner {
       flex-direction: column;
       align-items: flex-start;
+      gap: var(--spacing-lg);
     }
 
     .cta-actions {
@@ -163,6 +486,17 @@
     }
 
     .secondary-links {
+      justify-content: flex-start;
+    }
+
+    .cta-share-inner {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--spacing-sm);
+    }
+
+    .share-buttons {
+      width: 100%;
       justify-content: flex-start;
     }
   }

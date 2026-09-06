@@ -12,47 +12,68 @@
 </button>
 
 <script>
-  // Get the button
-  const backToTopButton = document.getElementById("backToTopBtn") as HTMLElement | null;
-  
-  // Show the button when user scrolls down 500px from the top
-  let scrollTimer: NodeJS.Timeout;
-  window.addEventListener('scroll', function() {
-    clearTimeout(scrollTimer);
-    const scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
-    
-    if (backToTopButton) {
-      if (scrollTop > 500) {
+  function initBackToTop() {
+    const backToTopButton = document.getElementById("backToTopBtn") as HTMLElement | null;
+    if (!backToTopButton) return;
+
+    // 防止重複綁定同一按鈕實例
+    if (backToTopButton.dataset.initialized === 'true') return;
+    backToTopButton.dataset.initialized = 'true';
+
+    let scrollTimer: ReturnType<typeof setTimeout> | undefined;
+
+    const handleScroll = () => {
+      const scrollTop = window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0;
+      
+      if (scrollTop > 300) {
         backToTopButton.classList.add('show');
       } else {
         backToTopButton.classList.remove('show');
       }
       
-      // Add scrolling class for animation
+      // 滾動時微動畫反饋
       backToTopButton.classList.add('scrolling');
-    }
-    
-    scrollTimer = setTimeout(function() {
-      if (backToTopButton) {
+      if (scrollTimer) clearTimeout(scrollTimer);
+      scrollTimer = setTimeout(() => {
         backToTopButton.classList.remove('scrolling');
-      }
-    }, 150);
-  });
-  
-  // Scroll to the top when button is clicked
-  if (backToTopButton) {
-    backToTopButton.addEventListener("click", function() {
+      }, 150);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    // 初始化時檢查滾動位置
+    handleScroll();
+
+    // 點擊平滑返回頂部
+    backToTopButton.addEventListener('click', () => {
       backToTopButton.classList.add('clicked');
       window.scrollTo({
         top: 0,
-        behavior: "smooth"
+        behavior: 'smooth'
       });
       
-      // Remove clicked class after animation
-      setTimeout(function() {
+      setTimeout(() => {
         backToTopButton.classList.remove('clicked');
       }, 200);
     });
+
+    // 頁面過渡（Astro ClientRouter swap）前解綁 scroll 監聽，防止內存洩漏
+    document.addEventListener(
+      'astro:before-swap',
+      () => {
+        window.removeEventListener('scroll', handleScroll);
+        if (scrollTimer) clearTimeout(scrollTimer);
+      },
+      { once: true }
+    );
+  }
+
+  // 監聽 Astro 視圖切換生命週期與常規 DOM 載入
+  document.addEventListener('astro:page-load', initBackToTop);
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initBackToTop);
+  } else {
+    initBackToTop();
   }
 </script>
 

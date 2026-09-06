@@ -1,3 +1,20 @@
 User-agent: *
-Disallow:
-Sitemap: https://eandev.com/sitemap.xml
+Allow: /
+
+# Allowed Search and Retrieval AI Crawlers for AEO & GEO
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+Sitemap: https://eandev.com/sitemap-index.xml
