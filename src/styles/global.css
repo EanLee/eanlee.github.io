@@ -12,8 +12,24 @@
   box-sizing: border-box;
 }
 
-/* === 主題切換平滑過渡 === */
-* {
+/* === 主題切換平滑過渡（收斂於核心容器與主要可互動元件，避免全域 * 效能負擔） === */
+body,
+header,
+footer,
+nav,
+main,
+article,
+section,
+aside,
+button,
+input,
+select,
+textarea,
+a,
+.card,
+.surface-panel,
+.dropdown-menu,
+.nav-dropdown-trigger {
   transition: 
     background-color var(--transition-normal),
     color var(--transition-normal),
@@ -64,11 +80,11 @@ html {
 }
 
 .font-loaded {
-	font-family: 'Atkinson', sans-serif;
+	font-family: var(--font-family-primary);
 }
 
 body {
-	font-family: 'Atkinson', sans-serif;
+	font-family: var(--font-family-primary);
 	margin: 0;
 	padding: 0;
 	text-align: left;
@@ -212,6 +228,12 @@ img {
 	max-width: 100%;
 	height: auto;
 	border-radius: 8px;
+}
+code,
+kbd,
+samp,
+pre {
+	font-family: var(--font-family-mono);
 }
 code {
 	padding: 2px 5px;

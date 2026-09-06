@@ -2,12 +2,16 @@
 import HeaderLink from "./HeaderLink.astro";
 import { SITE_TITLE } from "../consts";
 import { getCollection } from "astro:content";
+import { getSeriesData } from "../utils/series";
 
 const image = "/favicon.ico";
 
 // 檢查各分類是否已有發布文章，無文章時自動隱藏導航連結
 const allPosts = await getCollection("blog");
 const hasReadingPosts = allPosts.some((post) => post.data.epic === "reading");
+
+// 取得前 4 個篇數最多的精選系列專欄供下拉選單使用
+const featuredSeries = getSeriesData(allPosts).slice(0, 4);
 ---
 
 <header>
@@ -113,20 +117,34 @@ const hasReadingPosts = allPosts.some((post) => post.data.epic === "reading");
               <ul id="explore-dropdown" class="dropdown-menu" role="menu">
                 <li role="none">
                   <a href="/archives/" role="menuitem">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1-2-1Z"></path><path d="M14 8H8"></path><path d="M16 12H8"></path><path d="M13 16H8"></path></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1-2-1Z"></path><path d="M14 8H8"></path><path d="M16 12H8"></path><path d="M13 16H8"></path></svg>
                     所有文章
-                  </a>
-                </li>
-                <li role="none">
-                  <a href="/series/" role="menuitem">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="7" x="3" y="3" rx="1"></rect><rect width="7" height="7" x="14" y="3" rx="1"></rect><rect width="7" height="7" x="14" y="14" rx="1"></rect><rect width="7" height="7" x="3" y="14" rx="1"></rect></svg>
-                    系列文章
                   </a>
                 </li>
                 <li role="none">
                   <a href="/tags/" role="menuitem">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"></path><path d="M7 7h.01"></path></svg>
-                    標籤
+                    標籤總覽
+                  </a>
+                </li>
+                {featuredSeries.length > 0 && (
+                  <li role="presentation" class="dropdown-header">
+                    <span>精選系列專欄</span>
+                  </li>
+                )}
+                {featuredSeries.map((series) => (
+                  <li role="none">
+                    <a href={`/series/${series.seriesPath}/`} role="menuitem" class="dropdown-series-item" title={series.seriesTitle}>
+                      <span class="dropdown-series-dot" aria-hidden="true">•</span>
+                      <span class="dropdown-series-title">{series.seriesTitle}</span>
+                      <span class="dropdown-badge">{series.count}</span>
+                    </a>
+                  </li>
+                ))}
+                <li role="none" class="dropdown-footer-item">
+                  <a href="/series/" role="menuitem" class="dropdown-all-series">
+                    <span>查看全部系列</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"></path></svg>
                   </a>
                 </li>
               </ul>
@@ -139,13 +157,20 @@ const hasReadingPosts = allPosts.some((post) => post.data.epic === "reading");
                 探索
               </div>
               <a href="/archives/" class="mobile-explore-item">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1-2-1Z"></path><path d="M14 8H8"></path><path d="M16 12H8"></path><path d="M13 16H8"></path></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1-2-1Z"></path><path d="M14 8H8"></path><path d="M16 12H8"></path><path d="M13 16H8"></path></svg>
                 所有文章
               </a>
               <a href="/series/" class="mobile-explore-item">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="7" x="3" y="3" rx="1"></rect><rect width="7" height="7" x="14" y="3" rx="1"></rect><rect width="7" height="7" x="14" y="14" rx="1"></rect><rect width="7" height="7" x="3" y="14" rx="1"></rect></svg>
-                系列文章
+                系列專欄
               </a>
+              {featuredSeries.map((series) => (
+                <a href={`/series/${series.seriesPath}/`} class="mobile-explore-item mobile-series-subitem" title={series.seriesTitle}>
+                  <span class="mobile-series-dot" aria-hidden="true">•</span>
+                  <span class="mobile-series-title">{series.seriesTitle}</span>
+                  <span class="dropdown-badge">{series.count}</span>
+                </a>
+              ))}
               <a href="/tags/" class="mobile-explore-item">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"></path><path d="M7 7h.01"></path></svg>
                 標籤
@@ -301,7 +326,8 @@ const hasReadingPosts = allPosts.some((post) => post.data.epic === "reading");
     position: absolute;
     top: calc(100% + 2px);
     right: 0;
-    min-width: 160px;
+    min-width: 250px;
+    max-width: 320px;
     background-color: var(--color-bg-primary);
     border: 1px solid var(--color-border-light);
     border-radius: var(--radius-md);
@@ -347,6 +373,72 @@ const hasReadingPosts = allPosts.some((post) => post.data.epic === "reading");
   .dropdown-menu a:hover {
     background-color: var(--color-bg-muted);
     color: var(--color-primary);
+  }
+
+  .dropdown-header {
+    padding: var(--spacing-xs) var(--spacing-md) 0.2rem;
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    border-top: 1px solid var(--color-border-light);
+    margin-top: var(--spacing-xs);
+    list-style: none;
+  }
+
+  .dropdown-series-item {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.45rem var(--spacing-md) !important;
+  }
+
+  .dropdown-series-dot {
+    color: var(--color-primary);
+    font-size: 1.1rem;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .dropdown-series-title {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 0.84rem;
+  }
+
+  .dropdown-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.72rem;
+    padding: 0.08rem 0.45rem;
+    border-radius: var(--radius-full);
+    background-color: var(--color-bg-muted);
+    color: var(--color-text-muted);
+    flex-shrink: 0;
+    font-weight: 500;
+  }
+
+  .dropdown-footer-item {
+    border-top: 1px solid var(--color-border-light);
+    margin-top: var(--spacing-xs);
+    list-style: none;
+  }
+
+  .dropdown-all-series {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--color-primary) !important;
+    font-size: 0.82rem !important;
+    font-weight: 500;
+  }
+
+  .dropdown-all-series:hover {
+    color: var(--link-hover) !important;
   }
 
   /* 行動版顯示控制 */
@@ -520,6 +612,26 @@ const hasReadingPosts = allPosts.some((post) => post.data.epic === "reading");
     .mobile-explore-item:hover {
       background-color: rgba(var(--color-primary-rgb), 0.1);
     }
+
+    .mobile-series-subitem {
+      padding: var(--spacing-xs) var(--spacing-lg) var(--spacing-xs) calc(var(--spacing-lg) + 1.75rem);
+      font-size: var(--font-size-sm);
+      color: var(--color-text-light);
+    }
+
+    .mobile-series-dot {
+      color: var(--color-primary);
+      font-size: 1rem;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+
+    .mobile-series-title {
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
   }
 
   @media (max-width: 768px) {
@@ -557,6 +669,10 @@ const hasReadingPosts = allPosts.some((post) => post.data.epic === "reading");
 
     .mobile-explore-item {
       padding: var(--spacing-sm) var(--spacing-md) var(--spacing-sm) calc(var(--spacing-md) + 1.25rem);
+    }
+
+    .mobile-series-subitem {
+      padding: var(--spacing-xs) var(--spacing-md) var(--spacing-xs) calc(var(--spacing-md) + 1.75rem);
     }
   }
 
