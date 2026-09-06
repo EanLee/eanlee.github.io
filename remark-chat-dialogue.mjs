@@ -13,36 +13,141 @@ function escapeHtml(str) {
 }
 
 /**
- * 格式化訊息行內語法（如行內程式碼 `...` 與粗體 **...**）
+ * 格式化訊息行內語法（支援粗體 **...** 與行內代碼 `...`）
  */
 function formatInline(text) {
   let res = escapeHtml(text);
-  // 支援粗體 **text**
   res = res.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
-  // 支援行內程式碼 `code`
   res = res.replace(/`([^`]+)`/g, '<code class="chat-inline-code">$1</code>');
   return res;
 }
 
 /**
- * 找出在該對話中應固定於右側的發言者名稱
+ * 智慧提取頭像縮寫（英文縮寫如 PM/QA/AI 保留全字，中文取首字）
  */
-function getRightSideSpeaker(speakers) {
-  const authorKeywords = ['eric', '伊恩', 'ean', 'me', 'author', '我'];
-  for (const s of speakers) {
-    if (authorKeywords.includes(s.trim().toLowerCase())) {
-      return s;
-    }
+function getAvatarInitial(name) {
+  const trimmed = name.trim();
+  if (/^[a-zA-Z]{1,3}$/.test(trimmed)) {
+    return trimmed.toUpperCase();
   }
-  // 若無特定格主名稱，預設由第二位登場者在右側（第一位在左側）
-  if (speakers.length > 1) {
-    return speakers[1];
-  }
-  return null;
+  return trimmed.charAt(0).toUpperCase();
 }
 
 /**
- * 解析 chat 代碼區塊純文字為結構化對話陣列
+ * 解析 Code fence meta 屬性
+ * 支援:
+ * ```chat title="架構討論會" right="Eric,主管"
+ * ```chat right="Alice"
+ */
+function parseMeta(meta) {
+  const options = {
+    title: null,
+    right: [],
+    left: [],
+  };
+  if (!meta) return options;
+
+  const titleMatch = meta.match(/title=["']([^"']+)["']/i);
+  if (titleMatch) {
+    options.title = titleMatch[1].trim();
+  }
+
+  const rightMatch = meta.match(/right=["']([^"']+)["']/i) || meta.match(/right=([^\s]+)/i);
+  if (rightMatch) {
+    options.right = rightMatch[1].split(/[,，\s]+/).map((s) => s.trim().toLowerCase());
+  }
+
+  const leftMatch = meta.match(/left=["']([^"']+)["']/i) || meta.match(/left=([^\s]+)/i);
+  if (leftMatch) {
+    options.left = leftMatch[1].split(/[,，\s]+/).map((s) => s.trim().toLowerCase());
+  }
+
+  return options;
+}
+
+/**
+ * 決定發言者應在左側還是右側
+ * 優先序:
+ * 1. 行內覆蓋: Eric(r): 或 小明(left):
+ * 2. Meta 指定: ```chat right="Eric" 或 left="吉米"
+ * 3. 預設作者名單: Eric, 伊恩, ean, me, 我 -> 右側
+ * 4. 2 人對話無作者: 第 1 人左側，第 2 人右側
+ * 5. 多人對話無作者: 第 1 人左側，第 2 人右側，其餘左側
+ */
+function isSpeakerOnRight(speaker, sideOverride, metaOptions, speakersList) {
+  if (sideOverride) {
+    return sideOverride === 'right';
+  }
+
+  const s = speaker.trim().toLowerCase();
+
+  if (metaOptions.right.length > 0 && metaOptions.right.includes(s)) {
+    return true;
+  }
+  if (metaOptions.left.length > 0 && metaOptions.left.includes(s)) {
+    return false;
+  }
+
+  const authorKeywords = ['eric', '伊恩', 'ean', 'me', 'author', '我'];
+  if (authorKeywords.includes(s)) {
+    return true;
+  }
+
+  const hasAuthorInConversation = speakersList.some((sp) =>
+    authorKeywords.includes(sp.trim().toLowerCase())
+  );
+  if (hasAuthorInConversation) {
+    return false;
+  }
+
+  if (metaOptions.right.length > 0) {
+    return false;
+  }
+
+  if (speakersList.length >= 2) {
+    return speakersList.indexOf(speaker) === 1;
+  }
+
+  return false;
+}
+
+/**
+ * 多人色彩調色盤（高質感主題漸層）
+ */
+const AVATAR_PALETTES = [
+  { bg: 'linear-gradient(135deg, #0d9488 0%, #14b8a6 100%)', text: '#5eead4' }, // 0: Teal 藍綠
+  { bg: 'linear-gradient(135deg, #d97706 0%, #f59e0b 100%)', text: '#fde68a' }, // 1: Amber 琥珀
+  { bg: 'linear-gradient(135deg, #7c3aed 0%, #a855f7 100%)', text: '#d8b4fe' }, // 2: Violet 紫羅蘭
+  { bg: 'linear-gradient(135deg, #e11d48 0%, #fb7185 100%)', text: '#fecdd3' }, // 3: Rose 玫紅
+  { bg: 'linear-gradient(135deg, #0284c7 0%, #38bdf8 100%)', text: '#7dd3fc' }, // 4: Sky 天藍
+  { bg: 'linear-gradient(135deg, #ea580c 0%, #f97316 100%)', text: '#fed7aa' }, // 5: Orange 橙橘
+  { bg: 'linear-gradient(135deg, #16a34a 0%, #22c55e 100%)', text: '#86efac' }, // 6: Green 翠綠
+];
+
+/**
+ * 依發言者名稱與順序取得專屬色彩
+ */
+function getSpeakerColor(speaker, speakersList, isRight) {
+  if (isRight) {
+    return {
+      bg: 'linear-gradient(135deg, #4f46e5 0%, #6366f1 100%)',
+      color: '#ffffff',
+      text: '#c7d2fe',
+    };
+  }
+
+  let idx = speakersList.indexOf(speaker);
+  if (idx < 0) idx = 0;
+  const palette = AVATAR_PALETTES[idx % AVATAR_PALETTES.length];
+  return {
+    bg: palette.bg,
+    color: '#ffffff',
+    text: palette.text,
+  };
+}
+
+/**
+ * 解析對話文本
  */
 function parseChat(rawText) {
   const lines = rawText.split('\n');
@@ -53,15 +158,29 @@ function parseChat(rawText) {
     const trimmed = rawLine.trim();
     if (!trimmed) continue;
 
-    // 匹配發言者行（例如 "Eric:" 或 "吉米: 既然..."）
-    const speakerMatch = trimmed.match(/^([^:：\s]{1,12})\s*[:：]\s*(.*)$/);
+    // 匹配發言者行（例如 "Eric:", "吉米(r):", "小明[left]:"）
+    const speakerMatch = trimmed.match(/^([^:：\s]{1,16})\s*[:：]\s*(.*)$/);
     if (speakerMatch) {
       if (currentItem) items.push(currentItem);
-      const speaker = speakerMatch[1];
+
+      let rawSpeaker = speakerMatch[1];
+      let sideOverride = null;
+
+      // 檢查行內左右覆蓋語法
+      const overrideMatch = rawSpeaker.match(/^(.+?)[（(\[]\s*(r|right|l|left|右|左)\s*[)）\]]$/i);
+      if (overrideMatch) {
+        rawSpeaker = overrideMatch[1].trim();
+        const flag = overrideMatch[2].toLowerCase();
+        if (['r', 'right', '右'].includes(flag)) sideOverride = 'right';
+        else if (['l', 'left', '左'].includes(flag)) sideOverride = 'left';
+      }
+
+      const speaker = rawSpeaker;
       const initialText = speakerMatch[2] ? speakerMatch[2].trim() : '';
       currentItem = {
         type: 'message',
         speaker,
+        sideOverride,
         texts: initialText ? [initialText] : [],
       };
     } else {
@@ -86,7 +205,7 @@ function parseChat(rawText) {
 }
 
 /**
- * Remark 插件：將 ```chat 代碼區塊轉換為 LINE / 聊天軟體風格對話 UI
+ * Remark 插件：將 ```chat 代碼區塊轉換為高度自由的 LINE / 聊天軟體風格對話 UI
  */
 export function remarkChatDialogue() {
   return (tree) => {
@@ -96,17 +215,27 @@ export function remarkChatDialogue() {
       const items = parseChat(node.value || '');
       if (items.length === 0) return;
 
-      // 統計發言者清單
-      const speakers = [];
+      const metaOptions = parseMeta(node.meta || '');
+
+      // 統計所有發言者
+      const speakersList = [];
       items.forEach((item) => {
-        if (item.type === 'message' && !speakers.includes(item.speaker)) {
-          speakers.push(item.speaker);
+        if (item.type === 'message' && !speakersList.includes(item.speaker)) {
+          speakersList.push(item.speaker);
         }
       });
 
-      const rightSpeaker = getRightSideSpeaker(speakers);
-
       let html = '<div class="chat-dialogue-container">\n';
+
+      // 若有提供 title，渲染聊天室資訊列
+      if (metaOptions.title) {
+        const titleSafe = escapeHtml(metaOptions.title);
+        const countSafe = speakersList.length;
+        html += '  <div class="chat-header">\n';
+        html += `    <div class="chat-header-title">💬 ${titleSafe}</div>\n`;
+        html += `    <div class="chat-header-members">${countSafe} 位參與者</div>\n`;
+        html += '  </div>\n';
+      }
 
       for (const item of items) {
         if (item.type === 'narrator') {
@@ -116,16 +245,17 @@ export function remarkChatDialogue() {
           html += `    <span class="chat-narrator-text">${content}</span>\n`;
           html += '  </div>\n';
         } else if (item.type === 'message') {
-          const isRight = rightSpeaker !== null && item.speaker === rightSpeaker;
+          const isRight = isSpeakerOnRight(item.speaker, item.sideOverride, metaOptions, speakersList);
           const sideClass = isRight ? 'chat-msg-right' : 'chat-msg-left';
-          const avatarInitial = escapeHtml(item.speaker.charAt(0).toUpperCase());
+          const avatarInitial = escapeHtml(getAvatarInitial(item.speaker));
           const speakerName = escapeHtml(item.speaker);
+          const avatarColor = getSpeakerColor(item.speaker, speakersList, isRight);
           const content = item.texts.map(formatInline).join('<br />');
 
           html += `  <div class="chat-message ${sideClass}">\n`;
-          html += `    <div class="chat-avatar" title="${speakerName}">${avatarInitial}</div>\n`;
+          html += `    <div class="chat-avatar" style="background: ${avatarColor.bg};" title="${speakerName}">${avatarInitial}</div>\n`;
           html += '    <div class="chat-content-wrap">\n';
-          html += `      <span class="chat-speaker-name">${speakerName}</span>\n`;
+          html += `      <span class="chat-speaker-name" style="color: ${avatarColor.text};">${speakerName}</span>\n`;
           html += '      <div class="chat-bubble">\n';
           html += `        <div class="chat-bubble-text">${content}</div>\n`;
           html += '      </div>\n';

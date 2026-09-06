@@ -508,6 +508,34 @@ hr {
   box-shadow: var(--shadow-sm);
 }
 
+/* 聊天室頂部資訊列（選配：當有設定 title 時顯示） */
+.chat-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 0.75rem;
+  margin-bottom: 0.25rem;
+  border-bottom: 1px solid var(--card-border);
+  font-size: var(--font-size-xs);
+}
+
+.chat-header-title {
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.chat-header-members {
+  color: var(--text-muted);
+  font-size: var(--font-size-xs);
+  background: rgba(var(--color-gray), 0.12);
+  padding: 0.15rem 0.6rem;
+  border-radius: 9999px;
+  border: 1px solid var(--card-border);
+}
+
 /* 旁白 / 場景描述膠囊 */
 .chat-narrator {
   align-self: center;
