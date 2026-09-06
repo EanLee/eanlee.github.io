@@ -70,9 +70,9 @@ function parseMeta(meta) {
  * 優先序:
  * 1. 行內覆蓋: Eric(r): 或 小明(left):
  * 2. Meta 指定: ```chat right="Eric" 或 left="吉米"
- * 3. 預設作者名單: Eric, 伊恩, ean, me, 我 -> 右側
- * 4. 2 人對話無作者: 第 1 人左側，第 2 人右側
- * 5. 多人對話無作者: 第 1 人左側，第 2 人右側，其餘左側
+ * 3. 只有 1 位發言者: 預設靠左 (保持單人引言與常規文字閱讀流)
+ * 4. 2 位或以上發言者: 第 1 位開場者靠左，第 2 位回應者靠右 (自然形成由左至右的一左一右交替動線)
+ * 5. 其餘發言者 (第 3 位起): 預設靠左
  */
 function isSpeakerOnRight(speaker, sideOverride, metaOptions, speakersList) {
   if (sideOverride) {
@@ -81,6 +81,7 @@ function isSpeakerOnRight(speaker, sideOverride, metaOptions, speakersList) {
 
   const s = speaker.trim().toLowerCase();
 
+  // Meta 明確指定
   if (metaOptions.right.length > 0 && metaOptions.right.includes(s)) {
     return true;
   }
@@ -88,27 +89,18 @@ function isSpeakerOnRight(speaker, sideOverride, metaOptions, speakersList) {
     return false;
   }
 
-  const authorKeywords = ['eric', '伊恩', 'ean', 'me', 'author', '我'];
-  if (authorKeywords.includes(s)) {
-    return true;
-  }
-
-  const hasAuthorInConversation = speakersList.some((sp) =>
-    authorKeywords.includes(sp.trim().toLowerCase())
-  );
-  if (hasAuthorInConversation) {
+  // 只有 1 位發言者時，一律靠左
+  if (speakersList.length <= 1) {
     return false;
   }
 
+  // 若 meta 有指定特定右側名單但未包含當前人物，則靠左
   if (metaOptions.right.length > 0) {
     return false;
   }
 
-  if (speakersList.length >= 2) {
-    return speakersList.indexOf(speaker) === 1;
-  }
-
-  return false;
+  // 預設開場與對談動線：第 1 位在左側，第 2 位在右側
+  return speakersList.indexOf(speaker) === 1;
 }
 
 /**
