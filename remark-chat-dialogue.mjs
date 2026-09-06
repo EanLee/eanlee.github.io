@@ -227,13 +227,13 @@ export function remarkChatDialogue() {
 
       let html = '<div class="chat-dialogue-container">\n';
 
-      // 若有提供 title，渲染聊天室資訊列
+      // 若有提供 title，渲染現場對談資訊列
       if (metaOptions.title) {
         const titleSafe = escapeHtml(metaOptions.title);
         const countSafe = speakersList.length;
         html += '  <div class="chat-header">\n';
-        html += `    <div class="chat-header-title">💬 ${titleSafe}</div>\n`;
-        html += `    <div class="chat-header-members">${countSafe} 位參與者</div>\n`;
+        html += `    <div class="chat-header-title">👥 ${titleSafe}</div>\n`;
+        html += `    <div class="chat-header-members">${countSafe} 位對談者</div>\n`;
         html += '  </div>\n';
       }
 
@@ -241,7 +241,7 @@ export function remarkChatDialogue() {
         if (item.type === 'narrator') {
           const content = item.texts.map(formatInline).join('<br />');
           html += '  <div class="chat-narrator">\n';
-          html += '    <span class="chat-narrator-badge">💬 場景</span>\n';
+          html += '    <span class="chat-narrator-badge">☕ 現場情境</span>\n';
           html += `    <span class="chat-narrator-text">${content}</span>\n`;
           html += '  </div>\n';
         } else if (item.type === 'message') {

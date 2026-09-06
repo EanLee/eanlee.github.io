@@ -495,25 +495,53 @@ hr {
     margin: 2rem 0;
 }
 
-/* === 對話軟體 (LINE 風格) 聊天氣泡組件 === */
+/* === 現場技術對談專欄組件 (面對面交流 / 訪談劇本風格) === */
 .chat-dialogue-container {
-  margin: 2rem 0;
-  padding: 1.5rem 1.25rem;
-  background: var(--color-bg-secondary);
-  border: 1px solid var(--color-border-light);
-  border-radius: var(--radius-xl);
+  margin: 2.25rem 0;
+  padding: 0;
+  background: transparent;
+  border: none;
   display: flex;
   flex-direction: column;
-  gap: 1.15rem;
+  gap: 1.25rem;
+}
+
+/* 現場情境 / 側寫描述卡片（告別網路通訊膠囊） */
+.chat-narrator {
+  align-self: stretch;
+  margin: 0.25rem 0 0.5rem 0;
+  padding: 0.85rem 1.15rem;
+  background: rgba(var(--color-black), 0.18);
+  border-left: 3px solid var(--color-primary);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  line-height: var(--line-height-relaxed);
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
   box-shadow: var(--shadow-sm);
 }
 
-/* 聊天室頂部資訊列（選配：當有設定 title 時顯示） */
+.chat-narrator-badge {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-primary);
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+}
+
+.chat-narrator-text {
+  font-style: italic;
+  color: var(--text-secondary);
+}
+
+/* 對談資訊列（選配：當有設定 title 時顯示） */
 .chat-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-bottom: 0.75rem;
+  padding: 0.5rem 0.25rem 0.75rem 0.25rem;
   margin-bottom: 0.25rem;
   border-bottom: 1px solid var(--card-border);
   font-size: var(--font-size-xs);
@@ -531,44 +559,17 @@ hr {
   color: var(--text-muted);
   font-size: var(--font-size-xs);
   background: rgba(var(--color-gray), 0.12);
-  padding: 0.15rem 0.6rem;
+  padding: 0.2rem 0.65rem;
   border-radius: 9999px;
   border: 1px solid var(--card-border);
 }
 
-/* 旁白 / 場景描述膠囊 */
-.chat-narrator {
-  align-self: center;
-  max-width: 92%;
-  padding: 0.45rem 1rem;
-  background: rgba(var(--color-gray), 0.12);
-  border: 1px dashed var(--color-border-light);
-  border-radius: 9999px;
-  font-size: var(--font-size-xs);
-  color: var(--text-secondary);
-  text-align: center;
-  line-height: var(--line-height-relaxed);
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.chat-narrator-badge {
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-primary);
-  flex-shrink: 0;
-}
-
-.chat-narrator-text {
-  font-style: normal;
-}
-
-/* 單則對話訊息 */
+/* 單則對談發言卡片 */
 .chat-message {
   display: flex;
   align-items: flex-start;
-  gap: 0.65rem;
-  max-width: 86%;
+  gap: 0.75rem;
+  max-width: 88%;
 }
 
 /* 左側發言者（提問者/夥伴） */
@@ -577,41 +578,34 @@ hr {
   flex-direction: row;
 }
 
-/* 右側發言者（Eric/作者/顧問） */
+/* 右側發言者（Eric/作者/顧問端） */
 .chat-msg-right {
   align-self: flex-end;
   flex-direction: row-reverse;
 }
 
-/* 大頭貼圓形標籤 */
+/* 角色大頭貼圓徽章 */
 .chat-avatar {
-  width: 38px;
-  height: 38px;
-  min-width: 38px;
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: var(--font-weight-bold);
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-xs);
   color: #ffffff;
   user-select: none;
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
-.chat-msg-left .chat-avatar {
-  background: linear-gradient(135deg, #0d9488 0%, #14b8a6 100%);
-}
-
-.chat-msg-right .chat-avatar {
-  background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
-}
-
-/* 對話文字與名稱包裹層 */
+/* 發言內容與名稱包裹層 */
 .chat-content-wrap {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: 0.35rem;
   min-width: 0;
 }
 
@@ -626,83 +620,86 @@ hr {
 /* 發言者名稱 */
 .chat-speaker-name {
   font-size: var(--font-size-xs);
-  color: var(--text-muted);
   font-weight: var(--font-weight-medium);
-  padding: 0 4px;
+  letter-spacing: 0.02em;
+  padding: 0 2px;
 }
 
-/* 對話氣泡 */
+/* 對談內容卡片（平滑圓角，自然融入文章） */
 .chat-bubble {
-  padding: 0.7rem 1.05rem;
+  padding: 0.8rem 1.15rem;
   border-radius: var(--radius-lg);
   font-size: var(--font-size-sm);
   line-height: var(--line-height-relaxed);
   word-break: break-word;
-  position: relative;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  transition: border-color var(--transition-normal);
 }
 
 .chat-bubble-text {
   margin: 0;
 }
 
-/* 左側氣泡樣式（卡片灰白/次要背景） */
+/* 左側卡片：中性技術卡片底色 */
 .chat-msg-left .chat-bubble {
-  background: var(--color-bg-muted);
+  background: var(--color-bg-secondary);
   color: var(--text-primary);
   border: 1px solid var(--card-border);
-  border-top-left-radius: 3px;
 }
 
-/* 右側氣泡樣式（LINE 經典綠 / 翡翠綠氣泡） */
+/* 右側卡片：微藍深色卡片，科技典雅，告別刺眼通訊螢光綠 */
 .chat-msg-right .chat-bubble {
-  background: linear-gradient(135deg, #059669 0%, #047857 100%);
-  color: #ffffff;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-top-right-radius: 3px;
+  background: rgba(var(--color-primary-rgb), 0.08);
+  color: var(--text-primary);
+  border: 1px solid rgba(var(--color-primary-rgb), 0.3);
 }
 
-/* 氣泡內行內代碼 */
+.chat-msg-right .chat-bubble:hover {
+  border-color: rgba(var(--color-primary-rgb), 0.5);
+}
+
+/* 卡片內行內代碼 */
 .chat-inline-code {
-  background: rgba(0, 0, 0, 0.25);
-  color: inherit;
+  background: rgba(var(--color-black), 0.25);
+  color: var(--color-primary);
   padding: 0.15em 0.4em;
   border-radius: var(--radius-sm);
   font-size: 0.88em;
   font-family: var(--font-mono, monospace);
-}
-
-.chat-msg-left .chat-inline-code {
-  background: rgba(0, 0, 0, 0.2);
-  color: var(--color-primary);
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .chat-msg-right .chat-inline-code {
-  background: rgba(0, 0, 0, 0.28);
-  color: #e6fffa;
+  background: rgba(var(--color-primary-rgb), 0.15);
+  color: #bfdbfe;
 }
 
 /* 手機版 RWD 適應 */
 @media (max-width: 640px) {
   .chat-dialogue-container {
-    padding: 1rem 0.75rem;
+    gap: 1rem;
     margin: 1.5rem 0;
   }
 
   .chat-message {
-    max-width: 94%;
-    gap: 0.5rem;
+    max-width: 95%;
+    gap: 0.55rem;
   }
 
   .chat-avatar {
-    width: 32px;
-    height: 32px;
-    min-width: 32px;
-    font-size: var(--font-size-xs);
+    width: 30px;
+    height: 30px;
+    min-width: 30px;
+    font-size: 11px;
   }
 
   .chat-bubble {
-    padding: 0.6rem 0.85rem;
+    padding: 0.65rem 0.9rem;
     font-size: 0.875rem;
+  }
+
+  .chat-narrator {
+    padding: 0.65rem 0.85rem;
+    font-size: 0.825rem;
   }
 }
