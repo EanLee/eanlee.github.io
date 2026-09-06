@@ -1,6 +1,6 @@
 ---
 title: 打造極致美觀的 Windows 開發環境：Windows Terminal + PowerShell 7 + Oh My Posh 完全攻略
-description: 覺得終端機太醜？手把手教你配置 Windows Terminal、升級 PowerShell 7，並使用 Oh My Posh 自訂美酷外觀，提升你的開發幸福感與生產力。
+description: 整理 Windows 開發工作環境的美化與效率升級指南。記錄從安裝 Windows Terminal、設定 PowerShell 7 核心環境，到串接 Oh My Posh 與字型渲染的完整配置步驟，打造兼具視覺美感與實用資訊的終端介面。
 keywords:
   - Windows Terminal 教學
   - PowerShell 7 配置
@@ -15,7 +15,7 @@ date: 2025-09-17
 slug: windows-terminal-powershell-7-oh-my-posh-setup
 epic: software
 cover: ./images/windows-terminal-oh-my-posh-cover.png
-lastmod: 2026-03-16T01:32:16+08:00
+lastmod: 2026-09-06T22:47:04+08:00
 ---
 > 🔖 長話短說 🔖
 >

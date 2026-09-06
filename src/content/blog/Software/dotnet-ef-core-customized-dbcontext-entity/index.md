@@ -3,7 +3,7 @@ title: EF Core 腳本自動化：使用 T4 CodeTemplate 自定義 Scaffolding �
 description: 不滿意 EF Core 自動生成的代碼？透過 T4 CodeTemplate 深入客製化 DbContext 與 Entity 的生成規則，實現符合專案架構規範的自動化代碼產出。
 cover: ./images/ef_core_t4_cover.png
 date: 2023-06-29T09:22:03+08:00
-lastmod: 2026-03-16T01:32:16+08:00
+lastmod: 2026-09-06T22:47:04+08:00
 categories:
   - EF Core
 tags:

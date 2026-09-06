@@ -16,8 +16,8 @@ keywords:
 categories:
   - 資訊安全
 date: 2022-05-24T07:52:24+08:00
-lastmod: 2026-03-16T01:32:16+08:00
-description: HTTPS 跟 SSL 有什麼差別？深入解析網路加密傳輸的發展史、握手協議 (Handshake) 與憑證機制，讓你全面掌握現代 Web 安全的核心技術細節。
+lastmod: 2026-09-06T22:47:04+08:00
+description: 梳理 HTTP 邁向 HTTPS 的演進脈絡，解析 SSL 與 TLS 協議的歷史更迭。筆記重點整理非對稱與對稱加密、數位簽章以及 TLS 握手 (Handshake) 的傳輸安全原理，作為網路安全通訊的基礎知識複習。
 tags:
   - 網路
   - 資安

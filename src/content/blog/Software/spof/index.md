@@ -1,12 +1,12 @@
 ---
 title: 系統架構的死穴：什麼是單點故障 (SPOF)？如何識別並排除脆弱節點
-description: 一個零件壞掉，全部服務停擺？深入解析單點故障 (Single Point of Failure) 的風險，並透過實際 API 架構案例，教你如何利用冗餘與備援機制提升系統韌性。
+description: 探討分散式架構中單點故障 (Single Point of Failure, SPOF) 的潛在風險與識別方法。結合實際 API 服務案例，分享如何透過冗餘設計、被動備援與容錯機制消滅死穴，逐步提升系統整體穩定性與抗災韌性。
 date: 2022-06-23T11:25:10+08:00
 categories:
   - 聊聊名詞
 tags:
   - 思維模式
-lastmod: 2026-03-16T01:32:16+08:00
+lastmod: 2026-09-06T22:47:04+08:00
 slug: spof
 keywords:
   - 單點故障

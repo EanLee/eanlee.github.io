@@ -1,14 +1,14 @@
 ---
 title: 淺談 YAML 格式
 date: 2022-07-29T14:12:44+08:00
-description: 深入探討 YAML 語法規則與最佳實踐，學習如何撰寫清晰、高效的設定檔。本文從基礎格式、資料類型到進階語法如錨點與引用、多行字串，並提供常見錯誤與安全考量，助你掌握 YAML 在 DevOps 和 CI/CD 中的應用，輕鬆應對 Travis CI、Azure Pipelines 等工具的組態設定。
+description: 整理 DevOps 與 CI/CD 必備的 YAML 設定檔語法筆記。從基礎縮排、資料型態，到進階的錨點引用 (Anchor) 與多行字串處理，並歸納排查語法陷阱的心得，提升跨平台組態設定的撰寫效率。
 keywords:
   - YAML
 categories:
   - 軟體開發
   - DevOps
 slug: yaml
-lastmod: 2026-03-16T01:32:16+08:00
+lastmod: 2026-09-06T22:47:04+08:00
 series: 從零開始建立自動化發佈的流水線
 epic: software
 ---

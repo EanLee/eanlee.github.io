@@ -1,6 +1,6 @@
 ---
 title: 設計模式實戰：如何在封裝 DI 註冊邏輯時傳入動態參數生成不同物件
-description: 解決 ASP.NET Core DI 封裝時的靈活性難題。探討如何結合 Factory 模式與相依性注入，讓你的服務註冊更具擴充性與彈性。
+description: 探討在 ASP.NET Core 封裝依賴注入 (DI) 時，如何透過工廠模式 (Factory Pattern) 動態傳入外部參數以生成不同物件實例。分享保持註冊邏輯高內聚、同時兼顧依賴反轉與擴充彈性的架構思考。
 date: 2023-06-14T12:56:50+08:00
 categories:
   - 軟體開發
@@ -18,7 +18,7 @@ keywords:
   - IHttpContextAccessor
   - Clean Architecture DI
 slug: di-encapsulate-service-and-use-external-parameters
-lastmod: 2026-03-16T01:32:16+08:00
+lastmod: 2026-09-06T22:47:04+08:00
 epic: software
 ---
 當發現一個 .NET Core 的類別，其所有方法均需要相同的參數資料，這時，我們就會想到從 DI 下手，在建立物件時，一併把參數傳入。這樣就不需要在調用方式時，還要重複的傳入參數。

@@ -1,8 +1,8 @@
 ---
 title: 縮網址服務實作記錄 (1) - 基於 Docker 容器技術的網站服務架構實踐
-description: 本文紀錄使用 Docker Compose 在 Digital Ocean Ubuntu VPS 上架設縮網址服務的過程，包括環境設定、服務架構規劃、Docker image 管理、網路與安全設定等。適合想學習如何利用容器技術架設 Web 服務的讀者。
+description: 紀錄使用 Docker Compose 在 DigitalOcean Ubuntu VPS 上架設短網址服務的架構實踐。梳理反向代理配置、容器映像檔管理、內部網路劃分與基礎安全設定等步驟，留存獨立部署 Side Project 的踩坑筆記。
 date: 2023-11-11T14:28:57+08:00
-lastmod: 2026-03-16T01:32:16+08:00
+lastmod: 2026-09-06T22:47:04+08:00
 tags:
   - Docker
   - Postgresql

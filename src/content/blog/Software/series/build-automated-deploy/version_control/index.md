@@ -1,7 +1,7 @@
 ---
 title: 程式碼版控 - 觀念與 Git 簡述
 date: 2022-07-29T10:14:10+08:00
-description: 初步簡單的介紹版控的觀念，並介紹常用的 Git 指令與 Git Flow
+description: 梳理版本控制 (VCS) 的核心價值與協作本質。整理 Git 常用指令的運作原理、分支管理策略 (Git Flow 與 Trunk-based)，並分享多人共同協作時減少衝突與維護乾淨 Commit 歷史的工程實踐。
 categories:
   - 軟體開發
 keywords:
@@ -10,7 +10,7 @@ keywords:
   - Git Flow
 tags:
   - 版控
-lastmod: 2026-03-16T01:32:16+08:00
+lastmod: 2026-09-06T22:47:04+08:00
 slug: version_control
 series: 從零開始建立自動化發佈的流水線
 epic: software
