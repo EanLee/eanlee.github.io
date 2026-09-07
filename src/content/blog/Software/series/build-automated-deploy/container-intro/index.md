@@ -11,9 +11,9 @@ keywords:
   - 虛擬機差異
   - Docker Desktop 安裝
 date: 2022-08-19T22:15:18+08:00
-description: 常常遇到「在我的電腦上會動，你的不行」？本文以圖文對話深入淺出介紹 Container 容器化技術，解析其與傳統 VM 虛擬機的差異，並帶你入門 Docker 基礎。
+description: 告別「在我的電腦明明會動」的環境不一致困擾。透過日常比喻與情境對話，釐清 Container 容器與傳統虛擬機 (VM) 的核心技術差異，梳理 Docker 共享核心與輕量隔離的本質原理。
 slug: container-intro
-lastmod: 2026-03-16T01:32:16+08:00
+lastmod: 2026-09-07T01:14:48+08:00
 series: 從零開始建立自動化發佈的流水線
 epic: software
 ---

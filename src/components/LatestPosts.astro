@@ -15,13 +15,20 @@ const { posts, limit = 6 } = Astro.props;
 // 取得最新文章，限制數量
 const latestPosts = posts.slice(0, limit);
 
-// 預載入所有文章中的圖片
-const postImageModules = import.meta.glob("/src/content/blog/**/images/*.{png,jpg,jpeg,webp}", { eager: true });
-
 // 預載入共用封面圖片 (fallback)
 const coverModules = import.meta.glob("/src/assets/images/cover/*.{webp,png,jpg,jpeg}", { eager: true });
 const availableCovers = Object.values(coverModules) as any[];
 
+// 確定性隨機索引（確保 SSG 建置產出穩定不飄移）
+function getDeterministicIndex(str: string, max: number): number {
+  if (max <= 0) return 0;
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    hash = (hash << 5) - hash + str.charCodeAt(i);
+    hash |= 0;
+  }
+  return Math.abs(hash) % max;
+}
 
 // 獲取文章的封面圖片（返回圖片對象或字符串）
 const getCoverImage = async (post: CollectionEntry<'blog'>) => {
@@ -55,47 +62,21 @@ const getCoverImage = async (post: CollectionEntry<'blog'>) => {
       return imagePath;
     }
     
-    // 對於相對路徑，使用預載入的圖片映射，返回圖片對象
-    if (imagePath.startsWith('./') || imagePath.startsWith('images/')) {
-      const postPath = post.id.slice(0, post.id.lastIndexOf("/"));
-      const cleanImagePath = imagePath.replace('./', '');
-      const moduleKeys = Object.keys(postImageModules);
-      
-      // 從 import.meta.glob 的鍵中查找匹配的圖片
-      const matchingKey = moduleKeys.find(key => 
-        key.includes(postPath) && key.includes(cleanImagePath)
-      );
-      
-      if (matchingKey) {
-        const moduleImg = postImageModules[matchingKey] as any;
-        // 返回圖片對象的 default（這是 Astro Image 組件需要的）
-        if (moduleImg?.default) {
-          return moduleImg.default;
-        }
-      }
-      
-      // 如果沒找到匹配的圖片，記錄警告
-      console.warn(`無法找到相對路徑圖片: ${imagePath} in post ${post.id}`);
-      
-      // 使用共用 cover 作為 fallback（返回圖片對象）
-      if (availableCovers.length > 0) {
-        const randomIndex = Math.floor(Math.random() * availableCovers.length);
-        const randomCover = availableCovers[randomIndex] as any;
-        return randomCover?.default || null;
-      }
-      
-      return null;
+    // 對於相對路徑，使用共用 cover 作為 fallback
+    if (availableCovers.length > 0) {
+      const coverIndex = getDeterministicIndex(post.id, availableCovers.length);
+      const cover = availableCovers[coverIndex] as any;
+      return cover?.default || null;
     }
-    
-    // 其他情況直接返回路徑字符串
-    return imagePath;
+
+    return null;
   }
   
   // 3. 如果都沒有可用的圖片，使用共用 cover 作為 fallback（返回圖片對象）
   if (availableCovers.length > 0) {
-    const randomIndex = Math.floor(Math.random() * availableCovers.length);
-    const randomCover = availableCovers[randomIndex] as any;
-    return randomCover?.default || null;
+    const coverIndex = getDeterministicIndex(post.id, availableCovers.length);
+    const cover = availableCovers[coverIndex] as any;
+    return cover?.default || null;
   }
   
   return null;

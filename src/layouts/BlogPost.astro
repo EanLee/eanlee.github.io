@@ -5,17 +5,18 @@ import Footer from "../components/Footer.astro";
 import FormattedDate from "../components/FormattedDate.astro";
 import SeriesArticleNav from "../components/series-article-nav.astro";
 import AdRow from "../components/ad-row.astro";
-import SocialShare from "../components/SocialShare.astro";
-import BackToTop from "../components/BackToTop.astro";
 import TableOfContents from "../components/TableOfContents.astro";
 import Breadcrumbs from "../components/Breadcrumbs.astro";
 import EnhancedAnalytics from "../components/EnhancedAnalytics.astro";
 import Giscus from "../components/Giscus.astro";
 import RelatedPosts from "../components/RelatedPosts.astro";
+import FollowCTA from "../components/FollowCTA.astro";
 import { Image } from 'astro:assets';
+import Clock from "@lucide/astro/icons/clock";
+import { getReadingTimeDetails, type ReadingTimeResult } from "../utils/readingTime";
 
 import { SITE_TITLE } from "../consts";
-const { title, description, date, lastmod, coverImage, tags, keywords, series, categories, epic, toc, entry } = Astro.props;
+const { title, description, date, lastmod, coverImage, tags, keywords, series, categories, epic, toc, entry, minutesRead, readingTime } = Astro.props;
 
 // 從 URL 路徑推導 epic 與 seriesPath（彌補系列文缺少 epic 欄位的問題）
 // URL 格式：/post/{epic}/{rest}/ 或 /post/{epic}/series/{series-dir}/{article}/
@@ -43,8 +44,20 @@ if (!displayImage && availableCovers.length > 0) {
   displayImage = randomCover?.default || null;
 }
 
-// 計算字數（中英文混合）
-const wordCount = entry?.body ? entry.body.split(/\s+/).length : 0;
+// 預估閱讀時間與字數計算（優先使用 Remark 外掛注入結果，無注入則使用 entry.body 計算）
+const resolvedReadingTime: ReadingTimeResult = readingTime || (entry?.body ? getReadingTimeDetails(entry.body) : {
+  text: minutesRead || '約 1 分鐘閱讀',
+  minutes: 1,
+  time: 60000,
+  words: 0
+});
+const displayMinutesRead = minutesRead || resolvedReadingTime.text;
+const resolvedWordCount = resolvedReadingTime.words > 0 ? resolvedReadingTime.words : (entry?.body ? entry.body.length : 0);
+
+// 提取 og:image URL（支援 ImageMetadata 對象與字串路徑）
+const ogImageUrl: string | undefined = displayImage
+  ? (typeof displayImage === 'string' ? displayImage : (displayImage as any).src)
+  : undefined;
 
 // 準備 JSON-LD 結構化資料
 const jsonLd = {
@@ -52,20 +65,30 @@ const jsonLd = {
   "@type": "BlogPosting",
   headline: title,
   description: description || title,
-  image: displayImage ? new URL(displayImage, Astro.site).href : undefined,
+  image: ogImageUrl ? new URL(ogImageUrl, Astro.site).href : undefined,
   datePublished: date.toISOString(),
   dateModified: lastmod ? lastmod.toISOString() : date.toISOString(),
   author: {
     "@type": "Person",
-    name: "Ean Lee",
-    url: "https://eandev.com",
+    name: "Ean Lee (伊恩)",
+    url: new URL("/about/", Astro.site).href,
+    sameAs: [
+      "https://github.com/EanLee",
+      "https://x.com/wosilee",
+      "https://www.linkedin.com/in/eanlee/",
+      "https://www.facebook.com/people/%E4%BC%8A%E6%81%A9%E8%BB%9F%E9%AB%94%E9%96%8B%E7%99%BC%E8%B6%A3/100064064679045/"
+    ],
+  },
+  speakable: {
+    "@type": "SpeakableSpecification",
+    cssSelector: [".article-summary", ".lead-paragraph", "[itemprop='description']"],
   },
   publisher: {
     "@type": "Organization",
     name: "伊恩的開發狂想",
     logo: {
       "@type": "ImageObject",
-      url: new URL("/favicon.svg", Astro.site).href,
+      url: new URL("/favicon.ico", Astro.site).href,
     },
   },
   mainEntityOfPage: {
@@ -74,7 +97,8 @@ const jsonLd = {
   },
   keywords: keywords?.join(", ") || tags?.join(", "),
   articleSection: categories?.join(", ") || tags?.[0],
-  wordCount: wordCount,
+  wordCount: resolvedWordCount,
+  timeRequired: `PT${resolvedReadingTime.minutes}M`,
   inLanguage: "zh-TW",
   ...(series && seriesPath && {
     isPartOf: {
@@ -84,11 +108,6 @@ const jsonLd = {
     },
   }),
 };
-
-// 提取 og:image URL（支援 ImageMetadata 對象與字串路徑）
-const ogImageUrl: string | undefined = displayImage
-  ? (typeof displayImage === 'string' ? displayImage : (displayImage as any).src)
-  : undefined;
 
 // 文章新鮮度警示：以 lastmod（若有）或 date 判斷，超過 2 年顯示提示
 const TWO_YEARS_MS = 730 * 24 * 60 * 60 * 1000;
@@ -152,15 +171,23 @@ const staleYear = date instanceof Date ? date.getFullYear() : 0;
               <h1 class="article-title" itemprop="headline">
                 {title}
               </h1>
-              <div class="date">
-                <FormattedDate date={date} itemprop="datePublished" />
-                {
-                  lastmod && (
-                    <div class="last-updated-on">
-                      Last updated on <FormattedDate date={lastmod} itemprop="dateModified" />
-                    </div>
-                  )
-                }
+              <div class="article-meta">
+                <div class="date">
+                  <FormattedDate date={date} itemprop="datePublished" />
+                  {
+                    lastmod && (
+                      <span class="last-updated-on">
+                        （更新於 <FormattedDate date={lastmod} itemprop="dateModified" />）
+                      </span>
+                    )
+                  }
+                </div>
+                <span class="meta-divider" aria-hidden="true">·</span>
+                <div class="reading-time" title={`預估閱讀時間約 ${resolvedReadingTime.minutes} 分鐘，全篇約 ${resolvedWordCount.toLocaleString()} 字`}>
+                  <Clock size={15} aria-hidden="true" />
+                  <span>{displayMinutesRead}</span>
+                  <span class="word-count-badge">（{resolvedWordCount.toLocaleString()} 字）</span>
+                </div>
               </div>
               {
                 tags && (
@@ -192,8 +219,34 @@ const staleYear = date instanceof Date ? date.getFullYear() : 0;
                 <slot />
               </div>
 
-              <!-- 社交分享按鈕 -->
-              <SocialShare title={title} url={Astro.url.href} description={description} />
+              <!-- AI 協作與內容審核聲明 -->
+              <aside class="ai-disclosure" aria-label="內容創作與審核聲明">
+                <div class="ai-disclosure-header">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M12 8V4H8"></path>
+                    <rect width="16" height="12" x="4" y="8" rx="2"></rect>
+                    <path d="M2 14h2"></path>
+                    <path d="M20 14h2"></path>
+                    <path d="M15 13v2"></path>
+                    <path d="M9 13v2"></path>
+                  </svg>
+                  <span>內容創作與審核聲明</span>
+                </div>
+                <p class="ai-disclosure-text">
+                  本站部分文章會藉助 AI 進行潤飾、結構梳理或輔助補強；所有技術觀點與踩坑實務，均由<strong>伊恩</strong>親自構思並在當下脈絡實測驗證。技術持續演進且個人視角有限，若有疏漏或不同解法，歡迎留言交流！詳見 <a href="/about/#ai-policy">AI 協作原則</a>。
+                </p>
+              </aside>
+
+              <!-- 讀者行動區：高度整合的訂閱留存與社群分享卡片 -->
+              <FollowCTA
+                headline="喜歡這篇的實戰分享？"
+                sub="訂閱 RSS，第一時間收到最新的系統架構、.NET 與踩坑經驗"
+                share={{
+                  title: title,
+                  url: Astro.url.href,
+                  description: description,
+                }}
+              />
 
               <!-- Prev/Next 限系列文 -->
               <SeriesArticleNav series={series} title={title} />
@@ -226,7 +279,6 @@ const staleYear = date instanceof Date ? date.getFullYear() : 0;
     </main>
 
     <Footer />
-    <BackToTop />
 
     <!-- 增強的 GA4 事件追蹤 -->
     <EnhancedAnalytics enabled={import.meta.env.PROD} />
@@ -354,16 +406,49 @@ const staleYear = date instanceof Date ? date.getFullYear() : 0;
         font-weight: var(--font-weight-bold);
       }
 
-      .date {
+      .article-meta {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: var(--spacing-xs) var(--spacing-sm);
         font-size: var(--font-size-sm);
-        color: #ffffff;
+        color: rgba(255, 255, 255, 0.9);
         margin-bottom: var(--spacing-lg);
+      }
+
+      .article-meta .date {
+        margin-bottom: 0;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+      }
+
+      .meta-divider {
+        color: rgba(255, 255, 255, 0.5);
+      }
+
+      .reading-time {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        color: rgba(255, 255, 255, 0.9);
+      }
+
+      .reading-time svg {
+        color: var(--color-primary, #4299e1);
+        flex-shrink: 0;
+      }
+
+      .word-count-badge {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.9em;
       }
 
       .last-updated-on {
         font-style: italic;
         font-size: 0.9em;
-        margin-top: 0.25em;
+        opacity: 0.85;
       }
 
       .tags {
@@ -816,6 +901,52 @@ const staleYear = date instanceof Date ? date.getFullYear() : 0;
         }
       }
 
+  /* AI 協作與內容審核聲明 */
+  .ai-disclosure {
+    margin: var(--spacing-2xl) 0 var(--spacing-xl);
+    padding: var(--spacing-md) var(--spacing-lg);
+    background-color: var(--color-bg-secondary);
+    border: 1px solid var(--color-border-light);
+    border-left: 3px solid var(--color-primary);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    font-size: var(--font-size-sm);
+    line-height: 1.6;
+  }
+
+  .ai-disclosure-header {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: 0.35rem;
+    font-size: 0.88rem;
+  }
+
+  .ai-disclosure-header svg {
+    color: var(--color-primary);
+    flex-shrink: 0;
+  }
+
+  .ai-disclosure-text {
+    margin: 0;
+    color: var(--color-text-muted);
+  }
+
+  .ai-disclosure-text strong {
+    color: var(--color-text);
+  }
+
+  .ai-disclosure-text a {
+    color: var(--color-primary);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .ai-disclosure-text a:hover {
+    color: var(--link-hover);
+  }
+
   /* 留言互動提示 */
   .comment-cta {
     margin: var(--spacing-2xl) 0 var(--spacing-lg);
@@ -954,6 +1085,29 @@ const staleYear = date instanceof Date ? date.getFullYear() : 0;
           padding: 0.75rem;
         }
       }
+
+      .article-follow-cta {
+        margin: var(--spacing-2xl) 0 var(--spacing-xl);
+      }
+
+      .comment-cta {
+        margin: var(--spacing-2xl) 0 var(--spacing-md);
+        padding-top: var(--spacing-lg);
+        border-top: 1px solid var(--color-border-light);
+      }
+
+      .comment-cta-title {
+        font-size: var(--font-size-lg);
+        font-weight: var(--font-weight-semibold);
+        color: var(--text-primary);
+        margin: 0 0 var(--spacing-xs);
+      }
+
+      .comment-cta-desc {
+        font-size: var(--font-size-sm);
+        color: var(--text-secondary);
+        margin: 0;
+      }
     </style>
 
     <script is:inline>
@@ -962,6 +1116,9 @@ const staleYear = date instanceof Date ? date.getFullYear() : 0;
         const preElements = document.querySelectorAll(".article-content pre");
 
         preElements.forEach((pre) => {
+          if (pre.dataset.copyInitialized === "true") return;
+          pre.dataset.copyInitialized = "true";
+
           // 為 ::after 偽元素添加點擊事件
           // 由於偽元素無法直接綁定事件，我們偵聽 pre 元素的點擊
           pre.addEventListener("click", (e) => {
@@ -970,9 +1127,9 @@ const staleYear = date instanceof Date ? date.getFullYear() : 0;
             const clickX = e.clientX - rect.left;
             const clickY = e.clientY - rect.top;
 
-            // COPY 按鈕區域判定（右上角，約 50px 寬，25px 高）
-            const topBarHeight = 25; // ::after 的高度
-            const buttonWidth = 50; // 按鈕寬度
+            // COPY 按鈕區域判定（右上角，約 60px 寬，30px 高）
+            const topBarHeight = 30;
+            const buttonWidth = 60;
 
             if (clickY < topBarHeight && clickX > rect.width - buttonWidth) {
               e.preventDefault();
@@ -994,6 +1151,14 @@ const staleYear = date instanceof Date ? date.getFullYear() : 0;
           // 複製到剪貼板
           await navigator.clipboard.writeText(text);
 
+          // 觸發自定義分析事件
+          window.dispatchEvent(new CustomEvent('blog:code-copy', {
+            detail: {
+              language: pre.getAttribute('data-language') || 'text',
+              length: text.length
+            }
+          }));
+
           // 顯示反饋
           showCopyFeedback(pre);
         } catch (error) {
@@ -1012,13 +1177,14 @@ const staleYear = date instanceof Date ? date.getFullYear() : 0;
         }, 3000);
       }
 
-      // DOMContentLoaded 且 CodeCopy 初始化後執行
+      // 支援 Astro 視圖切換生命週期與常規 DOM 載入
+      document.addEventListener("astro:page-load", setupCodeCopy);
       if (document.readyState === "loading") {
         document.addEventListener("DOMContentLoaded", () => {
           setTimeout(setupCodeCopy, 100);
         });
       } else {
-        setTimeout(setupCodeCopy, 100);
+        setupCodeCopy();
       }
     </script>
   </body>

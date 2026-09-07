@@ -1,8 +1,8 @@
 ---
 title: 如何撰寫專業的效能測試報告？關鍵數據指標與圖表分析實戰
-description: 測試完之後呢？教你如何整理效能測試報告，解讀 Response Time、Throughput 與 Error Rate 等關鍵指標，並提供具備說服力的優化建議。
+description: 壓測結束後的報告才是工程決策的關鍵。整理如何彙整 Response Time、Throughput、P95/P99 延遲與 Error Rate 等數據指標，分享將雜亂測試日誌轉化為具備說服力之優化分析與架構建議的實戰心得。
 date: 2023-01-06T13:36:16+08:00
-lastmod: 2026-03-16T01:32:16+08:00
+lastmod: 2026-09-07T01:14:48+08:00
 categories:
   - 測試
   - 開發雜談

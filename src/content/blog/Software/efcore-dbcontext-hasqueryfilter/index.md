@@ -1,6 +1,6 @@
 ---
 title: EF Core 全域過濾器：使用 HasQueryFilter 輕鬆實現軟刪除與資料權限控管
-description: 學習如何使用 EF Core 的 HasQueryFilter 功能。透過全域過濾器自動排除已刪除資料 (Soft Delete) 或根據組織進行權限過濾，簡化開發流程並提升資料安全性。
+description: 分享在 EF Core 中善用 HasQueryFilter 實作全域過濾器的心得。探討如何優雅處理多租戶資料隔離與軟刪除 (Soft Delete)，避免在業務邏輯重複手寫 Where 條件，兼顧程式碼簡潔度與資料存取安全性。
 cover: ./images/ef_core_queryfilter_cover.png
 date: 2023-06-19T03:17:17+08:00
 categories:
@@ -18,7 +18,7 @@ keywords:
   - Entity Framework Core
   - 多條件過濾
 slug: efcore-dbcontext-hasqueryfilter
-lastmod: 2026-03-11T19:47:21+08:00
+lastmod: 2026-09-07T01:14:48+08:00
 epic: software
 ---
 前些時間，在幫朋友改造現有倉儲系統時，發現現有資料庫內，所有的表格都有四個作為異動記錄使用的固定欄位。

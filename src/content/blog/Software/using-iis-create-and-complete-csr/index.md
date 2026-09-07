@@ -1,6 +1,6 @@
 ---
 title: Windows Server 維運指南：在 IIS 中申請、安裝與自動更新 SSL 憑證全流程
-description: 手把手教你如何在 IIS (Internet Information Services) 中處理 SSL 憑證。包含憑證申請 (CSR)、安裝步驟及如何有效自動化更新流程，確保網站安全不中斷。
+description: 整理在 Windows Server IIS 環境中管理 SSL/TLS 憑證的實務筆記。梳理從建立 CSR、憑證綁定到設定自動化續約 (Renewal) 的完整流程與防呆注意事項，避免憑證過期導致線上服務中斷。
 date: 2023-02-03T11:43:18+08:00
 categories:
   - 軟體開發
@@ -15,7 +15,7 @@ keywords:
   - CSR 產製
   - 網站安全
 slug: using-iis-create-and-complete-csr
-lastmod: 2026-03-16T01:32:16+08:00
+lastmod: 2026-09-07T01:14:48+08:00
 epic: software
 ---
 日前在使用 IIS 10 進行 SSL 伺服器憑證的申請與更新作業時，發生 IIS `完成憑證請求` 後，進行 F5 重整時，憑證消失的問題。在排查過程中，發現一些有趣的地方，所以將其特別記錄下來。

@@ -21,7 +21,8 @@ const aboutStructuredData = {
     "sameAs": [
       "https://github.com/EanLee",
       "https://www.linkedin.com/in/eanlee/",
-      "https://x.com/wosilee"
+      "https://x.com/wosilee",
+      "https://www.facebook.com/people/%E4%BC%8A%E6%81%A9%E8%BB%9F%E9%AB%94%E9%96%8B%E7%99%BC%E8%B6%A3/100064064679045/"
     ],
     "jobTitle": ".NET & Cloud Native 工程師",
     "knowsAbout": [".NET", "Cloud Native", "Docker", "Kubernetes", "SRE", "監控整合", "技術管理", "AI Agent"]
@@ -35,6 +36,7 @@ const aboutStructuredData = {
   <article class="about-page">
     <header class="page-header">
       <h1>{title}</h1>
+      {description && <p class="subtitle">{description}</p>}
     </header>
 
     <div class="content-wrapper prose">
@@ -46,44 +48,60 @@ const aboutStructuredData = {
 <style>
   .about-page {
     width: 100%;
-    max-width: var(--container-md);
+    max-width: var(--container-xl);
     margin: 0 auto;
     padding: var(--spacing-xl) var(--spacing-md);
+    box-sizing: border-box;
   }
 
   .page-header {
-    text-align: center;
+    text-align: left;
     margin-bottom: var(--spacing-2xl);
     padding-bottom: var(--spacing-lg);
     border-bottom: 2px solid var(--color-border-light);
   }
 
   .page-header h1 {
-    font-size: clamp(2rem, 5vw, 3rem);
+    font-size: clamp(2rem, 5vw, 2.75rem);
     font-weight: 700;
     color: var(--color-text);
-    margin-bottom: 0;
+    margin-bottom: var(--spacing-sm);
     line-height: 1.2;
   }
 
-  .content-wrapper {
-    max-width: 100%;
+  .subtitle {
+    font-size: var(--font-size-base);
+    color: var(--color-text-muted);
+    margin: 0;
+    line-height: var(--line-height-relaxed);
   }
 
-  /* Markdown 內容樣式交由 prose 處理 */
+  .content-wrapper {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* 覆蓋 global.css 的 max-width: 80ch 與居中 margin，確保完全齊平全站 1120px 網格 */
   .prose {
+    width: 100%;
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
     font-size: var(--font-size-lg);
     line-height: 1.8;
+    box-sizing: border-box;
   }
 
   /* 響應式設計 */
   @media (max-width: 768px) {
     .about-page {
-      padding: var(--spacing-lg) var(--spacing-sm);
+      padding: var(--spacing-lg) var(--spacing-md);
     }
 
     .page-header {
       margin-bottom: var(--spacing-xl);
+      padding-bottom: var(--spacing-md);
     }
 
     .page-header h1 {

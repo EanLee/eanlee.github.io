@@ -4,6 +4,8 @@ import BaseHead from "../../components/BaseHead.astro";
 import Header from "../../components/Header.astro";
 import Footer from "../../components/Footer.astro";
 import Tags from "../../components/widget/tags.astro";
+import Clock from "@lucide/astro/icons/clock";
+import { calculateReadingTime, formatReadingTime } from "../../utils/readingTime";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../../consts";
 
 export async function getStaticPaths() {
@@ -106,13 +108,20 @@ const tagJsonLd = {
                   <article class="post-card">
                     <div class="post-content">
                       <div class="post-meta-row">
-                        <time class="post-date" datetime={post.data.date.toISOString()}>
-                          {new Date(post.data.date).toLocaleDateString('zh-TW', {
-                            year: 'numeric',
-                            month: 'short',
-                            day: 'numeric',
-                          })}
-                        </time>
+                        <div class="post-meta-left">
+                          <time class="post-date" datetime={post.data.date.toISOString()}>
+                            {new Date(post.data.date).toLocaleDateString('zh-TW', {
+                              year: 'numeric',
+                              month: 'short',
+                              day: 'numeric',
+                            })}
+                          </time>
+                          <span class="meta-dot">·</span>
+                          <span class="card-reading-time">
+                            <Clock size={13} aria-hidden="true" />
+                            <span>{formatReadingTime(calculateReadingTime(post.body))}</span>
+                          </span>
+                        </div>
                         {post.data.tags && post.data.tags.length > 0 && (
                           <div class="post-tags">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -185,13 +194,13 @@ const tagJsonLd = {
   .main-content {
     display: grid;
     grid-template-columns: 300px minmax(0, 1fr);
-    gap: 2rem;
-    margin: 2rem 0 3rem;
-    max-width: 1120px;
+    gap: var(--spacing-xl);
+    margin: var(--spacing-xl) 0 var(--spacing-2xl);
+    max-width: var(--container-xl);
     margin-left: auto;
     margin-right: auto;
-    padding-left: 1rem;
-    padding-right: 1rem;
+    padding-left: var(--spacing-md);
+    padding-right: var(--spacing-md);
   }
   
   .sidebar-area {
@@ -201,7 +210,7 @@ const tagJsonLd = {
   .widget-container {
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: var(--spacing-xl);
   }
   
   .content-area {
@@ -282,6 +291,32 @@ const tagJsonLd = {
     font-size: 0.875rem;
     color: var(--text-muted);
   }
+
+  .post-meta-left {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .meta-dot {
+    color: var(--text-muted);
+    user-select: none;
+    font-size: 0.875rem;
+  }
+
+  .card-reading-time {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.875rem;
+    color: var(--text-muted);
+  }
+
+  .card-reading-time svg {
+    color: var(--text-muted);
+    flex-shrink: 0;
+  }
   
   .post-tags {
     display: flex;
@@ -360,20 +395,27 @@ const tagJsonLd = {
     border-radius: 8px;
   }
   
-  @media (max-width: 1200px) {
+  @media (max-width: 1024px) {
     .main-content {
-      gap: 1.5rem;
+      grid-template-columns: 250px minmax(0, 1fr);
+      gap: var(--spacing-lg);
+    }
+
+    .sidebar-area {
+      width: 250px;
     }
   }
   
-  @media (max-width: 992px) {
+  @media (max-width: 768px) {
     .main-content {
       grid-template-columns: 1fr;
+      gap: var(--spacing-lg);
+      margin-top: var(--spacing-md);
     }
     
     .sidebar-area {
       width: 100%;
-      margin-bottom: 2rem;
+      margin-bottom: var(--spacing-xl);
     }
     
     .title-section {

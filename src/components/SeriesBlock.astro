@@ -5,6 +5,8 @@ import BookOpen from "@lucide/astro/icons/book-open";
 import ArrowRight from "@lucide/astro/icons/arrow-right";
 import Calendar from "@lucide/astro/icons/calendar";
 import Tags from "@lucide/astro/icons/tags";
+import Clock from "@lucide/astro/icons/clock";
+import { calculateReadingTime, formatReadingTime } from "../utils/readingTime";
 
 interface Props {
   title: string;
@@ -49,9 +51,16 @@ const displayCount = Math.min(2, posts.length);
               <article class="post-card">
                 <div class="post-content-wrapper">
                   <div class="post-meta-row">
-                    <div class="post-date">
-                      <Calendar size={16} />
-                      <FormattedDate date={post.data.date} />
+                    <div class="post-meta-left">
+                      <div class="post-date">
+                        <Calendar size={15} />
+                        <FormattedDate date={post.data.date} />
+                      </div>
+                      <span class="meta-dot">·</span>
+                      <span class="card-reading-time">
+                        <Clock size={14} aria-hidden="true" />
+                        <span>{formatReadingTime(calculateReadingTime(post.body))}</span>
+                      </span>
                     </div>
 
                     {post.data.tags && post.data.tags.length > 0 && (
@@ -183,10 +192,36 @@ const displayCount = Math.min(2, posts.length);
     gap: 0.5rem;
   }
 
-  .post-date {
+  .post-meta-left {
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .meta-dot {
+    color: var(--text-muted);
+    user-select: none;
+    font-size: 0.85rem;
+  }
+
+  .card-reading-time {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+
+  .card-reading-time svg {
+    color: var(--text-muted);
+    flex-shrink: 0;
+  }
+
+  .post-date {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
     font-size: 0.85rem;
     color: var(--text-muted);
   }

@@ -1,6 +1,6 @@
 ---
 title: Docker 實戰：建立 PostgreSQL Container 的同時，自動完成 Schema 初始化與測試資料匯入
-description: 不想每次重啟 Docker 都要手動建 Schema？本文教你善用 PostgreSQL 官方的 initdb 機制，在建立 Container 時透過腳本自動完成資料庫初始化與測試資料寫入。
+description: 紀錄利用 PostgreSQL 官方映像檔的 docker-entrypoint-initdb.d 特性，在啟動 Container 時自動執行 SQL 與 Shell 腳本完成 Schema 建立與預載資料的配置技巧，提升本機開發與測試環境建立的重現性。
 tags:
   - Postgresql
   - Docker
@@ -16,7 +16,7 @@ keywords:
   - 測試資料匯入
 date: 2023-02-21T00:13:07+08:00
 slug: docker-postgresql-initialization-scripts
-lastmod: 2026-03-16T01:32:16+08:00
+lastmod: 2026-09-07T01:14:48+08:00
 epic: software
 ---
 現在都可以使用 Container 的方式來運行資料庫，那麼。是否有辦法在 Image 建立 Container 的當下，就一併完成資料庫 schema 的設定？

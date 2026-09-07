@@ -18,15 +18,14 @@ const { enabled = true } = Astro.props;
     var _analyticsController = null;
     var _analyticsObservers = [];
 
-    // 確保 gtag 函數存在
-    function ensureGtag() {
-      return typeof gtag !== 'undefined';
-    }
-
     // 安全的 gtag 呼叫
     function trackEvent(eventName, eventParams) {
-      if (ensureGtag()) {
+      if (typeof gtag === 'function') {
         gtag('event', eventName, eventParams);
+      } else if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
+        window.gtag('event', eventName, eventParams);
+      } else if (typeof window !== 'undefined' && window.dataLayer) {
+        window.dataLayer.push(['event', eventName, eventParams]);
       }
     }
 
@@ -141,46 +140,14 @@ const { enabled = true } = Astro.props;
       // ==========================================
       // 3. 代碼複製追蹤
       // ==========================================
-      function trackCodeCopy() {
-        var copyButtons = document.querySelectorAll('.copy-button, [data-copy-code]');
-
-        copyButtons.forEach(function(button) {
-          // 避免重複綁定
-          if (button.dataset.analyticsTracked) return;
-          button.dataset.analyticsTracked = 'true';
-
-          button.addEventListener('click', function() {
-            var codeBlock = button.closest('pre') || button.parentElement?.querySelector('pre');
-            var language =
-              button.dataset.language ||
-              codeBlock?.className.match(/language-(\w+)/)?.[1] ||
-              'unknown';
-
-            trackEvent('code_copy', {
-              language: language,
-              page_path: window.location.pathname,
-              code_location: button.dataset.codeIndex || 'unknown'
-            });
-          }, { signal: signal });
+      window.addEventListener('blog:code-copy', function(e) {
+        var detail = (e && e.detail) || {};
+        trackEvent('code_copy', {
+          language: detail.language || 'unknown',
+          code_length: detail.length || 0,
+          page_path: window.location.pathname
         });
-      }
-
-      // 初始追蹤
-      trackCodeCopy();
-
-      // 使用 MutationObserver 追蹤動態加入的複製按鈕
-      var codeObserver = new MutationObserver(function() {
-        trackCodeCopy();
-      });
-
-      var articleContent = document.querySelector('.article-content');
-      if (articleContent) {
-        codeObserver.observe(articleContent, {
-          childList: true,
-          subtree: true
-        });
-      }
-      _analyticsObservers.push(codeObserver);
+      }, { signal: signal });
 
       // ==========================================
       // 4. TOC 導航追蹤
@@ -202,73 +169,7 @@ const { enabled = true } = Astro.props;
       });
 
       // ==========================================
-      // 5. 搜尋使用追蹤
-      // ==========================================
-      var searchTrigger = document.getElementById('search-trigger');
-
-      if (searchTrigger) {
-        searchTrigger.addEventListener('click', function() {
-          trackEvent('search_open', {
-            trigger_method: 'button',
-            page_path: window.location.pathname
-          });
-        }, { signal: signal });
-      }
-
-      // 追蹤搜尋查詢（透過 Pagefind UI）
-      var searchObserver = new MutationObserver(function() {
-        var searchInput = document.querySelector('.pagefind-ui__search-input');
-
-        if (searchInput && !searchInput.dataset.analyticsTracked) {
-          searchInput.dataset.analyticsTracked = 'true';
-
-          var searchTimeout;
-          searchInput.addEventListener('input', function(e) {
-            clearTimeout(searchTimeout);
-            var query = e.target.value.trim();
-
-            // 延遲追蹤以避免每個按鍵都觸發
-            searchTimeout = setTimeout(function() {
-              if (query.length >= 3) {
-                trackEvent('search_query', {
-                  search_term: query.substring(0, 100), // 限制長度
-                  query_length: query.length,
-                  page_path: window.location.pathname
-                });
-              }
-            }, 1000);
-          }, { signal: signal });
-        }
-
-        // 追蹤搜尋結果點擊
-        var searchResults = document.querySelectorAll('.pagefind-ui__result');
-        searchResults.forEach(function(result, index) {
-          if (result.dataset.analyticsTracked) return;
-          result.dataset.analyticsTracked = 'true';
-
-          result.addEventListener('click', function() {
-            var resultTitle = result.querySelector('.pagefind-ui__result-title')?.textContent?.trim() || 'unknown';
-
-            trackEvent('search_result_click', {
-              result_title: resultTitle,
-              result_position: index + 1,
-              page_path: window.location.pathname
-            });
-          }, { signal: signal });
-        });
-      });
-
-      var searchModal = document.getElementById('search-modal');
-      if (searchModal) {
-        searchObserver.observe(searchModal, {
-          childList: true,
-          subtree: true
-        });
-      }
-      _analyticsObservers.push(searchObserver);
-
-      // ==========================================
-      // 6. 麵包屑導航點擊追蹤
+      // 5. 麵包屑導航點擊追蹤
       // ==========================================
       var breadcrumbLinks = document.querySelectorAll('.breadcrumb-link');
 
@@ -376,15 +277,44 @@ const { enabled = true } = Astro.props;
       _ric(function() { initNonCriticalAnalytics(signal); });
     }
 
-    // 初始化
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initEnhancedAnalytics);
-    } else {
+    // 初始化與 SPA 換頁處理
+    var _hasInitialPageLoaded = false;
+
+    function handleAstroPageLoad() {
       initEnhancedAnalytics();
+
+      // SPA 換頁時向 GA4 發送頁面瀏覽事件（初次載入由 BaseHead 處理，避免重複計算）
+      if (!_hasInitialPageLoaded) {
+        _hasInitialPageLoaded = true;
+        return;
+      }
+
+      var fn = typeof gtag === 'function' ? gtag : (typeof window !== 'undefined' && typeof window.gtag === 'function' ? window.gtag : null);
+      if (fn) {
+        fn('config', 'G-4HXSCXTZKZ', {
+          page_title: document.title,
+          page_location: window.location.href
+        });
+      } else if (typeof window !== 'undefined' && window.dataLayer) {
+        window.dataLayer.push(['config', 'G-4HXSCXTZKZ', {
+          page_title: document.title,
+          page_location: window.location.href
+        }]);
+      }
     }
 
-    // Astro 頁面切換時重新初始化（initEnhancedAnalytics 會先清理上一頁的 listeners）
-    document.addEventListener('astro:page-load', initEnhancedAnalytics);
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() {
+        initEnhancedAnalytics();
+        _hasInitialPageLoaded = true;
+      });
+    } else {
+      initEnhancedAnalytics();
+      _hasInitialPageLoaded = true;
+    }
+
+    // Astro 頁面切換時重新初始化並記錄 page_view
+    document.addEventListener('astro:page-load', handleAstroPageLoad);
   </script>
 )}
 

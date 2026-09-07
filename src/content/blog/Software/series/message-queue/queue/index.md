@@ -1,8 +1,8 @@
 ---
 title: Queue 佇列的概念
-description: 回顧 Queue 的概念與用法
+description: 梳理 Message Queue (MQ) 在分散式架構中的核心概念與實踐價值。探討先進先出 (FIFO)、非同步解耦、流量削峰 (Peak Shaving) 與緩衝機制，分享後端在高併發情境下的架構思考。
 date: 2022-06-14T15:46:41+08:00
-lastmod: 2026-03-16T01:32:16+08:00
+lastmod: 2026-09-07T01:14:48+08:00
 keywords:
   - Queue
   - 佇列

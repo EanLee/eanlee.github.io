@@ -1,17 +1,26 @@
 ---
 import HeaderLink from "./HeaderLink.astro";
 import { SITE_TITLE } from "../consts";
+import { getCollection } from "astro:content";
+import { getSeriesData } from "../utils/series";
 
-const image = "/favicon.ico";
+const image = "/favicon.webp";
+
+// 檢查各分類是否已有發布文章，無文章時自動隱藏導航連結
+const allPosts = await getCollection("blog");
+const hasReadingPosts = allPosts.some((post) => post.data.epic === "reading");
+
+// 取得前 4 個篇數最多的精選系列專欄供下拉選單使用
+const featuredSeries = getSeriesData(allPosts).slice(0, 4);
 ---
 
 <header>
   <div class="header-div">
     <nav>
-      <div class="logo">
-        <img class="logo-img" src={image} alt="Logo" />
-        <div class="logo-text"><a href="/">{SITE_TITLE}</a></div>
-      </div>
+      <a href="/" class="logo" data-astro-prefetch aria-label={`${SITE_TITLE} 首頁`}>
+        <img class="logo-img" src={image} alt="Logo" width="64" height="64" fetchpriority="high" />
+        <span class="logo-text">{SITE_TITLE}</span>
+      </a>
 
       <button class="mobile-menu-toggle" aria-label="選單" aria-expanded="false" aria-controls="mobile-nav" title="點擊開啟選單">
         <span></span>
@@ -21,74 +30,21 @@ const image = "/favicon.ico";
 
       <div id="mobile-nav" class="nav-right" aria-hidden="true">
         <div class="internal-links">
-          <HeaderLink href="/software/">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="18"
-              height="18"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"><path d="m18 16 4-4-4-4"></path><path d="m6 8-4 4 4 4"></path><path d="m14.5 4-5 16"></path></svg
-            >
-            軟體開發
-          </HeaderLink>
-          <HeaderLink href="/management/">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="18"
-              height="18"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              ><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path
-                d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg
-            >
-            管理經驗
-          </HeaderLink>
-          <HeaderLink href="/reading/">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="18"
-              height="18"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              ><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg
-            >
-            閱讀心得
-          </HeaderLink>
-          <HeaderLink href="/growth/">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="18"
-              height="18"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg
-            >
-            自我成長
-          </HeaderLink>
-
-          <!-- 桌面版「探索」下拉選單 -->
-          <div class="nav-dropdown desktop-only">
-            <button
-              class="nav-dropdown-trigger"
-              aria-haspopup="menu"
-              aria-expanded="false"
-              aria-controls="explore-dropdown"
-            >
+            <HeaderLink href="/software/">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"><path d="m18 16 4-4-4-4"></path><path d="m6 8-4 4 4 4"></path><path d="m14.5 4-5 16"></path></svg
+              >
+              軟體開發
+            </HeaderLink>
+            <HeaderLink href="/management/">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="18"
@@ -99,69 +55,145 @@ const image = "/favicon.ico";
                 stroke-width="2"
                 stroke-linecap="round"
                 stroke-linejoin="round"
-              ><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path><path d="M11 8v6"></path><path d="M8 11h6"></path></svg>
-              探索
-              <svg class="dropdown-chevron" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg>
-            </button>
-            <ul id="explore-dropdown" class="dropdown-menu" role="menu">
-              <li role="none">
-                <a href="/archives/" role="menuitem">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1-2-1Z"></path><path d="M14 8H8"></path><path d="M16 12H8"></path><path d="M13 16H8"></path></svg>
-                  所有文章
-                </a>
-              </li>
-              <li role="none">
-                <a href="/series/" role="menuitem">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="7" x="3" y="3" rx="1"></rect><rect width="7" height="7" x="14" y="3" rx="1"></rect><rect width="7" height="7" x="14" y="14" rx="1"></rect><rect width="7" height="7" x="3" y="14" rx="1"></rect></svg>
-                  系列文章
-                </a>
-              </li>
-              <li role="none">
-                <a href="/tags/" role="menuitem">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"></path><path d="M7 7h.01"></path></svg>
-                  標籤
-                </a>
-              </li>
-            </ul>
-          </div>
+                ><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path
+                  d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg
+              >
+              管理經驗
+            </HeaderLink>
+            {hasReadingPosts && (
+              <HeaderLink href="/reading/">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  ><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg
+                >
+                閱讀心得
+              </HeaderLink>
+            )}
+            <HeaderLink href="/growth/">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg
+              >
+              自我成長
+            </HeaderLink>
 
-          <!-- 行動版：平鋪「探索」子項目（直接顯示，不需要巢狀展開） -->
-          <div class="mobile-explore-group mobile-only">
-            <div class="mobile-explore-label">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path><path d="M11 8v6"></path><path d="M8 11h6"></path></svg>
-              探索
+            <!-- 桌面版「探索」下拉選單 -->
+            <div class="nav-dropdown desktop-only">
+              <button
+                class="nav-dropdown-trigger"
+                aria-haspopup="menu"
+                aria-expanded="false"
+                aria-controls="explore-dropdown"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                ><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path><path d="M11 8v6"></path><path d="M8 11h6"></path></svg>
+                探索
+                <svg class="dropdown-chevron" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg>
+              </button>
+              <ul id="explore-dropdown" class="dropdown-menu" role="menu">
+                <li role="none">
+                  <a href="/archives/" role="menuitem">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1-2-1Z"></path><path d="M14 8H8"></path><path d="M16 12H8"></path><path d="M13 16H8"></path></svg>
+                    所有文章
+                  </a>
+                </li>
+                <li role="none">
+                  <a href="/tags/" role="menuitem">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"></path><path d="M7 7h.01"></path></svg>
+                    標籤總覽
+                  </a>
+                </li>
+                {featuredSeries.length > 0 && (
+                  <li role="presentation" class="dropdown-header">
+                    <span>精選系列專欄</span>
+                  </li>
+                )}
+                {featuredSeries.map((series) => (
+                  <li role="none">
+                    <a href={`/series/${series.seriesPath}/`} role="menuitem" class="dropdown-series-item" title={series.seriesTitle}>
+                      <span class="dropdown-series-dot" aria-hidden="true">•</span>
+                      <span class="dropdown-series-title">{series.seriesTitle}</span>
+                      <span class="dropdown-badge">{series.count}</span>
+                    </a>
+                  </li>
+                ))}
+                <li role="none" class="dropdown-footer-item">
+                  <a href="/series/" role="menuitem" class="dropdown-all-series">
+                    <span>查看全部系列</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"></path></svg>
+                  </a>
+                </li>
+              </ul>
             </div>
-            <a href="/archives/" class="mobile-explore-item">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1-2-1Z"></path><path d="M14 8H8"></path><path d="M16 12H8"></path><path d="M13 16H8"></path></svg>
-              所有文章
-            </a>
-            <a href="/series/" class="mobile-explore-item">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="7" x="3" y="3" rx="1"></rect><rect width="7" height="7" x="14" y="3" rx="1"></rect><rect width="7" height="7" x="14" y="14" rx="1"></rect><rect width="7" height="7" x="3" y="14" rx="1"></rect></svg>
-              系列文章
-            </a>
-            <a href="/tags/" class="mobile-explore-item">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"></path><path d="M7 7h.01"></path></svg>
-              標籤
-            </a>
-          </div>
 
-          <HeaderLink href="/about/">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="18"
-              height="18"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              ><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg
-            >
-            關於我
-          </HeaderLink>
+            <!-- 行動版：平鋪「探索」子項目（直接顯示，不需要巢狀展開） -->
+            <div class="mobile-explore-group mobile-only">
+              <div class="mobile-explore-label">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path><path d="M11 8v6"></path><path d="M8 11h6"></path></svg>
+                探索
+              </div>
+              <a href="/archives/" class="mobile-explore-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1-2-1Z"></path><path d="M14 8H8"></path><path d="M16 12H8"></path><path d="M13 16H8"></path></svg>
+                所有文章
+              </a>
+              <a href="/series/" class="mobile-explore-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="7" x="3" y="3" rx="1"></rect><rect width="7" height="7" x="14" y="3" rx="1"></rect><rect width="7" height="7" x="14" y="14" rx="1"></rect><rect width="7" height="7" x="3" y="14" rx="1"></rect></svg>
+                系列專欄
+              </a>
+              {featuredSeries.map((series) => (
+                <a href={`/series/${series.seriesPath}/`} class="mobile-explore-item mobile-series-subitem" title={series.seriesTitle}>
+                  <span class="mobile-series-dot" aria-hidden="true">•</span>
+                  <span class="mobile-series-title">{series.seriesTitle}</span>
+                  <span class="dropdown-badge">{series.count}</span>
+                </a>
+              ))}
+              <a href="/tags/" class="mobile-explore-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"></path><path d="M7 7h.01"></path></svg>
+                標籤
+              </a>
+            </div>
+
+            <HeaderLink href="/about/">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                ><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg
+              >
+              關於我
+            </HeaderLink>
+          </div>
         </div>
-      </div>
     </nav>
   </div>
 </header>
@@ -186,6 +218,12 @@ const image = "/favicon.ico";
     align-items: center;
     flex-direction: row;
     gap: var(--spacing-sm);
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .logo:hover .logo-text {
+    color: var(--color-primary);
   }
 
   .logo-img {
@@ -198,19 +236,8 @@ const image = "/favicon.ico";
     font-size: 1.5em;
     font-weight: bold;
     display: inline-block;
-  }
-
-  .logo a {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    margin: 0;
-    padding: 0;
-  }
-
-  .logo-text a,
-  .logo-text a.active {
-    text-decoration: none;
+    color: var(--color-text);
+    transition: color var(--transition-fast);
   }
 
   nav {
@@ -238,7 +265,7 @@ const image = "/favicon.ico";
 
   .internal-links {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     align-items: center;
   }
 
@@ -294,7 +321,8 @@ const image = "/favicon.ico";
     position: absolute;
     top: calc(100% + 2px);
     right: 0;
-    min-width: 160px;
+    min-width: 250px;
+    max-width: 320px;
     background-color: var(--color-bg-primary);
     border: 1px solid var(--color-border-light);
     border-radius: var(--radius-md);
@@ -340,6 +368,72 @@ const image = "/favicon.ico";
   .dropdown-menu a:hover {
     background-color: var(--color-bg-muted);
     color: var(--color-primary);
+  }
+
+  .dropdown-header {
+    padding: var(--spacing-xs) var(--spacing-md) 0.2rem;
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    border-top: 1px solid var(--color-border-light);
+    margin-top: var(--spacing-xs);
+    list-style: none;
+  }
+
+  .dropdown-series-item {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.45rem var(--spacing-md) !important;
+  }
+
+  .dropdown-series-dot {
+    color: var(--color-primary);
+    font-size: 1.1rem;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .dropdown-series-title {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 0.84rem;
+  }
+
+  .dropdown-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.72rem;
+    padding: 0.08rem 0.45rem;
+    border-radius: var(--radius-full);
+    background-color: var(--color-bg-muted);
+    color: var(--color-text-muted);
+    flex-shrink: 0;
+    font-weight: 500;
+  }
+
+  .dropdown-footer-item {
+    border-top: 1px solid var(--color-border-light);
+    margin-top: var(--spacing-xs);
+    list-style: none;
+  }
+
+  .dropdown-all-series {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--color-primary) !important;
+    font-size: 0.82rem !important;
+    font-weight: 500;
+  }
+
+  .dropdown-all-series:hover {
+    color: var(--link-hover) !important;
   }
 
   /* 行動版顯示控制 */
@@ -392,6 +486,18 @@ const image = "/favicon.ico";
 
   .mobile-menu-toggle.active span:nth-child(3) {
     transform: rotate(-45deg) translate(7px, -6px);
+  }
+
+  /* ===========================
+     響應式：769px ~ 1024px (平板與小筆電)
+     =========================== */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    nav a,
+    .nav-dropdown-trigger {
+      padding: 1em 0.35rem;
+      font-size: var(--font-size-sm);
+      gap: 0.25rem;
+    }
   }
 
   /* ===========================
@@ -501,6 +607,26 @@ const image = "/favicon.ico";
     .mobile-explore-item:hover {
       background-color: rgba(var(--color-primary-rgb), 0.1);
     }
+
+    .mobile-series-subitem {
+      padding: var(--spacing-xs) var(--spacing-lg) var(--spacing-xs) calc(var(--spacing-lg) + 1.75rem);
+      font-size: var(--font-size-sm);
+      color: var(--color-text-light);
+    }
+
+    .mobile-series-dot {
+      color: var(--color-primary);
+      font-size: 1rem;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+
+    .mobile-series-title {
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
   }
 
   @media (max-width: 768px) {
@@ -538,6 +664,10 @@ const image = "/favicon.ico";
 
     .mobile-explore-item {
       padding: var(--spacing-sm) var(--spacing-md) var(--spacing-sm) calc(var(--spacing-md) + 1.25rem);
+    }
+
+    .mobile-series-subitem {
+      padding: var(--spacing-xs) var(--spacing-md) var(--spacing-xs) calc(var(--spacing-md) + 1.75rem);
     }
   }
 
@@ -657,16 +787,19 @@ const image = "/favicon.ico";
       trigger.replaceWith(newTrigger);
 
       // hover 展開時同步 aria-expanded（無障礙輔助技術需要）
-      const dropdown = newTrigger.closest(".nav-dropdown");
-      if (dropdown) {
+      const dropdown = newTrigger.closest<HTMLElement>(".nav-dropdown");
+      if (dropdown && !dropdown.dataset.hoverInitialized) {
+        dropdown.dataset.hoverInitialized = "true";
         dropdown.addEventListener("mouseenter", () => {
-          newTrigger.setAttribute("aria-expanded", "true");
+          const currentTrigger = dropdown.querySelector<HTMLButtonElement>(".nav-dropdown-trigger");
+          currentTrigger?.setAttribute("aria-expanded", "true");
         });
         dropdown.addEventListener("mouseleave", () => {
           // 若非透過鍵盤開啟（style.display 未被 JS 覆寫），才重設
+          const currentTrigger = dropdown.querySelector<HTMLButtonElement>(".nav-dropdown-trigger");
           const menu = dropdown.querySelector<HTMLElement>(".dropdown-menu");
           if (!menu || menu.style.display !== "block") {
-            newTrigger.setAttribute("aria-expanded", "false");
+            currentTrigger?.setAttribute("aria-expanded", "false");
           }
         });
       }
