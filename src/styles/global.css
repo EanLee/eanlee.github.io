@@ -517,6 +517,24 @@ hr {
     margin: 2rem 0;
 }
 
+/* Mermaid 圖表 */
+.prose svg[aria-roledescription] {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 2rem auto;
+    background-color: var(--prose-code-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-lg);
+}
+
+@media (max-width: 768px) {
+    .prose svg[aria-roledescription] {
+        padding: var(--spacing-md);
+    }
+}
+
 /* === 現場技術對談專欄組件 (面對面交流 / 無黑底框簡約風格) === */
 .chat-dialogue-container {
   width: 100%;

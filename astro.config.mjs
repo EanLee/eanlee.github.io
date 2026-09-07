@@ -3,6 +3,7 @@ import { defineConfig } from "astro/config";
 import sitemap from "@astrojs/sitemap";
 import rehypeExternalLinks from "rehype-external-links";
 import rehypeFigure from "rehype-figure";
+import rehypeMermaid from "rehype-mermaid";
 
 import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
@@ -46,6 +47,47 @@ export default defineConfig({
   markdown: {
     remarkPlugins: [remarkRemoveMd, remarkReadingTime, remarkChatDialogue],
     rehypePlugins: [
+      [
+        rehypeMermaid,
+        {
+          strategy: "inline-svg",
+          mermaidConfig: {
+            theme: "base",
+            look: "handDrawn",
+            themeVariables: {
+              fontFamily: "'Inter', 'Noto Sans TC', sans-serif",
+              primaryColor: "#22272e",
+              primaryTextColor: "#e6edf3",
+              primaryBorderColor: "#6b8aff",
+              lineColor: "#6b8aff",
+              secondaryColor: "#1c2128",
+              secondaryBorderColor: "#5c6470",
+              tertiaryColor: "#1c2128",
+              tertiaryBorderColor: "#373e47",
+              background: "#0f1419",
+              mainBkg: "#22272e",
+              textColor: "#e6edf3",
+              nodeTextColor: "#e6edf3",
+              edgeLabelBackground: "#1c2128",
+              clusterBkg: "#1c2128",
+              clusterBorder: "#373e47",
+              actorBkg: "#22272e",
+              actorBorder: "#6b8aff",
+              actorTextColor: "#e6edf3",
+              signalColor: "#adbac7",
+              signalTextColor: "#e6edf3",
+              labelBoxBkgColor: "#22272e",
+              labelBoxBorderColor: "#6b8aff",
+              labelTextColor: "#e6edf3",
+              noteBkgColor: "#ed8936",
+              noteTextColor: "#0f1419",
+              noteBorderColor: "#ed8936",
+              errorBkgColor: "#22272e",
+              errorTextColor: "#e6edf3",
+            },
+          },
+        },
+      ],
       [rehypeFigure, { className: "my-figure" }],
       rehypeSlug,
       [rehypeAutolinkHeadings, { behavior: "append" }],
@@ -59,6 +101,10 @@ export default defineConfig({
     shikiConfig: {
       theme: "github-dark",
       langs: customLanguages,
+    },
+    syntaxHighlight: {
+      type: "shiki",
+      excludeLangs: ["mermaid"],
     },
   },
 });
