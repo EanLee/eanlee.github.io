@@ -55,6 +55,10 @@ export default defineConfig({
           mermaidConfig: {
             theme: "base",
             look: "handDrawn",
+            htmlLabels: false,
+            flowchart: {
+              htmlLabels: false,
+            },
             themeVariables: {
               fontFamily: "'Inter', 'Noto Sans TC', sans-serif",
               primaryColor: "#22272e",
