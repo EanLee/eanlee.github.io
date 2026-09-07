@@ -137,7 +137,6 @@ const staleYear = date instanceof Date ? date.getFullYear() : 0;
       <article itemscope itemtype="https://schema.org/BlogPosting">
         <div class="wrapper">
           <Breadcrumbs epic={resolvedEpic} series={series} seriesPath={seriesPath} title={title} />
-          <AdRow />
 
           <div class="hero-container">
             {
@@ -212,6 +211,7 @@ const staleYear = date instanceof Date ? date.getFullYear() : 0;
               )}
             </div>
           </div>
+          <AdRow />
 
           <div class={`content-wrapper${toc === false ? ' no-sidebar' : ''}`}>
             <div class="prose">
@@ -343,6 +343,13 @@ const staleYear = date instanceof Date ? date.getFullYear() : 0;
 
         .sidebar {
           position: relative;
+        }
+      }
+
+      @media (max-width: 1024px) {
+        .sidebar {
+          order: -1;
+          margin-bottom: var(--spacing-sm);
         }
       }
 

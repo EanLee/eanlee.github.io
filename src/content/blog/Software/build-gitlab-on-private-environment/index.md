@@ -2,7 +2,7 @@
 title: GitLab CI 實作記錄(2) - Gitlab CI 的私有環境建置
 description: 在上一篇文章，已經成功在本機建立好 GitLab CI 的環境了，接下來，改在私用的環境，將 GitLab CI 與 Runner 分別建立，並讓 GitLab CI 順利運行。
 date: 2022-09-12T10:16:34+08:00
-lastmod: 2026-09-07T01:14:48+08:00
+lastmod: 2026-09-07T22:19:46+08:00
 tags:
   - GitLab
 categories:
@@ -91,7 +91,7 @@ sudo docker exec -it gitlab-runner gitlab-runner register \
 作法二：若 Runner 已註冊，則到 Gitlab-runner 的 Container 內，在  `etc\gitlab-runner\config.toml` 中，加入參數 `clone-url`
 
 ``` toml {hl_lines=[3,6]}
-[runners](runners.md)
+[[runners]]
   name = "dotnet-core-3.1"
   url = "http://172.45.20.1"
   token = "WxnmFkszXJFiqeQVxy--"
@@ -207,7 +207,7 @@ build-job:       # This job runs in the build stage, which runs first.
 若是 Docker Executor 所使用的 Image，想要使用 `自行建立` 或是 `先使用本地已存在` 的 Image，就必需在 `etc\gitlab-runner\config.toml` 的 `[runners.docker]` 內，加入 `pull_policy = ["if-not-present"]`。
 
 ``` toml {hl_lines=[15]}
-[runners](runners.md)
+[[runners]]
   name = "dotnet-core-3.1"
   url = "http://172.45.20.1"
   token = "WxnmFkszXJFiqeQVxy--"
