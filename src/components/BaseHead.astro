@@ -64,14 +64,10 @@ const {
 <link rel="dns-prefetch" href="//fonts.googleapis.com">
 <link rel="dns-prefetch" href="//fonts.gstatic.com">
 
-<!-- Google Fonts: Inter, Noto Sans TC, JetBrains Mono (非阻塞載入) -->
+<!-- Google Fonts: Inter, Noto Sans TC, JetBrains Mono (非阻塞非同步載入) -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Noto+Sans+TC:wght@400;500;700&display=swap" id="google-fonts-css" media="print">
-<script is:inline>
-  const gf = document.getElementById('google-fonts-css');
-  if (gf) { gf.media = 'all'; }
-</script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Noto+Sans+TC:wght@400;500;700&display=swap" media="print" onload="this.setAttribute('media', 'all')">
 <noscript>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Noto+Sans+TC:wght@400;500;700&display=swap">
 </noscript>
@@ -83,68 +79,43 @@ const {
 <link rel="preconnect" href="https://tpc.googlesyndication.com" crossorigin>
 <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
 <link rel="preconnect" href="https://www.google-analytics.com" crossorigin>
-<link rel="preconnect" href="https://giscus.app" crossorigin>
 
-<!-- Google AdSense - 智慧延遲與視口按需載入 (Core Web Vitals 優化) -->
-<script is:inline type="module">
+<!-- Google AdSense - 互動觸發與按需延遲載入 -->
+<script is:inline>
   function loadAdSense() {
-    if (window.adsbygoogle_loaded) return;
-    window.adsbygoogle_loaded = true;
-    
+    if (window.adsense_loaded) return;
+    window.adsense_loaded = true;
+
     const script = document.createElement('script');
     script.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7903108559996033';
     script.async = true;
     script.crossOrigin = 'anonymous';
-    script.onload = () => {
-      document.querySelectorAll('.adsbygoogle').forEach(ad => {
-        if (!ad.dataset.adsbygoogleStatus) {
-          try {
-            (window.adsbygoogle = window.adsbygoogle || []).push({});
-          } catch (e) {
-            console.warn('AdSense initialization failed:', e);
-          }
-        }
-      });
-    };
-    script.onerror = () => console.warn('AdSense failed to load');
     document.head.appendChild(script);
   }
 
-  // 1. 使用者主動互動立即載入
+  // 1. 使用者主動互動立即載入（點擊、滾動、按鍵、觸控）
   function onUserInteract() {
     loadAdSense();
     cleanupListeners();
   }
 
   function cleanupListeners() {
-    ['mousedown', 'keydown', 'scroll', 'touchstart'].forEach(event => {
+    ['mousedown', 'keydown', 'scroll', 'touchstart', 'pointerdown'].forEach(event => {
       document.removeEventListener(event, onUserInteract, { passive: true });
     });
   }
 
-  ['mousedown', 'keydown', 'scroll', 'touchstart'].forEach(event => {
+  ['mousedown', 'keydown', 'scroll', 'touchstart', 'pointerdown'].forEach(event => {
     document.addEventListener(event, onUserInteract, { passive: true });
   });
 
-  // 2. 視口觀察：若廣告區塊即將進入視口前 300px，按需載入
-  if ('IntersectionObserver' in window) {
-    const adObserver = new IntersectionObserver((entries) => {
-      if (entries.some(entry => entry.isIntersecting)) {
-        loadAdSense();
-        cleanupListeners();
-        adObserver.disconnect();
-      }
-    }, { rootMargin: '300px 0px' });
-
-    const observeAds = () => {
-      const ads = document.querySelectorAll('.adsbygoogle, .ad-wrapper');
-      ads.forEach(ad => adObserver.observe(ad));
-    };
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', observeAds, { once: true });
-    } else {
-      observeAds();
-    }
+  // 2. 備用：閒置 6 秒後自動載入
+  if ('requestIdleCallback' in window) {
+    window.requestIdleCallback(() => {
+      setTimeout(loadAdSense, 4000);
+    });
+  } else {
+    setTimeout(loadAdSense, 6000);
   }
 </script>
 
@@ -190,8 +161,14 @@ const {
     document.addEventListener(event, initGA, { passive: true });
   });
   
-  // 備用：3秒後自動載入
-  setTimeout(loadGoogleAnalytics, 3000);
+  // 備用：閒置 6 秒後自動載入
+  if ('requestIdleCallback' in window) {
+    window.requestIdleCallback(() => {
+      setTimeout(loadGoogleAnalytics, 4000);
+    });
+  } else {
+    setTimeout(loadGoogleAnalytics, 6000);
+  }
 </script>
 
 <!-- Canonical URL -->
