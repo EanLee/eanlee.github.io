@@ -1,0 +1,603 @@
+---
+// src/components/SearchModal.astro
+// 全站即時全文搜尋彈窗元件（基於 Pagefind 靜態全文索引）
+---
+
+<!-- 搜尋按鈕（供 Header 引用） -->
+<button
+  id="search-open-btn"
+  class="search-trigger-btn"
+  type="button"
+  aria-label="搜尋文章 (快捷鍵: Ctrl+K)"
+  title="全站搜尋 (Ctrl+K)"
+>
+  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <circle cx="11" cy="11" r="8"></circle>
+    <path d="m21 21-4.35-4.35"></path>
+  </svg>
+  <span class="search-trigger-text">搜尋</span>
+  <kbd class="search-trigger-kbd">
+    <span class="kbd-mod">⌘</span>K
+  </kbd>
+</button>
+
+<!-- 搜尋 Modal 視窗 -->
+<dialog id="search-dialog" class="search-modal" aria-label="全站全文搜尋">
+  <div class="search-modal-container">
+    <!-- 搜尋列頂部 -->
+    <div class="search-header">
+      <svg class="search-input-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="11" cy="11" r="8"></circle>
+        <path d="m21 21-4.35-4.35"></path>
+      </svg>
+      <input
+        type="search"
+        id="search-input"
+        class="search-input"
+        placeholder="搜尋文章、技術架構、系列專題..."
+        autocomplete="off"
+        spellcheck="false"
+      />
+      <button id="search-clear-btn" class="search-clear-btn" type="button" aria-label="清除搜尋字串" style="display: none;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+      <button id="search-close-btn" class="search-close-btn" type="button" aria-label="關閉搜尋視窗">
+        <kbd>ESC</kbd>
+      </button>
+    </div>
+
+    <!-- 搜尋結果區塊 -->
+    <div id="search-body" class="search-body">
+      <!-- 初始提示 -->
+      <div id="search-initial-hint" class="search-hint">
+        <p class="search-hint-title">💡 支援繁體中文即時全文檢索</p>
+        <p class="search-hint-desc">試試搜尋：<code>Docker</code>、<code>CI/CD</code>、<code>RabbitMQ</code>、<code>EF Core</code> 或 <code>IIS Log</code></p>
+      </div>
+
+      <!-- 載入中狀態 -->
+      <div id="search-loading" class="search-status" style="display: none;">
+        <div class="search-spinner" aria-hidden="true"></div>
+        <span>正在檢索索引庫...</span>
+      </div>
+
+      <!-- 查無結果 -->
+      <div id="search-empty" class="search-status" style="display: none;">
+        <p class="search-status-title">查無相關文章</p>
+        <p class="search-status-desc">試試其他關鍵字，或使用較精簡的詞彙搜尋。</p>
+      </div>
+
+      <!-- 結果列表 -->
+      <ul id="search-results" class="search-results-list" role="listbox"></ul>
+    </div>
+
+    <!-- 搜尋列底部快捷鍵提示 -->
+    <div class="search-footer">
+      <div class="search-shortcuts">
+        <span><kbd>↑</kbd><kbd>↓</kbd> 選擇</span>
+        <span><kbd>↵</kbd> 前往文章</span>
+        <span><kbd>ESC</kbd> 關閉</span>
+      </div>
+      <div class="search-meta">
+        <span>由 Pagefind 靜態引擎強大驅動</span>
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<script>
+  let pagefind: any = null;
+  let activeIndex = -1;
+  let searchTimeout: any = null;
+
+  // 偵測作業系統以顯示正確的鍵盤快捷鍵
+  function initKeyboardBadge() {
+    const isMac = navigator.userAgent.toUpperCase().includes('MAC');
+    const kbdMod = document.querySelector('.kbd-mod');
+    if (kbdMod) {
+      kbdMod.textContent = isMac ? '⌘' : 'Ctrl ';
+    }
+  }
+
+  // 延遲載入 Pagefind 核心腳本（僅在首次點擊或喚起搜尋時載入，0 初次負擔）
+  async function loadPagefind() {
+    if (pagefind) return pagefind;
+    try {
+      const pagefindPath = '/pagefind/pagefind.js';
+      // @ts-ignore
+      pagefind = await import(/* @vite-ignore */ pagefindPath);
+      await pagefind.init();
+      return pagefind;
+    } catch (e) {
+      console.warn('Pagefind 尚未建立索引或處於開發預覽模式', e);
+      return null;
+    }
+  }
+
+  function initSearchModal() {
+    initKeyboardBadge();
+
+    const dialog = document.getElementById('search-dialog') as HTMLDialogElement | null;
+    const openBtn = document.getElementById('search-open-btn');
+    const closeBtn = document.getElementById('search-close-btn');
+    const clearBtn = document.getElementById('search-clear-btn');
+    const input = document.getElementById('search-input') as HTMLInputElement | null;
+    const resultsList = document.getElementById('search-results');
+    const initialHint = document.getElementById('search-initial-hint');
+    const loadingState = document.getElementById('search-loading');
+    const emptyState = document.getElementById('search-empty');
+
+    if (!dialog || !input || !resultsList) return;
+
+    function openModal() {
+      if (!dialog) return;
+      dialog.showModal();
+      document.body.style.overflow = 'hidden';
+      input?.focus();
+      loadPagefind(); // 預載入
+    }
+
+    function closeModal() {
+      if (!dialog) return;
+      dialog.close();
+      document.body.style.overflow = '';
+      if (input) input.value = '';
+      renderState('initial');
+    }
+
+    function renderState(state: 'initial' | 'loading' | 'empty' | 'results') {
+      if (initialHint) initialHint.style.display = state === 'initial' ? 'block' : 'none';
+      if (loadingState) loadingState.style.display = state === 'loading' ? 'flex' : 'none';
+      if (emptyState) emptyState.style.display = state === 'empty' ? 'block' : 'none';
+      if (resultsList) resultsList.style.display = state === 'results' ? 'block' : 'none';
+      if (clearBtn) clearBtn.style.display = input && input.value ? 'flex' : 'none';
+    }
+
+    async function handleSearch() {
+      if (!input) return;
+      const query = input.value.trim();
+
+      if (!query) {
+        renderState('initial');
+        resultsList!.innerHTML = '';
+        activeIndex = -1;
+        return;
+      }
+
+      renderState('loading');
+      const pf = await loadPagefind();
+
+      if (!pf) {
+        renderState('empty');
+        if (emptyState) {
+          emptyState.innerHTML = '<p class="search-status-title">搜尋引擎準備中</p><p class="search-status-desc">索引在庫中生成，請於部署建置完成後重新嘗試。</p>';
+        }
+        return;
+      }
+
+      const searchRes = await pf.search(query);
+      if (!searchRes || !searchRes.results || searchRes.results.length === 0) {
+        renderState('empty');
+        resultsList!.innerHTML = '';
+        activeIndex = -1;
+        return;
+      }
+
+      // 取前 8 篇最高相關結果
+      const topResults = await Promise.all(
+        searchRes.results.slice(0, 8).map((r: any) => r.data())
+      );
+
+      resultsList!.innerHTML = '';
+      topResults.forEach((item: any, idx: number) => {
+        const li = document.createElement('li');
+        li.className = 'search-result-item';
+        li.role = 'option';
+        li.id = `search-item-${idx}`;
+
+        const a = document.createElement('a');
+        a.href = item.url;
+        a.className = 'search-result-link';
+
+        const title = document.createElement('div');
+        title.className = 'search-result-title';
+        title.textContent = item.meta?.title || '無標題文章';
+
+        const excerpt = document.createElement('div');
+        excerpt.className = 'search-result-excerpt';
+        excerpt.innerHTML = item.excerpt || '';
+
+        a.appendChild(title);
+        a.appendChild(excerpt);
+        li.appendChild(a);
+        resultsList!.appendChild(li);
+      });
+
+      renderState('results');
+      activeIndex = 0;
+      updateActiveItem();
+    }
+
+    function updateActiveItem() {
+      if (!resultsList) return;
+      const items = resultsList.querySelectorAll('.search-result-item');
+      items.forEach((item, idx) => {
+        if (idx === activeIndex) {
+          item.classList.add('active');
+          item.scrollIntoView({ block: 'nearest' });
+        } else {
+          item.classList.remove('active');
+        }
+      });
+    }
+
+    // 事件監聽
+    openBtn?.addEventListener('click', openModal);
+    closeBtn?.addEventListener('click', closeModal);
+    clearBtn?.addEventListener('click', () => {
+      if (input) {
+        input.value = '';
+        input.focus();
+        renderState('initial');
+        resultsList.innerHTML = '';
+        activeIndex = -1;
+      }
+    });
+
+    // 點擊對話框背景關閉
+    dialog.addEventListener('click', (e) => {
+      const rect = dialog.getBoundingClientRect();
+      const inDialog =
+        e.clientX >= rect.left &&
+        e.clientX <= rect.right &&
+        e.clientY >= rect.top &&
+        e.clientY <= rect.bottom;
+      if (!inDialog) {
+        closeModal();
+      }
+    });
+
+    // 輸入監聽（防抖 150ms）
+    input.addEventListener('input', () => {
+      clearTimeout(searchTimeout);
+      searchTimeout = setTimeout(handleSearch, 150);
+    });
+
+    // 鍵盤導航
+    dialog.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeModal();
+        return;
+      }
+
+      const items = resultsList.querySelectorAll('.search-result-item');
+      if (items.length === 0) return;
+
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        activeIndex = (activeIndex + 1) % items.length;
+        updateActiveItem();
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        activeIndex = (activeIndex - 1 + items.length) % items.length;
+        updateActiveItem();
+      } else if (e.key === 'Enter') {
+        if (activeIndex >= 0 && activeIndex < items.length) {
+          e.preventDefault();
+          const link = items[activeIndex].querySelector('a');
+          if (link) link.click();
+        }
+      }
+    });
+
+    // 全域快捷鍵監聽 (Cmd+K / Ctrl+K / 按斜線 /)
+    document.addEventListener('keydown', (e) => {
+      const target = e.target as HTMLElement;
+      const isInput = target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable);
+
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        if (dialog.open) {
+          closeModal();
+        } else {
+          openModal();
+        }
+      } else if (e.key === '/' && !isInput && !dialog.open) {
+        e.preventDefault();
+        openModal();
+      }
+    });
+  }
+
+  document.addEventListener('astro:page-load', initSearchModal);
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initSearchModal);
+  } else {
+    initSearchModal();
+  }
+</script>
+
+<style>
+  /* 導航列觸發按鈕樣式 */
+  .search-trigger-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    padding: 0.35rem 0.65rem;
+    background-color: var(--color-bg-secondary);
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-md);
+    color: var(--color-text-light);
+    font-size: var(--font-size-xs);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    line-height: 1;
+  }
+
+  .search-trigger-btn:hover {
+    border-color: var(--color-primary);
+    color: var(--text-primary);
+    background-color: var(--color-bg-muted);
+  }
+
+  .search-trigger-text {
+    font-weight: var(--font-weight-medium);
+  }
+
+  .search-trigger-kbd {
+    display: inline-flex;
+    align-items: center;
+    background-color: var(--color-bg-muted);
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-sm);
+    padding: 0.1em 0.35em;
+    font-size: 0.7rem;
+    color: var(--color-text-muted);
+    font-family: var(--font-family-mono);
+  }
+
+  /* Modal 對話框核心樣式 */
+  .search-modal {
+    width: 100%;
+    max-width: 640px;
+    padding: 0;
+    margin: 4rem auto auto;
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-lg);
+    background-color: var(--color-bg-secondary);
+    color: var(--text-primary);
+    box-shadow: var(--shadow-xl), 0 0 0 100vw rgba(0, 0, 0, 0.75);
+    overflow: hidden;
+  }
+
+  .search-modal::backdrop {
+    background-color: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(4px);
+  }
+
+  .search-modal-container {
+    display: flex;
+    flex-direction: column;
+    max-height: calc(85vh - 5rem);
+  }
+
+  /* 頂部搜尋輸入列 */
+  .search-header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md) var(--spacing-lg);
+    border-bottom: 1px solid var(--color-border-light);
+    background-color: var(--color-bg-secondary);
+  }
+
+  .search-input-icon {
+    color: var(--color-primary);
+    flex-shrink: 0;
+  }
+
+  .search-input {
+    flex: 1;
+    background: none;
+    border: none;
+    outline: none;
+    color: var(--text-primary);
+    font-size: var(--font-size-base);
+    font-family: inherit;
+  }
+
+  .search-input::placeholder {
+    color: var(--color-text-muted);
+  }
+
+  /* 清除與關閉按鈕 */
+  .search-clear-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    padding: 0.2rem;
+    border-radius: var(--radius-sm);
+  }
+
+  .search-clear-btn:hover {
+    color: var(--text-primary);
+  }
+
+  .search-close-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+  }
+
+  .search-close-btn kbd {
+    background-color: var(--color-bg-muted);
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-sm);
+    padding: 0.2em 0.5em;
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+    font-family: var(--font-family-mono);
+  }
+
+  /* 內容主體 */
+  .search-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--spacing-md);
+    min-height: 180px;
+    max-height: 460px;
+  }
+
+  /* 初始與狀態提示 */
+  .search-hint,
+  .search-status {
+    padding: var(--spacing-xl) var(--spacing-md);
+    text-align: center;
+    color: var(--color-text-muted);
+  }
+
+  .search-hint-title,
+  .search-status-title {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-primary);
+    margin: 0 0 var(--spacing-xs);
+  }
+
+  .search-hint-desc,
+  .search-status-desc {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+
+  .search-hint code {
+    background-color: var(--color-bg-muted);
+    color: var(--color-primary);
+    padding: 0.1em 0.4em;
+    border-radius: var(--radius-sm);
+    font-size: 0.85em;
+  }
+
+  .search-spinner {
+    width: 24px;
+    height: 24px;
+    border: 2px solid var(--color-border-light);
+    border-top-color: var(--color-primary);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: 0 auto var(--spacing-sm);
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  /* 結果項目清單 */
+  .search-results-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+  }
+
+  .search-result-item {
+    border-radius: var(--radius-md);
+    border: 1px solid transparent;
+    transition: all var(--transition-fast);
+  }
+
+  .search-result-item:hover,
+  .search-result-item.active {
+    background-color: var(--color-bg-muted);
+    border-color: rgba(107, 138, 255, 0.4);
+  }
+
+  .search-result-link {
+    display: block;
+    padding: var(--spacing-sm) var(--spacing-md);
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .search-result-title {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-xs);
+    line-height: 1.4;
+  }
+
+  .search-result-item.active .search-result-title {
+    color: var(--color-primary);
+  }
+
+  .search-result-excerpt {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-light);
+    line-height: 1.5;
+  }
+
+  :global(.search-result-excerpt mark) {
+    background-color: rgba(107, 138, 255, 0.25);
+    color: #ffd7b5;
+    padding: 0.05em 0.2em;
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+  }
+
+  /* 底部快捷列 */
+  .search-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border-top: 1px solid var(--color-border-light);
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+    background-color: var(--color-bg-secondary);
+  }
+
+  .search-shortcuts {
+    display: flex;
+    gap: var(--spacing-md);
+  }
+
+  .search-shortcuts kbd {
+    background-color: var(--color-bg-muted);
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-sm);
+    padding: 0.1em 0.35em;
+    font-family: var(--font-family-mono);
+  }
+
+  @media (max-width: 640px) {
+    .search-modal {
+      margin: 0;
+      max-width: 100%;
+      height: 100%;
+      max-height: 100%;
+      border-radius: 0;
+      border: none;
+    }
+    .search-modal-container {
+      max-height: 100vh;
+      height: 100vh;
+    }
+    .search-footer {
+      display: none;
+    }
+    .search-trigger-kbd {
+      display: none;
+    }
+  }
+</style>

@@ -85,11 +85,10 @@ const {
 <link rel="preconnect" href="https://www.google-analytics.com" crossorigin>
 <link rel="preconnect" href="https://giscus.app" crossorigin>
 
-<!-- Google AdSense - 延遲載入以提升效能 -->
+<!-- Google AdSense - 智慧延遲與視口按需載入 (Core Web Vitals 優化) -->
 <script is:inline type="module">
-  // 延遲載入 AdSense，避免阻塞初始渲染
   function loadAdSense() {
-    if (window.adsbygoogle_loaded) return; // 避免重複載入
+    if (window.adsbygoogle_loaded) return;
     window.adsbygoogle_loaded = true;
     
     const script = document.createElement('script');
@@ -97,7 +96,6 @@ const {
     script.async = true;
     script.crossOrigin = 'anonymous';
     script.onload = () => {
-      // 初始化已存在的廣告
       document.querySelectorAll('.adsbygoogle').forEach(ad => {
         if (!ad.dataset.adsbygoogleStatus) {
           try {
@@ -112,22 +110,42 @@ const {
     document.head.appendChild(script);
   }
 
-  // 用戶互動後再載入 AdSense，符合 Core Web Vitals 最佳實踐
-  function initAdSense() {
+  // 1. 使用者主動互動立即載入
+  function onUserInteract() {
     loadAdSense();
-    // 移除事件監聽器
+    cleanupListeners();
+  }
+
+  function cleanupListeners() {
     ['mousedown', 'keydown', 'scroll', 'touchstart'].forEach(event => {
-      document.removeEventListener(event, initAdSense, { passive: true });
+      document.removeEventListener(event, onUserInteract, { passive: true });
     });
   }
 
-  // 監聽用戶互動
   ['mousedown', 'keydown', 'scroll', 'touchstart'].forEach(event => {
-    document.addEventListener(event, initAdSense, { passive: true });
+    document.addEventListener(event, onUserInteract, { passive: true });
   });
 
-  // 備用：5秒後自動載入 (確保即使沒互動也能顯示廣告)
-  setTimeout(loadAdSense, 5000);
+  // 2. 視口觀察：若廣告區塊即將進入視口前 300px，按需載入
+  if ('IntersectionObserver' in window) {
+    const adObserver = new IntersectionObserver((entries) => {
+      if (entries.some(entry => entry.isIntersecting)) {
+        loadAdSense();
+        cleanupListeners();
+        adObserver.disconnect();
+      }
+    }, { rootMargin: '300px 0px' });
+
+    const observeAds = () => {
+      const ads = document.querySelectorAll('.adsbygoogle, .ad-wrapper');
+      ads.forEach(ad => adObserver.observe(ad));
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', observeAds, { once: true });
+    } else {
+      observeAds();
+    }
+  }
 </script>
 
 <!-- Google Analytics - 優化載入 -->

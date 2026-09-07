@@ -132,6 +132,7 @@ const staleYear = date instanceof Date ? date.getFullYear() : 0;
   </head>
 
   <body>
+    <div id="reading-progress" class="reading-progress-bar" aria-hidden="true"></div>
     <Header />
     <main id="main-content">
       <article itemscope itemtype="https://schema.org/BlogPosting">
@@ -283,6 +284,19 @@ const staleYear = date instanceof Date ? date.getFullYear() : 0;
     <!-- 增強的 GA4 事件追蹤 -->
     <EnhancedAnalytics enabled={import.meta.env.PROD} />
     <style>
+      .reading-progress-bar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 3px;
+        width: 0%;
+        background: var(--gradient-primary);
+        z-index: 10000;
+        box-shadow: 0 0 8px rgba(var(--color-primary-rgb), 0.6);
+        transition: width 0.08s ease-out;
+        pointer-events: none;
+      }
+
       body {
         display: flex;
         flex-direction: column;
@@ -635,6 +649,29 @@ const staleYear = date instanceof Date ? date.getFullYear() : 0;
         position: relative;
         word-wrap: break-word !important;
         overflow-wrap: break-word !important;
+        scrollbar-width: thin;
+        scrollbar-color: rgba(107, 138, 255, 0.35) transparent;
+      }
+
+      .article-content :global(pre::-webkit-scrollbar) {
+        height: 6px;
+      }
+
+      .article-content :global(pre::-webkit-scrollbar-track) {
+        background: transparent;
+      }
+
+      .article-content :global(pre::-webkit-scrollbar-thumb) {
+        background-color: rgba(107, 138, 255, 0.35);
+        border-radius: 3px;
+      }
+
+      .article-content :global(pre::-webkit-scrollbar-thumb:hover) {
+        background-color: rgba(107, 138, 255, 0.6);
+      }
+
+      .article-content :global(pre:not([data-language])::before) {
+        display: none;
       }
 
       /* 頂部工具列 - 語言徽標 */
@@ -1184,14 +1221,43 @@ const staleYear = date instanceof Date ? date.getFullYear() : 0;
         }, 3000);
       }
 
+      // 頂部閱讀進度條
+      function initReadingProgress() {
+        const progressBar = document.getElementById("reading-progress");
+        const article = document.querySelector("article");
+        if (!progressBar || !article) return;
+
+        function updateProgress() {
+          const rect = article.getBoundingClientRect();
+          const windowHeight = window.innerHeight;
+          const totalHeight = rect.height - windowHeight;
+          if (totalHeight <= 0) {
+            progressBar.style.width = "0%";
+            return;
+          }
+          const scrolled = -rect.top;
+          const percentage = Math.min(100, Math.max(0, (scrolled / totalHeight) * 100));
+          progressBar.style.width = percentage + "%";
+        }
+
+        window.addEventListener("scroll", updateProgress, { passive: true });
+        window.addEventListener("resize", updateProgress, { passive: true });
+        updateProgress();
+      }
+
       // 支援 Astro 視圖切換生命週期與常規 DOM 載入
-      document.addEventListener("astro:page-load", setupCodeCopy);
+      function initPageScripts() {
+        setupCodeCopy();
+        initReadingProgress();
+      }
+
+      document.addEventListener("astro:page-load", initPageScripts);
       if (document.readyState === "loading") {
         document.addEventListener("DOMContentLoaded", () => {
-          setTimeout(setupCodeCopy, 100);
+          setTimeout(initPageScripts, 100);
         });
       } else {
-        setupCodeCopy();
+        initPageScripts();
       }
     </script>
   </body>
