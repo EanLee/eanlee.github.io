@@ -78,3 +78,41 @@
 /post/series/message-queue/foreword                           /post/software/series/message-queue/build-mq-foreword/ 301
 # 通用 wildcard：/post/series/* → /post/software/series/*（含有無 trailing slash）
 /post/series/*  /post/software/series/:splat  301
+
+# Cloudflare Pages 301 Redirect Rules
+# P1: Merge SPOF and Redundancy into single pillar article
+/software/redundancy/    /software/high-availability-spof-and-redundancy/ 301
+/software/redundancy     /software/high-availability-spof-and-redundancy/ 301
+/software/spof/          /software/high-availability-spof-and-redundancy/ 301
+/software/spof           /software/high-availability-spof-and-redundancy/ 301
+/redundancy/             /software/high-availability-spof-and-redundancy/ 301
+/redundancy              /software/high-availability-spof-and-redundancy/ 301
+/spof/                   /software/high-availability-spof-and-redundancy/ 301
+/spof                    /software/high-availability-spof-and-redundancy/ 301
+# P2: Merge Load Testing and Performance Testing Report
+/software/what-does-load-testing-do/    /software/performance-load-stress-testing-and-reporting/ 301
+/software/what-does-load-testing-do     /software/performance-load-stress-testing-and-reporting/ 301
+/software/talking-testing-report/       /software/performance-load-stress-testing-and-reporting/ 301
+/software/talking-testing-report        /software/performance-load-stress-testing-and-reporting/ 301
+/what-does-load-testing-do/             /software/performance-load-stress-testing-and-reporting/ 301
+/what-does-load-testing-do              /software/performance-load-stress-testing-and-reporting/ 301
+/talking-testing-report/                /software/performance-load-stress-testing-and-reporting/ 301
+/talking-testing-report                 /software/performance-load-stress-testing-and-reporting/ 301
+# P3: Merge ASP.NET Core DI dynamic injection and encapsulation
+/software/di-service-provider-httpcontextaccessor/       /software/aspnet-core-di-dynamic-injection-and-clean-architecture-encapsulation/ 301
+/software/di-service-provider-httpcontextaccessor        /software/aspnet-core-di-dynamic-injection-and-clean-architecture-encapsulation/ 301
+/software/di-encapsulate-service-and-use-external-parameters/ /software/aspnet-core-di-dynamic-injection-and-clean-architecture-encapsulation/ 301
+/software/di-encapsulate-service-and-use-external-parameters  /software/aspnet-core-di-dynamic-injection-and-clean-architecture-encapsulation/ 301
+/di-service-provider-httpcontextaccessor/                /software/aspnet-core-di-dynamic-injection-and-clean-architecture-encapsulation/ 301
+/di-service-provider-httpcontextaccessor                 /software/aspnet-core-di-dynamic-injection-and-clean-architecture-encapsulation/ 301
+/di-encapsulate-service-and-use-external-parameters/     /software/aspnet-core-di-dynamic-injection-and-clean-architecture-encapsulation/ 301
+/di-encapsulate-service-and-use-external-parameters      /software/aspnet-core-di-dynamic-injection-and-clean-architecture-encapsulation/ 301
+# P4: Merge EF Core HasQueryFilter and SaveChangesInterceptor into single data protection guide
+/software/efcore-dbcontext-hasqueryfilter/                   /software/efcore-hasqueryfilter-and-savechanges-interceptor-guide/ 301
+/software/efcore-dbcontext-hasqueryfilter                    /software/efcore-hasqueryfilter-and-savechanges-interceptor-guide/ 301
+/efcore-dbcontext-hasqueryfilter/                            /software/efcore-hasqueryfilter-and-savechanges-interceptor-guide/ 301
+/efcore-dbcontext-hasqueryfilter                             /software/efcore-hasqueryfilter-and-savechanges-interceptor-guide/ 301
+/software/efcore-savechanges-interceptor-soft-delete-and-audit/ /software/efcore-hasqueryfilter-and-savechanges-interceptor-guide/ 301
+/software/efcore-savechanges-interceptor-soft-delete-and-audit  /software/efcore-hasqueryfilter-and-savechanges-interceptor-guide/ 301
+/efcore-savechanges-interceptor-soft-delete-and-audit/       /software/efcore-hasqueryfilter-and-savechanges-interceptor-guide/ 301
+/efcore-savechanges-interceptor-soft-delete-and-audit        /software/efcore-hasqueryfilter-and-savechanges-interceptor-guide/ 301
