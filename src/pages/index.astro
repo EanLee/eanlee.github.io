@@ -5,6 +5,7 @@ import Footer from "../components/Footer.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
 import { getCollection } from "astro:content";
 import LatestPosts from "../components/LatestPosts.astro";
+import RecentlyUpdated from "../components/RecentlyUpdated.astro";
 import FeaturedProjects from "../components/FeaturedProjects.astro";
 import CategoryGrid from "../components/CategoryGrid.astro";
 import HomeHero from "../components/HomeHero.astro";
@@ -166,6 +167,9 @@ const pageTitle = `${SITE_TITLE} | .NET、Cloud Native 與系統架構技術隨�
 
         <!-- Latest Articles -->
         <LatestPosts posts={latestPosts} limit={6} />
+
+        <!-- Recently Updated Articles -->
+        <RecentlyUpdated posts={allPosts} limit={6} thresholdDays={30} />
 
         <!-- Category Grid -->
         <CategoryGrid allPosts={allPosts} />
