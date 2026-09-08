@@ -16,10 +16,11 @@ categories:
   - 開發雜談
 tags:
   - 單元測試
-lastmod: 2026-09-07T01:14:48+08:00
+lastmod: 2026-03-13T13:43:45+08:00
 slug: talking-writing-unit-tests
 epic: software
 ---
+
 近年來，在業界各位前輩的推展下，越來越多人知道單元測試，並且開始撰寫單元測試。
 
 但有些撰寫單元測試過程中，遇到有些經常被人詢問議題，或是自己撰寫過程所遇到困惑點，在這分享個人的觀點。
@@ -260,7 +261,7 @@ public class CalculateDiscountService
 
 > 💡 **互動時間**
 > 寫測試最痛苦的地方往往不是語法，而是接手缺乏保護的 Legacy Code 或面對過度肥大的相依。
-> 如果遇到第三方斷言套件升級踩坑，可參考我的除錯紀錄：[解決 Fluent Assertions BeEquivalentTo 異常](../fluent-assertions-object-graph-comparison/index.md)。另外，在 BDD 與 TDD 的發展中，我們又該如何看待軟體的「[冗餘](../redundancy/index.md)」思維呢？
+> 如果遇到第三方斷言套件升級踩坑，可參考我的除錯紀錄：[解決 Fluent Assertions BeEquivalentTo 異常](../fluent-assertions-object-graph-comparison/index.md)。另外，在 BDD 與 TDD 的發展中，我們又該如何看待軟體的「[冗餘](聊聊架構%20-%20從單點故障%20(SPOF)%20到系統冗餘%20(Redundancy)%20的實踐與權衡.md)」思維呢？
 > 歡迎在下方留言分享你拯救 Legacy Code 的血淚歷程！
 
 ## 延伸閱讀

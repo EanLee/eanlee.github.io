@@ -16,7 +16,7 @@ keywords:
 categories:
   - 資訊安全
 date: 2022-05-24T07:52:24+08:00
-lastmod: 2026-09-07T01:14:48+08:00
+lastmod: 2026-09-08T08:23:07+08:00
 description: 梳理 HTTP 邁向 HTTPS 的演進脈絡，解析 SSL 與 TLS 協議的歷史更迭。筆記重點整理非對稱與對稱加密、數位簽章以及 TLS 握手 (Handshake) 的傳輸安全原理，作為網路安全通訊的基礎知識複習。
 tags:
   - 網路

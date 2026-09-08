@@ -106,6 +106,15 @@
         toggleBtn.setAttribute('aria-expanded', String(!isExpanded));
         tocNav.classList.toggle('toc-nav--open', !isExpanded);
       });
+
+      // 點擊目錄項目時，手機版自動收合
+      tocNav.addEventListener('click', (e) => {
+        const target = e.target as HTMLElement;
+        if (target && target.tagName === 'A' && window.innerWidth <= 1024) {
+          toggleBtn.setAttribute('aria-expanded', 'false');
+          tocNav.classList.remove('toc-nav--open');
+        }
+      });
     }
 
     document.addEventListener('astro:before-swap', () => scrollSpyObserver.disconnect(), { once: true });
@@ -237,7 +246,7 @@
   }
 
   /* 桌面版：確保 toc-nav 一定顯示 */
-  @media (min-width: 1024px) {
+  @media (min-width: 1025px) {
     #toc-nav {
       display: block;
     }

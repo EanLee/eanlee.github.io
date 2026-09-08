@@ -2,7 +2,7 @@
 title: AI 高速開發時代的治理挑戰：真正的瓶頸不是 AI 速度，而是人類的認知極限
 description: 當 AI 開發速度遠超人類審查能力時，如何透過 AI 開發治理 (AI Development Governance) 建立一套「需求單一化契約、執行三層制約、註解 Current Truth 與 Context 治理」的工程閉環？探討降低團隊認知負載 (Cognitive Load) 與審查瓶頸的核心軟體工程思維。
 date: 2026-09-05T23:25:00+08:00
-lastmod: 2026-09-07T01:14:48+08:00
+lastmod: 2026-09-08T08:23:07+08:00
 cover: ./images/ai-development-governance-and-context-hygiene-cover.png
 tags:
   - AI
@@ -194,6 +194,10 @@ flowchart TD
        Assert.True(result.IsSuccessful);
    }
    ```
+   > 💡 **防範動態逃逸地雷**：  
+   > 許多資深架構師會質疑：「AI 很精明，如果發現靜態引用會被 NetArchTest 攔截，它改用 Reflection 反射或注入 `IServiceProvider` 動態調用怎麼辦？」  
+   > 這正是為什麼 Level 2 必須與 Level 3 相互配合：除了在 Linter 嚴格禁止在商業邏輯注入 `IServiceProvider`（反 Service Locator 模式），更要在架構上落實**物理專案引用隔離（Project Reference Isolation）**——在 `.csproj` 或專案設定中，Web 專案物理上根本不引用 Repository 類別庫，從編譯器底層杜絕任何動態載入的可能。
+
 3. **Level 3 — Constraint（硬性系統制約）**：
    - 系統層級的剛性限制。例如：Git 分支保護、Tool / File Permission 權限隔離、CI Gate 擋下未經授權的目錄異動。**根本不給 AI 繞過規範的物理機會**：
    ```yaml
@@ -225,7 +229,10 @@ flowchart TD
 三層防線各司其職，逐層過濾雜訊，將人類認知成本降至最低：
 
 - **Level 1: Machine Review（機器自動把關）**：**過濾 80% 的語法與相依性雜訊**。負責編譯建置、單元/整合測試綠燈、Linter 靜態分析與資安漏洞掃描。
-- **Level 2: AI Agent Review（代理驗證審查）**：**自動核對需求履約證據**。自動比對 Issue 的 Scope 範圍防止越界、驗證 Acceptance Criteria 是否完全滿足，並執行過期註解衛生檢查。
+- **Level 2: AI Agent Review（代理驗證審查）**：**自動核對需求履約證據**。自動比對 Issue 的 Scope 範圍防止越界、驗證 Acceptance Criteria 是否完全滿足，並執行過期註解衛生檢查。  
+  > ⚠️ **防範「雙重幻覺共謀（Hallucination Collusion）」**：  
+  > 當實作程式碼由 AI 撰寫、審查者又由 AI 擔任時，兩者可能共享相同的模型盲點，形成「AI 寫了假測試、審查 AI 蓋章通過」的虛假安全感。  
+  > 防禦核心在於：**驗收測試（Acceptance Tests）必須作為不可篡改的獨立契約（Immutable Contract）**。嚴禁實作 Agent 自行修改測試斷言；必要時在 CI 導入變異測試（Mutation Testing），透過刻意篡改代碼驗證測試套件是否真的會報警，杜絕套套邏輯（Tautology）。
 - **Level 3: Human Architect Review（人類最終裁決）**：**專注於核心商業價值與架構判斷**。審查業務真實意圖 (Business Intent)、權衡長期系統演進合理性，不再充當「人肉編譯器」。
 
 人類審查者打開 PR 時，第一眼看到的應該是一份高度結構化的**履約摘要卡片**：
@@ -410,7 +417,69 @@ AI 就極度容易把「歷史的殘留物」誤當作「當前必須服膺的�
 
 ---
 
-### 附錄：AI 開發治理團隊健檢自查表 (Team Readiness Checklist)
+## 💡 深入實戰的常見疑問 (FAQ)
+
+### Q1：One Issue = One Requirement 會不會引發「PR 爆炸地獄（PR Explosion）」？團隊該如何兼顧職責單一與全域整合？
+
+**A**：這是許多 Tech Lead 看到需求單一化時最大的擔憂——如果一個功能硬拆成 Issue A(DB)、Issue B(API)、Issue C(UI)，團隊豈不是每天要 Review 30 個微型 PR？而且 DB PR 提前合併進 main，main 分支豈不是處於半成品狀態？
+
+**務實解法：區分「內部迭代分支」與「外部主線交付」**：
+
+1. **Feature Branch 聚合金字塔（Stacked PR 模式）**：  
+   不要直接將微型 PR 一個個 Merge 進 `main`！團隊應為該大型業務功能建立一條 Feature 分支（例如 `feature/user-email-change`）。AI Agent 可以在該特性分支內，以極小的 Scope 快速提交 Issue A ➔ Issue B ➔ Issue C。此時的 PR 審查者專注於驗收「單一模組履約證據」，審查阻力極小。
+2. **對 Main 分支保持原子交付**：  
+   當 Issue A/B/C 在特性分支全數通過整合驗收後，再以一份完整的「業務履約證明卡」，將 Feature 分支一次性 Squash & Merge 或發布進 `main`。這樣既維持了主線的穩定，又徹底釋放了 AI 單一任務的敏捷度。
+3. **契約優先（Contract-First）**：  
+   在開始 Coding 之前，先以 OpenAPI 或 protobuf 固化介面契約，讓 API 與 UI 能夠各自獨立驗證，杜絕跨層依賴卡關。
+
+---
+
+### Q2：AI 審查 AI 的「雙重幻覺共謀」：誰來審查審查者？如何防止虛假測試蒙混過關？
+
+**A**：當寫程式碼的是 LLM，審查 PR 證據的又是 LLM，兩者若都盲目認定假測試有效，未爆彈將直接溜進生產環境。
+
+**防範雙重共謀的三道冷酷機械防線**：
+
+1. **測試與實作的權限物理隔離**：  
+   驗收測試（Acceptance Criteria）必須是任務開始前的**唯讀資產（Read-Only Contract）**。嚴禁讓負責實作業務邏輯的 AI Agent 同時修改測試斷言。如果 AI 發現測試通不過，它只能修改實作代碼，絕對不允許「反向修改測試來迎合錯誤的實作」。
+2. **引進變異測試（Mutation Testing）破除套套邏輯**：  
+   很多 AI 產出的單元測試只是「表面綠燈」，內部只包含無效斷言（如 `Assert.NotNull(result)` 卻沒驗算數值）。在 CI 流程中可排程引入變異測試工具（如 .NET 的 Stryker.NET、JS 的 Stryker）：工具會故意篡改原始碼邏輯（例如把 `total > 100` 改為 `total < 100`），驗證測試是否真的會變紅燈。如果原始碼被惡意篡改而測試依然全數通過，代表該測試是無效假測試，CI 直接拒絕合併！
+3. **客觀指標門檻（Objective Gatekeeper）**：  
+   Level 1 的編譯建置、Linter 靜態檢查、覆蓋率閾值是純粹的機械程式，不存在任何「語意理解與幻覺」。機器層擋下 80% 雜訊後，人類架構師在 Level 3 只需抽驗關鍵業務邏輯，將風險降至最低。
+
+---
+
+### Q3：淘汰過期文件與註解（Knowledge Deprecation）如何自動化？如何避免淪為「純靠工程師良心」？
+
+**A**：若沒有工具鏈約束，「淘汰過期知識」最後往往只會淪為空洞的道德口號。在工程實務上，我們可以透過以下機制將知識淘汰「自動化」：
+
+1. **文件 Frontmatter 加上驗證元資料**：  
+   每篇技術規格或架構文件頂部加入：
+   ```yaml
+   verified_at: 2026-06-01
+   expires_in_days: 90
+   owner: backend-team
+   ```
+   在 CI 建立定時排程（Cron Job），每週掃描全庫：一旦發現超過 90 天未重新驗證的文件，自動標註 `[Needs Verification]` 並在 Slack / Teams 提醒 Owner 審查。若逾期未處理，自動移至 `archive/` 封存目錄，移出 AI 的主動 Context 檢索池。
+2. **ADR 狀態機與強制關聯**：  
+   架構決策紀錄（ADR）強制規範三種狀態：`Proposed`（提議中）、`Accepted`（生效中）、`Superceded`（被取代）。一旦某項架構被新方案取代，腳本強制要求舊 ADR 必須填入 `superceded_by: ADR-028`，並在舊文件開頭自動渲染大紅警告框，防止 AI 與新進同仁誤信過期決策。
+3. **CI Markdown 死連結檢查**：  
+   程式碼重構若刪除了某個類別或目錄，CI 中的 Link Checker 若發現文件內的連結失效，立即報錯，迫使開發者在同一個 PR 內同步更新文件。
+
+---
+
+### Q4：小團隊只有 2~3 個人，資源有限，如何低成本冷啟動 AI 開發治理？
+
+**A**：治理千萬不要一開始就追求「大而全」，否則只會拖垮敏捷度。小團隊可以透過「MVP 兩步法」在兩天內建立防線：
+
+- **第一步：在 Issue 範本強制加入 Scope 與 Out of Scope（花費時間：10 分鐘，效益：80%）**：  
+  完全不需要寫任何自動化腳本，只要每次派發任務給 AI 時，白紙黑字寫清楚「本次只允許改動 X，絕對嚴禁碰觸 Y」。光是這個小習慣，就能消除 80% AI 擅自順便重構的悲劇。
+- **第二步：在專案根目錄建立單一規範入口（`AGENTS.md` 或 `.cursorrules`）（花費時間：1 小時）**：  
+  不堆砌歷史，只寫目前有效的 Current Truth（例如：「資料存取統一走 Dapper，禁止引入新的 ORM」、「命名遵照 PascalCase」）。讓 AI 在每次對話起手式就載入最乾淨的上下文。
+
+後續等專案規模擴大、團隊擴充時，再逐步引入 NetArchTest 與 CI 哨兵檢查。
+
+## 附錄：AI 開發治理團隊健檢自查表 (Team Readiness Checklist)
 
 把以下 5 個自查項目帶到團隊內部檢視，確認專案是否具備足夠的「抗 AI 認知過載」機制：
 
@@ -421,3 +490,9 @@ AI 就極度容易把「歷史的殘留物」誤當作「當前必須服膺的�
 - [ ] **5. 知識淘汰閉環**：團隊是否有明確的「過期文件淘汰與封存機制」？每次程式碼變更時，是否將「同步修正或刪除受影響的舊文件」納入 Definition of Done (DoD)？
 
 > 💡 **落地建議**：若上述 5 項檢查中有 2 項以上為「否」，建議優先落實「明確劃分 Issue 的 Scope / Out of Scope」與「引入 NetArchTest 架構單元測試」，循序漸進建立團隊的認知防禦網。
+
+---
+
+> 💡 **互動時間**
+>
+> 在你們團隊引入 AI 開發或 Coding Agent 的過程中，你感受到的最大瓶頸是「AI 產出的速度太慢」，還是「人類 Review 程式碼的時間根本不夠用」？面對過期註解與文件腐爛，你們又有什麼獨門的治理撇步？歡迎在下方留言分享你的實戰觀察與踩坑心得！

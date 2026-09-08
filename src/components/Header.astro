@@ -3,6 +3,7 @@ import HeaderLink from "./HeaderLink.astro";
 import { SITE_TITLE } from "../consts";
 import { getCollection } from "astro:content";
 import { getSeriesData } from "../utils/series";
+import SearchModal from "./SearchModal.astro";
 
 const image = "/favicon.webp";
 
@@ -22,13 +23,16 @@ const featuredSeries = getSeriesData(allPosts).slice(0, 4);
         <span class="logo-text">{SITE_TITLE}</span>
       </a>
 
-      <button class="mobile-menu-toggle" aria-label="選單" aria-expanded="false" aria-controls="mobile-nav" title="點擊開啟選單">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
+      <div class="header-actions">
+        <SearchModal />
+        <button class="mobile-menu-toggle" aria-label="選單" aria-expanded="false" aria-controls="mobile-nav" title="點擊開啟選單">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
 
-      <div id="mobile-nav" class="nav-right" aria-hidden="true">
+      <div id="mobile-nav" class="nav-right">
         <div class="internal-links">
             <HeaderLink href="/software/">
               <svg
@@ -244,6 +248,12 @@ const featuredSeries = getSeriesData(allPosts).slice(0, 4);
     display: flex;
     align-items: center;
     justify-content: space-between;
+  }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
   }
 
   .nav-right {
@@ -703,6 +713,17 @@ const featuredSeries = getSeriesData(allPosts).slice(0, 4);
     mobileMenuToggle.replaceWith(mobileMenuToggle.cloneNode(true));
     const newMobileMenuToggle = document.querySelector(".mobile-menu-toggle") as HTMLElement | null;
 
+    // 僅在行動端 (< 768px) 掛載 aria-hidden，桌面端移除以消除 A11y 違規
+    const syncAria = () => {
+      if (window.innerWidth <= 768) {
+        navRight.setAttribute("aria-hidden", (!navRight.classList.contains("active")).toString());
+      } else {
+        navRight.removeAttribute("aria-hidden");
+      }
+    };
+    syncAria();
+    window.addEventListener("resize", syncAria, { passive: true });
+
     if (newMobileMenuToggle) {
       newMobileMenuToggle.addEventListener("click", function (e) {
         e.preventDefault();
@@ -716,7 +737,7 @@ const featuredSeries = getSeriesData(allPosts).slice(0, 4);
 
         // 更新 ARIA 屬性
         this.setAttribute("aria-expanded", newState.toString());
-        navRight.setAttribute("aria-hidden", (!newState).toString());
+        syncAria();
 
         // 防止背景滾動
         if (navRight.classList.contains("active")) {
@@ -740,7 +761,7 @@ const featuredSeries = getSeriesData(allPosts).slice(0, 4);
             newMobileMenuToggle.setAttribute("aria-expanded", "false");
           }
           navRight.classList.remove("active");
-          navRight.setAttribute("aria-hidden", "true");
+          syncAria();
           document.body.style.overflow = "";
         });
       });
@@ -751,7 +772,7 @@ const featuredSeries = getSeriesData(allPosts).slice(0, 4);
           newMobileMenuToggle.classList.remove("active");
           newMobileMenuToggle.setAttribute("aria-expanded", "false");
           navRight.classList.remove("active");
-          navRight.setAttribute("aria-hidden", "true");
+          syncAria();
           document.body.style.overflow = "";
           newMobileMenuToggle.focus();
         }

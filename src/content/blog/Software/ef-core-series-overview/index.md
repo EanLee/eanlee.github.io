@@ -15,7 +15,7 @@ keywords:
   - EF Core 總整理
 slug: ef-core-series-overview
 epic: software
-lastmod: 2026-09-07T01:14:48+08:00
+lastmod: 2026-09-08T08:23:07+08:00
 ---
 > ⚠️ **版本適用說明**：
 >
@@ -31,8 +31,21 @@ lastmod: 2026-09-07T01:14:48+08:00
 
 為了幫助不同階段的開發者快速找到需要的資源，可以依照以下路徑閱讀本系列：
 
+```mermaid
+flowchart LR
+    A["第 1 階：基礎工法<br/>dotnet-ef 指令與 Docker"] --> B["第 2 階：工程提效<br/>T4 模板自訂 Scaffold"]
+    B --> C["第 3 階：資料防禦<br/>HasQueryFilter + 攔截器"]
+    C --> D["第 4 階：架構深水區<br/>Shadow Property + 表達式樹"]
+
+    classDef basic fill:#f6f8fa,stroke:#57606a,stroke-width:1px,color:#333
+    classDef advanced fill:#f0f7ff,stroke:#0969da,stroke-width:1.5px,color:#333
+
+    class A,B basic
+    class C,D advanced
+```
+
 - 🐣 **初學者/剛接手專案**：建議從 [**EF Core CLI Tool 操作筆記**] 開始，接著根據專案使用的資料庫，閱讀對應的 **[從既有資料庫建立專案 (Database First)]** 章節。
-- 🦅 **進階開發者/架構師**：如果需要解決共用欄位、權限隔離與自動化問題，請直接跳至 **[⚙️ 進階客製化與資料存取控制]** 章節，了解 `T4 Template` 與 `HasQueryFilter` 的高端運用。
+- 🦅 **進階開發者/架構師**：如果需要解決共用欄位、權限隔離與自動化問題，請直接跳至 **[⚙️ 進階客製化與資料存取控制]** 章節，了解 `T4 Template`、`HasQueryFilter` 與 `SaveChangesInterceptor` 軟刪除審計的閉環運用。
 
 ## 🛠️ 基礎工具與環境設置
 
@@ -123,34 +136,35 @@ lastmod: 2026-09-07T01:14:48+08:00
 
 **核心價值：** 透過 T4 模板實現程式碼生成的完全控制，減少重複性工作
 
-### [使用 HasQueryFilter 限定 DBContext 查詢內容](../efcore-dbcontext-hasqueryfilter/index.md)
+### [EF Core 資料存取防護全攻略：從 HasQueryFilter 全域過濾到 SaveChangesInterceptor 軟刪除與審計實戰](../efcore-hasqueryfilter-and-savechanges-interceptor-guide/index.md)
 
 **實際情境：**
 
-- SaaS 產品需要多租戶功能，每個客戶只能看到自己的資料
-- 實作軟刪除功能，避免直接從資料庫刪除重要資料
-- 每個查詢都要寫 `Where(x => !x.IsDeleted)` 很煩，容易忘記
-- 需要確保敏感資料不會意外洩露給錯誤的使用者
+- SaaS 產品需要多租戶功能與軟刪除，但手寫 `.Where(x => !x.IsDeleted)` 容易因人為遺漏造成髒資料外洩
+- 過去在 DbContext 中覆寫 `SaveChanges` 處理時間戳與軟刪除，導致資料庫上下文過度肥大且無法跨 Context 共用
+- 呼叫 `Remove()` 時希望自動改寫為 `UPDATE` 並標記軟刪除與刪除時間，對業務層完全透明
+- 需要將「讀取端」過濾與「寫入端」攔截整合成高內聚的企業級資料存取安全防護機制
 
 **解決問題：**
 
-- 避免在每個查詢中重複撰寫相同的過濾條件
-- 避免遺忘加入必要過濾條件，造成的資料錯誤
-- 透過全域查詢篩選器 (Global Query Filter) 簡化程式碼，提升安全性
+- 透過 `HasQueryFilter` 建立全域查詢過濾，必要時以 `.IgnoreQueryFilters()` 顯式繞過
+- 透過 `SaveChangesInterceptor` 在交易提交前攔截，就地改寫 `EntityState` 狀態並補齊審計欄位
+- 提供 5 階段 If-Then 決策分析判斷表，指引團隊選用最適合的資料存取防護策略
 
 ### [EF Core 實戰：當 HasQueryFilter 遇上 Shadow Property](../use-shadow-property-and-hasqueryfilter-on-ef-core/index.md)
 
 **實際情境：**
 
-- 使用 T4 模板將 `IsDeleted`、`TenantId` 設為 Shadow Property，但 HasQueryFilter 無法存取
-- 想要隱藏系統欄位不讓 API 回傳，同時又要在查詢中使用
-- 編譯時出現「無法存取 Shadow Property」的錯誤
-- 架構師要求將審計欄位完全從 Entity 類別中隱藏
+- 使用 T4 模板將 `IsDeleted`、`ShopId` 設為 Shadow Property，但在 `HasQueryFilter` 中使用 `Expression.Property` 會在執行時期拋出 `ArgumentException`
+- 想要將中繼欄位完全從 Entity 類別中隱藏，同時又要在查詢中自動全域過濾
+- 寫入存檔時，需要為沒有實體 C# 屬性的陰影欄位自動賦值與更新軟刪除狀態
+- 在傳統「覆寫 `SaveChanges`」與現代「`SaveChangesInterceptor`」之間尋求最佳整合架構
 
 **解決問題：**
 
-- Shadow Property 無法在 Global Query Filter 中直接存取的技術難題
-- 將審計欄位或系統欄位設為 Shadow Property，但仍需要全域過濾
+- 剖析 `Expression.Property` 反射盲點，改用 `Expression.Call` 搭配 `EF.Property<T>` 動態轉譯 SQL
+- 提供寫入端雙軌實踐：單體快速專案的 `DbContext.SaveChanges` 覆寫 vs 企業級分層架構的 `SaveChangesInterceptor` 獨立實作
+- 附帶 5 步驟故障排查指南與架構健檢清單，專治深水區邊界地雷
 
 ---
 

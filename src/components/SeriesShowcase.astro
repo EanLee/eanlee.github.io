@@ -115,6 +115,13 @@ const formatDate = (date: Date) =>
 
   .tags-entry a {
     color: var(--color-primary);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    font-weight: var(--font-weight-medium);
+  }
+
+  .tags-entry a:hover {
+    text-decoration-thickness: 2px;
   }
 
   @media (max-width: 768px) {

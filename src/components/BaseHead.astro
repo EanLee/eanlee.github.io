@@ -3,7 +3,6 @@
 // all pages through the use of the <BaseHead /> component.
 import { ClientRouter } from 'astro:transitions';
 import '../styles/global.css';
-import FontLoader from './FontLoader.astro';
 
 interface Props {
 	title: string;
@@ -65,10 +64,13 @@ const {
 <link rel="dns-prefetch" href="//fonts.googleapis.com">
 <link rel="dns-prefetch" href="//fonts.gstatic.com">
 
-<!-- Google Fonts: Inter, Noto Sans TC, JetBrains Mono -->
+<!-- Google Fonts: Inter, Noto Sans TC, JetBrains Mono (非阻塞非同步載入) -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Noto+Sans+TC:wght@400;500;700&display=swap" media="print" onload="this.setAttribute('media', 'all')">
+<noscript>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Noto+Sans+TC:wght@400;500;700&display=swap">
+</noscript>
 
 <ClientRouter />
 
@@ -77,58 +79,44 @@ const {
 <link rel="preconnect" href="https://tpc.googlesyndication.com" crossorigin>
 <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
 <link rel="preconnect" href="https://www.google-analytics.com" crossorigin>
-<link rel="preconnect" href="https://giscus.app" crossorigin>
 
-<!-- Critical CSS for font loading -->
-<style>
-  html.font-loading {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  }
-</style>
-
-<!-- Google AdSense - 延遲載入以提升效能 -->
-<script is:inline type="module">
-  // 延遲載入 AdSense，避免阻塞初始渲染
+<!-- Google AdSense - 互動觸發與按需延遲載入 -->
+<script is:inline>
   function loadAdSense() {
-    if (window.adsbygoogle_loaded) return; // 避免重複載入
-    window.adsbygoogle_loaded = true;
-    
+    if (window.adsense_loaded) return;
+    window.adsense_loaded = true;
+
     const script = document.createElement('script');
     script.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7903108559996033';
     script.async = true;
     script.crossOrigin = 'anonymous';
-    script.onload = () => {
-      // 初始化已存在的廣告
-      document.querySelectorAll('.adsbygoogle').forEach(ad => {
-        if (!ad.dataset.adsbygoogleStatus) {
-          try {
-            (window.adsbygoogle = window.adsbygoogle || []).push({});
-          } catch (e) {
-            console.warn('AdSense initialization failed:', e);
-          }
-        }
-      });
-    };
-    script.onerror = () => console.warn('AdSense failed to load');
     document.head.appendChild(script);
   }
 
-  // 用戶互動後再載入 AdSense，符合 Core Web Vitals 最佳實踐
-  function initAdSense() {
+  // 1. 使用者主動互動立即載入（點擊、滾動、按鍵、觸控）
+  function onUserInteract() {
     loadAdSense();
-    // 移除事件監聽器
-    ['mousedown', 'keydown', 'scroll', 'touchstart'].forEach(event => {
-      document.removeEventListener(event, initAdSense, { passive: true });
+    cleanupListeners();
+  }
+
+  function cleanupListeners() {
+    ['mousedown', 'keydown', 'scroll', 'touchstart', 'pointerdown'].forEach(event => {
+      document.removeEventListener(event, onUserInteract, { passive: true });
     });
   }
 
-  // 監聽用戶互動
-  ['mousedown', 'keydown', 'scroll', 'touchstart'].forEach(event => {
-    document.addEventListener(event, initAdSense, { passive: true });
+  ['mousedown', 'keydown', 'scroll', 'touchstart', 'pointerdown'].forEach(event => {
+    document.addEventListener(event, onUserInteract, { passive: true });
   });
 
-  // 備用：5秒後自動載入 (確保即使沒互動也能顯示廣告)
-  setTimeout(loadAdSense, 5000);
+  // 2. 備用：閒置 6 秒後自動載入
+  if ('requestIdleCallback' in window) {
+    window.requestIdleCallback(() => {
+      setTimeout(loadAdSense, 4000);
+    });
+  } else {
+    setTimeout(loadAdSense, 6000);
+  }
 </script>
 
 <!-- Google Analytics - 優化載入 -->
@@ -173,8 +161,14 @@ const {
     document.addEventListener(event, initGA, { passive: true });
   });
   
-  // 備用：3秒後自動載入
-  setTimeout(loadGoogleAnalytics, 3000);
+  // 備用：閒置 6 秒後自動載入
+  if ('requestIdleCallback' in window) {
+    window.requestIdleCallback(() => {
+      setTimeout(loadGoogleAnalytics, 4000);
+    });
+  } else {
+    setTimeout(loadGoogleAnalytics, 6000);
+  }
 </script>
 
 <!-- Canonical URL -->
@@ -213,5 +207,3 @@ const {
 <meta property="twitter:image:width" content="1200" />
 <meta property="twitter:image:height" content="630" />
 
-<!-- Font Loading Optimization -->
-<FontLoader />
