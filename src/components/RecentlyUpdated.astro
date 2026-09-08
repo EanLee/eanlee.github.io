@@ -1,32 +1,46 @@
 ---
-import FormattedDate from "./FormattedDate.astro";
 import SectionHeader from "./SectionHeader.astro";
 import type { CollectionEntry } from 'astro:content';
 
 interface Props {
   posts: CollectionEntry<'blog'>[];
   limit?: number;
-  thresholdDays?: number;
+  recentDays?: number;
 }
 
-const { posts, limit = 6, thresholdDays = 30 } = Astro.props;
+const { posts, limit = 6, recentDays = 30 } = Astro.props;
 
 const MS_PER_DAY = 1000 * 60 * 60 * 24;
+const now = Date.now();
 
-// 只挑「lastmod 明顯晚於 date」的文章，代表發布後曾被回頭大幅修訂
+// 只挑「lastmod 落在最近 N 天內」的文章，隨著時間推移自動汰換
 const updatedPosts = posts
   .filter((post) => {
-    const { date, lastmod } = post.data;
+    const { lastmod } = post.data;
     if (!lastmod) return false;
-    return (lastmod.valueOf() - date.valueOf()) / MS_PER_DAY > thresholdDays;
+    return (now - lastmod.valueOf()) / MS_PER_DAY < recentDays;
   })
   .sort((a, b) => b.data.lastmod!.valueOf() - a.data.lastmod!.valueOf())
   .slice(0, limit);
+
+// 相對時間文字（用於掃描），絕對日期放 title 屬性做漸進式揭露
+function relativeLabel(lastmod: Date): string {
+  const diffDays = Math.floor((now - lastmod.valueOf()) / MS_PER_DAY);
+  if (diffDays < 1) return "今天更新";
+  if (diffDays < 30) return `${diffDays} 天前更新`;
+  const diffMonths = Math.floor(diffDays / 30);
+  if (diffMonths < 12) return `${diffMonths} 個月前更新`;
+  return `${Math.floor(diffMonths / 12)} 年前更新`;
+}
+
+function absoluteLabel(date: Date): string {
+  return date.toLocaleDateString('zh-TW', { year: 'numeric', month: 'long', day: 'numeric' });
+}
 ---
 
 {updatedPosts.length > 0 && (
   <div class="recently-updated">
-    <SectionHeader title="近期更新">
+    <SectionHeader title="近期更新" subtitle="近 30 天內有更新的文章">
       <svg slot="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M3 12a9 9 0 0 1 15-6.7L21 8"/>
         <path d="M21 3v5h-5"/>
@@ -35,32 +49,27 @@ const updatedPosts = posts
       </svg>
     </SectionHeader>
 
-    <div class="updated-list">
+    <ol class="update-timeline">
       {updatedPosts.map((post) => {
         const path = post.id.slice(0, post.id.lastIndexOf("/")).toLowerCase();
         return (
-          <article class="updated-item">
-            <a href={`/post/${path}/`} class="updated-link">
-              <div class="updated-header">
-                <span class="updated-badge">已更新</span>
-                <h3 class="updated-title">{post.data.title}</h3>
-              </div>
-              {post.data.description && (
-                <p class="updated-excerpt">{post.data.description}</p>
-              )}
-              <div class="updated-meta">
-                <span class="meta-item">
-                  發布於 <FormattedDate date={post.data.date} />
-                </span>
-                <span class="meta-item">
-                  更新於 <FormattedDate date={post.data.lastmod!} />
-                </span>
-              </div>
+          <li class="timeline-item">
+            <span class="timeline-dot" aria-hidden="true"></span>
+            <a href={`/post/${path}/`} class="timeline-link">
+              <time
+                class="timeline-time"
+                datetime={post.data.lastmod!.toISOString()}
+                title={`更新於 ${absoluteLabel(post.data.lastmod!)}`}
+              >
+                {relativeLabel(post.data.lastmod!)}
+              </time>
+              <span class="timeline-sep" aria-hidden="true">·</span>
+              <span class="timeline-title">{post.data.title}</span>
             </a>
-          </article>
+          </li>
         );
       })}
-    </div>
+    </ol>
   </div>
 )}
 
@@ -69,81 +78,82 @@ const updatedPosts = posts
     margin-bottom: var(--spacing-2xl);
   }
 
-  .updated-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: var(--spacing-lg);
+  .update-timeline {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: relative;
   }
 
-  .updated-item {
-    background-color: var(--card-bg);
-    border: 1px solid var(--card-border);
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    transition: border-color var(--transition-normal);
+  .update-timeline::before {
+    content: '';
+    position: absolute;
+    left: 4px;
+    top: 14px;
+    bottom: 14px;
+    width: 1px;
+    background-color: var(--card-border);
   }
 
-  .updated-item:hover {
-    border-color: var(--color-primary);
-  }
-
-  .updated-link {
-    display: block;
-    padding: var(--spacing-md) var(--spacing-lg);
-    text-decoration: none;
-  }
-
-  .updated-header {
+  .timeline-item {
     display: flex;
     align-items: center;
-    gap: var(--spacing-sm);
-    margin-bottom: var(--spacing-xs);
-  }
-
-  .updated-badge {
-    flex-shrink: 0;
-    font-size: 0.75rem;
-    font-weight: var(--font-weight-medium);
-    color: var(--color-warning, #d97706);
-    background-color: var(--color-warning-bg, rgba(217, 119, 6, 0.12));
-    padding: 2px var(--spacing-sm);
-    border-radius: var(--radius-full);
-  }
-
-  .updated-title {
-    font-size: 1.05rem;
-    font-weight: 600;
-    line-height: 1.4;
-    margin: 0;
-    color: var(--text-primary);
-  }
-
-  .updated-link:hover .updated-title {
-    color: var(--color-primary);
-  }
-
-  .updated-excerpt {
-    font-size: 0.9rem;
-    color: var(--text-secondary);
-    line-height: 1.6;
-    margin: var(--spacing-xs) 0 var(--spacing-sm);
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-
-  .updated-meta {
-    display: flex;
-    flex-wrap: wrap;
     gap: var(--spacing-md);
-    font-size: 0.8rem;
+    padding: var(--spacing-xs) 0;
+  }
+
+  .timeline-dot {
+    flex-shrink: 0;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background-color: var(--color-warning);
+    border: 2px solid var(--card-bg);
+    box-shadow: 0 0 0 1px var(--color-warning);
+    position: relative;
+    z-index: 1;
+  }
+
+  .timeline-link {
+    display: flex;
+    flex: 1;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0 var(--spacing-sm);
+    text-decoration: none;
+    line-height: 1.6;
+  }
+
+  .timeline-time {
+    flex-shrink: 0;
+    font-size: 0.85rem;
+    font-weight: var(--font-weight-medium);
+    color: var(--color-warning);
+    white-space: nowrap;
+  }
+
+  .timeline-sep {
     color: var(--text-muted);
   }
 
-  @media (max-width: 768px) {
-    .updated-list {
-      grid-template-columns: 1fr;
+  .timeline-title {
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    transition: color var(--transition-normal);
+  }
+
+  .timeline-link:hover .timeline-title {
+    color: var(--color-primary);
+  }
+
+  @media (max-width: 480px) {
+    .timeline-link {
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .timeline-sep {
+      display: none;
     }
   }
 </style>
