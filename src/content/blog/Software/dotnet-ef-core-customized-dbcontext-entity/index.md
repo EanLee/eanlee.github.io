@@ -1,9 +1,9 @@
 ---
 title: EF Core 腳本自動化：使用 T4 CodeTemplate 自定義 Scaffolding 模型生成規則
-description: 不滿意 EF Core 自動生成的代碼？透過 T4 CodeTemplate 深入客製化 DbContext 與 Entity 的生成規則，實現符合專案架構規範的自動化代碼產出。
+description: 不滿意 EF Core 自動生成的程式碼？透過 T4 CodeTemplate 深入客製化 DbContext 與 Entity 的生成規則，實現符合專案架構規範的自動化程式碼產出。
 cover: ./images/ef_core_t4_cover.png
 date: 2023-06-29T09:22:03+08:00
-lastmod: 2026-09-07T01:14:48+08:00
+lastmod: 2026-09-08T08:23:07+08:00
 categories:
   - EF Core
 tags:
@@ -22,7 +22,7 @@ epic: software
 ---
 接續 DBContext 操作的議題，目前已知現有的資料庫內，所有的表格都有 `CreatedAt`、`UpdatedAt`、`UpdatedUser`、 `IsDeleted` 四個特定字詞結尾的欄位，額外記錄資料異動記錄。
 
-在「[使用 HasQueryFilter 限定 DBContext 查詢內容](../efcore-dbcontext-hasqueryfilter/index.md)」中，提到如何透過 `HasQueryFilter` 來簡化資料庫查詢的動作。
+在「[EF Core 資料存取防護全攻略：從 HasQueryFilter 全域過濾到 SaveChangesInterceptor 軟刪除與審計實戰](../efcore-hasqueryfilter-and-savechanges-interceptor-guide/index.md)」中，提到如何透過 `HasQueryFilter` 與攔截器來簡化資料存取防護的動作。
 
 接下來，想要再進一步的封裝 EFCore 所使用的 Entity，讓這四個欄位的資訊，不要曝露於 DBContext 的操作中。
 
@@ -48,7 +48,7 @@ epic: software
 
 `EFCore Power Tools` 是 Visual Studio 的 Extension，所以在使用前，需要先進行安裝。
 
-在安裝完成後，我們可以在專案項目，按下滑鼠右鍵的選單中，選擇 `EFCore Power Tools > Reverse Engineering`，以 GUI 的方式進行 EFCore Scaffold 產出想要的 DBContext。
+在安裝完成後，我們可以在專案方案總管中，按下滑鼠右鍵的選單中，選擇 `EFCore Power Tools > Reverse Engineering`，以 GUI 的方式進行 EFCore Scaffold 產出想要的 DBContext。
 
 可以在不調整 CodeTemplate 的前提下，配合勾選 GUI 內的選項,就可以達到進階 DbContext 生成設定。若需要調整 CodeTemplate，也可以利用 `EFCore Power Tools > Add CodeTemplate`，它會自動在專案的目錄下，建立一個名稱 `CodeTemplate/EFCore` 的資料夾。
 
@@ -279,6 +279,8 @@ foreach (var property in entityType.GetProperties())
 
 在前面，已經將 `CreatedAt`、`UpdatedAt`、`UpdatedUser`、`IsDeleted` 四個特定字詞結尾的欄位，變更為 Shadow Property。所以在進行 `SaveChanges/SaveChangesAsync` 調整時，需要直接對 Entity.Property 進行設定。
 
+> 💡 **現代化架構建議**：在 .NET 7 / 8+ 專案中，若追求領域模型與資料庫上下文徹底解耦，建議優先採用 [SaveChangesInterceptor](../efcore-hasqueryfilter-and-savechanges-interceptor-guide/index.md) 替代直接覆寫 SaveChanges。本文此處以最直覺的原型展示如何存取 Shadow Property。
+
 ```csharp
 
 internal partial class LabContext
@@ -415,7 +417,7 @@ entity.Property(e => e.<#= property.Name.Substring(1) #>)<#= code.Fragment(prope
 
 ▶ 站內文章
 
-- [使用 HasQueryFilter 限定 DBContext 查詢內容](../efcore-dbcontext-hasqueryfilter/index.md)
+- [EF Core 資料存取防護全攻略：從 HasQueryFilter 全域過濾到 SaveChangesInterceptor 軟刪除與審計實戰](../efcore-hasqueryfilter-and-savechanges-interceptor-guide/index.md)
 - [在 HasQueryFilter 使用 Shadow Property 的注意事項](../use-shadow-property-and-hasqueryfilter-on-ef-core/index.md)
 
 ▶ 站外文章
