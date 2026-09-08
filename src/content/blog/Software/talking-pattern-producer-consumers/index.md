@@ -18,7 +18,7 @@ keywords:
   - BlockingQueue
   - 並發處理
 slug: talking-pattern-producer-consumers
-lastmod: 2026-09-07T01:14:48+08:00
+lastmod: 2026-09-08T08:23:07+08:00
 epic: software
 ---
 佇列常見用於生產者與消費者模型之中，作為兩者之間的緩沖區。將雙方的直接關係進行解耦，並減少雙方效率不均的問題。

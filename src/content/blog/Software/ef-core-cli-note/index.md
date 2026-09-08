@@ -13,7 +13,7 @@ keywords:
   - dotnetef
   - dbcontext scaffold
 slug: ef-core-cli-note
-lastmod: 2026-09-07T01:14:48+08:00
+lastmod: 2026-09-08T08:23:07+08:00
 epic: software
 ---
 > 🔖 長話短說 🔖
@@ -112,7 +112,7 @@ dotnet new ef-templates
 
 ▶ 延伸閱讀
 
-- [使用 HasQueryFilter 限定 DbContext 查詢內容](../efcore-dbcontext-hasqueryfilter/index.md)
+- [EF Core 資料存取防護全攻略：從 HasQueryFilter 全域過濾到 SaveChangesInterceptor 軟刪除與審計實戰](../efcore-hasqueryfilter-and-savechanges-interceptor-guide/index.md)
 - [使用 T4 CodeTemplate 客制化 EFCore Scaffold 產出內容](../dotnet-ef-core-customized-dbcontext-entity/index.md)
 - [使用 dotnet-ef 建立 PostgreSQL 的 DbContext](../dotnet-ef-postgresql-dbcontext/index.md)
 - [使用 dotnet-ef 建立 SQL Server on Docker 的 DbContext](../dotnet-ef-sqlserver/index.md)
