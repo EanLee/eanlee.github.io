@@ -2,7 +2,7 @@
 title: ASP.NET Core Docker 化教學：從撰寫 Dockerfile 到建置高效 Web API 映像檔
 description: 整理 ASP.NET Core Web API 容器化的實踐筆記。探討多階段建置 (Multi-stage build) 優化 Image 大小、安全傳遞敏感組態與連線字串，並記錄排解 Docker 容器間內部網路通訊問題的實務經驗。
 date: 2023-02-26T14:18:53+08:00
-lastmod: 2026-09-08T08:23:07+08:00
+lastmod: 2026-09-08T21:06:24+08:00
 tags:
   - aspnet-core
   - Docker

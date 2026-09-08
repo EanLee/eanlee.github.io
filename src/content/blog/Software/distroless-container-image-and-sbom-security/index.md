@@ -18,7 +18,7 @@ keywords:
   - Syft
   - 容器掃描工具
 slug: distroless-container-image-and-sbom-security
-lastmod: 2026-09-08T08:23:07+08:00
+lastmod: 2026-09-08T21:06:24+08:00
 cover: 
 epic: software
 ---

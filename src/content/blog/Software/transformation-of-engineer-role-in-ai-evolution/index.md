@@ -26,7 +26,7 @@ keywords:
 slug: transformation-of-engineer-role-in-ai-evolution
 cover: ./images/ai-engineer-transformation-cover.png
 epic: software
-lastmod: 2026-09-08T08:23:07+08:00
+lastmod: 2026-09-08T21:06:24+08:00
 ---
 > 🔖 長話短說 🔖
 >

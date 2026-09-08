@@ -2,7 +2,7 @@
 title: 從零開始土炮 MQ (持續更新中)
 description: 「造輪子是理解技術本質的最佳途徑。」記錄從零開始動手實作 Message Queue 的起心動念與架構設計藍圖，探討記憶體佇列、持久化存儲與消費者分發機制的底層原理，拉開土炮 MQ 的序幕。
 date: 2022-06-14T07:12:18.564Z
-lastmod: 2026-09-08T08:23:07+08:00
+lastmod: 2026-09-08T21:06:24+08:00
 keywords:
   - Message Queue
   - Queue

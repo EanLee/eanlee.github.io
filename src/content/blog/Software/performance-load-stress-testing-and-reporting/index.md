@@ -2,7 +2,7 @@
 title: 效能測試全攻略：從負載與壓力測試策略到讀懂效能報告與架構決策
 description: 釐清效能測試 (Performance)、負載測試 (Load) 與壓力測試 (Stress) 的本質差異與量化指標。結合單機容量量測、第三方 Mock 隔離技巧、P95/P99 延遲與 Grafana 圖表解讀，分享如何將測試數據轉化為架構決策與調校依據。
 date: 2022-04-03T15:30:13+08:00
-lastmod: 2026-09-08T08:19:40+08:00
+lastmod: 2026-09-08T21:06:24+08:00
 cover: ./images/grafana_k6_dashboard_mock.png
 categories:
   - 系統架構

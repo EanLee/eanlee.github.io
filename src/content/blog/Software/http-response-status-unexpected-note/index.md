@@ -2,7 +2,7 @@
 title: API 故障排除：解決 HTTP Status 415 Unsupported Media Type 的常見原因與解法
 description: 遇到 HTTP 415 錯誤？詳細分析 Content-Type 設定錯誤、資料格式不符等導致 Unsupported Media Type 的原因，並提供 ASP.NET Core 中的正確處理範例。
 date: 2023-03-09T16:19:47+08:00
-lastmod: 2026-09-08T08:23:07+08:00
+lastmod: 2026-09-08T21:06:24+08:00
 tags:
   - aspnet-core
 categories:
@@ -56,10 +56,10 @@ epic: software
 [HttpPost("Verify")]
 [Consumes("application/x-www-form-urlencoded")]
 public async Task<IActionResult> Callback(
-	[FromQuery] RedirectParameters parameters,
+ [FromQuery] RedirectParameters parameters,
     [FromForm] VerifyResult result)
 {
-	// 略
+ // 略
 }
 ```
 
@@ -70,10 +70,10 @@ public async Task<IActionResult> Callback(
 ```csharp
 [HttpPost("Verify")]
 public async Task<IActionResult> Callback(
-	[FromQuery] RedirectParameters parameters,
-	[FromBody] VerifyResult result)
+ [FromQuery] RedirectParameters parameters,
+ [FromBody] VerifyResult result)
 {
-	// 略
+ // 略
 }
 ```
 
