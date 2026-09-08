@@ -1,18 +1,22 @@
 ---
 interface Props {
   title: string;
+  subtitle?: string;
   viewAllHref?: string;
   viewAllText?: string;
 }
 
-const { title, viewAllHref, viewAllText = "查看全部" } = Astro.props;
+const { title, subtitle, viewAllHref, viewAllText = "查看全部" } = Astro.props;
 ---
 
 <div class="section-header">
-  <h2 class="section-title">
-    <slot name="icon" />
-    {title}
-  </h2>
+  <div class="section-title-group">
+    <h2 class="section-title">
+      <slot name="icon" />
+      {title}
+    </h2>
+    {subtitle && <span class="section-subtitle">{subtitle}</span>}
+  </div>
   {viewAllHref && (
     <a href={viewAllHref} class="view-all">
       {viewAllText}
@@ -34,6 +38,13 @@ const { title, viewAllHref, viewAllText = "查看全部" } = Astro.props;
     border-bottom: 2px solid var(--color-border-light);
   }
 
+  .section-title-group {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+  }
+
   .section-title {
     font-size: 1.75rem;
     font-weight: var(--font-weight-bold);
@@ -48,6 +59,12 @@ const { title, viewAllHref, viewAllText = "查看全部" } = Astro.props;
   .section-title :global(svg) {
     color: var(--color-primary);
     flex-shrink: 0;
+  }
+
+  .section-subtitle {
+    font-size: 0.85rem;
+    font-weight: var(--font-weight-normal);
+    color: var(--text-muted);
   }
 
   .view-all {

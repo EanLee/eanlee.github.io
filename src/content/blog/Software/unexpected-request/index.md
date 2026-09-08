@@ -14,7 +14,7 @@ keywords:
   - 線上除錯實戰
 description: 記錄一次 IIS 伺服器 Log 突然暴增 20GB 的線上事故排查實錄。抽絲剝繭還原 Load Balancer 頻繁健康檢查結合微服務 Token 鑑權時產生的連鎖風暴，分享日誌分析思路與架構防禦策略。
 date: 2022-06-10T12:00:00+08:00
-lastmod: 2026-09-08T08:23:07+08:00
+lastmod: 2026-09-08T21:06:24+08:00
 slug: unexpected-request
 epic: software
 ---

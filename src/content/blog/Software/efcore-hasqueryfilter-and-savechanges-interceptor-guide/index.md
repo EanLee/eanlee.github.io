@@ -2,7 +2,7 @@
 title: EF Core 資料存取防護全攻略：從 HasQueryFilter 全域過濾到 SaveChangesInterceptor 軟刪除與審計實戰
 description: 深入剖析 EF Core 中「讀取端」全域查詢過濾器 (HasQueryFilter) 與「寫入端」異動攔截器 (SaveChangesInterceptor) 的協同防護機制，優雅實現軟刪除 (Soft Delete)、多租戶隔離與審計欄位自動化。
 date: 2023-06-19T03:17:17+08:00
-lastmod: 2026-09-08T08:23:07+08:00
+lastmod: 2026-09-08T21:06:24+08:00
 cover: ./images/ef_core_queryfilter_cover.png
 categories:
   - EF Core
