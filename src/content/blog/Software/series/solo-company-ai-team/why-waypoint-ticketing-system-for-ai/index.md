@@ -183,12 +183,13 @@ flowchart TD
     end
 
     AgentClient["AI Agent 呼叫端\n(Claude Code / Antigravity)"]
+    SubscribedEndpoints["外部訂閱端點\n(Subscribed Endpoints / 事件通知)"]
 
     Browser -->|"HTTP / JWT"| WebSPA
     WebSPA -->|"REST API"| WPApi
     WPApi -->|"EF Core"| DB
-    WebhookWorker -->|"讀 WebhookDelivery"| DB
-    WebhookWorker -->|"HMAC-SHA256 推送"| AgentClient
+    WebhookWorker -->|"讀取 WebhookDelivery 佇列"| DB
+    WebhookWorker -->|"HMAC-SHA256 推送通知"| SubscribedEndpoints
 
     AgentClient -->|"JSON-RPC 2.0 MCP\n(100% 強制收斂)"| WPMcp
     WPMcp -->|"內部 HttpClient / 寫入呼叫遙測"| WPApi
@@ -196,9 +197,11 @@ flowchart TD
     classDef waypointStyle fill:#153a5c,color:#fff,stroke:#0969da
     classDef agentStyle fill:#1a3a2a,color:#fff,stroke:#1a7f37
     classDef humanStyle fill:#2d2d2d,color:#fff,stroke:#666
+    classDef endpointStyle fill:#3d3d3d,color:#fff,stroke:#888
     class WebSPA,WPApi,WPMcp,WebhookWorker,DB waypointStyle
     class AgentClient agentStyle
     class Browser humanStyle
+    class SubscribedEndpoints endpointStyle
 ```
 
 在這套架構裡，有幾個看似多繞一圈、實則關鍵的邊界考量：
@@ -215,10 +218,16 @@ flowchart TD
 
    因為一旦 MCP Server 直接碰 DB，你就必須在 API 與 MCP 兩端維護兩套一模一樣的業務驗證、資料約束與權限檢查。時間一久，必然演變成「API 補了漏洞、MCP 忘了加」的雙軌後門。將 MCP 定位為「純協定轉接器」，能確保所有安全中介層、資源歸屬校驗與稽核日誌，永遠在 API 這一層單點收斂。
 
-3. **實作 Webhook 與獨立背景 Worker，驅動無頭 Agent 工作流**  
-   保留並實作 Webhook 機制，主要承擔兩個核心任務：一是保留工單變更的即時通知能力，讓人類隨時掌握進度；二是**自動觸發「無頭代理人（Headless Agent）」的自動化工作流**。後續我們可以透過 Webhook 事件，自動喚醒在後台以無頭模式運行的 Claude Code / Agent，自主取單、改 code、跑測試，並將修改摘要與執行日誌自動回填至工單中。
+3. **實作 Webhook 與獨立背景 Worker：解耦事件通知**  
+   保留並實作 Webhook 機制，主要負責單向的事件廣播與狀態通知。
 
-   為了確保這個派工機制絕對穩定，我們把發送 Webhook 的邏輯抽離成獨立的背景 Worker（HostedService），輪詢 PostgreSQL 內的佇列。因為工單異動是高頻操作，如果直接在 API 請求週期內同步發送，一旦外部接收端回應慢或斷線，整支 API 就會被拖垮。拆成背景 Worker 不僅徹底解耦，還能提供可靠的指數退避重試（Exponential Backoff）與死信保護，確保每一次派工訊號都不會丟失。
+   只要工單建立、狀態流轉或產生新留言，系統便會向有註冊、有訂閱該事件的外部 Endpoint 發送帶有 HMAC 簽章的 Payload，讓關心事件的外部服務或通知管道即時掌握異動。
+
+   為了確保通知發送絕對穩定且不干擾主線業務，我們把發送 Webhook 的邏輯抽離成獨立的背景 Worker（`HostedService`），非同步輪詢 PostgreSQL 內的傳遞佇列。
+
+   工單異動是高頻操作，如果直接在 API 請求週期內同步發送，一旦外部接收端回應延遲或網路斷線，整支 API 就會被拖垮。拆成背景 Worker 不僅徹底解耦，還能提供可靠的指數退避重試（Exponential Backoff）與死信保護，確保通知不會遺失。
+
+   這套機制不僅滿足了即時通知的需求，更為後續的非同步自動化派工預留了標準的事件接口——至於如何進一步透過派工引擎接下這些事件、自動拉起沙盒容器安排 Agent 幹活，這就是後續要探討的內容了。
 
 4. **人類與 AI 享有平等的「一等公民」地位**  
    人類用的 Web SPA 和 AI 用的 Agent Client，在架構上都只是 Waypoint API 的消費者。這意味著系統不會對 AI 進行「特殊繞道」，兩者面對的是同一套嚴謹的狀態機與資料約束。
@@ -379,7 +388,7 @@ Waypoint 把這類相依性全部抽離成強型別的 `IssueRelation` 資料表
 
 走完從 Plane 到 Waypoint 的整個重構歷程，回頭看這套系統最真實的演進脈絡：它不是一開始就設想著要打造多龐大的 AI 平台，而是我和 AI 從最單純的痛點出發、一路「吃自己的狗糧（Dogfooding）」自然生長出來的成果。
 
-既然前面在 Plane 碰壁、確認了「設計前提不符」，我決定帶著最初那個「單一專案深度結合」的目標重新出發：第一步依然是先從極簡的單點開始——我和 Claude Code 結對協作，把第一版極簡的票務系統與基礎 API 刻出來，驗證單一 Agent 在上面讀票、改 code、回填進度的穩定度。
+既然前面在 Plane 碰壁、確認了「設計前提不符」，我決定帶著最初那個「單一專案深度結合」的目標重新出發：第一步依然是先從極簡的單點開始——我和 Claude Code 結對協作，把第一版極簡的票務系統與基礎 API 刻出來，驗證單一 Agent 在上面讀票、改程式碼、回填進度的穩定度。
 
 而等到真正動手寫下去、看著系統在人機協作中漸漸成形之後，我心裡浮現了另一個更深層的軟體工程好奇與自我驗證：我想拿自己這些年累積的軟體開發與架構知識，來做一個極限的人機邊界實驗——如果我在整個過程中完全不親自介入任何一行程式碼的開發，只負責定期檢視架構、把關邊界，剩下的需求分析、方案評估、程式碼實作、除錯到自我調整，全數交給 AI 自主完成，那麼，我最終到底能得到一個什麼樣的東西？
 
