@@ -73,6 +73,26 @@ function absoluteLabel(date: Date): string {
   </div>
 )}
 
+<script>
+  // 靜態站台在建置當下算好的相對時間會被凍結進 HTML，之後不會隨造訪時間更新，
+  // 所以改在瀏覽器讀取當下時間重新計算，確保「幾天前」的文字永遠正確。
+  function relativeLabelClient(lastmod: Date, now: number): string {
+    const MS_PER_DAY = 1000 * 60 * 60 * 24;
+    const diffDays = Math.floor((now - lastmod.valueOf()) / MS_PER_DAY);
+    if (diffDays < 1) return "今天更新";
+    if (diffDays < 30) return `${diffDays} 天前更新`;
+    const diffMonths = Math.floor(diffDays / 30);
+    if (diffMonths < 12) return `${diffMonths} 個月前更新`;
+    return `${Math.floor(diffMonths / 12)} 年前更新`;
+  }
+
+  const now = Date.now();
+  document.querySelectorAll<HTMLTimeElement>(".timeline-time[datetime]").forEach((el) => {
+    const lastmod = new Date(el.getAttribute("datetime")!);
+    el.textContent = relativeLabelClient(lastmod, now);
+  });
+</script>
+
 <style>
   .recently-updated {
     margin-bottom: var(--spacing-2xl);
