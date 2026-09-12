@@ -12,7 +12,7 @@ keywords:
   - jenkins
 date: 2023-01-11T15:01:17+08:00
 slug: build-docker-image
-lastmod: 2026-09-08T21:06:24+08:00
+lastmod: 2023-12-02T02:10:13+08:00
 series: 從零開始建立自動化發佈的流水線
 epic: software
 ---

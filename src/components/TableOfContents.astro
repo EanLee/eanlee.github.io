@@ -22,7 +22,7 @@
     }
 
     const headings = Array.from(
-      articleContent.querySelectorAll('h2, h3, h4')
+      articleContent.querySelectorAll('h2, h3')
     );
     const tocWrapper = document.querySelector('.toc-wrapper');
 
@@ -177,11 +177,6 @@
 
   :global(.toc-item.toc-h3 a) {
     padding-left: var(--spacing-xl);
-  }
-
-  :global(.toc-item.toc-h4 a) {
-    padding-left: var(--spacing-2xl);
-    font-size: 0.85rem;
   }
 
   :global(.toc-item a:hover) {

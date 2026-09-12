@@ -15,7 +15,6 @@ keywords:
   - EF Core 總整理
 slug: ef-core-series-overview
 epic: software
-lastmod: 2026-09-08T21:06:24+08:00
 ---
 > ⚠️ **版本適用說明**：
 >
