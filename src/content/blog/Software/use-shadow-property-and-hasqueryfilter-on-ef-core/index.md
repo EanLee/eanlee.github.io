@@ -3,7 +3,7 @@ title: EF Core 實戰：當 HasQueryFilter 遇上 Shadow Property
 description: 深入剖析當 EF Core 的全域查詢過濾器 (HasQueryFilter) 遇上陰影屬性 (Shadow Property) 時的常見深水區地雷。解析為何 Expression.Property 會在執行期噴出 ArgumentException，如何利用 Expression.Call 與 EF.Property 優雅解法，並提供覆寫 SaveChanges 與現代 SaveChangesInterceptor 雙軌寫入端整合策略。
 cover: ./images/ef_core_shadowprop_cover.png
 date: 2025-08-06T11:15:00+08:00
-lastmod: 2026-09-08T21:06:24+08:00
+lastmod: 2026-09-08T00:25:00+08:00
 categories:
   - EF Core
   - 軟體開發

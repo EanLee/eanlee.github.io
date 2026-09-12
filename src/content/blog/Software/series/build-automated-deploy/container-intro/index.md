@@ -13,7 +13,7 @@ keywords:
 date: 2022-08-19T22:15:18+08:00
 description: 告別「在我的電腦明明會動」的環境不一致困擾。透過日常比喻與情境對話，釐清 Container 容器與傳統虛擬機 (VM) 的核心技術差異，梳理 Docker 共享核心與輕量隔離的本質原理。
 slug: container-intro
-lastmod: 2026-09-08T21:06:24+08:00
+lastmod: 2023-12-02T02:11:58+08:00
 series: 從零開始建立自動化發佈的流水線
 epic: software
 ---

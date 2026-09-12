@@ -2,7 +2,7 @@
 title: 聊聊架構 - 從單點故障 (SPOF) 到系統冗餘 (Redundancy)：高可用架構的實踐與權衡
 description: 深入解析分散式系統中單點故障 (SPOF) 的潛在風險與快取擊穿案例。從負載平衡、Multi-AZ、雙層快取到互斥鎖防禦，探討主動與被動冗餘 (Redundancy) 的實踐方式、成本代價與架構決策判斷流程。
 date: 2022-06-09T17:15:15+08:00
-lastmod: 2026-09-08T21:06:24+08:00
+lastmod: 2026-09-07T17:35:00+08:00
 cover: ./images/spof-vs-redundancy-schematic.png
 categories:
   - 系統架構

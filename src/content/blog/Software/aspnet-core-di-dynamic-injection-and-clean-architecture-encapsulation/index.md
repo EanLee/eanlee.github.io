@@ -2,7 +2,7 @@
 title: ASP.NET Core DI 動態物件生成全攻略：從 Request 參數注入到 Clean Architecture 架構封裝
 description: 深入探討在 ASP.NET Core 中如何依據 HTTP Request 參數（如租戶 Id、使用者 Id）動態生成 DI 服務實例。從 IHttpContextAccessor 工廠委託出發，解析分層架構下的依賴洩漏痛點，並演示如何透過 Provider 介面達成高內聚架構封裝。
 date: 2023-02-19T11:19:21+08:00
-lastmod: 2026-09-08T21:06:24+08:00
+lastmod: 2026-09-08T07:15:00+08:00
 cover: ./images/curl-request-response.png
 categories:
   - 軟體開發

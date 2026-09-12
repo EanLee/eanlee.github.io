@@ -10,7 +10,7 @@ keywords:
   - 持續部署
   - DevOps 入門
   - 自動化發佈
-lastmod: 2026-09-08T21:06:24+08:00
+lastmod: 2023-06-28T10:10:47+08:00
 slug: cicd_concept
 series: 從零開始建立自動化發佈的流水線
 epic: software

@@ -11,7 +11,7 @@ keywords:
   - GitHub Action
   - GitHub
 slug: github-action-travis-ci
-lastmod: 2026-09-08T21:06:24+08:00
+lastmod: 2023-12-02T02:11:37+08:00
 series: 從零開始建立自動化發佈的流水線
 epic: software
 ---

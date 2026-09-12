@@ -8,10 +8,11 @@ categories:
   - 軟體開發
   - DevOps
 slug: yaml
-lastmod: 2026-09-08T21:06:24+08:00
+lastmod: 2025-08-11T02:35:55+08:00
 series: 從零開始建立自動化發佈的流水線
 epic: software
 ---
+
 > [2019 iT 邦幫忙鐵人賽](https://ithelp.ithome.com.tw/users/20107551/ironman/1906)文章補完計劃，[從零開始建立自動化發佈的流水線](../build-ci-cd-from-scratch/index.md) 額外補充
 
 當在進行 CI/CD 工具的 pipelines 或軟體組態設定時，可能都有機會看到 YAML 格式撰寫的設定檔。下面詳細介紹 YAML 撰寫規則和最佳實踐。

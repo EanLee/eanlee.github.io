@@ -2,7 +2,7 @@
 title: EF Core 資料存取防護全攻略：從 HasQueryFilter 全域過濾到 SaveChangesInterceptor 軟刪除與審計實戰
 description: 深入剖析 EF Core 中「讀取端」全域查詢過濾器 (HasQueryFilter) 與「寫入端」異動攔截器 (SaveChangesInterceptor) 的協同防護機制，優雅實現軟刪除 (Soft Delete)、多租戶隔離與審計欄位自動化。
 date: 2023-06-19T03:17:17+08:00
-lastmod: 2026-09-08T21:06:24+08:00
+lastmod: 2026-09-07T18:30:00+08:00
 cover: ./images/ef_core_queryfilter_cover.png
 categories:
   - EF Core
@@ -580,8 +580,10 @@ sequenceDiagram
 在 Web API 請求中，我們能輕易透過 `IHttpContextAccessor` 從 JWT Claims 取得目前登入使用者的 Id。但在非同步排程（Hangfire / Quartz）、背景服務（BackgroundService），或是訊息佇列消費者（RabbitMQ Consumer）處理資料異動時，當前執行緒根本沒有 `HttpContext`，呼叫 `_currentUserProvider.GetCurrentUserId()` 會直接拋出例外或回傳 null，導致審計欄位缺失。
 
 **建議作法**：  
+
 1. **設計具備安全回退的 CurrentUserProvider**：  
    在提供者實作中加入脈絡判定。若 `HttpContext` 不存在，自動回退至預設的系統識別（例如 `"System/BackgroundWorker"` 或特定排程名稱）：
+
    ```csharp
    public class HttpCurrentUserProvider : ICurrentUserProvider
    {
@@ -596,6 +598,7 @@ sequenceDiagram
        }
    }
    ```
+
 2. **非 Web 執行緒使用 AsyncLocal 傳遞審計脈絡**：  
    若希望排程能精確記錄是哪一個 Job 或批次指令發起的變更，可封裝基於 `AsyncLocal<string>` 的環境範圍（Scope），在 Worker 執行開頭手動指派 `AuditScope.Begin("Job:DataCleanup")`，讓攔截器無縫取得精確的維運識別碼。
 
@@ -606,6 +609,7 @@ sequenceDiagram
 
 **原因解析與建議作法**：  
 這正是為什麼在實作攔截器時，必須確保狀態轉換的**冪等性（Idempotency）**：
+
 - **檢查實體當前值**：若某個實體在重試時已經處於 `Modified` 狀態，且其 `IsDeleted` 已經是 `true`，攔截器應**跳過重複指派 `DeletedAt`**，保留最初標記的時間戳。
 - **DbContext 的重試邊界**：EF Core 官方建議，在使用 `ExecutionStrategy` 時，整個重試範圍應盡量包覆乾淨的單元操作；若交易徹底失敗拋出 `DbUpdateConcurrencyException`，建議丟棄當前骯髒的 DbContext 實例，重新開闢全新 Scope 載入最新狀態再行處理。
 

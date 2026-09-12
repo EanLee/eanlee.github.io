@@ -2,7 +2,7 @@
 title: Side Project 必備：使用 SMTP2GO 與 ImprovMX 打造 0 元專業企業信箱寄送與轉發
 description: 分享為個人獨立專案配置自訂域名信箱的實戰經驗。結合 SMTP2GO 穩定外寄與 ImprovMX 轉發服務，整理 DNS 紀錄 (SPF, DKIM, MX) 的配置要點，實現輕量且具備專業感的免費郵件收發架構。
 date: 2025-08-18T00:00:00+08:00
-lastmod: 2026-09-08T21:06:24+08:00
+lastmod: 2025-08-18T01:58:41+08:00
 tags:
   - SMTP
   - Email
